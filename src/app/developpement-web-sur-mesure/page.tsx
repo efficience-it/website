@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -55,14 +56,26 @@ export default function DeveloppementWeb() {
   return (
     <main>
       <section className="bg-light-gray py-16 md:py-24">
-        <Container className="text-center">
-          <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
-            Développement web sur mesure
-          </h1>
-          <p className="mx-auto mt-6 max-w-3xl text-lg text-gray">
-            Solutions IT sur mesure pour les PME et grandes entreprises. Vos
-            défis, nos solutions personnalisées.
-          </p>
+        <Container>
+          <div className="grid items-center gap-12 md:grid-cols-2">
+            <div>
+              <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
+                Développement web sur mesure
+              </h1>
+              <p className="mt-6 max-w-3xl text-lg text-gray">
+                Solutions IT sur mesure pour les PME et grandes entreprises. Vos
+                défis, nos solutions personnalisées.
+              </p>
+            </div>
+            <div className="flex justify-center">
+              <Image
+                src="/images/illustrations/developpement-backend.svg"
+                alt="Développement back-end"
+                width={400}
+                height={300}
+              />
+            </div>
+          </div>
         </Container>
       </section>
 

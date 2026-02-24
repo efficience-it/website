@@ -16,9 +16,9 @@ export default function ClientLogos() {
               <Image
                 src={client.logo}
                 alt={client.name}
-                width={120}
-                height={60}
-                className="opacity-70 grayscale transition-all hover:opacity-100 hover:grayscale-0"
+                width={200}
+                height={120}
+                className="h-24 w-auto object-contain opacity-70 grayscale transition-all hover:opacity-100 hover:grayscale-0"
               />
             </div>
           ))}

@@ -13,11 +13,10 @@ export default function Footer() {
           {/* Logo + description */}
           <div>
             <Image
-              src="/images/logo.svg"
+              src="/images/logo/logo-blanc.webp"
               alt="Efficience IT"
               width={150}
               height={34}
-              className="brightness-0 invert"
             />
             <p className="mt-4 text-sm text-gray-300">
               Société de conseil et développement web sur mesure.
@@ -76,7 +75,7 @@ export default function Footer() {
             </Link>
 
             {/* Social links */}
-            <div className="mt-6 flex gap-4">
+            <div className="mt-6 flex items-center gap-4">
               {footerNav.social.map((link) => (
                 <a
                   key={link.label}
@@ -85,7 +84,11 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="text-sm text-gray-300 transition-colors hover:text-white"
                 >
-                  {link.label}
+                  {link.icon ? (
+                    <Image src={link.icon} alt={link.label} width={24} height={24} className="brightness-0 invert" />
+                  ) : (
+                    link.label
+                  )}
                 </a>
               ))}
             </div>

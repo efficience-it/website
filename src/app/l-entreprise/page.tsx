@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -62,14 +63,27 @@ export default function LEntreprise() {
   return (
     <main>
       <section className="bg-light-gray py-16 md:py-24">
-        <Container className="text-center">
-          <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
-            Notre histoire
-          </h1>
-          <p className="mx-auto mt-6 max-w-3xl text-lg text-gray">
-            Depuis 2018, Efficience IT accompagne les entreprises dans leur
-            transformation digitale avec passion et expertise.
-          </p>
+        <Container>
+          <div className="grid items-center gap-12 md:grid-cols-2">
+            <div>
+              <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
+                Notre histoire
+              </h1>
+              <p className="mt-6 max-w-3xl text-lg text-gray">
+                Depuis 2018, Efficience IT accompagne les entreprises dans leur
+                transformation digitale avec passion et expertise.
+              </p>
+            </div>
+            <div className="flex justify-center">
+              <Image
+                src="/images/entreprise/geographie.webp"
+                alt="Géographie Efficience IT"
+                width={400}
+                height={300}
+                className="rounded-lg"
+              />
+            </div>
+          </div>
         </Container>
       </section>
 
