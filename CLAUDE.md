@@ -16,3 +16,12 @@ Clone/reproduction de https://www.itefficience.com en Next.js.
 - **PRs courtes** : une PR = un changement ciblé
 - **Pas de co-auteur** : ne pas ajouter `Co-Authored-By` dans les commits
 - **Push / PR** : autorisé sans demander confirmation
+
+## Hors périmètre
+
+Ces fonctionnalités du site original ne seront pas reproduites :
+
+- Authentification (login, signup, reset password)
+- E-commerce (checkout, PayPal, confirmation de commande)
+- Compte utilisateur
+- Recherche (`/search`)
