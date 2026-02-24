@@ -13,6 +13,10 @@ export const metadata: Metadata = {
   },
   description:
     "Agence spécialisée Symfony et PHP, Efficience IT conçoit et développe des applications web sur mesure, robustes et adaptées aux enjeux métiers.",
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.ico",
+  },
 };
 
 const organizationJsonLd = {
