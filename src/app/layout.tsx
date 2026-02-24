@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { montserrat, exo } from "@/lib/fonts";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -21,7 +23,9 @@ export default function RootLayout({
       <body
         className={`${montserrat.variable} ${exo.variable} font-sans antialiased`}
       >
+        <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );
