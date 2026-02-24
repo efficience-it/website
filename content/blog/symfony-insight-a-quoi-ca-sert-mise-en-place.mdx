@@ -1,0 +1,90 @@
+---
+title: "Symfony Insight : à quoi ça sert et comment le mettre en place"
+date: "2023-01-31"
+author: "Louis-Arnaud Catoire"
+category: "Outils"
+excerpt: "Symfony Insight est un outil en ligne d'analyse du code PHP, spécialisé sur Symfony. Découvrez ses fonctionnalités, ses bénéfices et comment le mettre en place."
+image: "/images/blog/symfony-insight.webp"
+---
+
+## Déjà qu'est-ce que SensioLabs Insight ?
+
+> Pour faire court, c'est un outil en ligne d'analyse du code PHP, spécialisé sur Symfony.
+
+Cet outil identifie divers problèmes, notamment les problèmes de performance, les vulnérabilités de sécurité, les failles potentielles et les problèmes de maintenabilité. Il analyse les applications Symfony, Laravel, Drupal, les API REST, les API SOAP, les sites web et les plateformes e-commerce, essentiellement tout projet basé sur PHP.
+
+Les développeurs et les managers considèrent cette analyse automatisée comme "une police d'assurance" car elle surveille l'évolution du code en temps réel, faisant remonter les failles et les tâches incomplètes. Chaque erreur identifiée inclut une documentation contextuelle expliquant comment la corriger.
+
+L'outil propose :
+
+- **Intégration du plugin PHPStorm** pour un workflow transparent
+- **Intégration GitLab-CI** et capacités d'analyse locale
+- **Analyse dynamique** qui lance les applications pour détecter les erreurs impossibles à capturer par l'analyse statique seule
+- **Plus de 100 contrôles qualité** couvrant la sécurité, la performance, la maintenabilité, la robustesse et l'architecture
+- **Fonctionnalité de traçage des erreurs** pour comprendre l'origine des problèmes
+- **Estimation du temps** pour résoudre chaque erreur, simplifiant la planification de projet
+
+Les fichiers PHP, XML, YAML, les risques HTML potentiels et les mises à jour de composer.lock sont tous vérifiés. Des points de contrôle supplémentaires s'appliquent spécifiquement aux projets Symfony et Silex, tandis que l'outil supporte également Laravel, Drupal et les projets PHP généraux.
+
+## Quels bénéfices en tirer ?
+
+Bien que d'autres outils comme phpcs, phpstan, phpunit et behat existent, Symfony Insight fournit des capacités d'interprétation du code que ces outils ne peuvent égaler. Il détecte des problèmes que les autres manquent et délivre des rapports plus détaillés, avec une analyse à chaque itération pour maintenir une vision d'ensemble sur la sécurité, la fiabilité et la maintenabilité.
+
+**Les bénéfices clés incluent :**
+
+- **Détection des vulnérabilités de sécurité** : prévient les menaces, les fuites de données et la responsabilité juridique avant le déploiement en production
+- **Conformité légale** : traite les plaintes RGPD et les préoccupations réglementaires, protégeant contre les poursuites
+- **Protection de l'intégrité des données** : empêche l'exposition d'informations sensibles et les dommages à la réputation
+- **Fiabilité et disponibilité** : identifie les bugs potentiels et les défaillances majeures avant qu'ils n'atteignent la production
+- **Productivité de l'équipe** : empêche l'accumulation de dette technique, maintenant la vélocité de développement
+- **Réputation de la marque** : assure un traitement approprié des problèmes techniques avec une gestion professionnelle
+
+## Comment le met-on en place ?
+
+### Préparer le projet
+
+Après avoir créé un compte SensioLabs Connect, importez votre projet via GitHub ou d'autres dépôts pour l'analyse. Les projets open-source reçoivent une analyse gratuite (publiquement visible), tandis que les projets propriétaires nécessitent un abonnement payant SensioLabs Insight. Créez de nouveaux projets en fournissant des liens de dépôts git depuis GitHub, Bitbucket ou d'autres fournisseurs. En cliquant sur le bouton d'analyse, SensioLabs commence immédiatement à rechercher les défauts de l'application.
+
+### Analyse du projet
+
+SensioLabs Insight fonctionne avec un système de médailles. En fonction des problèmes détectés et de leur gravité, vous recevez les médailles correspondantes, le platine étant le plus élevé, indiquant zéro problème détecté.
+
+L'outil estime le temps de résolution requis et identifie les problèmes spécifiques. Par exemple, il signale les modifications de ressources via des requêtes GET, suggérant des alternatives POST, PUT ou DELETE à la place. Il détecte le code dupliqué, les commentaires TODO et les dépendances obsolètes (comme des versions Symfony dépassées).
+
+Les problèmes incluent :
+
+- Des informations sur le fichier et la ligne spécifiques
+- Des descriptions claires des problèmes
+- Des capacités de commentaires par l'équipe
+- L'intégration avec les bug trackers via la fonctionnalité "open issue"
+- Des options de rejet de problème (bien que cela empêche l'obtention du badge platine)
+
+### Configuration
+
+Éditez les projets pour spécifier les branches et configurer les outils via le format YAML. Cela permet une personnalisation correspondant aux exigences spécifiques du projet, y compris les exclusions de tests et les configurations de base de données.
+
+## Quelques défauts
+
+Les limitations notables incluent :
+
+- La visualisation uniquement des 5 analyses les plus récentes
+- Le paiement obligatoire pour les projets non open-source (bien que des clés d'essai permettent un mois de test)
+
+## Conclusion
+
+Cet outil aide efficacement les équipes de développement à analyser la qualité du code et à prévenir la dégradation, particulièrement pour les projets Symfony. Il s'avère précieux pour d'autres projets PHP également, avec une détection des erreurs étendue au-delà de ce qui est discuté ici. Leur documentation fournit des informations supplémentaires.
+
+## Existe-t-il des alternatives à Symfony Insights ?
+
+Bien que Symfony Insight se spécialise dans la technologie Symfony et les applications PHP en général, des alternatives existent sur Windows, Linux, les solutions auto-hébergées et Mac.
+
+**Les principales alternatives incluent :**
+
+- **SonarQube** : solution gratuite et open-source offrant une analyse complète
+- **Codacy** : alternative commerciale avec de solides capacités
+- **Source Insight**
+- **Blink grep**
+- **Scrutinizer**
+- **Source-Navigator NG**
+
+Ces outils s'intègrent aux pipelines GitLab-CI, SonarQube fournissant une documentation complète d'intégration CI.

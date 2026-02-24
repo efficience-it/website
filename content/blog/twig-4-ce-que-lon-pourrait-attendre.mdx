@@ -1,0 +1,51 @@
+---
+title: "Twig 4 : ce que l'on pourrait attendre"
+date: "2024-04-11"
+author: "Louis-Arnaud Catoire"
+category: "Outils"
+excerpt: "Twig est un moteur de templates bien connu pour PHP, créé par Symfony en 2009. Avec l'annonce de Twig 4, les attentes sont élevées."
+image: "/images/blog/twig-4.webp"
+---
+
+## Twig 4 : ce que l'on pourrait attendre
+
+### Qu'est-ce que Twig ?
+
+Twig est un moteur de templates bien connu pour PHP, créé par Symfony en 2009. La plateforme s'est continuellement adaptée pour répondre aux besoins des développeurs au fil du temps. Des certifications professionnelles sont disponibles pour valider l'expertise dans ce domaine.
+
+Avec l'annonce de Twig 4, les attentes sont élevées concernant les fonctionnalités et améliorations qu'il apportera au code. Bien que les détails précis restent à dévoiler, plusieurs domaines montrent un potentiel d'amélioration et de développement.
+
+### Une amélioration de la sécurité et du typage
+
+Les prochaines versions anticipent des améliorations significatives pour renforcer à la fois la sécurité et le typage, que ce soit pour les variables ou les templates. Les améliorations attendues comprennent :
+
+- Une approche inspirée d'Askama pour le typage des templates, améliorant la gestion des types de données et la sécurité des variables utilisateur
+- Le support natif des fonctions fléchées, bénéficiant aux frameworks comme Laravel, Craft et Drupal
+- L'analyse statique des templates Twig à l'aide d'outils tels que PHPStan ou Psalm pour détecter les erreurs plus tôt dans le développement
+
+### Une syntaxe plus concise et plus lisible
+
+Les améliorations de syntaxe sont censées offrir un code plus concis et plus lisible. Les ajouts anticipés comprennent :
+
+- Des blocs script permettant plusieurs instructions sur des lignes uniques sans répéter les balises `{% %}`
+- De nouveaux points d'extension entre le parser et le lexer pour une maintenance plus facile
+- L'intégration de l'opérateur de coalescence nulle (`??`) pour une gestion simplifiée des valeurs par défaut
+- Des capacités de définition directe des propriétés d'objets sans fusion
+- Des raccourcis pour les commentaires multi-lignes
+
+### Modernisation du templating : macros et composants
+
+Le templating basé sur les composants reçoit une attention particulière, promouvant une approche plus modulaire et flexible par rapport aux méthodes traditionnelles de remplacement et d'héritage. Les améliorations attendues englobent :
+
+- Des améliorations des macros éliminant les exigences d'importation individuelle
+- Le support natif de la syntaxe HTML pour les composants UX
+- La création et la gestion simplifiées de templates avec une plus grande flexibilité dans la construction d'interfaces modulaires et réutilisables
+
+### Autres améliorations attendues
+
+Des améliorations supplémentaires anticipées comprennent :
+
+- La réduction de l'utilisation de "echo" et "ob_*", améliorant les performances avec le rendu simultané
+- Le débogage pas à pas via des source maps accélérant l'identification des erreurs
+- L'héritage global des macros et l'intégration des fonctionnalités de TwigExtraBundle dans TwigBundle
+- Une nouvelle fonctionnalité "components" offrant une modularité améliorée combinant les avantages des macros et des inclusions

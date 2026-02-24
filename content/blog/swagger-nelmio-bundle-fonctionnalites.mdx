@@ -1,0 +1,118 @@
+---
+title: "Swagger Nelmio Bundle et ses fonctionnalités : pourquoi l'utilise-t-on"
+date: "2022-09-08"
+author: "Louis-Arnaud Catoire"
+category: "Formation"
+excerpt: "Swagger Nelmio Bundle est un package Symfony qui génère automatiquement une documentation interactive des API à partir de l'analyse du code source."
+image: "/images/blog/swagger-nelmio.webp"
+---
+
+Swagger Nelmio Bundle représente un package Symfony qui génère automatiquement une documentation interactive des API à partir de l'analyse du code source. Cet outil permet aux développeurs de comprendre les patterns d'utilisation de l'API et de conduire des tests API directement dans l'interface de documentation.
+
+## Qu'est-ce que Swagger Nelmio Bundle ?
+
+Swagger Nelmio Bundle est un bundle Symfony qui utilise Swagger pour générer automatiquement une documentation interactive de l'API. Il implémente la spécification Swagger pour les environnements Symfony, exploitant des descriptions JSON des ressources de services web, des opérations, des types de données et des modèles.
+
+## Comment fonctionne Swagger Nelmio Bundle
+
+Le bundle analyse le code source de l'API pour extraire les URLs de ressources, les méthodes HTTP supportées, les paramètres et les formats de réponse, générant automatiquement une documentation interactive à partir de ces informations extraites.
+
+## Fonctionnalités clés
+
+### Génération automatique de documentation
+
+Le bundle élimine la création manuelle de documentation en produisant automatiquement une documentation API complète à partir de l'analyse du code.
+
+### Documentation API interactive
+
+Les développeurs peuvent tester les appels API directement dans l'interface de documentation, simplifiant la compréhension et accélérant les cycles de développement.
+
+### Support des formats de fichiers
+
+L'outil prend en charge les formats YAML et JSON pour les descriptions d'API, offrant de la flexibilité dans les approches de documentation.
+
+### Personnalisation de la documentation
+
+Les développeurs peuvent modifier les annotations API pour fournir des informations supplémentaires au-delà de ce qui apparaît dans le code source.
+
+### Support de l'authentification
+
+Le bundle permet la sécurisation de l'API via des mécanismes d'authentification, restreignant l'accès aux ressources selon les besoins.
+
+## Pourquoi utiliser Swagger Nelmio Bundle ?
+
+### Accélérer les processus de développement
+
+La génération automatique de documentation facilite la compréhension de l'API et réduit les délais de développement en permettant les tests directs de l'API.
+
+### Améliorer la qualité de l'API
+
+Une documentation précise et complète permet aux développeurs d'identifier les problèmes de conception ou les erreurs plus rapidement.
+
+### Faciliter la collaboration en équipe
+
+La documentation interactive améliore la communication entre les équipes de développement et permet une coopération plus efficace.
+
+### Réduire les coûts de développement
+
+Éliminer la documentation manuelle permet aux développeurs de se concentrer sur le développement de l'API plutôt que sur la création de documentation.
+
+## Installation et configuration
+
+### Étape 1 : Installer via Composer
+
+```bash
+composer require nelmio/swagger-bundle
+```
+
+### Étape 2 : Configurer le Bundle
+
+Mettre à jour `config/bundles.php` :
+
+```php
+return [
+   // ...
+   Nelmio\SwaggerBundle\NelmioSwaggerBundle::class => ['all' => true],
+   // ...
+];
+```
+
+Configurer `config/packages/nelmio_swagger.yaml` :
+
+```yaml
+nelmio_swagger:
+   documentation:
+       info:
+           title: 'Mon API'
+           description: 'Documentation de mon API'
+           version: '1.0.0'
+       securityDefinitions:
+           api_key:
+               type: apiKey
+               description: 'API Key Authentication'
+               name: 'X-API-KEY'
+               in: header
+```
+
+### Étape 3 : Ajouter les annotations API
+
+```php
+/**
+* @SWG\Get(
+*     path="/api/users",
+*     summary="Liste des utilisateurs",
+*     @SWG\Response(
+*         response=200,
+*         description="Liste des utilisateurs",
+*         @SWG\Schema(
+*             type="array",
+*             @SWG\Items(ref="#/definitions/User")
+*         )
+*     )
+* )
+*/
+```
+
+## Conclusion
+
+Swagger Nelmio Bundle simplifie le développement d'API en automatisant la génération de documentation et en permettant les tests interactifs. L'outil réduit les dépenses de développement tout en améliorant la collaboration et la qualité de l'API. L'installation nécessite des étapes de configuration minimales, rendant une documentation API complète réalisable en quelques minutes d'implémentation.

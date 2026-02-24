@@ -1,0 +1,103 @@
+---
+title: "Documentation Symfony : structurer un projet avec l'approche Diataxis"
+date: "2023-03-17"
+author: "Louis-Arnaud Catoire"
+category: "Outils"
+excerpt: "Le framework Diataxis fournit une structure pour la documentation technique en répondant aux besoins des développeurs à travers quatre types."
+image: "/images/blog/diataxis-symfony.webp"
+---
+
+## Introduction
+
+Le framework Diataxis fournit une structure pour la documentation technique en répondant aux besoins des développeurs à travers quatre types de contenu distincts : les tutoriels, les guides pratiques, les références techniques et les explications. Chaque type sert des objectifs utilisateur différents et contribue à la qualité globale de la documentation.
+
+L'approche est simple et adaptable, ne nécessitant aucune contrainte rigide d'implémentation. Diataxis a fait ses preuves sur des projets open source et propriétaires de tailles variées.
+
+## Comment utiliser Diataxis
+
+Diataxis fonctionne mieux comme un outil de réflexion plutôt qu'une formule rigide. Sa valeur principale réside dans l'amélioration de l'utilité de la documentation pour les utilisateurs tout en simplifiant la création et la maintenance.
+
+**Utilisez Diataxis comme un guide, pas un plan :** le framework aide à évaluer la documentation, identifier les problèmes et déterminer les améliorations. Plutôt que d'imposer une structure en premier, laissez une meilleure documentation adopter naturellement la structure Diataxis grâce à des améliorations incrémentales.
+
+**Ne vous fixez pas sur la structure :** suivre les recommandations de manière organique produit l'organisation souhaitée au fur et à mesure que la documentation s'améliore.
+
+**Travaillez de manière incrémentale :** publiez de petites améliorations immédiatement plutôt que d'attendre de grandes sections complètes.
+
+**Agissez systématiquement :** choisissez un élément de documentation, évaluez-le de manière critique, décidez quoi améliorer, exécutez ce seul changement, puis répétez. Cette approche cyclique réduit la paralysie courante dans le travail de documentation.
+
+## Aspect 1 : Les tutoriels
+
+**Objectif :** permettre aux débutants d'acquérir les compétences fondamentales pour une utilisation autonome du projet tout en renforçant la confiance grâce à des tâches significatives et réalisables.
+
+Les tutoriels enseignent l'application pratique plutôt que les connaissances théoriques. À leur terme, les apprenants devraient comprendre la documentation restante et utiliser le code de manière autonome.
+
+Abordez l'apprentissage comme l'enseignement des bases de la cuisine — des tâches simples renforcent la confiance et encouragent l'exploration continue. Évitez les détails excessifs qui deviennent contre-productifs.
+
+### Approche de rédaction des tutoriels
+
+L'apprentissage commence par la pratique. Guidez les apprenants à travers des étapes simples utilisant les outils et opérations nécessaires. Permettez une visibilité rapide des résultats pour maintenir la motivation et la confiance.
+
+### Conventions de langage des tutoriels
+
+- *« Dans ce tutoriel, vous allez... »* -- Décrivez les accomplissements, pas l'apprentissage
+- *« D'abord faites x. Maintenant faites y. Puisque vous avez fait y, faites z. »* -- Éliminez l'ambiguïté
+- *« Vous devez faire x avant y parce que... (voir Explication pour les détails) »* -- Fournissez une explication minimale avec des liens vers du contenu plus approfondi
+- *« Votre résultat devrait ressembler à ceci... »* -- Définissez des attentes claires
+- *« Remarquez que... Rappelez-vous que... »* -- Offrez des indices d'orientation
+- *« Vous avez construit un moteur de stase hylémorphique sécurisé à trois couches... »* -- Célébrez les accomplissements
+
+## Aspect 2 : Les guides pratiques
+
+Ceux-ci fournissent des instructions pour résoudre des problèmes du monde réel, en se concentrant sur les objectifs et les résultats. Les guides cadrent les capacités du produit et sont les sections de documentation les plus fréquemment consultées.
+
+### Rédiger des guides pratiques efficaces
+
+- **Décrivez des séquences d'actions** dans un ordre spécifique, mais pas nécessairement du début à la fin du projet — commencez là où les utilisateurs rejoignent typiquement
+- **Résolvez des problèmes** : éliminez les explications inutiles qui distraient et diluent l'utilité
+- **Évitez l'explication des concepts** : les guides montrent comment faire quelque chose, pas pourquoi les concepts existent
+- **Restez flexible** : adaptez-vous aux cas d'utilisation réels au-delà de votre exemple spécifique
+- **Omettez les éléments inutiles** : contrairement aux tutoriels, les guides n'ont pas besoin d'être exhaustifs. Commencez et terminez à des points raisonnables
+
+### Langage des guides pratiques
+
+- *« Ce guide vous montre comment... »* -- Décrivez clairement le problème ou la tâche
+- *« Si vous voulez x, faites y. Pour atteindre w, faites z. »* -- Utilisez des impératifs conditionnels
+- *« Voir le guide de référence x pour les listes complètes d'options. »* -- N'encombrez pas les guides de possibilités exhaustives
+
+## Aspect 3 : La documentation de référence
+
+Les documents de référence fournissent des descriptions techniques des mécanismes et fonctionnalités, en priorisant la clarté de l'information. Leur seul objectif implique des descriptions succinctes et ordonnées des API logicielles, classes, fonctions et utilisation.
+
+La documentation de référence exige une autorité absolue — zéro ambiguïté. Certaines références (comme les docs API) peuvent être automatiquement générées à partir du code source, garantissant l'exactitude.
+
+### Rédiger une documentation de référence efficace
+
+- **Reflétez la structure du produit** : organisez la documentation en correspondance avec l'architecture logique et conceptuelle de votre logiciel
+- **Maintenez la cohérence** : utilisez une structure, un langage, une terminologie et un ton uniformes
+- **Décrivez seulement** : présentez des descriptions claires, précises et complètes tout en liant les explications ailleurs
+- **Incluez des exemples** : fournissez des illustrations précieuses sans distraire des descriptions principales
+- **Assurez la précision et l'actualité** : toute divergence entre le code et la documentation induit les utilisateurs en erreur
+
+### Conventions de langage de référence
+
+- *« X est un exemple de y. W doit être initialisé avec z. Cette option fait cela. »* -- Énoncez des faits sur le comportement des mécanismes
+- *« Les sous-commandes incluent : a, b, c, d, e, f. »* -- Listez les commandes, options, opérations, fonctionnalités, flags, limitations, messages d'erreur
+- *« Vous devez utiliser a. N'appliquez pas b sauf si c. Jamais d. »* -- Fournissez des avertissements appropriés
+
+## Aspect 4 : Les explications
+
+Les explications clarifient et approfondissent la compréhension du sujet sous de multiples perspectives, fournissant un examen de plus haut niveau.
+
+### Rédiger des explications efficaces
+
+- **Établissez des connexions** : tissez la compréhension en liant les sujets, même au-delà des sujets immédiats
+- **Fournissez du contexte** : incluez le contexte et le raisonnement — décisions de conception, facteurs historiques, contraintes techniques — et discutez des implications avec des exemples spécifiques
+- **Considérez les alternatives** : examinez différentes approches et contre-exemples sans donner d'instructions ou de descriptions techniques
+
+### Langage des explications
+
+- *« X existe parce que historiquement y s'est produit... »* -- Fournissez le raisonnement
+- *« W est meilleur que z parce que... »* -- Offrez des jugements et opinions
+- *« X dans le système y ressemble à w dans le système z. Cependant... »* -- Fournissez un contexte utile
+- *« Certains utilisateurs préfèrent w (parce que z). Cette approche a du mérite, mais... »* -- Pesez les alternatives
+- *« X interagit avec y de la manière suivante... »* -- Révélez les mécanismes internes soutenant la compréhension

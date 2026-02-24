@@ -1,0 +1,101 @@
+---
+title: "Symfony 6.3 : les nouveautés dans le développement web"
+date: "2023-06-15"
+author: "Efficience IT"
+category: "Outils"
+excerpt: "Symfony, reconnu pour son architecture modulaire et ses composants réutilisables, a publié la version 6.3 fin mai. Tour d'horizon des nouveautés."
+image: "/images/blog/symfony-6-3.webp"
+---
+
+Symfony, reconnu pour son architecture modulaire et ses composants réutilisables, a publié la version 6.3 fin mai. Depuis la dernière mise à jour majeure en novembre 2021, le framework continue de s'améliorer. Des versions bêta ont été publiées tout au long du mois de mai, et cet aperçu explore les mises à jour notables.
+
+## Early Hints
+
+Cette fonctionnalité HTTP permet aux serveurs d'envoyer des informations supplémentaires avant d'envoyer une réponse complète. La méthode `sendEarlyHints()` transmet une réponse HTTP initiale avec le code 103, puis retourne un objet Response pour la réponse complète. Cela accélère significativement les temps de chargement des applications web.
+
+## Focus sur la sécurité
+
+### NoSuspiciousCharacters
+
+Ce sont des caractères visuellement similaires aux alphabets standards mais subtilement différents — utilisés dans les attaques par homographie IDN. Les attaquants exploitent les caractères Unicode pour créer des domaines imitant des domaines légitimes, trompant potentiellement les utilisateurs. Symfony 6.3 permet la vérification que les chaînes ne contiennent pas de caractères problématiques en utilisant la classe Spoofchecker de l'extension intl de PHP.
+
+### OpenID Connect Token Handler
+
+Introduit dans la version 6.2, cet authentificateur récupère les tokens d'accès à partir des identifiants utilisateur. Symfony 6.3 implémente des mécanismes d'interaction avec le serveur OpenID Connect pour vérifier l'autorisation d'accès. Le OidcUserInfoTokenHandler appelle votre serveur OIDC, récupérant les informations utilisateur. De plus, OidcTokenHandler décode, valide et extrait les informations du token grâce à une configuration simple.
+
+### Améliorations de login et logout
+
+- **Login programmatique avec redirection personnalisée** : la méthode `login()` permet désormais d'envoyer des objets Response personnalisés après l'authentification de l'utilisateur, améliorant la flexibilité.
+- **Remember me pour les logins JSON** : le login JSON prend désormais en charge l'authentification persistante en ajoutant une clé `_remember_me` aux requêtes POST.
+- **Effacer les données du site après déconnexion** : Symfony 6.3 prend en charge les en-têtes HTTP qui effacent les données du navigateur après la déconnexion.
+
+### Contrainte de force du mot de passe
+
+Une nouvelle contrainte valide l'entropie du mot de passe par rapport aux seuils de sécurité. Quatre niveaux de configuration garantissent que les mots de passe respectent les exigences de force, aidant à protéger efficacement les comptes utilisateurs.
+
+## Améliorations de performance
+
+### Attributs d'exception HTTP
+
+De nouveaux attributs PHP configurent les exceptions HTTP directement dans le code, éliminant les fichiers de configuration séparés. Cela couple la définition d'exception avec les métadonnées en un seul emplacement.
+
+### Mapping de payload de requête vers des objets typés
+
+L'attribut `#[MapRequestPayload]` mappe les requêtes vers des objets typés (DTOs) et les valide automatiquement. Les données malformées ou les erreurs de désérialisation reçoivent des réponses HTTP appropriées.
+
+### Résolveurs de valeur ciblés
+
+L'attribut `ValueResolver` sélectionne des résolveurs spécifiques pour l'injection d'arguments de contrôleur. L'attribut `AsTargetedValueResolver` crée des résolveurs appelables uniquement de manière explicite.
+
+### Méthode Request Payload
+
+La nouvelle méthode `getPayload()` offre une alternative à `$request->request`, retournant un objet InputBag. La méthode originale reste disponible pour la rétrocompatibilité.
+
+### Commande de débogage du sérialiseur
+
+La commande `debug:serializer` affiche les métadonnées des classes du sérialiseur, facilitant la détection des problèmes de configuration.
+
+### Améliorations des énumérations
+
+- Une fonction `enum()` dans Expression Language récupère les cas d'enum dans les expressions.
+- Le composant Config prend désormais en charge les valeurs enum via `enumNode()`.
+- Les énumérations fonctionnent comme valeurs par défaut des arguments de route ; le parameter bag inclut `getEnum()` pour convertir les chaînes de requête en valeurs enum.
+
+### Mapper de paramètres de query string
+
+L'attribut `#[MapQueryString]` mappe les paramètres de requête vers des arguments de contrôleur typés, fournissant une validation automatique.
+
+### Optimisations de performance
+
+- **Extraction de traductions** : la génération AST mise à jour améliore la vitesse pour les grandes bases de code.
+- **Dump XML de conteneur optionnel** : définir `debug.container.dump` à false empêche la génération du fichier XML.
+- **Améliorations du sérialiseur** : la méthode `getSupportedTypes()` permet aux normaliseurs/dénormaliseurs de déclarer les types d'objets supportés et les capacités de mise en cache.
+
+## Améliorations Emoji
+
+- **Supprimer les emojis** : un nouveau locale « strip » supprime les emojis des chaînes en utilisant la translitération.
+- **Compresser les données emoji** : de nouveaux outils compressent les règles de remplacement d'emojis pour économiser l'espace disque.
+
+## Nouveaux composants
+
+### Webhook et RemoteEvent
+
+Deux composants gèrent les mécanismes de webhook : Webhook (parser + consumer) et RemoteEvent, permettant des notifications automatiques via des requêtes HTTP.
+
+### Clock
+
+Ce composant découple les applications de l'heure système pour les tests sensibles au temps.
+
+- La classe Clock et la fonction `now()` fournissent l'heure actuelle globalement.
+- Le trait `ClockAwareTrait` permet un accès facile sans injection de dépendance.
+- Le support s'étend aux Message Workers et aux composants DateTime.
+
+## Améliorations du WebProfiler
+
+- Accessibilité améliorée avec de meilleurs éléments HTML et gestion JavaScript des onglets.
+- Les dates s'affichent dans le fuseau horaire de l'utilisateur grâce à la conversion JavaScript automatique.
+- Le panneau Twig montre directement le template rendu avec un lien cliquable vers l'IDE.
+
+## Conclusion
+
+Symfony 6.3 a été lancé le 30 mai. En tant que mise à jour mineure, référez-vous à la documentation officielle pour les étapes de mise à niveau. Contactez l'équipe de développement pour des projets d'application Symfony 6.3.

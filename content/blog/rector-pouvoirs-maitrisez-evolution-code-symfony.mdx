@@ -1,0 +1,165 @@
+---
+title: "Rector et ses pouvoirs : maîtrisez l'évolution de votre code Symfony"
+date: "2023-12-05"
+author: "Louis-Arnaud Catoire"
+category: "Outils"
+excerpt: "Rector est un instrument PHP robuste conçu pour rationaliser et améliorer la qualité du code PHP en automatisant les processus de mise à niveau."
+image: "/images/blog/rector.jpg"
+---
+
+## Rector et ses pouvoirs : maîtrisez l'évolution de votre code Symfony
+
+### Qu'est-ce que Rector ?
+
+Rector est un instrument PHP robuste conçu pour rationaliser et améliorer la qualité du code PHP en automatisant les processus de mise à niveau.
+
+Selon la documentation officielle, cet outil permet aux développeurs d'exécuter instantanément des mises à niveau ou des refactorisations sur n'importe quel projet PHP. Il facilite les migrations de versions PHP, les mises à jour de frameworks et les améliorations de qualité de code tout en supportant la couverture de types et la conformité PHPStan.
+
+L'outil exploite PHPStan pour maintenir la propreté du code et fournit des méthodes pré-implémentées pour le raffinement du code.
+
+### Prérequis
+
+Avant de commencer avec Rector, assurez-vous que votre système dispose de :
+
+- PHP installé
+- [Composer](https://getcomposer.org/)
+
+### Installation
+
+1. Ouvrez votre terminal à la racine de votre projet
+2. Exécutez : `composer require rector/rector --dev`
+
+### Initialisation
+
+Générez le fichier de configuration automatiquement en exécutant :
+
+```bash
+php vendor/bin/rector -n
+```
+
+Le fichier `rector.php` auto-généré comprend :
+
+```php
+return static function (RectorConfig $rectorConfig): void {
+    $rectorConfig->paths([
+        __DIR__ . '/config',
+        __DIR__ . '/public',
+        __DIR__ . '/src',
+        __DIR__ . '/tests',
+    ]);
+    $rectorConfig->rule(InlineConstructorDefaultToPropertyRector::class);
+    $rectorConfig->sets([
+        LevelSetList::UP_TO_PHP_82
+    ]);
+};
+```
+
+### Configuration
+
+#### Configuration de base
+
+```php
+return static function (RectorConfig $rectorConfig): void {
+    $rectorConfig->paths([
+        __DIR__ . '/config',
+        __DIR__ . '/public',
+        __DIR__ . '/src',
+        __DIR__ . '/tests',
+    ]);
+    $rectorConfig->sets([
+        LevelSetList::UP_TO_PHP_83,
+        SetList::TYPE_DECLARATION,
+    ]);
+};
+```
+
+### Jeux de règles disponibles
+
+De nombreuses règles pré-implémentées existent pour accélérer les migrations et améliorer le code Symfony. Les catégories clés comprennent :
+
+- `SetList::CODE_QUALITY`
+- `SetList::CODING_STYLE`
+- `SetList::NAMING`
+
+Les règles d'amélioration de version sont documentées sur : [https://github.com/rectorphp/rector/blob/main/packages/Set/ValueObject/LevelSetList.php](https://github.com/rectorphp/rector/blob/main/packages/Set/ValueObject/LevelSetList.php)
+
+Exemples :
+
+- `LevelSetList::UP_TO_PHP_80`
+- `LevelSetList::UP_TO_PHP_70`
+
+**Recommandation de bonne pratique :** Appliquez les règles individuellement, puis révisez, commitez et créez des pull requests. De multiples petites modifications sont préférables à un seul gros changement.
+
+### Ajout de règles spécifiques
+
+Découvrez les règles disponibles sur : [https://getrector.com/documentation/rules-overview](https://getrector.com/documentation/rules-overview)
+
+#### Exemple : ReplaceMultipleBooleanNotRector
+
+Cette règle convertit les opérateurs `!!` en cast booléen :
+
+```php
+// Avant
+$bool = !!$var;
+
+// Après
+$bool = (bool) $var;
+```
+
+Implémentation :
+
+```php
+return static function (RectorConfig $rectorConfig): void {
+    $rectorConfig->rules([
+        ReplaceMultipleBooleanNotRector::class,
+    ]);
+};
+```
+
+#### Exclure des fichiers/répertoires
+
+```php
+$rectorConfig->skip([
+    SimplifyIfReturnBoolRector::class => [
+        __DIR__ . '/src/ComplicatedFile.php',
+        __DIR__ . '/src/ComplicatedDirectory',
+    ],
+]);
+```
+
+### Exemple de configuration Symfony
+
+Pour migrer vers Symfony 6.0 :
+
+```php
+$rectorConfig->sets([
+    SymfonySetList::SYMFONY_60,
+    SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES,
+    SymfonySetList::SYMFONY_CODE_QUALITY,
+    SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION
+]);
+```
+
+### Commandes d'exécution
+
+#### Prévisualiser les changements sans les appliquer :
+
+```bash
+php vendor/bin/rector process --dry-run
+```
+
+#### Appliquer tous les changements :
+
+```bash
+php vendor/bin/rector process
+```
+
+#### Appliquer les changements à un répertoire spécifique :
+
+```bash
+php vendor/bin/rector process src
+```
+
+### Conclusion
+
+Malgré les capacités de Rector, un test approfondi de l'application reste essentiel pour identifier tout effet secondaire non intentionnel. Pour les équipes cherchant un support de migration, Efficience IT offre une assistance professionnelle via notre page de contact.

@@ -1,0 +1,108 @@
+---
+title: "INT, UUID ou ULID : quel identifiant choisir en base de données ?"
+date: "2022-02-11"
+author: "Louis-Arnaud Catoire"
+category: "Outils"
+excerpt: "L'indexation constitue une partie essentielle de la gestion de base de données. Lorsqu'il s'agit de choisir le type d'index, il existe plusieurs options."
+image: "/images/blog/int-uuid-ulid.webp"
+---
+
+L'indexation constitue une partie essentielle de la gestion de base de données. Les index permettent d'accélérer les recherches et les jointures de tables, ce qui améliore considérablement les performances des requêtes SQL. Lorsqu'il s'agit de choisir le type d'index à utiliser pour une base de données, il existe plusieurs options, notamment INT, UUID et ULID.
+
+## INT
+
+Le type d'index INT est l'un des types les plus couramment utilisés dans les bases de données. INT signifie "entier" et est souvent utilisé pour stocker des valeurs numériques dans une base de données. Lorsqu'il est utilisé comme index, INT peut accélérer considérablement les recherches et les jointures de tables, car les valeurs numériques sont souvent triées dans un ordre naturel.
+
+**Avantages :**
+
+- Vitesse : les entiers sont des types de données primitifs, ultra rapides à manipuler
+- Compacité : prennent peu de mémoire dans la base de données, avantage important pour les très volumineuses
+
+**Inconvénients :**
+
+- Limite de taille : un index INT ne peut pas stocker de valeurs supérieures à 2^32-1
+- Migration requise vers BIGINT si besoin de valeurs plus grandes
+
+## UUID
+
+UUID signifie "Universal Unique Identifier" (conforme à la RFC 4122) et est un type de données couramment utilisé dans les bases de données modernes. Les UUID sont des chaînes de caractères aléatoires généralement stockées sous forme de texte. Les UUID sont souvent utilisés comme clés primaires dans les bases de données distribuées, car ils garantissent l'unicité des données même lorsque les données sont stockées sur plusieurs serveurs.
+
+Les UUID sont des identifiants de 32 chiffres hexadécimaux générés par un algorithme qui le rend unique dans l'univers connu. Certains systèmes font référence à l'UUID en tant que GUID (identificateur global unique).
+
+**Avantages :**
+
+- "Universellement uniques" -- particulièrement adapté pour des bases de données distribuées
+
+**Inconvénients :**
+
+- Types de données plus complexes que les entiers, donc plus lents à manipuler
+- Plus volumineux que les index INT, pouvant poser des problèmes pour les très volumineuses
+
+**Exemples de valeurs UUID :**
+
+```
+40e6215d-b5c6-4896-987c-f30f3678f608
+6ecd8c99-4036-403d-bf84-cf8400f67836
+3f333df6-90a4-4fda-8dd3-9485d27cee36
+```
+
+## ULID
+
+ULID signifie "Universally Unique Lexicographically Sortable Identifier". C'est une évolution des UUID qui ajoute un ordre lexicographique aux identifiants. Les ULID sont des identifiants aléatoires qui sont également triables dans l'ordre chronologique car la notion de temps intervient dans la génération de l'identifiant. Les ULID sont souvent utilisés dans les applications distribuées, où les identifiants doivent être uniques sur plusieurs machines. Ces identifiants ne sont pas du texte, mais sont des types natifs.
+
+**Avantages :**
+
+- Très bonne garantie contre les collisions d'identifiants, les rendant très fiables pour les applications critiques
+- Plus efficaces que les UUID en termes de stockage, ne nécessitant que 16 octets pour stocker un identifiant
+- Facilement triés en raison du horodatage dans la première partie
+- Idéal pour systèmes distribués sur plusieurs instances
+- Aucune indexation supplémentaire requise
+- Difficiles à deviner, voire impossibles à le faire manuellement
+
+**Inconvénients :**
+
+- Plus lents que les INT en termes de jointures de tables, car les ULID sont stockés sous forme de chaînes de caractères
+- Peuvent être plus difficiles à lire et à comprendre que les nombres entiers
+
+**Structure ULID :**
+
+```
+01AN4Z07BY      79KA1307SR9X4MV3
+|-------------|    |----------------|
+  Timestamp          Randomness
+      48bits               80bits
+```
+
+## Et comment migrer vers UUID ou vers ULID ?
+
+Imaginons une entité Enfant et une entité Parent, avec parent_id dans les colonnes de l'enfant.
+
+Dans les annotations Doctrine, vous créerez une colonne new_id dans la table enfant. Appelons-la new_parent_id et new_id :
+
+```php
+#[ORM\Id]
+#[ORM\Column(type: UlidType::NAME, unique: true)]
+#[ORM\GeneratedValue(strategy: 'CUSTOM')]
+#[ORM\CustomIdGenerator(class: 'doctrine.ulid_generator')]
+private ?Ulid $id;
+
+public function getId(): ?Ulid {
+    return $this->id;
+}
+```
+
+**Processus de migration :**
+
+1. Générer pour chaque ligne Parent les nouveaux ULID avec l'objet `new Ulid()` et placer cette même valeur chez les enfants dans new_parent_id
+2. Ajouter une clé externe SQL entre new_parent_id et new_id
+3. Supprimer les id des parents et les parent_id des enfants, après avoir supprimé la clé externe liant les deux et la clé primaire sur l'id Parent
+4. Ajouter la clé primaire sur le new_id
+5. Renommer les colonnes pour que tout revienne dans l'ordre dans votre application
+
+## Conclusion
+
+Le choix dépend surtout de vos besoins en termes de développement. La migration d'un système à un autre est faisable, vous gardez toujours cette possibilité si vous souhaitez changer de système.
+
+Symfony a décidé d'intégrer UUID et ULID au sein de ses types Doctrine, dont le composant est disponible et également en tant que contrainte pour vos formulaires.
+
+Selon vos besoins, Efficience IT sait intégrer un système et un autre -- n'hésitez pas à contacter l'agence en cas de besoin d'accompagnement ou d'expertise sur ces sujets.

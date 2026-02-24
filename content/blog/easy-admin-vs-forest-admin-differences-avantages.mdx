@@ -1,0 +1,55 @@
+---
+title: "Easy Admin vs Forest Admin : différences et avantages"
+date: "2023-07-19"
+author: "Louis-Arnaud Catoire"
+category: "Outils"
+excerpt: "Easy Admin est un bundle en open source, créé pour des projets Symfony. Il permet la conception rapide d'interfaces d'administration."
+image: "/images/blog/easyadmin-vs-forestadmin.webp"
+---
+
+## Easy Admin vs Forest Admin : différences et avantages
+
+### Qu'est-ce que c'est Easy Admin ?
+
+Cette extension est un **bundle** en open source, créé pour des projets Symfony. Il permet la conception rapide d'interfaces d'administration pour les applications web. Easy Admin facilite le processus de création de **backends administratifs** en fournissant des fonctionnalités utilisables dès l'installation.
+
+Ce bundle met à disposition une génération automatique des interfaces administrateur à partir des entités d'un projet Symfony (de la base de données). Il permet la création des listes, des formulaires de création, de modification et de suppression pour chaque entité, tout cela sans nécessiter une grande quantité de code.
+
+Un de ses grands avantages est la personnalisation de l'apparence de l'interface administration, tout en utilisant des fichiers de configuration simples. Ils permettent de définir les champs à afficher, les actions possibles, les filtres, et bien plus.
+
+Easy Admin offre une interface utilisateur (UI) intuitive et conviviale, sur laquelle la navigation entre les entités et les enregistrements se fait facilement. Cette UI est également personnalisable, ce qui permet d'ajouter des fonctionnalités supplémentaires en utilisant des événements et des hooks.
+
+Ce bundle est conçu pour s'adapter naturellement aux projets Symfony existants. Les seuls prérequis techniques pour son utilisation optimale sont : la version PHP 8.0.2 ou une version supérieure, Symfony 5.4 ou plus, et des entités Doctrine ORM.
+
+Les développeurs Symfony sont des habitués d'Easy Admin, qui leur permet de gagner du temps lors de la création d'interfaces d'administration. C'est une solution rapide et efficace pour gérer les opérations CRUD (Create, Read, Update, Delete) sur les entités d'un projet.
+
+### Les différentes fonctionnalités Easy Admin
+
+#### Les tableaux de bord
+
+Le tableau de bord est la porte d'entrée des backends, il affiche des informations et des statistiques importantes d'un projet en cours. Easy Admin propose des tableaux de bord personnalisables, on peut définir les widgets à afficher, leur taille ou encore les données qu'ils affichent.
+
+Ces widgets peuvent être prédéfinis quant aux informations qu'ils affichent, comme le nombre d'enregistrements d'une entité, la récence de ceux-ci, les graphiques, etc.
+
+En utilisant du code PHP, on peut récupérer et formater les données à afficher dans un widget personnalisé.
+
+Le menu principal d'un tableau de bord est en lien direct avec les différentes étapes d'une opération CRUD. Il est le seul moyen qui permet d'associer les tableaux de bord aux ressources.
+
+#### Les contrôleurs CRUD
+
+Les opérations appelées CRUD permettent de Créer, Afficher, Mettre à jour et Supprimer, dans les entités Doctrine ORM. Les contrôleurs peuvent être associés à plusieurs tableaux de bord à la fois. Ils permettent de gérer les opérations de base sur les données sans avoir à écrire beaucoup de code.
+
+Le fonctionnement des contrôleurs CRUD s'effectue en 4 étapes :
+
+- **La configuration de l'entité :** En indiquant quelle entité on souhaite gérer avec le contrôleur.
+- **La génération automatique du contrôleur :** Une fois l'entité configurée, Easy Admin met en place un contrôleur spécifique à celle-ci. Il comprend des actions par défaut comme l'affichage de la liste des enregistrements, la création d'un nouveau, la modification d'un enregistrement existant, et même la suppression d'un d'eux.
+- **La personnalisation du contrôleur :** En ajoutant des annotations spécifiques à une entité ou en utilisant des événements/hooks fournis par EasyAdmin, on peut personnaliser le comportement du contrôleur.
+- **La configuration de l'interface d'administration :** Celle-ci est générée automatiquement au même niveau qu'un contrôleur. Cette interface comprend des listes, des formulaires de création et de modification, des actions en masse, des filtres, etc. Son apparence et son comportement sont configurables en utilisant des fichiers de configuration.
+
+### Rappel sur Forest Admin
+
+Forest Admin est une librairie SaaS (Software as a Service). Il permet de créer efficacement un panneau d'administration pour une application web. C'est un outil back-office essentiel à la gestion des données, des utilisateurs et des ressources d'un projet. C'est un logiciel accessible à tous car il est en open source.
+
+### Alors que choisir entre Easy Admin et Forest Admin ?
+
+Comme dans chaque comparatif, il est essentiel de préciser que les avantages sont spécifiques à chaque solution, et que tout cela peut varier selon les besoins et l'environnement de développement. À vous d'évaluer chaque proposition pour déterminer laquelle correspond le mieux à votre projet.

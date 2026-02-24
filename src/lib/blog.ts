@@ -21,6 +21,7 @@ export function getAllPosts(): BlogPost[] {
       author: data.author ?? "",
       category: data.category ?? "",
       excerpt: data.excerpt ?? "",
+      image: data.image,
       content,
     };
   });
@@ -44,6 +45,7 @@ export function getPostBySlug(slug: string): BlogPost | undefined {
     author: data.author ?? "",
     category: data.category ?? "",
     excerpt: data.excerpt ?? "",
+    image: data.image,
     content,
   };
 }
