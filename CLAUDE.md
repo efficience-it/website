@@ -25,3 +25,6 @@ Ces fonctionnalités du site original ne seront pas reproduites :
 - E-commerce (checkout, PayPal, confirmation de commande)
 - Compte utilisateur
 - Recherche (`/search`)
+- Pages auteurs (`/author/*`)
+- Page contact (`/contact`) — formulaire Wix non reproductible
+- Pages membres / profils (`/profile/*`)

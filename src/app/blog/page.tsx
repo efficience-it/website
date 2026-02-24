@@ -1,7 +1,7 @@
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import BlogCard from "@/components/cards/BlogCard";
-import { getAllPosts, getCategories } from "@/lib/blog";
+import { getAllPosts, getCategories, getCategorySlug } from "@/lib/blog";
 import Link from "next/link";
 
 export const metadata = pageMetadata({
@@ -41,12 +41,13 @@ export default function BlogPage() {
                 Tous
               </Link>
               {categories.map((cat) => (
-                <span
+                <Link
                   key={cat}
-                  className="rounded-full bg-light-gray px-4 py-2 text-sm font-medium text-dark"
+                  href={`/blog/${getCategorySlug(cat)}`}
+                  className="rounded-full bg-light-gray px-4 py-2 text-sm font-medium text-dark hover:bg-primary/10 hover:text-primary"
                 >
                   {cat}
-                </span>
+                </Link>
               ))}
             </div>
           )}

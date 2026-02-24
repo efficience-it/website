@@ -3,7 +3,8 @@ import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
 import Button from "@/components/ui/Button";
 import JobCard from "@/components/cards/JobCard";
-import { jobs, spontaneousEmail } from "@/../data/jobs";
+import { jobs, domains, spontaneousEmail } from "@/../data/jobs";
+import Link from "next/link";
 
 export const metadata = pageMetadata({
   title: "On recrute | Efficience IT – Opportunités de carrière",
@@ -30,6 +31,22 @@ export default function TaCarriere() {
 
       <section className="py-16">
         <Container>
+          <SectionTitle>Nos domaines</SectionTitle>
+          <div className="mb-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {domains.map((domain) => (
+              <Link
+                key={domain.slug}
+                href={`/domain/${domain.slug}`}
+                className="rounded-lg border border-border bg-white p-6 text-center transition-shadow hover:shadow-md"
+              >
+                <h3 className="font-display text-lg font-bold text-dark">
+                  {domain.name}
+                </h3>
+                <p className="mt-2 text-sm text-gray">{domain.description}</p>
+              </Link>
+            ))}
+          </div>
+
           <SectionTitle>Offres d&apos;emploi</SectionTitle>
           {jobs.length > 0 ? (
             <div className="grid gap-6 md:grid-cols-2">

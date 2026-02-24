@@ -10,7 +10,7 @@ export default function BlogCard({ post }: BlogCardProps) {
   return (
     <article className="overflow-hidden rounded-lg bg-white shadow-md transition-shadow hover:shadow-lg">
       {post.image && (
-        <Link href={`/blog/${post.slug}`}>
+        <Link href={`/article/${post.slug}`}>
           <Image
             src={post.image}
             alt={post.title}
@@ -39,13 +39,13 @@ export default function BlogCard({ post }: BlogCardProps) {
         )}
       </div>
       <h3 className="font-display text-lg font-bold text-dark">
-        <Link href={`/blog/${post.slug}`} className="hover:text-primary">
+        <Link href={`/article/${post.slug}`} className="hover:text-primary">
           {post.title}
         </Link>
       </h3>
       <p className="mt-2 text-sm text-gray">{post.excerpt}</p>
       <Link
-        href={`/blog/${post.slug}`}
+        href={`/article/${post.slug}`}
         className="mt-4 inline-block text-sm font-semibold text-primary hover:text-primary-dark"
       >
         Lire la suite &rarr;

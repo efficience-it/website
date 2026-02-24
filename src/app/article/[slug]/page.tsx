@@ -2,9 +2,10 @@ import { notFound } from "next/navigation";
 import { getAllPosts, getPostBySlug } from "@/lib/blog";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
+import MarkdownContent from "@/components/ui/MarkdownContent";
 import type { Metadata } from "next";
 
-interface BlogPostPageProps {
+interface ArticlePageProps {
   params: Promise<{ slug: string }>;
 }
 
@@ -15,7 +16,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({
   params,
-}: BlogPostPageProps): Promise<Metadata> {
+}: ArticlePageProps): Promise<Metadata> {
   const { slug } = await params;
   const post = getPostBySlug(slug);
   if (!post) return { title: "Article introuvable" };
@@ -33,7 +34,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function BlogPostPage({ params }: BlogPostPageProps) {
+export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params;
   const post = getPostBySlug(slug);
   if (!post) notFound();
@@ -68,10 +69,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             )}
           </header>
 
-          <div
-            className="prose prose-lg max-w-none prose-headings:font-display prose-headings:text-dark prose-a:text-primary"
-            dangerouslySetInnerHTML={{ __html: formatMarkdown(post.content) }}
-          />
+          <MarkdownContent content={post.content} />
 
           <div className="mt-12 border-t border-border pt-8">
             <Button href="/blog" variant="outline">
@@ -82,54 +80,4 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       </article>
     </main>
   );
-}
-
-function formatMarkdown(content: string): string {
-  let html = content;
-
-  // Code blocks
-  html = html.replace(/```(\w*)\n([\s\S]*?)```/g, "<pre><code>$2</code></pre>");
-
-  // Headings
-  html = html.replace(/^### (.+)$/gm, "<h3>$1</h3>");
-  html = html.replace(/^## (.+)$/gm, "<h2>$1</h2>");
-
-  // Bold
-  html = html.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
-
-  // Inline code
-  html = html.replace(/`(.+?)`/g, "<code>$1</code>");
-
-  // Unordered lists
-  html = html.replace(/^- (.+)$/gm, "<li>$1</li>");
-  html = html.replace(/(<li>.*<\/li>\n?)+/g, "<ul>$&</ul>");
-
-  // Ordered lists
-  html = html.replace(/^\d+\. (.+)$/gm, "<li>$1</li>");
-
-  // Links
-  html = html.replace(
-    /\[(.+?)\]\((.+?)\)/g,
-    '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>',
-  );
-
-  // Paragraphs
-  html = html
-    .split("\n\n")
-    .map((block) => {
-      const trimmed = block.trim();
-      if (!trimmed) return "";
-      if (
-        trimmed.startsWith("<h") ||
-        trimmed.startsWith("<ul") ||
-        trimmed.startsWith("<ol") ||
-        trimmed.startsWith("<pre") ||
-        trimmed.startsWith("<li")
-      )
-        return trimmed;
-      return `<p>${trimmed}</p>`;
-    })
-    .join("\n");
-
-  return html;
 }
