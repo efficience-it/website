@@ -19,9 +19,11 @@ Clone/reproduction de https://www.itefficience.com en Next.js.
 
 ## Hors périmètre
 
-Ces fonctionnalités du site original (Wix) ne seront pas reproduites :
+Ces fonctionnalités du site original ne seront pas reproduites :
 
 - Authentification (login, signup, reset password)
 - E-commerce (checkout, PayPal, confirmation de commande)
 - Compte utilisateur
 - Recherche (`/search`)
+- Pages auteurs (`/author/*`)
+- Pages membres / profils (`/profile/*`)

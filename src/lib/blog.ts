@@ -50,6 +50,26 @@ export function getPostBySlug(slug: string): BlogPost | undefined {
   };
 }
 
+export const categorySlugMap: Record<string, string> = {
+  Agence: "lagence",
+  Formation: "formation",
+  "Green IT": "green-it",
+  Outils: "outils-utiles",
+  Projet: "projet",
+};
+
+const slugToCategoryMap: Record<string, string> = Object.fromEntries(
+  Object.entries(categorySlugMap).map(([name, slug]) => [slug, name]),
+);
+
+export function getCategoryBySlug(slug: string): string | undefined {
+  return slugToCategoryMap[slug];
+}
+
+export function getCategorySlug(category: string): string {
+  return categorySlugMap[category] ?? category.toLowerCase();
+}
+
 export function getCategories(): string[] {
   const posts = getAllPosts();
   const categories = new Set(posts.map((p) => p.category).filter(Boolean));
