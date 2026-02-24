@@ -1,0 +1,72 @@
+---
+title: "GEO et Symfony : optimiser la visibilité dans les moteurs d'IA"
+date: "2025-10-29"
+author: "Louis-Arnaud Catoire"
+category: "Outils"
+excerpt: "Comment améliorer la visibilité de votre application Symfony dans ChatGPT, Gemini et Perplexity grâce au GEO (Generative Engine Optimization)."
+---
+
+Le web subit sa plus profonde transformation depuis l'émergence des moteurs de recherche. Les utilisateurs ne recherchent plus passivement : ils interrogent. Les plateformes comme ChatGPT, Gemini, Perplexity et Claude servent de nouveaux points d'accès informationnels.
+
+Pour les entreprises, le message est direct : si vos contenus ne sont pas exploitables par les IA génératives, vous n'existez plus dans leurs réponses.
+
+## Du SEO au GEO : un changement de paradigme
+
+Pendant deux décennies, le SEO reposait sur trois éléments : termes-clés, liens entrants et efficacité technique. Les moteurs génératifs fonctionnent différemment : ils ingèrent, comprennent et résument les contenus plutôt que de les parcourir linéairement.
+
+Ces systèmes s'appuient sur des bases de connaissances alimentées par des données structurées (schema.org, JSON-LD, flux RSS ou API). Les sites sans métadonnées explicites deviennent invisibles, même avec un excellent SEO traditionnel.
+
+## GEO : les fondations d'un web compréhensible par les IA
+
+Le GEO repose sur quatre piliers :
+
+1. **Structure** : contenus interprétables par les machines via JSON-LD, schema.org, OpenGraph
+2. **Fraîcheur** : sources actualisées régulièrement
+3. **Crédibilité** : cohérence, fiabilité, citations externes
+4. **Accessibilité technique** : APIs publiques, pages légères, sans barrières
+
+## Pourquoi Symfony est un atout majeur pour le GEO
+
+### Des APIs prêtes pour l'indexation IA
+
+Via API Platform, Symfony expose des données JSON-LD compatibles schema.org, incluant articles, produits et services.
+
+### Des performances natives
+
+Les crawlers IA évaluent la latence et la clarté du DOM. Symfony avec HTTP Cache, Varnish ou Caddy garantit une réactivité minimale.
+
+### Une architecture propice à la sémantique
+
+Chaque entité Symfony devient une unité de connaissance documentée et exposée. Par exemple, une structure JSON-LD pour un événement :
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "Festival des Lumières de Lille",
+  "startDate": "2025-12-15",
+  "location": {
+    "@type": "Place",
+    "name": "Grand'Place",
+    "address": "Lille, France"
+  }
+}
+```
+
+## Comment mettre en œuvre le GEO dès aujourd'hui
+
+1. **Structurez vos contenus** : ajoutez des données structurées sur toutes les pages clés. Symfony automatise la génération de JSON-LD via ses serializers.
+2. **Exposez vos données** : créez des endpoints publics (API Platform, sitemap JSON). Les URLs propres et stables sont favorisées.
+3. **Misez sur la fraîcheur** : les modèles privilégient les contenus récents. Programmez la republication automatique.
+4. **Soyez explicite** : renseignez author, location, brand, description, keywords et liez vos pages à vos identités publiques.
+5. **Connectez vos contenus** : assurez la cohérence entre votre site, documentation, réseaux sociaux et annuaires.
+
+## Exemples concrets
+
+- **PME B2B** : une entreprise de maintenance industrielle publie ses services en Service JSON-LD. ChatGPT la cite dans les réponses pertinentes.
+- **E-commerce local** : un site de mobilier expose ses produits via API Platform. Perplexity indexe les données et les recommande, générant +18 % de trafic organique en trois mois.
+- **Collectivité** : un site municipal diffuse son agenda via Event et GovernmentService, s'intégrant aux synthèses régionales des IA locales.
+
+## Conclusion
+
+Le GEO représente l'évolution naturelle du SEO vers un web sémantique et génératif. Là où le SEO cherchait à plaire à Google, le GEO vise à être compris par les IA. Cette compréhension repose sur des données structurées, à jour et cohérentes — exactement ce que permet Symfony.
