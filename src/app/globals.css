@@ -9,6 +9,8 @@
   --color-light-gray: #f5f5f5;
   --color-border: #e8e8e8;
   --color-white: #ffffff;
+  --color-footer-bg: #1b3652;
+  --color-footer-hover: #feda5e;
 }
 
 @theme inline {
@@ -19,6 +21,8 @@
   --color-gray: var(--color-gray);
   --color-light-gray: var(--color-light-gray);
   --color-border: var(--color-border);
+  --color-footer-bg: var(--color-footer-bg);
+  --color-footer-hover: var(--color-footer-hover);
   --font-sans: var(--font-montserrat);
   --font-display: var(--font-exo);
 }

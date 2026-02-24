@@ -7,7 +7,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-dark text-white">
+    <footer className="bg-footer-bg text-white">
       <Container className="py-12">
         {/* Navigation columns */}
         <div className="grid gap-8 md:grid-cols-3">
@@ -21,7 +21,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-300 transition-colors hover:text-white"
+                    className="text-sm text-white/80 transition-colors hover:text-footer-hover"
                   >
                     {link.label}
                   </Link>
@@ -40,7 +40,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-300 transition-colors hover:text-white"
+                    className="text-sm text-white/80 transition-colors hover:text-footer-hover"
                   >
                     {link.label}
                   </Link>
@@ -56,7 +56,7 @@ export default function Footer() {
             </h3>
             <a
               href={`mailto:${footerNav.contact.email}`}
-              className="inline-flex items-center gap-2 text-sm text-gray-300 transition-colors hover:text-white"
+              className="inline-flex items-center gap-2 text-sm text-white/80 transition-colors hover:text-footer-hover"
             >
               <Image
                 src={footerNav.contact.icon}
@@ -71,7 +71,7 @@ export default function Footer() {
         </div>
 
         {/* Description */}
-        <p className="mt-10 text-center text-sm text-gray-300">
+        <p className="mt-10 text-center text-sm text-white/80">
           Agence web et cloud à votre service : développement d&apos;applications,
           infrastructure DevOps, automatisation et conseil IT pour une
           transformation numérique performante et durable.
@@ -109,7 +109,7 @@ export default function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="mt-8 border-t border-gray-700 pt-8 text-center text-sm text-gray-400">
+        <div className="mt-8 border-t border-white/20 pt-8 text-center text-sm text-white/60">
           Copyright &copy; {currentYear} Efficience IT
         </div>
       </Container>

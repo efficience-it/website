@@ -11,7 +11,7 @@ describe("Footer", () => {
     render(<Footer />);
     expect(screen.getByText("Nos expertises")).toBeInTheDocument();
     expect(screen.getByText("L'agence")).toBeInTheDocument();
-    expect(screen.getByText("Contact")).toBeInTheDocument();
+    expect(screen.getByText("Contactez-nous")).toBeInTheDocument();
   });
 
   it("renders the contact email", () => {
