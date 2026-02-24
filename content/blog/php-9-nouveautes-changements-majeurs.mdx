@@ -1,0 +1,73 @@
+---
+title: "PHP 9.0 : nouveautés, changements majeurs et impacts à venir"
+date: "2025-05-06"
+author: "Louis-Arnaud Catoire"
+category: "Outils"
+excerpt: "PHP 9.0 introduit des changements majeurs : typage plus strict, suppression des fonctionnalités obsolètes et améliorations de sécurité. Ce qu'il faut savoir."
+---
+
+PHP évolue constamment pour satisfaire aux demandes du développement web contemporain. Après les progrès marquants de PHP 7 et 8, la version 9.0 représente un tournant décisif. Le langage devient plus strict, plus transparent et surtout plus sécurisé.
+
+## Les opérateurs ++ et -- changent de comportement
+
+Antérieurement, PHP permettait d'augmenter des chaînes comme `'a9'`, ou des valeurs comme `null` ou `false`, avec une certaine « magie ». Cela pouvait produire des résultats inattendus.
+
+À partir de PHP 9.0, ce type d'opération provoquera une erreur. PHP n'effectuera plus de conversion automatique de ces valeurs en entiers. Pour ceux qui ont réellement besoin d'augmenter une chaîne, une fonction innovante, `str_increment()`, permettra de le faire de manière explicite.
+
+## Unserialize() mieux encadrée et plus sûre
+
+Jusqu'à présent, recourir à `unserialize()` pouvait présenter des risques. En présence de données endommagées ou de format inattendu, la fonction se contentait souvent de renvoyer `false` ou de générer un simple avertissement.
+
+Avec PHP 9.0, une exception spécifique (`UnserializationFailedException`) sera levée, permettant d'utiliser des blocs try/catch :
+
+```php
+try {
+    $data = unserialize($input);
+} catch (UnserializationFailedException $e) {
+    echo "Erreur : " . $e->getMessage();
+}
+```
+
+## Stop aux tableaux créés depuis false
+
+PHP tolérait la possibilité d'ajouter un élément à une variable contenant `false`, la transformant implicitement en tableau. Avec PHP 9.0, cette pratique est interdite. Il faudra initialiser explicitement :
+
+```php
+$items = []; // Initialisation explicite
+$items[] = 'nouvel élément';
+```
+
+## Simplification de l'interpolation dans les chaînes
+
+PHP 9.0 ne conserve que les interpolations simples. Les syntaxes complexes comme `"${calcul()}"` ne seront plus autorisées. Il faudra utiliser :
+
+```php
+echo "Bonjour {$nom}";
+echo "Le résultat est : " . calcul();
+```
+
+## Des avertissements transformés en erreurs fatales
+
+PHP 9.0 promeut certains avertissements en erreurs fatales. L'accès à une propriété sur une variable `null` ou l'utilisation d'un indice inexistant provoquera l'arrêt immédiat du script, empêchant les comportements indésirables.
+
+## Des fonctions plus claires
+
+Plusieurs fonctions seront scindées en versions plus explicites. Par exemple, `array_keys_filter()` pourrait venir compléter `array_keys()` pour gérer les cas de filtrage. Un vrai gain en lisibilité.
+
+## Grand ménage : suppression des fonctionnalités obsolètes
+
+PHP 9.0 supprime définitivement les éléments marqués comme obsolètes dans les versions 8.1 à 8.4, comme l'interface `Serializable`, remplacée par `__serialize()` et `__unserialize()`.
+
+Il est fortement recommandé d'activer `E_DEPRECATED` dès maintenant pour adapter votre code en amont.
+
+## Performances, asynchrone, multithreading
+
+Le moteur JIT sera encore optimisé pour de meilleures performances. PHP 9.0 pourrait aussi renforcer le support de la concurrence asynchrone grâce à une meilleure intégration des fibers, ouvrant la voie à :
+
+- APIs hautement concurrentes
+- Applications en temps réel (chat, streaming, websockets)
+- Traitement massif de données
+
+## Conclusion
+
+PHP 9.0 ne se contente pas de faire le ménage : il prépare activement l'avenir. Anticipez ces évolutions, testez vos projets sur les versions bêta, et profitez de cette transition pour adopter des pratiques plus modernes.
