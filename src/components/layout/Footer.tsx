@@ -9,20 +9,8 @@ export default function Footer() {
   return (
     <footer className="bg-dark text-white">
       <Container className="py-12">
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-          {/* Logo + description */}
-          <div>
-            <Image
-              src="/images/logo/logo-blanc.webp"
-              alt="Efficience IT"
-              width={150}
-              height={34}
-            />
-            <p className="mt-4 text-sm text-gray-300">
-              Société de conseil et développement web sur mesure.
-            </p>
-          </div>
-
+        {/* Navigation columns */}
+        <div className="grid gap-8 md:grid-cols-3">
           {/* Expertises */}
           <div>
             <h3 className="mb-4 font-display text-sm font-semibold uppercase tracking-wider">
@@ -66,36 +54,62 @@ export default function Footer() {
             <h3 className="mb-4 font-display text-sm font-semibold uppercase tracking-wider">
               {footerNav.contact.title}
             </h3>
-            <p className="text-sm text-gray-300">{footerNav.contact.email}</p>
-            <Link
-              href={footerNav.contact.cta.href}
-              className="mt-2 inline-block text-sm font-semibold text-primary-light transition-colors hover:text-white"
+            <a
+              href={`mailto:${footerNav.contact.email}`}
+              className="inline-flex items-center gap-2 text-sm text-gray-300 transition-colors hover:text-white"
             >
-              {footerNav.contact.cta.label}
-            </Link>
-
-            {/* Social links */}
-            <div className="mt-6 flex items-center gap-4">
-              {footerNav.social.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-gray-300 transition-colors hover:text-white"
-                >
-                  {link.icon ? (
-                    <Image src={link.icon} alt={link.label} width={24} height={24} className="brightness-0 invert" />
-                  ) : (
-                    link.label
-                  )}
-                </a>
-              ))}
-            </div>
+              <Image
+                src={footerNav.contact.icon}
+                alt=""
+                width={16}
+                height={16}
+                className="brightness-0 invert"
+              />
+              {footerNav.contact.email}
+            </a>
           </div>
         </div>
 
-        <div className="mt-12 border-t border-gray-700 pt-8 text-center text-sm text-gray-400">
+        {/* Description */}
+        <p className="mt-10 text-center text-sm text-gray-300">
+          Agence web et cloud à votre service : développement d&apos;applications,
+          infrastructure DevOps, automatisation et conseil IT pour une
+          transformation numérique performante et durable.
+        </p>
+
+        {/* Logo */}
+        <div className="mt-8 flex justify-center">
+          <Image
+            src="/images/logo/logo-blanc.webp"
+            alt="Efficience IT"
+            width={150}
+            height={34}
+          />
+        </div>
+
+        {/* Badge icons */}
+        <div className="mt-8 flex items-center justify-center gap-6">
+          {footerNav.badges.map((badge) => (
+            <a
+              key={badge.label}
+              href={badge.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={badge.label}
+            >
+              <Image
+                src={badge.icon}
+                alt={badge.label}
+                width={32}
+                height={32}
+                className="rounded"
+              />
+            </a>
+          ))}
+        </div>
+
+        {/* Copyright */}
+        <div className="mt-8 border-t border-gray-700 pt-8 text-center text-sm text-gray-400">
           Copyright &copy; {currentYear} Efficience IT
         </div>
       </Container>

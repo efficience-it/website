@@ -55,15 +55,14 @@ export const footerNav = {
     ],
   },
   contact: {
-    title: "Contact",
+    title: "Contactez-nous",
     email: "contact@itefficience.com",
-    cta: { label: "Contactez-nous !", href: "/contact" },
+    icon: "/images/icons/mail.svg",
   },
-  social: [
+  badges: [
     { label: "GitHub", href: "https://github.com/efficience-it", icon: "/images/icons/github.svg" },
-    {
-      label: "LinkedIn",
-      href: "https://www.linkedin.com/company/efficience-it",
-    },
+    { label: "Google Maps", href: "https://www.google.com/maps/place//data=!4m2!3m1!1s0x47c32be6bb287679:0xbba82315641f680c?sa=X&ved=1t:8290&ictx=111", icon: "/images/footer/maps.jpg" },
+    { label: "AFUP", href: "https://afup.org/home", icon: "/images/footer/afup.png" },
+    { label: "AD2N", href: "https://www.ad2n.org/", icon: "/images/footer/screenshot.jpg" },
   ],
 };
