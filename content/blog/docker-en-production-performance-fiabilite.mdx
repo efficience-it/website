@@ -1,0 +1,97 @@
+---
+title: "Docker en production : performance et fiabilité des applications web"
+date: "2026-01-13"
+author: "Louis-Arnaud Catoire"
+category: "Outils"
+excerpt: "Pourquoi Docker est indispensable en production : déploiement fiable, isolation des services et performances optimisées pour vos applications Symfony."
+---
+
+Mettre une application en production n'a jamais été aussi stratégique. Performance, stabilité, sécurité, scalabilité, time-to-market : la moindre faiblesse se paie immédiatement.
+
+Chez Efficience IT, nous accompagnons quotidiennement des équipes confrontées à ces enjeux. Et un constat revient systématiquement : sans Docker, la production moderne devient fragile.
+
+## Le problème historique de la production web
+
+### « Ça marchait en préprod » : une phrase trop familière
+
+Avant Docker, les environnements étaient souvent :
+
+- Configurés manuellement
+- Partiellement documentés
+- Dépendants du système
+- Incohérents entre Dev / Préprod / Prod
+
+Résultat : bugs impossibles à reproduire, mises en production anxiogènes, correctifs d'urgence directement en prod.
+
+### Le principe fondamental de Docker
+
+Docker repose sur une idée simple mais puissante : embarquer l'application **et** son environnement d'exécution dans une image immuable. Cela inclut le runtime (PHP, Node, etc.), les librairies système, les extensions, la configuration et les dépendances applicatives.
+
+Ce principe garantit que **ce qui est testé est exactement ce qui est déployé en production**.
+
+## Docker apporte une standardisation totale des environnements
+
+### Le Dockerfile : un contrat d'exécution
+
+En production, l'imprévu est l'ennemi. Le Dockerfile devient un contrat d'exécution versionné, lisible et auditable.
+
+Dans un projet Symfony en production, cela signifie :
+
+- Une version précise de PHP (8.3, 8.4…)
+- Les extensions exactes (intl, pdo_pgsql, opcache, etc.)
+- Une configuration figée
+- Un comportement reproductible
+
+Chez Efficience IT, nous utilisons systématiquement des images multi-stage, une séparation stricte build/runtime, des images finales minimales et des builds déterministes.
+
+### Fini les serveurs configurés à la main
+
+Docker permet d'éliminer les scripts bash fragiles, les configurations non versionnées et les serveurs « bricolés ». Tout devient déclaratif, versionné dans Git, et automatisable.
+
+## Docker améliore réellement les performances en production
+
+### Optimisation PHP & Symfony avec Docker
+
+Docker permet de :
+
+- Activer OPcache dès le build
+- Configurer le preload PHP
+- Supprimer tous les outils de dev du runtime
+- Figer les paramètres mémoire et CPU
+
+Dans un contexte Symfony, Docker facilite aussi le warmup de cache au build, la réduction du temps de boot et la stabilité des performances.
+
+### Densité serveur et isolation
+
+Docker permet d'exécuter plusieurs applications sur un même hôte, sans conflits de dépendances, avec une isolation CPU/mémoire. C'est l'un des piliers de l'optimisation des coûts d'infrastructure.
+
+## Docker est la fondation du DevOps moderne
+
+### CI/CD fiable et traçable
+
+Avec Docker, le pipeline devient simple et robuste :
+
+1. Build de l'image
+2. Tests automatisés
+3. Push vers un registry
+4. Déploiement de la même image
+
+Plus de divergence entre build et run.
+
+### Déploiement, scaling et rollback
+
+Docker est la base des orchestrateurs modernes comme Docker Swarm et Kubernetes. Même sans Kubernetes, Docker permet déjà des déploiements atomiques, des rollbacks immédiats et une montée en charge horizontale.
+
+## Sécurité et maîtrise des risques en production
+
+### Images immuables = production maîtrisée
+
+Une image Docker ne change pas en runtime, est reconstruite à chaque release et peut être auditée. Cette approche est un pilier de la sécurité moderne.
+
+### Scan de vulnérabilités et conformité
+
+Docker s'intègre naturellement avec des scanners de CVE, des politiques de sécurité, des signatures d'images et des audits automatisés.
+
+## Conclusion
+
+Docker n'est plus un outil réservé aux équipes « Dev ». C'est un socle industriel, indispensable pour la fiabilité, la performance, la sécurité, la scalabilité et la sérénité des mises en production.
