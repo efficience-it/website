@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -53,15 +54,27 @@ export default function AccompagnementEtConseil() {
   return (
     <main>
       <section className="bg-light-gray py-16 md:py-24">
-        <Container className="text-center">
-          <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
-            Accompagnement et Conseil
-          </h1>
-          <p className="mx-auto mt-6 max-w-3xl text-lg text-gray">
-            Chaque projet mérite un accompagnement personnalisé. Notre expertise
-            couvre l&apos;agilité et la transformation numérique, proposant des
-            solutions adaptées à vos besoins spécifiques.
-          </p>
+        <Container>
+          <div className="grid items-center gap-12 md:grid-cols-2">
+            <div>
+              <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
+                Accompagnement et Conseil
+              </h1>
+              <p className="mt-6 max-w-3xl text-lg text-gray">
+                Chaque projet mérite un accompagnement personnalisé. Notre expertise
+                couvre l&apos;agilité et la transformation numérique, proposant des
+                solutions adaptées à vos besoins spécifiques.
+              </p>
+            </div>
+            <div className="flex justify-center">
+              <Image
+                src="/images/illustrations/digital-presentation.svg"
+                alt="Accompagnement et conseil"
+                width={400}
+                height={300}
+              />
+            </div>
+          </div>
         </Container>
       </section>
 

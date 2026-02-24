@@ -60,7 +60,7 @@ export const footerNav = {
     cta: { label: "Contactez-nous !", href: "/contact" },
   },
   social: [
-    { label: "GitHub", href: "https://github.com/efficience-it" },
+    { label: "GitHub", href: "https://github.com/efficience-it", icon: "/images/icons/github.svg" },
     {
       label: "LinkedIn",
       href: "https://www.linkedin.com/company/efficience-it",

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -14,15 +15,27 @@ export default function GreenIt() {
   return (
     <main>
       <section className="bg-light-gray py-16 md:py-24">
-        <Container className="text-center">
-          <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
-            Green IT
-          </h1>
-          <p className="mx-auto mt-6 max-w-3xl text-lg text-gray">
-            Efficience IT s&apos;engage dans une démarche responsable visant à
-            minimiser l&apos;impact environnemental de nos activités et celles
-            de nos clients.
-          </p>
+        <Container>
+          <div className="grid items-center gap-12 md:grid-cols-2">
+            <div>
+              <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
+                Green IT
+              </h1>
+              <p className="mt-6 max-w-3xl text-lg text-gray">
+                Efficience IT s&apos;engage dans une démarche responsable visant à
+                minimiser l&apos;impact environnemental de nos activités et celles
+                de nos clients.
+              </p>
+            </div>
+            <div className="flex justify-center">
+              <Image
+                src="/images/illustrations/greenit.svg"
+                alt="Green IT"
+                width={400}
+                height={300}
+              />
+            </div>
+          </div>
         </Container>
       </section>
 
@@ -45,6 +58,19 @@ export default function GreenIt() {
           <p className="mt-8 text-center font-display text-lg font-bold text-dark">
             {greenPrinciple}
           </p>
+        </Container>
+      </section>
+
+      <section className="py-16">
+        <Container className="text-center">
+          <SectionTitle>Nos objectifs</SectionTitle>
+          <Image
+            src="/images/green-it/objectifs.webp"
+            alt="Objectifs Green IT Efficience IT"
+            width={800}
+            height={400}
+            className="mx-auto rounded-lg"
+          />
         </Container>
       </section>
 

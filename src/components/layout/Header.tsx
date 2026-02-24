@@ -14,7 +14,7 @@ export default function Header() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex-shrink-0">
           <Image
-            src="/images/logo.svg"
+            src="/images/logo/logo-bleu.webp"
             alt="Efficience IT"
             width={180}
             height={40}

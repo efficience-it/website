@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -44,22 +45,40 @@ const sections = [
   },
 ];
 
-const platforms = ["AWS", "Azure", "Google Cloud", "OVH", "HDS"];
+const platforms = [
+  { name: "AWS", logo: "/images/expertise/cloud/aws.webp" },
+  { name: "Azure", logo: "/images/expertise/cloud/azure.webp" },
+  { name: "Google Cloud", logo: "/images/expertise/cloud/google-cloud.webp" },
+  { name: "OVH", logo: "/images/expertise/cloud/ovhcloud.webp" },
+  { name: "HDS", logo: "/images/expertise/cloud/hds.webp" },
+];
 
 export default function CloudEtDevops() {
   return (
     <main>
       <section className="bg-light-gray py-16 md:py-24">
-        <Container className="text-center">
-          <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
-            Cloud & DevOps
-          </h1>
-          <p className="mx-auto mt-6 max-w-3xl text-lg text-gray">
-            Nous accompagnons les PME et grandes entreprises dans la
-            modernisation et l&apos;optimisation de leurs infrastructures IT.
-            Nos solutions flexibles et innovantes répondent aux défis majeurs de
-            scalabilité, de sécurité et de performance.
-          </p>
+        <Container>
+          <div className="grid items-center gap-12 md:grid-cols-2">
+            <div>
+              <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
+                Cloud & DevOps
+              </h1>
+              <p className="mt-6 max-w-3xl text-lg text-gray">
+                Nous accompagnons les PME et grandes entreprises dans la
+                modernisation et l&apos;optimisation de leurs infrastructures IT.
+                Nos solutions flexibles et innovantes répondent aux défis majeurs de
+                scalabilité, de sécurité et de performance.
+              </p>
+            </div>
+            <div className="flex justify-center">
+              <Image
+                src="/images/illustrations/online-report.svg"
+                alt="Cloud et DevOps"
+                width={400}
+                height={300}
+              />
+            </div>
+          </div>
         </Container>
       </section>
 
@@ -91,14 +110,18 @@ export default function CloudEtDevops() {
       <section className="bg-light-gray py-16">
         <Container>
           <SectionTitle>Plateformes supportées</SectionTitle>
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-8">
             {platforms.map((p) => (
-              <span
-                key={p}
-                className="rounded-lg bg-white px-6 py-3 font-display font-bold text-dark shadow-sm"
-              >
-                {p}
-              </span>
+              <div key={p.name} className="flex flex-col items-center gap-2 rounded-lg bg-white p-4 shadow-sm">
+                <Image
+                  src={p.logo}
+                  alt={p.name}
+                  width={80}
+                  height={80}
+                  className="h-16 w-16 object-contain"
+                />
+                <span className="text-sm font-display font-bold text-dark">{p.name}</span>
+              </div>
             ))}
           </div>
         </Container>

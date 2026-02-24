@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -15,14 +16,26 @@ export default function LaTeam() {
   return (
     <main>
       <section className="bg-light-gray py-16 md:py-24">
-        <Container className="text-center">
-          <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
-            Une équipe passionnée
-          </h1>
-          <p className="mx-auto mt-6 max-w-3xl text-lg text-gray">
-            Chefs de projets et développeurs Symfony certifiés pour la plupart,
-            notre équipe à taille humaine est engagée et passionnée.
-          </p>
+        <Container>
+          <div className="grid items-center gap-12 md:grid-cols-2">
+            <div>
+              <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
+                Une équipe passionnée
+              </h1>
+              <p className="mt-6 max-w-3xl text-lg text-gray">
+                Chefs de projets et développeurs Symfony certifiés pour la plupart,
+                notre équipe à taille humaine est engagée et passionnée.
+              </p>
+            </div>
+            <div className="flex justify-center">
+              <Image
+                src="/images/illustrations/team-work.svg"
+                alt="Travail d'équipe"
+                width={400}
+                height={300}
+              />
+            </div>
+          </div>
         </Container>
       </section>
 
@@ -33,6 +46,35 @@ export default function LaTeam() {
             {teamMembers.map((member) => (
               <TeamMemberCard key={member.name} member={member} />
             ))}
+          </div>
+        </Container>
+      </section>
+
+      <section className="py-16">
+        <Container>
+          <SectionTitle>Cohésion d&apos;équipe</SectionTitle>
+          <div className="grid gap-4 md:grid-cols-3">
+            <Image
+              src="/images/team/team-cohesion-1.jpg"
+              alt="Cohésion d'équipe"
+              width={400}
+              height={300}
+              className="rounded-lg object-cover"
+            />
+            <Image
+              src="/images/team/team-cohesion-2.webp"
+              alt="Séminaire d'équipe"
+              width={400}
+              height={300}
+              className="rounded-lg object-cover"
+            />
+            <Image
+              src="/images/team/equipo.jpg"
+              alt="L'équipe Efficience IT"
+              width={400}
+              height={300}
+              className="rounded-lg object-cover"
+            />
           </div>
         </Container>
       </section>

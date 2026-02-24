@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -21,19 +22,32 @@ export default function NotreExpertise() {
   return (
     <main>
       <section className="bg-light-gray py-16 md:py-24">
-        <Container className="text-center">
-          <p className="font-display text-sm font-semibold uppercase tracking-wider text-primary">
-            Collaborez avec des experts engagés
-          </p>
-          <h1 className="mt-4 font-display text-4xl font-bold text-dark md:text-5xl">
-            Nos expertises
-          </h1>
-          <p className="mx-auto mt-6 max-w-3xl text-lg text-gray">
-            Des passionnés à vos côtés, exigeants, curieux et toujours à jour.
-            Nous vous accompagnons avec rigueur, en restant à l&apos;écoute des
-            évolutions technologiques pour vous proposer les solutions les plus
-            adaptées.
-          </p>
+        <Container>
+          <div className="grid items-center gap-12 md:grid-cols-2">
+            <div>
+              <p className="font-display text-sm font-semibold uppercase tracking-wider text-primary">
+                Collaborez avec des experts engagés
+              </p>
+              <h1 className="mt-4 font-display text-4xl font-bold text-dark md:text-5xl">
+                Nos expertises
+              </h1>
+              <p className="mt-6 max-w-3xl text-lg text-gray">
+                Des passionnés à vos côtés, exigeants, curieux et toujours à jour.
+                Nous vous accompagnons avec rigueur, en restant à l&apos;écoute des
+                évolutions technologiques pour vous proposer les solutions les plus
+                adaptées.
+              </p>
+            </div>
+            <div className="flex justify-center">
+              <Image
+                src="/images/expertise/tech/techs-symfony.png"
+                alt="Technologies Symfony"
+                width={500}
+                height={350}
+                className="rounded-lg"
+              />
+            </div>
+          </div>
         </Container>
       </section>
 
