@@ -1,12 +1,23 @@
+import Hero from "@/components/sections/Hero";
+import ExpertiseCards from "@/components/sections/ExpertiseCards";
+import AboutPreview from "@/components/sections/AboutPreview";
+import ProcessSteps from "@/components/sections/ProcessSteps";
+import ClientLogos from "@/components/sections/ClientLogos";
+import CallToAction from "@/components/sections/CallToAction";
+import BlogPreview from "@/components/sections/BlogPreview";
+import Testimonials from "@/components/sections/Testimonials";
+
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center">
-      <h1 className="text-4xl font-bold text-primary font-display">
-        Efficience IT
-      </h1>
-      <p className="mt-4 text-lg text-gray">
-        Développement web sur mesure — Site en construction
-      </p>
+    <main>
+      <Hero />
+      <ExpertiseCards />
+      <AboutPreview />
+      <ProcessSteps />
+      <ClientLogos />
+      <CallToAction />
+      <BlogPreview />
+      <Testimonials />
     </main>
   );
 }

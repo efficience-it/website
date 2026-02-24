@@ -2,10 +2,45 @@ import { render, screen } from "@testing-library/react";
 import Home from "@/app/page";
 
 describe("Home page", () => {
-  it("renders the main heading", () => {
+  it("renders the hero heading", () => {
     render(<Home />);
     expect(
-      screen.getByRole("heading", { name: /efficience it/i }),
+      screen.getByRole("heading", { name: /agence symfony/i }),
+    ).toBeInTheDocument();
+  });
+
+  it("renders the expertise section", () => {
+    render(<Home />);
+    expect(
+      screen.getByRole("heading", { name: /nos expertises/i }),
+    ).toBeInTheDocument();
+  });
+
+  it("renders the about preview section", () => {
+    render(<Home />);
+    expect(
+      screen.getByText(/solutions digitales rentables/i),
+    ).toBeInTheDocument();
+  });
+
+  it("renders the process steps", () => {
+    render(<Home />);
+    expect(
+      screen.getByRole("heading", { name: /notre processus/i }),
+    ).toBeInTheDocument();
+  });
+
+  it("renders the CTA section", () => {
+    render(<Home />);
+    expect(
+      screen.getByRole("heading", { name: /projet en tête/i }),
+    ).toBeInTheDocument();
+  });
+
+  it("renders the testimonials section", () => {
+    render(<Home />);
+    expect(
+      screen.getByRole("heading", { name: /témoignages/i }),
     ).toBeInTheDocument();
   });
 });
