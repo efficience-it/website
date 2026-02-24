@@ -52,6 +52,7 @@ export const footerNav = {
       { label: "Nos valeurs", href: "/la-team" },
       { label: "Recrutement", href: "/ta-carriere" },
       { label: "Mentions légales", href: "/mentions-legales" },
+      { label: "Confidentialité", href: "/politique-de-confidentialite" },
     ],
   },
   contact: {
