@@ -1,4 +1,4 @@
-import { redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import BlogCard from "@/components/cards/BlogCard";
@@ -6,7 +6,6 @@ import {
   categorySlugMap,
   getCategoryBySlug,
   getPostsByCategory,
-  getAllPosts,
 } from "@/lib/blog";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -16,12 +15,7 @@ interface BlogCategoryPageProps {
 }
 
 export async function generateStaticParams() {
-  const categorySlugs = Object.values(categorySlugMap);
-  const articleSlugs = getAllPosts().map((post) => post.slug);
-  return [
-    ...categorySlugs.map((slug) => ({ category: slug })),
-    ...articleSlugs.map((slug) => ({ category: slug })),
-  ];
+  return Object.values(categorySlugMap).map((slug) => ({ category: slug }));
 }
 
 export async function generateMetadata({
@@ -31,7 +25,7 @@ export async function generateMetadata({
   const categoryName = getCategoryBySlug(slug);
 
   if (!categoryName) {
-    return { title: "Redirection…" };
+    return { title: "Catégorie introuvable" };
   }
 
   return pageMetadata({
@@ -49,7 +43,7 @@ export default async function BlogCategoryPage({
   const categoryName = getCategoryBySlug(slug);
 
   if (!categoryName) {
-    redirect(`/article/${slug}`);
+    notFound();
   }
 
   const posts = getPostsByCategory(categoryName);
