@@ -1,0 +1,82 @@
+---
+title: "Utilisation de Composer dans le développement Symfony : conseils pratiques"
+date: "2023-07-18"
+author: "Louis-Arnaud Catoire"
+category: "Outils"
+excerpt: "Pour utiliser pleinement le framework Symfony, le gestionnaire de dépendances Composer est l'outil auquel les professionnels PHP font appel."
+image: "/images/blog/composer-symfony.webp"
+---
+
+## Utilisation de Composer dans le développement Symfony : conseils pratiques
+
+Pour utiliser pleinement le framework Symfony, le gestionnaire de dépendances Composer est l'outil auquel les professionnels PHP font appel. Dans cet article, nous vous expliquons comment optimiser l'utilisation de Composer dans les projets Symfony.
+
+### Le saviez-vous ?
+
+Pour construire un projet Symfony, vous pouvez avoir besoin d'utiliser différentes bibliothèques ou morceaux écrits par d'autres développeurs, appelés packages. Composer est un outil qui facilite la gestion de ces bibliothèques et de ces packages, de manière automatisée.
+
+### Comment utilise-t-on Composer ?
+
+La gestion des dépendances des projets PHP est facilitée par Composer, ce qui simplifie le développement, tout en éliminant les problèmes de compatibilité et de version des bibliothèques.
+
+Le fonctionnement de cet outil est plutôt simple, il lit un fichier de configuration appelé `composer.json`, dans lequel se trouve la liste des packages dont le projet dépend. Composer exploite ce fichier pour télécharger et installer automatiquement les bundles requis, en même temps que leurs dépendances, à partir d'un ou plusieurs dépôts en ligne. En plus de ce premier fichier, un autre est généré, `composer.lock`. Il vient figer les versions des packages installés, ce qui garantit la reproductibilité de l'environnement de développement.
+
+### Tuto d'ouverture d'un projet Composer
+
+Tout d'abord, la commande `composer create-project` permet de créer un nouveau projet Symfony selon un modèle prédéfini, tout en utilisant Composer. Vous pouvez l'utiliser en spécifiant la version de Symfony que vous souhaitez installer.
+
+Voici comment l'utiliser :
+
+```bash
+composer create-project symfony/skeleton <nom_du_projet>
+```
+
+Venez remplacer `<nom_du_projet>` par celui que vous souhaitez donner à votre projet. Cette commande autorise le téléchargement et l'installation du modèle Symfony Skeleton. La version minimale et légère du framework sans bundles spécifiques. Cela permet de construire votre propre application Symfony en ajoutant les bundles qui répondront à vos besoins.
+
+Une fois cette commande exécutée, Composer s'occupe du téléchargement des dépendances nécessaires, de la création de la structure de base du projet et de la génération des fichiers de configuration initiaux.
+
+### Les conseils pratiques pour optimiser l'utilisation de Composer
+
+Il faut penser à la **mise à jour régulière** des dépendances par Symfony. Elle permet de :
+
+1. **Introduire de nouvelles fonctionnalités :** renforce les capacités de l'application
+2. **Maintenir la compatibilité :** entre les différentes bibliothèques et bundles couramment utilisés
+3. **Booster la performance :** avec des temps de réponse plus rapides et une meilleure expérience utilisateur
+4. **Améliorer la sécurité :** grâce à la résolution de problèmes de sécurité identifiés, et cela réduit les risques de piratage
+5. **Corriger les bugs :** sécurise la stabilité et la fiabilité d'un projet
+
+Certaines versions introduisent des changements dans les API, en gardant les dépendances à jour, cela assure que toutes les parties de l'application fonctionnent en harmonie.
+
+Pour ce faire, il suffit d'utiliser la commande `composer update`. A noter que lors des mises à jour, il est recommandé de tester l'application pour vérifier si celles-ci n'ont pas introduit de potentiels problèmes sur le code existant.
+
+#### Scripts Composer
+
+Continuons avec les **scripts Composer**. Ce sont des éléments personnalisables dans le fichier `composer.json`. Ils peuvent être utilisés pour personnaliser son flux de travail, et même automatiser des tâches courantes comme la génération de caches, la compilation de ressources, etc. C'est la commande `composer run` qui permet d'exécuter ces scripts.
+
+#### Dépôts privés
+
+Vous pouvez, à côté de ça, utiliser des bibliothèques ou des bundles Symfony privés. Vous avez la possibilité de **configurer des dépôts privés** dans le fichier `composer.json` d'un projet.
+
+La commande `composer.lock` permet le partage d'un fichier avec l'équipe de développement, en l'incluant dans le dépôt git. Cela garantit que tous les développeurs utilisent exactement les mêmes versions de packages. Certains modules sont spécifiques à un projet particulier, ils ne sont donc pas destinés à être partagés avec la communauté. Avec les dépôts privés, la distribution de ces modules est plus facile à contrôler.
+
+Héberger des bibliothèques ou des bundles dans un dépôt permet de garder le contrôle sur le code source et de maintenir la confidentialité. En revanche, cela ne permet pas de contribuer à l'environnement open source, ce qui reste dommageable pour les autres développeurs.
+
+#### Conflits de dépendances
+
+Autre élément auquel il faut toujours faire attention, les **conflits de dépendances**. En ajoutant de nouvelles dépendances à un projet, vous pouvez causer des problèmes de compatibilité, de sécurité, et de stabilité. Pour vérifier des conflits potentiels, c'est la commande `composer show` qui est à utiliser. Pour les éviter, prenez garde à vérifier que les éléments énoncés précédemment soient respectés.
+
+#### Séparation des dépendances
+
+Composer offre la possibilité de séparer les dépendances régulières des dépendances de développement en utilisant les sections spécifiques du fichier `composer.json`.
+
+**1. Les dépendances régulières** (de production) se réfèrent aux bibliothèques ou aux bundles dont le projet a besoin pour fonctionner en production. Ce sont les dépendances nécessaires pour qu'il soit exécuté correctement sur un serveur en production. Elles sont définissables dans la section `require` du fichier `composer.json`.
+
+**2. Les dépendances de développement**, quant à elles, sont les bibliothèques ou les bundles utilisés **uniquement** pour le développement. On parle ici des outils de test, des générateurs de code, des serveurs de développement, etc. Celles-ci ne sont pas nécessaires pour exécuter l'application en production. On vient les définir dans la section `require-dev` du fichier `composer.json`.
+
+En exécutant la commande `composer install --no-dev`, cela permet d'ignorer l'installation des dépendances de développement, tout en réduisant potentiellement la taille et la complexité de l'application en production. Seules les dépendances régulières nécessaires à l'exécution du projet sont installées.
+
+### Conclusion
+
+En espérant que ces quelques conseils vous aient permis de mieux comprendre ce qu'est Composer, et son importance au sein des projets Symfony quant à la gestion des dépendances. L'équipe Efficience IT reste à votre disposition pour n'importe quelle question sur le sujet ou sur nos services de développement web.
+
+Contactez-nous !

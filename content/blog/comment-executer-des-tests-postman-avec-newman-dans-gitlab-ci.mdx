@@ -1,0 +1,67 @@
+---
+title: "Comment exécuter des tests Postman avec Newman dans GitLab CI"
+date: "2022-02-11"
+author: "Louis-Arnaud Catoire"
+category: "Outils"
+excerpt: "Découvrez comment industrialiser l'exécution de vos tests Postman avec Newman dans un pipeline GitLab CI/CD pour automatiser vos tests d'API."
+image: "/images/blog/postman-newman.jpg"
+---
+
+## Avant de commencer, quelques définitions
+
+### Postman
+
+Postman est un outil indispensable pour le développement web qui exécute des appels HTTP directement depuis une interface graphique. Postman facilite l'automatisation et le test des API en vérifiant les temps de réponse, les codes de retour et la conformité du contenu aux spécifications attendues.
+
+### Newman
+
+Pour industrialiser l'exécution des tests, Newman sert d'outil en ligne de commande pour exécuter les collections Postman. Il permet l'intégration des tests Postman dans divers systèmes CI/CD, rationalisant l'automatisation des tests au sein des pipelines.
+
+### GitLab CI
+
+GitLab CI est présenté comme un logiciel de forge open-source basé sur Git, offrant le suivi des bugs, l'intégration continue et la livraison continue. De nombreuses grandes entreprises technologiques l'utilisent pour automatiser les processus de développement, de test et de déploiement.
+
+## Étapes pour exécuter des tests Postman avec Newman dans GitLab CI
+
+### 1. Générer une clé API
+
+L'obtention d'une clé API Postman est nécessaire pour récupérer les URL de collection et d'environnement via l'API Postman pour l'exécution ultérieure des tests Newman.
+
+Les étapes incluent :
+
+- Naviguer vers Integrations > Postman API
+- Accéder au workspace sur le web
+- Sélectionner l'onglet Integrations
+- Parcourir les intégrations, choisir Postman API et cliquer sur "Get API Key"
+
+### 2. Obtenir l'URL de la collection
+
+Deux étapes sont nécessaires : D'abord, récupérer la liste des collections et obtenir l'UID de la collection. Ensuite, utiliser cet UID pour obtenir l'URL de la collection.
+
+### 3. Obtenir l'URL de l'environnement
+
+Suivre les mêmes procédures que pour la récupération de l'URL de la collection :
+
+- Récupérer la liste des environnements et obtenir l'UID de l'environnement
+- Obtenir l'URL de l'environnement en utilisant cet UID
+
+### 4. .gitlab-ci.yml
+
+Ajouter un job intitulé "newman run command" pour exécuter les tests Postman dans GitLab CI/CD. Deux scénarios existent :
+
+- **Sans Docker :** Installer Newman dans before_script
+- **Avec Docker :** Utiliser l'image `wojcjechzurek/newman-ci` pour éviter l'installation manuelle
+
+### 5. Automatiser les tests Postman dans GitLab CI
+
+Ajouter la configuration à votre fichier `.gitlab-ci.yml` pour déclencher automatiquement les tests lors du push de code ou à des intervalles spécifiés.
+
+## Conseils pour optimiser votre pipeline CI
+
+- **Utiliser des variables d'environnement :** Définir des variables dans GitLab CI pour gérer les configurations sensibles comme les clés API et les URL
+- **Paralléliser les tests :** Diviser les nombreux tests en plusieurs jobs pour réduire le temps d'exécution global
+- **Surveiller les performances :** Utiliser les rapports Newman pour suivre les temps de réponse des API et détecter les problèmes de performance
+
+---
+
+N'hésitez pas à nous contacter pour un accompagnement dans la mise en place de vos tests Postman avec Newman dans GitLab CI.

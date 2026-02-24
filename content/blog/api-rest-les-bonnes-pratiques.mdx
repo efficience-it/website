@@ -1,0 +1,71 @@
+---
+title: "API REST en PHP : bonnes pratiques pour concevoir des applications professionnelles"
+date: "2023-07-18"
+author: "Efficience IT"
+category: "Formation"
+excerpt: "Dans le monde du web, API est l'acronyme d'Application Programming Interface, traduit en français par interface de programmation d'application."
+image: "/images/blog/api-rest.webp"
+---
+
+## Qu'est-ce qu'une API ?
+
+Dans le monde du web, API est l'acronyme d'Application Programming Interface, traduit en français par interface de programmation d'application. Celle-ci est une solution informatique qui autorise les applications à communiquer entre elles, des services ou données.
+
+En clair, une API permet d'accéder aux fonctionnalités ou données d'une application installée à travers une autre application.
+
+## Qu'est-ce qu'API REST ?
+
+L'API REST (Representational State Transfer) est un style d'architecture logicielle, utilisé pour permettre la communication et l'échange de données entre différents systèmes informatiques. Largement employée dans le développement web, l'API est basée sur les principes fondamentaux du protocole HTTP.
+
+REST définit l'ensemble des contraintes et des conventions qui aident à concevoir des applications web, mobiles, des API publiques, évolutives, flexibles et interopérables. En contraste avec d'autres styles architecturaux, cette API est considérée comme simple à utiliser et particulièrement légère.
+
+## Quelles sont les caractéristiques d'une API REST ?
+
+Cette API est construite selon un style d'architecture particulier. Un développeur utilisant cette interface se doit de répondre à quelques exigences, avant de pouvoir considérer son API comme RESTful. En voici la liste :
+
+### Architecture client-serveur
+
+Ici, le client émet des requêtes HTTP au serveur, dans le but de créer, récupérer, mettre à jour ou supprimer des ressources. Celui-ci renvoie, à l'utilisateur, les réponses HTTP qui correspondent. La demande des ressources s'effectue selon la méthode GET, elle est utilisée pour récupérer des informations sans modifier l'état de la ressource ou du serveur. Quant à l'envoi des demandes, on utilise la méthode POST qui permet de soumettre des données au serveur dans le but de créer une nouvelle ressource et indique dans sa réponse le résultat de l'action. D'autres méthodes telles que HEAD, PUT, PATCH, DELETE, CONNECT, OPTIONS et TRACE, peuvent être également prises en charge.
+
+### Ressources et URIs
+
+Pour optimiser l'utilisation d'une API REST, il est nécessaire d'identifier les ressources et d'utiliser des URI, Uniform Resource Identifier. Les ressources sont les entités qui vont être exposées par l'API REST, telles que les utilisateurs, les articles, les produits, etc. Chaque ressource est identifiée par une URI unique, qui est une adresse unique permettant d'accéder à cette ressource. Par exemple, `/utilisateurs/1` peut être l'URI pour accéder à l'utilisateur avec l'ID 1. Celles-ci doivent être intuitives et décrivent la nature de la ressource.
+
+### Sans état ou « stateless »
+
+Aucune communication entre le client et le serveur n'est stockée. Chaque requête envoyée au serveur est traitée comme si c'était la première requête faite dans le projet. Elle contient toutes les informations nécessaires pour que le serveur comprenne et traite la demande. Cette propriété facilite la scalabilité et la fiabilité du système. Tout est question de sécurité.
+
+### Mise en cache des ressources
+
+Les ressources sont sauvegardées, en priorité celles qui sont souvent demandées. Cela permet de réduire le temps de charge du serveur. REST doit être capable d'identifier les ressources qui peuvent être mises en cache et déterminer la durée de leur séjour dans le cache.
+
+### Interface uniforme
+
+On parle ici de l'ensemble des contraintes et des exigences qui définissent le modèle standard d'échange entre le client et le serveur. La communication se fait selon une manière définie, en voici les éléments à respecter :
+
+- L'identification des ressources
+- La manipulation des verbes HTTP (GET, POST, PUT, DELETE)
+- L'envoi de messages auto-descriptifs
+- La gestion des différents formats de représentation (JSON ou XML)
+
+### Système de couches
+
+Cette structuration modulaire est composée de plusieurs couches, qui jouent chacune un rôle spécifique tout en communiquant entre elles. Ce système facilite la conception et le développement. Il sépare les responsabilités, avec la possibilité, pour chaque couche, d'être développée et testée indépendamment. Cela permet une collaboration entre différentes équipes de développement.
+
+## Pourquoi utiliser une API REST ?
+
+Après avoir vu les caractéristiques de l'API REST, passons aux avantages qu'offre son utilisation dans le développement d'applications web et mobiles.
+
+L'architecture REST est reconnue pour être flexible et évolutive. Basée sur les principes fondamentaux comme l'utilisation des verbes HTTP, l'identification des ressources par des URI (Uniform Resource Identifiers) et la séparation des préoccupations. Ces éléments facilitent la maintenance, les mises à jour et l'ajout de nouvelles fonctionnalités.
+
+En utilisant des protocoles bien établis, tels que HTTP et JSON, les API REST favorisent l'interopérabilité, la collaboration et l'intégration entre les différentes plateformes et les langages de programmation.
+
+Étant adoptée par une vaste communauté de développeurs, ils alimentent eux-mêmes la documentation disponible, accompagnée de bibliothèques et d'outils disponibles. Les développeurs s'entraident et participent activement au développement de l'API REST.
+
+La scalabilité et la performance qu'offre l'API REST est également un atout à noter. Les projets utilisant une API REST sont déployables sur plusieurs serveurs, et les requêtes peuvent être réparties de manière équilibrée entre ces derniers. De plus, l'utilisation du cache permet l'amélioration des performances en réduisant la charge sur le serveur, et en optimisant la rapidité des réponses.
+
+Un dernier avantage à l'utilisation de l'API REST est sa compatibilité avec les projets web et mobile. En effet, elle utilise des formats standards, tels que HTTP, JSON et XML, il est donc facile d'utiliser les ressources exposées par REST.
+
+## Conclusion
+
+Avec un style d'architecture comme celle-ci, les logiciels peuvent communiquer entre eux, et ce, sur n'importe quel système d'exploitation. En fonctionnant sous une interface uniforme, la communication client/serveur est efficace. La sécurité étant un élément essentiel pour les clients, l'état stateless permet de garantir la fiabilité du service. Bien sûr, l'utilisation de l'API REST dépend des besoins spécifiques de chaque projet. Vous connaissez maintenant les points essentiels à l'utilisation de l'API REST, et nous sommes disponibles pour vous accompagner dans la démarche d'un projet de développement web.

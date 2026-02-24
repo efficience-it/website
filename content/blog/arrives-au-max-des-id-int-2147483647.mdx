@@ -1,0 +1,144 @@
+---
+title: "Arrivés au max des ID INT (2 147 483 647) : comment migrer vers BIGINT"
+date: "2022-02-11"
+author: "Louis-Arnaud Catoire"
+category: "Formation"
+excerpt: "Les développeurs et DevOps rencontrent fréquemment le défi d'atteindre la limite maximale des identifiants INT dans MySQL. Quand cela se produit, tout se bloque."
+image: "/images/blog/mysql-max-id.jpg"
+---
+
+## Le contexte du besoin
+
+Les développeurs et professionnels DevOps rencontrent fréquemment le défi d'atteindre la limite maximale des identifiants INT dans MySQL. Quand cela se produit, les opérations d'insertion échouent, les applications se bloquent et les logs d'erreurs prolifèrent.
+
+Efficience IT traite régulièrement ce problème sur des applications de production avec un trafic important. Anticiper ce problème s'avère essentiel pour maintenir la continuité du service et prévenir les défaillances critiques du système.
+
+Bien que ce scénario puisse sembler peu courant, les projets à forte visibilité et volumes de données importants -- emails, logs, événements, historiques -- approchent rapidement la limite de **2 147 483 647 lignes**.
+
+> Ce chiffre représente la valeur maximale pour un champ INT signé. Utiliser UNSIGNED double la capacité à environ 4,2 milliards d'entrées, mais la migration vers BIGINT devient nécessaire au-delà de ce seuil.
+
+## Précautions après les premières erreurs
+
+Une fois que MySQL cause des problèmes, respecter ses mécaniques internes devient primordial :
+
+- **Terminer les processus MySQL** (SELECT, INSERT, ALTER) ne libère pas immédiatement les ressources ; MySQL effectue des opérations de récupération internes coûteuses
+- Un test mal planifié a entraîné **48 heures de récupération complète**, même avec une infrastructure correctement dimensionnée
+- Les opérations SELECT ou INSERT volumineuses peuvent obstruer les insertions concurrentes selon les niveaux d'isolation des transactions
+
+Même avec l'isolation READ UNCOMMITTED, les performances se dégradent significativement, soulignant l'importance d'une migration planifiée.
+
+## Comment migrer de INT vers BIGINT
+
+La transition de `2^32 - 1` à `2^64 - 1` dépend de :
+
+- La taille de la table
+- Le volume de données
+- La tolérance aux temps d'arrêt
+
+Avant toute opération :
+
+```sql
+SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+SET FOREIGN_KEY_CHECKS = 0;
+```
+
+Ces commandes empêchent le verrouillage et réduisent la charge pendant la manipulation.
+
+## Solution 1 : Déplacer les IDs (Table < 1 Go)
+
+Méthode simple pour gagner de la capacité sans refactoring majeur :
+
+```sql
+ALTER TABLE table
+CHANGE `id` `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+ALGORITHM=COPY, LOCK=SHARED;
+```
+
+- Double la capacité à environ 4,29 milliards de lignes
+- Durée : 1 à 5 minutes selon la taille de la table
+
+## Solution 2 : Convertir en BIGINT (Table < 1 Go)
+
+Modification directe de la colonne :
+
+```sql
+ALTER TABLE table
+CHANGE `id` `id` BIGINT(12) UNSIGNED NOT NULL AUTO_INCREMENT,
+ALGORITHM=COPY, LOCK=SHARED;
+```
+
+- Approche directe
+- Temps d'exécution étendu possible pour les tables de taille moyenne
+
+**Essentiel :** Testez minutieusement sur des environnements de staging avant le déploiement en production.
+
+## Solution 3 : Échange de colonnes (Table de plusieurs Go)
+
+Méthode progressive et sécurisée :
+
+**Ajouter une nouvelle colonne :**
+
+```sql
+ALTER TABLE table ADD `new_id` BIGINT(12) UNSIGNED NOT NULL;
+```
+
+**Copier les données par lots :**
+
+```sql
+UPDATE table SET new_id = id WHERE new_id = 0 LIMIT 10000;
+```
+
+**Renommer les colonnes et les clés :**
+
+```sql
+ALTER TABLE table DROP PRIMARY KEY;
+ALTER TABLE table CHANGE id old_id INT;
+ALTER TABLE table CHANGE new_id id BIGINT UNSIGNED AUTO_INCREMENT, ADD PRIMARY KEY(id);
+```
+
+Ce processus automatisé par lots minimise la charge tout en assurant la cohérence des clés étrangères.
+
+## Solution 4 : Échange de tables (10 Go+)
+
+Pour les ensembles de données massifs, créer une table miroir s'avère le plus fiable :
+
+```sql
+CREATE TABLE table_v2 LIKE table;
+ALTER TABLE table_v2 CHANGE id id BIGINT(12) UNSIGNED NOT NULL AUTO_INCREMENT;
+```
+
+Établir l'incrément de départ :
+
+```sql
+SELECT AUTO_INCREMENT FROM information_schema.TABLES
+WHERE TABLE_NAME='table' AND TABLE_SCHEMA='database';
+ALTER TABLE table_v2 AUTO_INCREMENT = 2147483648;
+```
+
+Insérer les données progressivement :
+
+```sql
+INSERT INTO table_v2 SELECT * FROM table LIMIT 10000;
+```
+
+Puis renommer :
+
+```sql
+RENAME TABLE table TO table_old, table_v2 TO table;
+```
+
+- Migration complète avec sécurité maximale
+- Processus plus long nécessitant une supervision rigoureuse
+
+## Recommandations Efficience IT
+
+Chaque scénario dépend du volume de données, des fenêtres de maintenance disponibles et de la tolérance au risque.
+
+L'approche recommandée comprend :
+
+- Audits préliminaires de la base de données et des dépendances applicatives
+- Simulation sur des environnements miroirs
+- Migration progressive avec rollback planifié
+- Optimisation post-migration (indexation, performance, monitoring)
+
+> Les ingénieurs experts MySQL et DevOps accompagnent les entreprises dans la sécurisation des bases de données de production grâce à des méthodes testées et applicables aux environnements à fort trafic.

@@ -1,0 +1,59 @@
+---
+title: "Symfony Messenger vs PHP Enqueue : différences et quel outil choisir"
+date: "2022-04-01"
+author: "Louis-Arnaud Catoire"
+category: "Formation"
+excerpt: "Pour les connaisseurs des systèmes de messages, vous devez sûrement connaître Symfony Messenger pour son système de file d'attente. Découvrez les différences avec PHP Enqueue."
+image: "/images/blog/messenger-vs-enqueue.webp"
+---
+
+Pour les connaisseurs des systèmes de messages, vous devez sûrement connaître [Symfony/Messenger](https://symfony.com/doc/current/components/messenger.html) pour son système de file d'attente. Il permet notamment d'effectuer des scripts PHP en asynchrone. Le principe est simple, lorsqu'il y a un traitement à faire, plus long qu'un controller ne peut attendre, on place dans une file d'attente de traitement la tâche à effectuer, et ensuite vous avez ce que l'on appelle des Workers qui vont dépiler ces tâches, et par exemple, faire des calculs lourds, envoyer des mails, transformer des PDF, etc.
+
+Mais laissez-nous vous parler également de Enqueue, le système de PHP qui va plus loin. Dans cet article, nous allons donner des éléments de comparaison pour vous forger une idée.
+
+> Ces deux composants aident les applications à envoyer et recevoir des messages vers/depuis d'autres applications ou via des files d'attente de messages.
+
+## Rappel sur les concepts
+
+### Comment s'installent-ils ?
+
+Tous les deux sont simples à installer sur votre projet, il suffit de faire le composer require et de l'inscrire dans le AppKernel.php, dans la liste de Bundle, donc ici pas de différence. Voici les lignes de commande que vous pouvez utiliser pour l'installer :
+
+```bash
+composer require enqueue/enqueue-bundle enqueue/fs
+composer require symfony/messenger
+```
+
+### Les Transports
+
+Globalement, les deux systèmes ont les mêmes transports disponibles, alors il n'est pas forcément utile de tous les lister, mais vous avez AMQP, Kafka, MongoDB, Redis, SNS, SQS, Doctrine...
+
+### Surveillance
+
+PHP Enqueue fournit un outil de surveillance des files d'attente de messages, alors que Messenger non. Avec Enqueue, vous pouvez contrôler combien de messages ont été envoyés, combien ont été traités avec succès ou ont échoué. Combien de Workers travaillent, leur temps de disponibilité, les statistiques des messages traités, l'utilisation de la mémoire et la charge du système. L'outil peut être intégré à pratiquement n'importe quelle plateforme d'analyse et de surveillance.
+
+Il existe plusieurs intégrations : Datadog, Grafana... donc si vous souhaitez l'essayer ou même l'intégrer, vous trouverez la page d'installation [ici](https://php-enqueue.github.io/monitoring/#installation).
+
+## Les limites des files d'attente
+
+Au-delà de son aspect pratique, il existe des bordures à ne pas dépasser dans son utilisation. Car avec de gros volumes de messages à traiter, vous pouvez trouver quelques contraintes.
+
+Par expérience, nous nous sommes trouvés à traiter quelques centaines de milliers de messages par jour dans un projet où les messages étaient stockés dans Doctrine (via une table `messenger_messages`), et comme le système ne dépilait pas assez, nous nous sommes dit : augmentons le nombre de workers !
+
+Grave erreur, car la concurrence des accès en base de données est très compliquée pour **Redis** comme pour **Doctrine/MySQL**.
+
+Donc comment augmenter le dépilage sans augmenter le nombre de Workers ? Nous avons tenté d'insérer des index sur les `queue_name` et `available_at` de la table `messenger_messages`, car en décortiquant la requête SQL, nous nous sommes aperçus qu'il y avait un ORDER BY sur `available_at`.
+
+Bonne surprise, cela a fonctionné : la pile diminuait. Sauf qu'effet de bord, nous avons remarqué que nos workers s'arrêtaient régulièrement bien avant notre `--time-limit` configuré sur la commande. (Nous lancions des workers toutes les heures avec un time-limit de 3600 secondes, ce qui permettait de s'assurer qu'ils étaient killés tôt ou tard, tout en sachant qu'il y en avait forcément qui seraient relancés).
+
+En fait, en lançant le worker en verbose et à la main, nous avions une erreur : `Deadlock found when trying to get lock; try restarting transaction`. Le MySQL que nous avions (5.7) n'était pas prévu pour avoir des INSERT/UPDATE/DELETE avec des index comme ceux que nous avions, il fallait passer en 8.0.
+
+Le problème était que nous dépilions pourtant bien, mais juste cette erreur ralentissait le dépilage. Ce que nous avons fait est donc très simple :
+
+Nous avons lancé dans notre crontab des workers toutes les minutes avec un time-limit de 60 secondes, ainsi nous étions sûrs qu'ils seraient très souvent relancés malgré cette erreur, et que nous dépilerions rapidement nos listes de messages à traiter.
+
+Pour aller plus loin, nous serions passés par [RabbitMQ](https://www.rabbitmq.com/) qui stocke la donnée en NoSQL sous son propre format, et qui permet d'aller plus vite dans le système de dépilage puisque c'est un outil créé justement pour subir des INSERT/UPDATE/DELETE de manière concurrente sans problème.
+
+## Pour aller plus loin
+
+Bien entendu, si vous souhaitez aller plus loin, nous vous mettons à disposition des développeurs spécialisés sur **Symfony** qui sauront les intégrer dans vos projets. N'hésitez pas à nous contacter, ou à approfondir la documentation de [Messenger](https://symfony.com/doc/current/components/messenger.html) et de [PHP Enqueue](https://php-enqueue.github.io).

@@ -1,0 +1,46 @@
+---
+title: "Concrètement, c'est quoi FrankenPHP ?"
+date: "2024-02-29"
+author: "Louis-Arnaud Catoire"
+category: "Outils"
+excerpt: "PHP reste pertinent malgré sa réputation vieillissante, avec des frameworks comme Laravel, Symfony et WordPress qui gardent le langage essentiel."
+image: "/images/blog/frankenphp.webp"
+---
+
+## Concrètement, c'est quoi FrankenPHP ?
+
+PHP reste pertinent malgré sa réputation vieillissante, avec des frameworks comme Laravel, Symfony et WordPress qui gardent le langage essentiel pour les applications web et les APIs. Bien que PHP se soit considérablement amélioré grâce à Docker, Redis, Varnish et Nginx, l'architecture serveur traditionnelle expose les applications via un serveur web tiers (NGINX, Apache) qui délègue l'exécution des scripts à PHP-FPM via FastCGI -- un processus qui reste complexe.
+
+## C'est là qu'est apparu FrankenPHP
+
+FrankenPHP est un serveur d'application spécialement conçu pour PHP, écrit en Go. Construit sur Caddy (un serveur web), il intègre un interpréteur PHP directement dans le serveur, permettant des binaires autonomes et auto-exécutables sans dépendances externes.
+
+Il supporte plusieurs frameworks et plateformes CMS, notamment Drupal, Sulu, WordPress, Laravel, Symfony, API Platform, et d'autres outils basés sur PHP.
+
+## Les fonctionnalités
+
+FrankenPHP fournit des capacités avancées :
+
+- Support natif HTTP/1, HTTP/2 et HTTP/3
+- Génération et renouvellement automatiques de certificats TLS via Let's Encrypt ou ZeroSSL
+- Support des Early Hints (fonctionnalité HTTP/2 pour les informations préliminaires au client)
+- Mode worker contournant l'architecture "share nothing" de PHP, réduisant les temps de réponse par trois fois ou plus par rapport à PHP-FPM
+- Support natif du temps réel avec l'intégration du protocole Mercure (alternative WebSocket utilisant les Server-Sent Events)
+- Support natif de Xdebug et OpCache
+- Images Docker légères prêtes pour la production, compatibles avec Kubernetes
+
+## Techniquement, comment ça fonctionne ?
+
+FrankenPHP utilise CGO pour permettre au code Go d'appeler l'interpréteur C de PHP et vice versa, exécutant la machine virtuelle de PHP au sein d'un processus Go. Cette approche offre des avantages substantiels :
+
+- Des déploiements rationalisés grâce à des binaires uniques combinant serveur web, interpréteur PHP et code source
+- Des services applicatifs persistants chargés en mémoire serveur gérant de multiples requêtes HTTP
+- Des fonctions écrites en Go, C ou assembleur appelables directement depuis le code PHP
+
+## Plus d'infos
+
+La documentation complète est disponible sur [frankenphp.dev/docs/](https://frankenphp.dev/docs/). Kévin Dunglas a présenté des slides au ForumPHP disponibles [ici](https://speakerdeck.com/dunglas/frankenphp-a-modern-app-server-for-php-written-in-go), avec le [dépôt GitHub](https://github.com/dunglas/frankenphp).
+
+## En résumé
+
+FrankenPHP représente une solution complète pour le déploiement moderne d'applications PHP, exploitant les technologies contemporaines tout en offrant des performances améliorées et une configuration simplifiée.

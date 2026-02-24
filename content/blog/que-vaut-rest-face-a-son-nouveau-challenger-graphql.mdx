@@ -1,0 +1,60 @@
+---
+title: "Que vaut REST face à son nouveau challenger GraphQL ?"
+date: "2022-02-11"
+author: "Louis-Arnaud Catoire"
+category: "Formation"
+excerpt: "REST s'est imposé comme un style architectural dominant pour la transmission de données via HTTP. GraphQL est souvent positionné comme un remplaçant révolutionnaire."
+image: "/images/blog/rest-vs-graphql.webp"
+---
+
+REST (Representational State Transfer) s'est imposé comme un style architectural dominant pour la transmission de données via HTTP. GraphQL, quant à lui, est souvent positionné comme un remplaçant révolutionnaire des API REST héritées. Cet article examine les approches, les forces et les limites des deux technologies pour déterminer si GraphQL remplace vraiment REST.
+
+## REST
+
+REST repose sur le concept de ressources, avec des endpoints dédiés pour chaque type de ressource utilisant différentes méthodes HTTP. Prenons l'exemple d'une API de blog avec des auteurs et des articles :
+
+**METHOD /blog/ressource/id**
+
+Exemple : `GET /blog/articles` récupère tous les articles, tandis que `GET /blog/api/articles/1` récupère un article spécifique.
+
+### Avantages
+
+- REST excelle dans les opérations CRUD, chaque méthode servant un objectif spécifique (PATCH pour les mises à jour, POST pour la création, DELETE pour la suppression)
+- L'architecture est évolutive, séparant les préoccupations client et serveur pour une évolution indépendante
+- REST offre une flexibilité dans la gestion de divers types d'appels et de formats de données
+
+### Limites
+
+- Toutes les applications ne nécessitent pas de structures CRUD ; les opérations complexes avec de grands ensembles de données peuvent casser la nature structurée de REST
+- Les ensembles de données combinés nécessitent plusieurs allers-retours client-serveur, augmentant la latence
+- Les clients reçoivent des structures de données fixes depuis les endpoints, entraînant du sur-fetching (données excédentaires) ou du sous-fetching (données insuffisantes)
+
+## GraphQL
+
+GraphQL adopte une approche flexible en graphe interconnecté plutôt que des structures basées sur les ressources. Un seul endpoint gère toutes les opérations :
+
+```graphql
+GET /blog?query={ article(id: 1) { title, content } }
+```
+
+Cela interroge un article avec l'ID 1, renvoyant uniquement le titre et le contenu. Le même endpoint supporte les mutations (méthodes prédéfinies) :
+
+```graphql
+POST /blog?mutation={ updateArticle(id: 1, title: "new title") { title, content } }
+```
+
+### Avantages
+
+- Condense plusieurs requêtes REST en une seule, optimisant les échanges de données volumineux et réduisant le sur/sous-fetching
+- Minimise les changements de versioning lorsque les ressources et schémas sont modifiés
+- Un système de typage fort clarifie la structure des données pour les équipes front-end et back-end
+
+### Limites
+
+- Utilise un seul endpoint, contournant les spécifications de cache HTTP et les avantages CDN
+- Ajoute une complexité inutile pour les applications simples
+- Nécessite une conception soignée de l'API ; des requêtes incontrôlées peuvent surcharger les serveurs
+
+## Conclusion
+
+REST et GraphQL sont des technologies complémentaires qui répondent aux limitations l'une de l'autre. Chez Efficience IT, nous exploitons les deux architectures au sein de notre stack technique pour offrir des solutions personnalisées et optimisées aux besoins de nos clients.

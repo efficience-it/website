@@ -1,0 +1,46 @@
+---
+title: "Déployer Nuxt.js avec GitLab CI, S3 et CloudFront"
+date: "2020-11-25"
+author: "Louis-Arnaud Catoire"
+category: "Outils"
+excerpt: "Ce guide montre comment publier un site Vue.js ou Nuxt.js sur Amazon S3 avec le cache CDN CloudFront, le tout automatisé via GitLab CI/CD."
+image: "/images/blog/deployer-nuxtjs.webp"
+---
+
+Ce guide montre comment publier un site Vue.js ou Nuxt.js sur Amazon S3 avec le cache CDN CloudFront, le tout automatisé via GitLab CI/CD.
+
+## Configuration Amazon
+
+Trois composants sont nécessaires :
+
+### Le Bucket S3
+
+Créez un bucket S3 accessible publiquement (par exemple, "nuxt-website-efficience-it"). Dans les propriétés du bucket, activez l'hébergement de site web statique avec index.html comme point d'entrée. Ajoutez une politique de bucket autorisant l'accès en lecture publique à tous les objets en utilisant la configuration JSON fournie.
+
+### CloudFront CDN
+
+Créez une distribution CloudFront pointant vers votre bucket S3 pour mettre en cache le contenu et améliorer les performances. Configurez la redirection HTTP vers HTTPS et ajoutez optionnellement un domaine personnalisé avec certificat SSL. Notez l'ID de distribution pour une utilisation ultérieure.
+
+### Utilisateur IAM GitLab Runner
+
+Créez un utilisateur IAM nommé "gitlab-runner" avec les permissions CloudFrontInvalidation et AmazonS3FullAccess. Générez des clés d'accès pour l'authentification.
+
+## Configuration du pipeline GitLab CI/CD
+
+### Étape de Build
+
+L'étape initiale installe les dépendances et génère les fichiers du projet dans un dossier `/dist` comme artifact. Les modules node sont mis en cache entre les exécutions pour optimiser le temps de déploiement.
+
+### Étape de Déploiement
+
+En utilisant Python et AWS CLI, l'étape de déploiement synchronise le dossier `dist` vers S3 et invalide le cache CloudFront, assurant que les visiteurs reçoivent le contenu mis à jour.
+
+## Configuration GitLab
+
+Stockez les identifiants sensibles comme variables protégées dans Settings > CI/CD > Variables : `AWS_CLOUDFRONT_INVALIDATION_ID`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` et `AWS_BUCKET_NAME`.
+
+## Stratégie multi-environnement
+
+Implémentez des buckets et distributions séparés pour le développement et la production. La branche master se déploie automatiquement en production, la branche develop en développement, et les branches de fonctionnalités se déploient manuellement en développement pour les tests avant fusion.
+
+Le fichier `.gitlab-ci.yml` complet démontre cette approche multi-environnement avec des déploiements conditionnels basés sur les noms de branches et des déclencheurs manuels.

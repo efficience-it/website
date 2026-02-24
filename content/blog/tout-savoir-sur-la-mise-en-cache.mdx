@@ -1,0 +1,94 @@
+---
+title: "Tout savoir sur la mise en cache"
+date: "2022-11-23"
+author: "Louis-Arnaud Catoire"
+category: "Formation"
+excerpt: "Le cache fonctionne de manière similaire à la RAM : c'est un type de mémoire conçu pour booster les performances. Découvrez les principes, usages et bonnes pratiques."
+image: "/images/blog/mise-en-cache.webp"
+---
+
+## Le cache, c'est quoi ?
+
+Le cache fonctionne de manière similaire à la RAM : c'est un type de mémoire conçu pour booster les performances du CPU. Sa fonction principale consiste à stocker temporairement les données, informations et programmes auxquels le processeur accède fréquemment, permettant une récupération plus rapide lors des utilisations suivantes.
+
+Quand le processeur a besoin de données, il interroge d'abord le cache pour déterminer si l'information requise est déjà disponible. Cette approche empêche les requêtes inutiles vers les systèmes de stockage plus importants. Fondamentalement, la mémoire cache stocke temporairement les données régulièrement utilisées par le processeur, permettant un accès plus rapide et optimisant l'efficacité du processeur.
+
+## Les trois types de cache
+
+### 1. Les caches navigateur
+
+Présents dans les préférences du navigateur (Firefox, Chrome, etc.), ce cache stocke les ressources statiques précédemment consultées sur les sites web : images, fichiers CSS et ressources similaires. Le cache navigateur permet un chargement de page quasi instantané dans deux scénarios :
+
+- Quand les utilisateurs cliquent sur le bouton retour
+- Quand les utilisateurs revisitent des pages précédemment consultées
+
+### 2. Les caches de serveurs proxy
+
+Fonctionnant de manière identique aux caches navigateur mais à une échelle beaucoup plus grande, ces systèmes possèdent une capacité de stockage significative pour stocker et mettre à jour régulièrement les pages web les plus fréquemment consultées parmi de nombreux utilisateurs. Les grandes entreprises et les fournisseurs d'accès Internet déploient souvent ces systèmes au sein de pare-feu ou comme systèmes autonomes.
+
+Ce sont des caches partagés bénéficiant à plusieurs utilisateurs simultanément, réduisant substantiellement les temps d'attente réseau et le trafic puisque le contenu populaire est réutilisé de manière répétée.
+
+### 3. Les caches passerelle
+
+Également appelés serveurs proxy inverses ou caches auxiliaires, ces intermédiaires fonctionnent différemment des caches proxy. Plutôt que d'être implémentés par les administrateurs réseau pour économiser la bande passante, les webmasters les déploient typiquement pour améliorer la scalabilité, la fiabilité et les performances du site.
+
+Les réseaux de diffusion de contenu (CDN) distribuent les caches passerelle à travers Internet et offrent ces services aux sites web intéressés. Les exemples notables incluent Speedera et Akamai.
+
+## Comment fonctionnent les caches
+
+Le fonctionnement du cache suit des règles précises déterminées par deux facteurs : les protocoles HTTP 1.0 et 1.1 et les paramètres de l'administrateur du cache.
+
+Les auteurs HTML peuvent insérer des balises meta dans les en-têtes de page pour indiquer si le contenu est cacheable ou non et pour spécifier les dates d'expiration. Bien que simples à implémenter, ces balises ne sont reconnues que par certains caches navigateur qui analysent le code HTML.
+
+### Les en-têtes HTTP efficaces
+
+#### 1. L'en-tête HTTP Expires
+
+Cet en-tête contrôle la fraîcheur du cache en indiquant le temps d'expiration. Après expiration, les caches vérifient avec le serveur si les ressources ont changé. La plupart des caches reconnaissent les en-têtes Expires, les rendant particulièrement adaptés aux ressources statiques (barres de navigation, boutons) qui changent rarement. Ils sont également bénéfiques pour les pages qui changent fréquemment nécessitant des dates d'expiration plus courtes pour le rafraîchissement des données.
+
+Les valeurs de l'en-tête Expires doivent suivre le format de date HTTP :
+
+```
+Tue, 14 Jan 2023 18:13:34 GMT
+```
+
+#### 2. L'en-tête HTTP Cache-Control
+
+Introduit par HTTP 1.1 pour fournir un contrôle amélioré du contenu, ces en-têtes incluent :
+
+- **max-age=[seconds]** : indique combien de secondes la représentation reste fraîche
+- **s-maxage=[seconds]** : fonctionne de manière identique à max-age mais s'applique exclusivement aux caches proxy
+- **public** : marque les réponses authentifiées comme cacheables
+- **no-cache** : soumet les requêtes au serveur d'origine à chaque fois pour validation avant d'afficher les copies en cache
+- **no-store** : instruit les caches de ne conserver aucune copie de représentation en aucune circonstance
+- **must-revalidate** : requiert que les caches respectent toutes les informations de fraîcheur indiquées
+- **proxy-revalidate** : similaire à must-revalidate mais s'applique exclusivement aux caches proxy
+
+Exemple :
+
+```
+Cache-Control: max-age=3600, must-revalidate
+```
+
+## Validateurs et validation
+
+Quand on modifie des données, les modèles d'expiration seuls s'avèrent insuffisants. Le modèle de validation traite cela à travers l'en-tête "Last-Modified", qui maintient les réponses stockées tout en demandant à l'application de confirmer la validité ou la nécessité de régénération (via les en-têtes "If-Modified-since").
+
+La validation communique les changements de représentation, empêchant les caches de télécharger des ressources entières inutilement.
+
+Un autre type de validateur, l'ETag, a été introduit par HTTP 1.1. Chaque fois qu'une représentation change, le serveur génère un identifiant ETag unique, permettant la vérification quand les attributs "If-Non-Match" apparaissent pour confirmer la cohérence de la représentation.
+
+Les deux validateurs s'appliquent exclusivement aux représentations statiques.
+
+## Astuces cache / Informations pratiques
+
+- Identifiez les ressources les plus volumineuses et populaires pour la mise en cache (photographies)
+- Écrivez des scripts compatibles cache pour le contenu dynamique (CGI, ASP, bases de données)
+- Utilisez des URL identiques sur les pages avec un contenu correspondant
+- Employez des bibliothèques d'images partagées
+- Appliquez les en-têtes cache-control aux ressources qui changent peu fréquemment
+- Assignez des dates d'expiration aux ressources changeantes
+- Évitez les modifications de fichiers inutiles
+- Quand vous modifiez des fichiers téléchargeables, changez leurs noms de fichier
+- Déployez les pages SSL uniquement quand c'est nécessaire
+- Rappelez-vous : les requêtes authentifiées ou sécurisées ne sont pas mises en cache

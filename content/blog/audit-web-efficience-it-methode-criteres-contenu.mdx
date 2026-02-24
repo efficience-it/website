@@ -1,0 +1,65 @@
+---
+title: "Audit web chez Efficience IT : méthode, critères et contenu"
+date: "2023-01-31"
+author: "Louis-Arnaud Catoire"
+category: "Projet"
+excerpt: "L'audit constitue un processus vital pour évaluer la qualité, la sécurité et les performances d'un site web. Découvrez comment se déroule un audit chez Efficience IT."
+image: "/images/blog/audit-efficience-it.webp"
+---
+
+**L'audit** constitue un processus vital pour évaluer la qualité, la sécurité et les performances d'un site web. Cette évaluation aide à identifier les problèmes potentiels avant qu'ils ne s'aggravent et garantit un fonctionnement optimal pour les utilisateurs.
+
+> "La première étape est de comprendre les objectifs et les exigences du projet"
+
+Une fois la récupération du code effectuée, l'audit se déroule à travers plusieurs domaines clés :
+
+## La qualité du code
+
+Un code propre et bien structuré garantit la maintenabilité et l'évolution. L'évaluation examine :
+
+- Le nommage significatif des variables et des fonctions
+- Le respect des conventions de codage courantes
+- La modularisation appropriée du code
+- L'optimisation des performances
+
+Des outils comme [PHPStan](https://phpstan.org/) et phpcs facilitent cette évaluation.
+
+## La sécurité
+
+La sécurité protège les informations sensibles des utilisateurs contre les attaques potentielles, en évaluant :
+
+- La validation des entrées pour prévenir les injections SQL et les attaques XSS
+- Le chiffrement des données sensibles comme les mots de passe
+- La protection contre les attaques Cross-Site Request Forgery (CSRF)
+- La vérification de la sécurité des bibliothèques et des versions pour Symfony et PHP
+
+## Les performances
+
+L'optimisation des performances améliore l'expérience utilisateur et le référencement dans les moteurs de recherche grâce à :
+
+- L'évaluation du temps de chargement des pages
+- L'optimisation des images
+- La mise en place du cache navigateur
+- Des outils comme [Lighthouse](https://chrome.google.com/webstore/detail/lighthouse/blipmdconlkpinefehnmjammfjpmpbjk)
+
+## L'évaluation de la compatibilité avec les navigateurs
+
+Les tests sur Chrome, Firefox, Edge et d'autres navigateurs garantissent un fonctionnement multi-appareils.
+
+## L'accessibilité
+
+L'accessibilité garantit que tous les utilisateurs peuvent naviguer et utiliser efficacement le site :
+
+- La conformité aux [standards WCAG](https://www.w3.org/Translations/WCAG20-fr/)
+- L'utilisation appropriée du HTML pour les éléments de page
+- Le style CSS pour la lisibilité
+
+## Le rapport final
+
+À l'issue de l'audit, un rapport détaillé documente les conclusions avec des recommandations priorisées selon :
+
+- **Criticité** : la nécessité de correction
+- **Complexité** : le niveau de difficulté de mise en oeuvre
+- **Impact** : les effets sur les performances, la sécurité, la fiabilité et la maintenabilité
+
+Des audits de code réguliers maintiennent la qualité et la satisfaction des utilisateurs.

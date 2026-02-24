@@ -1,0 +1,48 @@
+---
+title: "Quelle architecture de projet choisir entre micro-service ou monolithe modulaire ?"
+date: "2022-02-11"
+author: "Louis-Arnaud Catoire"
+category: "Outils"
+excerpt: "Bien structurer son projet est essentiel. Deux approches architecturales dominent : les micro-services et les monolithes modulaires. Laquelle choisir ?"
+image: "/images/blog/microservices-monolithe.jpg"
+---
+
+## Micro-services VS Monolithe modulaire
+
+Bien structurer son projet est essentiel pour toute organisation. Deux approches architecturales dominent les discussions : les micro-services et les monolithes modulaires. Quelle structure convient à vos besoins, et quels avantages offre chacune ?
+
+## Pourquoi est-il important de bien structurer son projet ?
+
+1. **Pour les développeurs :** Facilite la compréhension des exigences et permet des passations de projet plus aisées entre les membres de l'équipe.
+
+2. **Pour les entreprises :** Des structures bien organisées simplifient les processus de maintenance.
+
+3. **Pour les managers :** Une infrastructure plus simple réduit les coûts opérationnels.
+
+4. **Pour chaque projet :** Trouver l'architecture la plus adaptée qui satisfait toutes les parties prenantes est crucial.
+
+**En résumé :** L'architecture en micro-services fonctionne mieux pour les projets nécessitant un haut niveau d'organisation, tandis que les monolithes modulaires conviennent aux projets avec des besoins structurels plus simples.
+
+## L'architecture de projet en micro-services
+
+L'architecture en micro-services comprend de multiples petits services, principalement orientés backend mais aussi applicables au frontend. Cette approche offre aux entreprises des avantages comme la simplification des workflows développeurs et un avantage compétitif accru.
+
+Comparée aux applications monolithiques, la complexité diminue grâce à la distribution des responsabilités. Les micro-services consistent en des services autonomes communiquant via des API, permettant l'indépendance des équipes à travers les phases de développement, test, déploiement et opérations.
+
+Cependant, l'implémentation nécessite une réorganisation des équipes. Les équipes doivent se concentrer sur des sujets ou domaines spécifiques ; sinon, l'infrastructure peut compliquer plutôt que simplifier le développement.
+
+## L'architecture de projet en monolithe modulaire
+
+L'architecture en monolithe modulaire représente une alternative aux micro-services, limitant les coûts tout en maintenant des structures d'équipe organisées. Les différences clés incluent : une base de code unique et une unité de déploiement unifiée.
+
+L'implémentation nécessite :
+
+- La délimitation fictive des domaines
+- L'isolation du code par domaine
+- La définition d'interfaces publiques pour la communication inter-domaines
+
+Les services communiquent directement au sein des monolithes. Les avantages incluent une implémentation simple avec des méthodes de déploiement uniques, une architecture unifiée et une technologie cohérente permettant aux équipes autonomes de travailler sur des composants distincts.
+
+## Pour conclure
+
+Implémenter ces architectures nécessite des connaissances, de l'organisation et des coûts associés. Cependant, les deux fournissent flexibilité et simplicité pour les défis complexes.

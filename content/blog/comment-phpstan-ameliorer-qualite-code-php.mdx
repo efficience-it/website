@@ -1,0 +1,52 @@
+---
+title: "Comment PHPStan peut vous aider à améliorer la qualité de votre code PHP"
+date: "2023-01-31"
+author: "Louis-Arnaud Catoire"
+category: "Formation"
+excerpt: "PHPStan est un outil de vérification statique pour la programmation PHP. Il examine votre code à la recherche d'erreurs potentielles et améliore la qualité du code."
+image: "/images/blog/phpstan-qualite.webp"
+---
+
+## Qu'est-ce que PHPStan ?
+
+[PHPStan](https://phpstan.org/) est un outil de vérification statique pour la programmation **PHP**. Il examine votre code à la recherche d'erreurs potentielles et de problèmes, améliorant la qualité du code et prévenant les erreurs courantes. Cela se fait sans nécessiter de code de test, tout est automatisé et open source. Lorsqu'il est intégré dans votre workflow de développement (comme gitlab-ci), vous pouvez identifier les bugs avant que les projets n'atteignent la production.
+
+## Comment PHPStan fonctionne
+
+PHPStan fonctionne comme un exécutable qui s'installe facilement, analysant le code source PHP via un parseur syntaxique et appliquant des règles de vérification prédéfinies pour détecter les erreurs potentielles. Il exploite les informations de type pour s'assurer que les variables sont utilisées de manière appropriée et vérifie qu'il n'y a pas de **problèmes de typage**.
+
+L'outil propose une intégration progressive à travers des [niveaux de règles](https://phpstan.org/user-guide/rule-levels), empêchant les développeurs d'être submergés par des milliers d'erreurs dès la première exécution. Les erreurs arrivent graduellement au fur et à mesure que vous progressez dans les niveaux.
+
+Symfony, Laravel et Drupal sont des citoyens de première classe dans cet outil, avec des extensions conçues pour chaque framework populaire. Le code utilisant des méthodes et propriétés magiques est également bien compris.
+
+## Comment utiliser PHPStan ?
+
+PHPStan nécessite PHP >= 7.2. Vous devez l'exécuter dans un environnement avec PHP 7.x, bien que votre code réel n'ait pas besoin des fonctionnalités de PHP 7.x. Cet outil fonctionne mieux avec du code orienté objet moderne. Plus votre code est typé, plus vous fournissez d'informations à PHPStan.
+
+Un code correctement annoté et typé (propriétés de classe, arguments de fonctions et méthodes, types de retour) assiste non seulement les outils d'analyse statique mais aussi les collègues qui comprennent votre code.
+
+### Installation avec Composer
+
+Installez le package via Composer :
+
+```bash
+composer require --dev phpstan/phpstan
+```
+
+Accédez au [dépôt Github](https://github.com/phpstan/phpstan) pour des informations supplémentaires.
+
+Exécutez-le sur votre code avec :
+
+```bash
+./vendor/bin/phpstan analyse <votre-dossier-projet>
+```
+
+Ou utilisez un fichier de configuration `.phpstan.neon` pour spécifier les paramètres d'analyse. Apprenez les détails de configuration [ici](https://phpstan.org/config-reference).
+
+PHPStan emploie différents niveaux de règles allant de 0 (vérification minimale) à 9 (vérification la plus stricte).
+
+Le niveau de règle optimal dépend de vos besoins en qualité de code, de vos contraintes de temps et de budget, et des préférences de votre équipe de développement. Tester et mesurer les résultats d'analyse à travers différents niveaux aide à déterminer le bon seuil pour votre projet.
+
+## Conclusion
+
+PHPStan est essentiel pour tout développeur PHP qui priorise la qualité du code. Il analyse automatiquement le code source à la recherche d'erreurs et de problèmes potentiels, améliorant la qualité et prévenant les erreurs courantes tout en facilitant le débogage. Intégrer PHPStan dans votre workflow de développement assure le respect des conventions de codage et des bonnes pratiques de programmation. L'installation et l'utilisation sont simples, applicables aux projets personnels et open-source. PHPStan est un outil efficace pour améliorer la qualité de votre code PHP.

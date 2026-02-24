@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { BlogPost } from "@/types/blog";
 
@@ -7,7 +8,19 @@ interface BlogCardProps {
 
 export default function BlogCard({ post }: BlogCardProps) {
   return (
-    <article className="rounded-lg bg-white p-6 shadow-md transition-shadow hover:shadow-lg">
+    <article className="overflow-hidden rounded-lg bg-white shadow-md transition-shadow hover:shadow-lg">
+      {post.image && (
+        <Link href={`/blog/${post.slug}`}>
+          <Image
+            src={post.image}
+            alt={post.title}
+            width={400}
+            height={220}
+            className="h-48 w-full object-cover"
+          />
+        </Link>
+      )}
+      <div className="p-6">
       <div className="mb-3 flex items-center gap-3 text-sm text-gray">
         <time dateTime={post.date}>
           {new Date(post.date).toLocaleDateString("fr-FR", {
@@ -37,6 +50,7 @@ export default function BlogCard({ post }: BlogCardProps) {
       >
         Lire la suite &rarr;
       </Link>
+      </div>
     </article>
   );
 }

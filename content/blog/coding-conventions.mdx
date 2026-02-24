@@ -1,0 +1,62 @@
+---
+title: "Conventions de codage : bonnes pratiques pour un code maintenable"
+date: "2022-02-11"
+author: "Florian Chenot"
+category: "Projet"
+excerpt: "Un code de qualité repose sur six critères clés : organisation, rapidité, lisibilité, concision, non-répétition et cohérence à travers les méthodes."
+image: "/images/blog/conventions-codage.webp"
+---
+
+Un code de qualité repose sur six critères clés : organisation, rapidité, lisibilité, concision, non-répétition et cohérence à travers les méthodes. Les "bonnes pratiques" émergent de la veille technologique et du partage de connaissances au sein des communautés de programmation.
+
+## Quel est l'intérêt ?
+
+Le principal avantage concerne la maintenance -- les projets nécessitent des modifications continues par des développeurs qui n'ont pas forcément écrit le code original. Étant donné que chaque fonction peut être écrite de centaines de manières, des conventions standardisées permettent une meilleure compréhension et un entretien plus facile.
+
+Les outils de scan de code comme les linters nécessitent le respect de conventions spécifiques. Un codage uniforme au sein de l'équipe prévient la dégradation organisationnelle et réduit les bugs tout en améliorant la sécurité.
+
+## Nomenclature et conventions associées
+
+Les conventions de nommage améliorent la lisibilité. En PHP et dans les frameworks Symfony :
+
+- **PascalCase** s'applique aux classes, interfaces et noms de fichiers PHP
+- **camelCase** convient aux fonctions, méthodes et variables
+- **snake_case** est utilisé pour les clés de tableau et les fichiers SQL/YAML/Twig
+- **kebab-case** couvre les images, PDFs et URLs
+- **ALL_CAPS** désigne les constantes
+
+## Indentations
+
+Les développeurs débattent de l'utilisation des espaces ou des tabulations pour l'indentation. La recommandation est d'utiliser 2 ou 4 tabulations d'espaces selon l'environnement de travail. Les systèmes d'exploitation diffèrent dans les conventions de fin de ligne (Windows utilise CR+LF ; Linux utilise LF), nécessitant une configuration de l'IDE pour prévenir les conflits de compatibilité.
+
+## Documentations et commentaires
+
+Les commentaires et PHPDocs clarifient les fonctions complexes, résumant les entrées et sorties pour une référence rapide.
+
+## Méthode SOLID
+
+**S - Single Responsibility (Responsabilité unique) :** Les classes ne doivent avoir qu'une seule raison de changer.
+
+**O - Open/Closed (Ouvert/Fermé) :** Les classes restent ouvertes à l'extension mais fermées à la modification.
+
+**L - Liskov Substitution (Substitution de Liskov) :** Les sous-types doivent pouvoir remplacer les types parents sans casser la logique du programme.
+
+**I - Interface Segregation (Ségrégation des interfaces) :** Les classes ne doivent pas dépendre de méthodes inutiles ; divisez les grandes interfaces en plus petites et spécifiques.
+
+**D - Dependency Inversion (Inversion des dépendances) :** Utilisez des abstractions entre les classes plutôt que des implémentations directes.
+
+## PSR
+
+Les PHP Standards Recommendations standardisent le codage à travers les frameworks. Les PSR actuellement valides incluent PSR-1, PSR-3, PSR-4, PSR-6, PSR-7, PSR-11, PSR-12, PSR-13, PSR-14, PSR-15, PSR-16, PSR-17 et PSR-18.
+
+## Linters
+
+Des outils comme SonarQube et Junit vérifient la conformité PSR, la qualité du code et le respect des bonnes pratiques. Ils signalent continuellement les erreurs, guidant les développeurs vers une production de qualité.
+
+## Les Design Patterns
+
+Les design patterns fournissent des modèles réutilisables pour des situations de codage récurrentes. Les exemples courants incluent Singleton, Factory, Adapter, Observer et Composite.
+
+## Conclusion
+
+Les développeurs doivent continuellement améliorer l'efficacité du codage tout en maintenant la lisibilité. Toutes les conventions et méthodes discutées deviennent indispensables pour un développement de qualité, bien que l'apprentissage continu assure le maintien des standards de qualité du code.
