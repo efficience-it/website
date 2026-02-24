@@ -6,10 +6,11 @@ import ContactForm from "@/components/sections/ContactForm";
 import { faqItems } from "@/../data/faq";
 
 export const metadata = pageMetadata({
-  title: "Contact",
+  title: "Contact | Agence web Symfony – Efficience IT",
   description:
-    "Contactez Efficience IT pour vos projets web, cloud et DevOps. Agence Symfony à Lille.",
+    "Contactez Efficience IT pour échanger autour de vos projets web, besoins techniques ou demandes de collaboration.",
   path: "/contact",
+  absoluteTitle: true,
 });
 
 export default function Contact() {

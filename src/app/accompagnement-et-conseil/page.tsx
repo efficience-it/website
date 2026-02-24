@@ -6,9 +6,9 @@ import Card from "@/components/ui/Card";
 import CallToAction from "@/components/sections/CallToAction";
 
 export const metadata = pageMetadata({
-  title: "Accompagnement et Conseil",
+  title: "Conseil, formation et coaching Symfony",
   description:
-    "Gestion de projet agile, conseil en transformation digitale, audits IT et formation Symfony. Efficience IT vous accompagne.",
+    "Efficience IT accompagne les équipes sur l'organisation, le conseil, le coaching et la formation autour de Symfony et des projets web professionnels.",
   path: "/accompagnement-et-conseil",
 });
 

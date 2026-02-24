@@ -5,9 +5,9 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import TimelineItem from "@/components/cards/TimelineItem";
 
 export const metadata = pageMetadata({
-  title: "L'entreprise",
+  title: "Agence Symfony – Présentation et expertise",
   description:
-    "Découvrez l'histoire d'Efficience IT, agence web Symfony fondée en 2018 à Lille. Nos valeurs, notre parcours, nos engagements.",
+    "Découvrez Efficience IT, agence spécialisée Symfony et PHP. Notre équipe conçoit et développe des applications web sur mesure, robustes et adaptées aux enjeux métiers.",
   path: "/l-entreprise",
 });
 

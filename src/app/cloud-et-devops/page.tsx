@@ -6,10 +6,11 @@ import Card from "@/components/ui/Card";
 import CallToAction from "@/components/sections/CallToAction";
 
 export const metadata = pageMetadata({
-  title: "Cloud & DevOps",
+  title: "Cloud & DevOps | Expertise technique – Efficience IT",
   description:
-    "Hébergement cloud, automatisation DevOps, migration d'infrastructure. Efficience IT modernise vos infrastructures IT.",
+    "Expertise Cloud et DevOps : Efficience IT accompagne la mise en place d'infrastructures, d'automatisation et de pratiques DevOps adaptées aux projets web.",
   path: "/cloud-et-devops",
+  absoluteTitle: true,
 });
 
 const sections = [

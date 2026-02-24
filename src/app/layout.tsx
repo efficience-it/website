@@ -6,11 +6,12 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Efficience IT — Développement web sur mesure",
+    default:
+      "Efficience IT – Agence Symfony experte en développement web",
     template: "%s | Efficience IT",
   },
   description:
-    "Efficience IT, société de conseil et développement web sur mesure : Symfony, cloud, DevOps, accompagnement digital.",
+    "Agence spécialisée Symfony et PHP, Efficience IT conçoit et développe des applications web sur mesure, robustes et adaptées aux enjeux métiers.",
 };
 
 export default function RootLayout({

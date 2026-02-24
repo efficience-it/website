@@ -5,10 +5,11 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import { greenMetrics, greenPrinciple, greenPractices } from "@/../data/greenIt";
 
 export const metadata = pageMetadata({
-  title: "Green IT",
+  title: "Green IT | Démarche numérique responsable – Efficience IT",
   description:
-    "Engagement RSE d'Efficience IT : 1 jour = 1 arbre planté, zéro papier, énergie renouvelable et développement responsable.",
+    "Efficience IT s'engage dans une démarche Green IT pour réduire l'impact environnemental du numérique, à travers des pratiques techniques et responsables.",
   path: "/green-it",
+  absoluteTitle: true,
 });
 
 export default function GreenIt() {

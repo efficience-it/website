@@ -5,10 +5,11 @@ import { getAllPosts, getCategories } from "@/lib/blog";
 import Link from "next/link";
 
 export const metadata = pageMetadata({
-  title: "Blog",
+  title: "Blog Efficience IT | Symfony, PHP et développement web",
   description:
-    "Articles techniques sur Symfony, PHP, DevOps, cloud et bonnes pratiques web par l'équipe Efficience IT.",
+    "Articles techniques, retours d'expérience et veille autour de Symfony, PHP et du développement d'applications web professionnelles.",
   path: "/blog",
+  absoluteTitle: true,
 });
 
 export default function BlogPage() {

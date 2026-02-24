@@ -6,10 +6,11 @@ import TeamMemberCard from "@/components/cards/TeamMemberCard";
 import { teamMembers, teamValues } from "@/../data/team";
 
 export const metadata = pageMetadata({
-  title: "La team",
+  title: "L'équipe Efficience IT | Agence web et technique",
   description:
-    "Rencontrez l'équipe Efficience IT : développeurs Symfony certifiés et chefs de projet passionnés.",
+    "Découvrez l'équipe d'Efficience IT : développeurs, profils techniques et métiers engagés dans la réalisation de projets web et applicatifs.",
   path: "/la-team",
+  absoluteTitle: true,
 });
 
 export default function LaTeam() {
