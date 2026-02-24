@@ -1,0 +1,61 @@
+---
+title: "Code mort en PHP : détecter et supprimer le code inutilisé"
+date: "2025-01-06"
+author: "Louis-Arnaud Catoire"
+category: "Outils"
+excerpt: "Identifier et éliminer le code inutilisé dans vos projets PHP pour améliorer la qualité, la maintenabilité et les performances."
+---
+
+L'entretien d'une base de code ressemble à celui d'un jardin : il nécessite une maintenance régulière. Le Détecteur de code mort pour PHP, extension de PHPStan, aide à identifier et supprimer le code inutilisé dans les projets PHP.
+
+## PHPStan : l'outil indispensable pour un code PHP propre
+
+PHPStan est un outil d'analyse statique pour PHP qui détecte les erreurs avant l'exécution :
+
+- Détection des incohérences de typage
+- Identification des appels de méthodes inexistantes
+- Signalisation des propriétés manquantes
+- Repérage des erreurs logiques courantes
+
+L'outil s'intègre facilement dans les pipelines CI/CD pour automatiser l'analyse.
+
+## Qu'est-ce que le code mort ?
+
+Le code mort désigne les parties de code jamais exécutées ou utilisées : fonctions, méthodes, classes ou blocs inutiles. Il provient de l'évolution des exigences, des refactorisations rendant certaines implémentations obsolètes, ou des erreurs de conception.
+
+## Impacts sur un projet
+
+- **Complexité accrue** : augmente la difficulté de compréhension et maintenance
+- **Risques de sécurité** : peut contenir des vulnérabilités non corrigées
+- **Performance réduite** : consomme de la mémoire et ralentit les builds
+- **Coûts de maintenance** : détourne les ressources des améliorations fonctionnelles
+- **Dégradation de la qualité** : introduit des incohérences
+
+## shipmonk/dead-code-detector
+
+Cette extension PHPStan identifie les fonctions, classes, propriétés et méthodes inutilisées.
+
+**Installation :**
+
+```bash
+composer require --dev shipmonk/dead-code-detector
+```
+
+**Configuration** dans `phpstan.neon` :
+
+```yaml
+includes:
+  - vendor/shipmonk/dead-code-detector/rules.neon
+```
+
+**Fonctionnalités** : détection de cycles morts, suppression automatique optionnelle, intégration complète avec PHPStan et support communautaire actif.
+
+## Conseils
+
+- Exécuter l'analyse régulièrement dans le processus de CI
+- Personnaliser les règles selon les besoins du projet
+- Combiner avec d'autres outils de nettoyage de code
+
+## Conclusion
+
+L'adoption de cette extension contribue à obtenir un code PHP plus propre, plus efficace et plus facile à maintenir. Elle s'inscrit dans une démarche continue d'amélioration de la qualité et de la performance.
