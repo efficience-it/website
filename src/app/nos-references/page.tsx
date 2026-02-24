@@ -5,9 +5,9 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import Testimonials from "@/components/sections/Testimonials";
 
 export const metadata = pageMetadata({
-  title: "Nos références",
+  title: "Nos réalisations et contributions open source",
   description:
-    "Découvrez les clients qui font confiance à Efficience IT : Carter Cash, Decathlon, Crédit Agricole, Groupe Atlantic et plus.",
+    "Applications web, outils métiers et contributions open source réalisés par Efficience IT dans des contextes variés.",
   path: "/nos-references",
 });
 

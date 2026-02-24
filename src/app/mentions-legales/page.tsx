@@ -3,7 +3,8 @@ import Container from "@/components/ui/Container";
 
 export const metadata = pageMetadata({
   title: "Mentions légales",
-  description: "Mentions légales du site Efficience IT.",
+  description:
+    "Mentions légales du site Efficience IT : informations légales, éditeur, hébergement et responsabilités.",
   path: "/mentions-legales",
 });
 

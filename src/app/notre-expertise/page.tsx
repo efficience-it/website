@@ -12,9 +12,9 @@ import {
 } from "@/../data/expertise";
 
 export const metadata = pageMetadata({
-  title: "Nos expertises",
+  title: "Expertise Symfony de référence",
   description:
-    "Développement web sur mesure, Cloud & DevOps, accompagnement et conseil. Découvrez les expertises d'Efficience IT.",
+    "Expertise Symfony de référence : Efficience IT conçoit, développe et maintient des applications web professionnelles, robustes et orientées production.",
   path: "/notre-expertise",
 });
 

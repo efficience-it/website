@@ -6,10 +6,11 @@ import Card from "@/components/ui/Card";
 import CallToAction from "@/components/sections/CallToAction";
 
 export const metadata = pageMetadata({
-  title: "Développement web sur mesure",
+  title: "Développement web sur mesure | Expertise Symfony – Efficience IT",
   description:
-    "Solutions IT sur mesure pour les PME et grandes entreprises : Symfony, e-commerce Sylius, CRM, ERP, API REST.",
+    "Expertise en développement web sur mesure : Efficience IT accompagne des projets applicatifs, notamment basés sur Symfony, de la conception à la mise en œuvre.",
   path: "/developpement-web-sur-mesure",
+  absoluteTitle: true,
 });
 
 const offerings = [

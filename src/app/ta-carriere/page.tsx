@@ -6,10 +6,11 @@ import JobCard from "@/components/cards/JobCard";
 import { jobs, spontaneousEmail } from "@/../data/jobs";
 
 export const metadata = pageMetadata({
-  title: "Ta carrière",
+  title: "On recrute | Efficience IT – Opportunités de carrière",
   description:
-    "Rejoignez l'équipe Efficience IT ! Découvrez nos offres d'emploi et postulez en tant que développeur Symfony, chef de projet ou consultant.",
+    "Découvrez les opportunités de carrière chez Efficience IT : développement, business, recrutement et communication au sein d'une agence web spécialisée Symfony.",
   path: "/ta-carriere",
+  absoluteTitle: true,
 });
 
 export default function TaCarriere() {
