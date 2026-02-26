@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@tailwindcss/typography": "^0.5.19",
     "gray-matter": "^4.0.3",
     "next": "16.1.6",
     "react": "19.2.3",
