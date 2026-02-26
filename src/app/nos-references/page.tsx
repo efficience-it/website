@@ -35,27 +35,39 @@ const allClients = [
 ];
 
 const techStack = [
+  { name: "PHP", logo: "/images/references/tech/php.svg" },
   { name: "Symfony", logo: "/images/references/tech/symfony.svg" },
+  { name: "Laravel", logo: "/images/references/tech/laravel.svg" },
   { name: "Sylius", logo: "/images/references/tech/sylius.svg" },
   { name: "API Platform", logo: "/images/references/tech/api-platform.svg" },
-  { name: "Tailwind CSS", logo: "/images/references/tech/tailwindcss.svg" },
+  { name: "Composer", logo: "/images/references/tech/composer.svg" },
+  { name: "TypeScript", logo: "/images/references/tech/typescript.svg" },
   { name: "React", logo: "/images/references/tech/react.svg" },
-  { name: "Docker", logo: "/images/references/tech/docker.svg" },
-  { name: "Laravel", logo: "/images/references/tech/laravel.svg" },
-  { name: "Nginx", logo: "/images/references/tech/nginx.svg" },
+  { name: "Vue.js", logo: "/images/references/tech/vuejs.svg" },
+  { name: "Next.js", logo: "/images/references/tech/nextjs.svg" },
+  { name: "Node.js", logo: "/images/references/tech/nodejs.svg" },
+  { name: "Tailwind CSS", logo: "/images/references/tech/tailwindcss.svg" },
+  { name: "PostgreSQL", logo: "/images/references/tech/postgresql.svg" },
+  { name: "MariaDB", logo: "/images/references/tech/mariadb.svg" },
   { name: "Redis", logo: "/images/references/tech/redis.svg" },
   { name: "Elasticsearch", logo: "/images/references/tech/elasticsearch.svg" },
+  { name: "RabbitMQ", logo: "/images/references/tech/rabbitmq.svg" },
+  { name: "Docker", logo: "/images/references/tech/docker.svg" },
+  { name: "Nginx", logo: "/images/references/tech/nginx.svg" },
+  { name: "Linux", logo: "/images/references/tech/linux.svg" },
+  { name: "Git", logo: "/images/references/tech/git.svg" },
+  { name: "GitLab", logo: "/images/references/tech/gitlab.svg" },
 ];
 
 export default function NosReferences() {
   return (
     <main>
-      <section className="bg-light-gray py-16 md:py-24">
+      <section className="bg-light-gray py-8 md:py-12">
         <Container className="text-center">
           <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
             Nos références
           </h1>
-          <p className="mx-auto mt-6 max-w-3xl text-lg text-gray">
+          <p className="mx-auto mt-4 max-w-3xl text-lg text-gray">
             Ils nous font confiance pour leurs projets web, cloud et DevOps.
           </p>
         </Container>
@@ -63,19 +75,42 @@ export default function NosReferences() {
 
       <section className="py-16">
         <Container>
-          <SectionTitle>Tous nos clients</SectionTitle>
+          <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+            <div className="text-center">
+              <p className="font-display text-4xl font-bold text-primary md:text-5xl">10+</p>
+              <p className="mt-2 text-sm font-medium text-gray">Années d&apos;expérience</p>
+            </div>
+            <div className="text-center">
+              <p className="font-display text-4xl font-bold text-primary md:text-5xl">150+</p>
+              <p className="mt-2 text-sm font-medium text-gray">Projets livrés</p>
+            </div>
+            <div className="text-center">
+              <p className="font-display text-4xl font-bold text-primary md:text-5xl">40+</p>
+              <p className="mt-2 text-sm font-medium text-gray">Clients accompagnés</p>
+            </div>
+            <div className="text-center">
+              <p className="font-display text-4xl font-bold text-primary md:text-5xl">500+</p>
+              <p className="mt-2 text-sm font-medium text-gray">PR sur PHP, Symfony &amp; son écosystème</p>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      <section className="py-16">
+        <Container>
+          <SectionTitle>Quelques-uns de nos clients</SectionTitle>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             {allClients.map((client) => (
               <div
                 key={client.name}
-                className="flex items-center justify-center rounded-lg bg-white p-4 shadow-sm"
+                className="overflow-hidden rounded-lg shadow-sm"
               >
                 <Image
                   src={client.image}
                   alt={client.name}
-                  width={200}
-                  height={120}
-                  className="h-20 w-auto object-contain"
+                  width={600}
+                  height={400}
+                  className="aspect-[3/2] w-full object-cover"
                 />
               </div>
             ))}
@@ -85,8 +120,8 @@ export default function NosReferences() {
 
       <section className="bg-light-gray py-16">
         <Container>
-          <SectionTitle>Technologies open source utilisées</SectionTitle>
-          <div className="flex flex-wrap items-center justify-center gap-6">
+          <SectionTitle>Notre engagement open source</SectionTitle>
+          <div className="grid grid-cols-4 gap-6 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-11">
             {techStack.map((tech) => (
               <div key={tech.name} className="flex flex-col items-center gap-2">
                 <Image
