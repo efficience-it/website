@@ -2,7 +2,13 @@ import Image from "next/image";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
-import { greenMetrics, greenPrinciple, greenPractices } from "@/../data/greenIt";
+import CallToAction from "@/components/sections/CallToAction";
+import {
+  greenMetrics,
+  greenPrinciple,
+  greenObjectives,
+  greenPractices,
+} from "@/../data/greenIt";
 
 export const metadata = pageMetadata({
   title: "Green IT | Démarche numérique responsable – Efficience IT",
@@ -19,13 +25,26 @@ export default function GreenIt() {
         <Container>
           <div className="grid items-center gap-12 md:grid-cols-2">
             <div>
-              <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
+              <p className="text-sm font-semibold uppercase tracking-wider text-primary">
+                Notre engagement RSE
+              </p>
+              <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
                 Green IT
               </h1>
-              <p className="mt-6 max-w-3xl text-lg text-gray">
-                Efficience IT s&apos;engage dans une démarche responsable visant à
-                minimiser l&apos;impact environnemental de nos activités et celles
-                de nos clients.
+              <p className="mt-6 text-lg text-gray">
+                Efficience IT est engagée dans une démarche RSE, en particulier
+                sur l&apos;écologie, afin de minimiser l&apos;impact
+                environnemental de nos activités et celles de nos clients.
+              </p>
+              <p className="mt-4 text-lg text-gray">
+                Nous croyons que la technologie peut être au service de la
+                transition écologique. Grâce à des pratiques clean, nous
+                optimisons les applications pour réduire les ressources
+                nécessaires. Économie et écologie sont des maîtres mots.
+              </p>
+              <p className="mt-4 text-lg font-semibold text-dark">
+                Chaque journée de développement réalisée nous permet de planter
+                un arbre.
               </p>
             </div>
             <div className="flex justify-center">
@@ -42,6 +61,9 @@ export default function GreenIt() {
 
       <section className="py-16">
         <Container>
+          <SectionTitle subtitle="Un excellent travail produit d'excellents résultats">
+            Nos résultats
+          </SectionTitle>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {greenMetrics.map((metric) => (
               <div
@@ -52,7 +74,10 @@ export default function GreenIt() {
                 <p className="mt-3 font-display text-2xl font-bold text-primary">
                   {metric.value}
                 </p>
-                <p className="mt-1 text-sm text-gray">{metric.label}</p>
+                <p className="mt-1 text-sm font-semibold text-dark">
+                  {metric.label}
+                </p>
+                <p className="mt-2 text-xs text-gray">{metric.description}</p>
               </div>
             ))}
           </div>
@@ -63,15 +88,32 @@ export default function GreenIt() {
       </section>
 
       <section className="py-16">
-        <Container className="text-center">
-          <SectionTitle>Nos objectifs</SectionTitle>
-          <Image
-            src="/images/green-it/objectifs.webp"
-            alt="Objectifs Green IT Efficience IT"
-            width={800}
-            height={400}
-            className="mx-auto rounded-lg"
-          />
+        <Container>
+          <div className="grid items-center gap-12 md:grid-cols-2">
+            <div>
+              <SectionTitle centered={false}>Nos objectifs</SectionTitle>
+              <ul className="space-y-4">
+                {greenObjectives.map((objective) => (
+                  <li
+                    key={objective}
+                    className="flex items-start gap-3 text-gray"
+                  >
+                    <span className="mt-1 text-primary">&#10003;</span>
+                    {objective}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="flex justify-center">
+              <Image
+                src="/images/green-it/objectifs.webp"
+                alt="Objectifs Green IT Efficience IT"
+                width={800}
+                height={400}
+                className="rounded-lg"
+              />
+            </div>
+          </div>
         </Container>
       </section>
 
@@ -88,6 +130,8 @@ export default function GreenIt() {
           </ul>
         </Container>
       </section>
+
+      <CallToAction />
     </main>
   );
 }
