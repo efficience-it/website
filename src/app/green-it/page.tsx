@@ -42,6 +42,13 @@ export default function GreenIt() {
                 optimisons les applications pour réduire les ressources
                 nécessaires. Économie et écologie sont des maîtres mots.
               </p>
+              <p className="mt-4 text-lg text-gray">
+                Nous encourageons le télétravail et les déplacements à vélo ou
+                en transports en commun. En choisissant Efficience IT, vous
+                optez pour une approche responsable et durable de la
+                technologie, avec une expertise de pointe en développement web
+                durable.
+              </p>
               <p className="mt-4 text-lg font-semibold text-dark">
                 Chaque journée de développement réalisée nous permet de planter
                 un arbre.
@@ -108,8 +115,8 @@ export default function GreenIt() {
               <Image
                 src="/images/green-it/objectifs.webp"
                 alt="Objectifs Green IT Efficience IT"
-                width={800}
-                height={400}
+                width={500}
+                height={250}
                 className="rounded-lg"
               />
             </div>
@@ -128,6 +135,27 @@ export default function GreenIt() {
               </li>
             ))}
           </ul>
+        </Container>
+      </section>
+
+      <section className="py-16">
+        <Container className="text-center">
+          <SectionTitle>Découvrez nos articles Green IT</SectionTitle>
+          <p className="mx-auto max-w-2xl text-gray">
+            Au-delà de cet engagement, nos collaborateurs utilisent le moteur de
+            recherche Ecosia, qui plante des arbres grâce aux recherches des
+            utilisateurs. Chaque petit geste a son impact.
+          </p>
+          <p className="mx-auto mt-4 max-w-2xl text-gray">
+            Retrouvez nos articles sur le numérique responsable,
+            l&apos;éco-conception et la décarbonation sur notre blog.
+          </p>
+          <a
+            href="/blog"
+            className="mt-6 inline-block font-semibold text-primary hover:underline"
+          >
+            Voir les articles Green IT →
+          </a>
         </Container>
       </section>
 
