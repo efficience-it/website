@@ -24,8 +24,9 @@ export default function LaTeam() {
                 Une équipe passionnée
               </h1>
               <p className="mt-6 max-w-3xl text-lg text-gray">
-                Chefs de projets et développeurs Symfony certifiés pour la plupart,
-                notre équipe à taille humaine est engagée et passionnée.
+                À taille humaine, notre équipe est à fond dans le digital et
+                l&apos;agilité. Et avec le meilleur framework PHP, nous offrons
+                une expertise pointue pour répondre à vos besoins.
               </p>
             </div>
             <div className="flex justify-center">
@@ -35,6 +36,60 @@ export default function LaTeam() {
                 width={400}
                 height={300}
               />
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      <section className="py-16">
+        <Container>
+          <div className="mx-auto max-w-3xl space-y-12 text-center">
+            <div>
+              <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                Qui sommes-nous ?
+              </h2>
+              <p className="mt-4 text-gray">
+                Créée en 2018, nous cherchons à apporter des solutions efficaces
+                aux problématiques de nos clients.
+              </p>
+            </div>
+            <div>
+              <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                Comment se compose l&apos;équipe ?
+              </h2>
+              <p className="mt-4 text-gray">
+                Équipé de chefs de projets, et de développeurs Symfony (certifiés
+                pour la plupart), Efficience IT vous propose un accompagnement sur
+                mesure en toute agilité. La réactivité, et la communication sont
+                les maîtres mots dans les équipes.
+              </p>
+            </div>
+            <div>
+              <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                Une équipe d&apos;experts au service de vos performances
+              </h2>
+              <p className="mt-4 text-gray">
+                Dotés d&apos;outils d&apos;analyse, Efficience IT réalise des
+                outils projets répondant aux normes et standards du secteur.
+                Membre de l&apos;AFUP, et grâce à une veille régulière, les
+                équipes se tiennent informées et formées sur les dernières
+                nouveautés Web.
+              </p>
+            </div>
+            <div>
+              <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                Une forte cohésion
+              </h2>
+              <p className="mt-4 text-gray">
+                Chez Efficience IT, la cohésion est essentielle pour servir au
+                mieux nos clients. Au-delà du code de conduite, nous suivons la
+                charte de diversité, et suivons une parité entre 40 et 60 %. En
+                mettant un point d&apos;honneur à être centré sur le
+                collaborateur, le bien-être au travail est une valeur importante
+                chez Efficience IT ! Pour animer le quotidien, l&apos;impitoyable
+                chocoblast fait des victimes, mais bon, c&apos;est pour la bonne
+                cause.
+              </p>
             </div>
           </div>
         </Container>
