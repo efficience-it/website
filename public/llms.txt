@@ -1,0 +1,48 @@
+# Efficience IT
+
+> Agence web et cloud basée à Lille, spécialisée en développement Symfony, DevOps et conseil IT. Nous accompagnons les PME et grandes entreprises dans leurs projets digitaux sur mesure.
+
+## Services
+
+- **Développement web sur mesure** : Applications métiers, intranets, progiciels et sites complexes avec Symfony et PHP.
+- **Cloud & DevOps** : Infrastructure cloud, CI/CD, automatisation, monitoring et déploiement continu.
+- **Accompagnement et conseil** : Gestion de projet agile, audit IT, transformation digitale, coaching et formation Symfony.
+
+## Expertises techniques
+
+- Symfony (développeurs certifiés)
+- PHP, JavaScript, TypeScript
+- API REST / SOAP
+- Docker, Kubernetes, CI/CD
+- AWS, GCP, infrastructure cloud
+- Méthodes agiles (Scrum, Kanban)
+
+## Engagements
+
+- **Green IT** : démarche RSE, éco-conception web, un arbre planté par journée de développement.
+- **Qualité** : membre de l'AFUP, veille technologique continue, conformité aux standards du secteur.
+- **Diversité** : signataire de la charte de diversité, parité entre 40 et 60 %.
+
+## Références
+
+Nous travaillons avec des entreprises de toutes tailles dans divers secteurs : retail, industrie, services, santé.
+
+## Contact
+
+- Site : https://www.itefficience.com
+- Email : contact@itefficience.com
+- Téléphone : +33 9 79 32 05 08
+- Adresse : 677 Avenue de la République, 59800 Lille, France
+- LinkedIn : https://www.linkedin.com/company/efficience-it
+- GitHub : https://github.com/efficience-it
+
+## Liens utiles
+
+- [Nos expertises](https://www.itefficience.com/notre-expertise)
+- [Développement web sur mesure](https://www.itefficience.com/developpement-web-sur-mesure)
+- [Cloud & DevOps](https://www.itefficience.com/cloud-et-devops)
+- [Accompagnement et conseil](https://www.itefficience.com/accompagnement-et-conseil)
+- [Green IT](https://www.itefficience.com/green-it)
+- [Nos références](https://www.itefficience.com/nos-references)
+- [Blog](https://www.itefficience.com/blog)
+- [Contact](https://www.itefficience.com/contact)
