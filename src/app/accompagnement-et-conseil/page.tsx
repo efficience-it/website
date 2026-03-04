@@ -1,7 +1,9 @@
 import Image from "next/image";
+import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
+import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import CallToAction from "@/components/sections/CallToAction";
 
@@ -13,46 +15,60 @@ export const metadata = pageMetadata({
 });
 
 const challenges = [
-  "Optimisation des processus internes",
-  "Sécurisation des données et conformité RGPD",
-  "Transition numérique et agilité",
-  "Performance des applications",
-  "Formation et montée en compétences",
-];
-
-const services = [
   {
-    title: "Gestion de projet agile",
+    title: "Optimisation des processus internes",
     description:
-      "Adaptabilité, communication et rapidité permettent de répondre aux exigences du marché avec un rythme de livraison régulier.",
+      "Vous souhaitez fluidifier votre gestion et améliorer l'efficacité de vos équipes ?",
   },
   {
-    title: "Conseil en transformation digitale",
+    title: "Sécurisation des données et conformité",
     description:
-      "Nous vous guidons dans votre transition numérique avec une stratégie basée sur l'efficacité et la performance.",
+      "Avec la montée des cybermenaces et des réglementations strictes (RGPD, normes ISO), assurer la sécurité de vos systèmes est une priorité.",
   },
   {
-    title: "Audits IT",
+    title: "Transition numérique et agilité",
     description:
-      "Audits de sécurité, audits globaux et audits de projet pour identifier les axes d'amélioration de vos outils.",
+      "Adopter les bonnes technologies pour digitaliser vos activités sans perturber votre organisation actuelle.",
   },
   {
-    title: "Formation Symfony et méthodes agiles",
+    title: "Performance des applications et infrastructures",
     description:
-      "Montée en compétences de vos équipes sur les technologies et méthodes que nous maîtrisons.",
+      "Garantir la fiabilité et la rapidité de vos outils pour une expérience utilisateur rapide.",
+  },
+  {
+    title: "Formation et montée en compétences",
+    description:
+      "Vos équipes doivent maîtriser les technologies et méthodologies actuelles pour rester compétitives.",
   },
 ];
 
 const advantages = [
-  "Approche orientée business",
-  "Expertise Symfony, JavaScript, cloud computing",
-  "Conformité aux meilleures pratiques",
-  "Accompagnement personnalisé",
+  {
+    title: "Approche orientée business",
+    description:
+      "Nous comprenons vos enjeux et adaptons nos solutions à vos besoins stratégiques.",
+  },
+  {
+    title: "Expertise technique de pointe",
+    description:
+      "Spécialistes Symfony, JS API et cloud computing.",
+  },
+  {
+    title: "Engagement sur la qualité et la sécurité",
+    description:
+      "Conformité aux meilleures pratiques et aux réglementations en vigueur.",
+  },
+  {
+    title: "Accompagnement humain et personnalisé",
+    description:
+      "De l'audit à la mise en œuvre, un interlocuteur dédié vous guide à chaque étape.",
+  },
 ];
 
 export default function AccompagnementEtConseil() {
   return (
     <main>
+      {/* Hero */}
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
           <div className="grid items-center gap-12 md:grid-cols-2">
@@ -61,10 +77,24 @@ export default function AccompagnementEtConseil() {
                 Accompagnement et Conseil
               </h1>
               <p className="mt-6 max-w-3xl text-lg text-gray">
-                Chaque projet mérite un accompagnement personnalisé. Notre expertise
-                couvre l&apos;agilité et la transformation numérique, proposant des
+                Chez Efficience IT, nous croyons fermement que chaque projet
+                mérite un accompagnement sur mesure. Notre expertise en agilité
+                et en transformation numérique nous permet de vous proposer des
                 solutions adaptées à vos besoins spécifiques.
               </p>
+              <p className="mt-4 max-w-3xl text-lg text-gray">
+                Nous adoptons une stratégie centrée sur l&apos;efficacité et la
+                performance, tout en intégrant les dernières technologies et
+                méthodes. Grâce à notre approche collaborative, nous élaborons
+                ensemble une roadmap claire qui répond à vos objectifs, que ce
+                soit à travers du coaching, des formations ou un soutien direct.
+              </p>
+              <p className="mt-6 text-lg font-semibold text-dark">
+                Envie d&apos;aller plus loin ?
+              </p>
+              <Button href="/contact" className="mt-4">
+                Contactez-nous
+              </Button>
             </div>
             <div className="flex justify-center">
               <Image
@@ -78,51 +108,158 @@ export default function AccompagnementEtConseil() {
         </Container>
       </section>
 
-      <section className="py-16">
+      {/* Gestion de projet agile */}
+      <section className="py-16 md:py-24">
         <Container>
-          <SectionTitle>Vos défis</SectionTitle>
-          <div className="mx-auto max-w-2xl">
-            <ul className="space-y-3">
-              {challenges.map((c) => (
-                <li key={c} className="flex items-center gap-3 text-gray">
-                  <span className="text-primary">&#10003;</span>
-                  {c}
-                </li>
-              ))}
-            </ul>
+          <div className="mx-auto max-w-3xl text-center">
+            <SectionTitle>
+              Une agence experte en gestion de projet agile
+            </SectionTitle>
+            <p className="mt-4 text-lg text-gray">
+              Cette méthode offre plusieurs avantages clés qui renforcent
+              l&apos;efficacité des équipes. Adaptabilité, communication et
+              rapidité sont les maîtres mots afin de répondre efficacement aux
+              nouvelles exigences du marché et permettre un rythme de livraison
+              régulier.
+            </p>
           </div>
         </Container>
       </section>
 
-      <section className="bg-light-gray py-16">
+      {/* Vos défis */}
+      <section className="bg-light-gray py-16 md:py-24">
         <Container>
-          <SectionTitle>Services proposés</SectionTitle>
-          <div className="grid gap-8 md:grid-cols-2">
-            {services.map((s) => (
-              <Card key={s.title}>
+          <SectionTitle>
+            Des solutions IT sur mesure pour accompagner votre croissance
+          </SectionTitle>
+          <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+            Dans un environnement en constante évolution, les entreprises font
+            face à de nombreux défis technologiques et organisationnels :
+          </p>
+          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {challenges.map((c) => (
+              <Card key={c.title}>
                 <h3 className="font-display text-lg font-bold text-dark">
-                  {s.title}
+                  {c.title}
                 </h3>
-                <p className="mt-3 text-gray">{s.description}</p>
+                <p className="mt-2 text-gray">{c.description}</p>
               </Card>
             ))}
           </div>
+          <p className="mx-auto mt-10 max-w-3xl text-center text-lg text-gray">
+            Chez Efficience IT, nous aidons les entreprises à surmonter ces
+            obstacles grâce à des solutions adaptées et évolutives.
+          </p>
         </Container>
       </section>
 
-      <section className="py-16">
+      {/* Services détaillés */}
+      <section className="py-16 md:py-24">
         <Container>
-          <SectionTitle>Nos avantages</SectionTitle>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <div className="space-y-16">
+            <div>
+              <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                Conseil et accompagnement en transformation digitale
+              </h2>
+              <p className="mt-4 text-lg text-gray">
+                Nous vous aidons à structurer votre transition numérique avec
+                une approche sur mesure. Grâce à notre expertise en agilité et
+                nouvelles technologies, nous identifions les leviers
+                d&apos;optimisation et définissons une roadmap claire. Que ce
+                soit pour améliorer votre efficacité interne, fluidifier vos
+                process ou innover avec de nouvelles solutions, nous sommes à
+                vos côtés à chaque étape.
+              </p>
+            </div>
+
+            <div>
+              <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                Audit IT : une vision claire pour une meilleure performance
+              </h2>
+              <p className="mt-4 text-lg text-gray">
+                Nos audits vous permettent d&apos;identifier les forces et
+                faiblesses de votre infrastructure numérique :
+              </p>
+              <ul className="mt-4 space-y-3">
+                <li className="flex items-start gap-3 text-gray">
+                  <span className="mt-1 text-primary">&#10003;</span>
+                  <span>
+                    <strong className="text-dark">Audit de sécurité</strong> :
+                    Analyse des vulnérabilités, conformité réglementaire et
+                    recommandations d&apos;amélioration.
+                  </span>
+                </li>
+                <li className="flex items-start gap-3 text-gray">
+                  <span className="mt-1 text-primary">&#10003;</span>
+                  <span>
+                    <strong className="text-dark">Audit global</strong> :
+                    Évaluation des performances techniques, de
+                    l&apos;architecture logicielle et de l&apos;organisation des
+                    flux de données.
+                  </span>
+                </li>
+                <li className="flex items-start gap-3 text-gray">
+                  <span className="mt-1 text-primary">&#10003;</span>
+                  <span>
+                    <strong className="text-dark">Audit projet</strong> :
+                    Optimisation de vos méthodes de travail et de votre gestion
+                    agile pour améliorer la rentabilité de vos projets.
+                  </span>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                Déploiement de solutions sur mesure
+              </h2>
+              <p className="mt-4 text-lg text-gray">
+                Nous concevons et intégrons des outils adaptés à vos besoins, en
+                garantissant un équilibre entre innovation, sécurité et
+                performance. Nos experts Symfony et stack JavaScript développent
+                des solutions robustes, évolutives et alignées avec les
+                standards de l&apos;industrie.
+              </p>
+            </div>
+
+            <div>
+              <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                Formation et montée en compétences de vos équipes
+              </h2>
+              <p className="mt-4 text-lg text-gray">
+                Votre entreprise doit évoluer avec les technologies ! Nos
+                formations sur Symfony et les méthodes agiles vous permettent de
+                renforcer l&apos;expertise de vos collaborateurs, en
+                s&apos;adaptant à tous les niveaux.
+              </p>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* Pourquoi choisir Efficience IT */}
+      <section className="bg-light-gray py-16 md:py-24">
+        <Container>
+          <SectionTitle>Pourquoi choisir Efficience IT ?</SectionTitle>
+          <div className="mt-8 grid gap-6 md:grid-cols-2">
             {advantages.map((a) => (
-              <div
-                key={a}
-                className="rounded-lg border border-border p-4 text-center font-medium text-dark"
-              >
-                {a}
-              </div>
+              <Card key={a.title}>
+                <h3 className="font-display text-lg font-bold text-dark">
+                  {a.title}
+                </h3>
+                <p className="mt-2 text-gray">{a.description}</p>
+              </Card>
             ))}
           </div>
+          <p className="mt-10 text-center text-lg text-gray">
+            <Link
+              href="/contact/"
+              className="font-semibold text-primary hover:underline"
+            >
+              Contactez-nous
+            </Link>{" "}
+            dès maintenant pour une consultation personnalisée.
+          </p>
         </Container>
       </section>
 
