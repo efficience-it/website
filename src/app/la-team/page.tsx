@@ -133,9 +133,17 @@ export default function LaTeam() {
                 outils projets répondant aux normes et standards du secteur.
               </p>
               <p className="mt-4 text-lg text-gray">
-                Membre de l&apos;AFUP, et grâce à une veille régulière, les
-                équipes se tiennent informées et formées sur les dernières
-                nouveautés Web.
+                Membre de l&apos;
+                <a
+                  href="https://afup.org/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-primary hover:underline"
+                >
+                  AFUP
+                </a>
+                , et grâce à une veille régulière, les équipes se tiennent
+                informées et formées sur les dernières nouveautés Web.
               </p>
               <Link
                 href="/notre-expertise/"
@@ -166,8 +174,14 @@ export default function LaTeam() {
               chez Efficience IT !
             </p>
             <p className="mt-4 text-lg text-gray">
-              Pour animer le quotidien, l&apos;impitoyable chocoblast fait des
-              victimes, mais bon, c&apos;est pour la bonne cause.
+              Pour animer le quotidien, l&apos;impitoyable{" "}
+              <Link
+                href="/blog/le-chocoblast-un-premier-pas-vers-la-securite-par-le-jeu/"
+                className="font-semibold text-primary hover:underline"
+              >
+                chocoblast
+              </Link>{" "}
+              fait des victimes, mais bon, c&apos;est pour la bonne cause.
             </p>
           </div>
         </Container>
