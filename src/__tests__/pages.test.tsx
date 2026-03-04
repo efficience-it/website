@@ -53,7 +53,7 @@ describe("Company pages", () => {
 
   it("renders Green IT", () => {
     render(<GreenIt />);
-    expect(screen.getByRole("heading", { name: /green it/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1, name: /green it/i })).toBeInTheDocument();
   });
 
   it("renders Nos références", () => {
