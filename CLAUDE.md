@@ -16,6 +16,7 @@ Clone/reproduction de https://www.itefficience.com en Next.js.
 - **PRs courtes** : une PR = un changement ciblé
 - **Pas de co-auteur** : ne pas ajouter `Co-Authored-By` dans les commits
 - **Push / PR** : autorisé sans demander confirmation
+- **Pas de `npm run build`** : ne pas lancer de build, ça coupe le serveur de dev
 
 ## Hors périmètre
 
