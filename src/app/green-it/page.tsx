@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -150,12 +151,12 @@ export default function GreenIt() {
             Retrouvez nos articles sur le numérique responsable,
             l&apos;éco-conception et la décarbonation sur notre blog.
           </p>
-          <a
-            href="/blog"
+          <Link
+            href="/blog/"
             className="mt-6 inline-block font-semibold text-primary hover:underline"
           >
             Voir les articles Green IT →
-          </a>
+          </Link>
         </Container>
       </section>
 
