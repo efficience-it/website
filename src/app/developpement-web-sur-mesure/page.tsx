@@ -1,7 +1,9 @@
 import Image from "next/image";
+import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
+import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import CallToAction from "@/components/sections/CallToAction";
 
@@ -13,49 +15,33 @@ export const metadata = pageMetadata({
   absoluteTitle: true,
 });
 
-const offerings = [
-  {
-    title: "Applications web sur mesure",
-    description:
-      "Nous concevons et développons des applications digitales adaptées à vos besoins : progiciel, CRM, ERP, CMS, sites complexes et dynamiques.",
-  },
-  {
-    title: "E-commerce avec Sylius",
-    description:
-      "Création de sites e-commerce performants : design responsive, paiements sécurisés et gestion optimisée pour transformer vos visiteurs en clients fidèles.",
-  },
-  {
-    title: "Marketplace",
-    description:
-      "Développement de plateformes multivendeurs robustes et évolutives, de la conception technique à la gestion complète.",
-  },
-  {
-    title: "CRM & ERP",
-    description:
-      "Centraliser vos données clients, automatiser les tâches répétitives. Solutions modulables pour gérer stocks, RH et ventes.",
-  },
-  {
-    title: "API REST & SOAP",
-    description:
-      "Faciliter l'échange de données entre vos différents systèmes. Interfaces robustes, sécurisées et bien documentées avec API Platform.",
-  },
-  {
-    title: "Migrations techniques",
-    description:
-      "Accompagnement dans les évolutions de version Symfony, migration de plateformes et transfert de données sécurisé sans interruption de service.",
-  },
-];
-
 const advantages = [
-  { title: "Approche sur mesure", description: "Chaque solution est adaptée à vos process et objectifs." },
-  { title: "Expertise reconnue", description: "Certifiés Symfony, nous maîtrisons les meilleures pratiques du web." },
-  { title: "Accompagnement global", description: "Du cadrage au déploiement, nous restons à vos côtés." },
-  { title: "Engagement qualité", description: "Sécurité, évolutivité et performances garanties." },
+  {
+    title: "Approche sur mesure",
+    description:
+      "Nous analysons vos besoins spécifiques pour proposer des solutions adaptées à vos objectifs.",
+  },
+  {
+    title: "Expertise reconnue",
+    description:
+      "Une maîtrise des technologies avancées (Symfony, Sylius, etc.) pour garantir des résultats performants.",
+  },
+  {
+    title: "Accompagnement global",
+    description:
+      "De la conception à la maintenance, nous sommes à vos côtés pour assurer la réussite de vos projets.",
+  },
+  {
+    title: "Engagement qualité",
+    description:
+      "Sécurité, évolutivité et performances sont au cœur de nos réalisations.",
+  },
 ];
 
 export default function DeveloppementWeb() {
   return (
     <main>
+      {/* Hero */}
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
           <div className="grid items-center gap-12 md:grid-cols-2">
@@ -64,9 +50,26 @@ export default function DeveloppementWeb() {
                 Développement web sur mesure
               </h1>
               <p className="mt-6 max-w-3xl text-lg text-gray">
-                Solutions IT sur mesure pour les PME et grandes entreprises. Vos
-                défis, nos solutions personnalisées.
+                Efficience IT vous accompagne dans votre développement web sur
+                mesure, en créant des sites internet personnalisés et des
+                solutions parfaitement adaptées à vos besoins uniques.
+                Spécialisés dans la conception de sites web selon votre besoin,
+                nous développons des sites e-commerce performants, notamment
+                avec des plateformes comme Sylius, ainsi que des applications
+                web intégrant vos outils essentiels tels que Progiciels, CRM,
+                ERP et CMS.
               </p>
+              <p className="mt-4 max-w-3xl text-lg text-gray">
+                Que vous ayez besoin de développement front-end ou back-end sur
+                mesure, notre expertise en technologies web avancées vous assure
+                des résultats à la hauteur de vos ambitions.
+              </p>
+              <p className="mt-6 text-lg font-semibold text-dark">
+                Vous avez un projet en tête ?
+              </p>
+              <Button href="/contact" className="mt-4">
+                Contactez-nous
+              </Button>
             </div>
             <div className="flex justify-center">
               <Image
@@ -80,32 +83,339 @@ export default function DeveloppementWeb() {
         </Container>
       </section>
 
-      <section className="py-16">
+      {/* Vos défis, nos solutions */}
+      <section className="py-16 md:py-24">
         <Container>
-          <SectionTitle>Nos expertises IT à votre service</SectionTitle>
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {offerings.map((item) => (
-              <Card key={item.title}>
-                <h3 className="font-display text-lg font-bold text-dark">
-                  {item.title}
-                </h3>
-                <p className="mt-3 text-sm text-gray">{item.description}</p>
-              </Card>
-            ))}
+          <SectionTitle>
+            Solutions IT sur mesure pour les PME et grandes entreprises
+          </SectionTitle>
+          <div className="mx-auto mt-4 max-w-3xl space-y-4 text-center text-lg text-gray">
+            <p>
+              Le monde numérique est en perpétuelle mutation, poussant les
+              entreprises à s&apos;adapter sans cesse pour ne pas être
+              distancées. Qu&apos;il s&apos;agisse d&apos;optimiser vos
+              processus métiers, de répondre aux attentes croissantes de vos
+              clients, ou encore de renforcer la sécurité de vos systèmes, la
+              transformation digitale est aujourd&apos;hui un levier
+              incontournable de croissance.
+            </p>
+            <p>
+              Chez Efficience IT, nous comprenons que chaque entreprise a des
+              besoins uniques. C&apos;est pourquoi nous concevons des solutions
+              IT sur mesure, adaptées à vos objectifs stratégiques, pour vous
+              permettre d&apos;atteindre vos ambitions tout en vous démarquant
+              dans votre secteur.
+            </p>
           </div>
         </Container>
       </section>
 
-      <section className="bg-light-gray py-16">
+      {/* Expertises détaillées */}
+      <section className="bg-light-gray py-16 md:py-24">
         <Container>
-          <SectionTitle>Pourquoi nous choisir ?</SectionTitle>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <SectionTitle>Nos expertises IT à votre service</SectionTitle>
+          <div className="mt-10 space-y-16">
+            {/* Applications web */}
+            <div>
+              <h3 className="font-display text-2xl font-bold text-dark">
+                Développement web sur mesure : créez une plateforme à la hauteur
+                de vos ambitions
+              </h3>
+              <p className="mt-2 text-sm font-semibold uppercase text-primary">
+                Vos besoins
+              </p>
+              <p className="mt-2 text-gray">
+                Vous cherchez à développer un site web ou une application qui
+                reflète votre identité et s&apos;intègre parfaitement à vos
+                outils existants (CRM, ERP, CMS, etc.)
+              </p>
+              <p className="mt-4 text-sm font-semibold uppercase text-primary">
+                Notre solution
+              </p>
+              <p className="mt-2 text-gray">
+                Nous concevons des plateformes personnalisées et évolutives,
+                qu&apos;il s&apos;agisse de sites vitrines, e-commerce (Sylius,
+                Symfony) ou d&apos;applications complexes, garantissant une
+                expérience utilisateur fluide et une sécurité optimale.
+              </p>
+            </div>
+
+            {/* E-commerce */}
+            <div>
+              <h3 className="font-display text-2xl font-bold text-dark">
+                Création de sites e-commerce : transformez vos visiteurs en
+                clients fidèles
+              </h3>
+              <p className="mt-2 text-sm font-semibold uppercase text-primary">
+                Vos défis
+              </p>
+              <p className="mt-2 text-gray">
+                Améliorer vos conversions, offrir une expérience client
+                irréprochable et gérer efficacement vos stocks, même lors de
+                pics de trafic.
+              </p>
+              <p className="mt-4 text-sm font-semibold uppercase text-primary">
+                Nos engagements
+              </p>
+              <p className="mt-2 text-gray">
+                Nous créons des sites e-commerce sur mesure, avec un design
+                responsive et des fonctionnalités avancées. Intégration des
+                paiements sécurisés, gestion simplifiée et accompagnement
+                stratégique garantissant un site performant et aligné sur vos
+                objectifs commerciaux.
+              </p>
+            </div>
+
+            {/* Marketplace */}
+            <div>
+              <h3 className="font-display text-2xl font-bold text-dark">
+                Développement de marketplace : multipliez vos opportunités
+              </h3>
+              <p className="mt-2 text-sm font-semibold uppercase text-primary">
+                Vos enjeux
+              </p>
+              <p className="mt-2 text-gray">
+                Proposer une plateforme unique qui fédère vendeurs tout en
+                offrant une expérience d&apos;achat intuitive.
+              </p>
+              <p className="mt-4 text-sm font-semibold uppercase text-primary">
+                Notre expertise
+              </p>
+              <p className="mt-2 text-gray">
+                De la conception technique à la gestion multivendeurs, nous
+                développons des marketplaces robustes et évolutives, adaptées à
+                votre secteur et à votre stratégie de croissance.
+              </p>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* CRM / ERP */}
+      <section className="py-16 md:py-24">
+        <Container>
+          <SectionTitle>
+            Automatisez et optimisez vos processus métiers
+          </SectionTitle>
+          <div className="mt-10 grid gap-8 md:grid-cols-2">
+            <Card>
+              <h3 className="font-display text-xl font-bold text-dark">
+                CRM sur mesure : réinventez votre gestion client
+              </h3>
+              <p className="mt-2 text-sm font-semibold uppercase text-primary">
+                Vos besoins
+              </p>
+              <p className="mt-2 text-gray">
+                Centraliser vos données clients, automatiser les tâches
+                répétitives et améliorer la relation client.
+              </p>
+              <p className="mt-4 text-sm font-semibold uppercase text-primary">
+                Notre solution
+              </p>
+              <p className="mt-2 text-gray">
+                Un CRM personnalisé, intégré à vos outils (site e-commerce,
+                ERP, marketing automation), pour un suivi efficace et une
+                meilleure productivité.
+              </p>
+            </Card>
+            <Card>
+              <h3 className="font-display text-xl font-bold text-dark">
+                ERP sur mesure : pilotez votre entreprise avec précision
+              </h3>
+              <p className="mt-2 text-sm font-semibold uppercase text-primary">
+                Vos défis
+              </p>
+              <p className="mt-2 text-gray">
+                Gérer vos processus internes (stocks, RH, ventes) de manière
+                fluide et sécurisée, tout en anticipant vos besoins futurs.
+              </p>
+              <p className="mt-4 text-sm font-semibold uppercase text-primary">
+                Nos atouts
+              </p>
+              <p className="mt-2 text-gray">
+                Nous développons des ERP modulables et entièrement
+                personnalisés, qui centralisent vos données et automatisent vos
+                workflows pour des performances optimisées.
+              </p>
+            </Card>
+          </div>
+        </Container>
+      </section>
+
+      {/* API & Migrations */}
+      <section className="bg-light-gray py-16 md:py-24">
+        <Container>
+          <SectionTitle>
+            Des solutions techniques innovantes et performantes
+          </SectionTitle>
+          <div className="mt-10 grid gap-8 md:grid-cols-2">
+            <div>
+              <h3 className="font-display text-xl font-bold text-dark">
+                Développement d&apos;API REST et SOAP
+              </h3>
+              <p className="mt-2 text-sm font-semibold uppercase text-primary">
+                Pourquoi c&apos;est crucial
+              </p>
+              <p className="mt-2 text-gray">
+                Garantir la communication entre systèmes pour une gestion en
+                temps réel et une interopérabilité renforcée.
+              </p>
+              <p className="mt-4 text-sm font-semibold uppercase text-primary">
+                Nos compétences
+              </p>
+              <p className="mt-2 text-gray">
+                Création d&apos;API sur mesure, adaptées à vos exigences
+                techniques et métiers pour fluidifier vos échanges de données.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-display text-xl font-bold text-dark">
+                Migration technique et modernisation
+              </h3>
+              <p className="mt-2 text-sm font-semibold uppercase text-primary">
+                Vos enjeux
+              </p>
+              <p className="mt-2 text-gray">
+                Maintenir vos systèmes à jour face aux évolutions technologies
+                et éviter les risques liés à une infrastructure obsolète.
+              </p>
+              <p className="mt-4 text-sm font-semibold uppercase text-primary">
+                Notre accompagnement
+              </p>
+              <p className="mt-2 text-gray">
+                Audit, planification et migration vers des solutions modernes
+                (Symfony, Cloud, etc.), avec une attention particulière à la
+                sécurité et aux performances.
+              </p>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* Symfony - Des Techs passionnés */}
+      <section className="py-16 md:py-24">
+        <Container>
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="text-sm font-semibold uppercase tracking-wider text-primary">
+              Symfony
+            </p>
+            <h2 className="mt-2 font-display text-3xl font-bold text-dark md:text-4xl">
+              Des Techs passionné(e)s
+            </h2>
+            <p className="mt-4 text-lg text-gray">
+              Chez Efficience IT, nous ne livrons pas simplement du code : nous
+              construisons des solutions utiles, avec vous et pour vous.
+            </p>
+            <p className="mt-4 text-lg text-gray">
+              Notre objectif est simple : vous faire gagner du temps, maîtriser
+              vos coûts et obtenir un outil fiable, pensé pour durer.
+            </p>
+            <p className="mt-4 text-lg text-gray">
+              Écoute, clarté, engagement : vous pouvez compter sur un
+              partenaire technique qui comprend vos enjeux et s&apos;investit à
+              vos côtés.
+            </p>
+            <div className="mt-6 flex justify-center gap-4">
+              <Button href="/notre-expertise" variant="outline">
+                Expertise
+              </Button>
+              <Button href="/contact">Contact</Button>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* Pourquoi choisir Efficience IT */}
+      <section className="bg-light-gray py-16 md:py-24">
+        <Container>
+          <SectionTitle>Pourquoi choisir Efficience IT ?</SectionTitle>
+          <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {advantages.map((adv) => (
-              <div key={adv.title} className="text-center">
-                <h3 className="font-display font-bold text-dark">{adv.title}</h3>
+              <Card key={adv.title}>
+                <h3 className="font-display font-bold text-dark">
+                  {adv.title}
+                </h3>
                 <p className="mt-2 text-sm text-gray">{adv.description}</p>
-              </div>
+              </Card>
             ))}
+          </div>
+          <div className="mt-10 text-center">
+            <p className="text-lg text-gray">
+              Vous souhaitez moderniser votre infrastructure, développer un site
+              web sur mesure ou optimiser vos processus métiers avec des outils
+              performants ?
+            </p>
+            <p className="mt-2 text-lg text-gray">
+              <Link
+                href="/contact/"
+                className="font-semibold text-primary hover:underline"
+              >
+                Contactez-nous dès aujourd&apos;hui
+              </Link>{" "}
+              pour discuter de vos projets et recevoir une solution
+              personnalisée.
+            </p>
+          </div>
+        </Container>
+      </section>
+
+      {/* Marketplace avantages */}
+      <section className="py-16 md:py-24">
+        <Container>
+          <SectionTitle>
+            Pourquoi choisir notre agence pour votre marketplace ?
+          </SectionTitle>
+          <div className="mt-8 grid gap-6 md:grid-cols-2">
+            <div className="flex items-start gap-3">
+              <span className="mt-1 text-primary">&#10003;</span>
+              <div>
+                <h3 className="font-display font-bold text-dark">
+                  Expertise technique
+                </h3>
+                <p className="mt-1 text-gray">
+                  Nos développeurs maîtrisent les technologies les plus avancées
+                  (PHP, Laravel, Node.js, etc.) pour créer des plateformes
+                  robustes et évolutives.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <span className="mt-1 text-primary">&#10003;</span>
+              <div>
+                <h3 className="font-display font-bold text-dark">
+                  Design centré sur l&apos;utilisateur
+                </h3>
+                <p className="mt-1 text-gray">
+                  Offrez une expérience fluide et intuitive.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <span className="mt-1 text-primary">&#10003;</span>
+              <div>
+                <h3 className="font-display font-bold text-dark">
+                  Solutions personnalisées
+                </h3>
+                <p className="mt-1 text-gray">
+                  Que vous ayez besoin d&apos;une marketplace multivendeurs,
+                  d&apos;un système de paiement intégré ou d&apos;une gestion
+                  logistique, nous adaptons nos solutions à vos besoins
+                  spécifiques.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <span className="mt-1 text-primary">&#10003;</span>
+              <div>
+                <h3 className="font-display font-bold text-dark">
+                  Support et maintenance
+                </h3>
+                <p className="mt-1 text-gray">
+                  Nous vous accompagnons à chaque étape, même après le
+                  lancement, pour garantir la pérennité de votre projet.
+                </p>
+              </div>
+            </div>
           </div>
         </Container>
       </section>
