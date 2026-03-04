@@ -26,7 +26,7 @@ describe("Home page", () => {
   it("renders the process steps", () => {
     render(<Home />);
     expect(
-      screen.getByRole("heading", { name: /notre processus/i }),
+      screen.getByRole("heading", { name: /notre fonctionnement/i }),
     ).toBeInTheDocument();
   });
 
