@@ -1,12 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { BlogPost } from "@/types/blog";
+import { JSX } from "react";
 
 interface BlogCardProps {
   post: BlogPost;
+  headingLevel?: number;
 }
 
-export default function BlogCard({ post }: BlogCardProps) {
+export default function BlogCard({ post, headingLevel = 3 }: BlogCardProps) {
+  const Tag = `h${headingLevel}` as keyof JSX.IntrinsicElements;
+
   return (
     <article className="overflow-hidden rounded-lg bg-white shadow-md transition-shadow hover:shadow-lg">
       {post.image && (
@@ -38,11 +42,11 @@ export default function BlogCard({ post }: BlogCardProps) {
           </>
         )}
       </div>
-      <h3 className="font-display text-lg font-bold text-dark">
+      <Tag className="font-display text-lg font-bold text-dark">
         <Link href={`/article/${post.slug}`} className="hover:text-primary">
           {post.title}
         </Link>
-      </h3>
+      </Tag>
       <p className="mt-2 text-sm text-gray">{post.excerpt}</p>
       <Link
         href={`/article/${post.slug}`}
