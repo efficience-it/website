@@ -36,6 +36,9 @@ export async function generateMetadata({
       type: "article",
       publishedTime: post.date,
       authors: [post.author],
+      images: [
+        { url: post.image ? `${BASE_URL}${post.image}` : `${BASE_URL}/images/logo/logo-og.png` }
+      ],
     },
   };
 }
