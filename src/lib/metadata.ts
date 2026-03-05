@@ -11,6 +11,7 @@ interface PageMetadataOptions {
 }
 
 export const BASE_URL = "https://www.itefficience.com";
+export const SITE_NAME = "Efficience IT";
 const DEFAULT_OG_IMAGE = `${BASE_URL}/images/logo/logo-og.png`;
 
 export function pageMetadata({
@@ -32,7 +33,7 @@ export function pageMetadata({
       title,
       description,
       url,
-      siteName: "Efficience IT",
+      siteName: SITE_NAME,
       locale: "fr_FR",
       type: "website",
       images: [{ url: ogImage }],
