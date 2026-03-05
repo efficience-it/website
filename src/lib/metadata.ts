@@ -33,6 +33,12 @@ export function pageMetadata({
       type: "website",
       images: [{ url: ogImage }],
     },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [{ url: ogImage }],
+    },
     alternates: {
       canonical: url,
     },
