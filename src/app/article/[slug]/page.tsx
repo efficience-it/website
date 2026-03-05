@@ -3,6 +3,7 @@ import { getAllPosts, getPostBySlug } from "@/lib/blog";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import MarkdownContent from "@/components/ui/MarkdownContent";
+import { pageMetadata } from "@/lib/metadata";
 import type { Metadata } from "next";
 
 interface ArticlePageProps {
@@ -21,12 +22,16 @@ export async function generateMetadata({
   const post = getPostBySlug(slug);
   if (!post) return { title: "Article introuvable" };
 
-  return {
+  const base = pageMetadata({
     title: post.title,
     description: post.excerpt,
+    path: `/article/${slug}`,
+  });
+
+  return {
+    ...base,
     openGraph: {
-      title: post.title,
-      description: post.excerpt,
+      ...base.openGraph,
       type: "article",
       publishedTime: post.date,
       authors: [post.author],

@@ -7,6 +7,16 @@ import CallToAction from "@/components/sections/CallToAction";
 import BlogPreview from "@/components/sections/BlogPreview";
 import Testimonials from "@/components/sections/Testimonials";
 
+import { pageMetadata } from "@/lib/metadata";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Efficience IT — Conseil & Solutions Informatiques",
+  description: "Votre partenaire IT pour optimiser vos systèmes...",
+  path: "/",
+  absoluteTitle: true,
+});
+
 export default function Home() {
   return (
     <main>
