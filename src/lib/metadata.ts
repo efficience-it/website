@@ -7,7 +7,8 @@ interface PageMetadataOptions {
   absoluteTitle?: boolean;
 }
 
-const BASE_URL = "https://www.itefficience.com";
+export const BASE_URL = "https://www.itefficience.com";
+export const SITE_NAME = "Efficience IT";
 
 export function pageMetadata({
   title,
@@ -24,7 +25,7 @@ export function pageMetadata({
       title,
       description,
       url,
-      siteName: "Efficience IT",
+      siteName: SITE_NAME,
       locale: "fr_FR",
       type: "website",
     },
