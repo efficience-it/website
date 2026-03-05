@@ -54,7 +54,7 @@ export const categorySlugMap: Record<string, string> = {
   Agence: "lagence",
   Formation: "formation",
   "Green IT": "green-it",
-  Outils: "outils-utiles",
+  Outils: "outils",
   Projet: "projet",
 };
 
