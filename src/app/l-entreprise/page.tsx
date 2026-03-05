@@ -69,9 +69,14 @@ export default function LEntreprise() {
               <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
                 Notre histoire
               </h1>
+              <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                Expert en Symfony et en développement sur mesure
+              </h2>
               <p className="mt-6 max-w-3xl text-lg text-gray">
-                Depuis 2018, Efficience IT accompagne les entreprises dans leur
-                transformation digitale avec passion et expertise.
+                Efficience IT est une agence Web spécialisée dans le conseil et le développement avec un ADN 100% Symfony créée pour répondre aux besoins digitaux des entreprises. Elle accompagne ses clients dans la création et reprise de projets web, en mettant à disposition des experts techniques Symfony, sur des prestations sur-mesure.
+              </p>
+              <p className="mt-6 max-w-3xl text-lg text-gray">
+                Symfony nous permet de construire des applications robustes, évolutives, personnalisables et sécurisées, dans un délai et un budget maitrisé.
               </p>
             </div>
             <div className="flex justify-center">
