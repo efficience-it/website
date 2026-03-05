@@ -15,9 +15,9 @@ export default function CallToAction() {
         </p>
         <Button
           href="/contact"
-          variant="outline"
+          variant="outline-white"
           size="lg"
-          className="mt-8 border-white text-white hover:bg-white hover:text-primary"
+          className="mt-8"
         >
           Contactez-nous
         </Button>
