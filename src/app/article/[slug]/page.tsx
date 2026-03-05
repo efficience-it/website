@@ -4,6 +4,7 @@ import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import MarkdownContent from "@/components/ui/MarkdownContent";
 import type { Metadata } from "next";
+import { BASE_URL } from "@/lib/metadata";
 
 interface ArticlePageProps {
   params: Promise<{ slug: string }>;
@@ -30,6 +31,9 @@ export async function generateMetadata({
       type: "article",
       publishedTime: post.date,
       authors: [post.author],
+      images: [
+        { url: post.image ? `${BASE_URL}${post.image}` : `${BASE_URL}/images/logo/logo-og.png` }
+      ],
     },
   };
 }
