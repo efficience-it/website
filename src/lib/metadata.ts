@@ -6,6 +6,8 @@ interface PageMetadataOptions {
   path?: string;
   absoluteTitle?: boolean;
   image?: string;
+  publishedTime?: string;
+  authors?: string[];
 }
 
 export const BASE_URL = "https://www.itefficience.com";
@@ -17,6 +19,8 @@ export function pageMetadata({
   path = "",
   absoluteTitle = false,
   image,
+  publishedTime,
+  authors,
 }: PageMetadataOptions): Metadata {
   const url = `${BASE_URL}${path}`;
   const ogImage = image ?? DEFAULT_OG_IMAGE;
@@ -32,6 +36,8 @@ export function pageMetadata({
       locale: "fr_FR",
       type: "website",
       images: [{ url: ogImage }],
+      ...(publishedTime && { publishedTime }),
+      ...(authors && { authors }),
     },
     twitter: {
       card: "summary_large_image",
