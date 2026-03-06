@@ -50,8 +50,7 @@ const advantages = [
   },
   {
     title: "Expertise technique de pointe",
-    description:
-      "Spécialistes Symfony, JS API et cloud computing.",
+    description: "Spécialistes Symfony, JS API et cloud computing.",
   },
   {
     title: "Engagement sur la qualité et la sécurité",
@@ -78,16 +77,20 @@ export default function AccompagnementEtConseil() {
               </h1>
               <p className="mt-6 max-w-3xl text-lg text-gray">
                 Chez Efficience IT, nous croyons fermement que chaque projet
-                mérite un accompagnement sur mesure. Notre expertise en agilité
-                et en transformation numérique nous permet de vous proposer des
-                solutions adaptées à vos besoins spécifiques.
+                mérite un accompagnement sur mesure. Notre{" "}
+                <strong>expertise</strong> en <strong>agilité</strong> et en{" "}
+                <strong>transformation</strong> numérique nous permet de vous
+                proposer des <strong>solutions</strong> adaptées à vos{" "}
+                <strong>besoins</strong> spécifiques.
               </p>
               <p className="mt-4 max-w-3xl text-lg text-gray">
-                Nous adoptons une stratégie centrée sur l&apos;efficacité et la
-                performance, tout en intégrant les dernières technologies et
+                Nous adoptons une <strong>stratégie</strong> centrée sur l&apos;
+                <strong>efficacité</strong> et la <strong>performance</strong>,
+                tout en intégrant les dernières <strong>technologies</strong> et
                 méthodes. Grâce à notre approche collaborative, nous élaborons
-                ensemble une roadmap claire qui répond à vos objectifs, que ce
-                soit à travers du coaching, des formations ou un soutien direct.
+                ensemble une <strong>roadmap</strong> claire qui répond à vos
+                objectifs, que ce soit à travers du <strong>coaching</strong>,
+                des formations ou un soutien direct.
               </p>
               <p className="mt-6 text-lg font-semibold text-dark">
                 Envie d&apos;aller plus loin ?
@@ -136,7 +139,7 @@ export default function AccompagnementEtConseil() {
             Dans un environnement en constante évolution, les entreprises font
             face à de nombreux défis technologiques et organisationnels :
           </p>
-          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-6 [&>*]:lg:col-span-2 lg:[&>*:nth-child(4)]:col-start-2 lg:[&>*:nth-child(5)]:col-start-4">
             {challenges.map((c) => (
               <Card key={c.title}>
                 <h3 className="font-display text-lg font-bold text-dark">
@@ -251,15 +254,6 @@ export default function AccompagnementEtConseil() {
               </Card>
             ))}
           </div>
-          <p className="mt-10 text-center text-lg text-gray">
-            <Link
-              href="/contact/"
-              className="font-semibold text-primary hover:underline"
-            >
-              Contactez-nous
-            </Link>{" "}
-            dès maintenant pour une consultation personnalisée.
-          </p>
         </Container>
       </section>
 

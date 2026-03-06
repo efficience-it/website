@@ -72,17 +72,17 @@ export const symfonyAdvantages = [
   {
     title: "Évolutivité dans le temps",
     description:
-      "Vos besoins évoluent ? Symfony est conçu pour faire grandir vos projets, faciliter la maintenance et intégrer de nouvelles fonctionnalités sans tout refaire.",
+      "Vos besoins évoluent ? Symfony est conçu pour <strong>faire grandir vos projets</strong>, faciliter la maintenance et intégrer de nouvelles fonctionnalités sans tout refaire.",
   },
   {
     title: "Optimisation des performances",
     description:
-      "Grâce à son architecture modulaire et optimisée, Symfony permet de créer des applications performantes et réactives, même sur des projets complexes.",
+      "Grâce à son architecture modulaire et optimisée, Symfony permet de <strong>créer des applications performantes et réactives</strong>, même sur des projets complexes.",
   },
   {
     title: "Un écosystème riche et durable",
     description:
-      "Bénéficiez d'une communauté active, d'outils fiables et d'un support long terme, pour des projets durables et sécurisés.",
+      "Bénéficiez d'une <strong>communauté active, d'outils fiables et d'un support long terme</strong>, pour des projets durables et sécurisés.",
   },
 ];
 
@@ -110,11 +110,11 @@ export const methodology = [
   {
     title: "Audit de Code",
     description:
-      "Bonnes pratiques, standards de qualité, de développement, et de sécurité. Vérifiez-le lors d'un audit.",
+      "Bonnes pratiques, <strong>standards de qualité</strong>, de développement, et de sécurité. Vérifiez-le lors d'un audit.",
   },
   {
     title: "Conseil Digital",
     description:
-      "Coaching technique ou managérial, formation, certification Twig & Symfony, organisation des équipes.",
+      "<strong>Coaching technique ou managérial</strong>, formation, <strong>certification</strong> Twig & Symfony, organisation des équipes.",
   },
 ];

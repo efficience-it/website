@@ -10,6 +10,7 @@ import {
   symfonyAdvantages,
   methodology,
 } from "@/../data/expertise";
+import CallToAction from "@/components/sections/CallToAction";
 
 export const metadata = pageMetadata({
   title: "Expertise Symfony de référence",
@@ -32,11 +33,17 @@ export default function NotreExpertise() {
                 Nos expertises
               </h1>
               <p className="mt-6 max-w-3xl text-lg text-gray">
-                Des passionnés à vos côtés, exigeants, curieux et toujours à jour.
-                Nous vous accompagnons avec rigueur, en restant à l&apos;écoute des
-                évolutions technologiques pour vous proposer les solutions les plus
-                adaptées.
+                Des passionnés à vos côtés, exigeants, curieux et toujours à
+                jour. Nous vous accompagnons avec rigueur, en restant à
+                l&apos;écoute des évolutions technologiques pour vous proposer
+                les solutions les plus adaptées.
               </p>
+              <p className="mt-6 text-lg font-semibold text-dark">
+                Un projet à construire ensemble ?
+              </p>
+              <Button href="/contact" className="mt-4">
+                Contactez-nous
+              </Button>
             </div>
             <div className="flex justify-center">
               <Image
@@ -51,7 +58,7 @@ export default function NotreExpertise() {
         </Container>
       </section>
 
-      <section className="py-16">
+      <section className="py-16 md:py-24">
         <Container>
           <SectionTitle>Technologies maîtrisées</SectionTitle>
           <div className="flex flex-wrap justify-center gap-3">
@@ -67,7 +74,7 @@ export default function NotreExpertise() {
         </Container>
       </section>
 
-      <section className="bg-light-gray py-16">
+      <section className="bg-light-gray py-16 md:py-24">
         <Container>
           <SectionTitle>Nos services</SectionTitle>
           <div className="grid gap-8 md:grid-cols-3">
@@ -79,8 +86,11 @@ export default function NotreExpertise() {
                 <p className="mt-3 text-gray">{service.description}</p>
                 <ul className="mt-4 space-y-2">
                   {service.items.map((item) => (
-                    <li key={item} className="flex items-start gap-2 text-sm text-gray">
-                      <span className="mt-1 text-primary">&#9679;</span>
+                    <li
+                      key={item}
+                      className="flex items-center gap-2 text-sm text-gray"
+                    >
+                      <span className="shrink-0 text-primary">&#9679;</span>
                       {item}
                     </li>
                   ))}
@@ -99,25 +109,28 @@ export default function NotreExpertise() {
         </Container>
       </section>
 
-      <section className="py-16">
+      <section className="py-16 md:py-24">
         <Container>
-          <SectionTitle subtitle="Ce framework est notre cœur de métier">
+          <SectionTitle subtitle="Ce framework est notre cœur de métier. Choisir Symfony, c'est faire le pari de la performance, de la flexibilité et de la pérennité pour vos outils digitaux. Voici pourquoi nous le préconisons :">
             Pourquoi Symfony ?
           </SectionTitle>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-6 [&>*]:lg:col-span-2 lg:[&>*:nth-child(4)]:col-start-2 lg:[&>*:nth-child(5)]:col-start-4">
             {symfonyAdvantages.map((adv) => (
-              <div key={adv.title} className="rounded-lg border border-border p-6">
-                <h3 className="font-display font-bold text-dark">
+              <Card key={adv.title}>
+                <h3 className="font-display text-lg font-bold text-dark">
                   {adv.title}
                 </h3>
-                <p className="mt-2 text-sm text-gray">{adv.description}</p>
-              </div>
+                <p
+                  className="mt-2 text-gray"
+                  dangerouslySetInnerHTML={{ __html: adv.description }}
+                />
+              </Card>
             ))}
           </div>
         </Container>
       </section>
 
-      <section className="bg-light-gray py-16">
+      <section className="bg-light-gray py-16 md:py-24">
         <Container>
           <SectionTitle>Comment nous travaillons</SectionTitle>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -130,13 +143,17 @@ export default function NotreExpertise() {
                   <h3 className="font-display font-bold text-dark">
                     {step.title}
                   </h3>
-                  <p className="mt-1 text-sm text-gray">{step.description}</p>
+                  <p
+                    className="mt-1 text-sm text-gray"
+                    dangerouslySetInnerHTML={{ __html: step.description }}
+                  />
                 </div>
               </div>
             ))}
           </div>
         </Container>
       </section>
+      <CallToAction />
     </main>
   );
 }
