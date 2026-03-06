@@ -17,7 +17,7 @@ export default function SectionTitle({
         {children}
       </h2>
       {subtitle && (
-        <p className="mt-4 text-lg text-gray">{subtitle}</p>
+        <p className="mt-4 text-lg text-gray max-w-4xl mx-auto">{subtitle}</p>
       )}
     </div>
   );

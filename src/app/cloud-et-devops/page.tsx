@@ -1,9 +1,9 @@
 import Image from "next/image";
-import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
 import Button from "@/components/ui/Button";
+import Card from "@/components/ui/Card";
 import CallToAction from "@/components/sections/CallToAction";
 
 export const metadata = pageMetadata({
@@ -106,7 +106,7 @@ export default function CloudEtDevops() {
             parfaitement adaptée à vos besoins.
           </p>
           <div className="mt-10 grid gap-6 md:grid-cols-2">
-            <div className="rounded-lg bg-light-gray p-6">
+            <Card>
               <h3 className="font-display text-lg font-bold text-dark">
                 Flexibilité et scalabilité à la demande
               </h3>
@@ -115,8 +115,8 @@ export default function CloudEtDevops() {
                 la croissance de votre entreprise ou les pics de trafic, pour
                 garantir une performance constante.
               </p>
-            </div>
-            <div className="rounded-lg bg-light-gray p-6">
+            </Card>
+            <Card>
               <h3 className="font-display text-lg font-bold text-dark">
                 Performance optimale et sécurité renforcée
               </h3>
@@ -126,8 +126,8 @@ export default function CloudEtDevops() {
                 protégées grâce au chiffrement, à des pare-feu avancés et à des
                 sauvegardes automatiques.
               </p>
-            </div>
-            <div className="rounded-lg bg-light-gray p-6">
+            </Card>
+            <Card>
               <h3 className="font-display text-lg font-bold text-dark">
                 Simplicité de gestion et accessibilité
               </h3>
@@ -137,8 +137,8 @@ export default function CloudEtDevops() {
                 interface intuitive, idéale pour le travail collaboratif et à
                 distance.
               </p>
-            </div>
-            <div className="rounded-lg bg-light-gray p-6">
+            </Card>
+            <Card>
               <h3 className="font-display text-lg font-bold text-dark">
                 Support technique et intégration facile
               </h3>
@@ -147,7 +147,7 @@ export default function CloudEtDevops() {
                 techniques rapidement, vous permettant de rester concentré sur
                 votre activité principale.
               </p>
-            </div>
+            </Card>
           </div>
         </Container>
       </section>
@@ -164,17 +164,17 @@ export default function CloudEtDevops() {
             DevOps.
           </p>
           <div className="mt-10 grid gap-6 md:grid-cols-2">
-            <div className="rounded-lg bg-white p-6 shadow-sm">
+            <Card>
               <h3 className="font-display text-lg font-bold text-dark">
                 Accélération des cycles de développement
               </h3>
               <p className="mt-2 text-gray">
-                Grâce aux outils CI/CD (GitLab, Bitbucket, CircleCI, etc.), vos
+                Grâce aux outils <strong>CI/CD</strong> (GitLab, Bitbucket, CircleCI, etc.), vos
                 projets passent de l&apos;idée à la production plus rapidement,
                 améliorant ainsi votre réactivité face aux besoins du marché.
               </p>
-            </div>
-            <div className="rounded-lg bg-white p-6 shadow-sm">
+            </Card>
+            <Card>
               <h3 className="font-display text-lg font-bold text-dark">
                 Test et qualité applicative
               </h3>
@@ -183,8 +183,8 @@ export default function CloudEtDevops() {
                 unitaires, fonctionnels et de sécurité réguliers pour des
                 déploiements sans risques.
               </p>
-            </div>
-            <div className="rounded-lg bg-white p-6 shadow-sm">
+            </Card>
+            <Card>
               <h3 className="font-display text-lg font-bold text-dark">
                 Optimisation des ressources
               </h3>
@@ -192,8 +192,8 @@ export default function CloudEtDevops() {
                 Libérez vos équipes des tâches répétitives pour leur permettre
                 de se concentrer sur des missions à forte valeur ajoutée.
               </p>
-            </div>
-            <div className="rounded-lg bg-white p-6 shadow-sm">
+            </Card>
+            <Card>
               <h3 className="font-display text-lg font-bold text-dark">
                 Visibilité et traçabilité
               </h3>
@@ -202,7 +202,7 @@ export default function CloudEtDevops() {
                 monitoring et de reporting performants, garantissant une
                 transparence totale.
               </p>
-            </div>
+            </Card>
           </div>
         </Container>
       </section>
@@ -236,14 +236,14 @@ export default function CloudEtDevops() {
       </section>
 
       {/* Plateformes */}
-      <section className="bg-light-gray py-16">
+      <section className="bg-light-gray py-16 md:py-24">
         <Container>
           <SectionTitle>Plateformes supportées</SectionTitle>
-          <div className="flex flex-wrap items-center justify-center gap-8">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-6">
             {platforms.map((p) => (
               <div
                 key={p.name}
-                className="flex flex-col items-center gap-2 rounded-lg bg-white p-4 shadow-sm"
+                className="flex w-36 flex-col items-center gap-3 rounded-lg bg-white p-5 shadow-md transition-shadow duration-200 hover:shadow-lg"
               >
                 <Image
                   src={p.logo}
@@ -261,40 +261,47 @@ export default function CloudEtDevops() {
         </Container>
       </section>
 
-      {/* Pourquoi nous choisir */}
-      <section className="py-16">
+      {/* Pourquoi choisir Efficience IT */}
+      <section className="py-16 md:py-24">
         <Container>
-          <div className="mx-auto max-w-3xl text-center">
-            <ul className="space-y-3 text-lg text-gray">
-              <li>
-                Une{" "}
-                <strong className="text-dark">expertise reconnue</strong> en
-                solutions IT sur mesure
-              </li>
-              <li>
-                Une{" "}
-                <strong className="text-dark">approche client</strong> centrée
-                sur vos besoins spécifiques
-              </li>
-              <li>
-                Des{" "}
-                <strong className="text-dark">
-                  technologies modernes et performantes
-                </strong>{" "}
-                pour booster votre compétitivité
-              </li>
-            </ul>
-            <p className="mt-8 text-lg text-gray">
-              <Link
-                href="/contact/"
-                className="font-semibold text-primary hover:underline"
-              >
-                Contactez-nous dès aujourd&apos;hui
-              </Link>{" "}
-              pour discuter de vos besoins spécifiques et découvrir comment
-              notre expertise peut vous aider à atteindre vos objectifs
-              d&apos;agilité et de performance.
+          <SectionTitle>Pourquoi choisir Efficience IT ?</SectionTitle>
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            <Card>
+              <h3 className="font-display text-lg font-bold text-dark">
+                Expertise reconnue
+              </h3>
+              <p className="mt-2 text-gray">
+                Une expertise éprouvée en solutions IT sur mesure pour répondre
+                aux enjeux spécifiques de votre secteur.
+              </p>
+            </Card>
+            <Card>
+              <h3 className="font-display text-lg font-bold text-dark">
+                Approche client
+              </h3>
+              <p className="mt-2 text-gray">
+                Une démarche centrée sur vos besoins pour des solutions
+                parfaitement adaptées à votre contexte et à vos objectifs.
+              </p>
+            </Card>
+            <Card>
+              <h3 className="font-display text-lg font-bold text-dark">
+                Technologies modernes
+              </h3>
+              <p className="mt-2 text-gray">
+                Des technologies performantes et éprouvées pour booster votre
+                compétitivité et accompagner votre croissance durablement.
+              </p>
+            </Card>
+          </div>
+          <div className="mt-10 text-center">
+            <p className="mx-auto max-w-3xl text-lg text-gray">
+              Vous souhaitez moderniser votre infrastructure ou déployer une
+              solution Cloud adaptée à vos besoins ?
             </p>
+            <Button href="/contact" className="mt-6">
+              Contactez-nous dès aujourd&apos;hui
+            </Button>
           </div>
         </Container>
       </section>
