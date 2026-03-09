@@ -7,35 +7,33 @@ excerpt: "Le framework Symfony est en constante évolution comme de nombreux asp
 image: "/images/blog/migration-symfony.webp"
 ---
 
-Le framework Symfony est en constante évolution comme de nombreux aspects du développement web. Efficience IT surveille de près ces changements et propose des services de migration. Ce guide complet présente le processus étape par étape que suivent les développeurs.
+## Migration Symfony : guide pour mettre à jour un projet sereinement
 
-La migration peut sembler anxiogène, mais la conception de Symfony privilégie la rétrocompatibilité, facilitant les transitions entre versions.
+Le framework Symfony est en constante évolution comme de nombreux aspects du développement web. Efficience IT surveille de près ces changements et propose des services de migration. Ce guide complet présente les étapes à suivre pour mettre à jour votre projet Symfony sereinement.
 
-## Calendrier des versions
-
-Symfony a dépassé la version 6.3. Le framework publie régulièrement des calendriers de versions pour suivre les prochaines sorties.
+Le terme « migration » peut sembler anxiogène, mais Symfony est conçu avec la rétrocompatibilité comme priorité, facilitant les transitions entre versions.
 
 ## Conseils pour une migration réussie
 
 ### 1. Lire la documentation
 
-Avant chaque mise à jour, des articles sont postés régulièrement sur le blog Symfony pour informer les utilisateurs des nouvelles fonctionnalités et des changements importants. Une préparation en amont permet de supprimer plus rapidement les éléments dépréciés.
+Avant chaque mise à jour, consultez les articles publiés régulièrement sur le blog Symfony. Ils informent les utilisateurs des nouvelles fonctionnalités et des changements importants. Cette préparation en amont permet d'anticiper les impacts et de supprimer plus rapidement les éléments dépréciés avant même de lancer la migration.
 
 ### 2. Tester votre code existant
 
-Tester le code actuel permet de s'assurer du bon fonctionnement avant la migration. Les outils incluent :
+Tester le code actuel est une étape fondamentale pour s'assurer du bon fonctionnement de l'application avant la migration. Plusieurs outils sont à votre disposition :
 
-- **PhpUnit** : permet les tests unitaires pour vérifier que les unités de code individuelles se comportent comme prévu
-- **Behat** : fournit des capacités de tests fonctionnels complétant PhpUnit
-- **Tests manuels** : les développeurs vérifient directement les performances de l'application
+- **PhpUnit** : permet d'écrire des tests unitaires garantissant que chaque unité de code se comporte comme prévu de manière isolée
+- **Behat** : complète PhpUnit en fournissant des capacités de tests fonctionnels, vérifiant le comportement de l'application dans son ensemble
+- **Tests manuels** : les développeurs vérifient directement le comportement de l'application en parcourant les scénarios critiques
 
 ### 3. Identifier les changements de code nécessaires
 
-Comparer les notes de version pour identifier les modifications nécessaires dans les classes, services, configurations ou templates.
+Comparez les notes de version de Symfony pour identifier les modifications requises. Ces changements peuvent affecter les classes, les services, les configurations ou les templates. Listez-les et priorisez-les pour organiser votre travail de migration.
 
 ### 4. Mettre à jour les dépendances Symfony
 
-Les dépendances nécessitent une harmonie entre les éléments du système. Exécutez :
+Cette étape est essentielle : les dépendances nécessitent une harmonie entre tous les éléments du système. Un simple `composer update` permet de mettre à jour les relations de dépendances, mais vérifiez bien que toutes les contraintes de version sont satisfaites.
 
 ```bash
 composer update
@@ -43,43 +41,47 @@ composer update
 
 ### 5. Vérifier les dépendances tierces, bundles et packages
 
-S'assurer que les outils tiers restent compatibles avec votre version cible de Symfony. Vérifier la documentation pour les modifications nécessaires.
+Assurez-vous que vos dépendances tierces restent compatibles avec la version cible de Symfony. Vérifiez la documentation de chaque bundle pour identifier les modifications nécessaires. Si certaines dépendances sont abandonnées par leurs mainteneurs, il faudra trouver des alternatives avant de poursuivre la migration.
 
 ### 6. Utiliser les outils de migration
 
-- **PHPStan** : analyseur statique détectant les erreurs PHP potentielles par inférence de type sans exécuter le code
-- **Rector** : outil de transformation de code automatisé avec des règles prédéfinies permettant des modifications sûres et cohérentes
+Deux outils principaux facilitent les mises à niveau :
+
+- **PHPStan** : analyseur statique qui détecte les erreurs PHP potentielles par inférence de type, sans exécuter le code. Il identifie les incompatibilités et les usages dépréciés avant même de lancer l'application.
+- **Rector** : outil de transformation de code automatisé. Grâce à des règles prédéfinies, il modifie votre code de manière sûre et cohérente, travaillant en complément de PHPStan pour automatiser les changements répétitifs.
 
 ### 7. Procéder de manière incrémentale
 
-Pour les projets très anciens, des mises à jour incrémentales entre les versions sont possibles mais chronophages. Alternativement, la mise à jour vers votre version cible puis l'adaptation du code peut être plus pratique.
+Pour les projets très anciens, des mises à jour incrémentales entre les versions sont possibles mais chronophages. Les développeurs recommandent généralement de mettre à jour directement vers la version souhaitée. L'idéal reste de réaliser les mises à jour au fur et à mesure de leur sortie pour éviter l'accumulation de dette technique.
 
-Pour des migrations de legacy significatives, recréer le projet dans la dernière version de Symfony puis adapter le code existant s'avère efficace. Pour un saut d'une seule version majeure (5.4 vers 6.x), la revue de la documentation des différences entre versions nécessite un minimum de changements de code.
+**Note importante pour les développeurs :** pour des écarts de versions majeures très importants, recréer entièrement le projet dans la version actuelle de Symfony peut s'avérer plus efficace que d'adapter du code legacy. Pour un saut d'une seule version majeure (par exemple 5.4 vers 6.x), la revue de la documentation des différences entre versions nécessite généralement un minimum de changements de code.
 
 ### 8. Effectuer des tests approfondis
 
-Étape finale essentielle : effectuer des tests unitaires, fonctionnels et d'intégration pour s'assurer que toutes les fonctionnalités de l'application fonctionnent correctement.
+Étape finale indispensable : effectuer des tests unitaires, fonctionnels et d'intégration pour s'assurer que toutes les fonctionnalités de l'application fonctionnent correctement après la migration. Ne négligez aucun scénario critique.
 
 ### 9. Surveiller les performances
 
-Les équipes opérationnelles vérifient le comportement de l'application en production. Les mises à jour peuvent impacter les performances.
+Les équipes opérationnelles doivent vérifier le comportement de l'application en production après la mise à jour. Les changements de version peuvent impacter les performances de manière inattendue, et un monitoring attentif permet de détecter rapidement les régressions.
 
-## Avantages de la migration
+## Les avantages de la migration
 
-Symfony publie trois types de versions :
+Symfony publie trois types de versions, chacun avec ses objectifs :
 
 ### Version corrective
 
-Publiée pour corriger des bugs, des problèmes de sécurité ou des erreurs antérieures. Aucune nouvelle fonctionnalité n'est introduite. Exemple : 5.0 vers 5.0.2.
+Publiée pour corriger des bugs, des problèmes de sécurité ou des erreurs antérieures. Aucune nouvelle fonctionnalité n'est introduite. Exemple : passage de la version 5.0 à 5.0.2. Ces mises à jour sont les plus simples et ne nécessitent généralement aucune modification de code.
 
 ### Mise à jour mineure
 
-Introduit des fonctionnalités mineures, des améliorations et des corrections de bugs tout en maintenant la compatibilité avec les versions précédentes de la même branche majeure. Publiée deux fois par an (mai et novembre). Dernière en date : Symfony 6.3.
+Introduit des fonctionnalités mineures, des améliorations et des corrections de bugs tout en maintenant la compatibilité avec les versions précédentes de la même branche majeure. Ces mises à jour sont publiées deux fois par an, en mai et en novembre. Elles nécessitent un minimum de modifications de code grâce à la politique de rétrocompatibilité de Symfony.
 
 ### Mise à jour majeure
 
-Publiée environ tous les deux ans, introduisant des changements significatifs, de nouvelles fonctionnalités, des améliorations importantes et la suppression des éléments dépréciés. La documentation devient disponible des mois à l'avance.
+Publiée environ tous les deux ans, une mise à jour majeure introduit des changements significatifs : nouvelles fonctionnalités, améliorations importantes et suppression des éléments dépréciés dans les versions précédentes. La documentation devient disponible des mois à l'avance, permettant aux développeurs de se préparer.
 
 ## Conclusion
 
-Chaque type de version maintient le projet à jour au fil du temps. Les migrations éliminent les dépréciations et implémentent les innovations, assurant la maintenance à long terme du projet. Efficience IT accompagne les organisations tout au long de ce processus.
+Chaque type de version contribue à maintenir votre projet sain et à jour au fil du temps. Les migrations éliminent les dépréciations accumulées et implémentent les innovations du framework, assurant la viabilité à long terme de votre projet.
+
+Efficience IT accompagne les organisations tout au long de ce processus. Contactez-nous pour en savoir plus.
