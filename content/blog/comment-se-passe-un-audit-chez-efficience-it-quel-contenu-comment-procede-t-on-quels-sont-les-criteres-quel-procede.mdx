@@ -7,112 +7,97 @@ excerpt: "L'audit constitue un processus vital pour évaluer la qualité, la sé
 image: "/images/blog/audit-efficience-it.webp"
 ---
 
-**L'audit** constitue un processus vital pour évaluer la qualité, la sécurité et les performances d'un site web. Cette évaluation aide à identifier les problèmes potentiels avant qu'ils ne s'aggravent et garantit un fonctionnement optimal pour les utilisateurs.
+Un audit technique ne se résume pas à lancer quelques outils et cocher des cases. C'est un processus structuré qui interroge chaque couche d'une application, du code source jusqu'aux décisions architecturales, pour produire un diagnostic exploitable. Chez Efficience IT, nous avons formalisé une méthodologie qui s'adapte à la maturité technique du projet audité.
 
-> "La première étape est de comprendre les objectifs et les exigences du projet"
+## Le cadrage : poser les bonnes questions avant de lire le code
 
-Avant même de plonger dans le code, nous prenons le temps d'échanger avec le client pour comprendre le contexte du projet : son historique, les technologies utilisées, les équipes qui y ont travaillé, et surtout les objectifs à atteindre. Un audit n'a de valeur que s'il est ancré dans la réalité du projet. Une fois cette phase de cadrage terminée et la récupération du code effectuée, l'audit se déroule à travers plusieurs domaines clés.
+Tout audit commence par une phase de cadrage avec le client. Nous cherchons à comprendre l'historique du projet, la composition des équipes qui y ont contribué, les contraintes métier et les objectifs à court et moyen terme. Un audit déconnecté de son contexte produit des recommandations théoriques ; un audit bien cadré produit une feuille de route actionnable.
 
-## La qualité du code
+Nous identifions également les indicateurs de succès du projet : volumétrie utilisateur, SLA attendus, fréquence de déploiement, couverture de tests existante. Ces éléments orientent la profondeur de l'analyse sur chaque axe.
 
-Un code propre et bien structuré garantit la maintenabilité et l'évolution. L'évaluation examine :
+## Qualité du code et analyse statique
 
-- Le nommage significatif des variables et des fonctions
-- Le respect des conventions de codage courantes
-- La modularisation appropriée du code
-- L'optimisation des performances
+La qualité du code conditionne la capacité d'une équipe à faire évoluer un produit sans introduire de régressions. Nous évaluons d'abord la lisibilité : nommage des variables et des fonctions, respect des conventions, modularisation, séparation des responsabilités.
 
-### Les outils d'analyse statique
+### Outillage d'analyse statique
 
-Des outils comme [PHPStan](https://phpstan.org/) et phpcs facilitent cette évaluation. PHPStan analyse le code PHP sans l'exécuter et détecte des erreurs qui passeraient inaperçues autrement : appels de méthodes sur des types incompatibles, variables potentiellement nulles non vérifiées, ou encore paramètres manquants. Nous configurons PHPStan au niveau le plus élevé possible pour obtenir une couverture maximale.
+[PHPStan](https://phpstan.org/) constitue notre premier levier d'investigation. Configuré au niveau le plus élevé, il révèle les incohérences de typage, les appels de méthodes sur des types incompatibles, les variables potentiellement nulles non vérifiées. Le nombre d'erreurs détectées et le niveau maximal atteignable sans modification du code donnent une mesure objective de la rigueur technique du projet.
 
-PHP_CodeSniffer (phpcs) vérifie quant à lui le respect des standards de codage. Sur un projet Symfony, nous vérifions la conformité aux [PSR](https://www.php-fig.org/psr/) (PSR-1, PSR-4, PSR-12) ainsi qu'aux conventions propres au framework. Un code qui respecte ces standards est un code que n'importe quel développeur peut reprendre facilement.
+PHP_CodeSniffer vérifie la conformité aux [PSR](https://www.php-fig.org/psr/) (PSR-1, PSR-4, PSR-12) et aux conventions du framework utilisé. Sur un projet Symfony, nous ajoutons les rulesets spécifiques au framework. L'écart entre le nombre de violations et le nombre de fichiers concernés indique si les problèmes sont systémiques ou localisés.
 
-### Ce que nous recherchons concrètement
+Nous évaluons aussi la présence et la pertinence des tests. Un projet sans tests unitaires ni fonctionnels est un projet dont chaque modification représente un risque. Nous mesurons la couverture de code, mais surtout la qualité des assertions : des tests qui n'assertent rien ne protègent de rien.
 
-Au-delà des outils automatisés, nous effectuons une relecture manuelle du code pour détecter des problèmes plus subtils : des classes qui portent trop de responsabilités, des dépendances circulaires entre les modules, du code mort qui alourdit inutilement le projet, ou encore des requêtes SQL non optimisées qui ralentissent l'application. Nous vérifions aussi la présence de tests unitaires et fonctionnels, car un projet sans tests est un projet fragile.
+### Relecture manuelle ciblée
 
-## La sécurité
+Au-delà de l'outillage, une relecture manuelle identifie ce qu'aucun outil ne détecte : des classes aux responsabilités excessives, des dépendances circulaires entre modules, du code mort qui alourdit le projet, ou des abstractions mal placées qui complexifient la maintenance sans apporter de valeur.
 
-La sécurité protège les informations sensibles des utilisateurs contre les attaques potentielles, en évaluant :
+## Sécurité : du OWASP Top 10 à l'analyse des dépendances
 
-- La validation des entrées pour prévenir les injections SQL et les attaques XSS
-- Le chiffrement des données sensibles comme les mots de passe
-- La protection contre les attaques Cross-Site Request Forgery (CSRF)
-- La vérification de la sécurité des bibliothèques et des versions pour Symfony et PHP
+La sécurité constitue un axe non négociable. Nous structurons notre analyse autour du référentiel [OWASP Top 10](https://owasp.org/www-project-top-ten/), en adaptant la profondeur d'investigation au profil de risque de l'application.
 
-### Les vulnérabilités les plus courantes
+### Vecteurs d'attaque applicatifs
 
-Nous nous appuyons sur le référentiel [OWASP Top 10](https://owasp.org/www-project-top-ten/) pour structurer notre analyse de sécurité. Parmi les problèmes que nous rencontrons fréquemment : des formulaires dont les entrées ne sont pas correctement filtrées, exposant l'application à des injections SQL ou des attaques XSS. Nous vérifions également que les mots de passe sont hachés avec des algorithmes robustes comme bcrypt ou Argon2, et non stockés en clair ou avec un simple MD5.
+Nous vérifions systématiquement la validation des entrées utilisateur pour prévenir les injections SQL et les attaques XSS, le hachage des mots de passe avec des algorithmes robustes (bcrypt, Argon2), la protection CSRF sur les formulaires, et la configuration du composant Security de Symfony : voters, firewalls, principe du moindre privilège sur les rôles.
 
-La gestion des sessions et des tokens CSRF fait aussi l'objet d'une attention particulière. Sur les projets Symfony, nous vérifions que le composant Security est correctement configuré, que les voters et les firewalls sont en place, et que les rôles utilisateurs respectent le principe du moindre privilège.
+Les en-têtes HTTP de sécurité font aussi l'objet d'une vérification : Content-Security-Policy, Strict-Transport-Security, X-Content-Type-Options. Leur absence expose l'application à des vecteurs d'attaque facilement exploitables.
 
-### Les dépendances tierces
+### Audit des dépendances tierces
 
-Un point souvent négligé concerne les dépendances. Nous utilisons `composer audit` et le [Symfony Security Checker](https://symfony.com/doc/current/setup.html#checking-security-vulnerabilities) pour identifier les bibliothèques qui présentent des vulnérabilités connues (CVE). Une seule dépendance obsolète peut suffire à compromettre l'ensemble de l'application.
+Un point souvent sous-estimé : les dépendances. Nous utilisons `composer audit` et le [Symfony Security Checker](https://symfony.com/doc/current/setup.html#checking-security-vulnerabilities) pour identifier les bibliothèques présentant des CVE connues. Au-delà des vulnérabilités publiées, nous évaluons la santé des dépendances : date de dernière mise à jour, fréquence de maintenance, nombre de dépendances transitives. Une bibliothèque abandonnée par son mainteneur représente un risque latent même sans CVE déclarée.
 
-## Les performances
+## Performances : métriques navigateur et profiling serveur
 
-L'optimisation des performances améliore l'expérience utilisateur et le référencement dans les moteurs de recherche grâce à :
+L'optimisation des performances impacte directement l'expérience utilisateur et le référencement. Notre analyse couvre les deux faces : ce que l'utilisateur perçoit dans son navigateur, et ce qui se passe côté serveur.
 
-- L'évaluation du temps de chargement des pages
-- L'optimisation des images
-- La mise en place du cache navigateur
-- Des outils comme [Lighthouse](https://chrome.google.com/webstore/detail/lighthouse/blipmdconlkpinefehnmjammfjpmpbjk)
+### Interpréter les métriques Lighthouse
 
-### L'analyse avec Lighthouse
+[Lighthouse](https://developer.chrome.com/docs/lighthouse/) fournit des scores sur quatre axes : performance, accessibilité, bonnes pratiques et SEO. Mais un score global ne suffit pas. Nous analysons les métriques individuelles pour identifier les leviers d'optimisation les plus impactants.
 
-Lighthouse, développé par Google, fournit un score détaillé sur plusieurs axes : performance, accessibilité, bonnes pratiques et SEO. Nous exécutons cet outil sur les pages principales du site pour mesurer les temps de chargement réels, identifier les ressources bloquantes et repérer les images non optimisées.
+Le **Largest Contentful Paint** (LCP) mesure le temps d'affichage du plus grand élément visible. Un LCP dégradé pointe souvent vers des images non optimisées, une police web bloquante, ou un temps serveur excessif. L'**Interaction to Next Paint** (INP) évalue la réactivité aux interactions utilisateur : un INP élevé révèle du JavaScript bloquant le thread principal. Le **Cumulative Layout Shift** (CLS) détecte les décalages visuels indésirables, souvent causés par des images sans dimensions explicites ou des éléments injectés dynamiquement.
 
-Les métriques clés que nous surveillons incluent le **Largest Contentful Paint** (LCP), qui mesure le temps d'affichage du plus grand élément visible, le **First Input Delay** (FID), qui évalue la réactivité aux interactions utilisateur, et le **Cumulative Layout Shift** (CLS), qui détecte les décalages visuels indésirables pendant le chargement.
+Nous croisons ces métriques avec les données du Chrome User Experience Report lorsqu'elles sont disponibles, pour distinguer les problèmes de laboratoire des problèmes terrain.
 
-### Côté serveur
+### Profiling côté serveur
 
-Les performances ne se limitent pas au navigateur. Nous analysons également le temps de réponse du serveur, la configuration du cache HTTP, la mise en place de CDN, et la gestion des requêtes en base de données. Sur un projet Symfony, le Profiler est un allié précieux pour identifier les requêtes N+1, les appels Doctrine non optimisés ou les services trop lourds à instancier.
+Le Symfony Profiler est un allié précieux pour diagnostiquer les goulets d'étranglement serveur. Nous traquons les requêtes N+1 en Doctrine, les services trop coûteux à instancier, et les temps de réponse anormaux. Nous vérifions la configuration du cache HTTP, la mise en place de stratégies de cache applicatif (Redis, Memcached), et l'utilisation de CDN pour les assets statiques.
 
-## L'évaluation de la compatibilité avec les navigateurs
+Sur les applications à forte volumétrie, nous analysons aussi les logs de requêtes lentes en base de données et les index manquants, qui représentent souvent les gains de performance les plus significatifs.
 
-Les tests sur Chrome, Firefox, Edge et d'autres navigateurs garantissent un fonctionnement multi-appareils. Nous vérifions le rendu sur les navigateurs les plus utilisés par l'audience du site, en incluant les versions mobiles. Un formulaire qui fonctionne parfaitement sur Chrome peut se comporter différemment sur Safari, notamment en ce qui concerne la gestion des dates, des sélecteurs ou des animations CSS. Nous testons aussi la compatibilité responsive sur différentes tailles d'écran pour s'assurer que l'expérience utilisateur reste cohérente.
+## Compatibilité navigateurs et accessibilité
 
-## L'accessibilité
+Nous vérifions le rendu sur les navigateurs les plus utilisés par l'audience du site, versions mobiles incluses. Un formulaire qui fonctionne sur Chrome peut se comporter différemment sur Safari, notamment pour la gestion des dates et des sélecteurs. Le test responsive sur différentes tailles d'écran garantit une expérience cohérente.
 
-L'accessibilité garantit que tous les utilisateurs peuvent naviguer et utiliser efficacement le site :
+### Conformité accessibilité
 
-- La conformité aux [standards WCAG](https://www.w3.org/Translations/WCAG20-fr/)
-- L'utilisation appropriée du HTML pour les éléments de page
-- Le style CSS pour la lisibilité
+L'accessibilité est évaluée selon les [standards WCAG](https://www.w3.org/Translations/WCAG20-fr/) et le [RGAA](https://accessibilite.numerique.gouv.fr/) en France. Nous vérifions les attributs `alt` sur les images, la hiérarchie des titres, le contraste texte/arrière-plan, la navigabilité au clavier, et l'association correcte des labels aux champs de formulaire. Les messages d'erreur doivent être interprétables par les technologies d'assistance.
 
-### Les critères que nous vérifions
+## L'audit comme évaluation architecturale
 
-Nous évaluons la présence d'attributs `alt` pertinents sur les images, la hiérarchie correcte des titres (h1, h2, h3), le contraste suffisant entre le texte et l'arrière-plan, et la navigabilité au clavier. Les formulaires doivent comporter des labels explicites associés à chaque champ, et les messages d'erreur doivent être compréhensibles par les technologies d'assistance comme les lecteurs d'écran.
+Pour les projets matures, l'audit dépasse l'analyse fichier par fichier et devient une évaluation architecturale. Nous examinons la cohérence globale des choix techniques : le découpage en couches est-il respecté ? Les bounded contexts sont-ils clairement définis ? Les flux de données entre composants sont-ils prévisibles et traçables ?
 
-En France, le [RGAA](https://accessibilite.numerique.gouv.fr/) (Référentiel Général d'Amélioration de l'Accessibilité) constitue le cadre réglementaire de référence. Nous nous appuyons sur ses critères pour évaluer la conformité du site et formuler des recommandations concrètes.
+### Quantifier la dette technique
 
-## Le rapport final
+La dette technique n'est utile comme concept que si elle est quantifiable. Nous catégorisons chaque problème identifié selon trois dimensions : l'impact sur la vélocité de l'équipe (frein quotidien ou frein ponctuel), le risque de défaillance (probabilité et gravité), et le coût de remédiation (effort en jours/homme). Cette matrice permet de passer d'un inventaire de problèmes à un modèle économique de la dette.
 
-À l'issue de l'audit, un rapport détaillé documente les conclusions avec des recommandations priorisées selon :
+Un projet peut vivre avec une dette technique maîtrisée. L'enjeu n'est pas de tout corriger, mais de savoir précisément ce que l'on accepte de porter et ce qui nécessite une intervention.
 
-- **Criticité** : la nécessité de correction
-- **Complexité** : le niveau de difficulté de mise en oeuvre
-- **Impact** : les effets sur les performances, la sécurité, la fiabilité et la maintenabilité
+### Priorisation par le risque
 
-### Le contenu du livrable
+Nous utilisons une approche de priorisation basée sur le risque, inspirée des méthodes de gestion de projet : chaque recommandation est classée selon sa criticité (impact en cas de non-traitement), sa complexité de mise en oeuvre, et son effet de levier (une correction qui en débloque d'autres). Les failles de sécurité critiques et les problèmes de stabilité passent systématiquement en priorité haute, indépendamment de leur complexité.
 
-Le rapport que nous remettons au client contient pour chaque point identifié : une description claire du problème, sa localisation dans le code ou sur le site, son niveau de criticité, et une recommandation précise pour le corriger. Nous fournissons également un tableau de synthèse qui permet de visualiser rapidement l'état général du projet et de prioriser les actions à mener.
+## Du diagnostic à la feuille de route stratégique
 
-Ce document est conçu pour être exploitable aussi bien par les équipes techniques que par les décideurs. Les développeurs y trouvent des indications concrètes pour corriger les problèmes, tandis que les responsables de projet peuvent s'appuyer sur la priorisation pour planifier les évolutions.
+Le livrable final n'est pas un simple catalogue de défauts. Pour chaque point identifié, le rapport contient une description du problème, sa localisation, son niveau de criticité, et une recommandation de correction. Un tableau de synthèse permet de visualiser l'état général du projet.
 
-## Et après l'audit ?
+Mais l'essentiel réside dans la transformation du diagnostic en plan d'action. Selon l'ampleur des constats, plusieurs trajectoires se dessinent.
 
-L'audit n'est pas une fin en soi. Il constitue le point de départ d'un plan d'action concret. En fonction des résultats, plusieurs scénarios sont possibles.
+Si les problèmes sont ciblés, un plan de correction à court terme suffit : mise à jour des dépendances vulnérables, correction des failles critiques, optimisation des requêtes les plus lentes. Ces interventions apportent des bénéfices immédiats et mesurables.
 
-Si les problèmes identifiés sont ciblés, un plan de correction à court terme peut suffire : mise à jour des dépendances, correction des failles de sécurité critiques, optimisation des requêtes les plus lentes. Ces interventions rapides apportent des bénéfices immédiats et mesurables.
+Si l'audit révèle une dette technique structurelle, nous proposons un accompagnement sur le moyen terme via une **Tierce Maintenance Applicative** (TMA). Cette approche permet de traiter progressivement les problèmes par lots priorisés, sans interrompre le fonctionnement du site.
 
-Si l'audit révèle une dette technique importante, nous proposons un accompagnement sur le moyen terme via une **Tierce Maintenance Applicative** (TMA). Cette approche permet de traiter progressivement les problèmes sans interrompre le fonctionnement du site, en planifiant les corrections par lots priorisés.
+Dans les cas les plus avancés, l'audit peut recommander une refonte partielle de certains composants. Nous préconisons alors une approche progressive, module par module, avec des critères de succès mesurables à chaque étape. La feuille de route qui en résulte articule les corrections immédiates, les chantiers à moyen terme et la vision architecturale cible, en donnant à chaque partie prenante, développeurs comme décideurs, les éléments nécessaires pour arbitrer.
 
-Dans les cas les plus avancés, l'audit peut recommander une refonte partielle ou totale de certains composants. Plutôt que de réécrire tout le projet d'un coup, nous préconisons une approche progressive qui permet de moderniser l'application module par module, en limitant les risques.
-
-Des audits de code réguliers maintiennent la qualité et la satisfaction des utilisateurs. Comme pour un véhicule, un contrôle technique périodique permet de détecter les problèmes avant qu'ils ne deviennent critiques et de prolonger la durée de vie de votre application.
+Un audit technique régulier, comme un contrôle technique pour un véhicule, détecte les problèmes avant qu'ils ne deviennent critiques et prolonge la durée de vie de votre application.
 
 ## Pour aller plus loin
 
