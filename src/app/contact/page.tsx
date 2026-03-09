@@ -68,10 +68,6 @@ export default function Contact() {
                     contact@itefficience.com
                   </p>
                   <p>
-                    <strong className="text-dark">Téléphone :</strong> +33 9 79
-                    32 05 08
-                  </p>
-                  <p>
                     <strong className="text-dark">Adresse :</strong> 677 Avenue
                     de la République, 59800 Lille, France
                   </p>

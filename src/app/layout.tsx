@@ -31,7 +31,6 @@ const organizationJsonLd = {
     postalCode: "59800",
     addressCountry: "FR",
   },
-  telephone: "+33979320508",
   email: "contact@itefficience.com",
   sameAs: [
     "https://github.com/efficience-it",
