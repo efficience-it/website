@@ -3,6 +3,8 @@ import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
 import TimelineItem from "@/components/cards/TimelineItem";
+import Button from "@/components/ui/Button";
+import CallToAction from "@/components/sections/CallToAction";
 
 export const metadata = pageMetadata({
   title: "Agence Symfony – Présentation et expertise",
@@ -70,12 +72,36 @@ const pressTestimonials = [
 ];
 
 const values = [
-  "Maîtrise de la qualité",
-  "Architecture adaptée",
-  "Dernières technologies",
-  "Amélioration continue",
-  "L'esprit d'équipe",
-  "Le dépassement de soi",
+  {
+    title: "Maîtrise de la qualité",
+    description:
+      "La qualité du code et des projets est au cœur de notre travail. La sécurité et la performance de nos outils sont nos priorités. Nous testons, améliorons et itérons continuellement pour répondre aux attentes et respecter les délais.",
+  },
+  {
+    title: "Architecture adaptée",
+    description:
+      "Nous mettons en place des Micro Services avec API-Gateway en fonction de vos enjeux et besoins. Nous pouvons également améliorer vos applications ou architectures monolithiques.",
+  },
+  {
+    title: "Dernières technologies",
+    description:
+      "Nous utilisons Symfony et les outils de son écosystème pour garantir des solutions à la pointe, performantes, actuelles, stables et durables. Nos experts recherchent constamment les innovations techniques les plus efficaces.",
+  },
+  {
+    title: "Amélioration continue",
+    description:
+      "Nous utilisons des outils agiles permettant une amélioration constante des projets et du fonctionnement. C'est une activité d'équipe où chacun contribue.",
+  },
+  {
+    title: "L'esprit d'équipe",
+    description:
+      "Nos collaborateurs sont des experts réactifs en communication constante avec leurs collègues et les interlocuteurs clients. Les réunions quotidiennes challengent l'équipe et assurent réactivité et efficacité.",
+  },
+  {
+    title: "Le dépassement de soi",
+    description:
+      "Nous sélectionnons des profils passionnés qui aiment les défis. Nous améliorons en interne le niveau de l'équipe par la formation, la veille quotidienne et le team building. Efficience IT s'engage à former les équipes de ses clients.",
+  },
 ];
 
 export default function LEntreprise() {
@@ -148,18 +174,31 @@ export default function LEntreprise() {
       <section className="bg-light-gray py-16">
         <Container>
           <SectionTitle>Nos fondamentaux</SectionTitle>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {values.map((v) => (
               <div
-                key={v}
-                className="rounded-lg bg-white p-6 text-center font-display font-bold text-dark shadow-sm"
+                key={v.title}
+                className="rounded-lg bg-white p-6 shadow-sm"
               >
-                {v}
+                <h3 className="font-display text-lg font-bold text-dark">
+                  {v.title}
+                </h3>
+                <p className="mt-2 text-sm text-gray">{v.description}</p>
               </div>
             ))}
           </div>
         </Container>
       </section>
+
+      <section className="bg-white py-16">
+        <Container className="text-center">
+          <Button href="/contact" variant="primary" size="lg">
+            Commencer mon projet
+          </Button>
+        </Container>
+      </section>
+
+      <CallToAction />
     </main>
   );
 }
