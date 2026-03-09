@@ -19,11 +19,14 @@ export default function TaCarriere() {
     <main>
       <section className="bg-light-gray py-16 md:py-24">
         <Container className="text-center">
-          <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
-            Rejoignez notre équipe
+          <p className="font-display text-sm font-semibold uppercase tracking-wider text-primary">
+            Un projet commun, une vision commune
+          </p>
+          <h1 className="mt-4 font-display text-4xl font-bold text-dark md:text-5xl">
+            Rejoignez notre équipe de talentueux développeurs
           </h1>
           <p className="mx-auto mt-6 max-w-3xl text-lg text-gray">
-            Rejoignez notre équipe de talentueux développeurs et participez à
+            Découvrez nos 7 bonnes raisons de nous rejoindre et participez à
             des projets ambitieux dans un cadre bienveillant.
           </p>
         </Container>
@@ -66,8 +69,9 @@ export default function TaCarriere() {
         <Container className="text-center">
           <SectionTitle>Candidature spontanée</SectionTitle>
           <p className="mx-auto max-w-2xl text-gray">
-            N&apos;hésitez pas à faire une candidature spontanée si vous
-            n&apos;avez pas encore trouvé votre poste idéal.
+            Vous ne trouvez pas votre job parfait ? N&apos;hésitez pas à faire
+            une candidature spontanée si vous n&apos;avez pas encore trouvé
+            votre poste idéal.
           </p>
           <Button
             href={`mailto:${spontaneousEmail}`}
