@@ -7,17 +7,13 @@ excerpt: "PHPStan 2.0 introduit le niveau 10 pour une analyse statique PHP encor
 image: "/images/blog/phpstan-2.png"
 ---
 
-L'analyse statique PHP franchit un nouveau cap avec PHPStan 2.0. Cette version majeure apporte un niveau d'analyse plus strict (niveau 10), une meilleure gestion des types génériques et une réduction de la consommation mémoire. Si vous utilisez déjà PHPStan au quotidien, cette mise à jour mérite toute votre attention. Si vous ne l'avez pas encore adopté, c'est le moment idéal pour franchir le pas.
+PHPStan 2.0 marque un tournant dans l'analyse statique PHP. Au-delà des gains de performance et du nouveau niveau 10, cette version transforme la manière dont on conçoit, documente et sécurise une base de code. Que vous cherchiez à migrer depuis la 1.x ou à comprendre comment le système de types peut porter vos décisions d'architecture, cet article couvre l'essentiel.
 
-## Le niveau 10 : une nouvelle dimension
+## Ce que le niveau 10 change concrètement
 
-Le niveau 9 offrait déjà une analyse rigoureuse détectant les incohérences de typage, les propriétés non initialisées et les conditions inutiles. Le niveau 10 va plus loin avec des vérifications détaillées : détection des dépendances inutiles et des appels dynamiques non sécurisés, parfait pour les projets critiques.
+Le niveau 9 détectait déjà les incohérences de typage, les propriétés non initialisées et les conditions redondantes. Le niveau 10 s'attaque à un angle mort majeur : le type `mixed` implicite. Un paramètre sans type natif ni PHPDoc est implicitement `mixed`, et PHP autorise n'importe quelle opération dessus sans broncher. Le niveau 10 refuse ce flou.
 
-### Le problème du type mixed implicite
-
-Bien que le niveau 6 demande d'ajouter des types manquants, certaines situations permettaient de contourner cette exigence. Seul le niveau 10 détecte les types implicitement « mixed » avec précision.
-
-Prenons un exemple concret. Avec un paramètre non typé, PHPStan au niveau 9 ne signale aucune erreur :
+Prenons un cas courant. Au niveau 9, ce code ne lève aucune erreur :
 
 ```php
 function processData($data)
@@ -26,7 +22,7 @@ function processData($data)
 }
 ```
 
-Au niveau 10, PHPStan signale que `$data` a un type implicitement `mixed`. Il est impossible d'appeler `getName()` sur un type `mixed` sans risque. La correction attendue est simple :
+Au niveau 10, PHPStan signale que `$data` est implicitement `mixed`. L'appel à `getName()` devient une erreur, car rien ne garantit que `$data` est un objet disposant de cette méthode. La correction est directe :
 
 ```php
 function processData(User $data): string
@@ -35,9 +31,7 @@ function processData(User $data): string
 }
 ```
 
-### Détection des opérations sur mixed
-
-Le niveau 10 détecte aussi les opérations arithmétiques sur des types `mixed`. Ce code passe au niveau 9 sans erreur :
+Ce même principe s'applique aux opérations arithmétiques. Ce code passe au niveau 9 :
 
 ```php
 function calculateTotal(array $items): int
@@ -50,7 +44,7 @@ function calculateTotal(array $items): int
 }
 ```
 
-Au niveau 10, PHPStan signale que `$item` est de type `mixed`, rendant l'accès aux clés `price` et `quantity` non sécurisé. La solution consiste à typer le paramètre avec un PHPDoc :
+Au niveau 10, `$item` est `mixed`, donc l'accès à `price` et `quantity` est interdit. La solution passe par un array shape :
 
 ```php
 /**
@@ -66,15 +60,84 @@ function calculateTotal(array $items): int
 }
 ```
 
-Ce type de vérification élimine une catégorie entière de bugs qui ne se manifestent qu'en production.
+Ce n'est pas une simple annotation cosmétique. C'est un contrat vérifié statiquement : tout appelant qui passe un tableau dont la structure ne correspond pas sera détecté avant l'exécution.
 
-## Des listes plus précises pour un code plus sûr
+## Migrer de PHPStan 1.x à 2.0
 
-PHPStan 2.0 introduit le concept de « liste » pour représenter des tableaux aux clés entières consécutives commençant à 0. L'annotation `@param list<int>` indique clairement qu'un tableau d'entiers avec des clés numériques consécutives est attendu.
+### Dépendances et extensions
 
-### Différence entre array et list
+La mise à jour se lance classiquement :
 
-En PHP, `array_values()` retourne toujours une liste, mais un simple `array<int, string>` ne garantit pas que les clés commencent à 0. Avec le type `list`, PHPStan peut détecter les incohérences :
+```bash
+composer require --dev phpstan/phpstan:^2.0
+```
+
+Les extensions tierces (phpstan-symfony, phpstan-doctrine, phpstan-phpunit) doivent être mises à jour vers leurs versions compatibles 2.0. Vérifiez chaque extension avant de lancer la migration : une extension incompatible provoque des erreurs silencieuses ou des faux négatifs.
+
+### Redistribution des règles par niveau
+
+Certaines règles ont changé de niveau. Des erreurs qui n'apparaissaient qu'au niveau 8 remontent désormais au niveau 7. Si vous maintenez un niveau fixe dans votre CI, relancez une analyse complète après la migration.
+
+### Stratégie baseline pour les projets existants
+
+Sur un projet legacy de plusieurs centaines de milliers de lignes, activer le niveau 10 d'un coup produit des milliers d'erreurs. La baseline est l'outil de transition adapté :
+
+```bash
+phpstan analyse --generate-baseline
+```
+
+Cette commande génère un fichier `phpstan-baseline.neon` qui recense toutes les erreurs existantes. PHPStan ne les signale plus dans les analyses suivantes, mais toute nouvelle erreur est détectée immédiatement. La stratégie recommandée consiste à réduire cette baseline progressivement, module par module, en commençant par les couches les plus critiques (domaine métier, services partagés).
+
+Les options de configuration dépréciées depuis la 1.x sont supprimées. Si votre `phpstan.neon` utilise des clés obsolètes, PHPStan affichera un message clair indiquant la syntaxe de remplacement.
+
+## Inférence de types et conditions always-true/always-false
+
+PHPStan 2.0 améliore significativement son moteur d'inférence. Il détecte avec plus de précision les conditions qui sont toujours vraies ou toujours fausses, signe fréquent d'un bug logique ou d'un code mort.
+
+Considérons ce fragment :
+
+```php
+function handle(string $status): void
+{
+    if ($status === 'active') {
+        // ...
+    }
+
+    if ($status === 'active') {
+        // ...
+    }
+}
+```
+
+PHPStan ne signalera pas ces deux blocs comme redondants (le flow est linéaire). Mais dans un cas comme celui-ci :
+
+```php
+function process(int $value): void
+{
+    if ($value > 0) {
+        if ($value >= 0) {
+            // always true
+        }
+    }
+}
+```
+
+La condition interne est toujours vraie. PHPStan la détecte et la signale. Ce type d'alerte révèle des branches mortes, des vérifications redondantes ou des incompréhensions du flow de données. Sur un projet mature, corriger ces alertes simplifie le code et réduit la surface cognitive pour les développeurs qui le maintiennent.
+
+## Cohérence des annotations @var
+
+PHPStan 2.0 ne fait plus confiance aveuglément aux annotations `@var`. Quand le type déclaré diverge du type inféré, une erreur est remontée :
+
+```php
+/** @var string $count */
+$count = $repository->count([]);
+```
+
+`count()` retourne un `int`, mais l'annotation déclare un `string`. En 1.x, l'annotation l'emportait, masquant potentiellement un bug. En 2.0, l'incohérence est signalée. Ce changement encourage à supprimer les `@var` superflus et à ne les utiliser que lorsque PHPStan ne peut pas inférer le type lui-même (résultats de requêtes dynamiques, désérialisation).
+
+## Le type list et la précision des structures de données
+
+PHPStan 2.0 distingue `array<int, T>` de `list<T>`. Un `list` garantit des clés entières consécutives commençant à 0, ce que `array_values()` produit toujours mais qu'un tableau arbitraire ne garantit pas :
 
 ```php
 /**
@@ -91,38 +154,11 @@ $users = [3 => 'Alice', 7 => 'Bob'];
 displayNames($users);
 ```
 
-PHPStan signale que `$users` n'est pas une `list<string>` car les clés ne sont pas consécutives à partir de 0. Cette distinction réduit les bugs liés aux manipulations de tableaux, fréquents en PHP.
+PHPStan détecte que `$users` n'est pas une `list<string>`. Cette distinction semble mineure, mais elle élimine une catégorie de bugs subtils liés aux clés de tableaux après des opérations comme `array_filter()` sans `array_values()`.
 
-## Moins de mémoire, plus de vitesse
+## Fonctions pures et effets de bord
 
-PHPStan 2.0 est devenu bien plus performant. Grâce à des améliorations sur les arbres abstraits (AST) et l'élimination des fuites mémoire, les temps d'analyse ont considérablement diminué.
-
-L'analyse du code de PrestaShop 8.0, qui prenait 9 minutes, ne prend plus que 3 minutes, tout en consommant 50 à 70 % de mémoire en moins.
-
-Ces gains proviennent de plusieurs optimisations internes. Les nœuds AST utilisent désormais moins d'objets intermédiaires. Le ramasse-miettes de PHP est mieux exploité grâce à une réduction des références circulaires. Sur des projets de grande taille comportant des centaines de milliers de lignes, la différence est significative et rend l'intégration dans une CI bien plus fluide.
-
-## Cohérence des annotations @var
-
-Lorsqu'une annotation `@var` est utilisée, PHPStan 2.0 vérifie si l'information correspond au type réel de la variable. En cas de divergence, une erreur potentielle est signalée.
-
-Voici un cas typique où l'annotation `@var` est incorrecte :
-
-```php
-/** @var string $count */
-$count = $repository->count([]);
-```
-
-Ici, `count()` retourne un `int`, mais l'annotation déclare un `string`. PHPStan 2.0 détecte cette incohérence et remonte une erreur. Auparavant, l'annotation `@var` était considérée comme une vérité absolue, ce qui pouvait masquer des bugs.
-
-Ce changement encourage à supprimer les annotations `@var` inutiles et à se fier aux types déduits automatiquement par PHPStan.
-
-## Fonctions pures
-
-Les fonctions pures offrent testabilité, réutilisabilité et parallélisme. L'annotation `@phpstan-pure` assure que les fonctions respectent ces principes, ne modifiant pas l'état du programme.
-
-### Vérification stricte des effets de bord
-
-Lorsqu'une fonction est annotée `@phpstan-pure`, PHPStan vérifie qu'elle ne produit aucun effet de bord. Par exemple :
+L'annotation `@phpstan-pure` permet de déclarer qu'une fonction ne produit aucun effet de bord. PHPStan 2.0 vérifie cette promesse statiquement :
 
 ```php
 /** @phpstan-pure */
@@ -132,54 +168,21 @@ function formatPrice(int $cents): string
 }
 ```
 
-Cette fonction est pure : elle ne modifie aucune variable extérieure et retourne toujours le même résultat pour les mêmes paramètres. En revanche, le code suivant provoque une erreur :
+Cette fonction est pure : même entrée, même sortie, aucune modification d'état. En revanche, ajouter un appel à un logger la rend impure, et PHPStan le signale immédiatement. Marquer explicitement les fonctions pures dans les couches domaine et calcul renforce la prévisibilité et facilite le test unitaire.
 
-```php
-/** @phpstan-pure */
-function formatAndLog(int $cents, Logger $logger): string
-{
-    $logger->info('Formatting price');
-    return number_format($cents / 100, 2, ',', ' ') . ' €';
-}
-```
+## Performance : mémoire et temps d'analyse
 
-PHPStan signale que `$logger->info()` est un effet de bord incompatible avec l'annotation `@phpstan-pure`. Cette vérification aide à maintenir une architecture propre et prévisible.
+PHPStan 2.0 réduit la consommation mémoire de 50 à 70 % grâce à une refonte des structures AST internes et à l'élimination des références circulaires qui freinaient le ramasse-miettes. L'analyse de PrestaShop 8.0 passe de 9 à 3 minutes. Le cache a été refondu : fichiers plus compacts, chargement plus rapide, répertoire de cache réduit de plusieurs centaines de mégaoctets à quelques dizaines. En CI, la restauration et la génération du cache sont sensiblement plus rapides.
 
-## Un cache plus léger
+## Le système de types comme outil d'architecture
 
-PHPStan 2.0 a revu son système de cache : analyses plus rapides, consommation mémoire réduite et gain d'espace disque en supprimant les données inutiles.
+Au-delà de la détection de bugs, le niveau 10 transforme PHPStan en outil d'architecture. Quand chaque paramètre, chaque retour de méthode et chaque structure de données est typé avec précision, le code devient auto-documenté. Les array shapes décrivent des contrats de données que le compilateur vérifie. Les types union (`string|int`) et intersection (`Countable&Iterator`) expriment des contraintes que seuls des tests d'intégration pouvaient couvrir auparavant.
 
-Le format de cache a été entièrement refondu. Les fichiers de cache sont désormais plus compacts et plus rapides à charger. Sur les projets volumineux, le répertoire de cache peut passer de plusieurs centaines de mégaoctets à quelques dizaines. Ce gain se traduit aussi par des pipelines CI plus rapides, car le cache se restaure et se génère plus vite.
+Cette complétude du système de types a des conséquences architecturales directes. Un service dont toutes les méthodes publiques sont typées au niveau 10 n'a plus besoin de validation défensive en entrée : PHPStan garantit que les appelants respectent le contrat. Les invariants métier exprimés par des types (un `PositiveInt` via `@phpstan-type`, un `non-empty-string` pour un identifiant) sont vérifiés à chaque appel, sans code de garde.
 
-## Migrer de PHPStan 1.x à 2.0
+PHPStan devient alors une forme de documentation vivante. Contrairement à un commentaire ou un wiki, un type PHPStan est vérifié à chaque exécution de la CI. Il ne peut pas dériver du code réel. Pour un architecte, c'est un levier puissant : les décisions de design (séparation des couches, contrats entre modules, structures de données partagées) sont encodées dans les types et appliquées automatiquement.
 
-La migration vers PHPStan 2.0 nécessite quelques ajustements. Voici les points principaux à prendre en compte.
-
-### Mise à jour des dépendances
-
-La commande de mise à jour est classique :
-
-```bash
-composer require --dev phpstan/phpstan:^2.0
-```
-
-Les extensions tierces (phpstan-symfony, phpstan-doctrine, phpstan-phpunit) doivent aussi être mises à jour vers leurs versions compatibles 2.0. Vérifiez la compatibilité de chaque extension avant la migration.
-
-### Changements de comportement
-
-Certaines règles ont changé de niveau. Des erreurs qui n'apparaissaient qu'au niveau 8 peuvent désormais apparaître au niveau 7. Il est conseillé de relancer l'analyse complète après la mise à jour et de mettre à jour le fichier baseline si vous en utilisez un :
-
-```bash
-phpstan analyse --generate-baseline
-```
-
-### Suppression des fonctionnalités dépréciées
-
-PHPStan 2.0 supprime les options de configuration dépréciées depuis la version 1.x. Si votre fichier `phpstan.neon` utilise des clés obsolètes, PHPStan affiche un message d'erreur clair indiquant la nouvelle syntaxe à adopter.
-
-## Conclusion
-
-Porté par une communauté passionnée et un écosystème d'extensions florissant, PHPStan s'impose comme la référence de l'analyse statique PHP. L'ajout du support PHP 8.4 marque une nouvelle étape de son évolution. Le niveau 10, les vérifications de cohérence `@var`, les fonctions pures et les gains de performance font de cette version 2.0 une mise à jour incontournable pour tout projet PHP soucieux de la qualité de son code.
+Imposer le niveau 10 sur l'ensemble d'un projet revient à dire : chaque interaction entre composants est explicite et vérifiée. C'est un investissement initial significatif, mais le retour se mesure en bugs évités, en onboarding accéléré et en refactorings sécurisés.
 
 ## Pour aller plus loin
 
