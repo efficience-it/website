@@ -5,6 +5,7 @@ import Button from "@/components/ui/Button";
 import JobCard from "@/components/cards/JobCard";
 import { jobs, domains, spontaneousEmail } from "@/../data/jobs";
 import Link from "next/link";
+import { breadcrumbJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "On recrute | Efficience IT – Opportunités de carrière",
@@ -14,8 +15,15 @@ export const metadata = pageMetadata({
   absoluteTitle: true,
 });
 
+const breadcrumb = breadcrumbJsonLd([{ name: "Jobs", path: "/ta-carriere" }]);
+
 export default function TaCarriere() {
   return (
+    <>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+    />
     <main>
       <section className="bg-light-gray py-16 md:py-24">
         <Container className="text-center">
@@ -84,5 +92,6 @@ export default function TaCarriere() {
         </Container>
       </section>
     </main>
+    </>
   );
 }

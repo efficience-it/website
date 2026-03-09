@@ -38,6 +38,18 @@ const organizationJsonLd = {
   ],
 };
 
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Efficience IT",
+  url: "https://www.itefficience.com",
+  potentialAction: {
+    "@type": "SearchAction",
+    target: "https://www.itefficience.com/blog?q={search_term_string}",
+    "query-input": "required name=search_term_string",
+  },
+};
+
 const GA_MEASUREMENT_ID = "G-CZN94LWSH2";
 
 export default function RootLayout({
@@ -54,6 +66,12 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(organizationJsonLd),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteJsonLd),
           }}
         />
         <Script

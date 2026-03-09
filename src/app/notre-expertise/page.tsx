@@ -11,6 +11,7 @@ import {
   methodology,
 } from "@/../data/expertise";
 import CallToAction from "@/components/sections/CallToAction";
+import { breadcrumbJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "Expertise Symfony de référence",
@@ -19,8 +20,15 @@ export const metadata = pageMetadata({
   path: "/notre-expertise",
 });
 
+const breadcrumb = breadcrumbJsonLd([{ name: "Nos expertises", path: "/notre-expertise" }]);
+
 export default function NotreExpertise() {
   return (
+    <>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+    />
     <main>
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
@@ -155,5 +163,6 @@ export default function NotreExpertise() {
       </section>
       <CallToAction />
     </main>
+    </>
   );
 }

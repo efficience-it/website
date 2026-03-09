@@ -4,6 +4,7 @@ import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import CallToAction from "@/components/sections/CallToAction";
+import { breadcrumbJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "L'équipe Efficience IT | Agence web et technique",
@@ -13,8 +14,15 @@ export const metadata = pageMetadata({
   absoluteTitle: true,
 });
 
+const breadcrumb = breadcrumbJsonLd([{ name: "La team", path: "/la-team" }]);
+
 export default function LaTeam() {
   return (
+    <>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+    />
     <main>
       {/* Hero */}
       <section className="bg-light-gray py-16 md:py-24">
@@ -189,5 +197,6 @@ export default function LaTeam() {
 
       <CallToAction />
     </main>
+    </>
   );
 }
