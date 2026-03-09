@@ -17,6 +17,9 @@ Vous avez un projet ? Vous souhaitez réaliser un cahier des charges suivant cet
 - Est-il nécessaire ?
 - Quel est le format d'un cahier des charges ?
 - Étapes
+- Le cahier des charges comme document vivant
+- Intégrer les user stories dans le cahier des charges
+- Délais et budget
 
 ## Définition d'un cahier des charges
 
@@ -36,6 +39,8 @@ Les user stories, également appelées épopées, thèmes ou caractéristiques, 
 - Je dois &lt;exigence ou caractéristique&gt;
 - Afin de &lt;objectif/valeur&gt;
 
+Dans un projet classique (cycle en V), le cahier des charges tente de tout prévoir à l'avance. En agilité, il pose les grandes lignes et laisse place à l'adaptation. Cette différence fondamentale change la manière dont on rédige le document : on cherche à communiquer une vision plutôt qu'à figer une liste exhaustive de spécifications.
+
 ## Est-ce qu'il est nécessaire dans le projet agile ?
 
 Non, la rédaction d'un cahier des charges n'est pas toujours nécessaire dans le cas où vous faites confiance à votre prestataire ou si votre équipe de développement est déjà construite. Il est donc conseillé d'établir le backlog et lancer sa réalisation.
@@ -44,11 +49,30 @@ Dans le cas contraire (choix d'un prestataire/lancement du projet en interne), v
 
 En agilité, le cahier des charges sert à apporter des réponses à des questions avant le début du projet, et ce sont les User stories qui prendront le relais après !
 
+### Quand le cahier des charges reste indispensable
+
+Même en agilité, certaines situations rendent le cahier des charges incontournable. Lorsque vous lancez un appel d'offres auprès de plusieurs prestataires, un document de référence est nécessaire pour comparer les propositions sur une base commune. De même, dans un contexte réglementé (santé, finance, secteur public), un cahier des charges formalisé peut être exigé par la conformité. Enfin, si votre projet implique plusieurs équipes ou départements, ce document sert de socle partagé pour aligner tout le monde sur la même vision.
+
 ## Quel est le format d'un cahier des charges ?
 
 Vous pouvez trouver des modèles en ligne qui vont vous aider à l'établir, mais ils restent toujours insuffisants et non adaptés, car chaque projet est différent de l'autre.
 
 Donc pour établir le vôtre, il suffit de rédiger des slides et des phrases à des bullet points contenant vos fonctionnalités **essentielles** et votre réflexion (le nombre idéal de pages n'existe pas !).
+
+### Privilégier la clarté sur le volume
+
+Un bon cahier des charges agile tient souvent en quelques pages. L'important n'est pas de tout détailler, mais de transmettre clairement trois éléments : le problème que vous résolvez, la valeur attendue pour l'utilisateur final, et les limites connues du projet. Par exemple, pour une application de réservation de salles de réunion, le cahier des charges pourrait simplement indiquer : "Les collaborateurs doivent pouvoir réserver une salle en moins de 30 secondes depuis leur téléphone", plutôt que de décrire chaque écran et chaque bouton.
+
+### Exemples concrets de contenu
+
+Pour une refonte de site e-commerce, un cahier des charges agile pourrait contenir :
+
+- **La vision** : "Augmenter le taux de conversion de 15 % en simplifiant le tunnel d'achat"
+- **Les personas** : un acheteur occasionnel de 35 ans, un acheteur professionnel qui commande en volume
+- **Les grandes fonctionnalités** : catalogue produit, panier, paiement sécurisé, suivi de commande
+- **Ce qui est hors périmètre** : programme de fidélité (reporté à une phase ultérieure)
+
+Ce niveau de détail suffit à orienter un prestataire sans le contraindre sur les choix d'implémentation.
 
 ## Étapes
 
@@ -64,11 +88,50 @@ Donc pour établir le vôtre, il suffit de rédiger des slides et des phrases à
 
 Cela va permettre un traitement des propositions adaptées à votre projet !
 
+### Comment bien décrire les fonctionnalités
+
+La tentation est grande de rédiger des spécifications exhaustives. Or, en agilité, une fonctionnalité décrite trop précisément laisse peu de marge à l'équipe technique pour proposer des solutions innovantes. Préférez une description orientée résultat : "L'utilisateur peut filtrer les produits par prix, catégorie et disponibilité" plutôt que "Un menu déroulant à trois niveaux avec des cases à cocher permet de sélectionner les critères de filtrage". La première formulation laisse le champ libre pour trouver la meilleure interface possible. La seconde enferme l'équipe dans un choix qui n'a peut-être pas été testé auprès des utilisateurs.
+
+## Le cahier des charges comme document vivant
+
+En méthode Agile, le cahier des charges n'est pas un document figé que l'on rédige une fois pour toutes avant de le ranger dans un tiroir. Il évolue avec le projet. À chaque sprint, les retours des utilisateurs et les apprentissages de l'équipe peuvent amener à revoir les priorités, ajouter des fonctionnalités ou en retirer.
+
+### Maintenir le document à jour
+
+Il est recommandé de versionner votre cahier des charges, exactement comme du code source. Utilisez un outil collaboratif (Notion, Confluence, Google Docs) qui garde l'historique des modifications. À la fin de chaque sprint ou à chaque étape clé, prenez quelques minutes pour mettre à jour le document : supprimez ce qui n'est plus pertinent, ajoutez les nouvelles orientations issues des retours terrain.
+
+### Le cahier des charges nourrit le backlog
+
+Le lien entre le cahier des charges et le backlog est direct. Chaque grande fonctionnalité identifiée dans le cahier des charges se traduit en une ou plusieurs user stories dans le backlog. Par exemple, la fonctionnalité "suivi de commande" du cahier des charges pourrait générer les user stories suivantes :
+
+- En tant que client, je dois pouvoir consulter le statut de ma commande en temps réel, afin de savoir quand je serai livré.
+- En tant que responsable logistique, je dois pouvoir mettre à jour le statut d'une commande, afin que le client soit informé automatiquement.
+
+## Intégrer les user stories dans le cahier des charges
+
+Certaines équipes choisissent d'inclure directement les premières user stories dans le cahier des charges. Cette approche a l'avantage de montrer concrètement à un prestataire comment vous envisagez le découpage fonctionnel du projet.
+
+### Du besoin métier à la user story
+
+Prenons un exemple concret. Vous développez une application de gestion de rendez-vous pour un cabinet médical. Le besoin métier est : "Les patients doivent pouvoir prendre rendez-vous en ligne." Traduit en user stories, cela donne :
+
+- En tant que patient, je dois pouvoir choisir un créneau disponible sur un calendrier, afin de prendre rendez-vous sans appeler le cabinet.
+- En tant que secrétaire médicale, je dois pouvoir bloquer des créneaux pour les urgences, afin de garder de la flexibilité dans le planning.
+- En tant que médecin, je dois recevoir une notification lorsqu'un nouveau rendez-vous est pris, afin d'organiser ma journée.
+
+Inclure ces user stories dans le cahier des charges permet au prestataire de comprendre non seulement ce que vous voulez, mais aussi pour qui et pourquoi. C'est un gain de temps considérable lors des premières discussions.
+
+### Critères d'acceptation
+
+Chaque user story peut être accompagnée de critères d'acceptation qui précisent les conditions de validation. Par exemple, pour la user story du patient qui prend rendez-vous : "Le patient reçoit un email de confirmation dans les 5 minutes suivant la réservation" ou "Un créneau réservé n'apparaît plus comme disponible pour les autres patients". Ces critères servent de contrat entre vous et l'équipe de développement, sans pour autant dicter la solution technique.
+
 ## Délais et budget
 
 > "Définissez à vos prestataires une date de mise en production réaliste, et le budget exact"
 
 La méthode Agile ne renie donc pas le cahier des charges fonctionnel et sa nécessité, mais va plutôt modifier sa forme en lui permettant d'être complété alors que le projet est déjà commencé.
+
+Un point essentiel à retenir : en agilité, le budget et le planning sont souvent des variables d'ajustement. Plutôt que de fixer un périmètre fonctionnel immuable, on définit une enveloppe budgétaire et un calendrier, puis on priorise les fonctionnalités en fonction de leur valeur métier. Si le budget est consommé avant que toutes les fonctionnalités soient développées, les moins prioritaires sont reportées. Cette approche réduit considérablement le risque de dépassement budgétaire et garantit que les fonctionnalités les plus importantes sont livrées en premier.
 
 Chez Efficience IT, tous les projets sont menés dans le cadre de l'approche Agile.
 
