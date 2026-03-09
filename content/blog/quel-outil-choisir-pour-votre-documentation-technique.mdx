@@ -9,7 +9,23 @@ image: "/images/blog/documentation-technique.webp"
 
 ## Quel outil choisir pour votre documentation technique ?
 
-La documentation technique est un élément essentiel de tout projet numérique. Choisir le bon outil pour créer et gérer cette documentation peut faire une grande différence en termes de productivité et de clarté. Dans cet article, nous allons examiner plusieurs options populaires, notamment Docusaurus et ses principaux concurrents, pour vous aider à faire le meilleur choix.
+La documentation technique est un élément essentiel de tout projet numérique. Choisir le bon outil pour créer et gérer cette documentation peut faire une grande différence en termes de productivité et de clarté. Dans cet article, nous allons examiner plusieurs options populaires, notamment Docusaurus et ses principaux concurrents, pour vous aider à faire le meilleur choix. Nous aborderons aussi l'approche docs-as-code et le framework Diataxis, deux concepts incontournables pour structurer efficacement votre documentation.
+
+## L'approche docs-as-code
+
+Avant de comparer les outils, il est important de comprendre l'approche docs-as-code. Ce principe consiste à traiter la documentation exactement comme du code source : les fichiers sont rédigés en texte brut (Markdown, reStructuredText), versionnés dans un dépôt Git, relus via des pull requests et déployés automatiquement par une pipeline CI/CD.
+
+Cette approche présente plusieurs avantages majeurs. Les développeurs travaillent dans un environnement qu'ils connaissent déjà, ce qui réduit la friction et favorise les contributions. L'historique des modifications est traçable, les relectures sont collaboratives et le déploiement est automatisé. La plupart des outils présentés dans cet article s'inscrivent dans cette philosophie, à l'exception des plateformes SaaS comme GitBook qui proposent une expérience plus guidée.
+
+## Structurer sa documentation avec Diataxis
+
+Le choix de l'outil ne suffit pas : encore faut-il structurer le contenu de manière cohérente. Le framework Diataxis propose une organisation en quatre catégories complémentaires : les tutoriels (apprentissage guidé), les guides pratiques (résolution d'un problème précis), les explications (compréhension approfondie) et les références (information technique exhaustive). Chaque type de contenu répond à un besoin différent du lecteur et nécessite un style d'écriture adapté.
+
+Adopter Diataxis permet d'éviter le piège classique d'une documentation monolithique où tout est mélangé. Quel que soit l'outil choisi, cette structure peut être mise en place via l'arborescence des fichiers et la navigation du site généré. Docusaurus, MkDocs et Sphinx s'y prêtent particulièrement bien grâce à leurs systèmes de catégories et de sidebars configurables.
+
+Vous souhaitez compléter votre outil de documentation avec cette méthodologie ? Rendez-vous sur l'article "Comment produire la documentation sur votre projet Symfony avec l'approche Diataxis ?" pour découvrir des techniques et des stratégies éprouvées qui amélioreront la clarté, la cohérence et l'accessibilité de vos documents.
+
+## Les outils en détail
 
 ### Docusaurus : La solution polyvalente
 
@@ -18,56 +34,70 @@ Docusaurus est un générateur de sites statiques basé sur React, conçu spéci
 1. **Facilité d'utilisation :** Une configuration simple en JSON ou JS permet une mise en place rapide.
 2. **Flexibilité :** L'utilisation de React offre une grande flexibilité pour personnaliser l'apparence et le comportement de votre documentation.
 3. **Multilingue :** Docusaurus supporte nativement plusieurs langues, ce qui est idéal pour les projets internationaux.
-
-Vous souhaitez compléter votre outil de documentation avec une méthodologie des plus efficaces ? Rendez-vous sur l'article "Comment produire la documentation sur votre projet Symfony avec l'approche Diataxis ?" pour découvrir des techniques et des stratégies éprouvées qui amélioreront la clarté, la cohérence et l'accessibilité de vos documents.
+4. **Versioning :** Docusaurus gère nativement le versioning de la documentation, permettant de maintenir plusieurs versions en parallèle.
+5. **Recherche intégrée :** L'intégration avec Algolia DocSearch offre une recherche performante sans configuration complexe.
 
 ### GitBook : La solution SaaS
 
-GitBook est une plateforme SaaS qui permet de créer, gérer et héberger facilement votre documentation technique.
+GitBook est une plateforme SaaS qui permet de créer, gérer et héberger facilement votre documentation technique. Son interface WYSIWYG la rend accessible aux profils non techniques, ce qui en fait un bon choix pour les équipes mixtes.
 
-**Avantages :** Interface web intuitive, intégration facile, hébergement inclus.
+**Avantages :** Interface web intuitive, intégration facile, hébergement inclus, collaboration en temps réel.
 
-**Inconvénients :** Moins personnalisable que les générateurs statiques.
+**Inconvénients :** Moins personnalisable que les générateurs statiques, dépendance à un service tiers, limitations sur le plan gratuit.
 
 ### MkDocs : Simplicité et efficacité
 
-MkDocs est un générateur de documentation statique basé sur Python.
+MkDocs est un générateur de documentation statique basé sur Python. Associé au thème Material for MkDocs, il offre un rendu moderne et une expérience de navigation agréable. Sa configuration en YAML est minimaliste et accessible.
 
-**Avantages :** Facilité d'utilisation, thèmes personnalisables, rapide à mettre en oeuvre.
+**Avantages :** Facilité d'utilisation, thèmes personnalisables (notamment Material), rapide à mettre en oeuvre, excellent support des plugins.
 
-**Inconvénients :** Moins flexible que Docusaurus en termes de personnalisation.
+**Inconvénients :** Moins flexible que Docusaurus en termes de personnalisation avancée, écosystème plus restreint.
 
 ### Hugo : La rapidité avant tout
 
-Hugo est connu pour sa rapidité et sa flexibilité.
+Hugo est connu pour sa rapidité de génération et sa flexibilité. Écrit en Go, il peut construire des sites de plusieurs milliers de pages en quelques secondes. Le thème Hugo Docsy est spécifiquement conçu pour la documentation technique.
 
-**Avantages :** Rapidité, flexibilité, nombreux thèmes disponibles.
+**Avantages :** Rapidité de build inégalée, flexibilité, nombreux thèmes disponibles, pas de dépendance runtime.
 
-**Inconvénients :** Configuration initiale plus complexe.
+**Inconvénients :** Configuration initiale plus complexe, système de templates Go moins intuitif, moins orienté documentation que Docusaurus ou MkDocs.
 
 ### VuePress : La puissance de Vue.js
 
-VuePress est un générateur de documentation statique piloté par Vue.js.
+VuePress est un générateur de documentation statique piloté par Vue.js. Il est notamment utilisé pour la documentation officielle de Vue.js elle-même, ce qui témoigne de sa maturité.
 
-**Avantages :** Intégration facile avec Vue.js, personnalisation poussée.
+**Avantages :** Intégration naturelle avec Vue.js, personnalisation poussée, excellent support du Markdown étendu.
 
-**Inconvénients :** Moins de popularité que Docusaurus, courbe d'apprentissage pour les non-développeurs.
+**Inconvénients :** Moins de popularité que Docusaurus, courbe d'apprentissage pour les non-développeurs, migration vers VitePress en cours.
 
 ### Sphinx : Le choix des développeurs Python
 
-Sphinx est largement utilisé dans la communauté Python.
+Sphinx est largement utilisé dans la communauté Python et au-delà. Il est le moteur derrière la documentation officielle de Python, Django et de nombreux autres projets majeurs.
 
-**Avantages :** Très utilisé dans la communauté Python, robuste et flexible.
+**Avantages :** Très utilisé dans la communauté Python, robuste et flexible, excellente gestion des références croisées, génération PDF native.
 
-**Inconvénients :** Moins intuitif que Markdown, configuration plus complexe.
+**Inconvénients :** Moins intuitif que Markdown (utilise reStructuredText par défaut), configuration plus complexe.
 
 ### Jekyll : Le classique du générateur de sites statiques
 
-Jekyll est un générateur de sites statiques populaire, surtout pour les sites hébergés sur GitHub Pages.
+Jekyll est un générateur de sites statiques populaire, surtout pour les sites hébergés sur GitHub Pages. Bien qu'il ne soit pas spécifiquement conçu pour la documentation, il reste un choix viable pour des projets simples.
 
-**Avantages :** Intégration avec GitHub Pages, nombreux plugins et thèmes.
+**Avantages :** Intégration native avec GitHub Pages, nombreux plugins et thèmes, large communauté.
 
-**Inconvénients :** Nécessite des connaissances en Ruby pour la personnalisation avancée.
+**Inconvénients :** Nécessite des connaissances en Ruby pour la personnalisation avancée, performances limitées sur les gros sites, développement moins actif.
+
+## Critères de comparaison
+
+Pour choisir l'outil le plus adapté, plusieurs critères méritent d'être évalués au-delà des fonctionnalités brutes.
+
+**Courbe d'apprentissage.** Un outil simple à prendre en main favorise l'adoption par toute l'équipe. GitBook et MkDocs se distinguent ici, tandis que Sphinx et Hugo demandent un investissement initial plus important.
+
+**Pérennité et communauté.** Un projet activement maintenu avec une communauté large offre davantage de plugins, de thèmes et de réponses aux problèmes rencontrés. Docusaurus (maintenu par Meta) et Hugo bénéficient d'un écosystème particulièrement dynamique.
+
+**Intégration CI/CD.** La capacité à s'intégrer dans une pipeline d'intégration continue est essentielle dans une approche docs-as-code. Tous les générateurs statiques s'y prêtent naturellement, là où une solution SaaS peut imposer des contraintes.
+
+**Recherche.** Une documentation sans recherche performante perd une grande partie de son utilité. Docusaurus propose Algolia DocSearch, MkDocs Material intègre une recherche côté client, et Sphinx dispose d'un moteur de recherche intégré.
+
+**Multilingue et versioning.** Pour les projets internationaux ou ceux qui maintiennent plusieurs versions, ces fonctionnalités natives peuvent être déterminantes. Docusaurus excelle sur ces deux aspects.
 
 ## Comment choisir le bon outil ?
 
@@ -76,6 +106,8 @@ Le choix du bon outil dépendra principalement de vos besoins spécifiques :
 - **Simplicité et rapidité :** **GitBook** ou **MkDocs** peuvent être des choix idéaux si vous avez besoin de mettre en place une documentation rapidement avec une courbe d'apprentissage minimale.
 - **Flexibilité et personnalisation :** Si vous avez des besoins spécifiques en termes de personnalisation et de flexibilité, **Docusaurus, Hugo ou VuePress** sont des choix solides.
 - **Communauté et support :** **Sphinx et Jekyll** bénéficient d'une large communauté et de nombreux plugins, ce qui peut être un avantage pour des projets complexes.
+- **Équipes mixtes :** Si votre équipe inclut des profils non techniques qui doivent contribuer à la documentation, **GitBook** offre l'interface la plus accessible.
+- **Écosystème existant :** Si votre projet utilise déjà React, Vue.js ou Python, privilégiez l'outil qui s'intègre naturellement dans votre stack technique.
 
 ## Témoignage d'un de nos développeurs
 
