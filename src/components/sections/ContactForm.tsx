@@ -21,7 +21,7 @@ export default function ContactForm() {
     const subject = data.get("subject") as string;
     const body = `Nom: ${data.get("name")}\nEntreprise: ${data.get("company")}\nTéléphone: ${data.get("phone")}\nEmail: ${data.get("email")}\n\n${data.get("message")}`;
 
-    window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.open(`mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, "_blank");
     setSubmitted(true);
   };
 

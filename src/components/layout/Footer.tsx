@@ -66,7 +66,14 @@ export default function Footer() {
             <h3 className="mb-4 font-display text-sm font-semibold uppercase tracking-wider">
               {footerNav.contact.title}
             </h3>
-            <p className="text-sm text-gray-300">{footerNav.contact.email}</p>
+            <a
+              href={`mailto:${footerNav.contact.email}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-gray-300 transition-colors hover:text-white"
+            >
+              {footerNav.contact.email}
+            </a>
             <Link
               href={footerNav.contact.cta.href}
               className="mt-2 inline-block text-sm font-semibold text-primary-light transition-colors hover:text-white"

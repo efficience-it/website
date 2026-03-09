@@ -40,6 +40,13 @@ export default function Button({
   const styles = `${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`;
 
   if (href) {
+    if (href.startsWith("mailto:") || href.startsWith("tel:")) {
+      return (
+        <a href={href} target="_blank" rel="noopener noreferrer" className={styles}>
+          {children}
+        </a>
+      );
+    }
     return (
       <Link href={href} className={styles}>
         {children}
