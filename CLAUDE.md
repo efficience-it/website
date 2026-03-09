@@ -17,6 +17,14 @@ Clone/reproduction de https://www.itefficience.com en Next.js.
 - **Pas de co-auteur** : ne pas ajouter `Co-Authored-By` dans les commits
 - **Push / PR** : autorisé sans demander confirmation
 - **Pas de `npm run build`** : ne pas lancer de build, ça coupe le serveur de dev
+- **Pas de commentaires** : ne jamais ajouter de commentaires dans le code
+
+## SEO — Articles de blog
+
+- Le `<title>` doit être identique au `<h1>` de l'article
+- Utiliser des `<h2>` et `<h3>` pour structurer le contenu
+- Ne jamais utiliser `<h4>`, `<h5>`, `<h6>`
+- Viser entre 1000 et 2000 mots par article
 
 ## Hors périmètre
 
