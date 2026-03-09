@@ -56,7 +56,7 @@ return static function (RectorConfig $rectorConfig): void {
 
 ### Configuration
 
-#### Configuration de base
+### Configuration de base
 
 ```php
 return static function (RectorConfig $rectorConfig): void {
@@ -94,7 +94,7 @@ Exemples :
 
 Découvrez les règles disponibles sur : [https://getrector.com/documentation/rules-overview](https://getrector.com/documentation/rules-overview)
 
-#### Exemple : ReplaceMultipleBooleanNotRector
+### Exemple : ReplaceMultipleBooleanNotRector
 
 Cette règle convertit les opérateurs `!!` en cast booléen :
 
@@ -116,7 +116,7 @@ return static function (RectorConfig $rectorConfig): void {
 };
 ```
 
-#### Exclure des fichiers/répertoires
+### Exclure des fichiers/répertoires
 
 ```php
 $rectorConfig->skip([
@@ -142,19 +142,19 @@ $rectorConfig->sets([
 
 ### Commandes d'exécution
 
-#### Prévisualiser les changements sans les appliquer :
+### Prévisualiser les changements sans les appliquer :
 
 ```bash
 php vendor/bin/rector process --dry-run
 ```
 
-#### Appliquer tous les changements :
+### Appliquer tous les changements :
 
 ```bash
 php vendor/bin/rector process
 ```
 
-#### Appliquer les changements à un répertoire spécifique :
+### Appliquer les changements à un répertoire spécifique :
 
 ```bash
 php vendor/bin/rector process src
