@@ -7,127 +7,156 @@ excerpt: "Swagger Nelmio Bundle est un package Symfony qui génère automatiquem
 image: "/images/blog/swagger-nelmio.webp"
 ---
 
-Swagger Nelmio Bundle est un bundle Symfony qui permet de générer automatiquement une documentation interactive de l'API. Cette documentation est générée à partir de l'analyse du code source de l'API. Elle permet aux développeurs de comprendre facilement comment utiliser l'API et de tester les appels API directement à partir de la documentation. Dans cet article, nous allons explorer les fonctionnalités de Swagger Nelmio Bundle et expliquer pourquoi il est utile dans le développement d'API.
+Documenter une API est un acte fondateur. Ce n'est pas une corvée de fin de sprint, c'est le contrat qui lie le producteur de l'API à ses consommateurs. NelmioApiDocBundle permet de générer ce contrat directement depuis le code Symfony, sous forme d'une spécification OpenAPI exploitable par des humains et des machines. Cet article part des bases de la mise en place du bundle, puis explore les leviers avancés que les développeurs confirmés sous-exploitent souvent, avant d'aborder les questions d'architecture qui transforment la documentation en véritable outil de gouvernance.
 
-Le saviez-vous ? Un bundle est une sorte de pack avec des composants supplémentaires !
+## La spécification OpenAPI en quelques mots
 
-## Qu'est-ce que Swagger Nelmio Bundle ?
+OpenAPI (anciennement Swagger Specification) est un standard industriel qui décrit une API REST dans un fichier JSON ou YAML. Ce fichier contient la liste des endpoints, les méthodes HTTP supportées, les schémas de requêtes et de réponses, les codes d'erreur et les mécanismes d'authentification. Des dizaines d'outils gravitent autour de ce format : Swagger UI pour la documentation interactive, Redoc pour une présentation plus éditoriale, et surtout des générateurs de SDK clients dans une trentaine de langages.
 
-Swagger Nelmio Bundle est un bundle Symfony qui utilise Swagger pour générer automatiquement une documentation interactive de l'API. C'est un outil open source qui permet de décrire, de produire et de consommer des services web RESTful. Cet outil est basé sur une spécification JSON qui décrit les ressources, les opérations, les types de données et les modèles de données d'un service web. Swagger Nelmio Bundle est une implémentation de Swagger pour Symfony qui permet de générer automatiquement une documentation interactive de l'API.
+NelmioApiDocBundle est le pont entre l'écosystème Symfony et cette spécification. Il introspective les routes, les contrôleurs, les Form Types et les entités Doctrine pour produire un fichier OpenAPI sans écrire une ligne de YAML à la main.
 
-Plus précisément, le bundle s'appuie sur la spécification OpenAPI, anciennement connue sous le nom de Swagger Specification. Cette norme, largement adoptée par l'industrie, définit un format standardisé pour décrire les API REST. En s'intégrant nativement dans l'écosystème Symfony, NelmioApiDocBundle offre une expérience fluide aux développeurs PHP qui souhaitent documenter leurs endpoints sans quitter leur environnement de travail habituel.
+## Installation et configuration initiale
 
-## Comment fonctionne Swagger Nelmio Bundle ?
-
-Swagger Nelmio Bundle analyse le code source de l'API pour générer automatiquement une documentation interactive de l'API. Le bundle extrait des informations du code source de l'API telles que les URL des ressources, les méthodes HTTP prises en charge, les paramètres et les réponses. Ces informations sont ensuite utilisées pour générer une documentation interactive de l'API.
-
-Concrètement, le bundle parcourt les contrôleurs Symfony et leurs routes pour identifier chaque endpoint exposé. Il lit les annotations (ou attributs PHP 8) placées sur les méthodes des contrôleurs afin de récupérer les métadonnées associées : description de l'endpoint, paramètres attendus en entrée, format des réponses, codes HTTP possibles, etc. Le bundle est également capable d'introspecter les classes de formulaires Symfony (Form Types) et les entités Doctrine pour déduire automatiquement la structure des données manipulées par l'API. Le résultat de cette analyse est un fichier JSON ou YAML conforme à la spécification OpenAPI, qui alimente ensuite l'interface Swagger UI pour offrir une documentation visuelle et interactive.
-
-## Les fonctionnalités de Swagger Nelmio Bundle
-
-Swagger Nelmio Bundle offre de nombreuses fonctionnalités pour la documentation de l'API, notamment :
-
-### Génération automatique de la documentation
-
-Swagger Nelmio Bundle permet de générer automatiquement une documentation interactive de l'API à partir du code source. Cela évite aux développeurs d'avoir à créer manuellement une documentation pour l'API. Cette automatisation garantit que la documentation reste synchronisée avec le code réel. Chaque modification d'un endpoint, d'un paramètre ou d'un format de réponse est immédiatement reflétée dans la documentation générée, ce qui élimine le risque de documentation obsolète.
-
-### Documentation interactive de l'API
-
-Swagger Nelmio Bundle génère une documentation interactive de l'API qui permet aux développeurs de tester les appels API directement à partir de la documentation. Cela facilite la compréhension de l'API et accélère le processus de développement. L'interface Swagger UI intégrée offre un formulaire pour chaque endpoint : il suffit de renseigner les paramètres, de cliquer sur un bouton et d'observer la réponse retournée par le serveur. Cette fonctionnalité est particulièrement utile lors des phases d'intégration, car les développeurs front-end peuvent explorer et tester l'API sans avoir à utiliser un outil externe comme Postman ou cURL.
-
-### Support des fichiers YAML et JSON
-
-Swagger Nelmio Bundle prend en charge les fichiers YAML et JSON pour la description de l'API. Cela permet aux développeurs de décrire l'API dans un format qui leur convient le mieux. Le format YAML est souvent privilégié pour sa lisibilité et sa concision, tandis que le format JSON est préféré dans les contextes où la spécification doit être consommée par d'autres outils automatisés. Le bundle permet de mixer les deux approches selon les besoins du projet.
-
-### Personnalisation de la documentation
-
-Swagger Nelmio Bundle permet de personnaliser la documentation de l'API en modifiant les annotations de l'API. Les annotations permettent aux développeurs de fournir des informations supplémentaires sur l'API qui ne sont pas disponibles dans le code source. Il est possible d'ajouter des exemples de requêtes et de réponses, de regrouper les endpoints par domaine fonctionnel grâce aux tags, ou encore de décrire les différents scénarios d'erreur avec leurs codes HTTP associés. Cette granularité dans la personnalisation permet de produire une documentation véritablement utile pour les consommateurs de l'API.
-
-### Support de l'authentification
-
-Swagger Nelmio Bundle prend en charge l'authentification pour l'API. Cela permet de sécuriser l'API et de restreindre l'accès à certaines ressources. Le bundle supporte plusieurs mécanismes d'authentification courants : clés API transmises dans les en-têtes HTTP, tokens JWT (JSON Web Tokens) et OAuth2. L'interface Swagger UI intègre un bouton d'autorisation qui permet de saisir ses identifiants et de tester les endpoints protégés sans quitter la documentation.
-
-## Pourquoi utiliser Swagger Nelmio Bundle ?
-
-### Accélérer le processus de développement
-
-Swagger Nelmio Bundle permet de générer automatiquement une documentation interactive de l'API. Cela facilite la compréhension de l'API et accélère le processus de développement. Les développeurs peuvent tester les appels API directement à partir de la documentation, ce qui permet d'éviter les erreurs et les retours en arrière. En réduisant les allers-retours entre la documentation et les outils de test, les équipes gagnent un temps précieux qui peut être consacré à l'implémentation de nouvelles fonctionnalités.
-
-### Améliorer la qualité de l'API
-
-Swagger Nelmio Bundle permet de générer une documentation précise et complète de l'API. Cela permet aux développeurs de mieux comprendre l'API et de détecter rapidement les erreurs ou les problèmes de conception. Lorsque la documentation est générée automatiquement depuis le code, toute incohérence devient immédiatement visible. Par exemple, un endpoint qui retourne un code 200 sans description de la réponse ou un paramètre obligatoire non documenté seront repérés dès la consultation de la documentation. Cette visibilité encourage les développeurs à maintenir un niveau de qualité élevé dans la conception de leurs API.
-
-### Faciliter la collaboration entre les équipes
-
-Swagger Nelmio Bundle permet de faciliter la collaboration entre les équipes de développement. La documentation interactive de l'API facilite la compréhension de l'API et permet aux développeurs de collaborer plus efficacement. Les équipes front-end, back-end et QA partagent ainsi une source de vérité unique sur le comportement attendu de l'API. Les équipes métier peuvent également consulter la documentation pour valider que les endpoints correspondent aux besoins fonctionnels, sans avoir besoin de compétences techniques avancées.
-
-### Réduire les coûts de développement
-
-Swagger Nelmio Bundle permet de réduire les coûts de développement en évitant la création manuelle d'une documentation pour l'API. Cela permet aux développeurs de se concentrer sur le développement de l'API plutôt que sur la documentation. Sur des projets de grande envergure comportant des dizaines voire des centaines d'endpoints, la maintenance manuelle d'une documentation représenterait un effort considérable. L'automatisation de ce processus libère des ressources tout en garantissant une documentation toujours à jour.
-
-## Comment installer et configurer Swagger Nelmio Bundle ?
-
-### Étape 1 : Installer le bundle via Composer
+L'installation passe par Composer :
 
 ```bash
-composer require nelmio/swagger-bundle
+composer require nelmio/api-doc-bundle
 ```
 
-### Étape 2 : Configurer le bundle
-
-Mettre à jour `config/bundles.php` :
-
-```php
-return [
-   Nelmio\SwaggerBundle\NelmioSwaggerBundle::class => ['all' => true],
-];
-```
-
-Configurer `config/packages/nelmio_swagger.yaml` :
+Le fichier `config/packages/nelmio_api_doc.yaml` accueille la configuration centrale :
 
 ```yaml
-nelmio_swagger:
-   documentation:
-       info:
-           title: 'Mon API'
-           description: 'Documentation de mon API'
-           version: '1.0.0'
-       securityDefinitions:
-           api_key:
-               type: apiKey
-               description: 'API Key Authentication'
-               name: 'X-API-KEY'
-               in: header
+nelmio_api_doc:
+    documentation:
+        info:
+            title: "Mon API"
+            description: "Documentation de mon API"
+            version: "1.0.0"
+    areas:
+        default:
+            path_patterns:
+                - ^/api
 ```
 
-### Étape 3 : Ajouter des annotations à l'API
+La directive `areas` est souvent ignorée par les débutants. Elle permet de segmenter la documentation en plusieurs zones : une pour l'API publique, une autre pour l'API d'administration, une troisième pour les webhooks. Chaque zone produit sa propre spécification OpenAPI, avec ses propres règles de sécurité.
+
+## Annoter les endpoints avec les attributs PHP 8
+
+Depuis PHP 8, les attributs natifs remplacent avantageusement les annotations Doctrine. NelmioApiDocBundle supporte les attributs OpenApi du package `nelmio/api-doc-bundle` ainsi que ceux de `OpenApi\Attributes` :
 
 ```php
-/**
-* @SWG\Get(
-*     path="/api/users",
-*     summary="Liste des utilisateurs",
-*     @SWG\Response(
-*         response=200,
-*         description="Liste des utilisateurs",
-*         @SWG\Schema(
-*             type="array",
-*             @SWG\Items(ref="#/definitions/User")
-*         )
-*     )
-* )
-*/
+#[Route('/api/users/{id}', methods: ['GET'])]
+#[OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))]
+#[OA\Response(
+    response: 200,
+    description: 'Détail d\'un utilisateur',
+    content: new OA\JsonContent(ref: new Model(type: User::class))
+)]
+#[OA\Response(response: 404, description: 'Utilisateur non trouvé')]
+public function show(int $id): JsonResponse
 ```
 
-Dans cet exemple, l'annotation `@SWG\Get` spécifie que l'API prend en charge une méthode GET pour la ressource `/api/users`. L'annotation `@SWG\Response` spécifie la réponse à renvoyer pour cette méthode. Enfin, l'annotation `@SWG\Schema` spécifie le schéma de données à utiliser pour cette réponse.
+Chaque attribut `OA\Response` documente un code HTTP de retour. Un endpoint bien documenté liste systématiquement les cas nominaux (200, 201) et les cas d'erreur (400, 403, 404, 422). Négliger les réponses d'erreur, c'est laisser les consommateurs deviner le comportement de l'API en cas de problème.
 
-## Conclusion
+## Documenter les modèles de données
 
-Swagger Nelmio Bundle est un outil puissant pour la documentation des API. Il permet de générer automatiquement une documentation interactive de l'API à partir du code source. Cela permet aux développeurs de mieux comprendre l'API et d'accélérer le développement. Avec Swagger Nelmio Bundle, les développeurs peuvent tester les appels API directement à partir de la documentation, ce qui permet d'éviter les erreurs et les retours en arrière.
+Le véritable gain de productivité vient de la documentation automatique des modèles. Le bundle introspective les propriétés d'une classe PHP pour en déduire le schéma JSON :
 
-De plus, Swagger Nelmio Bundle permet de faciliter la collaboration entre les équipes de développement, de réduire les coûts de développement et d'améliorer la qualité de l'API. L'installation est relativement simple et se fait en quelques étapes : installer le bundle via Composer, configurer le bundle et ajouter des annotations à l'API.
+```php
+class User
+{
+    #[OA\Property(description: 'Identifiant unique', example: 42)]
+    public int $id;
 
-En adoptant ce bundle dans vos projets Symfony, vous investissez dans une documentation vivante qui évolue avec votre code. Que vous travailliez sur une petite API interne ou sur une plateforme exposée à des partenaires externes, NelmioApiDocBundle vous fournit les outils nécessaires pour offrir une documentation professionnelle et fiable à tous les consommateurs de votre API.
+    #[OA\Property(description: 'Adresse email', example: 'jean@example.com')]
+    #[Assert\Email]
+    public string $email;
+
+    #[OA\Property(description: 'Date de création', example: '2024-01-15T10:30:00+00:00')]
+    public \DateTimeImmutable $createdAt;
+}
+```
+
+Le bundle exploite également les contraintes de validation Symfony (`Assert\NotBlank`, `Assert\Length`, `Assert\Email`) pour enrichir le schéma avec des règles `required`, `minLength`, `maxLength` et `format`. Résultat : la documentation reflète fidèlement les règles métier sans duplication.
+
+Pour les structures complexes impliquant de l'héritage ou du polymorphisme, les attributs `OA\Discriminator` et `OA\OneOf` permettent de représenter des unions de types. Un endpoint qui retourne soit un `InternalUser` soit un `ExternalPartner` peut le documenter proprement, évitant le piège du schéma fourre-tout.
+
+## Schémas de sécurité
+
+La configuration des schémas de sécurité dans NelmioApiDocBundle couvre les cas courants : clé API, Bearer JWT et OAuth2. Voici une configuration JWT typique :
+
+```yaml
+nelmio_api_doc:
+    documentation:
+        components:
+            securitySchemes:
+                Bearer:
+                    type: http
+                    scheme: bearer
+                    bearerFormat: JWT
+        security:
+            - Bearer: []
+```
+
+La directive `security` au niveau racine applique l'authentification à tous les endpoints par défaut. Pour les endpoints publics (login, healthcheck), l'attribut `#[OA\Security(name: null)]` désactive explicitement la sécurité sur un contrôleur donné. Cette approche secure-by-default est préférable à l'inverse, où chaque endpoint doit déclarer manuellement sa sécurité.
+
+Pour les architectures multi-tenants ou les API B2B, OAuth2 avec ses différents flows (authorization_code, client_credentials) se configure de la même manière dans la section `securitySchemes`. La documentation devient alors le reflet exact de la politique de sécurité.
+
+## Versionner la documentation API
+
+Sur les projets matures, plusieurs versions de l'API cohabitent. NelmioApiDocBundle gère ce besoin via les areas combinées au préfixage des routes :
+
+```yaml
+nelmio_api_doc:
+    areas:
+        v1:
+            path_patterns:
+                - ^/api/v1
+        v2:
+            path_patterns:
+                - ^/api/v2
+```
+
+Chaque area produit une spec OpenAPI distincte, accessible via son propre endpoint (`/api/doc/v1`, `/api/doc/v2`). Les consommateurs de l'API v1 ne voient pas les endpoints v2, et inversement. Cette séparation nette évite la confusion et permet de planifier la dépréciation progressive des anciennes versions.
+
+## Contract-first vs code-first : un choix d'architecture
+
+NelmioApiDocBundle incarne l'approche **code-first** : on écrit le code PHP, le bundle en déduit la spécification OpenAPI. Cette approche convient à la majorité des projets Symfony, notamment les API internes ou les projets où l'équipe backend contrôle le rythme.
+
+L'approche inverse, **contract-first**, consiste à rédiger la spécification OpenAPI avant d'écrire la moindre ligne de code. Le fichier YAML devient le livrable du design review, validé par les équipes front, mobile et partenaires avant que le développement ne commence. Des outils comme `jane-php/open-api` génèrent ensuite le squelette PHP depuis la spec.
+
+En pratique, les architectures hybrides fonctionnent bien : on démarre contract-first pour les nouvelles API exposées à des tiers, et on utilise NelmioApiDocBundle en code-first pour les API internes. Le point de convergence reste le fichier OpenAPI, quelle que soit la méthode qui l'a produit.
+
+## Gouvernance API et documentation comme source de vérité
+
+À l'échelle d'une organisation qui expose plusieurs dizaines d'API, la documentation cesse d'être un livrable optionnel pour devenir un artefact de gouvernance. La spécification OpenAPI générée par NelmioApiDocBundle sert de socle à plusieurs processus critiques.
+
+### Validation en CI
+
+Le fichier OpenAPI exporté peut être validé à chaque commit par des outils comme `spectral` ou `openapi-diff`. Une règle CI typique vérifie que chaque endpoint possède au moins une réponse d'erreur documentée, que tous les paramètres ont une description, et qu'aucun breaking change n'a été introduit entre deux versions :
+
+```bash
+spectral lint openapi.json --ruleset .spectral.yaml
+openapi-diff openapi-previous.json openapi-current.json --fail-on-incompatible
+```
+
+Cette validation automatisée attrape les régressions de documentation avant qu'elles n'atteignent la production. Un endpoint sans description ou un schéma modifié sans bump de version devient un build cassé, au même titre qu'un test unitaire en échec.
+
+### Génération de SDK clients
+
+La spécification OpenAPI alimente directement les générateurs de SDK. OpenAPI Generator produit des clients typés en TypeScript, Kotlin, Swift ou Python à partir du même fichier JSON. Les équipes front-end et mobile n'ont plus à interpréter la documentation : elles importent un package généré, avec l'autocomplétion et le typage garantis par le schéma.
+
+Ce flux (code PHP → spec OpenAPI → SDK client) transforme la documentation en contrat exécutable. Une modification du schéma côté backend casse la compilation du SDK client, ce qui force une coordination explicite entre les équipes. C'est exactement le comportement souhaité : les breaking changes deviennent impossibles à ignorer.
+
+### Tests de contrat
+
+Les spécifications OpenAPI servent également de base pour les tests de contrat. Des bibliothèques comme `league/openapi-psr7-validator` interceptent les requêtes et réponses HTTP en test pour vérifier leur conformité avec la spec. Si un contrôleur retourne un champ supplémentaire non documenté ou omet un champ obligatoire, le test échoue. La documentation et l'implémentation restent synchronisées par construction, pas par discipline.
+
+## La documentation comme produit
+
+Pour un architecte, la question n'est pas de savoir si NelmioApiDocBundle fonctionne, c'est de savoir où il s'inscrit dans la chaîne de valeur. Une API dont la documentation est générée automatiquement, validée en CI, utilisée pour produire des SDK et vérifiée par des tests de contrat n'est plus un simple endpoint HTTP. C'est un produit logiciel dont la surface contractuelle est maîtrisée de bout en bout.
+
+NelmioApiDocBundle est la première brique de cette chaîne dans l'écosystème Symfony. Son adoption est triviale, mais son potentiel se révèle pleinement quand il s'intègre dans une stratégie de gouvernance API plus large : areas par audience, sécurité par défaut, validation automatisée et génération de SDK.
 
 ## Pour aller plus loin
 
