@@ -7,56 +7,98 @@ excerpt: "Identifier et éliminer le code inutilisé dans vos projets PHP pour a
 image: "/images/blog/code-mort.png"
 ---
 
-L'entretien d'une base de code ressemble à celui d'un jardin : il nécessite une maintenance régulière. Le Détecteur de code mort pour PHP, extension de PHPStan, aide à identifier et supprimer le code inutilisé dans les projets PHP.
+Le développement web, tout comme l'entretien d'un jardin, nécessite un entretien régulier pour éviter que des éléments tombés dans l'oubli, et inutiles ne s'accumulent et ralentissent vos projets. C'est là qu'intervient le **Détecteur de code mort pour PHP**, une extension puissante de **[PHPStan](https://phpstan.org/)** qui aide à identifier et à supprimer le code inutilisé dans les projets PHP. Voici tout ce qu'il faut savoir sur cet outil pratique et ses fonctionnalités clés.
 
 ## PHPStan : l'outil indispensable pour un code PHP propre
 
-PHPStan est un outil d'analyse statique pour PHP qui détecte les erreurs avant l'exécution :
+PHPStan est un outil d'analyse statique pour le langage PHP. Son objectif principal est de détecter des erreurs dans le code avant même que celui-ci ne soit exécuté. Il agit comme un vérificateur de type avancé en inspectant le code source et en identifiant des problèmes potentiels tels que les incohérences de typage, en détectant des types incorrects ou incompatibles dans les variables, paramètres ou retours de fonctions. Il repère les appels de méthodes inexistantes, avertissant si l'on tente d'appeler une méthode qui n'existe pas dans une classe. Il signale également les propriétés manquantes si elles sont utilisées sans avoir été définies, et identifie des erreurs logiques courantes, comme des conditions toujours vraies ou fausses.
 
-- Détection des incohérences de typage
-- Identification des appels de méthodes inexistantes
-- Signalisation des propriétés manquantes
-- Repérage des erreurs logiques courantes
-
-L'outil s'intègre facilement dans les pipelines CI/CD pour automatiser l'analyse.
+PHPStan est particulièrement utile dans les projets où la robustesse et la maintenance du code sont essentielles. Il fonctionne avec une configuration modifiable, permettant de s'adapter aux normes et contraintes spécifiques d'un projet. En outre, il peut s'intégrer facilement dans les pipelines CI/CD pour automatiser l'analyse et garantir une qualité constante du code.
 
 ## Qu'est-ce que le code mort ?
 
-Le code mort désigne les parties de code jamais exécutées ou utilisées : fonctions, méthodes, classes ou blocs inutiles. Il provient de l'évolution des exigences, des refactorisations rendant certaines implémentations obsolètes, ou des erreurs de conception.
+Dans le développement logiciel, le code mort, également connu sous le nom de code non utilisé ou code obsolète, désigne des parties de code qui ne sont jamais exécutées ou utilisées dans une application. Ce code peut inclure des fonctions, des méthodes, des classes ou même des blocs de code qui ne sont plus nécessaires pour le fonctionnement du programme. Bien que cela puisse sembler inoffensif, le code mort peut avoir des impacts significatifs sur un projet :
 
-## Impacts sur un projet
+- **Évolution du projet** : au fur et à mesure que les exigences du projet changent, certaines parties du code deviennent obsolètes.
+- **Refactorisation** : de nouvelles implémentations peuvent rendre certaines parties du code ancien inutiles.
+- **Erreurs de développement** : parfois, du code est écrit mais jamais utilisé en raison d'erreurs de conception ou de développement.
 
-- **Complexité accrue** : augmente la difficulté de compréhension et maintenance
-- **Risques de sécurité** : peut contenir des vulnérabilités non corrigées
-- **Performance réduite** : consomme de la mémoire et ralentit les builds
-- **Coûts de maintenance** : détourne les ressources des améliorations fonctionnelles
-- **Dégradation de la qualité** : introduit des incohérences
+## Impacts du code mort sur un projet
 
-## shipmonk/dead-code-detector
+### Complexité accrue
 
-Cette extension PHPStan identifie les fonctions, classes, propriétés et méthodes inutilisées.
+Le code mort ajoute une couche de complexité inutile à la base de code. Cela rend le code plus difficile à comprendre et à maintenir, surtout pour les nouveaux développeurs qui rejoignent le projet. La complexité accrue peut également augmenter le risque d'introduire des bugs lors des modifications futures.
 
-**Installation :**
+### Risques de sécurité
+
+Le code mort peut contenir des vulnérabilités qui ne sont pas immédiatement apparentes. Comme il n'est pas utilisé, ces vulnérabilités peuvent passer inaperçues et rester non corrigées, posant un risque pour la sécurité de l'application.
+
+### Performance réduite
+
+Bien que le code mort ne soit pas exécuté, il peut encore avoir un impact sur les performances. Par exemple, des classes ou des méthodes non utilisées peuvent être chargées en mémoire, augmentant ainsi l'empreinte mémoire de l'application. De plus, des outils de build et de déploiement peuvent prendre plus de temps à traiter une base de code plus volumineuse.
+
+### Coûts de maintenance
+
+Maintenir du code mort implique des coûts supplémentaires en termes de temps et de ressources. Les développeurs doivent passer du temps à comprendre et à gérer ce code, ce qui pourrait être mieux utilisé pour améliorer les fonctionnalités existantes ou en ajouter de nouvelles.
+
+### Dégradation de la qualité du code
+
+La présence de code mort peut dégrader la qualité globale du code. Il peut introduire des incohérences et des contradictions, rendant le code moins fiable et plus sujet aux erreurs.
+
+## shipmonk/dead-code-detector : détecter et supprimer le code mort
+
+### Qu'est-ce que c'est ?
+
+L'extension [shipmonk/dead-code-detector](https://github.com/shipmonk-rnd/dead-code-detector) pour PHPStan est un outil puissant conçu pour identifier et supprimer le code PHP inutilisé dans un projet. Ce code peut prendre la forme de fonctions, de classes, de propriétés ou de méthodes qui ne sont jamais appelées ou utilisées. En éliminant ce code superflu, on améliore la lisibilité de la base de code, on réduit sa taille et, par conséquent, on optimise les performances de l'application.
+
+### Pourquoi l'utiliser ?
+
+- **Amélioration de la maintenabilité** : le code devient plus facile à comprendre et à modifier, par soi-même ou par d'autres développeurs.
+- **Optimisation des performances** : moins de code signifie des temps de chargement plus rapides et une utilisation moindre des ressources.
+- **Sécurité** : le code mort peut parfois contenir des vulnérabilités laissées de côté. En le supprimant, on réduit la surface d'attaque de l'application.
+
+### Installation
+
+Pour installer cette extension, il faut utiliser Composer :
 
 ```bash
 composer require --dev shipmonk/dead-code-detector
 ```
 
-**Configuration** dans `phpstan.neon` :
+L'option `--dev` indique que cette dépendance est uniquement nécessaire pour le développement, et non pour la production.
+
+### Configuration
+
+Une fois installée, il faut inclure les règles de l'extension dans le fichier de configuration PHPStan (généralement `phpstan.neon` ou `phpstan.neon.dist`) :
 
 ```yaml
 includes:
   - vendor/shipmonk/dead-code-detector/rules.neon
 ```
 
-**Fonctionnalités** : détection de cycles morts, suppression automatique optionnelle, intégration complète avec PHPStan et support communautaire actif.
+Cette ligne indique à PHPStan d'inclure les règles de l'extension dans l'analyse du code.
 
-## Conseils
+### Utilisation
 
-- Exécuter l'analyse régulièrement dans le processus de CI
-- Personnaliser les règles selon les besoins du projet
-- Combiner avec d'autres outils de nettoyage de code
+Après avoir configuré l'extension, il suffit d'exécuter PHPStan comme d'habitude. L'extension va alors analyser le code à la recherche de code mort et fournir un rapport détaillé des éléments inutilisés.
+
+### Fonctionnalités principales
+
+- **Détection de cycles morts** : repère les parties de code qui ne sont jamais exécutées.
+- **Suppression automatique** (optionnelle) : certaines extensions permettent de supprimer automatiquement le code mort détecté.
+
+### Avantages supplémentaires
+
+- **Intégration avec PHPStan** : toutes les fonctionnalités de PHPStan sont disponibles, telles que l'analyse de type, la détection des erreurs courantes et la configuration personnalisée.
+- **Facilité d'utilisation** : l'installation et la configuration sont simples, ce qui rend l'extension accessible à tous les développeurs PHP.
+- **Communauté active** : le support et les contributions de la communauté PHPStan enrichissent l'outil en continu.
+
+## Conseils supplémentaires
+
+- **Exécuter l'analyse régulièrement** : intégrer l'analyse PHPStan au processus de développement continu pour détecter rapidement les problèmes.
+- **Configurer les règles en fonction des besoins** : il est possible de personnaliser les règles de l'extension pour adapter l'analyse au projet spécifique.
+- **Combiner avec d'autres outils** : utiliser PHPStan avec d'autres outils de nettoyage de code pour obtenir des résultats encore meilleurs.
 
 ## Conclusion
 
-L'adoption de cette extension contribue à obtenir un code PHP plus propre, plus efficace et plus facile à maintenir. Elle s'inscrit dans une démarche continue d'amélioration de la qualité et de la performance.
+En adoptant cette extension, on fait un pas de plus vers un code PHP plus propre, plus efficace et plus facile à maintenir. L'élimination du code mort s'inscrit dans une démarche continue d'amélioration de la qualité et de la performance des projets PHP.
