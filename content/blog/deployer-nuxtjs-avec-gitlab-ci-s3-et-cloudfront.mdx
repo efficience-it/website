@@ -7,24 +7,17 @@ excerpt: "Ce guide montre comment publier un site Vue.js ou Nuxt.js sur Amazon S
 image: "/images/blog/deployer-nuxtjs.webp"
 ---
 
-Cet article va nous permettre de publier un site Vue.js ou dans notre cas un site en Nuxt.js sur un S3 Amazon, avec un cache CDN sous le nom de CloudFront. Tout ceci de manière automatisée avec GitLab CI/CD.
+Déployer un site statique généré par Nuxt.js sur une infrastructure AWS ne se résume pas à pousser des fichiers sur un bucket. Derrière cette apparente simplicité se cachent des décisions d'architecture qui impactent la performance, la sécurité, le coût et la résilience de votre plateforme. Cet article parcourt le chemin complet : de la mise en place initiale S3 + CloudFront jusqu'aux stratégies de déploiement multi-environnement, en passant par les considérations d'architecture CDN à grande échelle.
 
-## La configuration Amazon
+## Le socle AWS : S3 et CloudFront
 
-Pour ceci, nous allons avoir besoin de 3 choses :
+Le principe est limpide. S3 stocke les fichiers statiques (HTML, CSS, JS, images). CloudFront les distribue via un réseau de points de présence répartis mondialement. Un utilisateur IAM dédié permet à GitLab CI d'interagir avec ces services de manière programmatique.
 
-- un bucket S3 disponible en public
-- un CDN redirigeant vers ce S3
-- un utilisateur IAM pour faire tourner le GitLab Runner
+### Configuration du bucket S3
 
-### Le bucket S3
+La création du bucket suit une séquence précise. Dans la console S3, créez un compartiment dont le nom sera stocké dans la variable `AWS_BUCKET_NAME`. Débloquez les accès publics, puis activez l'hébergement de site statique dans les propriétés en spécifiant `index.html` comme document d'index.
 
-Une fois connecté, il est possible d'aller sur la section S3 > « Créer un compartiment ».
-
-- Nommez-le comme bon vous semble, mais pour exemple, nous allons prendre « nuxt-website-efficience-it », nous lui attribuerons plus tard une variable que l'on nomme `AWS_BUCKET_NAME`
-- Débloquez tous les accès publics et créez le Bucket S3.
-- Ensuite, rendez-vous sur le bucket dans l'onglet « Propriétés », descendez : « Hébergement de site Web statique » et activez cette option en spécifiant `index.html` comme point d'accès.
-- Après, dans l'onglet « Permissions », insérez ce JSON dans la « Stratégie de Compartiment » en renommant avec le nom du bucket.
+La stratégie de compartiment doit autoriser la lecture publique :
 
 ```json
 {
@@ -41,50 +34,25 @@ Une fois connecté, il est possible d'aller sur la section S3 > « Créer un com
 }
 ```
 
-Il est alors possible de cliquer sur le lien spécifié dans le S3. Une erreur 404 indiquant que le fichier racine (`index.html`) n'existe pas devrait s'afficher, ce qui est normal.
+Une erreur 404 sur `index.html` après la création est le comportement attendu : le bucket est fonctionnel, mais vide.
 
-```
-404 Not Found
-Code: NoSuchKey
-Message: The specified key does not exist.
-Key: index.html
-```
+### Distribution CloudFront
 
-Il suffit de créer un fichier `index.html` et d'y insérer le contenu souhaité afin de le déposer à la racine du S3 et vérifier que la page s'affiche correctement.
+CloudFront agit comme couche de cache entre les utilisateurs et le bucket S3. Au-delà du gain de performance, cette architecture réduit significativement les coûts : chaque requête servie par le cache évite un appel facturé vers S3.
 
-### Le CDN CloudFront
+Lors de la création de la distribution, rattachez-la au bucket S3, forcez la redirection HTTP vers HTTPS et associez votre nom de domaine avec son certificat SSL. Conservez l'identifiant de distribution dans `AWS_CLOUDFRONT_INVALIDATION_ID` : il sera indispensable pour purger le cache lors des déploiements.
 
-CloudFront sert à faire un cache réseau pour le contenu CSS, JS et HTML. Nous allons donc le configurer pour gagner en performance et également pour éviter de payer à chaque fois qu'une personne souhaite aller sur le site.
+### Utilisateur IAM gitlab-runner
 
-Dans la section CloudFront de la Console Amazon :
+Le principe du moindre privilège s'applique ici. Créez un utilisateur IAM dédié avec uniquement deux permissions : `AmazonS3FullAccess` pour la synchronisation des fichiers et `CloudFrontInvalidation` pour la purge du cache. Générez une clé d'accès programmatique qui alimentera les variables `AWS_ACCESS_KEY_ID` et `AWS_SECRET_ACCESS_KEY` dans GitLab.
 
-- Créer une distribution
-- Attribuer le S3 que l'on vient de créer
-- Rediriger HTTP vers HTTPS
-- Attribuer un nom de domaine, avec son certificat SSL
+Un point de vigilance pour les environnements de production : préférez des politiques IAM restreintes au bucket spécifique plutôt que `AmazonS3FullAccess`, qui donne accès à tous les buckets du compte.
 
-Avant de partir, il faut récupérer l'identifiant de la distribution que nous mettrons plus tard dans une variable nommée `AWS_CLOUDFRONT_INVALIDATION_ID`.
+## Pipeline GitLab CI : build et déploiement
 
-### L'utilisateur IAM gitlab-runner
+### Le stage de build
 
-Dans la console toujours, il faut aller dans IAM pour ajouter un utilisateur, le « gitlab-runner ». Il faudra lui ajouter ces autorisations :
-
-- CloudFrontInvalidation
-- AmazonS3FullAccess
-
-Il faudra ensuite aller dans « Informations d'identification de sécurité » pour y créer une clé d'accès que nous nommerons `AWS_ACCESS_KEY_ID` et `AWS_SECRET_ACCESS_KEY`.
-
-Ces accès permettent d'utiliser l'utilisateur gitlab-runner avec les droits d'accès que nous venons de configurer. Il sera autorisé ainsi à déposer des éléments dans le S3 et invalider le cache CDN pour que les prochains visiteurs bénéficient du nouveau contenu.
-
-## Le déploiement automatisé et continu avec CI/CD
-
-### Une première étape, le build
-
-Afin de générer les fichiers que nous allons pousser sur le S3, nous allons créer une première étape qui est le « build ». Dans cette étape, nous installons les dépendances, puis nous générons le projet dans un dossier `/dist` qui va être transmis dans ce qu'on appelle un artifact.
-
-C'est un genre de résultat de l'étape que l'on va réutiliser ensuite pour déployer le projet.
-
-La CI permet également de bénéficier du cache d'un run à l'autre. Ce que nous allons utiliser ici avec `/node_modules`, afin d'optimiser le temps de déploiement.
+Le build génère les fichiers statiques à partir du code source Nuxt.js. L'artifact produit (le dossier `/dist`) sera consommé par le stage de déploiement.
 
 ```yaml
 stages:
@@ -104,12 +72,11 @@ build_site:
            - dist
 ```
 
-### La seconde étape, le déploiement
+Le cache sur `node_modules/` est essentiel. Sans lui, chaque pipeline réinstalle l'intégralité des dépendances. Sur un projet Nuxt.js typique, cela représente facilement deux à trois minutes économisées par exécution. À l'échelle d'une équipe qui pousse régulièrement, le gain cumulé est considérable.
 
-Dans celle-ci, nous reprenons l'artifact généré dans l'étape précédente, pour l'envoyer sur notre S3. Le deploy part alors d'une machine Python, dans lequel on installe awscli (ce sont des commandes bash pour interagir avec l'API Amazon).
+### Le stage de déploiement
 
-- Puis nous récupérons le dossier `dist` de notre artifact et on le synchronise avec le bucket concerné. Cela va mettre à jour le S3, en supprimant les éléments qui n'y sont plus.
-- Et enfin, nous vidons le cache du CDN.
+Le déploiement effectue deux opérations atomiques : la synchronisation des fichiers vers S3, puis l'invalidation du cache CloudFront.
 
 ```yaml
 stages:
@@ -128,20 +95,17 @@ deploy_s3:
        - aws cloudfront create-invalidation  --distribution-id ${AWS_CLOUDFRONT_INVALIDATION_ID} --paths "/*"
 ```
 
-### Configuration de GitLab
+Le flag `--delete` supprime du bucket les fichiers absents du build local, garantissant une synchronisation stricte. Les en-têtes `cache-control` et `expires` demandent aux navigateurs de mettre en cache les assets pendant un an, ce qui maximise la performance côté client. Puisque Nuxt.js génère des noms de fichiers hashés pour le CSS et le JS, les anciens fichiers ne seront jamais servis par erreur.
 
-Pour cela, il faut configurer les variables qui seront protégées et non visibles dans le repository.
+### Variables CI/CD
 
-- Aller dans « Settings > CI/CD »
-- Dans Variables, insérer les clés / valeurs de `AWS_CLOUDFRONT_INVALIDATION_ID`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_BUCKET_NAME`
+Dans GitLab, sous Settings > CI/CD > Variables, injectez les quatre secrets : `AWS_CLOUDFRONT_INVALIDATION_ID`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` et `AWS_BUCKET_NAME`. Marquez-les comme protégées et masquées pour éviter toute fuite dans les logs de pipeline.
 
-Avec ceci, dès qu'un commit/push est fait sur GitLab, le pipeline affichera le Build puis le Deploy en cours.
+## Déploiement multi-environnement par branche
 
-## Pour aller plus loin : un déploiement par branche
+Un pipeline de production ne suffit pas. Une équipe structurée a besoin d'environnements de prévisualisation pour valider les changements avant la mise en production. Le principe : un couple bucket/CloudFront par environnement, et le pipeline qui route automatiquement le déploiement selon la branche.
 
-Le principe est de faire un bucket et un CloudFront pour les environnements de développement et un autre pour l'environnement de production. Selon ce principe, la branche master est déployée sur la prod et la branche develop sur l'environnement de développement de manière automatisée.
-
-Et enfin, lorsqu'une branche est créée avec une nouvelle feature ou un fix, un bouton manuel sur l'interface GitLab permet de déployer cette branche sur l'environnement de développement. Et lorsqu'elle sera fusionnée avec la branche develop lors de la MR, la branche develop se redéploiera sur l'environnement de développement avant que cela ne soit mergé sur la master pour être déployé en prod.
+La branche `master` déclenche le déploiement en production. La branche `dev` déploie automatiquement sur l'environnement de développement. Les branches de feature offrent un déploiement manuel via l'interface GitLab, permettant de prévisualiser un changement sans polluer l'environnement de dev.
 
 ### Le fichier final .gitlab-ci.yml
 
@@ -235,6 +199,38 @@ deploy_s3_prod:
        name: production
        url: https://www.exemple.com
 ```
+
+L'utilisation des templates YAML (`.build_site`, `.deploy_s3`) évite la duplication et facilite la maintenance. Le mot-clé `needs` crée des dépendances explicites entre jobs, permettant à GitLab d'optimiser l'ordonnancement du pipeline.
+
+## Stratégies d'invalidation de cache
+
+L'invalidation `--paths "/*"` est la méthode la plus simple mais aussi la plus coûteuse. AWS facture au-delà de 1000 invalidations par mois. Sur un projet avec des déploiements fréquents, la facture peut surprendre.
+
+Deux approches alternatives existent. La première consiste à invalider uniquement les fichiers modifiés en comparant le build courant avec le contenu du bucket via `aws s3 sync --dryrun`, puis en ciblant les chemins concernés. La seconde, plus élégante, repose sur le versioning des assets : puisque Nuxt.js génère des noms hashés, seul `index.html` et les fichiers à chemin fixe nécessitent une invalidation. L'invalidation ciblée de quelques fichiers est gratuite et instantanée.
+
+## Architecture CDN : aller au-delà du setup initial
+
+### Déploiement blue-green avec CloudFront
+
+Pour les sites à fort trafic, le déploiement blue-green élimine tout temps d'indisponibilité. Le principe : maintenir deux buckets S3 (blue et green), déployer sur le bucket inactif, puis basculer l'origin de la distribution CloudFront. En cas de problème, le rollback est immédiat puisque l'ancien bucket reste intact.
+
+CloudFront supporte nativement les origin groups avec failover automatique. Si l'origin primaire retourne une erreur 5xx, CloudFront bascule transparentement sur l'origin secondaire. Cette mécanique, combinée au blue-green, offre une résilience remarquable.
+
+### Multi-région et latence
+
+CloudFront distribue déjà le contenu mondialement, mais le bucket S3 source reste dans une seule région. Pour les audiences géographiquement dispersées, la réplication cross-region de S3 rapproche les fichiers source des edge locations CloudFront, réduisant la latence lors des cache misses.
+
+Le choix de la région primaire impacte aussi le coût des transferts de données. Les régions européennes et américaines offrent des tarifs plus avantageux que l'Asie-Pacifique pour les transferts sortants vers CloudFront.
+
+### Infrastructure as Code avec Terraform
+
+À l'échelle, la création manuelle de buckets et de distributions via la console devient un frein. Terraform permet de décrire l'ensemble de l'infrastructure (S3, CloudFront, IAM, Route 53, ACM) dans des fichiers versionnés. Chaque environnement devient reproductible, auditable et destructible en une commande. Le state Terraform, stocké lui-même dans un bucket S3 dédié, constitue la source de vérité de l'infrastructure.
+
+Cette approche transforme radicalement le workflow : créer un nouvel environnement de preview par merge request ne nécessite plus d'intervention manuelle dans la console AWS, mais un simple `terraform apply` paramétré par le nom de la branche.
+
+### Optimisation des coûts
+
+Trois leviers principaux permettent de maîtriser la facture AWS sur ce type d'architecture. Le premier est la classe de prix CloudFront : la classe 100 (Amérique du Nord et Europe uniquement) coûte significativement moins que la distribution mondiale. Le second est la politique de cache : un TTL élevé sur les assets immutables réduit les requêtes origin et donc les coûts S3. Le troisième est le lifecycle management sur S3 : configurer des règles de suppression automatique des anciens fichiers évite l'accumulation silencieuse de données obsolètes.
 
 ## Pour aller plus loin
 
