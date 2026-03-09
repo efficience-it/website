@@ -7,13 +7,15 @@ excerpt: "Un code de qualité repose sur six critères clés : organisation, rap
 image: "/images/blog/conventions-codage.webp"
 ---
 
-Un code de qualité repose sur six critères clés : organisation, rapidité, lisibilité, concision, non-répétition et cohérence à travers les méthodes. Les "bonnes pratiques" émergent de la veille technologique et du partage de connaissances au sein des communautés de programmation.
+Un code de qualité repose sur six critères clés : organisation, rapidité, lisibilité, concision, non-répétition et cohérence à travers les méthodes. Les "bonnes pratiques" émergent de la veille technologique et du partage de connaissances au sein des communautés de programmation. Elles ne sont pas figées : elles évoluent avec les langages, les frameworks et les retours d'expérience des équipes de développement.
 
 ## Quel est l'intérêt ?
 
 Le principal avantage concerne la maintenance -- les projets nécessitent des modifications continues par des développeurs qui n'ont pas forcément écrit le code original. Étant donné que chaque fonction peut être écrite de centaines de manières, des conventions standardisées permettent une meilleure compréhension et un entretien plus facile.
 
 Les outils de scan de code comme les linters nécessitent le respect de conventions spécifiques. Un codage uniforme au sein de l'équipe prévient la dégradation organisationnelle et réduit les bugs tout en améliorant la sécurité.
+
+Dans un contexte d'équipe, les conventions jouent un rôle encore plus déterminant. Lorsqu'un nouveau développeur rejoint un projet, il doit pouvoir lire et comprendre le code existant sans effort supplémentaire. Si chaque membre de l'équipe code selon ses propres habitudes, le projet devient rapidement un patchwork illisible. Les conventions servent de langage commun : elles réduisent le temps d'intégration des nouveaux arrivants et diminuent les frictions lors des revues de code.
 
 ## Nomenclature et conventions associées
 
@@ -25,13 +27,52 @@ Les conventions de nommage améliorent la lisibilité. En PHP et dans les framew
 - **kebab-case** couvre les images, PDFs et URLs
 - **ALL_CAPS** désigne les constantes
 
+Le choix d'une convention de nommage n'est pas anodin. En JavaScript par exemple, les conventions diffèrent légèrement : les composants React utilisent le PascalCase, les fonctions et variables le camelCase, et les constantes globales le ALL_CAPS. L'essentiel est de rester cohérent au sein d'un même projet et de documenter les choix retenus.
+
+## Les standards par écosystème
+
+### PSR-12 en PHP
+
+Les PHP Standards Recommendations (PSR) standardisent le codage à travers les frameworks. Parmi elles, PSR-12 définit le style de code étendu. Elle impose notamment l'utilisation de 4 espaces pour l'indentation, une limite de 120 caractères par ligne, et des règles précises sur le placement des accolades et des mots-clés.
+
+```php
+namespace App\Service;
+
+use App\Repository\UserRepository;
+
+class UserService
+{
+    public function __construct(
+        private readonly UserRepository $userRepository,
+    ) {
+    }
+
+    public function findActiveUsers(): array
+    {
+        return $this->userRepository->findBy([
+            'active' => true,
+        ]);
+    }
+}
+```
+
+Les PSR actuellement valides incluent PSR-1, PSR-3, PSR-4, PSR-6, PSR-7, PSR-11, PSR-12, PSR-13, PSR-14, PSR-15, PSR-16, PSR-17 et PSR-18. Chacune couvre un domaine précis : autoloading (PSR-4), logging (PSR-3), cache (PSR-6 et PSR-16), HTTP (PSR-7, PSR-15, PSR-17, PSR-18).
+
+### ESLint et Prettier en JavaScript
+
+Côté JavaScript et TypeScript, ESLint est le linter de référence. Il analyse le code statiquement pour détecter les erreurs potentielles, les anti-patterns et les incohérences de style. Sa configuration est flexible : on peut partir d'un ensemble de règles recommandées puis les adapter aux besoins du projet.
+
+Prettier, quant à lui, se concentre exclusivement sur le formatage. Il reformate automatiquement le code selon des règles prédéfinies : longueur de ligne, guillemets simples ou doubles, points-virgules ou non. L'association ESLint + Prettier est devenue un standard dans l'écosystème JavaScript. ESLint vérifie la logique du code, Prettier s'occupe de sa mise en forme.
+
 ## Indentations
 
 Les développeurs débattent de l'utilisation des espaces ou des tabulations pour l'indentation. La recommandation est d'utiliser 2 ou 4 tabulations d'espaces selon l'environnement de travail. Les systèmes d'exploitation diffèrent dans les conventions de fin de ligne (Windows utilise CR+LF ; Linux utilise LF), nécessitant une configuration de l'IDE pour prévenir les conflits de compatibilité.
 
+Pour résoudre ces problèmes de manière définitive, le fichier `.editorconfig` à la racine du projet permet de définir les conventions d'indentation, de fin de ligne et d'encodage. Tous les IDE modernes le reconnaissent nativement et appliquent ces règles automatiquement.
+
 ## Documentations et commentaires
 
-Les commentaires et PHPDocs clarifient les fonctions complexes, résumant les entrées et sorties pour une référence rapide.
+Les commentaires et PHPDocs clarifient les fonctions complexes, résumant les entrées et sorties pour une référence rapide. Cependant, un bon code doit être suffisamment expressif pour se passer de commentaires dans la majorité des cas. Les noms de variables, de méthodes et de classes doivent être suffisamment parlants pour que le code se lise comme une phrase. Les commentaires restent utiles pour expliquer le "pourquoi" d'un choix technique, pas le "quoi" que le code fait déjà.
 
 ## Méthode SOLID
 
@@ -45,21 +86,39 @@ Les commentaires et PHPDocs clarifient les fonctions complexes, résumant les en
 
 **D - Dependency Inversion (Inversion des dépendances) :** Utilisez des abstractions entre les classes plutôt que des implémentations directes.
 
-## PSR
+Ces principes ne sont pas de simples recommandations théoriques. En les appliquant, on obtient un code modulaire, testable et extensible. Par exemple, le principe de responsabilité unique conduit naturellement à créer des services dédiés dans Symfony plutôt que de concentrer toute la logique dans les contrôleurs.
 
-Les PHP Standards Recommendations standardisent le codage à travers les frameworks. Les PSR actuellement valides incluent PSR-1, PSR-3, PSR-4, PSR-6, PSR-7, PSR-11, PSR-12, PSR-13, PSR-14, PSR-15, PSR-16, PSR-17 et PSR-18.
+## Les outils pour appliquer les conventions
 
-## Linters
+Les conventions ne servent à rien si elles ne sont pas respectées. C'est pourquoi l'outillage automatique est indispensable.
 
-Des outils comme SonarQube et Junit vérifient la conformité PSR, la qualité du code et le respect des bonnes pratiques. Ils signalent continuellement les erreurs, guidant les développeurs vers une production de qualité.
+### PHP CS Fixer
+
+PHP CS Fixer est l'outil de référence pour le formatage automatique du code PHP. Il corrige le code pour le rendre conforme aux standards PSR-12, aux conventions Symfony, ou à des règles personnalisées. Il suffit de lancer une commande pour reformater l'ensemble du projet.
+
+### PHPStan et Psalm
+
+Au-delà du formatage, les analyseurs statiques comme PHPStan et Psalm détectent les erreurs de type, les appels à des méthodes inexistantes, les variables non définies et bien d'autres problèmes avant même l'exécution du code.
+
+### SonarQube
+
+Des outils comme SonarQube et JUnit vérifient la conformité PSR, la qualité du code et le respect des bonnes pratiques. Ils signalent continuellement les erreurs, guidant les développeurs vers une production de qualité. SonarQube fournit également des métriques sur la complexité cyclomatique, la couverture de tests et la dette technique.
+
+## Intégration dans la CI/CD
+
+L'automatisation des vérifications via l'intégration continue (CI) garantit qu'aucun code non conforme n'est fusionné dans la branche principale. Un pipeline CI typique pour un projet PHP comprend plusieurs étapes : exécution de PHP CS Fixer en mode vérification, analyse statique avec PHPStan, et lancement des tests unitaires.
+
+En JavaScript, le pipeline inclut ESLint et Prettier en mode vérification, suivis des tests. On peut également configurer des hooks Git avec des outils comme Husky pour vérifier le code avant chaque commit localement, évitant ainsi d'attendre le retour de la CI pour découvrir un problème de style.
+
+Cette approche présente un avantage majeur : les revues de code se concentrent sur la logique métier et l'architecture, plutôt que sur des discussions de formatage. Le débat "espaces vs tabulations" disparaît quand l'outil tranche automatiquement.
 
 ## Les Design Patterns
 
-Les design patterns fournissent des modèles réutilisables pour des situations de codage récurrentes. Les exemples courants incluent Singleton, Factory, Adapter, Observer et Composite.
+Les design patterns fournissent des modèles réutilisables pour des situations de codage récurrentes. Les exemples courants incluent Singleton, Factory, Adapter, Observer et Composite. Ils constituent un vocabulaire partagé entre développeurs : dire "on utilise un pattern Observer ici" est immédiatement compréhensible par toute l'équipe, sans avoir à détailler l'implémentation.
 
 ## Conclusion
 
-Les développeurs doivent continuellement améliorer l'efficacité du codage tout en maintenant la lisibilité. Toutes les conventions et méthodes discutées deviennent indispensables pour un développement de qualité, bien que l'apprentissage continu assure le maintien des standards de qualité du code.
+Les développeurs doivent continuellement améliorer l'efficacité du codage tout en maintenant la lisibilité. Toutes les conventions et méthodes discutées deviennent indispensables pour un développement de qualité. L'outillage moderne permet d'automatiser leur application, transformant ce qui était autrefois un effort de discipline en un processus transparent. L'apprentissage continu et l'adoption progressive de ces pratiques assurent le maintien des standards de qualité du code sur le long terme.
 
 ## Pour aller plus loin
 

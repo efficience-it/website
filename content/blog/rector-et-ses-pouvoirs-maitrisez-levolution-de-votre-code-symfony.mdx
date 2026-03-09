@@ -17,6 +17,18 @@ Selon la documentation officielle, cet outil permet aux développeurs d'exécute
 
 L'outil exploite PHPStan pour maintenir la propreté du code et fournit des méthodes pré-implémentées pour le raffinement du code.
 
+### Comment Rector fonctionne en interne
+
+Rector repose sur la manipulation d'un AST (Abstract Syntax Tree). Plutôt que de modifier le code source comme du texte brut avec des expressions régulières, Rector parse chaque fichier PHP en un arbre syntaxique abstrait grâce à la bibliothèque `nikic/php-parser`. Chaque élément du code (classe, méthode, condition, affectation) devient un noeud typé dans cet arbre.
+
+Le processus se déroule en trois étapes :
+
+1. **Parsing** : le code source PHP est converti en AST. Par exemple, une affectation `$x = 1;` devient un noeud `Assign` contenant un noeud `Variable` et un noeud `LNumber`.
+2. **Traversée et transformation** : Rector parcourt l'arbre noeud par noeud. Chaque règle (appelée "Rector") inspecte les noeuds qui l'intéressent et les modifie si nécessaire. Une règle qui remplace `!!$var` par `(bool) $var` va chercher les noeuds `BooleanNot` imbriqués et les remplacer par un noeud `Cast\Bool_`.
+3. **Impression** : l'AST modifié est reconverti en code PHP. Le format printer préserve le style d'origine (indentation, espaces) pour minimiser les diffs inutiles.
+
+Cette approche par AST est ce qui rend Rector fiable : contrairement à un simple rechercher-remplacer, il comprend la structure du code et ne modifie que ce qui correspond exactement au pattern recherché.
+
 ### Prérequis
 
 Avant de commencer avec Rector, assurez-vous que votre système dispose de :
@@ -77,9 +89,11 @@ return static function (RectorConfig $rectorConfig): void {
 
 De nombreuses règles pré-implémentées existent pour accélérer les migrations et améliorer le code Symfony. Les catégories clés comprennent :
 
-- `SetList::CODE_QUALITY`
-- `SetList::CODING_STYLE`
-- `SetList::NAMING`
+- `SetList::CODE_QUALITY` : simplifie les conditions, supprime le code redondant, améliore la lisibilité
+- `SetList::CODING_STYLE` : uniformise le style (ternaires, return early, etc.)
+- `SetList::NAMING` : renomme les variables et méthodes selon les conventions PSR
+- `SetList::TYPE_DECLARATION` : ajoute les type hints manquants sur les paramètres, retours et propriétés
+- `SetList::DEAD_CODE` : supprime le code mort (variables inutilisées, conditions toujours vraies, méthodes privées non appelées)
 
 Les règles d'amélioration de version sont documentées sur : [https://github.com/rectorphp/rector/blob/main/packages/Set/ValueObject/LevelSetList.php](https://github.com/rectorphp/rector/blob/main/packages/Set/ValueObject/LevelSetList.php)
 
@@ -127,7 +141,62 @@ $rectorConfig->skip([
 ]);
 ```
 
-### Exemple de configuration Symfony
+### Exemples concrets de transformations
+
+Voici quelques transformations courantes que Rector applique lors d'une montée de version PHP.
+
+### Promotion de propriétés dans le constructeur (PHP 8.0)
+
+```php
+// Avant
+class UserService
+{
+    private UserRepository $repository;
+    private LoggerInterface $logger;
+
+    public function __construct(UserRepository $repository, LoggerInterface $logger)
+    {
+        $this->repository = $repository;
+        $this->logger = $logger;
+    }
+}
+
+// Après
+class UserService
+{
+    public function __construct(
+        private UserRepository $repository,
+        private LoggerInterface $logger,
+    ) {
+    }
+}
+```
+
+### Match expression (PHP 8.0)
+
+```php
+// Avant
+switch ($status) {
+    case 'active':
+        $label = 'Actif';
+        break;
+    case 'inactive':
+        $label = 'Inactif';
+        break;
+    default:
+        $label = 'Inconnu';
+        break;
+}
+
+// Après
+$label = match ($status) {
+    'active' => 'Actif',
+    'inactive' => 'Inactif',
+    default => 'Inconnu',
+};
+```
+
+### Configuration Symfony
 
 Pour migrer vers Symfony 6.0 :
 
@@ -139,6 +208,84 @@ $rectorConfig->sets([
     SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION
 ]);
 ```
+
+La règle `ANNOTATIONS_TO_ATTRIBUTES` est particulièrement utile lors du passage à Symfony 6.x. Elle transforme automatiquement les annotations en attributs PHP 8 :
+
+```php
+// Avant
+/**
+ * @Route("/users", name="user_list", methods={"GET"})
+ */
+public function list(): Response
+
+// Après
+#[Route('/users', name: 'user_list', methods: ['GET'])]
+public function list(): Response
+```
+
+Cette transformation s'applique aussi aux annotations Doctrine ORM (`@Entity`, `@Column`, `@OneToMany`, etc.) et aux annotations de validation (`@Assert\NotBlank`, `@Assert\Email`, etc.).
+
+### Écrire une règle personnalisée
+
+Quand les règles intégrées ne couvrent pas un besoin spécifique à votre projet, Rector permet de créer des règles sur mesure. Une règle personnalisée est une classe qui étend `AbstractRector` et implémente trois méthodes :
+
+```php
+use PhpParser\Node;
+use PhpParser\Node\Expr\FuncCall;
+use Rector\Rector\AbstractRector;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+
+final class ReplaceLegacyHelperRector extends AbstractRector
+{
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition('Replace legacy_helper() calls with new_helper()', []);
+    }
+
+    public function getNodeTypes(): array
+    {
+        return [FuncCall::class];
+    }
+
+    public function refactor(Node $node): ?Node
+    {
+        if (! $this->isName($node, 'legacy_helper')) {
+            return null;
+        }
+
+        $node->name = new Node\Name('new_helper');
+
+        return $node;
+    }
+}
+```
+
+La méthode `getNodeTypes()` déclare quels types de noeuds AST intéressent la règle. La méthode `refactor()` reçoit chaque noeud correspondant et retourne soit le noeud modifié, soit `null` si aucune modification n'est nécessaire. Cette approche est idéale pour automatiser des refactorisations propres à votre base de code, comme remplacer un helper legacy maison par une alternative moderne.
+
+### Intégrer Rector dans la CI
+
+Rector s'intègre naturellement dans un pipeline d'intégration continue. L'idée est de vérifier qu'aucun fichier n'a besoin d'être transformé par Rector, ce qui garantit que tout le code poussé est déjà conforme aux règles définies.
+
+Dans un workflow GitHub Actions :
+
+```yaml
+- name: Rector
+  run: vendor/bin/rector process --dry-run
+```
+
+Si Rector détecte des modifications à appliquer, la commande `--dry-run` retourne un code d'erreur et fait échouer le pipeline. Les développeurs doivent alors exécuter Rector localement, commiter les changements et pousser à nouveau.
+
+Cette approche fonctionne aussi avec GitLab CI, Jenkins ou tout autre outil de CI. L'important est de toujours utiliser `--dry-run` dans le pipeline pour ne jamais modifier le code directement sur le serveur de CI.
+
+### Workflow de migration recommandé
+
+Pour une migration réussie avec Rector, voici un workflow éprouvé :
+
+1. **Préparer le terrain** : lancez PHPStan sur votre projet pour avoir un état des lieux de la qualité du code avant migration.
+2. **Appliquer les règles par catégorie** : commencez par `DEAD_CODE` pour nettoyer, puis `CODE_QUALITY`, et enfin les règles de montée de version PHP ou Symfony.
+3. **Travailler par lots** : appliquez une seule règle ou un petit groupe de règles, vérifiez le diff, lancez les tests, puis commitez.
+4. **Tester systématiquement** : après chaque passage de Rector, lancez votre suite de tests complète. Rector ne peut pas garantir que le comportement métier reste identique dans tous les cas.
+5. **Réviser manuellement** : certaines transformations méritent une relecture humaine, en particulier les changements de nommage ou les modifications de structure de classes.
 
 ### Commandes d'exécution
 
@@ -161,6 +308,8 @@ php vendor/bin/rector process src
 ```
 
 ### Conclusion
+
+Rector est un outil puissant qui transforme les migrations PHP et Symfony d'une corvée manuelle en un processus largement automatisé. Sa compréhension de l'AST lui permet de modifier le code avec précision, sans introduire de régressions syntaxiques. Combiné à une bonne couverture de tests et à une intégration CI, il devient un allié indispensable pour maintenir un code moderne et propre.
 
 Malgré les capacités de Rector, un test approfondi de l'application reste essentiel pour identifier tout effet secondaire non intentionnel. Pour les équipes cherchant un support de migration, Efficience IT offre une assistance professionnelle via notre page de contact.
 

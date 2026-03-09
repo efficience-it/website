@@ -13,6 +13,19 @@ Avec Docker, Mercure, Redis, Varnish, Nginx, PHP n'a cessé de grandement s'amé
 
 Dans les serveurs, il n'en est pas moins qu'on expose l'application via un serveur web tiers (NGINX, Apache), qui délègue l'exécution des scripts à PHP-FPM, via le protocole FastCGI. Ce qui peut rester encore complexe pour un site web.
 
+## Le problème avec l'architecture classique PHP-FPM / Nginx
+
+Avant de parler de FrankenPHP, il est important de comprendre pourquoi l'architecture traditionnelle pose problème. Avec PHP-FPM et Nginx, chaque requête HTTP suit un chemin bien précis :
+
+1. Le client envoie une requête HTTP à Nginx
+2. Nginx transmet la requête à PHP-FPM via le protocole FastCGI
+3. PHP-FPM démarre un processus PHP, charge le framework, exécute le code, puis retourne la réponse
+4. Le processus PHP est détruit, et toute la mémoire est libérée
+
+Ce modèle, dit "share nothing", a l'avantage d'être robuste : chaque requête est isolée, un bug dans une requête n'affecte pas les suivantes. Mais il a un coût considérable en performance. À chaque requête, le framework doit être rechargé intégralement : lecture des fichiers de configuration, construction du conteneur de services, compilation des routes. Même avec OPcache qui met en cache le bytecode PHP, le temps d'initialisation reste significatif.
+
+De plus, cette architecture implique de configurer et maintenir plusieurs services : Nginx pour le reverse proxy, PHP-FPM pour l'exécution, et parfois un gestionnaire de certificats TLS en plus. Cela multiplie les fichiers de configuration et les points de défaillance possibles.
+
 ## C'est là qu'est apparu FrankenPHP
 
 FrankenPHP, c'est un serveur d'application spécialement conçu pour PHP qui est écrit en Go. Il est bâti sur [Caddy](https://caddyserver.com/) (un serveur web), et embarque directement un interpréteur PHP dans le serveur.
@@ -33,6 +46,38 @@ FrankenPHP donne également à PHP des fonctionnalités qui vont faire rougir le
 - Support natif de Xdebug et OpCache
 - Images Docker légères, simples d'utilisation et faites pour la prod (compatibles avec Kubernetes)
 
+## Le mode worker en détail
+
+Le mode worker est sans doute la fonctionnalité la plus intéressante de FrankenPHP. Dans ce mode, l'application PHP est démarrée une seule fois, et le framework reste chargé en mémoire entre les requêtes. Concrètement, le conteneur de services de Symfony ou Laravel, les routes compilées, les fichiers de configuration sont chargés au démarrage du worker et réutilisés pour toutes les requêtes suivantes.
+
+Le gain de performance est spectaculaire. Les benchmarks publiés par l'équipe de FrankenPHP montrent des temps de réponse divisés par trois, voire davantage, par rapport à PHP-FPM sur des applications Symfony ou Laravel. Sur une API REST typique, on passe facilement de 15-20 ms par requête avec PHP-FPM à 3-5 ms avec le mode worker.
+
+Pour activer le mode worker avec Symfony, il suffit d'installer le package `runtime/frankenphp-symfony` et de configurer la variable d'environnement `APP_RUNTIME` :
+
+```bash
+composer require runtime/frankenphp-symfony
+```
+
+```
+APP_RUNTIME=Runtime\FrankenPhpSymfony\Runtime
+```
+
+Symfony Runtime gère alors automatiquement le cycle de vie du worker, en s'assurant que les services qui doivent être réinitialisés entre chaque requête le sont correctement.
+
+## Les Early Hints pour le préchargement
+
+Le support des Early Hints (code HTTP 103) est une fonctionnalité que très peu de serveurs PHP proposent nativement. Quand un navigateur demande une page, le serveur peut immédiatement envoyer une réponse 103 qui indique au navigateur quelles ressources CSS et JavaScript il devra télécharger, avant même que la page ne soit générée.
+
+Le navigateur commence donc à télécharger les fichiers statiques pendant que PHP prépare le HTML. Résultat : le temps de chargement perçu par l'utilisateur diminue sensiblement, surtout sur les pages qui nécessitent un traitement serveur important.
+
+Avec Symfony, l'utilisation est très simple grâce à la méthode `sendEarlyHints` du composant `WebLink` :
+
+```php
+$response = new Response();
+$response->headers->set('Link', '</style.css>; rel=preload; as=style');
+$this->sendEarlyHints($response);
+```
+
 ## Techniquement, comment ça fonctionne ?
 
 FrankenPHP utilise CGO pour permettre au code Go d'appeler le code de l'interpréteur PHP écrit en C, et inversement. Cela revient à faire exécuter la machine virtuelle de PHP elle-même au sein d'un process géré par le runtime Go. Cette technique offre des opportunités immenses :
@@ -41,13 +86,29 @@ FrankenPHP utilise CGO pour permettre au code Go d'appeler le code de l'interpr�
 - Conserver les services des applications Symfony ou Laravel chargés dans la mémoire du serveur web et s'en servir pour traiter plusieurs requêtes HTTP
 - Écrire des fonctions en Go (ou en C, voire même en assembleur) et les appeler directement depuis le code PHP
 
+## Intégration Docker
+
+L'un des points forts de FrankenPHP est la simplicité de son intégration Docker. L'équipe maintient des images officielles prêtes pour la production. Un Dockerfile complet pour une application Symfony ressemble à ceci :
+
+```dockerfile
+FROM dunglas/frankenphp:latest
+
+COPY . /app/public
+
+ENTRYPOINT ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]
+```
+
+En comparaison, une configuration équivalente avec Nginx et PHP-FPM nécessite généralement deux conteneurs (ou un conteneur avec un superviseur de processus), un fichier de configuration Nginx, un fichier `php-fpm.conf`, et souvent un script d'entrée personnalisé.
+
+Les images Docker de FrankenPHP sont également optimisées pour Kubernetes. Elles supportent les health checks natifs de Caddy, le graceful shutdown pour les rolling updates, et la configuration via variables d'environnement, ce qui facilite grandement l'orchestration en production.
+
 ## Plus d'infos
 
 La documentation complète est disponible sur [frankenphp.dev/docs/](https://frankenphp.dev/docs/). Lors de la sortie au ForumPHP, Kévin Dunglas a également partagé ses [slides](https://speakerdeck.com/dunglas/frankenphp-a-modern-app-server-for-php-written-in-go) et le [dépôt GitHub](https://github.com/dunglas/frankenphp) de FrankenPHP.
 
 ## En résumé
 
-FrankenPHP semble être une solution complète pour déployer des applications PHP de manière moderne et efficace, tirant parti de technologies récentes tout en offrant des performances améliorées et une configuration simplifiée.
+FrankenPHP semble être une solution complète pour déployer des applications PHP de manière moderne et efficace, tirant parti de technologies récentes tout en offrant des performances améliorées et une configuration simplifiée. En supprimant la couche intermédiaire entre le serveur web et PHP, en proposant un mode worker qui conserve le framework en mémoire, et en fournissant des images Docker prêtes pour la production, FrankenPHP répond aux problèmes historiques de l'écosystème PHP en matière de déploiement et de performance. C'est un projet à surveiller de près pour quiconque travaille avec PHP au quotidien.
 
 ## Pour aller plus loin
 

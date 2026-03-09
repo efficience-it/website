@@ -11,7 +11,7 @@ image: "/images/blog/alice-faker.jpg"
 
 Symfony est reconnu comme un framework PHP robuste et flexible. Les développeurs travaillant sur des projets avec ce framework ont fréquemment besoin de données fictives pour les tests, les démonstrations ou le remplissage réaliste de bases de données. Deux outils populaires pour générer ces données sont le bundle Alice Faker et le plus récent Foundry. Auparavant, Faker existait mais n'est plus maintenu. Cet article compare ces deux solutions et explore comment les intégrer et les utiliser efficacement dans les projets Symfony.
 
-### Alice Faker vs Foundry : vue d'ensemble
+## Présentation des outils
 
 ### Alice Faker
 
@@ -31,35 +31,229 @@ Foundry est une bibliothèque de fixtures et de modèles pour Symfony, intégré
 
 ### Comparaison des fonctionnalités
 
-Un tableau comparatif entre Alice Faker et Foundry détaille leurs fonctionnalités et capacités respectives.
+| Fonctionnalité | Alice Faker | Foundry |
+|---|---|---|
+| Format de définition | YAML, JSON, PHP | PHP (factories) |
+| Génération aléatoire | Via FakerPHP | Via FakerPHP |
+| Relations entre entités | Références YAML | Méthodes PHP fluides |
+| Intégration Doctrine | Via DoctrineFixturesBundle | Native |
+| Réinitialisation de la BDD en test | Manuelle | `ResetDatabase` trait |
+| Courbe d'apprentissage | Faible | Faible |
+| Maintenance | Active | Très active |
 
-### Utilisation du bundle Alice Faker
+Alice Faker se distingue par sa simplicité de configuration via des fichiers YAML, tandis que Foundry offre une approche plus programmatique et un meilleur outillage pour les tests automatisés.
 
-### Création de fixtures
+## Utilisation du bundle Alice Faker
 
-Avec Alice Faker, vous pouvez créer des fichiers de fixtures en YAML, JSON ou PHP pour définir des données fictives. Par exemple, définir des utilisateurs avec des noms, adresses e-mail et mots de passe générés aléatoirement.
+### Installation
 
-### Configuration avancée
+L'installation se fait via Composer en ajoutant les dépendances nécessaires :
 
-Alice Faker permet également de définir des relations entre entités et d'utiliser des constructeurs personnalisés pour des scénarios de données complexes. Plus de détails : [https://github.com/nelmio/alice/blob/main/doc/advanced-guide.md#advanced-guide](https://github.com/nelmio/alice/blob/main/doc/advanced-guide.md#advanced-guide)
+```bash
+composer require --dev nelmio/alice hautelook/alice-bundle
+```
 
-### Utilisation de Foundry
+Le bundle `hautelook/alice-bundle` fournit l'intégration avec Symfony et la commande de chargement des fixtures. Une fois installé, il est automatiquement enregistré grâce au système de Flex.
 
-### Création de factories
+### Création de fixtures en YAML
 
-Avec Foundry, vous créez des factories pour définir vos objets.
+Avec Alice Faker, vous définissez vos fixtures dans des fichiers YAML placés dans le répertoire `fixtures/` de votre projet. Voici un exemple pour générer des utilisateurs :
 
-### Chargement des données
+```yaml
+App\Entity\User:
+    user_{1..20}:
+        firstName: '<firstName()>'
+        lastName: '<lastName()>'
+        email: '<email()>'
+        password: '<bcrypt("password123")>'
+        roles: ['ROLE_USER']
+        createdAt: '<dateTimeBetween("-1 year", "now")>'
+```
 
-La commande reste la même qu'avec Faker, chargeant les fixtures avec les données dans la base de données.
+Cette syntaxe crée 20 utilisateurs avec des données réalistes. La notation `{1..20}` indique à Alice de générer une série d'objets, et les expressions entre chevrons appellent les méthodes de FakerPHP.
 
-### Flexibilité et performance
+### Relations entre entités
 
-Foundry offre une grande flexibilité grâce à la création d'objets basée sur les factories, permettant une configuration détaillée des scénarios de test.
+La gestion des relations est l'un des points forts d'Alice. Vous pouvez référencer des objets définis précédemment pour créer des associations :
 
-### Conclusion
+```yaml
+App\Entity\Category:
+    category_php:
+        name: 'PHP'
+        slug: 'php'
+    category_symfony:
+        name: 'Symfony'
+        slug: 'symfony'
+    category_javascript:
+        name: 'JavaScript'
+        slug: 'javascript'
 
-Le choix entre le bundle Alice Faker et Foundry dépend des besoins spécifiques et de la complexité du projet Symfony. Alice Faker convient à ceux qui préfèrent la définition de données de test basée sur des fichiers de configuration, tandis que Foundry offre une plus grande flexibilité et de meilleures performances pour les projets à grande échelle grâce à son approche basée sur les factories.
+App\Entity\Article:
+    article_{1..50}:
+        title: '<sentence(6)>'
+        content: '<paragraphs(5, true)>'
+        author: '@user_<numberBetween(1, 20)>'
+        category: '@category_*'
+        publishedAt: '<dateTimeBetween("-6 months", "now")>'
+        isPublished: '<boolean(80)>'
+```
+
+Ici, chaque article est associé à un utilisateur existant via `@user_<numberBetween(1, 20)>` et à une catégorie choisie aléatoirement parmi celles définies grâce au wildcard `@category_*`.
+
+### Fournisseurs personnalisés (Custom Providers)
+
+FakerPHP propose de nombreux fournisseurs de données, mais il est parfois nécessaire de créer les siens pour des besoins métier spécifiques. Un fournisseur personnalisé est une classe PHP qui étend `Faker\Provider\Base` :
+
+```php
+namespace App\DataFixtures\Provider;
+
+use Faker\Provider\Base;
+
+class ArticleProvider extends Base
+{
+    private const TAGS = [
+        'symfony', 'php', 'docker', 'api-platform',
+        'react', 'typescript', 'postgresql', 'redis',
+    ];
+
+    public function articleTag(): string
+    {
+        return self::TAGS[array_rand(self::TAGS)];
+    }
+
+    public function articleSlug(): string
+    {
+        return strtolower(
+            str_replace(' ', '-', $this->generator->sentence(4))
+        );
+    }
+}
+```
+
+Pour enregistrer ce fournisseur avec le bundle hautelook/alice-bundle, il suffit de le déclarer comme service tagué dans la configuration :
+
+```yaml
+services:
+    App\DataFixtures\Provider\ArticleProvider:
+        tags: ['nelmio_alice.faker.provider']
+```
+
+Vous pouvez ensuite utiliser vos méthodes directement dans les fichiers de fixtures YAML :
+
+```yaml
+App\Entity\Article:
+    article_{1..50}:
+        slug: '<articleSlug()>'
+        tags: ['<articleTag()>', '<articleTag()>']
+```
+
+### Chargement des fixtures
+
+Le chargement des données en base se fait avec la commande suivante :
+
+```bash
+php bin/console hautelook:fixtures:load
+```
+
+Par défaut, cette commande purge la base de données avant de charger les nouvelles fixtures. Pour ajouter des données sans purger, utilisez l'option `--append`.
+
+## Utilisation de Foundry
+
+### Installation et création de factories
+
+Foundry s'installe également via Composer :
+
+```bash
+composer require --dev zenstruck/foundry
+```
+
+Avec Foundry, vous créez des factories PHP pour chaque entité. La commande `make:factory` génère automatiquement le squelette :
+
+```bash
+php bin/console make:factory
+```
+
+Voici un exemple de factory pour une entité `User` :
+
+```php
+namespace App\Factory;
+
+use App\Entity\User;
+use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
+
+final class UserFactory extends PersistentProxyObjectFactory
+{
+    public static function class(): string
+    {
+        return User::class;
+    }
+
+    protected function defaults(): array
+    {
+        return [
+            'firstName' => self::faker()->firstName(),
+            'lastName' => self::faker()->lastName(),
+            'email' => self::faker()->unique()->email(),
+            'password' => 'password123',
+            'roles' => ['ROLE_USER'],
+        ];
+    }
+}
+```
+
+### Chargement des données et utilisation en test
+
+La création d'objets se fait directement en PHP, que ce soit dans une classe de fixtures Doctrine ou dans un test :
+
+```php
+UserFactory::createMany(20);
+
+ArticleFactory::createOne([
+    'author' => UserFactory::random(),
+    'category' => CategoryFactory::createOne(['name' => 'PHP']),
+]);
+```
+
+La syntaxe est fluide et expressive. La méthode `random()` permet de récupérer un objet déjà persisté, et vous pouvez surcharger n'importe quel attribut à la volée.
+
+### Isolation des tests
+
+L'un des avantages majeurs de Foundry réside dans son intégration avec PHPUnit pour l'isolation des tests. En utilisant le trait `ResetDatabase`, chaque test démarre avec une base de données propre :
+
+```php
+use Zenstruck\Foundry\Test\ResetDatabase;
+
+class ArticleControllerTest extends WebTestCase
+{
+    use ResetDatabase;
+
+    public function testListArticles(): void
+    {
+        ArticleFactory::createMany(5);
+
+        $this->client->request('GET', '/articles');
+
+        $this->assertResponseIsSuccessful();
+    }
+}
+```
+
+Cette approche garantit que les tests ne dépendent pas les uns des autres et restent reproductibles. Foundry gère automatiquement les transactions et le rollback entre chaque test, ce qui améliore aussi la vitesse d'exécution par rapport à un rechargement complet des fixtures.
+
+## Stratégies de chargement des données
+
+Quel que soit l'outil choisi, la stratégie de chargement des fixtures mérite réflexion. Deux approches courantes existent :
+
+- **Purge et rechargement** : la base est vidée puis les fixtures sont rechargées intégralement. C'est l'approche la plus simple et celle par défaut avec Alice comme avec Foundry. Elle garantit un état connu de la base à chaque exécution.
+- **Ajout incrémental** : les nouvelles données sont ajoutées sans supprimer les existantes. Cette approche est utile pour construire progressivement un jeu de données réaliste en développement, mais elle peut provoquer des doublons ou des conflits de contraintes d'unicité.
+
+Pour les tests automatisés, la première approche est recommandée. Elle assure la reproductibilité des tests et évite les effets de bord liés à un état résiduel de la base.
+
+## Conclusion
+
+Le choix entre le bundle Alice Faker et Foundry dépend des besoins spécifiques et de la complexité du projet Symfony. Alice Faker convient à ceux qui préfèrent la définition de données de test basée sur des fichiers de configuration YAML, avec une syntaxe déclarative et des fournisseurs personnalisés faciles à mettre en place. Foundry, de son côté, offre une approche programmatique plus puissante, une meilleure intégration avec PHPUnit pour l'isolation des tests, et un développement plus actif.
+
+Pour les nouveaux projets, Foundry est généralement le choix recommandé par la communauté Symfony. Son approche par factories s'intègre naturellement dans le workflow de développement PHP, et ses outils d'isolation des tests simplifient considérablement l'écriture de suites de tests fiables. Alice Faker reste cependant un excellent choix pour les projets existants qui l'utilisent déjà ou pour les équipes qui préfèrent une approche déclarative.
 
 ## Pour aller plus loin
 
