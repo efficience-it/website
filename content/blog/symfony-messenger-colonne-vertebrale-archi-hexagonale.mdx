@@ -233,7 +233,7 @@ C'est un point crucial que beaucoup ratent. Tes commands et queries ne doivent *
 
 Pourquoi ? Parce que dans une architecture hexagonale, le domaine est au centre. Il ne dépend de rien. C'est l'infrastructure (ici Symfony Messenger) qui s'adapte au domaine, pas l'inverse.
 
-Messenger n'exige aucune interface sur tes messages. N'importe quel objet PHP peut être dispatché. C'est un choix de design brillant qui rend le composant compatible avec une archi hexagonale sans effort.
+Messenger n'exige aucune interface sur tes messages. N'importe quel objet PHP peut être dispatché. C'est un choix de design brillant qui rend le composant compatible avec une archi hexagonale sans effort. Si tu veux comprendre en profondeur pourquoi cette séparation est essentielle, lis notre article [Pourquoi ton Domain ne devrait jamais connaître Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony).
 
 ## Les handlers vivent dans la couche Application
 
