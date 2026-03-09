@@ -29,6 +29,7 @@ export default function Home() {
       <CallToAction />
       <BlogPreview />
       <Testimonials />
+      <CallToAction />
     </main>
   );
 }

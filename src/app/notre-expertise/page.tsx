@@ -77,7 +77,7 @@ export default function NotreExpertise() {
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
           <SectionTitle>Nos services</SectionTitle>
-          <div className="grid gap-8 md:grid-cols-3">
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {services.map((service) => (
               <Card key={service.title}>
                 <h3 className="font-display text-xl font-bold text-dark">

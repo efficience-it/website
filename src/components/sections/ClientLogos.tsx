@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
+import Button from "@/components/ui/Button";
 import { clients } from "@/../data/clients";
 
 export default function ClientLogos() {
@@ -22,6 +23,11 @@ export default function ClientLogos() {
               />
             </div>
           ))}
+        </div>
+        <div className="mt-10 text-center">
+          <Button href="/nos-references" variant="primary" size="lg">
+            Nos projets
+          </Button>
         </div>
       </Container>
     </section>
