@@ -72,9 +72,8 @@ jobs:
           args: >-
             --no-progress
             --exclude 'mailto:'
-            --scheme https
-            --scheme http
-            --exclude '^/'
+            --base https://www.itefficience.com
+            --exclude 'itefficience\.com'
             --timeout 30
             --max-retries 3
             --accept 200,204,301,302,403,429
