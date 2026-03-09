@@ -7,58 +7,64 @@ excerpt: "Dans le domaine des bibliothèques de persistance des bases de donnée
 image: "/images/blog/doctrine-orm-3.webp"
 ---
 
-## Doctrine ORM 3.0 : une nouvelle version majeure pour les bases de données
+## Doctrine ORM 3.0 : nouveautés et impacts pour les bases de données
 
-Dans le domaine des bibliothèques de persistance des bases de données en PHP, peu de noms portent autant de poids que Doctrine ORM. Avec sa sortie le 3 février 2024, la communauté PHP est en effervescence, et pour de bonnes raisons ! Plongeons dans ce que représente ORM 3.0 et les améliorations qu'il nous apporte.
+Dans le domaine des bibliothèques de persistance des bases de données en PHP, peu de noms portent autant de poids que Doctrine ORM. Avec sa sortie le 3 février 2024, la communauté PHP est en effervescence, et pour de bonnes raisons. Plongeons dans ce que représente ORM 3.0 et les améliorations qu'il nous apporte.
 
-### Qu'est-ce que Doctrine ORM 3 ?
+## Qu'est-ce que Doctrine ORM 3 ?
 
-Doctrine ORM, ou Mapping Objet-Relationnel, est un outil puissant qui fait le lien entre les bases de données relationnelles et les objets en PHP. Il permet aux développeurs de manipuler des données de manière orientée objet sans avoir à écrire des requêtes SQL directement. En d'autres termes, un ORM simplifie considérablement l'interaction avec la base de données en utilisant des objets et des relations entre eux.
+Doctrine ORM, ou Mapping Objet-Relationnel, est un outil puissant qui fait le lien entre les bases de données relationnelles et les objets en PHP. Cette bibliothèque permet aux développeurs de manipuler des données en utilisant les principes de la programmation orientée objet, sans avoir à écrire des requêtes SQL directement. En d'autres termes, un ORM simplifie considérablement l'interaction avec la base de données en utilisant des objets et des relations entre eux.
 
-### Les améliorations de Doctrine ORM 3.0
+## Les améliorations de Doctrine ORM 3.0
 
-La version 3.0 de Doctrine ORM nous apporte plusieurs améliorations par rapport aux anciennes versions :
+La version 3.0 de Doctrine ORM apporte plusieurs améliorations significatives par rapport aux anciennes versions.
 
-- **Taille réduite :** Bien plus léger, avec une taille réduite de 326 Ko par rapport aux 400 Ko de la version 2.18.0. Cette réduction de taille contribue à rendre ORM plus efficace et à concentrer les efforts de maintenance sur les fonctionnalités essentielles, ainsi qu'à rendre plus rapide l'exécution et le chargement du code avec PHP.
+### Taille réduite
 
-- **Couverture de code améliorée :** La couverture de code a été améliorée, passant de 84 % à 89 %. Ce qui garantit une meilleure fiabilité et une plus grande stabilité de l'écosystème Doctrine. Donc plus rassurant aussi pour le bon fonctionnement de nos applications.
+Le package est désormais bien plus léger, avec une taille réduite à 326 Ko contre 400 Ko pour la version 2.18.0. Cette réduction contribue à rendre ORM plus efficace, à concentrer les efforts de maintenance sur les fonctionnalités essentielles, et à accélérer l'exécution et le chargement du code avec PHP.
 
-- **Élimination des dépendances :** ORM 3.0 élimine les dépendances à doctrine/cache et à doctrine/common. Ce qui réduit la complexité, améliore la maintenabilité, et rend également Doctrine plus compatible avec d'autres frameworks grâce à l'utilisation de PSR-6 pour la gestion du cache.
+### Couverture de code améliorée
 
-En plus de ces avancées, d'autres améliorations significatives ont été apportées dans la version 3.0 de Doctrine ORM.
+La couverture de code a été améliorée, passant de 84 % à 89 %. Ce qui garantit une meilleure fiabilité et une plus grande stabilité de l'écosystème Doctrine. C'est donc plus rassurant aussi pour le bon fonctionnement de nos applications.
 
-#### Gestion des associations
+### Élimination des dépendances
 
-L'une des améliorations les plus importantes est celle-ci, puisqu'elle a été optimisée.
+ORM 3.0 élimine les dépendances à doctrine/cache et à doctrine/common. Ce qui réduit la complexité, améliore la maintenabilité, et rend également Doctrine plus compatible avec d'autres frameworks grâce à l'utilisation de PSR-6 pour la gestion du cache.
 
-- Une meilleure gestion des associations, avec une détection plus précise du côté propriétaire ou inverse.
-- L'élimination des erreurs cachées grâce à la levée d'exceptions lorsque vous tentez d'accéder à des informations d'association incorrectes.
+En plus de ces avancées, d'autres améliorations significatives ont été apportées dans la version 3.0.
 
-#### Chargement des proxies
+### Gestion des associations
 
-Les proxies sont des composants clés pour améliorer les performances de Doctrine ORM. Dans la version 3.0, il y a eu une optimisation du chargement des proxies, pour une gestion plus efficace de la mémoire, accroissant les performances du chargement d'entités.
+L'une des améliorations les plus importantes concerne la gestion des associations, qui a été optimisée :
 
-#### Génération d'identifiants
+- Une meilleure détection du côté propriétaire ou inverse des relations entre entités
+- L'élimination des erreurs cachées grâce à la levée d'exceptions lorsque vous tentez d'accéder à des informations d'association incorrectes
 
-De ce côté-ci, l'ORM a été amélioré aussi, avec :
+### Chargement des proxies
 
-- Une stratégie de génération automatique des identifiants plus flexible et adaptable.
-- Une mise à jour spécifique pour PostgreSQL, alignant la génération des identifiants avec les normes actuelles de la base de données.
+Les proxies sont des composants clés pour améliorer les performances de Doctrine ORM. Dans la version 3.0, le chargement des proxies a été optimisé pour une gestion plus efficace de la mémoire, accroissant les performances du chargement d'entités.
 
-#### Gestion des objets embeddables
+### Génération d'identifiants
 
-Les objets embeddables permettent de regrouper plusieurs champs de base de données dans une seule entité. Dans la version 3.0, une meilleure cohérence a été apportée pour faciliter le développement, et ils ont mis à jour l'interface pour la rendre plus intuitive et avoir une meilleure approche des objets embeddables.
+La stratégie de génération des identifiants a été améliorée avec :
 
-#### Suppression des objets partiels
+- Une génération automatique des identifiants plus flexible et adaptable aux différents cas d'usage
+- Une mise à jour spécifique pour PostgreSQL, alignant la génération des identifiants avec les normes actuelles de la base de données
 
-En effet, ils étaient pratiques car cette fonctionnalité permettait de charger partiellement les données d'une entité. Mais les contributeurs ont préféré simplifier cette approche et améliorer les performances, en éliminant cette fonctionnalité peu utilisée et complexe.
+### Gestion des objets embeddables
 
-### Comment effectuer la mise à niveau ?
+Les objets embeddables permettent de regrouper plusieurs champs de base de données dans une seule entité. Dans la version 3.0, une meilleure cohérence a été apportée pour faciliter le développement, et l'interface a été mise à jour pour la rendre plus intuitive et proposer une meilleure approche des objets embeddables.
 
-Bien que la mise à niveau vers une nouvelle version majeure puisse vous paraître complexe, Doctrine propose des ressources complètes pour faciliter le processus. Les développeurs sont encouragés à d'abord effectuer la mise à niveau vers la dernière version de Doctrine ORM 2.18, en traitant les avertissements de dépréciation, avant de passer à ORM 3.0.
+### Suppression des objets partiels
 
-### Conclusion
+Les objets partiels étaient pratiques car cette fonctionnalité permettait de charger partiellement les données d'une entité. Mais les contributeurs ont préféré simplifier l'approche et améliorer les performances en éliminant cette fonctionnalité peu utilisée et complexe.
+
+## Comment effectuer la mise à niveau ?
+
+Bien que la mise à niveau vers une nouvelle version majeure puisse paraître complexe, Doctrine propose des ressources complètes pour faciliter le processus. Les développeurs sont encouragés à d'abord effectuer la mise à niveau vers la dernière version de Doctrine ORM 2.18, en traitant les avertissements de dépréciation, avant de passer à ORM 3.0.
+
+## Conclusion
 
 Doctrine ORM 3.0 représente une étape importante dans l'évolution de cette bibliothèque de persistance des bases de données en PHP. Avec des améliorations significatives en termes de performance, de qualité du code et de réduction des dépendances, ORM 3.0 offre une expérience de développement plus fluide et efficace.
 
-Faites appel à nos équipes pour vous épauler dans cette migration, en nous contactant !
+Faites appel à nos équipes pour vous épauler dans cette migration, en nous contactant.
