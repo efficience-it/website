@@ -26,6 +26,11 @@ Clone/reproduction de https://www.itefficience.com en Next.js.
 - Ne jamais utiliser `<h4>`, `<h5>`, `<h6>`
 - Viser entre 1000 et 2000 mots par article
 
+## SEO — Décisions volontaires
+
+- Les pages `/domain/*` ne sont pas dans le sitemap (volontaire)
+- Le sitemap du live contient des pages hors périmètre (checkout, login, etc.) — on ne les reproduit pas, c'est voulu
+
 ## Hors périmètre
 
 Ces fonctionnalités du site original ne seront pas reproduites :

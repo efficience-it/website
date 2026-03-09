@@ -56,7 +56,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     author: post.author,
     image: post.image ? `${BASE_URL}${post.image}` : undefined,
     genre: post.category,
-    publisher: SITE_NAME,
+    publisher: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: BASE_URL,
+    },
     datePublished: post.date,
     url: `${BASE_URL}/article/${slug}`,
   };
