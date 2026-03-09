@@ -9,61 +9,96 @@ image: "/images/blog/seo-ai.png"
 
 Les moteurs de recherche évoluent. Google, Bing, ChatGPT, Claude ou Gemini ne se contentent plus d'indexer : ils comprennent, résument et reformulent.
 
-Dans ce contexte, un nouveau fichier émerge : `llms.txt`. Chez Efficience IT, agence web & DevOps à Lille, cet outil est considéré comme stratégique et complémentaire au SEO technique classique.
+Dans ce contexte, un nouveau fichier émerge : `llms.txt`. Chez Efficience IT, agence web & DevOps à Lille, nous le considérons déjà comme un outil stratégique AI-first, complémentaire au SEO technique classique.
 
 ## Qu'est-ce que le fichier llms.txt ?
 
-Le fichier `llms.txt` est un fichier texte placé à la racine d'un site web. Il fournit aux LLM (Large Language Models) une vue synthétique, structurée et lisible du contenu pertinent.
+Le fichier `llms.txt` est un fichier texte placé à la racine d'un site web. Il fournit aux LLM (Large Language Models) une vue synthétique, structurée et lisible du contenu réellement pertinent d'un site.
 
-Proposé par Jeremy Howard, ce concept résout un problème clé : les IA ne peuvent pas analyser efficacement un site rempli de HTML, JavaScript, tracking et navigation complexe.
+Le concept a été proposé par Jeremy Howard, pour résoudre un problème clé : les IA ne peuvent pas analyser efficacement un site web complet rempli de HTML, JS, tracking et navigation complexe.
 
-**Objectif :** donner aux IA un accès direct au cœur de la connaissance du site.
+**Objectif du `llms.txt`** : donner aux IA un accès direct au « cœur de la connaissance » du site.
 
-## llms.txt vs robots.txt : distinction
+## llms.txt vs robots.txt : ne pas confondre
 
-- `robots.txt` : pour les crawlers, autoriser/bloquer l'indexation
-- `llms.txt` : pour les IA génératives, guider la compréhension
+- `robots.txt` : pour les crawlers (Googlebot), dans le but d'autoriser ou bloquer l'indexation
+- `llms.txt` : pour les IA génératives, dans le but de guider la compréhension du contenu
 
 `robots.txt` protège ; `llms.txt` explique.
 
-## Avantages concrets
+## Pourquoi le llms.txt devient un levier SEO stratégique
 
-- Contrôle du discours IA sur votre marque
+### Avantages concrets
+
+- Contrôle du discours IA sur la marque
 - Moins de bruit, plus de sens
 - Meilleure citation dans les réponses générées
-- Gain de tokens et meilleure précision
+- Gain de tokens, meilleure précision
 - SEO orienté usages IA, pas seulement SERP
 
-## Limites à connaître
+### Limites à connaître
 
-- Pas encore un standard officiel
+- Ce n'est pas encore un standard officiel
 - Nécessite une mise à jour régulière
 - Ne remplace pas `sitemap.xml` ni le SEO technique
 
-## Création d'un bon llms.txt
+Chez Efficience IT, nous parlons d'un nouveau pilier : le SEO sémantique AI-driven.
 
-**Placement :** `https://www.votresite.com/llms.txt`
+## Comment créer un bon llms.txt
 
-**Structure recommandée :**
+### Placement
+
+```
+https://www.votresite.com/llms.txt
+```
+
+### Structure recommandée
 
 - H1 : nom du site
 - Blockquote : résumé
 - Sections fonctionnelles
-- Liens vers contenus Markdown
+- Liens vers contenus Markdown (`.md`)
 
-**Contenus à privilégier :** services, expertises, FAQ, études de cas, contact.
+### Contenus à privilégier
 
-**À éviter :** login, CGU, duplications, pages marketing creuses.
+- Services
+- Expertises
+- FAQ
+- Études de cas
+- Contact
 
-## Implémentation selon CMS
+**À éviter** : login, CGU, duplications, pages marketing creuses.
+
+## Implémentation selon le CMS
 
 - **WordPress** : FTP ou plugin File Manager
 - **Magento** : fichier statique à la racine
 - **Webflow** : page texte simulée
 - **Wix** : endpoint textuel
 - **Shopify** : asset ou page dédiée
-- **Symfony** : fichier statique ou route dédiée
+- **Symfony / custom** : fichier statique ou route dédiée
+
+Bonne nouvelle : sur un site Symfony bien structuré, c'est trivial.
+
+## Exemple concret de llms.txt
+
+```
+# Nom du site
+> Description courte
+
+## Services
+- [Service A](url): description
+
+## Optional
+- [Ressource secondaire](url)
+```
+
+Simple, lisible, efficace.
 
 ## Conclusion
 
-Le `llms.txt` n'est pas une mode mais une réponse pragmatique à l'essor des moteurs génératifs. Quelques minutes de mise en place pour un impact durable sur la compréhension IA de votre site.
+Le `llms.txt` n'est pas une mode. C'est une réponse pragmatique à la montée en puissance des moteurs génératifs.
+
+Quelques minutes de mise en place pour un impact durable sur la compréhension IA du site.
+
+Chez Efficience IT, nous intégrons déjà cette logique dans nos audits SEO, refontes Symfony et stratégies DevOps orientées performance.
