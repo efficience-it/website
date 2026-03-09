@@ -24,7 +24,7 @@ Avant Docker, les environnements étaient souvent :
 - Dépendants du système
 - Incohérents entre Dev / Préprod / Prod
 
-Résultat : bugs impossibles à reproduire, mises en production anxiogènes, correctifs d'urgence directement en prod.
+Résultat : bugs impossibles à reproduire, mises en production anxiogènes, correctifs d'urgence directement en prod. Un développeur installe PHP 8.3.12 sur sa machine, la préprod tourne avec PHP 8.3.8, et la prod reste bloquée sur PHP 8.2. Une extension intl compilée différemment provoque un comportement inattendu sur les formats de date. Ce type de scénario coûte des heures de débogage et érode la confiance de l'équipe.
 
 ### Le principe fondamental de Docker
 
@@ -38,7 +38,7 @@ Cela inclut :
 - La configuration
 - Les dépendances applicatives
 
-Ce principe garantit que **ce qui est testé est exactement ce qui est déployé en production**.
+Ce principe garantit que **ce qui est testé est exactement ce qui est déployé en production**. Concrètement, l'image construite lors de la CI est celle qui sera déployée sur chaque serveur, sans recompilation ni installation de paquets supplémentaires.
 
 ## Docker apporte une standardisation totale des environnements
 
@@ -46,12 +46,29 @@ Ce principe garantit que **ce qui est testé est exactement ce qui est déployé
 
 En production, l'imprévu est l'ennemi. Le Dockerfile devient un contrat d'exécution versionné, lisible et auditable.
 
-Dans un projet Symfony en production, cela signifie par exemple :
+Prenons l'exemple d'un Dockerfile multi-stage pour une application Symfony :
 
-- Une version précise de PHP (8.3, 8.4…)
-- Les extensions exactes (intl, pdo_pgsql, opcache, etc.)
-- Une configuration figée
-- Un comportement reproductible
+```dockerfile
+FROM php:8.4-fpm-alpine AS builder
+RUN apk add --no-cache icu-dev postgresql-dev \
+    && docker-php-ext-install intl pdo_pgsql opcache
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+WORKDIR /app
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --optimize-autoloader --no-scripts
+COPY . .
+RUN php bin/console cache:warmup --env=prod
+
+FROM php:8.4-fpm-alpine
+RUN apk add --no-cache icu-libs libpq \
+    && docker-php-ext-install intl pdo_pgsql opcache
+COPY docker/php/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+COPY --from=builder /app /app
+WORKDIR /app
+USER www-data
+```
+
+Ce Dockerfile illustre plusieurs bonnes pratiques : la séparation build/runtime via le multi-stage, l'installation des dépendances Composer sans les paquets de développement, le warmup du cache Symfony dès le build, et une image finale allégée qui ne contient ni Composer ni les headers de compilation. Le résultat est une image de quelques dizaines de mégaoctets, rapide à transférer et à démarrer.
 
 Chez Efficience IT, nous utilisons systématiquement :
 
@@ -70,13 +87,56 @@ Docker permet d'éliminer :
 - Les configurations non versionnées
 - Les serveurs « bricolés »
 
-Tout devient déclaratif, versionné dans Git, et automatisable. C'est un prérequis pour toute architecture professionnelle et maintenable.
+Tout devient déclaratif, versionné dans Git, et automatisable. C'est un prérequis pour toute architecture professionnelle et maintenable. Un nouveau développeur rejoint l'équipe ? Un simple `docker compose up` suffit pour disposer d'un environnement identique à celui de la production en quelques minutes.
+
+## Docker Compose : orchestrer les services localement et en staging
+
+### Un fichier pour décrire toute l'infrastructure
+
+Docker Compose permet de déclarer l'ensemble des services d'une application dans un seul fichier. Pour une application Symfony typique avec PostgreSQL, Redis et un serveur Caddy :
+
+```yaml
+services:
+  app:
+    build:
+      context: .
+      target: builder
+    volumes:
+      - .:/app
+    depends_on:
+      - database
+      - redis
+
+  caddy:
+    image: caddy:2-alpine
+    ports:
+      - "443:443"
+    volumes:
+      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile
+
+  database:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: secret
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+
+volumes:
+  db-data:
+```
+
+Ce fichier remplace des pages de documentation d'installation. Il décrit les relations entre services, les volumes persistants, les ports exposés. Chaque membre de l'équipe travaille sur la même stack, avec les mêmes versions. En staging, un fichier `compose.staging.yml` surcharge les variables d'environnement et les configurations réseau sans toucher au fichier de base.
 
 ## Docker améliore réellement les performances en production
 
 Contrairement à un mythe encore tenace, Docker n'est pas un frein aux performances. Bien utilisé, il les améliore.
 
-### Optimisation PHP & Symfony avec Docker
+### Optimisation PHP et Symfony avec Docker
 
 Docker permet de :
 
@@ -84,6 +144,19 @@ Docker permet de :
 - Configurer le preload PHP
 - Supprimer tous les outils de dev du runtime
 - Figer les paramètres mémoire et CPU
+
+Un exemple concret : la configuration OPcache intégrée directement dans l'image de production.
+
+```ini
+opcache.enable=1
+opcache.memory_consumption=256
+opcache.max_accelerated_files=20000
+opcache.validate_timestamps=0
+opcache.preload=/app/config/preload.php
+opcache.preload_user=www-data
+```
+
+Le paramètre `validate_timestamps=0` est fondamental : en production, les fichiers PHP ne changent jamais à l'intérieur d'un conteneur (l'image est immuable). OPcache peut donc compiler le bytecode une seule fois et ne plus jamais vérifier si les fichiers ont changé. Le gain est mesurable : entre 10 et 30 % de réduction du temps de réponse sur une API Symfony typique.
 
 Dans un contexte Symfony, Docker facilite aussi :
 
@@ -101,7 +174,7 @@ Docker permet :
 - Sans conflits de dépendances
 - Avec une isolation CPU / mémoire
 
-C'est l'un des piliers de l'optimisation des coûts d'infrastructure.
+Un serveur avec 8 Go de RAM peut héberger trois applications Symfony conteneurisées, chacune limitée à 2 Go, avec une réserve pour le système. Sans Docker, les conflits entre versions de PHP, les extensions partagées et les fichiers de configuration globaux rendraient cette cohabitation risquée. C'est l'un des piliers de l'optimisation des coûts d'infrastructure.
 
 ## Docker est la fondation du DevOps moderne
 
@@ -114,7 +187,35 @@ Avec Docker, le pipeline devient simple et robuste :
 3. Push vers un registry
 4. Déploiement de la même image
 
-Plus de divergence entre build et run.
+Voici un exemple de pipeline GitLab CI qui illustre ce flux :
+
+```yaml
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  stage: build
+  script:
+    - docker build -t registry.example.com/app:$CI_COMMIT_SHA .
+    - docker push registry.example.com/app:$CI_COMMIT_SHA
+
+test:
+  stage: test
+  script:
+    - docker run --rm registry.example.com/app:$CI_COMMIT_SHA php bin/phpunit
+
+deploy:
+  stage: deploy
+  script:
+    - docker pull registry.example.com/app:$CI_COMMIT_SHA
+    - docker service update --image registry.example.com/app:$CI_COMMIT_SHA app
+  only:
+    - main
+```
+
+Le point clé : l'image taguée avec le SHA du commit est exactement la même du build au déploiement. Aucune recompilation, aucune installation de dépendances entre les étapes. Si les tests passent sur cette image, la production recevra exactement le même binaire. Plus de divergence entre build et run.
 
 ### Déploiement, scaling et rollback
 
@@ -126,6 +227,8 @@ Même sans Kubernetes, Docker permet déjà :
 - Des rollbacks immédiats
 - Une montée en charge horizontale
 
+Un rollback devient trivial : il suffit de redéployer l'image précédente, identifiée par son tag. En moins de trente secondes, la production revient à un état stable connu. Avec un orchestrateur, la montée en charge se résume à augmenter le nombre de réplicas du service applicatif.
+
 ## Sécurité et maîtrise des risques en production
 
 ### Images immuables = production maîtrisée
@@ -136,28 +239,28 @@ Une image Docker :
 - Est reconstruite à chaque release
 - Peut être auditée
 
-Cette approche est un pilier de la sécurité moderne.
+Cette approche est un pilier de la sécurité moderne. Aucun paquet n'est installé en production après le déploiement. Si un conteneur est compromis, il suffit de le détruire et d'en relancer un nouveau à partir de l'image saine. La surface d'attaque est réduite au strict minimum : pas de shell superflu, pas de compilateur, pas d'outil de débogage dans l'image finale.
 
 ### Scan de vulnérabilités et conformité
 
 Docker s'intègre naturellement avec :
 
-- Scanners de CVE
+- Scanners de CVE (Trivy, Snyk, Docker Scout)
 - Politiques de sécurité
 - Signatures d'images
 - Audits automatisés
 
-Un point clé pour les environnements sensibles ou réglementés.
+Un point clé pour les environnements sensibles ou réglementés. Ces outils s'intègrent directement dans le pipeline CI/CD : chaque image est scannée avant d'être poussée vers le registry, et un seuil de vulnérabilités critiques peut bloquer automatiquement un déploiement.
 
 ## Docker + Symfony : un standard chez Efficience IT
 
 Symfony bénéficie énormément de Docker :
 
-- Dépendances complexes
-- Cache sensible à l'environnement
-- Exigences de performance élevées
+- Dépendances complexes (extensions PHP, librairies système pour Imagick ou intl, services tiers)
+- Cache sensible à l'environnement (le cache Symfony compilé en dev diffère radicalement de celui de production)
+- Exigences de performance élevées (OPcache, preload, JIT)
 
-Déployer Symfony en production sans Docker est aujourd'hui un anti-pattern.
+Déployer Symfony en production sans Docker est aujourd'hui un anti-pattern. Les Flex recipes, le runtime Symfony et FrankenPHP s'intègrent nativement dans un workflow Docker, rendant l'ensemble encore plus fluide.
 
 ## Conclusion
 
