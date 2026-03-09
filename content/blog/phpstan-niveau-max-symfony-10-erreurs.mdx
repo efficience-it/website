@@ -34,7 +34,7 @@ Ajoute le PHPDoc générique sur chaque propriété de type `Collection`. Si tu 
 
 ```php
 #[ORM\OneToMany(targetEntity: Tag::class, mappedBy: 'article')]
-/** @var Collection<int, Tag> */
+/** @var Collection<int, Tag> $tags */
 private Collection $tags;
 ```
 
