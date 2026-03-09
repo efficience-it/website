@@ -129,7 +129,7 @@ export default function NosReferences() {
       <section className="bg-light-gray py-16">
         <Container>
           <SectionTitle>Notre engagement open source</SectionTitle>
-          <div className="grid grid-cols-4 gap-6 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-11">
+          <div className="grid grid-cols-3 gap-6 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8">
             {techStack.map((tech) => (
               <div key={tech.name} className="flex flex-col items-center gap-2">
                 <Image

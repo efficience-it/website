@@ -50,7 +50,7 @@ export default function ExpertiseCards() {
         <SectionTitle subtitle="Ce que nous faisons de mieux">
           Nos expertises
         </SectionTitle>
-        <div className="grid gap-8 md:grid-cols-3">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {expertises.map((item) => (
             <Card key={item.title}>
               <h3 className="font-display text-xl font-bold text-dark">

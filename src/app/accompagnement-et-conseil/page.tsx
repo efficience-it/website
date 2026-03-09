@@ -116,6 +116,7 @@ export default function AccompagnementEtConseil() {
                 alt="Accompagnement et conseil"
                 width={400}
                 height={300}
+                className="w-full max-w-md"
               />
             </div>
           </div>
@@ -150,7 +151,7 @@ export default function AccompagnementEtConseil() {
             Dans un environnement en constante évolution, les entreprises font
             face à de nombreux défis technologiques et organisationnels :
           </p>
-          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-6 [&>*]:lg:col-span-2 lg:[&>*:nth-child(4)]:col-start-2 lg:[&>*:nth-child(5)]:col-start-4">
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {challenges.map((c) => (
               <Card key={c.title}>
                 <h3 className="font-display text-lg font-bold text-dark">

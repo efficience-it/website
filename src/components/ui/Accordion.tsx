@@ -40,7 +40,7 @@ export default function Accordion({ items, className = "" }: AccordionProps) {
           </button>
           <div
             className={`overflow-hidden transition-all duration-200 ${
-              openIndex === index ? "max-h-96 pb-4" : "max-h-0"
+              openIndex === index ? "max-h-[32rem] pb-4" : "max-h-0"
             }`}
           >
             <p className="text-gray">{item.content}</p>

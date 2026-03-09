@@ -69,6 +69,7 @@ export default function GreenIt() {
                 alt="Green IT"
                 width={400}
                 height={300}
+                className="w-full max-w-md"
               />
             </div>
           </div>
@@ -126,7 +127,7 @@ export default function GreenIt() {
                 alt="Objectifs Green IT Efficience IT"
                 width={500}
                 height={250}
-                className="rounded-lg"
+                className="w-full rounded-lg"
               />
             </div>
           </div>

@@ -29,7 +29,7 @@ export default function AboutPreview() {
               Écoute, clarté, engagement : vous pouvez compter sur un partenaire
               technique qui comprend vos enjeux et s&apos;investit à vos côtés.
             </p>
-            <div className="mt-8 flex gap-4">
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row">
               <Button href="/notre-expertise" variant="outline">
                 Expertise
               </Button>
@@ -44,7 +44,7 @@ export default function AboutPreview() {
               alt="L'équipe Efficience IT"
               width={500}
               height={350}
-              className="rounded-lg"
+              className="w-full rounded-lg"
             />
           </div>
         </div>

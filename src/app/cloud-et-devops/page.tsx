@@ -100,6 +100,7 @@ export default function CloudEtDevops() {
                 alt="Cloud et DevOps"
                 width={400}
                 height={300}
+                className="w-full max-w-md"
               />
             </div>
           </div>
@@ -230,7 +231,7 @@ export default function CloudEtDevops() {
             adapté (AWS, Azure, Google Cloud, OVH, etc.) et à planifier une
             migration fluide et sécurisée.
           </p>
-          <div className="mt-10 grid gap-6 md:grid-cols-5">
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
             {migrationSteps.map((s) => (
               <div key={s.step} className="text-center">
                 <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary text-lg font-bold text-white">

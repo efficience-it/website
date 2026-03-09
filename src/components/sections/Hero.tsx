@@ -33,6 +33,7 @@ export default function Hero() {
               alt="Développement web"
               width={500}
               height={400}
+              className="w-full max-w-md"
               priority
             />
           </div>
