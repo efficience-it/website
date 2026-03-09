@@ -7,74 +7,95 @@ excerpt: "REST s'est imposé comme un style architectural dominant pour la trans
 image: "/images/blog/rest-vs-graphql.webp"
 ---
 
-Depuis des années, REST (Representational State Transfer) s'est forgé une place de premier ordre parmi les styles architecturaux les plus utilisés et a été adopté par de nombreux développeurs. Il est aujourd'hui considéré comme le moyen traditionnel d'envoyer des données via HTTP. Son adoption massive par des entreprises de toutes tailles en a fait un standard de facto pour la conception d'API web.
+Depuis plus d'une décennie, REST (Representational State Transfer) constitue le socle architectural de la majorité des API web. Son adoption massive, sa compatibilité native avec le protocole HTTP et la richesse de son écosystème en ont fait un standard de facto. En 2012, Facebook crée GraphQL pour résoudre les problèmes de performance de son application mobile, avant de le rendre open source en 2015. Depuis, la question revient régulièrement : GraphQL est-il le successeur naturel de REST, ou ces deux approches répondent-elles à des problématiques fondamentalement différentes ?
 
-GraphQL, d'autre part, est généralement présenté comme une technologie révolutionnaire pour remplacer les API REST héritées. Créé par Facebook en 2012 pour répondre aux besoins de leur application mobile, puis rendu open source en 2015, GraphQL a rapidement gagné en popularité auprès de la communauté des développeurs. Quelles sont les approches de ces deux technologies ? Leurs points forts et leurs limites ? GraphQL est-il réellement le remplaçant de REST ?
+Pour y répondre, il faut dépasser la comparaison superficielle et examiner les implications architecturales, les compromis de performance et les conséquences organisationnelles de chaque approche.
 
-## REST
+## REST : un modèle centré sur les ressources
 
-L'élément pivot de REST est la ressource. Une API REST comprend un endpoint propre à chaque ressource, avec des méthodes de requêtes HTTP différentes. Si on prend exemple sur l'API d'un blog, avec deux ressources, l'une pour les auteurs, l'autre pour les articles. L'endpoint pour chaque ressource peut suivre le pattern suivant :
+REST structure une API autour de ressources identifiées par des URI. Chaque ressource expose un endpoint dédié, manipulé via les verbes HTTP standards :
 
-**METHOD /blog/ressource/id**
+`GET /blog/articles` pour lister les articles, `GET /blog/articles/1` pour en obtenir un spécifique, `POST /blog/articles` pour en créer un nouveau. Cette adhérence au protocole HTTP rend les API REST immédiatement lisibles pour tout développeur maîtrisant les fondamentaux du web.
 
-Et donc par extension, afin de parcourir la liste des articles, il faut passer une requête GET, par exemple : `GET /blog/articles`
+### Forces structurelles
 
-De même, pour obtenir un article spécifique, il faut donc ajouter la ressource ID à l'endpoint, exemple : `GET /blog/api/articles/1`
+La prévisibilité de REST constitue son premier atout. Un endpoint retourne toujours la même structure de données, ce qui simplifie le debugging, le monitoring et l'intégration. Les opérations CRUD se mappent naturellement sur les verbes HTTP (GET, POST, PUT, PATCH, DELETE), et les codes de statut standardisés (200, 201, 404, 500) fournissent un vocabulaire partagé entre client et serveur.
 
-Cette approche repose sur le protocole HTTP de manière native, ce qui signifie que REST tire parti de l'ensemble des verbes HTTP (GET, POST, PUT, PATCH, DELETE) ainsi que des codes de statut standardisés (200, 201, 404, 500, etc.). Cette adhérence au protocole HTTP rend les API REST particulièrement intuitives pour les développeurs qui connaissent déjà les fondamentaux du web.
+La mise en cache HTTP fonctionne nativement grâce aux headers standards (`Cache-Control`, `ETag`, `Last-Modified`). Un reverse proxy ou un CDN peut mettre en cache les réponses GET sans configuration applicative. Pour des API à fort trafic, cet avantage se traduit directement en économies d'infrastructure.
 
-### Avantages
+L'écosystème est par ailleurs extrêmement mature. Des outils comme Swagger (OpenAPI) génèrent automatiquement documentation interactive, SDK clients et tests de conformité. La plupart des frameworks backend proposent un support natif pour la création d'API REST.
 
-- Les API REST sont très optimisées pour les opérations classiques (create, read, update, delete - CRUD) et peuvent être facilement effectuées pour chaque ressource. Avec REST, chaque méthode a donc son utilité : PATCH pour mettre à jour, POST pour un ajout et DELETE pour supprimer.
-- REST est **évolutif**. L'architecture dissocie le client et le serveur, ce qui permet aux développeurs de faire évoluer les produits et les applications indéfiniment sans trop de difficultés. Cette séparation des responsabilités facilite également le déploiement indépendant des différentes couches de l'application.
-- Les API REST offrent une grande flexibilité. En pratique, comme les données ne sont pas liées à des ressources ou des méthodes, REST est capable de gérer différents types d'appels et de renvoyer différents formats de données. Cela permet aux développeurs de créer des API qui répondent aux besoins spécifiques du client.
-- L'écosystème REST est extrêmement mature. Des outils comme Swagger (OpenAPI) permettent de générer automatiquement une documentation interactive, et la plupart des frameworks backend proposent un support natif pour la création d'API REST.
-- La mise en cache HTTP fonctionne naturellement avec REST grâce aux headers standards (`Cache-Control`, `ETag`, `Last-Modified`), ce qui améliore significativement les performances sans effort supplémentaire côté développeur.
+### Limites connues
 
-### Limites
+Le problème de l'over-fetching et de l'under-fetching est inhérent au modèle. Un endpoint retourne une structure fixe : le client reçoit soit trop de données, soit pas assez. Pour afficher la page d'un article avec son auteur et ses commentaires, trois requêtes distinctes sont nécessaires, ce qui multiplie les allers-retours réseau et dégrade la latence perçue, en particulier sur mobile.
 
-- Toutes les applications ne nécessitent pas le recours à une structure CRUD, et certaines opérations qui impliquent de grands jeux de données peuvent rompre avec l'aspect structuré de REST.
-- Les ensembles de données combinés nécessitent plusieurs allers-retours client-serveur ce qui augmente la charge de travail et rallonge le temps de réponse. Par exemple, pour afficher la page d'un article avec son auteur et ses commentaires, il faut potentiellement trois requêtes distinctes.
-- Les clients ne peuvent demander des données qu'en touchant des endpoints qui renvoient des structures de données fixes. Pour cette raison, ils ne peuvent pas obtenir exactement ce dont ils ont besoin et font face à des cas d'over-fetching ou d'under-fetching : le téléchargement de plus (over) ou pas assez (under) d'informations que ce dont l'application a réellement besoin.
-- La gestion du versioning peut devenir complexe au fil du temps. Lorsqu'une API évolue, les développeurs doivent maintenir plusieurs versions en parallèle (v1, v2, v3), ce qui alourdit la maintenance.
+La gestion du versioning alourdit la maintenance au fil du temps. Maintenir plusieurs versions en parallèle (v1, v2, v3) impose de faire cohabiter des contrats d'API différents, avec le risque de divergence et la charge de dépréciation progressive.
 
-## GraphQL
+## GraphQL : un langage de requête pour API
 
-Comparé à REST et son **modèle structuré basé sur les ressources**, GraphQL adopte une approche différente et plus flexible. La principale différence entre GraphQL et REST est que GraphQL ne traite pas de ressources dédiées. Au lieu de cela, tout est considéré comme un graphe interconnecté à d'autres graphes. Si l'on reprend le fonctionnement du blog, avec GraphQL, chaque requête peut être effectuée sur un endpoint, les actions et les données étant définies par la requête elle-même :
+GraphQL adopte une approche radicalement différente. Plutôt que de structurer l'accès autour de ressources, il expose un point d'entrée unique où le client décrit précisément la forme des données souhaitées :
 
 ```graphql
-GET /blog?query={ article(id: 1) { title, content } }
+query { article(id: 1) { title, content, author { name } } }
 ```
 
-Cette requête demande à l'API de lister un article ayant pour ID 1 et de retourner le titre et le contenu associé. Le client décrit précisément la forme des données qu'il souhaite recevoir, et le serveur renvoie exactement cette structure, ni plus ni moins.
+Le serveur renvoie exactement cette structure, ni plus ni moins. Les modifications s'effectuent via des mutations, et les subscriptions permettent de recevoir des mises à jour en temps réel lorsque les données changent côté serveur.
 
-Le même endpoint peut aussi être utilisé pour effectuer d'autres actions au sein de l'API appelées mutations. Ce sont des méthodes prédéfinies pouvant être appelées par le client :
+### Forces structurelles
 
-```graphql
-POST /blog?mutation={ updateArticle(id: 1, title: "new title") { title, content } }
-```
+La flexibilité des requêtes élimine les problèmes d'over-fetching et d'under-fetching. Le client demande uniquement les champs nécessaires, ce qui réduit la bande passante consommée et simplifie le traitement côté front-end. Pour une application mobile où chaque kilo-octet compte, le gain est tangible.
 
-GraphQL introduit également la notion de **subscriptions**, qui permettent au client de recevoir des mises à jour en temps réel lorsque les données changent côté serveur. Cette fonctionnalité est particulièrement utile pour les applications nécessitant des données dynamiques, comme les tableaux de bord ou les messageries instantanées.
+Le système de typage fort agit comme un contrat explicite entre les équipes front-end et back-end. Le schéma GraphQL sert simultanément de documentation, de validation et de base pour l'autocomplétion dans des outils comme GraphiQL ou Apollo Studio. Les équipes peuvent travailler en parallèle dès que le schéma est défini.
 
-### Avantages
+L'évolution de l'API se fait sans versioning. Les nouveaux champs s'ajoutent sans casser les clients existants, et les champs obsolètes se déprécient progressivement via la directive `@deprecated`. Cette approche additive supprime la complexité de gestion de versions multiples.
 
-- GraphQL a été pensé pour pouvoir condenser les multiples requêtes de REST en une seule, elle est donc optimisée pour l'échange de grands paquets de données et permettre des temps de réponse plus courts dans ce genre de cas, mais surtout limiter les cas d'over-fetching ou d'under-fetching.
-- Utile pour minimiser les modifications d'une montée de version, lorsque les ressources et les schémas de données sont modifiés dans l'API. Contrairement à REST, il n'est pas nécessaire de maintenir plusieurs versions de l'API : les nouveaux champs peuvent être ajoutés sans casser les clients existants, et les champs obsolètes peuvent être dépréciés progressivement.
-- GraphQL définit les capacités des API à l'aide d'un système de typage fort qui indique essentiellement au client comment il peut accéder aux données. Ainsi, les équipes front-end et back-end connaissent la structure des données et peuvent donc travailler de manière indépendante. Ce schéma sert à la fois de documentation et de contrat entre les équipes.
-- L'introspection intégrée permet aux outils comme GraphiQL ou Apollo Studio de générer automatiquement une documentation explorable et de proposer de l'autocomplétion, ce qui améliore considérablement l'expérience développeur.
+### Limites structurelles
 
-### Limites
+La mise en cache réseau ne fonctionne pas naturellement avec un endpoint unique recevant des requêtes POST de formes variées. Des solutions existent (Persisted Queries, cache applicatif, APQ), mais elles demandent un effort d'implémentation supplémentaire par rapport au cache HTTP natif de REST.
 
-- GraphQL utilise un seul endpoint au lieu de suivre la spécification HTTP pour la mise en cache et donc ne l'utilise pas. La mise en cache au niveau du réseau est importante car elle peut réduire le trafic vers un serveur ou conserver les données fréquemment consultées à proximité du client via CDN. Des solutions existent (Persisted Queries, cache applicatif), mais elles demandent un effort supplémentaire par rapport au cache HTTP natif de REST.
-- Elle ajoute de la complexité (des types, des requêtes, des résolveurs) à des choses qui pourraient être effectuées beaucoup plus simplement avec REST et n'est donc pas adaptée aux applications simples. La courbe d'apprentissage peut être significative pour une équipe qui découvre cette technologie.
-- GraphQL permet aux utilisateurs de personnaliser leurs requêtes pour obtenir les informations qu'ils souhaitent, une API GraphQL doit donc être soigneusement conçue. Pour cela, il vaut mieux parfois utiliser les appels structurés de REST que GraphQL, car si l'on ne fait pas attention, quelques grosses requêtes peuvent mettre le serveur à genou. Des mécanismes de protection comme la limitation de profondeur de requête ou l'analyse de complexité sont indispensables en production.
-- Le monitoring et le debugging peuvent s'avérer plus difficiles qu'avec REST. Toutes les requêtes passant par le même endpoint, il est moins évident de distinguer les différentes opérations dans les logs serveur ou les outils d'analyse de performance.
+Le monitoring et le debugging sont moins immédiats. Toutes les requêtes transitant par le même endpoint, il faut instrumenter la couche GraphQL elle-même pour distinguer les opérations dans les logs et les outils d'analyse de performance.
+
+## Défis avancés : N+1 queries et DataLoader
+
+L'un des pièges les plus fréquents en GraphQL est le problème des requêtes N+1. Lorsqu'un client demande une liste d'articles avec leurs auteurs, le résolveur naïf exécute une requête pour récupérer les articles, puis une requête par article pour récupérer chaque auteur. Pour 50 articles, cela représente 51 requêtes SQL.
+
+Le pattern DataLoader, introduit par Facebook, résout ce problème en regroupant et en mettant en lot (batching) les requêtes identiques au sein d'un même tick d'exécution. Au lieu de 50 requêtes individuelles pour les auteurs, une seule requête `WHERE id IN (...)` est exécutée. L'implémentation de DataLoader est indispensable pour toute API GraphQL en production, et son absence est la cause principale des problèmes de performance observés sur les déploiements immatures.
+
+REST n'est pas immunisé contre ce problème, mais il se manifeste différemment : les endpoints retournent généralement des données pré-agrégées, ce qui déplace la complexité côté serveur lors de la conception de l'endpoint.
+
+## Stratégies de versioning et conception de schéma
+
+REST impose un choix explicite de stratégie de versioning : par URI (`/v2/articles`), par header (`Accept: application/vnd.api.v2+json`) ou par paramètre de requête. Chaque approche a ses compromis en termes de routage, de documentation et de rétrocompatibilité.
+
+GraphQL contourne ce problème par sa nature additive, mais impose en contrepartie une discipline rigoureuse dans la conception du schéma. Un schéma mal pensé dès le départ peut conduire à des impasses architecturales difficiles à corriger sans breaking change. La granularité des types, le nommage des mutations, la gestion des unions et des interfaces exigent une réflexion en amont que REST ne demande pas avec la même intensité.
+
+En pratique, les équipes expérimentées adoptent un schema-first approach : le schéma est défini, discuté et validé avant toute implémentation, au même titre qu'un contrat OpenAPI pour REST.
+
+## Perspectives architecturales : combiner les deux approches
+
+À l'échelle d'un système distribué, la question n'est plus REST ou GraphQL, mais comment les articuler pour tirer parti des forces de chacun.
+
+### Le pattern BFF (Backend for Frontend)
+
+Le Backend for Frontend consiste à placer une couche d'agrégation entre les clients et les microservices. Un BFF GraphQL peut agréger les données de plusieurs API REST internes, offrant au client une interface unifiée tout en conservant la simplicité de REST pour les services backend. Cette architecture est particulièrement pertinente lorsque plusieurs clients (web, mobile, IoT) consomment les mêmes services avec des besoins de données très différents.
+
+### Performance à grande échelle
+
+À fort trafic, REST bénéficie naturellement du cache HTTP distribué, du edge caching et de la simplicité de scaling horizontal. GraphQL demande une infrastructure dédiée : cache applicatif par champ, Persisted Queries pour réduire la taille des requêtes, analyse de complexité pour se protéger contre les requêtes abusives, et limitation de profondeur pour éviter les attaques par récursion.
+
+Le coût opérationnel de GraphQL est donc plus élevé, mais il se justifie lorsque la flexibilité côté client réduit significativement le nombre d'endpoints à maintenir et accélère le développement front-end.
+
+### Implications organisationnelles
+
+Le choix entre REST et GraphQL a des répercussions au-delà du code. REST favorise une organisation par domaine métier : chaque équipe possède ses endpoints et son contrat d'API. GraphQL tend vers un schéma fédéré où plusieurs équipes contribuent à un graphe unifié, ce qui nécessite une gouvernance du schéma, des conventions de nommage partagées et des outils de composition comme Apollo Federation.
+
+Pour une équipe de cinq développeurs, la question est rarement pertinente. Pour une organisation de cinquante développeurs travaillant sur un même produit, le choix architectural influence directement l'autonomie des équipes, la vitesse de livraison et la surface de coordination nécessaire.
 
 ## Pour conclure
 
-Au-delà des avantages et des inconvénients de REST et de GraphQL, il convient de remarquer que ces deux architectures sont complémentaires et compensent les limites de l'autre. REST reste le choix le plus naturel pour les API simples et orientées CRUD, où la mise en cache HTTP et la standardisation des endpoints apportent une vraie valeur ajoutée. GraphQL, en revanche, excelle dans les contextes où les données sont fortement interconnectées et où le client a besoin d'une grande souplesse dans la récupération des informations.
+REST et GraphQL ne sont pas des technologies concurrentes mais complémentaires. REST reste le choix le plus naturel pour les API simples, orientées CRUD, où la mise en cache HTTP et la standardisation apportent une valeur immédiate. GraphQL excelle dans les contextes où les données sont fortement interconnectées, où les clients ont des besoins hétérogènes, et où la flexibilité de requêtage réduit la prolifération d'endpoints spécialisés.
 
-Il est d'ailleurs tout à fait possible de combiner les deux approches au sein d'un même projet : une API REST pour les opérations simples et bien définies, et un endpoint GraphQL pour les cas d'usage plus complexes nécessitant de l'agrégation de données.
+Les architectures les plus robustes combinent souvent les deux : des API REST pour les opérations bien définies et les services internes, un endpoint GraphQL en façade pour les clients ayant besoin d'agrégation et de souplesse. Le critère de décision n'est pas la modernité de la technologie, mais l'adéquation entre les contraintes du système, les compétences de l'équipe et les besoins réels des clients de l'API.
 
 Chez Efficience IT, nous l'avons très bien compris et elles font partie intégrante de notre stack technique, dans le but de proposer à nos clients des solutions personnalisées et optimisées à leurs problèmes.
 
