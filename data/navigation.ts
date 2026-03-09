@@ -67,5 +67,7 @@ export const footerNav = {
       href: "https://www.linkedin.com/company/efficience-it",
       icon: "/images/icons/linkedin.svg",
     },
+    { label: "AFUP", href: "https://afup.org/home", icon: "/images/icons/afup.png" },
+    { label: "AD2N", href: "https://www.ad2n.org/", icon: "/images/icons/ad2n.jpg" },
   ],
 };
