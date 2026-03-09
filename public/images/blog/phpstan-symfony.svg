@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#1a1a2e"/>
+  <rect x="40" y="40" width="1120" height="550" rx="20" fill="#16213e" stroke="#0f3460" stroke-width="2"/>
+  <text x="600" y="300" text-anchor="middle" font-family="system-ui,sans-serif" font-size="48" font-weight="bold" fill="#e94560">PHPStan × Symfony</text>
+  <text x="600" y="370" text-anchor="middle" font-family="system-ui,sans-serif" font-size="24" fill="#a8a8a8">Efficience IT</text>
+</svg>
