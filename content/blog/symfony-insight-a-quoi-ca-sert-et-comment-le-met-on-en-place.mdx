@@ -7,103 +7,90 @@ excerpt: "Symfony Insight est un outil en ligne d'analyse du code PHP, spéciali
 image: "/images/blog/symfony-insight.webp"
 ---
 
-## Déjà qu'est-ce que SensioLabs Insight ?
+## Ce que Symfony Insight apporte à un projet PHP
 
-> Pour faire court, c'est un outil en ligne d'analyse du code PHP, spécialisé sur Symfony.
+Symfony Insight est une plateforme d'analyse de code PHP maintenue par SensioLabs, la société derrière Symfony. Contrairement aux linters classiques qui se contentent de vérifier la syntaxe ou le respect de conventions, cet outil combine analyse statique et analyse dynamique pour produire un diagnostic couvrant la sécurité, la performance, la maintenabilité et la robustesse architecturale d'un projet.
 
-Cet outil identifie divers problèmes, notamment les problèmes de performance, les vulnérabilités de sécurité, les failles potentielles et les problèmes de maintenabilité. Il analyse les applications Symfony, Laravel, Drupal, les API REST, les API SOAP, les sites web et les plateformes e-commerce, essentiellement tout projet basé sur PHP.
+L'outil supporte nativement les projets Symfony, mais analyse également les applications Laravel, Drupal, les API REST ou SOAP, et tout projet PHP générique. Il inspecte les fichiers PHP, XML, YAML, les risques HTML et les dépendances déclarées dans composer.lock, avec plus de 100 contrôles qualité répartis en catégories de sévérité.
 
-Les développeurs et les managers considèrent cette analyse automatisée comme "une police d'assurance" car elle surveille l'évolution du code en temps réel, faisant remonter les failles et les tâches incomplètes. Chaque erreur identifiée inclut une documentation contextuelle expliquant comment la corriger. Cette approche pédagogique permet aux développeurs juniors de monter en compétence, tout en offrant aux profils seniors un filet de sécurité contre les oublis ou les régressions involontaires.
+Chaque violation détectée est accompagnée d'une documentation contextuelle qui explique le problème, son impact et la manière de le corriger. Cette dimension pédagogique accélère la montée en compétence des profils juniors, tout en servant de filet de sécurité pour les développeurs expérimentés contre les régressions involontaires.
 
-L'outil propose :
+### Analyse statique versus analyse dynamique
 
-- **Intégration du plugin PHPStorm** pour un workflow transparent
-- **Intégration GitLab-CI** et capacités d'analyse locale
-- **Analyse dynamique** qui lance les applications pour détecter les erreurs impossibles à capturer par l'analyse statique seule
-- **Plus de 100 contrôles qualité** couvrant la sécurité, la performance, la maintenabilité, la robustesse et l'architecture
-- **Fonctionnalité de traçage des erreurs** pour comprendre l'origine des problèmes
-- **Estimation du temps** pour résoudre chaque erreur, simplifiant la planification de projet
+La plupart des outils de qualité de code se limitent à une lecture du code source sans exécution. Symfony Insight franchit un cap en déployant l'application dans un environnement isolé pour observer son comportement réel au runtime. Cette analyse dynamique révèle des défauts invisibles à l'analyse statique : services mal configurés, routes inaccessibles, injections de dépendances incorrectes, erreurs de sérialisation ou problèmes de configuration du container. C'est un différenciateur fort face à PHPStan ou Psalm, qui ne peuvent raisonner que sur le graphe de types sans exécuter le code.
 
-Les fichiers PHP, XML, YAML, les risques HTML potentiels et les mises à jour de composer.lock sont tous vérifiés. Des points de contrôle supplémentaires s'appliquent spécifiquement aux projets Symfony et Silex, tandis que l'outil supporte également Laravel, Drupal et les projets PHP généraux.
+## Mise en place et configuration
 
-### Analyse statique et analyse dynamique
+La première étape consiste à créer un compte SensioLabs Connect, puis à importer le dépôt Git du projet depuis GitHub, GitLab ou Bitbucket. Les projets open source bénéficient d'une analyse gratuite avec résultats publics ; les projets propriétaires nécessitent un abonnement payant, avec une période d'essai d'un mois.
 
-La majorité des outils de qualité de code se contentent d'une analyse statique, c'est-à-dire qu'ils lisent le code source sans jamais l'exécuter. Symfony Insight va plus loin en proposant une analyse dynamique. Concrètement, l'outil déploie l'application dans un environnement isolé, l'exécute et observe son comportement réel. Cette approche permet de détecter des erreurs qui n'apparaissent qu'au runtime, comme des services mal configurés, des routes inaccessibles ou des injections de dépendances incorrectes. C'est un avantage considérable par rapport à des outils purement statiques comme PHPStan ou Psalm.
+Il est fortement recommandé de connecter directement le compte GitHub ou GitLab à SensioLabs Connect. Cette liaison permet de déclencher une analyse automatique à chaque push ou ouverture de pull request, garantissant un retour continu sans intervention manuelle.
 
-## Quels bénéfices en tirer ?
+### Personnalisation via YAML
 
-Bien que d'autres outils comme phpcs, phpstan, phpunit et behat existent, Symfony Insight fournit des capacités d'interprétation du code que ces outils ne peuvent égaler. Il détecte des problèmes que les autres manquent et délivre des rapports plus détaillés, avec une analyse à chaque itération pour maintenir une vision d'ensemble sur la sécurité, la fiabilité et la maintenabilité.
+La configuration s'effectue par un fichier YAML à la racine du projet. On y définit la branche analysée, les répertoires exclus (migrations, fichiers générés, assets compilés) et les ajustements de base de données pour l'analyse dynamique. Concentrer l'analyse sur le code métier réellement maintenu par l'équipe évite le bruit et rend les résultats immédiatement actionnables.
 
-**Les bénéfices clés incluent :**
+### Lecture des résultats
 
-- **Détection des vulnérabilités de sécurité** : prévient les menaces, les fuites de données et la responsabilité juridique avant le déploiement en production
-- **Conformité légale** : traite les plaintes RGPD et les préoccupations réglementaires, protégeant contre les poursuites
-- **Protection de l'intégrité des données** : empêche l'exposition d'informations sensibles et les dommages à la réputation
-- **Fiabilité et disponibilité** : identifie les bugs potentiels et les défaillances majeures avant qu'ils n'atteignent la production
-- **Productivité de l'équipe** : empêche l'accumulation de dette technique, maintenant la vélocité de développement
-- **Réputation de la marque** : assure un traitement approprié des problèmes techniques avec une gestion professionnelle
+Symfony Insight attribue une médaille au projet : platine (zéro violation), or, argent ou bronze selon la gravité et le nombre de problèmes détectés. Chaque violation est localisée par fichier et ligne, accompagnée d'une estimation du temps de correction. Cette granularité permet de transformer les résultats en tickets priorisés dans un backlog, avec un effort chiffré.
 
-### Un outil de pilotage pour les managers
+## Catégories de règles et priorisation
 
-Au-delà de l'aspect purement technique, Symfony Insight constitue un véritable tableau de bord pour les chefs de projet et les directeurs techniques. Le système de médailles offre un indicateur visuel immédiat de la santé du projet. L'estimation du temps de correction permet de prioriser les tâches dans les sprints et de budgétiser le travail de remédiation. Pour les équipes pratiquant l'agilité, cet outil s'intègre naturellement dans les rituels de rétrospective en fournissant des métriques objectives sur l'évolution de la qualité du code au fil des itérations.
+Les violations se répartissent en grandes familles que tout lead ou staff engineer devrait connaître pour arbitrer efficacement les corrections.
 
-## Comment le met-on en place ?
+### Sécurité
 
-### Préparer le projet
+Détection des injections SQL, des failles XSS, des secrets exposés dans le code, des dépendances avec CVE connues, et des configurations Symfony permissives (debug activé en production, firewalls trop ouverts). Ce sont les violations à corriger en priorité absolue, car elles exposent le projet à des risques juridiques au regard du RGPD et à des atteintes à la réputation.
 
-Après avoir créé un compte SensioLabs Connect, importez votre projet via GitHub ou d'autres dépôts pour l'analyse. Les projets open-source reçoivent une analyse gratuite (publiquement visible), tandis que les projets propriétaires nécessitent un abonnement payant SensioLabs Insight. Créez de nouveaux projets en fournissant des liens de dépôts git depuis GitHub, Bitbucket ou d'autres fournisseurs. En cliquant sur le bouton d'analyse, SensioLabs commence immédiatement à rechercher les défauts de l'application.
+### Performance
 
-Il est recommandé de connecter directement votre compte GitHub à SensioLabs Connect. Cette liaison permet de déclencher automatiquement une analyse à chaque push ou à chaque ouverture de pull request. Vous obtenez ainsi un retour continu sur la qualité du code sans effort supplémentaire de la part de l'équipe.
+Requêtes N+1, appels Doctrine non optimisés, absence de cache HTTP, utilisation inadaptée de certaines fonctions PHP. Ces violations impactent directement l'expérience utilisateur et le coût d'infrastructure.
 
-### Analyse du projet
+### Maintenabilité et architecture
 
-SensioLabs Insight fonctionne avec un système de médailles. En fonction des problèmes détectés et de leur gravité, vous recevez les médailles correspondantes, le platine étant le plus élevé, indiquant zéro problème détecté. Les niveaux intermédiaires (or, argent, bronze) permettent de mesurer la progression et de fixer des objectifs réalistes à l'équipe. Atteindre le platine sur un projet existant de grande taille demande souvent plusieurs semaines de travail, mais le chemin pour y parvenir structure efficacement l'effort de remédiation.
+Code dupliqué, couplage excessif entre bundles, commentaires TODO abandonnés, dépendances obsolètes. Ces signaux révèlent l'accumulation de dette technique qui, laissée sans contrôle, finit par ralentir drastiquement la vélocité de l'équipe.
 
-L'outil estime le temps de résolution requis et identifie les problèmes spécifiques. Par exemple, il signale les modifications de ressources via des requêtes GET, suggérant des alternatives POST, PUT ou DELETE à la place. Il détecte le code dupliqué, les commentaires TODO et les dépendances obsolètes (comme des versions Symfony dépassées).
+## Positionnement face à PHPStan et SonarQube
 
-Les problèmes incluent :
+Symfony Insight n'opère pas dans le même registre que PHPStan ou SonarQube, et les trois outils se complètent plus qu'ils ne se concurrencent.
 
-- Des informations sur le fichier et la ligne spécifiques
-- Des descriptions claires des problèmes
-- Des capacités de commentaires par l'équipe
-- L'intégration avec les bug trackers via la fonctionnalité "open issue"
-- Des options de rejet de problème (bien que cela empêche l'obtention du badge platine)
+**PHPStan** excelle dans l'analyse statique de types. Son système de niveaux (0 à 9) permet une adoption progressive, et ses extensions spécifiques Symfony et Doctrine détectent des incohérences fines dans le graphe de types. En revanche, PHPStan ne sait rien du comportement runtime de l'application.
 
-### Intégration dans la CI/CD
+**SonarQube** est une plateforme multi-langages auto-hébergée, avec des profils de qualité entièrement personnalisables, un historique illimité et une gestion fine des quality gates. C'est la solution privilégiée pour les organisations qui travaillent sur des stacks hétérogènes ou qui ont besoin d'un contrôle total sur les règles appliquées.
 
-L'un des atouts majeurs de Symfony Insight réside dans son intégration avec les pipelines d'intégration continue. En ajoutant l'analyse Symfony Insight comme étape de votre pipeline GitLab-CI ou GitHub Actions, vous pouvez bloquer le merge d'une pull request si de nouvelles violations sont introduites. Cette approche garantit que la qualité du code ne se dégrade pas au fil du temps. L'analyse peut être déclenchée automatiquement à chaque commit, offrant un feedback rapide aux développeurs directement dans leur environnement de travail habituel.
+**Symfony Insight** se distingue par son analyse dynamique et sa connaissance intime de l'écosystème Symfony. Il détecte des problèmes qu'aucun outil purement statique ne peut identifier. En contrepartie, il offre peu de personnalisation des règles, ne conserve que les cinq dernières analyses et impose un temps d'exécution plus long sur les projets volumineux.
 
-### Configuration
+La combinaison la plus efficace pour un projet Symfony consiste à utiliser PHPStan en local et en CI pour le feedback rapide sur les types, Symfony Insight pour l'analyse dynamique et les règles spécifiques Symfony, et éventuellement SonarQube comme tableau de bord centralisé si l'organisation gère plusieurs projets multi-langages.
 
-Éditez les projets pour spécifier les branches et configurer les outils via le format YAML. Cela permet une personnalisation correspondant aux exigences spécifiques du projet, y compris les exclusions de tests et les configurations de base de données. Il est possible d'exclure certains répertoires de l'analyse, comme les dossiers de migrations ou les fichiers générés automatiquement, afin de concentrer les résultats sur le code métier réellement maintenu par l'équipe.
+## Intégration dans un pipeline CI/CD
 
-## Quelques défauts
+L'analyse Symfony Insight peut être déclenchée comme étape d'un pipeline GitLab CI ou GitHub Actions. En configurant le pipeline pour bloquer le merge lorsqu'une nouvelle violation est introduite, on garantit que la qualité du code ne se dégrade jamais. Le feedback arrive directement dans la pull request, dans l'environnement de travail habituel du développeur, sans rupture de flux.
 
-Les limitations notables incluent :
+Cette intégration transforme Symfony Insight d'un outil d'audit ponctuel en un gardien permanent de la qualité. Combinée à PHPStan et PHPUnit dans le même pipeline, elle constitue une chaîne de vérification qui couvre le spectre complet : types, comportement runtime et couverture fonctionnelle.
 
-- La visualisation uniquement des 5 analyses les plus récentes, ce qui rend difficile le suivi de l'évolution de la qualité sur le long terme
-- Le paiement obligatoire pour les projets non open-source (bien que des clés d'essai permettent un mois de test)
-- L'absence de personnalisation fine des règles, contrairement à des outils comme SonarQube qui permettent de définir des profils de qualité sur mesure
-- Le temps d'analyse qui peut être relativement long sur les projets volumineux, en raison de l'analyse dynamique
+## Gouvernance qualité et culture d'amélioration continue
 
-## Conclusion
+Au-delà de l'outillage, la vraie question pour un architecte ou un CTO est celle de la stratégie de qualité à l'échelle de l'organisation.
 
-Cet outil aide efficacement les équipes de développement à analyser la qualité du code et à prévenir la dégradation, particulièrement pour les projets Symfony. Il s'avère précieux pour d'autres projets PHP également, avec une détection des erreurs étendue au-delà de ce qui est discuté ici. Leur documentation fournit des informations supplémentaires. En combinant Symfony Insight avec des outils complémentaires comme PHPStan pour l'analyse statique et PHPUnit pour les tests unitaires, vous construisez une chaîne de qualité robuste qui couvre l'ensemble du spectre des problèmes potentiels.
+### Définir des quality gates cohérentes
 
-## Existe-t-il des alternatives à Symfony Insights ?
+Le système de médailles de Symfony Insight fournit un objectif lisible, mais il ne suffit pas. Une quality gate efficace combine plusieurs signaux : la médaille Symfony Insight, le niveau PHPStan respecté, le taux de couverture de tests, et l'absence de CVE critiques dans les dépendances. Formaliser ces critères dans la définition de "done" de l'équipe transforme la qualité en engagement collectif plutôt qu'en responsabilité individuelle.
 
-Bien que Symfony Insight se spécialise dans la technologie Symfony et les applications PHP en général, des alternatives existent sur Windows, Linux, les solutions auto-hébergées et Mac. Le choix de l'outil dépend de plusieurs critères : le langage principal du projet, le budget disponible, le besoin d'auto-hébergement et le niveau de personnalisation souhaité.
+### Les métriques qui comptent
 
-**Les principales alternatives incluent :**
+Le nombre brut de violations est un indicateur trompeur. Les métriques réellement utiles sont l'évolution du nombre de violations critiques sur la durée, le temps moyen de correction après détection, et le ratio de violations introduites versus corrigées par sprint. Ces indicateurs révèlent la dynamique de l'équipe face à la dette technique : est-elle en train de la résorber ou de l'accumuler ?
 
-- **SonarQube** : solution gratuite et open-source offrant une analyse complète. C'est l'alternative la plus populaire, avec une communauté active et un large éventail de plugins. SonarQube supporte de nombreux langages au-delà de PHP, ce qui en fait un choix pertinent pour les équipes travaillant sur des stacks multi-langages.
-- **Codacy** : alternative commerciale avec de solides capacités d'analyse automatisée et une intégration native avec GitHub, GitLab et Bitbucket
-- **Source Insight**
-- **Blink grep**
-- **Scrutinizer** : outil spécialisé PHP qui offre des fonctionnalités similaires à Symfony Insight, avec un système de notation et des métriques de complexité du code
-- **Source-Navigator NG**
+### Construire une culture de qualité
 
-Ces outils s'intègrent aux pipelines GitLab-CI, SonarQube fournissant une documentation complète d'intégration CI.
+L'outil le plus sophistiqué reste inutile si l'équipe le perçoit comme une contrainte bureaucratique. L'adoption réussie passe par la transparence des résultats, la célébration des progrès (passage d'une médaille à la suivante), et l'intégration des corrections dans le flux de travail normal plutôt que dans des sprints de remédiation douloureux. Les rétrospectives sont le moment idéal pour analyser les tendances qualité et décider collectivement des prochains axes d'amélioration. Quand la qualité du code devient un sujet d'équipe et non un sujet d'outil, la bataille est gagnée.
+
+## Limites à connaître
+
+Symfony Insight présente des contraintes qu'il faut évaluer avant de l'adopter :
+
+- La rétention limitée à cinq analyses rend difficile le suivi des tendances sur le long terme, contrairement à SonarQube qui conserve un historique complet
+- L'absence de personnalisation fine des règles empêche d'adapter les seuils aux spécificités du projet
+- Le temps d'analyse, plus long que celui d'un outil purement statique, peut rallonger les pipelines CI sur les projets volumineux
+- Le coût de l'abonnement pour les projets propriétaires, à mettre en balance avec SonarQube auto-hébergé qui n'a pas de coût par projet
 
 ## Pour aller plus loin
 
