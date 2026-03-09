@@ -7,40 +7,231 @@ excerpt: "Ce guide montre comment publier un site Vue.js ou Nuxt.js sur Amazon S
 image: "/images/blog/deployer-nuxtjs.webp"
 ---
 
-Ce guide montre comment publier un site Vue.js ou Nuxt.js sur Amazon S3 avec le cache CDN CloudFront, le tout automatisé via GitLab CI/CD.
+Cet article va nous permettre de publier un site Vue.js ou dans notre cas un site en Nuxt.js sur un S3 Amazon, avec un cache CDN sous le nom de CloudFront. Tout ceci de manière automatisée avec GitLab CI/CD.
 
-## Configuration Amazon
+## La configuration Amazon
 
-Trois composants sont nécessaires :
+Pour ceci, nous allons avoir besoin de 3 choses :
 
-### Le Bucket S3
+- un bucket S3 disponible en public
+- un CDN redirigeant vers ce S3
+- un utilisateur IAM pour faire tourner le GitLab Runner
 
-Créez un bucket S3 accessible publiquement (par exemple, "nuxt-website-efficience-it"). Dans les propriétés du bucket, activez l'hébergement de site web statique avec index.html comme point d'entrée. Ajoutez une politique de bucket autorisant l'accès en lecture publique à tous les objets en utilisant la configuration JSON fournie.
+### Le bucket S3
 
-### CloudFront CDN
+Une fois connecté, il est possible d'aller sur la section S3 > « Créer un compartiment ».
 
-Créez une distribution CloudFront pointant vers votre bucket S3 pour mettre en cache le contenu et améliorer les performances. Configurez la redirection HTTP vers HTTPS et ajoutez optionnellement un domaine personnalisé avec certificat SSL. Notez l'ID de distribution pour une utilisation ultérieure.
+- Nommez-le comme bon vous semble, mais pour exemple, nous allons prendre « nuxt-website-efficience-it », nous lui attribuerons plus tard une variable que l'on nomme `AWS_BUCKET_NAME`
+- Débloquez tous les accès publics et créez le Bucket S3.
+- Ensuite, rendez-vous sur le bucket dans l'onglet « Propriétés », descendez : « Hébergement de site Web statique » et activez cette option en spécifiant `index.html` comme point d'accès.
+- Après, dans l'onglet « Permissions », insérez ce JSON dans la « Stratégie de Compartiment » en renommant avec le nom du bucket.
 
-### Utilisateur IAM GitLab Runner
+```json
+{
+   "Version": "2012-10-17",
+   "Statement": [
+       {
+           "Sid": "PublicReadGetObject",
+           "Effect": "Allow",
+           "Principal": "*",
+           "Action": "s3:GetObject",
+           "Resource": "arn:aws:s3:::nuxt-website-efficience-it/*"
+       }
+   ]
+}
+```
 
-Créez un utilisateur IAM nommé "gitlab-runner" avec les permissions CloudFrontInvalidation et AmazonS3FullAccess. Générez des clés d'accès pour l'authentification.
+Il est alors possible de cliquer sur le lien spécifié dans le S3. Une erreur 404 indiquant que le fichier racine (`index.html`) n'existe pas devrait s'afficher, ce qui est normal.
 
-## Configuration du pipeline GitLab CI/CD
+```
+404 Not Found
+Code: NoSuchKey
+Message: The specified key does not exist.
+Key: index.html
+```
 
-### Étape de Build
+Il suffit de créer un fichier `index.html` et d'y insérer le contenu souhaité afin de le déposer à la racine du S3 et vérifier que la page s'affiche correctement.
 
-L'étape initiale installe les dépendances et génère les fichiers du projet dans un dossier `/dist` comme artifact. Les modules node sont mis en cache entre les exécutions pour optimiser le temps de déploiement.
+### Le CDN CloudFront
 
-### Étape de Déploiement
+CloudFront sert à faire un cache réseau pour le contenu CSS, JS et HTML. Nous allons donc le configurer pour gagner en performance et également pour éviter de payer à chaque fois qu'une personne souhaite aller sur le site.
 
-En utilisant Python et AWS CLI, l'étape de déploiement synchronise le dossier `dist` vers S3 et invalide le cache CloudFront, assurant que les visiteurs reçoivent le contenu mis à jour.
+Dans la section CloudFront de la Console Amazon :
 
-## Configuration GitLab
+- Créer une distribution
+- Attribuer le S3 que l'on vient de créer
+- Rediriger HTTP vers HTTPS
+- Attribuer un nom de domaine, avec son certificat SSL
 
-Stockez les identifiants sensibles comme variables protégées dans Settings > CI/CD > Variables : `AWS_CLOUDFRONT_INVALIDATION_ID`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` et `AWS_BUCKET_NAME`.
+Avant de partir, il faut récupérer l'identifiant de la distribution que nous mettrons plus tard dans une variable nommée `AWS_CLOUDFRONT_INVALIDATION_ID`.
 
-## Stratégie multi-environnement
+### L'utilisateur IAM gitlab-runner
 
-Implémentez des buckets et distributions séparés pour le développement et la production. La branche master se déploie automatiquement en production, la branche develop en développement, et les branches de fonctionnalités se déploient manuellement en développement pour les tests avant fusion.
+Dans la console toujours, il faut aller dans IAM pour ajouter un utilisateur, le « gitlab-runner ». Il faudra lui ajouter ces autorisations :
 
-Le fichier `.gitlab-ci.yml` complet démontre cette approche multi-environnement avec des déploiements conditionnels basés sur les noms de branches et des déclencheurs manuels.
+- CloudFrontInvalidation
+- AmazonS3FullAccess
+
+Il faudra ensuite aller dans « Informations d'identification de sécurité » pour y créer une clé d'accès que nous nommerons `AWS_ACCESS_KEY_ID` et `AWS_SECRET_ACCESS_KEY`.
+
+Ces accès permettent d'utiliser l'utilisateur gitlab-runner avec les droits d'accès que nous venons de configurer. Il sera autorisé ainsi à déposer des éléments dans le S3 et invalider le cache CDN pour que les prochains visiteurs bénéficient du nouveau contenu.
+
+## Le déploiement automatisé et continu avec CI/CD
+
+### Une première étape, le build
+
+Afin de générer les fichiers que nous allons pousser sur le S3, nous allons créer une première étape qui est le « build ». Dans cette étape, nous installons les dépendances, puis nous générons le projet dans un dossier `/dist` qui va être transmis dans ce qu'on appelle un artifact.
+
+C'est un genre de résultat de l'étape que l'on va réutiliser ensuite pour déployer le projet.
+
+La CI permet également de bénéficier du cache d'un run à l'autre. Ce que nous allons utiliser ici avec `/node_modules`, afin d'optimiser le temps de déploiement.
+
+```yaml
+stages:
+   - build
+cache:
+   paths:
+       - node_modules/
+
+build_site:
+   image: node:lts
+   before_script:
+       - npm install
+   script:
+       - npm run generate --fail-on-error --quiet --no-optional
+   artifacts:
+       paths:
+           - dist
+```
+
+### La seconde étape, le déploiement
+
+Dans celle-ci, nous reprenons l'artifact généré dans l'étape précédente, pour l'envoyer sur notre S3. Le deploy part alors d'une machine Python, dans lequel on installe awscli (ce sont des commandes bash pour interagir avec l'API Amazon).
+
+- Puis nous récupérons le dossier `dist` de notre artifact et on le synchronise avec le bucket concerné. Cela va mettre à jour le S3, en supprimant les éléments qui n'y sont plus.
+- Et enfin, nous vidons le cache du CDN.
+
+```yaml
+stages:
+   - deploy
+
+variables:
+   AWS_DEFAULT_REGION: eu-central-1
+
+deploy_s3:
+   image: python:latest
+   stage: deploy
+   before_script:
+       - pip install awscli
+   script:
+       - aws s3 sync dist s3://${AWS_BUCKET_NAME} --delete --cache-control "max-age=31536000" --expires 2030-01-01T00:00:00Z
+       - aws cloudfront create-invalidation  --distribution-id ${AWS_CLOUDFRONT_INVALIDATION_ID} --paths "/*"
+```
+
+### Configuration de GitLab
+
+Pour cela, il faut configurer les variables qui seront protégées et non visibles dans le repository.
+
+- Aller dans « Settings > CI/CD »
+- Dans Variables, insérer les clés / valeurs de `AWS_CLOUDFRONT_INVALIDATION_ID`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_BUCKET_NAME`
+
+Avec ceci, dès qu'un commit/push est fait sur GitLab, le pipeline affichera le Build puis le Deploy en cours.
+
+## Pour aller plus loin : un déploiement par branche
+
+Le principe est de faire un bucket et un CloudFront pour les environnements de développement et un autre pour l'environnement de production. Selon ce principe, la branche master est déployée sur la prod et la branche develop sur l'environnement de développement de manière automatisée.
+
+Et enfin, lorsqu'une branche est créée avec une nouvelle feature ou un fix, un bouton manuel sur l'interface GitLab permet de déployer cette branche sur l'environnement de développement. Et lorsqu'elle sera fusionnée avec la branche develop lors de la MR, la branche develop se redéploiera sur l'environnement de développement avant que cela ne soit mergé sur la master pour être déployé en prod.
+
+### Le fichier final .gitlab-ci.yml
+
+```yaml
+stages:
+   - build
+   - deploy
+cache:
+   paths:
+       - node_modules/
+.build_site:
+   stage: build
+   image: node:lts
+   before_script:
+       - npm install
+   artifacts:
+       paths:
+           - dist
+
+build_site_prod:
+   extends: .build_site
+   script:
+       - npm run generate --fail-on-error --quiet --no-optional
+   only:
+       - master
+
+build_site_dev:
+   extends: .build_site
+   script:
+       - npm run generate --fail-on-error --quiet --no-optional
+   only:
+       - dev
+
+build_site_branch:
+   extends: .build_site
+   script:
+       - npm run generate --fail-on-error --quiet --no-optional
+   when: manual
+   except:
+       - master
+       - dev
+
+variables:
+   AWS_DEFAULT_REGION: eu-central-1
+
+.deploy_s3:
+   image: python:latest
+   stage: deploy
+   before_script:
+       - pip install awscli
+
+deploy_s3_branch:
+   needs:
+       - build_site_branch
+   extends: .deploy_s3
+   when: on_success
+   except:
+       - master
+       - dev
+   script:
+       - aws s3 sync dist s3://dev.exemple.com --delete --cache-control "max-age=31536000" --expires 2030-01-01T00:00:00Z
+       - aws cloudfront create-invalidation  --distribution-id ${AWS_CLOUDFRONT_INVALIDATION_ID_DEV} --paths "/*"
+   environment:
+       name: developement
+       url: https://dev.exemple.com
+
+deploy_s3_dev:
+   needs:
+       - build_site_dev
+   extends: .deploy_s3
+   when: on_success
+   only:
+       - dev
+   script:
+       - aws s3 sync dist s3://dev.exemple.com --delete --cache-control "max-age=31536000" --expires 2030-01-01T00:00:00Z
+       - aws cloudfront create-invalidation  --distribution-id ${AWS_CLOUDFRONT_INVALIDATION_ID_DEV} --paths "/*"
+   environment:
+       name: developement
+       url: https://dev.exemple.com
+
+deploy_s3_prod:
+   extends: .deploy_s3
+   only:
+       - master
+   before_script:
+       - pip install awscli
+   script:
+       - aws s3 sync dist s3://www.exemple.com --delete --cache-control "max-age=31536000" --expires 2030-01-01T00:00:00Z
+       - aws cloudfront create-invalidation  --distribution-id ${AWS_CLOUDFRONT_INVALIDATION_ID_PROD} --paths "/*"
+   environment:
+       name: production
+       url: https://www.exemple.com
+```
