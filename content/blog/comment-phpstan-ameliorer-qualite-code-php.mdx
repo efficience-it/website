@@ -7,84 +7,27 @@ excerpt: "PHPStan est un outil de vérification statique pour la programmation P
 image: "/images/blog/phpstan-qualite.webp"
 ---
 
-## Qu'est-ce que PHPStan ?
+## L'analyse statique : un compilateur pour PHP
 
-[PHPStan](https://phpstan.org/) est un outil de vérification statique pour la programmation **PHP**. Il examine votre code à la recherche d'erreurs potentielles et de problèmes, améliorant la qualité du code et prévenant les erreurs courantes. Cela se fait sans nécessiter de code de test, tout est automatisé et open source. Lorsqu'il est intégré dans votre workflow de développement (comme gitlab-ci), vous pouvez identifier les bugs avant que les projets n'atteignent la production.
+PHP est un langage interprété. Contrairement à Java ou Go, aucune phase de compilation ne vérifie la cohérence des types avant l'exécution. Pendant des années, les développeurs PHP ont découvert leurs erreurs de typage en production, à travers des `TypeError` ou des `null` inattendus. L'analyse statique comble ce vide : elle simule une compilation en parcourant l'AST (Abstract Syntax Tree) du code source, sans jamais l'exécuter.
 
-Contrairement aux tests unitaires qui vérifient le comportement attendu, PHPStan vérifie la cohérence structurelle de votre code. Il détecte les appels à des méthodes inexistantes, les types incompatibles, les variables inutilisées ou les conditions toujours vraies. C'est un filet de sécurité complémentaire aux tests.
+[PHPStan](https://phpstan.org/) est l'outil de référence dans cet espace. Il parse votre code, reconstruit un graphe de types et applique des règles de vérification sur ce graphe. Là où les tests unitaires vérifient des comportements, PHPStan vérifie des invariants structurels : cohérence des signatures, nullabilité, exhaustivité des unions. Les deux approches sont complémentaires et non substituables.
 
-## Comment PHPStan fonctionne
+## Installation et première exécution
 
-PHPStan fonctionne comme un exécutable qui s'installe facilement, analysant le code source PHP via un parseur syntaxique et appliquant des règles de vérification prédéfinies pour détecter les erreurs potentielles. Il exploite les informations de type pour s'assurer que les variables sont utilisées de manière appropriée et vérifie qu'il n'y a pas de **problèmes de typage**.
-
-L'outil propose une intégration progressive à travers des [niveaux de règles](https://phpstan.org/user-guide/rule-levels), empêchant les développeurs d'être submergés par des milliers d'erreurs dès la première exécution. Les erreurs arrivent graduellement au fur et à mesure que vous progressez dans les niveaux.
-
-Symfony, Laravel et Drupal sont des citoyens de première classe dans cet outil, avec des extensions conçues pour chaque framework populaire. Le code utilisant des méthodes et propriétés magiques est également bien compris.
-
-### Exemples concrets de bugs détectés
-
-PHPStan détecte des erreurs que les développeurs laissent souvent passer en revue de code. Voici quelques situations typiques.
-
-Un appel de méthode sur un type potentiellement null :
-
-```php
-function getUsername(User $user): string
-{
-    return $user->getProfile()->getName();
-}
-```
-
-Si `getProfile()` peut retourner `null`, PHPStan signale l'erreur : *Cannot call method getName() on null*. La correction consiste à vérifier le retour avant l'appel.
-
-Un type de retour incohérent avec la déclaration :
-
-```php
-function findUser(int $id): User
-{
-    $user = $this->repository->find($id);
-
-    return $user;
-}
-```
-
-Si `find()` retourne `User|null`, PHPStan détecte que la fonction peut retourner `null` alors qu'elle déclare retourner `User`. Ce type d'erreur provoque des crashs en production difficiles à diagnostiquer.
-
-Une comparaison toujours vraie ou toujours fausse :
-
-```php
-function process(string $status): void
-{
-    if ($status === 'active' || $status === 'active') {
-        // ...
-    }
-}
-```
-
-PHPStan repère la condition dupliquée, signe probable d'un copier-coller oublié.
-
-## Installation et configuration
-
-### Installation avec Composer
-
-Installez le package via Composer :
+L'installation se fait via Composer :
 
 ```bash
 composer require --dev phpstan/phpstan
 ```
 
-Accédez au [dépôt Github](https://github.com/phpstan/phpstan) pour des informations supplémentaires.
-
-Exécutez-le sur votre code avec :
+Puis lancez l'analyse sur votre code :
 
 ```bash
 ./vendor/bin/phpstan analyse src
 ```
 
-Pour un projet Symfony, vous analyserez typiquement le dossier `src/`. Pour un projet Laravel, le dossier `app/`.
-
-### Le fichier phpstan.neon
-
-Plutôt que de passer tous les paramètres en ligne de commande, il est recommandé de créer un fichier `phpstan.neon` à la racine du projet. Ce fichier centralise la configuration de l'analyse.
+Centralisez la configuration dans un fichier `phpstan.neon` à la racine du projet :
 
 ```yaml
 parameters:
@@ -95,71 +38,65 @@ parameters:
         - src/Migrations
 ```
 
-Avec ce fichier en place, il suffit de lancer PHPStan sans argument :
+Avec ce fichier en place, un simple `./vendor/bin/phpstan analyse` suffit. Consultez la [référence de configuration](https://phpstan.org/config-reference) pour la liste complète des options.
 
-```bash
-./vendor/bin/phpstan analyse
+## Les niveaux de règles : une adoption progressive
+
+PHPStan propose 10 [niveaux de règles](https://phpstan.org/user-guide/rule-levels), de 0 à 9. Chaque niveau inclut les vérifications du précédent.
+
+**Niveaux 0-2** couvrent les bases : classes et fonctions inconnues, nombre d'arguments incorrect, variables potentiellement non définies, types inconnus sur les expressions `mixed`.
+
+**Niveaux 3-5** ajoutent la vérification systématique des types de retour, la détection des appels sur des types nullables, et le contrôle des arguments passés aux fonctions.
+
+**Niveau 6** est le seuil recommandé pour les projets matures. Le typage strict entre en jeu : les annotations manquantes sont signalées. En dessous, PHPStan tolère l'implicite. Au-dessus, il l'interdit.
+
+**Niveaux 7-9** affinent les unions, les intersections, la nullabilité imbriquée. Le niveau 9 traite `mixed` comme un type opaque qui doit être narrowé avant utilisation, ce qui force une rigueur comparable à un langage fortement typé.
+
+Pour un projet existant, commencez au niveau 0 et montez progressivement. Pour un nouveau projet, visez directement le niveau 6.
+
+### Exemples concrets de bugs détectés
+
+Un appel de méthode sur un type potentiellement null :
+
+```php
+function getUsername(User $user): string
+{
+    return $user->getProfile()->getName();
+}
 ```
 
-Le fichier `phpstan.neon` permet de configurer les chemins à analyser, les chemins à exclure, le niveau de règles, les extensions à charger et les erreurs à ignorer. Consultez la [référence de configuration](https://phpstan.org/config-reference) pour la liste complète des options.
+Si `getProfile()` peut retourner `null`, PHPStan signale : *Cannot call method getName() on null*. Ce type d'erreur passe systématiquement en code review humaine parce que le chemin nominal fonctionne.
 
-Pour les projets Symfony, ajoutez l'extension dédiée :
+Un type de retour incohérent :
 
-```bash
-composer require --dev phpstan/phpstan-symfony
+```php
+function findUser(int $id): User
+{
+    $user = $this->repository->find($id);
+
+    return $user;
+}
 ```
 
-Puis référencez-la dans la configuration :
+Si `find()` retourne `User|null`, PHPStan détecte l'incohérence. En production, c'est un crash sur le premier appel avec un ID invalide.
 
-```yaml
-includes:
-    - vendor/phpstan/phpstan-symfony/extension.neon
+Une condition dupliquée, signe de copier-coller :
 
-parameters:
-    level: 6
-    paths:
-        - src
+```php
+if ($status === 'active' || $status === 'active') {
 ```
 
-L'extension Symfony permet à PHPStan de comprendre le conteneur de services, les types retournés par le Request, les commandes console et d'autres spécificités du framework.
+PHPStan repère la redondance. La deuxième condition masque probablement un autre état qui n'est jamais vérifié.
 
-## Les niveaux d'analyse de 0 à 9
+## La baseline : dette technique maîtrisée
 
-PHPStan propose 10 niveaux de règles, de 0 (le plus permissif) à 9 (le plus strict). Chaque niveau inclut les vérifications du niveau précédent et en ajoute de nouvelles.
-
-**Niveau 0** : vérifications de base. PHPStan détecte les classes, fonctions et méthodes inconnues, le nombre incorrect d'arguments passés aux fonctions et les types de retour incompatibles avec la réalité.
-
-**Niveau 1** : les variables potentiellement non définies sont signalées, ainsi que les retours de méthodes magiques avec des types inconnus.
-
-**Niveau 2** : les méthodes et propriétés inconnues sur les expressions de type mixte sont vérifiées. PHPStan commence à analyser les types résultant des opérations.
-
-**Niveau 3** : les types de retour des fonctions sont vérifiés systématiquement.
-
-**Niveau 4** : le typage de base est vérifié. Les appels de méthodes et accès aux propriétés sur des types nullables sont signalés.
-
-**Niveau 5** : les types des arguments passés aux fonctions et méthodes sont vérifiés.
-
-**Niveau 6** : le typage strict entre en jeu. Les types manquants dans les annotations sont signalés. C'est le niveau recommandé pour la plupart des projets matures.
-
-**Niveau 7** : les unions et intersections de types sont vérifiées plus finement. Les méthodes partiellement typées sont signalées.
-
-**Niveau 8** : les appels de méthodes et accès aux propriétés sur des types nullables sont signalés même dans les contextes imbriqués.
-
-**Niveau 9** : le niveau le plus strict. Le type `mixed` est traité de manière stricte et doit être vérifié avant utilisation.
-
-Le niveau de règle optimal dépend de vos besoins en qualité de code, de vos contraintes de temps et de budget, et des préférences de votre équipe de développement. Pour un projet existant, commencez au niveau 0 et montez progressivement. Pour un nouveau projet, visez directement le niveau 6 ou plus.
-
-## La baseline : adopter PHPStan sur un projet existant
-
-Sur un projet existant avec des milliers de lignes de code, lancer PHPStan au niveau 6 peut générer des centaines d'erreurs. Corriger toutes ces erreurs d'un coup est irréaliste. C'est là que la **baseline** entre en jeu.
-
-La baseline est un fichier qui enregistre toutes les erreurs existantes pour les ignorer temporairement :
+Sur un projet existant, lancer PHPStan au niveau 6 peut générer des centaines d'erreurs. La baseline résout ce problème en gelant l'état actuel :
 
 ```bash
 ./vendor/bin/phpstan analyse --generate-baseline
 ```
 
-Cette commande crée un fichier `phpstan-baseline.neon` contenant la liste des erreurs actuelles. Ajoutez-le dans votre configuration :
+Cette commande crée un fichier `phpstan-baseline.neon` qui liste toutes les erreurs existantes. Référencez-le dans votre configuration :
 
 ```yaml
 includes:
@@ -171,13 +108,13 @@ parameters:
         - src
 ```
 
-À partir de ce moment, PHPStan ne signale que les **nouvelles erreurs**. Le code existant est toléré, mais tout nouveau code doit respecter le niveau configuré. Vous pouvez ensuite réduire la baseline progressivement en corrigeant les erreurs existantes par lots.
+À partir de ce moment, seules les nouvelles erreurs sont signalées. La baseline n'est pas un passe-droit permanent : c'est un outil de gestion de la dette technique. Traitez-la comme un backlog. Chaque sprint, corrigez un lot d'erreurs et regénérez la baseline. Suivez son évolution : une baseline qui grossit est un signal d'alerte pour un lead.
 
-Cette approche permet d'adopter PHPStan à un niveau élevé sans bloquer le développement. C'est la stratégie recommandée pour les projets en production.
+Un réflexe utile : intégrez dans votre CI un check qui compte les entrées de la baseline et échoue si ce nombre augmente. Cela empêche l'accumulation silencieuse de dette.
 
-## Intégration dans la CI
+## Intégration CI et workflow d'équipe
 
-PHPStan prend toute sa valeur lorsqu'il est intégré dans votre pipeline d'intégration continue. Dans un fichier `.gitlab-ci.yml` par exemple :
+PHPStan prend toute sa valeur dans un pipeline d'intégration continue. Dans un `.gitlab-ci.yml` :
 
 ```yaml
 phpstan:
@@ -187,11 +124,116 @@ phpstan:
         - vendor/bin/phpstan analyse --no-progress
 ```
 
-Chaque merge request est alors vérifiée automatiquement. Si PHPStan détecte une erreur, la pipeline échoue et le développeur doit corriger avant de merger. Cette automatisation garantit que la qualité du code ne régresse jamais.
+Chaque merge request est vérifiée automatiquement. Si PHPStan échoue, le développeur corrige avant de merger. Le `--no-progress` supprime l'affichage de la barre de progression, inutile dans les logs CI.
 
-## Conclusion
+Pour les équipes avec un cache CI, ajoutez `--error-format=json` et exploitez la sortie pour des dashboards de qualité ou des notifications Slack ciblées.
 
-PHPStan est essentiel pour tout développeur PHP qui priorise la qualité du code. Il analyse automatiquement le code source à la recherche d'erreurs et de problèmes potentiels, améliorant la qualité et prévenant les erreurs courantes tout en facilitant le débogage. Intégrer PHPStan dans votre workflow de développement assure le respect des conventions de codage et des bonnes pratiques de programmation. Grâce à la baseline et aux niveaux progressifs, son adoption est réaliste même sur les projets les plus volumineux. PHPStan est un outil efficace pour améliorer la qualité de votre code PHP.
+## L'extension phpstan-symfony : aller au-delà du code vanilla
+
+Les frameworks PHP utilisent massivement des patterns que l'analyse statique ne peut pas résoudre seule : injection de dépendances, configuration YAML, méthodes magiques. L'extension [phpstan-symfony](https://github.com/phpstan/phpstan-symfony) comble ce fossé :
+
+```bash
+composer require --dev phpstan/phpstan-symfony
+```
+
+```yaml
+includes:
+    - vendor/phpstan/phpstan-symfony/extension.neon
+
+parameters:
+    level: 6
+    paths:
+        - src
+    symfony:
+        containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
+```
+
+Avec cette configuration, PHPStan comprend les types retournés par `$container->get()`, valide les noms de services, type correctement les objets `Request` et `InputInterface`. Sans cette extension, des dizaines de faux positifs polluent l'analyse et poussent les développeurs à ignorer les vrais problèmes.
+
+## Règles custom : PHPStan comme gardien d'architecture
+
+C'est ici que PHPStan cesse d'être un simple linter et devient un outil d'architecture. Vous pouvez écrire des règles custom qui encodent les décisions structurelles de votre projet.
+
+Prenons un exemple concret : interdire qu'un service du domaine dépende directement de l'infrastructure.
+
+```php
+use PHPStan\Rules\Rule;
+use PHPStan\Analyser\Scope;
+use PhpParser\Node;
+use PhpParser\Node\Stmt\Use_;
+
+/**
+ * @implements Rule<Use_>
+ */
+class NoDomainToInfrastructureDependencyRule implements Rule
+{
+    public function getNodeType(): string
+    {
+        return Use_::class;
+    }
+
+    public function processNode(Node $node, Scope $scope): array
+    {
+        $file = $scope->getFile();
+        if (!str_contains($file, '/Domain/')) {
+            return [];
+        }
+
+        foreach ($node->uses as $use) {
+            $name = $use->name->toString();
+            if (str_contains($name, 'Infrastructure\\')) {
+                return [
+                    'Les classes du Domain ne doivent pas importer depuis Infrastructure.',
+                ];
+            }
+        }
+
+        return [];
+    }
+}
+```
+
+Cette règle transforme une convention verbale ("le domaine ne dépend pas de l'infra") en une contrainte vérifiée à chaque commit. C'est la différence entre un ADR (Architecture Decision Record) que personne ne lit et une garde-fou automatisée.
+
+Enregistrez vos règles custom dans la configuration :
+
+```yaml
+services:
+    -
+        class: App\PHPStan\NoDomainToInfrastructureDependencyRule
+        tags:
+            - phpstan.rules.rule
+```
+
+D'autres cas d'usage courants pour les règles custom : interdire l'utilisation de `new` dans les controllers (tout doit passer par l'injection), forcer l'usage de value objects pour certains paramètres, ou empêcher les dépendances circulaires entre bounded contexts.
+
+## Le système de types avancé : generics et template types
+
+À partir du niveau 7, PHPStan exploite pleinement son système de types. Les generics PHP via les annotations `@template` permettent d'exprimer des contrats que le langage natif ne supporte pas.
+
+```php
+/**
+ * @template T of object
+ * @param class-string<T> $className
+ * @return T
+ */
+function create(string $className): object
+{
+    return new $className();
+}
+```
+
+Avec cette annotation, PHPStan sait que `create(User::class)` retourne un `User`, pas un `object` générique. Ce niveau de précision se propage dans tout le graphe de types et élimine des catégories entières de bugs liés au downcasting.
+
+Les template types brillent dans les repositories, les collections typées et les factories. Un `Repository<User>` dont la méthode `find()` retourne `User|null` au lieu de `object|null` : c'est ce niveau de typage qui rapproche PHP d'un langage à typage fort sans sacrifier sa flexibilité.
+
+Les conditional return types (`@return ($flag is true ? Foo : Bar)`) et les assertions (`@phpstan-assert`) complètent l'outillage pour modéliser des API complexes que le type system natif de PHP ne peut pas capturer.
+
+## PHPStan comme philosophie de design
+
+Au-delà de l'outil, adopter PHPStan au niveau max transforme la façon de concevoir du code. L'obligation de satisfaire l'analyseur pousse vers des designs plus explicites : moins de `mixed`, moins de magie, des contrats clairs entre les couches. Le code devient sa propre documentation.
+
+Un architecte qui configure PHPStan avec des règles custom, des generics et un niveau 9 ne cherche pas à satisfaire un outil. Il encode les invariants de son système dans un vérificateur automatique qui tourne à chaque commit. C'est de la gouvernance technique exécutable.
 
 ## Pour aller plus loin
 
