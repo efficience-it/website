@@ -1,0 +1,532 @@
+---
+title: "RAG avec Symfony AI et Doctrine : indexer sa base métier pour un agent IA"
+date: "2026-03-09"
+author: "Louis-Arnaud Catoire"
+category: "Outils"
+excerpt: "Comment connecter un LLM à ta base Doctrine grâce au RAG, Symfony AI et pgvector. Guide complet pour indexer, rechercher et interroger tes données métier."
+image: "/images/blog/rag-symfony.png"
+---
+
+Tu as une application Symfony en production, une base Doctrine bien remplie, et tu te demandes comment rendre tout ça interrogeable par un LLM. Pas via une API REST classique. Via du langage naturel : « quels tickets similaires ont déjà été résolus ? », « quel client a eu ce problème en janvier ? ».
+
+La réponse tient en trois lettres : **RAG** (Retrieval-Augmented Generation). Et depuis l'arrivée de [Symfony AI](https://symfony.com/blog/introducing-symfony-ai), on a enfin les briques pour le faire proprement dans l'écosystème Symfony.
+
+Cet article te montre comment, concrètement, indexer ta base [Doctrine](https://www.doctrine-project.org/) dans un vector store et construire un pipeline RAG fonctionnel. Pas de théorie creuse. Du code, des choix d'architecture, des pièges à éviter.
+
+## Pourquoi le RAG change la donne pour les apps métier
+
+Les LLM sont puissants, mais ils ne connaissent pas tes données. Ton catalogue produit, tes tickets support, tes contrats clients — tout ça n'existe pas pour GPT-4 ou Claude.
+
+Deux options s'offrent à toi :
+
+- **Fine-tuning** : réentraîner le modèle sur tes données. Coûteux, long, et obsolète dès que ta base change.
+- **RAG** : injecter le contexte pertinent dans le prompt au moment de la requête. Pas de réentraînement, données toujours fraîches, coût maîtrisé.
+
+Le RAG fonctionne en trois étapes :
+
+1. **Indexation** : transformer tes données en vecteurs (embeddings) et les stocker
+2. **Recherche** : convertir la question de l'utilisateur en vecteur, trouver les documents les plus proches
+3. **Génération** : envoyer les documents trouvés au LLM comme contexte, obtenir une réponse fondée sur tes données
+
+C'est simple conceptuellement. L'implémentation dans un projet Symfony demande quelques choix structurants.
+
+## L'architecture cible
+
+Voici le schéma global de ce qu'on va construire :
+
+```
+Utilisateur → Question
+                ↓
+        Embedding de la question
+                ↓
+        Recherche de similarité (vector store)
+                ↓
+        Documents pertinents récupérés
+                ↓
+        Prompt = template + contexte + question
+                ↓
+        Appel LLM → Réponse enrichie
+```
+
+Côté stack :
+
+- **Symfony 7** avec [Symfony AI](https://github.com/symfony/ai) pour l'orchestration
+- **Doctrine ORM** comme source de données
+- **pgvector** ou **Qdrant** comme vector store
+- **OpenAI / Mistral** pour les embeddings et la génération
+
+## Installer Symfony AI
+
+[Symfony AI](https://github.com/symfony/ai) fournit les abstractions nécessaires : modèles d'embedding, vector stores, chaînes de traitement.
+
+```bash
+composer require symfony/ai
+```
+
+La configuration se fait via le fichier `config/packages/ai.yaml`. Tu y déclares tes plateformes (OpenAI, Mistral, Ollama) et tes stores.
+
+```yaml
+symfony_ai:
+    platform:
+        openai:
+            api_key: '%env(OPENAI_API_KEY)%'
+    store:
+        my_store:
+            type: pgvector
+            dsn: '%env(DATABASE_URL)%'
+            table: embeddings
+```
+
+## Choisir ce qu'on indexe
+
+Première erreur classique : vouloir tout indexer. Ta table `User` avec ses mots de passe hashés, tes logs d'audit, tes tables de jointure — rien de tout ça n'a de valeur pour un LLM.
+
+Concentre-toi sur les **données à forte valeur sémantique** :
+
+- Descriptions de produits
+- Contenus de tickets support (titre + corps + résolution)
+- Articles de documentation interne
+- Commentaires clients
+- Fiches techniques
+
+Pour chaque entité, tu définis une méthode qui produit le texte à vectoriser :
+
+```php
+class SupportTicket
+{
+    // ...
+
+    public function toEmbeddingText(): string
+    {
+        return sprintf(
+            "Ticket #%d - %s\nStatut: %s\nDescription: %s\nRésolution: %s",
+            $this->id,
+            $this->title,
+            $this->status,
+            $this->description,
+            $this->resolution ?? 'Non résolu'
+        );
+    }
+}
+```
+
+Cette méthode est le contrat entre ton modèle Doctrine et le pipeline d'indexation. Elle détermine ce que le LLM « verra » de ton entité.
+
+## La commande d'indexation
+
+On crée une commande Symfony qui lit les entités Doctrine et pousse les embeddings dans le vector store :
+
+```php
+#[AsCommand(name: 'app:index-tickets')]
+class IndexTicketsCommand extends Command
+{
+    public function __construct(
+        private EntityManagerInterface $em,
+        private EmbeddingModelInterface $embeddingModel,
+        private VectorStoreInterface $vectorStore,
+    ) {
+        parent::__construct();
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $tickets = $this->em->getRepository(SupportTicket::class)->findAll();
+
+        $documents = [];
+        foreach ($tickets as $ticket) {
+            $documents[] = new Document(
+                id: (string) $ticket->getId(),
+                content: $ticket->toEmbeddingText(),
+                metadata: [
+                    'entity' => SupportTicket::class,
+                    'id' => $ticket->getId(),
+                    'status' => $ticket->getStatus(),
+                ],
+            );
+        }
+
+        $this->embeddingModel->embedDocuments($documents);
+        $this->vectorStore->addDocuments($documents);
+
+        $output->writeln(sprintf('%d tickets indexés.', count($documents)));
+
+        return Command::SUCCESS;
+    }
+}
+```
+
+Les **metadata** sont importantes : elles te permettent de filtrer les résultats par type d'entité, par statut, par date. Tu ne veux pas remonter des tickets fermés quand l'utilisateur cherche un problème ouvert.
+
+## Choisir son vector store
+
+### PostgreSQL avec pgvector
+
+Si ton application tourne déjà sur PostgreSQL, c'est le choix le plus pragmatique. [pgvector](https://github.com/pgvector/pgvector) ajoute un type `vector` et des opérateurs de similarité directement dans ta base existante.
+
+```sql
+CREATE EXTENSION IF NOT EXISTS vector;
+
+CREATE TABLE embeddings (
+    id UUID PRIMARY KEY,
+    content TEXT NOT NULL,
+    metadata JSONB,
+    embedding vector(1536)
+);
+
+CREATE INDEX ON embeddings USING ivfflat (embedding vector_cosine_ops);
+```
+
+Avantages : pas d'infra supplémentaire, backup unifié, transactions ACID. Pour la majorité des cas d'usage (moins d'un million de documents), pgvector est largement suffisant.
+
+### Qdrant
+
+Si tu as besoin de performances poussées sur de gros volumes ou de fonctionnalités avancées (filtrage par payload, sharding), [Qdrant](https://qdrant.tech/) est un excellent choix. C'est un vector store dédié, conçu spécifiquement pour la recherche de similarité.
+
+```yaml
+symfony_ai:
+    store:
+        my_store:
+            type: qdrant
+            host: '%env(QDRANT_HOST)%'
+            collection: support_tickets
+```
+
+Le choix dépend de ton contexte : pgvector pour simplifier, Qdrant pour scaler.
+
+## Le pipeline de recherche
+
+Quand un utilisateur pose une question, voici ce qui se passe :
+
+```php
+class TicketSearchService
+{
+    public function __construct(
+        private EmbeddingModelInterface $embeddingModel,
+        private VectorStoreInterface $vectorStore,
+        private ChatModelInterface $chatModel,
+    ) {}
+
+    public function search(string $userQuery): string
+    {
+        $queryVector = $this->embeddingModel->embedText($userQuery);
+
+        $results = $this->vectorStore->similaritySearch(
+            vector: $queryVector,
+            limit: 5,
+            metadata: ['status' => 'resolved'],
+        );
+
+        $context = implode("\n\n---\n\n", array_map(
+            fn (Document $doc) => $doc->content,
+            $results,
+        ));
+
+        $messages = [
+            new SystemMessage($this->buildPrompt($context)),
+            new UserMessage($userQuery),
+        ];
+
+        $response = $this->chatModel->chat($messages);
+
+        return $response->content;
+    }
+
+    private function buildPrompt(string $context): string
+    {
+        return <<<PROMPT
+        Tu es un assistant support pour notre application.
+        Utilise UNIQUEMENT les informations suivantes pour répondre.
+        Si tu ne trouves pas la réponse dans le contexte, dis-le clairement.
+
+        Contexte :
+        {$context}
+        PROMPT;
+    }
+}
+```
+
+Le point clé : le prompt dit explicitement au LLM de se baser **uniquement** sur le contexte fourni. Sans cette instruction, le modèle va halluciner des réponses à partir de ses connaissances générales.
+
+## Structurer la recherche en architecture hexagonale
+
+Dans une application Symfony sérieuse, tu ne veux pas coupler ton domaine à un vector store spécifique. On définit un port :
+
+```php
+interface SemanticSearchPort
+{
+    /** @return array<Document> */
+    public function search(string $query, int $limit = 5, array $filters = []): array;
+}
+```
+
+Et l'adaptateur qui utilise Symfony AI :
+
+```php
+class SymfonyAiSemanticSearchAdapter implements SemanticSearchPort
+{
+    public function __construct(
+        private EmbeddingModelInterface $embeddingModel,
+        private VectorStoreInterface $vectorStore,
+    ) {}
+
+    public function search(string $query, int $limit = 5, array $filters = []): array
+    {
+        $vector = $this->embeddingModel->embedText($query);
+
+        return $this->vectorStore->similaritySearch(
+            vector: $vector,
+            limit: $limit,
+            metadata: $filters,
+        );
+    }
+}
+```
+
+Demain, si tu passes de pgvector à Qdrant (ou l'inverse), tu changes l'adaptateur. Ton domaine n'en sait rien.
+
+## Stratégies de chunking pour les textes longs
+
+Un embedding a une taille maximale de tokens (8191 pour `text-embedding-3-small` d'OpenAI). Si tes entités contiennent des champs longs — documentation technique, articles de blog, rapports — tu dois découper.
+
+```php
+class TextChunker
+{
+    public function chunk(string $text, int $maxTokens = 500, int $overlap = 50): array
+    {
+        $words = explode(' ', $text);
+        $chunks = [];
+        $position = 0;
+
+        while ($position < count($words)) {
+            $chunk = array_slice($words, $position, $maxTokens);
+            $chunks[] = implode(' ', $chunk);
+            $position += $maxTokens - $overlap;
+        }
+
+        return $chunks;
+    }
+}
+```
+
+L'**overlap** (chevauchement) est important : il garantit qu'une information à cheval entre deux chunks ne sera pas perdue. 50 à 100 tokens de chevauchement, c'est un bon défaut.
+
+Chaque chunk devient un document séparé dans le vector store, avec les mêmes metadata que l'entité source plus un index de position :
+
+```php
+$chunks = $chunker->chunk($entity->getLongDescription());
+
+foreach ($chunks as $index => $chunk) {
+    $documents[] = new Document(
+        id: sprintf('%s-chunk-%d', $entity->getId(), $index),
+        content: $chunk,
+        metadata: [
+            'entity' => get_class($entity),
+            'id' => $entity->getId(),
+            'chunk_index' => $index,
+        ],
+    );
+}
+```
+
+## Garder l'index à jour avec les events Doctrine
+
+Une indexation initiale c'est bien. Un index qui se met à jour tout seul, c'est mieux. On utilise les événements Doctrine :
+
+```php
+class EmbeddingIndexerSubscriber implements EventSubscriberInterface
+{
+    public function __construct(
+        private MessageBusInterface $bus,
+    ) {}
+
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            Events::postPersist => 'onEntityChange',
+            Events::postUpdate => 'onEntityChange',
+            Events::postRemove => 'onEntityRemove',
+        ];
+    }
+
+    public function onEntityChange(PostPersistEventArgs|PostUpdateEventArgs $args): void
+    {
+        $entity = $args->getObject();
+
+        if (!$entity instanceof EmbeddableInterface) {
+            return;
+        }
+
+        $this->bus->dispatch(new ReindexEntityMessage(
+            entityClass: get_class($entity),
+            entityId: $entity->getId(),
+        ));
+    }
+
+    public function onEntityRemove(PostRemoveEventArgs $args): void
+    {
+        $entity = $args->getObject();
+
+        if (!$entity instanceof EmbeddableInterface) {
+            return;
+        }
+
+        $this->bus->dispatch(new RemoveEmbeddingMessage(
+            entityClass: get_class($entity),
+            entityId: $entity->getId(),
+        ));
+    }
+}
+```
+
+On passe par [Symfony Messenger](https://symfony.com/doc/current/messenger.html) pour ne pas bloquer la requête HTTP. L'embedding est calculé de façon asynchrone.
+
+L'interface `EmbeddableInterface` sert de marqueur :
+
+```php
+interface EmbeddableInterface
+{
+    public function getId(): int|string;
+    public function toEmbeddingText(): string;
+}
+```
+
+Toute entité qui implémente cette interface sera automatiquement indexée à chaque modification.
+
+## Performance : indexation par batch et Messenger
+
+L'indexation initiale de milliers d'entités ne doit pas se faire document par document. Symfony AI supporte le batch :
+
+```php
+$batchSize = 100;
+$batches = array_chunk($documents, $batchSize);
+
+foreach ($batches as $batch) {
+    $this->embeddingModel->embedDocuments($batch);
+    $this->vectorStore->addDocuments($batch);
+    $this->em->clear();
+}
+```
+
+Le `$this->em->clear()` est essentiel pour libérer la mémoire entre chaque batch. Sans ça, Doctrine garde toutes les entités en mémoire et ton process explose sur un gros dataset.
+
+Pour l'indexation asynchrone, le handler Messenger :
+
+```php
+#[AsMessageHandler]
+class ReindexEntityHandler
+{
+    public function __construct(
+        private EntityManagerInterface $em,
+        private EmbeddingModelInterface $embeddingModel,
+        private VectorStoreInterface $vectorStore,
+    ) {}
+
+    public function __invoke(ReindexEntityMessage $message): void
+    {
+        $entity = $this->em->find(
+            $message->entityClass,
+            $message->entityId,
+        );
+
+        if (!$entity instanceof EmbeddableInterface) {
+            return;
+        }
+
+        $document = new Document(
+            id: sprintf('%s-%s', $message->entityClass, $message->entityId),
+            content: $entity->toEmbeddingText(),
+            metadata: [
+                'entity' => $message->entityClass,
+                'id' => $message->entityId,
+            ],
+        );
+
+        $this->embeddingModel->embedDocuments([$document]);
+        $this->vectorStore->addDocuments([$document]);
+    }
+}
+```
+
+## Exemple concret : un système de tickets support
+
+Prenons un cas réel. Tu gères une application de support avec des milliers de tickets résolus. Les agents passent du temps à chercher si un problème similaire a déjà été traité.
+
+Avec le RAG en place, l'agent tape : « Le client n'arrive pas à exporter ses factures en PDF depuis la mise à jour de mars ».
+
+Le pipeline :
+
+1. La question est transformée en vecteur
+2. pgvector trouve les 5 tickets les plus similaires sémantiquement
+3. Parmi eux : un ticket résolu il y a 3 mois, « Export PDF cassé après montée de version wkhtmltopdf »
+4. Le LLM synthétise : « Un problème similaire a été résolu en décembre (ticket #4521). La cause était une incompatibilité de version wkhtmltopdf après mise à jour. Solution : fixer la version à 0.12.6 dans le Dockerfile. »
+
+L'agent a sa réponse en 3 secondes au lieu de 15 minutes de recherche manuelle.
+
+```php
+class SupportAgentController extends AbstractController
+{
+    #[Route('/support/ask', methods: ['POST'])]
+    public function ask(
+        Request $request,
+        TicketSearchService $searchService,
+    ): JsonResponse {
+        $question = $request->getPayload()->getString('question');
+        $answer = $searchService->search($question);
+
+        return $this->json(['answer' => $answer]);
+    }
+}
+```
+
+## Le template de prompt
+
+Le prompt est la pièce maîtresse. Un mauvais prompt avec de bons documents donne de mauvais résultats :
+
+```
+Tu es un assistant technique pour l'équipe support de {company}.
+
+Règles :
+- Réponds UNIQUEMENT à partir des documents fournis ci-dessous
+- Si l'information n'est pas dans les documents, réponds "Je n'ai pas trouvé d'information pertinente dans la base"
+- Cite les numéros de tickets quand c'est pertinent
+- Sois concis et actionnable
+
+Documents de contexte :
+{context}
+
+Question de l'agent :
+{question}
+```
+
+Les instructions négatives (« ne fais pas ») sont aussi importantes que les positives. Sans la consigne de refuser quand le contexte est insuffisant, le LLM inventera une réponse plausible mais fausse.
+
+## Coûts et limites à anticiper
+
+### Coûts d'embedding
+
+Avec `text-embedding-3-small` d'OpenAI : environ 0,02 $ pour 1 million de tokens. Pour 10 000 tickets de 200 mots chacun, ça représente environ 2 millions de tokens, soit 0,04 $. L'indexation initiale coûte presque rien. C'est la réindexation continue qui s'accumule, mais reste modeste.
+
+### Taille du vector store
+
+Un embedding de dimension 1536 occupe environ 6 Ko. Pour 100 000 documents, ça fait ~600 Mo. pgvector gère ça sans broncher. Au-delà du million de documents, considère Qdrant ou un index IVFFlat bien configuré.
+
+### Pertinence
+
+Le RAG n'est pas magique. Si tes données sources sont mal structurées (champs vides, textes trop courts, doublons), les résultats seront médiocres. La qualité de la méthode `toEmbeddingText()` est déterminante.
+
+### Latence
+
+Un appel d'embedding prend 50-200 ms. La recherche de similarité sur pgvector avec 100 000 documents prend 10-50 ms. L'appel LLM prend 1-3 secondes. Le bottleneck est toujours le LLM, pas le RAG.
+
+## Aller plus loin
+
+Le RAG est une première étape. Une fois le pipeline en place, tu peux :
+
+- Ajouter du **reranking** pour affiner les résultats de similarité
+- Implémenter du **RAG multi-sources** (Doctrine + fichiers PDF + API externes)
+- Construire un **agent conversationnel** avec historique de conversation
+- Mettre en place des **guardrails** pour limiter les réponses aux données autorisées
+
+L'écosystème [Symfony AI](https://github.com/symfony/ai) est encore jeune mais progresse vite. Combiné avec la maturité de [Doctrine](https://www.doctrine-project.org/) et la richesse de l'écosystème Symfony (Messenger, Security, Cache), tu as tout ce qu'il faut pour construire des applications IA robustes en PHP.
+
+Le RAG avec Symfony AI et Doctrine, c'est exactement le type de sujet qu'on adore creuser chez Efficience IT. Si tu veux discuter de ton cas d'usage, [contacte-nous](https://www.itefficience.com/contact).
