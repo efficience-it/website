@@ -7,68 +7,97 @@ excerpt: "Dans le monde du web, API est l'acronyme d'Application Programming Int
 image: "/images/blog/api-rest.webp"
 ---
 
-## Qu'est-ce qu'une API ?
+## Les fondamentaux REST que tout développeur doit maîtriser
 
-Dans le monde du web, API est l'acronyme d'Application Programming Interface, traduit en français par interface de programmation d'application. Celle-ci est une solution informatique qui autorise les applications à communiquer entre elles, des services ou données.
+REST (Representational State Transfer) est un style d'architecture défini par Roy Fielding dans sa thèse de 2000. Contrairement à SOAP ou XML-RPC, REST s'appuie directement sur la sémantique du protocole HTTP pour modéliser les interactions entre un client et un serveur. Une API est dite RESTful lorsqu'elle respecte les six contraintes posées par Fielding : architecture client-serveur, absence d'état (stateless), mise en cache, interface uniforme, système en couches et code à la demande (optionnel).
 
-En clair, une API permet d'accéder aux fonctionnalités ou données d'une application installée à travers une autre application.
+En pratique, concevoir une API REST solide commence par trois piliers : un nommage cohérent des ressources, un usage rigoureux des verbes HTTP et un choix précis des codes de statut.
 
-## Qu'est-ce qu'API REST ?
+## Nommage des ressources et design d'URI
 
-L'API REST (Representational State Transfer) est un style d'architecture logicielle, utilisé pour permettre la communication et l'échange de données entre différents systèmes informatiques. Largement employée dans le développement web, l'API est basée sur les principes fondamentaux du protocole HTTP.
+Les URI sont le contrat visible de votre API. Elles doivent refléter des ressources (des noms), jamais des actions (des verbes). Le chemin `/users/42/orders` est lisible et hiérarchique : il exprime la relation entre un utilisateur et ses commandes. À l'inverse, `/getOrdersByUser?id=42` mélange action et paramètre, ce qui rend l'API fragile face aux évolutions.
 
-REST définit l'ensemble des contraintes et des conventions qui aident à concevoir des applications web, mobiles, des API publiques, évolutives, flexibles et interopérables. En contraste avec d'autres styles architecturaux, cette API est considérée comme simple à utiliser et particulièrement légère.
+Quelques conventions éprouvées : utiliser le pluriel (`/products` plutôt que `/product`), limiter la profondeur à trois segments maximum, réserver les query strings aux filtres et à la pagination (`/products?category=electronics&page=2`). Pour les relations complexes, préférer les sous-ressources aux paramètres imbriqués : `/orders/87/items/3` plutôt qu'un filtre multi-niveaux.
 
-## Quelles sont les caractéristiques d'une API REST ?
+## Verbes HTTP et idempotence
 
-Cette API est construite selon un style d'architecture particulier. Un développeur utilisant cette interface se doit de répondre à quelques exigences, avant de pouvoir considérer son API comme RESTful. En voici la liste :
+Chaque verbe HTTP porte une sémantique précise qui dépasse le simple CRUD. `GET` récupère une ressource sans effet de bord : il est safe et idempotent. `POST` crée une ressource et n'est pas idempotent : deux appels identiques produisent deux entrées. `PUT` remplace intégralement une ressource (idempotent), tandis que `PATCH` applique une modification partielle. `DELETE` supprime la ressource ciblée et doit être idempotent : supprimer deux fois la même ressource renvoie le même résultat.
 
-### Architecture client-serveur
+Cette distinction n'est pas académique. Un reverse proxy ou un CDN peut rejouer automatiquement un `GET` en cas d'échec réseau, mais jamais un `POST`. Un middleware de retry en production s'appuie sur l'idempotence déclarée du verbe pour décider s'il peut relancer une requête sans risque de doublon.
 
-Ici, le client émet des requêtes HTTP au serveur, dans le but de créer, récupérer, mettre à jour ou supprimer des ressources. Celui-ci renvoie, à l'utilisateur, les réponses HTTP qui correspondent. La demande des ressources s'effectue selon la méthode GET, elle est utilisée pour récupérer des informations sans modifier l'état de la ressource ou du serveur. Quant à l'envoi des demandes, on utilise la méthode POST qui permet de soumettre des données au serveur dans le but de créer une nouvelle ressource et indique dans sa réponse le résultat de l'action. D'autres méthodes telles que HEAD, PUT, PATCH, DELETE, CONNECT, OPTIONS et TRACE, peuvent être également prises en charge.
+## Codes de statut HTTP : la communication avec le consommateur
 
-### Ressources et URIs
+Les codes de statut forment le vocabulaire de votre API. Un `201 Created` après un `POST` réussi, accompagné d'un header `Location` pointant vers la ressource créée, permet au client de naviguer sans connaître la structure des URI à l'avance. Un `204 No Content` après un `DELETE` confirme la suppression sans corps de réponse superflu.
 
-Pour optimiser l'utilisation d'une API REST, il est nécessaire d'identifier les ressources et d'utiliser des URI, Uniform Resource Identifier. Les ressources sont les entités qui vont être exposées par l'API REST, telles que les utilisateurs, les articles, les produits, etc. Chaque ressource est identifiée par une URI unique, qui est une adresse unique permettant d'accéder à cette ressource. Par exemple, `/utilisateurs/1` peut être l'URI pour accéder à l'utilisateur avec l'ID 1. Celles-ci doivent être intuitives et décrivent la nature de la ressource.
+Les erreurs méritent autant d'attention. Un `400 Bad Request` signale une requête malformée, un `422 Unprocessable Entity` indique que la syntaxe est correcte mais que les données violent une règle métier. Un `409 Conflict` alerte sur un conflit d'état (modification concurrente, doublon de clé unique). Trop d'API renvoient un `500` générique là où un code précis permettrait au client de réagir automatiquement.
 
-### Sans état ou « stateless »
+La RFC 7807 (Problem Details for HTTP APIs) standardise le format des réponses d'erreur avec un objet JSON contenant `type`, `title`, `status` et `detail`. API Platform l'implémente nativement, ce qui offre aux consommateurs un format prédictible pour parser et afficher les erreurs.
 
-Aucune communication entre le client et le serveur n'est stockée. Chaque requête envoyée au serveur est traitée comme si c'était la première requête faite dans le projet. Elle contient toutes les informations nécessaires pour que le serveur comprenne et traite la demande. Cette propriété facilite la scalabilité et la fiabilité du système. Tout est question de sécurité.
+## Stateless, cache et négociation de contenu
 
-### Mise en cache des ressources
+Le caractère stateless de REST signifie que chaque requête transporte l'intégralité de son contexte d'authentification et de ses paramètres. Le serveur ne maintient aucune session entre deux appels. Cette contrainte rend l'API horizontalement scalable : n'importe quelle instance peut traiter n'importe quelle requête.
 
-Les ressources sont sauvegardées, en priorité celles qui sont souvent demandées. Cela permet de réduire le temps de charge du serveur. REST doit être capable d'identifier les ressources qui peuvent être mises en cache et déterminer la durée de leur séjour dans le cache.
+Le cache HTTP est un levier de performance souvent sous-exploité. Les headers `Cache-Control`, `ETag` et `Last-Modified` permettent au client (ou à un proxy intermédiaire) de stocker les réponses et de ne recharger que les données modifiées. Un `GET /products/42` avec un `ETag` valide recevra un `304 Not Modified` sans corps de réponse, réduisant la bande passante et la charge serveur.
 
-### Interface uniforme
+La négociation de contenu via le header `Accept` permet à un même endpoint de servir du JSON (`application/json`), du JSON-LD (`application/ld+json`) ou du CSV selon le besoin du consommateur. Cette flexibilité évite la prolifération d'endpoints spécialisés.
 
-On parle ici de l'ensemble des contraintes et des exigences qui définissent le modèle standard d'échange entre le client et le serveur. La communication se fait selon une manière définie, en voici les éléments à respecter :
+## HATEOAS et la maturité d'une API
 
-- L'identification des ressources
-- La manipulation des verbes HTTP (GET, POST, PUT, DELETE)
-- L'envoi de messages auto-descriptifs
-- La gestion des différents formats de représentation (JSON ou XML)
+Le modèle de maturité de Richardson classe les API REST en quatre niveaux. Le niveau 0 correspond à un tunnel HTTP unique (type RPC). Le niveau 1 introduit les ressources. Le niveau 2 ajoute les verbes HTTP. Le niveau 3 intègre les contrôles hypermédia : c'est HATEOAS (Hypermedia As The Engine Of Application State).
 
-### Système de couches
+Avec HATEOAS, chaque réponse contient les liens vers les actions possibles. Une commande au statut "en préparation" expose un lien `cancel` ; une fois expédiée, ce lien disparaît et un lien `track` apparaît. Le client n'a pas besoin de coder en dur les transitions d'état : il découvre les actions disponibles à travers les liens fournis par le serveur. JSON-LD et Hydra, utilisés par API Platform, sont les formats les plus répandus dans l'écosystème PHP pour implémenter ce niveau de maturité.
 
-Cette structuration modulaire est composée de plusieurs couches, qui jouent chacune un rôle spécifique tout en communiquant entre elles. Ce système facilite la conception et le développement. Il sépare les responsabilités, avec la possibilité, pour chaque couche, d'être développée et testée indépendamment. Cela permet une collaboration entre différentes équipes de développement.
+## Pagination, filtrage et tri
 
-## Pourquoi utiliser une API REST ?
+Sur un endpoint retournant des milliers d'enregistrements, la pagination est indispensable. Trois stratégies coexistent, chacune avec ses compromis.
 
-Après avoir vu les caractéristiques de l'API REST, passons aux avantages qu'offre son utilisation dans le développement d'applications web et mobiles.
+### Pagination par offset
 
-L'architecture REST est reconnue pour être flexible et évolutive. Basée sur les principes fondamentaux comme l'utilisation des verbes HTTP, l'identification des ressources par des URI (Uniform Resource Identifiers) et la séparation des préoccupations. Ces éléments facilitent la maintenance, les mises à jour et l'ajout de nouvelles fonctionnalités.
+La plus classique : `?page=3&itemsPerPage=25`. Simple à implémenter, elle souffre d'un défaut majeur : si un élément est inséré ou supprimé entre deux pages, les résultats se décalent. Sur des jeux de données volumineux, le `OFFSET` SQL devient coûteux car la base doit parcourir toutes les lignes précédentes.
 
-En utilisant des protocoles bien établis, tels que HTTP et JSON, les API REST favorisent l'interopérabilité, la collaboration et l'intégration entre les différentes plateformes et les langages de programmation.
+### Pagination par curseur
 
-Étant adoptée par une vaste communauté de développeurs, ils alimentent eux-mêmes la documentation disponible, accompagnée de bibliothèques et d'outils disponibles. Les développeurs s'entraident et participent activement au développement de l'API REST.
+Le serveur retourne un curseur opaque (`?after=eyJpZCI6NDJ9`) qui pointe vers le dernier élément affiché. Les performances restent constantes quelle que soit la profondeur, car la requête SQL utilise un `WHERE id > :cursor` indexé. C'est la stratégie adoptée par les API de Stripe, Slack et GitHub.
 
-La scalabilité et la performance qu'offre l'API REST est également un atout à noter. Les projets utilisant une API REST sont déployables sur plusieurs serveurs, et les requêtes peuvent être réparties de manière équilibrée entre ces derniers. De plus, l'utilisation du cache permet l'amélioration des performances en réduisant la charge sur le serveur, et en optimisant la rapidité des réponses.
+### Pagination par range header
 
-Un dernier avantage à l'utilisation de l'API REST est sa compatibilité avec les projets web et mobile. En effet, elle utilise des formats standards, tels que HTTP, JSON et XML, il est donc facile d'utiliser les ressources exposées par REST.
+Moins répandue, elle utilise le header HTTP `Range` pour demander un sous-ensemble de la collection. Le serveur répond avec un `206 Partial Content` et un header `Content-Range` indiquant la position dans l'ensemble. Cette approche colle au protocole HTTP mais reste peu outillée côté clients.
+
+## Rate limiting et protection de l'API
+
+Une API exposée sans limitation de débit est une API vulnérable. Le rate limiting protège contre les abus, les boucles infinies côté client et les pics de charge imprévus.
+
+Les headers standardisés `RateLimit-Limit`, `RateLimit-Remaining` et `RateLimit-Reset` (draft IETF) informent le consommateur de son quota en temps réel. Lorsque le quota est dépassé, un `429 Too Many Requests` avec un header `Retry-After` indique quand le client peut relancer.
+
+Les stratégies de rate limiting varient selon le contexte : fenêtre fixe (100 requêtes par minute), fenêtre glissante (lissage des pics), ou token bucket (autorisation de rafales courtes). En production, ces contrôles se positionnent au niveau du reverse proxy (Nginx, Traefik) ou de l'API gateway plutôt que dans le code applicatif.
+
+## Versioning : faire évoluer sans casser
+
+Toute API publique finira par évoluer. La question n'est pas de savoir si vous devrez versionner, mais comment.
+
+Le versioning par URL (`/v1/users`, `/v2/users`) est le plus explicite et le plus simple à router. Le versioning par header (`Accept: application/vnd.myapi.v2+json`) préserve la stabilité des URI mais complexifie le debugging et le cache. Le versioning par query string (`?version=2`) est un compromis pragmatique mais pollue l'espace de filtrage.
+
+Quelle que soit la méthode choisie, la règle d'or est la compatibilité ascendante : ajouter des champs est non cassant, en supprimer l'est. Renommer un champ revient à le supprimer puis en créer un nouveau. Un champ déprécié doit rester présent pendant au moins un cycle de release, documenté comme tel dans la spécification OpenAPI, avant d'être retiré.
+
+## Contract-first et gouvernance OpenAPI
+
+L'approche contract-first inverse le workflow habituel : au lieu de générer la spécification depuis le code, on rédige d'abord le fichier OpenAPI, puis on génère le squelette de l'application. Cette méthode force l'équipe à penser l'API comme un produit avant d'écrire la première ligne de code.
+
+Le fichier OpenAPI devient alors un artefact versionné dans le dépôt Git, soumis aux mêmes revues que le code. Des outils de linting comme Spectral vérifient automatiquement les conventions de nommage, la présence de descriptions, la cohérence des codes de statut et l'absence de breaking changes entre deux versions du contrat.
+
+En intégrant cette validation dans la CI, chaque pull request qui modifie le contrat est analysée : ajout de champ (non cassant), suppression de champ (cassant, bloqué par défaut), modification de type (cassant). Cette gouvernance automatisée remplace les revues manuelles fastidieuses et garantit la stabilité du contrat sur la durée.
+
+## API gateway et patterns d'architecture
+
+À l'échelle d'un système distribué, l'API gateway devient le point d'entrée unique des consommateurs. Elle centralise l'authentification (validation JWT, OAuth2 introspection), le rate limiting, la transformation de requêtes et le routage vers les services backend.
+
+Le pattern Backend for Frontend (BFF) consiste à déployer une gateway spécialisée par type de client. L'application mobile reçoit des payloads optimisés et agrégés, tandis que le backoffice web accède à des endpoints plus granulaires. Chaque BFF adapte les réponses sans polluer l'API interne avec des préoccupations de présentation.
+
+Le pattern gateway aggregation résout le problème du "chattiness" : plutôt que de laisser le client mobile enchaîner cinq appels REST pour composer un écran, la gateway orchestre ces appels en parallèle côté serveur et retourne une réponse unique. La latence perçue chute, la consommation réseau aussi.
 
 ## Conclusion
 
-Avec un style d'architecture comme celle-ci, les logiciels peuvent communiquer entre eux, et ce, sur n'importe quel système d'exploitation. En fonctionnant sous une interface uniforme, la communication client/serveur est efficace. La sécurité étant un élément essentiel pour les clients, l'état stateless permet de garantir la fiabilité du service. Bien sûr, l'utilisation de l'API REST dépend des besoins spécifiques de chaque projet. Vous connaissez maintenant les points essentiels à l'utilisation de l'API REST, et nous sommes disponibles pour vous accompagner dans la démarche d'un projet de développement web.
+Concevoir une API REST professionnelle va bien au-delà du CRUD basique. Des fondamentaux (verbes HTTP, codes de statut, nommage des ressources) jusqu'aux décisions d'architecture (gateway, contract-first, gouvernance du contrat), chaque niveau de maturité apporte de la valeur mesurable : moins de bugs d'intégration, des évolutions sans rupture, une scalabilité maîtrisée. La clé reste de choisir le bon niveau de sophistication pour le contexte du projet, sans sur-ingénierie ni sous-estimation des besoins futurs.
 
 ## Pour aller plus loin
 
