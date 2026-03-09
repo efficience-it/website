@@ -25,11 +25,94 @@ Monofony est une **solution de développement Open-Source** basée sur le framew
 
 Cette solution est utilisée afin de développer les back-offices et les API des projets. De plus, il est possible de bénéficier d'une très bonne qualité de développement. L'environnement est donc le même que sur les projets e-commerce Sylius mais avec une utilisation qui s'adapte à tous les domaines.
 
+En d'autres termes, Monofony extrait tout ce qui fait la force de Sylius (son architecture, ses composants réutilisables, son système de ressources) et le met à disposition pour des projets qui ne sont pas du e-commerce. Vous récupérez un squelette de projet prêt à l'emploi, avec un panneau d'administration fonctionnel, une API configurée et un système de gestion des utilisateurs déjà en place.
+
+## Ce que Monofony fournit concrètement
+
+Lorsque vous initialisez un projet avec Monofony, vous bénéficiez immédiatement de plusieurs éléments structurants.
+
+### Un panneau d'administration complet
+
+Le back-office est construit sur le système de grids de Sylius. Cela signifie que vous disposez d'un panneau d'administration avec une interface propre, des listes filtrables et triables, ainsi que des formulaires de création et d'édition pour vos entités. L'interface est responsive et suit les bonnes pratiques en matière d'ergonomie. Vous n'avez pas à installer un bundle d'administration tiers ni à configurer un système de menus : tout est déjà câblé.
+
+### Une API prête à l'emploi
+
+Monofony intègre API Platform, ce qui vous donne une API REST et GraphQL fonctionnelle dès le départ. Les endpoints sont générés automatiquement à partir de vos entités déclarées comme ressources. La documentation Swagger est accessible immédiatement et les formats de sérialisation sont configurés. Pour les projets qui nécessitent une application mobile ou un front-end découplé, c'est un gain de temps considérable.
+
+### Un système de fixtures
+
+Les fixtures permettent de charger des jeux de données de test dans votre application. Monofony utilise le système de fixtures de Sylius, qui est particulièrement bien pensé. Vous pouvez définir des scénarios de données réalistes pour vos développements et vos tests, sans avoir à écrire manuellement des scripts d'insertion en base de données.
+
+### La gestion des utilisateurs
+
+Le système d'authentification est déjà configuré avec deux types d'utilisateurs : les administrateurs (qui accèdent au back-office) et les utilisateurs de l'application (customers). La connexion, la déconnexion, la réinitialisation du mot de passe et la gestion des rôles sont en place dès l'installation.
+
+## Monofony vs Symfony from scratch
+
+Quand on démarre un projet Symfony classique, il faut mettre en place manuellement un certain nombre de briques : choisir et configurer un bundle d'administration (EasyAdmin, Sonata, ou une solution maison), installer et configurer API Platform, gérer l'authentification, créer les entités utilisateur, mettre en place les fixtures, configurer les tests. Ce travail représente facilement plusieurs jours de développement.
+
+Avec Monofony, toutes ces briques sont déjà assemblées et configurées pour fonctionner ensemble. Le gain de temps se chiffre en jours, voire en semaines sur des projets complexes. De plus, l'architecture proposée par Monofony est éprouvée : elle repose sur les mêmes fondations que Sylius, un framework utilisé en production par des centaines de sites e-commerce.
+
+L'autre avantage majeur est la **cohérence architecturale**. Quand on assemble soi-même différents bundles, on fait des choix qui peuvent s'avérer incompatibles à mesure que le projet grandit. Avec Monofony, les composants ont été pensés pour fonctionner ensemble dès le départ.
+
 ## Une aide au démarrage de projet
 
 Le démarrage d'un projet n'est jamais une chose facile et peut même la plupart du temps être plutôt long. Mettre en place les fonctionnalités de base telles que le login, le mot de passe oublié, l'inscription d'un utilisateur prend souvent beaucoup de temps.
 
 > Monofony a été développé justement pour faciliter les démarrages de projets que ce soit pour développer un Backend, une API ou encore un projet 100% Symfony.
+
+## Installation et premiers pas
+
+L'installation de Monofony se fait via Composer, l'outil de gestion de dépendances PHP. Voici les étapes pour démarrer un nouveau projet.
+
+Créez le projet avec Composer :
+
+```bash
+composer create-project monofony/skeleton mon-projet
+```
+
+Configurez votre base de données dans le fichier `.env` :
+
+```bash
+DATABASE_URL="mysql://root:root@127.0.0.1:3306/mon_projet"
+```
+
+Créez la base de données et exécutez les migrations :
+
+```bash
+php bin/console doctrine:database:create
+php bin/console doctrine:migrations:migrate
+```
+
+Chargez les fixtures pour avoir des données de test :
+
+```bash
+php bin/console sylius:fixtures:load
+```
+
+Lancez le serveur de développement :
+
+```bash
+symfony server:start
+```
+
+Vous pouvez alors accéder au panneau d'administration sur `/admin` avec les identifiants par défaut fournis par les fixtures.
+
+## Comprendre l'architecture
+
+Monofony suit une architecture qui sépare clairement les responsabilités. Le code est organisé autour de plusieurs concepts clés hérités de Sylius.
+
+### Les ressources
+
+Chaque entité métier est déclarée comme une ressource Sylius. Cela permet de bénéficier automatiquement des opérations CRUD (création, lecture, mise à jour, suppression) aussi bien dans l'administration que via l'API, sans écrire de contrôleur.
+
+### Les grids
+
+Le système de grids permet de définir des listes d'entités dans l'administration avec des colonnes, des filtres et des actions. La configuration se fait en YAML et ne nécessite pas de code PHP pour les cas standards.
+
+### Les form types
+
+Les formulaires de création et d'édition s'appuient sur le composant Form de Symfony. Monofony fournit des form types de base que vous pouvez étendre selon vos besoins.
 
 ## Des coûts de lancement épargnés
 
@@ -46,6 +129,12 @@ Les étapes en question :
 - Créer le routing pour l'entité (diriger les requêtes utilisateur vers du code PHP spécifique)
 - Ajouter un lien dans le menu admin pour y accéder
 
+## Cas d'utilisation typiques
+
+Monofony est particulièrement adapté à certains types de projets. Les **applications métier internes** (outils de gestion, CRM, tableaux de bord) bénéficient directement du panneau d'administration prêt à l'emploi. Les **API pour applications mobiles** profitent de l'intégration d'API Platform sans configuration supplémentaire. Les **MVP et prototypes** gagnent un temps précieux grâce aux fonctionnalités déjà en place, ce qui permet de se concentrer sur la logique métier plutôt que sur la plomberie technique.
+
+En revanche, si votre projet est un site e-commerce, Sylius reste le choix le plus pertinent puisqu'il intègre nativement la gestion des produits, du panier et des commandes.
+
 ## Concrètement, est-ce une bonne solution ?
 
 > La solution Monofony est plutôt simple à mettre en place puisqu'elle est totalement gratuite.
@@ -56,7 +145,7 @@ Monofony épargnera certains coûts non négligeables et représente une option 
 
 ## Conclusion
 
-Cet aperçu complet couvre les aspects clés de Monofony et ses avantages pour les projets de développement web.
+Monofony comble un vide entre Symfony pur et Sylius. Il offre une base solide pour tous les projets qui ont besoin d'un back-office et d'une API sans la couche e-commerce. Si vous cherchez à démarrer un projet Symfony avec une architecture éprouvée et des fonctionnalités prêtes à l'emploi, Monofony mérite clairement votre attention.
 
 ## Pour aller plus loin
 
