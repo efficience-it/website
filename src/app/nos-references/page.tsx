@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -143,6 +144,51 @@ export default function NosReferences() {
               </div>
             ))}
           </div>
+        </Container>
+      </section>
+
+      {/* Pour aller plus loin */}
+      <section className="py-16">
+        <Container>
+          <SectionTitle>Pour aller plus loin</SectionTitle>
+          <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
+            <li>
+              <Link href="/article/doctavis-et-efficience-it-une-course-contre-la-montre-pour-sortir-un-mvp" className="text-primary hover:underline">
+                Doctavis et Efficience IT
+              </Link>{" "}
+              — un cas client détaillé
+            </li>
+            <li>
+              <Link href="/article/les-contributions-open-source-un-enjeu-de-taille-pour-les-developpeurs-et-les-projets" className="text-primary hover:underline">
+                Les contributions open source
+              </Link>{" "}
+              — notre engagement dans la communauté
+            </li>
+            <li>
+              <Link href="/article/decouvrez-les-raisons-de-nous-confier-la-maintenance-de-vos-applications-web" className="text-primary hover:underline">
+                Pourquoi nous confier votre maintenance
+              </Link>{" "}
+              — nos engagements qualité
+            </li>
+            <li>
+              <a href="https://symfony.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                Symfony — site officiel
+              </a>{" "}
+              — le framework PHP de référence
+            </li>
+            <li>
+              <a href="https://sylius.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                Sylius
+              </a>{" "}
+              — plateforme e-commerce open source
+            </li>
+            <li>
+              <a href="https://api-platform.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                API Platform
+              </a>{" "}
+              — framework API pour PHP
+            </li>
+          </ul>
         </Container>
       </section>
 

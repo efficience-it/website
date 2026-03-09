@@ -264,3 +264,13 @@ On investirait plus tôt dans un [ADR](https://adr.github.io/) (Architecture Dec
 Et on poserait [PHPStan](https://phpstan.org/) au niveau max dès le début de la migration. L'analyse statique attrape les violations d'architecture en temps réel. Un use case qui importe une classe Doctrine, c'est une erreur PHPStan avant même d'être une erreur de design.
 
 L'archi hexagonale n'est pas une fin en soi. C'est un outil pour rendre le code métier indépendant de l'infrastructure. Sur un projet Symfony de cette taille, c'est la différence entre une application qu'on subit et une application qu'on maîtrise.
+
+## Pour aller plus loin
+
+- [Le domaine ne devrait jamais connaître Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony) — pourquoi isoler le domaine du framework
+- [Symfony Messenger, colonne vertébrale de l'archi hexagonale](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) — implémenter le CQRS avec Messenger
+- [Guide de migration dans un projet Symfony](/article/guide-de-migration-dans-un-projet-symfony) — méthodologie de migration
+- [Alistair Cockburn — Hexagonal Architecture](https://alistair.cockburn.us/hexagonal-architecture/) — l'article fondateur de l'architecture hexagonale
+- [ADR — Architecture Decision Records](https://adr.github.io/) — documenter les décisions d'architecture
+- [PHPStan](https://phpstan.org/) — valider les contraintes d'architecture par l'analyse statique
+- [Symfony Messenger documentation](https://symfony.com/doc/current/messenger.html) — le composant au cœur du CQRS

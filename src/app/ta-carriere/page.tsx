@@ -73,6 +73,51 @@ export default function TaCarriere() {
         </Container>
       </section>
 
+      {/* Pour aller plus loin */}
+      <section className="py-16">
+        <Container>
+          <SectionTitle>Pour aller plus loin</SectionTitle>
+          <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
+            <li>
+              <Link href="/article/7-bonnes-raisons-de-rejoindre-efficience-it" className="text-primary hover:underline">
+                7 bonnes raisons de rejoindre Efficience IT
+              </Link>{" "}
+              — notre culture et nos valeurs
+            </li>
+            <li>
+              <Link href="/article/le-bien-etre-au-travail" className="text-primary hover:underline">
+                Le bien-être au travail
+              </Link>{" "}
+              — notre vision du travail épanouissant
+            </li>
+            <li>
+              <Link href="/article/les-6-etapes-pour-monter-en-competences-sur-symfony" className="text-primary hover:underline">
+                Les 6 étapes pour monter en compétences sur Symfony
+              </Link>{" "}
+              — parcours de progression technique
+            </li>
+            <li>
+              <a href="https://symfony.com/doc/current/index.html" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                Symfony — documentation officielle
+              </a>{" "}
+              — apprendre le framework
+            </li>
+            <li>
+              <a href="https://www.welcometothejungle.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                Welcome to the Jungle
+              </a>{" "}
+              — découvrir les entreprises tech
+            </li>
+            <li>
+              <a href="https://afup.org/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                AFUP
+              </a>{" "}
+              — la communauté PHP en France
+            </li>
+          </ul>
+        </Container>
+      </section>
+
       <section className="bg-light-gray py-16">
         <Container className="text-center">
           <SectionTitle>Candidature spontanée</SectionTitle>

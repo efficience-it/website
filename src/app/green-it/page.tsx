@@ -168,6 +168,51 @@ export default function GreenIt() {
         </Container>
       </section>
 
+      {/* Pour aller plus loin */}
+      <section className="bg-light-gray py-16">
+        <Container>
+          <SectionTitle>Pour aller plus loin</SectionTitle>
+          <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
+            <li>
+              <Link href="/article/eco-conception-un-ideal-en-marche-ou-une-illusion-durable" className="text-primary hover:underline">
+                L&apos;éco-conception : un idéal en marche ?
+              </Link>{" "}
+              — numérique responsable et sobriété
+            </li>
+            <li>
+              <Link href="/article/ecosia-preservateur-decologie" className="text-primary hover:underline">
+                Ecosia, préservateur d&apos;écologie
+              </Link>{" "}
+              — un moteur de recherche au service de la planète
+            </li>
+            <li>
+              <Link href="/article/la-decarbonation-du-numerique-une-des-tendances-technologiques-de-2022" className="text-primary hover:underline">
+                La décarbonation du numérique
+              </Link>{" "}
+              — tendances et bonnes pratiques
+            </li>
+            <li>
+              <a href="https://www.greenit.fr/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                GreenIT.fr
+              </a>{" "}
+              — communauté du numérique responsable
+            </li>
+            <li>
+              <a href="https://www.ecosia.org/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                Ecosia
+              </a>{" "}
+              — le moteur de recherche qui plante des arbres
+            </li>
+            <li>
+              <a href="https://www.w3.org/TR/sustainability-web/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                W3C — Web Sustainability Guidelines
+              </a>{" "}
+              — référentiel de durabilité web
+            </li>
+          </ul>
+        </Container>
+      </section>
+
       <CallToAction />
     </main>
     </>

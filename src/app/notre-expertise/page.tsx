@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -165,6 +166,51 @@ export default function NotreExpertise() {
           </div>
         </Container>
       </section>
+      {/* Pour aller plus loin */}
+      <section className="py-16 md:py-24">
+        <Container>
+          <SectionTitle>Pour aller plus loin</SectionTitle>
+          <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
+            <li>
+              <Link href="/article/pourquoi-choisir-symfony-pour-vos-projets" className="text-primary hover:underline">
+                Pourquoi choisir Symfony pour vos projets
+              </Link>{" "}
+              — les avantages du framework
+            </li>
+            <li>
+              <Link href="/article/les-certifications-symfony-twig-symfony-sylius" className="text-primary hover:underline">
+                Les certifications Symfony, Twig et Sylius
+              </Link>{" "}
+              — valoriser les compétences de l&apos;équipe
+            </li>
+            <li>
+              <Link href="/article/les-contributions-open-source-un-enjeu-de-taille-pour-les-developpeurs-et-les-projets" className="text-primary hover:underline">
+                Les contributions open source
+              </Link>{" "}
+              — notre engagement dans la communauté
+            </li>
+            <li>
+              <a href="https://symfony.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                Symfony — site officiel
+              </a>{" "}
+              — le framework PHP pour les applications web
+            </li>
+            <li>
+              <a href="https://api-platform.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                API Platform
+              </a>{" "}
+              — créer des API modernes en PHP
+            </li>
+            <li>
+              <a href="https://www.doctrine-project.org/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                Doctrine
+              </a>{" "}
+              — ORM et abstraction de base de données pour PHP
+            </li>
+          </ul>
+        </Container>
+      </section>
+
       <CallToAction />
     </main>
     </>

@@ -268,6 +268,51 @@ export default function AccompagnementEtConseil() {
         </Container>
       </section>
 
+      {/* Pour aller plus loin */}
+      <section className="py-16 md:py-24">
+        <Container>
+          <SectionTitle>Pour aller plus loin</SectionTitle>
+          <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
+            <li>
+              <Link href="/article/quest-ce-que-lapproche-agile" className="text-primary hover:underline">
+                Qu&apos;est-ce que l&apos;approche agile ?
+              </Link>{" "}
+              — comprendre les fondamentaux de l&apos;agilité
+            </li>
+            <li>
+              <Link href="/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede" className="text-primary hover:underline">
+                Comment se passe un audit chez Efficience IT
+              </Link>{" "}
+              — notre méthodologie d&apos;audit détaillée
+            </li>
+            <li>
+              <Link href="/article/les-6-etapes-pour-monter-en-competences-sur-symfony" className="text-primary hover:underline">
+                Les 6 étapes pour monter en compétences sur Symfony
+              </Link>{" "}
+              — parcours de formation recommandé
+            </li>
+            <li>
+              <a href="https://symfony.com/doc/current/index.html" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                Symfony — documentation officielle
+              </a>{" "}
+              — référence technique du framework
+            </li>
+            <li>
+              <a href="https://scrumguides.org/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                Scrum Guide
+              </a>{" "}
+              — le guide officiel de la méthodologie Scrum
+            </li>
+            <li>
+              <a href="https://agilemanifesto.org/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                Manifeste Agile
+              </a>{" "}
+              — les principes fondateurs de l&apos;agilité
+            </li>
+          </ul>
+        </Container>
+      </section>
+
       <CallToAction />
     </main>
     </>
