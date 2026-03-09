@@ -33,8 +33,8 @@ describe("Home page", () => {
   it("renders the CTA section", () => {
     render(<Home />);
     expect(
-      screen.getByRole("heading", { name: /projet en tête/i }),
-    ).toBeInTheDocument();
+      screen.getAllByRole("heading", { name: /projet en tête/i }),
+    ).toHaveLength(2);
   });
 
   it("renders the testimonials section", () => {
