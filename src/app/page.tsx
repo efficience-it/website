@@ -11,8 +11,9 @@ import { pageMetadata } from "@/lib/metadata";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Efficience IT — Conseil & Solutions Informatiques",
-  description: "Votre partenaire IT pour optimiser vos systèmes...",
+  title: "Efficience IT – Agence Symfony experte en développement web",
+  description:
+    "Agence spécialisée Symfony et PHP, Efficience IT conçoit et développe des applications web sur mesure, robustes et adaptées aux enjeux métiers.",
   path: "/",
   absoluteTitle: true,
 });
