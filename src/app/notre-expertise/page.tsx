@@ -61,14 +61,18 @@ export default function NotreExpertise() {
       <section className="py-16 md:py-24">
         <Container>
           <SectionTitle>Technologies maîtrisées</SectionTitle>
-          <div className="flex flex-wrap justify-center gap-3">
+          <div className="grid grid-cols-4 gap-6 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-9">
             {technologies.map((tech) => (
-              <span
-                key={tech}
-                className="rounded-full bg-light-gray px-4 py-2 text-sm font-medium text-dark"
-              >
-                {tech}
-              </span>
+              <div key={tech.name} className="flex flex-col items-center gap-2">
+                <Image
+                  src={tech.logo}
+                  alt={tech.name}
+                  width={48}
+                  height={48}
+                  className="h-12 w-12 object-contain"
+                />
+                <span className="text-xs font-medium text-dark">{tech.name}</span>
+              </div>
             ))}
           </div>
         </Container>
