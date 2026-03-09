@@ -50,6 +50,7 @@ export default function LaTeam() {
                 alt="Illustration agence web Symfony"
                 width={400}
                 height={300}
+                className="w-full max-w-md"
               />
             </div>
           </div>
@@ -66,7 +67,7 @@ export default function LaTeam() {
                 alt="Séminaire avec l'équipe Efficience IT"
                 width={500}
                 height={375}
-                className="rounded-lg object-cover"
+                className="w-full rounded-lg object-cover"
               />
             </div>
             <div className="md:order-1">
@@ -112,7 +113,7 @@ export default function LaTeam() {
                 alt="L'équipe Efficience IT à l'AFUP Day"
                 width={500}
                 height={375}
-                className="rounded-lg object-cover"
+                className="w-full rounded-lg object-cover"
               />
             </div>
           </div>
@@ -129,7 +130,7 @@ export default function LaTeam() {
                 alt="Projet avec l'équipe Efficience IT"
                 width={500}
                 height={375}
-                className="rounded-lg object-cover"
+                className="w-full rounded-lg object-cover"
               />
             </div>
             <div className="md:order-1">

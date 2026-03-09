@@ -59,7 +59,7 @@ export default function NotreExpertise() {
                 alt="Technologies Symfony"
                 width={500}
                 height={350}
-                className="rounded-lg"
+                className="w-full rounded-lg"
               />
             </div>
           </div>
@@ -69,7 +69,7 @@ export default function NotreExpertise() {
       <section className="py-16 md:py-24">
         <Container>
           <SectionTitle>Technologies maîtrisées</SectionTitle>
-          <div className="grid grid-cols-4 gap-6 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-9">
+          <div className="grid grid-cols-3 gap-6 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8">
             {technologies.map((tech) => (
               <div key={tech.name} className="flex flex-col items-center gap-2">
                 <Image
@@ -126,7 +126,7 @@ export default function NotreExpertise() {
           <SectionTitle subtitle="Ce framework est notre cœur de métier. Choisir Symfony, c'est faire le pari de la performance, de la flexibilité et de la pérennité pour vos outils digitaux. Voici pourquoi nous le préconisons :">
             Pourquoi Symfony ?
           </SectionTitle>
-          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-6 [&>*]:lg:col-span-2 lg:[&>*:nth-child(4)]:col-start-2 lg:[&>*:nth-child(5)]:col-start-4">
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {symfonyAdvantages.map((adv) => (
               <Card key={adv.title}>
                 <h3 className="font-display text-lg font-bold text-dark">
