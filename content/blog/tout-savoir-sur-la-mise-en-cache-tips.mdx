@@ -7,107 +7,95 @@ excerpt: "Le cache fonctionne de manière similaire à la RAM : c'est un type de
 image: "/images/blog/mise-en-cache.webp"
 ---
 
-## Le cache, c'est quoi ?
+## Pourquoi la mise en cache est incontournable
 
-Le cache fonctionne de manière similaire à la RAM : c'est un type de mémoire conçu pour booster les performances du CPU. Sa fonction principale consiste à stocker temporairement les données, informations et programmes auxquels le processeur accède fréquemment, permettant une récupération plus rapide lors des utilisations suivantes.
+Chaque requête HTTP non mise en cache impose un aller-retour complet entre le client et le serveur : résolution DNS, négociation TLS, traitement applicatif, lecture en base de données, sérialisation de la réponse. Sur une application qui traite plusieurs milliers de requêtes par seconde, chacune de ces étapes représente un coût cumulé considérable en latence, en consommation CPU et en bande passante.
 
-Quand le processeur a besoin de données, il interroge d'abord le cache pour déterminer si l'information requise est déjà disponible. Cette approche empêche les requêtes inutiles vers les systèmes de stockage plus importants. Fondamentalement, la mémoire cache stocke temporairement les données régulièrement utilisées par le processeur, permettant un accès plus rapide et optimisant l'efficacité du processeur.
+La mise en cache consiste à stocker temporairement le résultat d'un traitement coûteux afin de le restituer directement lors des requêtes suivantes, sans recalcul ni retransmission. Qu'il s'agisse du cache navigateur, d'un proxy intermédiaire ou d'un CDN, le principe fondamental reste identique : servir une copie locale plutôt que solliciter l'origine. Un site correctement configuré peut diviser ses temps de réponse par deux, voire davantage, tout en réduisant significativement la charge sur son infrastructure.
 
-Dans le contexte du web, le principe reste le même : éviter de recalculer ou de retransmettre une ressource déjà connue. Que ce soit côté navigateur, côté serveur ou au niveau du réseau, la mise en cache réduit la latence, diminue la charge sur les serveurs et améliore significativement l'expérience utilisateur. Un site bien configuré en termes de cache peut diviser ses temps de chargement par deux, voire davantage.
+## Les couches de cache dans une architecture web
 
-## Les trois types de cache
+### Le cache navigateur
 
-### 1. Les caches navigateur
+Le navigateur constitue la première couche de mise en cache. Il stocke localement les ressources statiques (images, feuilles de style, scripts JavaScript) associées à leur URL. Lors d'une visite ultérieure, il vérifie en quelques millisecondes si la ressource est déjà disponible localement avant d'émettre une requête réseau. Cette mécanique explique la rapidité de chargement lors du retour en arrière ou de la revisite d'une page. La capacité du cache navigateur, généralement limitée à quelques centaines de mégaoctets, est gérée par un algorithme LRU (Least Recently Used) qui évicte automatiquement les entrées les plus anciennes.
 
-Présents dans les préférences du navigateur (Firefox, Chrome, etc.), ce cache stocke les ressources statiques précédemment consultées sur les sites web : images, fichiers CSS et ressources similaires. Le cache navigateur permet un chargement de page quasi instantané dans deux scénarios :
+### Le cache proxy et le reverse proxy
 
-- Quand les utilisateurs cliquent sur le bouton retour
-- Quand les utilisateurs revisitent des pages précédemment consultées
+Les caches proxy, déployés au sein des réseaux d'entreprise ou chez les fournisseurs d'accès, sont des caches partagés qui bénéficient à l'ensemble des utilisateurs d'un même réseau. Un proxy bien dimensionné réduit la bande passante consommée de 30 à 50 %.
 
-Le navigateur associe chaque ressource mise en cache à son URL. Lorsque l'utilisateur revient sur une page, le navigateur vérifie si les fichiers nécessaires sont déjà présents dans son cache local avant d'envoyer une requête au serveur. Cette vérification se fait en quelques millisecondes, ce qui explique la rapidité de chargement lors des visites répétées. La taille du cache navigateur est généralement limitée à quelques centaines de mégaoctets, et les ressources les moins récemment utilisées sont automatiquement supprimées lorsque l'espace vient à manquer.
+Le reverse proxy se positionne côté serveur, devant l'application. Varnish est la référence open source dans ce domaine. Placé en frontal, il intercepte les requêtes entrantes et sert les réponses depuis sa mémoire sans solliciter le serveur applicatif. Varnish utilise le langage VCL (Varnish Configuration Language) pour définir des règles de cache granulaires : durées de vie différenciées par type de contenu, gestion des cookies, traitement des en-têtes Vary. Sur une application Symfony, il est courant de combiner le composant HttpCache intégré au framework avec un Varnish en production pour obtenir des temps de réponse inférieurs à la milliseconde sur les pages publiques.
 
-### 2. Les caches de serveurs proxy
+### Les CDN et caches passerelle
 
-Fonctionnant de manière identique aux caches navigateur mais à une échelle beaucoup plus grande, ces systèmes possèdent une capacité de stockage significative pour stocker et mettre à jour régulièrement les pages web les plus fréquemment consultées parmi de nombreux utilisateurs. Les grandes entreprises et les fournisseurs d'accès Internet déploient souvent ces systèmes au sein de pare-feu ou comme systèmes autonomes.
+Les réseaux de diffusion de contenu (CDN) distribuent des caches passerelle à travers le monde. Cloudflare, Fastly, Akamai ou encore CloudFront placent des copies du contenu sur des serveurs géographiquement proches des utilisateurs finaux. Un visiteur situé à Paris accède au point de présence européen plutôt qu'au serveur d'origine hébergé outre-Atlantique, gagnant plusieurs dizaines de millisecondes par requête. Les CDN modernes vont au-delà du simple cache statique : ils proposent des fonctionnalités de edge computing, de transformation d'images à la volée et de purge instantanée via API.
 
-Ce sont des caches partagés bénéficiant à plusieurs utilisateurs simultanément, réduisant substantiellement les temps d'attente réseau et le trafic puisque le contenu populaire est réutilisé de manière répétée. Dans un réseau d'entreprise, un cache proxy bien dimensionné peut réduire la bande passante consommée de 30 à 50 %, tout en accélérant la navigation pour l'ensemble des collaborateurs.
+## Le protocole HTTP au service du cache
 
-### 3. Les caches passerelle
+### Expiration : Cache-Control et Expires
 
-Également appelés serveurs proxy inverses ou caches auxiliaires, ces intermédiaires fonctionnent différemment des caches proxy. Plutôt que d'être implémentés par les administrateurs réseau pour économiser la bande passante, les webmasters les déploient typiquement pour améliorer la scalabilité, la fiabilité et les performances du site.
+L'en-tête `Cache-Control`, introduit par HTTP 1.1, offre un contrôle précis sur le comportement du cache grâce à ses directives :
 
-Les réseaux de diffusion de contenu (CDN) distribuent les caches passerelle à travers Internet et offrent ces services aux sites web intéressés. Les exemples notables incluent Speedera et Akamai. En plaçant des copies du contenu sur des serveurs géographiquement proches des utilisateurs finaux, les CDN réduisent la distance physique parcourue par les données. Un visiteur situé à Paris accédera ainsi au serveur de cache européen plutôt qu'au serveur d'origine situé aux États-Unis, gagnant plusieurs dizaines de millisecondes sur chaque requête.
+- **max-age** : durée de fraîcheur en secondes
+- **s-maxage** : durée applicable uniquement aux caches partagés (proxy, CDN)
+- **public** : autorise la mise en cache des réponses authentifiées
+- **no-cache** : oblige la revalidation auprès du serveur avant chaque utilisation
+- **no-store** : interdit tout stockage de la réponse
+- **must-revalidate** : impose le respect strict des durées de fraîcheur
+- **immutable** : signale que la ressource ne changera jamais durant sa durée de vie
 
-## Comment fonctionnent les caches
+L'ancien en-tête `Expires`, basé sur une date absolue au format HTTP, souffre d'un défaut structurel : il exige la synchronisation des horloges entre client et serveur. `Cache-Control`, fondé sur des durées relatives, lui est systématiquement préféré.
 
-Le fonctionnement du cache suit des règles précises déterminées par deux facteurs : les protocoles HTTP 1.0 et 1.1 et les paramètres de l'administrateur du cache.
+En pratique, une ressource statique versionnée (par exemple `style.a3f5c2.css`) reçoit un `max-age` d'un an couplé à `immutable`, tandis qu'une page HTML dynamique utilise `no-cache` pour garantir la revalidation systématique.
 
-Les auteurs HTML peuvent insérer des balises meta dans les en-têtes de page pour indiquer si le contenu est cacheable ou non et pour spécifier les dates d'expiration. Bien que simples à implémenter, ces balises ne sont reconnues que par certains caches navigateur qui analysent le code HTML. Les caches proxy et les CDN, quant à eux, ne lisent pas le contenu HTML : ils se basent exclusivement sur les en-têtes HTTP pour prendre leurs décisions de mise en cache.
+### Validation : ETag et Last-Modified
 
-### Les en-têtes HTTP efficaces
+Lorsqu'une ressource arrive à expiration, le cache n'a pas nécessairement besoin de la retélécharger intégralement. Le mécanisme de validation conditionnelle permet de vérifier si le contenu a changé sans transférer le corps de la réponse.
 
-### 1. L'en-tête HTTP Expires
+L'en-tête `Last-Modified` indique la date de dernière modification. Lors de la revalidation, le cache envoie une requête conditionnelle avec `If-Modified-Since`. Si la ressource est inchangée, le serveur répond par un code 304 (Not Modified), économisant bande passante et temps de traitement.
 
-Cet en-tête contrôle la fraîcheur du cache en indiquant le temps d'expiration. Après expiration, les caches vérifient avec le serveur si les ressources ont changé. La plupart des caches reconnaissent les en-têtes Expires, les rendant particulièrement adaptés aux ressources statiques (barres de navigation, boutons) qui changent rarement. Ils sont également bénéfiques pour les pages qui changent fréquemment nécessitant des dates d'expiration plus courtes pour le rafraîchissement des données.
-
-Les valeurs de l'en-tête Expires doivent suivre le format de date HTTP :
-
-```
-Tue, 14 Jan 2023 18:13:34 GMT
-```
-
-La principale limitation de cet en-tête réside dans la nécessité de synchroniser les horloges entre le serveur et le client. Si l'horloge du navigateur est décalée, le comportement du cache devient imprévisible. C'est l'une des raisons pour lesquelles l'en-tête Cache-Control, basé sur des durées relatives, lui est souvent préféré.
-
-### 2. L'en-tête HTTP Cache-Control
-
-Introduit par HTTP 1.1 pour fournir un contrôle amélioré du contenu, ces en-têtes incluent :
-
-- **max-age=[seconds]** : indique combien de secondes la représentation reste fraîche
-- **s-maxage=[seconds]** : fonctionne de manière identique à max-age mais s'applique exclusivement aux caches proxy
-- **public** : marque les réponses authentifiées comme cacheables
-- **no-cache** : soumet les requêtes au serveur d'origine à chaque fois pour validation avant d'afficher les copies en cache
-- **no-store** : instruit les caches de ne conserver aucune copie de représentation en aucune circonstance
-- **must-revalidate** : requiert que les caches respectent toutes les informations de fraîcheur indiquées
-- **proxy-revalidate** : similaire à must-revalidate mais s'applique exclusivement aux caches proxy
-
-Exemple :
-
-```
-Cache-Control: max-age=3600, must-revalidate
-```
-
-En pratique, il est courant de combiner plusieurs directives pour obtenir un comportement précis. Par exemple, une ressource statique versionnée (comme un fichier JavaScript avec un hash dans son nom) peut recevoir un `max-age` très long (un an), tandis qu'une page HTML dynamique sera configurée avec `no-cache` pour garantir que le navigateur valide systématiquement la fraîcheur du contenu auprès du serveur.
-
-## Validateurs et validation
-
-Quand on modifie des données, les modèles d'expiration seuls s'avèrent insuffisants. Le modèle de validation traite cela à travers l'en-tête "Last-Modified", qui maintient les réponses stockées tout en demandant à l'application de confirmer la validité ou la nécessité de régénération (via les en-têtes "If-Modified-since").
-
-La validation communique les changements de représentation, empêchant les caches de télécharger des ressources entières inutilement. Concrètement, lorsque le cache détecte qu'une ressource a expiré, il envoie une requête conditionnelle au serveur. Si la ressource n'a pas changé, le serveur répond avec un code HTTP 304 (Not Modified) sans renvoyer le corps de la réponse. Le cache peut alors continuer à servir sa copie locale, économisant ainsi de la bande passante et du temps de traitement.
-
-Un autre type de validateur, l'ETag, a été introduit par HTTP 1.1. Chaque fois qu'une représentation change, le serveur génère un identifiant ETag unique, permettant la vérification quand les attributs "If-Non-Match" apparaissent pour confirmer la cohérence de la représentation. L'ETag est particulièrement utile lorsque la date de modification n'est pas suffisamment précise, par exemple quand un fichier est modifié plusieurs fois dans la même seconde.
-
-Les deux validateurs s'appliquent exclusivement aux représentations statiques.
+L'`ETag` (Entity Tag), introduit par HTTP 1.1, fournit un identifiant unique généré à chaque modification de la ressource. Il est vérifié via l'en-tête `If-None-Match`. L'ETag se révèle indispensable lorsque la granularité temporelle de `Last-Modified` est insuffisante, par exemple quand un fichier est modifié plusieurs fois dans la même seconde.
 
 ## Stratégies d'invalidation du cache
 
-L'un des défis majeurs de la mise en cache est l'invalidation : comment s'assurer que les utilisateurs reçoivent la version la plus récente d'une ressource lorsque celle-ci change ? Plusieurs stratégies existent pour résoudre ce problème.
+Phil Karlton a formulé ce qui reste l'un des aphorismes les plus justes de l'informatique : les deux problèmes difficiles sont le nommage et l'invalidation de cache. L'enjeu est de garantir que les utilisateurs reçoivent toujours la version la plus récente d'une ressource, sans pour autant sacrifier les bénéfices de la mise en cache.
 
-Le cache-busting par versioning consiste à inclure un numéro de version ou un hash dans le nom du fichier (par exemple `style.a3f5c2.css`). Quand le contenu change, le nom change également, forçant le navigateur à télécharger la nouvelle version. Cette technique est largement utilisée par les outils de build modernes comme Webpack ou Vite.
+### Cache-busting par versioning
 
-La purge manuelle permet aux administrateurs de supprimer explicitement une entrée du cache, typiquement via une API ou un panneau d'administration. Les CDN comme Cloudflare ou Fastly proposent des mécanismes de purge instantanée pour répondre à ce besoin.
+L'approche la plus fiable consiste à inclure un hash du contenu dans le nom du fichier. Webpack, Vite et la plupart des outils de build modernes génèrent automatiquement des noms de fichiers versionnés. Quand le contenu change, le nom change, et le navigateur traite la ressource comme entièrement nouvelle. Cette technique permet d'appliquer des durées de cache très longues sans risque d'incohérence.
 
-## Astuces cache / Informations pratiques
+### Purge et ban via API
 
-- Identifiez les ressources les plus volumineuses et populaires pour la mise en cache (photographies)
-- Écrivez des scripts compatibles cache pour le contenu dynamique (CGI, ASP, bases de données)
-- Utilisez des URL identiques sur les pages avec un contenu correspondant
-- Employez des bibliothèques d'images partagées
-- Appliquez les en-têtes cache-control aux ressources qui changent peu fréquemment
-- Assignez des dates d'expiration aux ressources changeantes
-- Évitez les modifications de fichiers inutiles
-- Quand vous modifiez des fichiers téléchargeables, changez leurs noms de fichier
-- Déployez les pages SSL uniquement quand c'est nécessaire
-- Rappelez-vous : les requêtes authentifiées ou sécurisées ne sont pas mises en cache
+Les CDN et les reverse proxies exposent des API de purge qui permettent d'invalider une ou plusieurs entrées de cache de manière ciblée. Varnish implémente un mécanisme de ban particulièrement puissant : plutôt que de supprimer physiquement les entrées, il les marque comme invalides via des expressions régulières sur les URL ou les en-têtes, permettant une invalidation massive en une seule opération.
+
+### Edge Side Includes (ESI)
+
+ESI permet de composer une page à partir de fragments indépendants, chacun ayant sa propre politique de cache. Le bandeau de navigation, mis à jour une fois par jour, peut être mis en cache pendant 24 heures, tandis que le contenu principal est revalidé à chaque requête. Symfony supporte nativement ESI via son composant HttpCache, et Varnish l'implémente de manière transparente. Cette granularité est essentielle pour les applications où certaines parties de la page sont personnalisées et d'autres sont communes à tous les utilisateurs.
+
+## Cohérence du cache en architecture distribuée
+
+Dans une architecture composée de plusieurs serveurs applicatifs, d'un reverse proxy, d'un CDN et éventuellement de caches applicatifs (Redis, Memcached), la cohérence du cache devient un défi architectural majeur.
+
+### Le problème du cache stampede
+
+Lorsqu'une entrée de cache populaire expire simultanément pour un grand nombre d'utilisateurs, toutes les requêtes sont redirigées vers le serveur d'origine au même instant. Ce phénomène, appelé cache stampede (ou thundering herd), peut provoquer une surcharge brutale, voire un effondrement du service.
+
+Plusieurs stratégies permettent de s'en prémunir. Le verrouillage probabiliste (probabilistic early expiration) consiste à renouveler le cache de manière anticipée avec une probabilité croissante à mesure que l'expiration approche, répartissant ainsi les régénérations dans le temps. Le mécanisme de lock empêche les requêtes concurrentes de recalculer la même entrée : la première requête verrouille la clé, recalcule la valeur, puis libère le verrou, tandis que les requêtes suivantes attendent ou servent la version périmée (stale-while-revalidate).
+
+### Invalidation en cascade et cohérence
+
+Dans un système distribué, invalider une entrée de cache n'est pas une opération atomique. Un changement en base de données doit se propager au cache applicatif, puis au reverse proxy, puis au CDN. Chaque étape introduit un délai pendant lequel différentes couches servent des versions potentiellement incohérentes.
+
+Pour maîtriser cette propagation, il est recommandé d'adopter un modèle événementiel : chaque mutation publie un événement qui déclenche l'invalidation à chaque couche, permettant une propagation ordonnée et traçable. Symfony Messenger, combiné à un bus de messages asynchrone, constitue un excellent support pour implémenter ce patron.
+
+### Stale-while-revalidate et stale-if-error
+
+Ces deux directives de `Cache-Control` offrent un mécanisme de résilience indispensable en production. `stale-while-revalidate` autorise le cache à servir une réponse périmée pendant qu'il revalide en arrière-plan, garantissant un temps de réponse constant pour l'utilisateur. `stale-if-error` permet de continuer à servir le contenu en cache lorsque le serveur d'origine est indisponible, transformant le cache en filet de sécurité contre les pannes.
+
+## Monitoring et observabilité du cache
+
+Un cache non observé est un cache potentiellement contre-productif. Le taux de hit (proportion de requêtes servies par le cache) est la métrique fondamentale : en dessous de 80 %, la configuration mérite investigation. Les métriques à surveiller incluent également le taux d'éviction, la latence P99, le temps de régénération des entrées et le ratio de réponses stale servies.
+
+Varnish expose ses statistiques via `varnishstat`, et les CDN fournissent des tableaux de bord détaillés. L'ajout de l'en-tête `X-Cache` (HIT, MISS, STALE) dans les réponses permet de diagnostiquer le comportement du cache directement depuis les outils de développement du navigateur. En production, l'intégration de ces métriques dans un outil de monitoring comme Prometheus ou Datadog permet de détecter les régressions de performance et d'anticiper les problèmes de capacité.
 
 ## Pour aller plus loin
 
