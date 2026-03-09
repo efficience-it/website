@@ -12,7 +12,23 @@ const ARTICLE_REDIRECTS = [
   ],
   [
     "comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php",
-    "comment-phpstan-ameliorer-qualite-code-php",
+    "phpstan-2-niveau-10",
+  ],
+  [
+    "envoyer-des-e-mails-sur-symfony-avec-swift-mailer-vs-avec-le-composant-mailer-quelle-difference",
+    "symfony-messenger-vs-php-enqueue-differences",
+  ],
+  [
+    "forest-admin-le-gestionnaire-de-donnees-qui-facilite-la-vie",
+    "easy-admin-vs-forest-admin-differences-avantages",
+  ],
+  [
+    "retour-sur-la-symfonycon-de-2024",
+    "forum-php-symfonycon-2024",
+  ],
+  [
+    "la-certification-twig-une-1ere-pour-le-chemin-de-la-certif-symfony",
+    "certifications-symfony-twig-sylius",
   ],
   [
     "comment-rediger-un-cahier-de-charge-pour-un-projet-agile",
