@@ -157,6 +157,7 @@ const ARTICLE_REDIRECTS = [
 
 const nextConfig: NextConfig = {
   output: "export",
+  basePath: "/website",
   images: {
     unoptimized: true,
   },
