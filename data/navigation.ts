@@ -56,9 +56,9 @@ export const footerNav = {
     ],
   },
   contact: {
-    title: "Contact",
+    title: "Contactez-nous !",
     email: "contact@itefficience.com",
-    cta: { label: "Contactez-nous !", href: "/contact" },
+    cta: { label: "Formulaire de contact", href: "/contact" },
   },
   social: [
     { label: "GitHub", href: "https://github.com/efficience-it", icon: "/images/icons/github.svg" },
@@ -67,5 +67,7 @@ export const footerNav = {
       href: "https://www.linkedin.com/company/efficience-it",
       icon: "/images/icons/linkedin.svg",
     },
+    { label: "AFUP", href: "https://afup.org/home" },
+    { label: "AD2N", href: "https://www.ad2n.org/" },
   ],
 };
