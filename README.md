@@ -1,15 +1,11 @@
 # Efficience IT — Website
 
-Site vitrine d'Efficience IT, construit avec Next.js (App Router), TypeScript et Tailwind CSS.
+[![CI](https://github.com/efficience-it/website/actions/workflows/ci.yml/badge.svg)](https://github.com/efficience-it/website/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/efficience-it/website/actions/workflows/codeql.yml/badge.svg)](https://github.com/efficience-it/website/actions/workflows/codeql.yml)
 
-## Stack technique
+Site vitrine d'[Efficience IT](https://www.itefficience.com), agence web lilloise spécialisée dans le développement d'applications Symfony sur mesure.
 
-- **Next.js 15** (App Router) avec export statique
-- **TypeScript**
-- **Tailwind CSS**
-- **Montserrat + Exo** (Google Fonts)
-- **MDX** pour le blog
-- **Jest + React Testing Library** pour les tests
+Construit avec **Next.js 15**, **TypeScript** et **Tailwind CSS 4**.
 
 ## Démarrage
 
@@ -18,36 +14,11 @@ npm install
 npm run dev
 ```
 
-Le site est accessible sur [http://localhost:3000](http://localhost:3000).
-
 ## Scripts
 
 | Commande | Description |
 |----------|-------------|
 | `npm run dev` | Serveur de développement |
-| `npm run build` | Build statique (dossier `out/`) |
-| `npm run lint` | Vérification ESLint |
+| `npm run build` | Build statique (`out/`) |
+| `npm run lint` | ESLint |
 | `npm test` | Tests unitaires |
-
-## Build statique
-
-```bash
-npm run build
-npx serve out
-```
-
-Le build produit un export statique dans `out/`, prêt pour un hébergement S3.
-
-## Structure du projet
-
-```
-src/
-├── app/          # Pages (App Router)
-├── components/   # Composants React
-│   ├── layout/   # Header, Footer, navigation
-│   ├── ui/       # Composants génériques (Button, Card, etc.)
-│   ├── sections/ # Sections de page (Hero, CTA, etc.)
-│   └── cards/    # Cartes (témoignages, blog, équipe)
-├── lib/          # Utilitaires (fonts, blog, metadata)
-└── types/        # Types TypeScript
-```
