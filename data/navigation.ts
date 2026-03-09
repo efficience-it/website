@@ -67,7 +67,12 @@ export const footerNav = {
       href: "https://www.linkedin.com/company/efficience-it",
       icon: "/images/icons/linkedin.svg",
     },
-    { label: "AFUP", href: "https://afup.org/home" },
-    { label: "AD2N", href: "https://www.ad2n.org/" },
+    {
+      label: "Google Maps",
+      href: "https://www.google.com/maps/place/Efficience+IT",
+      icon: "/images/icons/google-maps.jpg",
+    },
+    { label: "AFUP", href: "https://afup.org/home", icon: "/images/icons/afup.png" },
+    { label: "AD2N", href: "https://www.ad2n.org/", icon: "/images/icons/ad2n.jpg" },
   ],
 };
