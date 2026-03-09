@@ -1,0 +1,392 @@
+---
+title: "Pourquoi ton Domain ne devrait jamais connaître Symfony"
+date: "2026-03-09"
+author: "Louis-Arnaud Catoire"
+category: "Projet"
+excerpt: "Ton domaine métier ne devrait dépendre de rien. Ni de Symfony, ni de Doctrine, ni de quoi que ce soit d'autre. Voici pourquoi, comment, et ce que ça change concrètement sur un vrai projet."
+image: "/images/blog/domain-symfony.png"
+---
+
+Ouvre le répertoire `src/Entity/` de n'importe quel projet Symfony. Tu y trouveras des classes avec des attributs Doctrine, des validations Symfony, parfois des appels à des services, et au milieu de tout ça, de la logique métier. Le modèle de commande calcule ses totaux entre deux annotations `#[ORM\Column]`. L'entité utilisateur vérifie les permissions au milieu des `#[Assert\NotBlank]`.
+
+Ce code fonctionne. Il passe les tests. Il tourne en production. Mais il a un problème fondamental : ton métier est prisonnier de ton framework.
+
+## Ce que "connaître Symfony" veut dire
+
+Quand on dit qu'un domaine "connaît" Symfony, on parle de dépendances. Pas de dépendances au sens Composer, mais au sens `use` en haut de tes fichiers PHP.
+
+```php
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
+
+#[ORM\Entity]
+class Order
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\Column]
+    #[Assert\NotBlank]
+    private string $reference;
+
+    #[ORM\ManyToOne]
+    private Customer $customer;
+
+    public function calculateTotal(): Money
+    {
+        // logique métier enterrée sous les annotations
+    }
+}
+```
+
+Cette classe dépend de trois composants Symfony/Doctrine. Si tu veux tester `calculateTotal()`, tu dois charger l'ORM. Si tu veux réutiliser cette logique dans un contexte non-Symfony (une commande CLI, un worker, un autre projet), tu traînes tout le framework avec toi.
+
+Le principe fondamental de [l'architecture hexagonale](https://alistair.cockburn.us/hexagonal-architecture/) tient en une phrase : le domaine est au centre, et il ne dépend de rien.
+
+## Le test décisif
+
+Voici un test simple pour savoir si ton domaine est couplé au framework. Prends n'importe quel fichier dans ton répertoire domaine et pose-toi cette question : est-ce que je peux exécuter ce code dans un projet PHP vanilla, sans Symfony, sans Doctrine, sans aucune dépendance externe ?
+
+Si la réponse est non, ton domaine connaît ton infrastructure.
+
+Concrètement, ça veut dire que dans le namespace de ton domaine, les seuls `use` autorisés sont :
+
+- Des classes de ton propre domaine
+- Des interfaces PHP natives (`Stringable`, `JsonSerializable`)
+- Des exceptions PHP standard
+
+Pas de `Doctrine\*`. Pas de `Symfony\*`. Pas de `Psr\*`. Rien qui vienne de `vendor/`.
+
+## Les cinq couplages les plus fréquents
+
+### 1. Doctrine dans les modèles
+
+Le plus évident. Les attributs `#[ORM\Entity]`, `#[ORM\Column]`, `#[ORM\ManyToOne]` créent une dépendance directe entre ton modèle métier et l'ORM.
+
+```php
+// Couplé
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity]
+class Product
+{
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid')]
+    private string $id;
+}
+```
+
+```php
+// Découplé
+class Product
+{
+    private ProductId $id;
+
+    public function __construct(ProductId $id, string $name)
+    {
+        $this->id = $id;
+        $this->name = $name;
+    }
+}
+```
+
+Le modèle découplé est un objet PHP pur. Il ne sait pas comment il sera stocké. Dans une base PostgreSQL, dans un fichier JSON, dans Redis : ce n'est pas son problème.
+
+### 2. Les contraintes de validation Symfony
+
+[Le composant Validator de Symfony](https://symfony.com/doc/current/validation.html) est puissant, mais il n'a rien à faire dans le domaine.
+
+```php
+// Couplé
+use Symfony\Component\Validator\Constraints as Assert;
+
+class Email
+{
+    #[Assert\NotBlank]
+    #[Assert\Email]
+    private string $value;
+}
+```
+
+```php
+// Découplé
+class Email
+{
+    private string $value;
+
+    public function __construct(string $value)
+    {
+        if ($value === '' || !filter_var($value, FILTER_VALIDATE_EMAIL)) {
+            throw new InvalidEmailException($value);
+        }
+        $this->value = $value;
+    }
+}
+```
+
+La validation dans le domaine est native. Le [Value Object](https://martinfowler.com/bliki/ValueObject.html) garantit sa propre cohérence à la construction. Pas besoin d'un framework de validation pour ça. Un `Email` invalide ne peut tout simplement pas exister.
+
+La validation Symfony reste utile pour valider les entrées HTTP (formulaires, requêtes API) dans la couche infrastructure. Mais c'est une validation de format, pas une validation métier.
+
+### 3. Les interfaces Symfony Security
+
+Implémenter `UserInterface` directement dans ton modèle domaine couple ton concept d'utilisateur au système d'authentification Symfony.
+
+```php
+// Couplé
+use Symfony\Component\Security\Core\User\UserInterface;
+
+class User implements UserInterface
+{
+    public function getRoles(): array { /* ... */ }
+    public function eraseCredentials(): void { /* ... */ }
+    public function getUserIdentifier(): string { /* ... */ }
+}
+```
+
+Le problème : ton modèle `User` domaine porte des méthodes (`eraseCredentials`, `getUserIdentifier`) qui n'ont aucun sens métier. Ce sont des exigences du framework, pas de ton business.
+
+```php
+// Domaine : le concept métier
+class User
+{
+    public function __construct(
+        private UserId $id,
+        private Email $email,
+        private UserRole $role,
+    ) {}
+
+    public function promote(): void
+    {
+        $this->role = UserRole::Admin;
+    }
+}
+
+// Infrastructure : l'adaptateur Symfony Security
+class SecurityUser implements UserInterface
+{
+    public function __construct(private User $user) {}
+
+    public function getRoles(): array
+    {
+        return [$this->user->role()->value];
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->user->email()->value();
+    }
+
+    public function eraseCredentials(): void {}
+}
+```
+
+Deux classes, deux responsabilités. Le domaine porte la logique métier. L'adaptateur traduit pour Symfony.
+
+### 4. Les événements Symfony dans le domaine
+
+Dispatcher un événement Symfony depuis le domaine crée un couplage invisible :
+
+```php
+// Couplé
+use Symfony\Contracts\EventDispatcher\Event;
+
+class OrderValidated extends Event
+{
+    public function __construct(public readonly string $orderId) {}
+}
+```
+
+Ton événement domaine hérite d'une classe Symfony. Si demain tu passes sur [Laravel](https://laravel.com/) ou un autre framework, tu dois réécrire tous tes événements.
+
+```php
+// Découplé
+class OrderValidated
+{
+    public function __construct(
+        public readonly OrderId $orderId,
+        public readonly \DateTimeImmutable $occurredAt,
+    ) {}
+}
+```
+
+L'événement domaine est un simple objet immutable avec des données. Un adaptateur dans l'infrastructure le traduit en événement Symfony pour le dispatcher :
+
+```php
+class SymfonyDomainEventDispatcher implements DomainEventDispatcherInterface
+{
+    public function __construct(
+        private EventDispatcherInterface $dispatcher,
+    ) {}
+
+    public function dispatch(object $event): void
+    {
+        $this->dispatcher->dispatch($event);
+    }
+}
+```
+
+Le dispatcher Symfony accepte n'importe quel objet depuis Symfony 5. Ton événement domaine n'a même pas besoin d'hériter de `Event`. L'adaptateur est presque trivial.
+
+### 5. Les services PSR dans le domaine
+
+Injecter un `LoggerInterface` ou un `CacheInterface` PSR dans le domaine semble anodin. Après tout, ce sont des standards, pas du Symfony. Mais ça reste une dépendance externe.
+
+```php
+// Techniquement découplé de Symfony, mais couplé à PSR
+use Psr\Log\LoggerInterface;
+
+class ProcessOrder
+{
+    public function __construct(
+        private OrderRepositoryInterface $repository,
+        private LoggerInterface $logger,
+    ) {}
+}
+```
+
+Si ton use case a besoin de logger, demande-toi pourquoi. Le logging est un concern d'infrastructure. Un décorateur dans l'infra peut logger autour de l'appel au use case sans que le use case le sache :
+
+```php
+class LoggingProcessOrder implements ProcessOrderInterface
+{
+    public function __construct(
+        private ProcessOrder $inner,
+        private LoggerInterface $logger,
+    ) {}
+
+    public function __invoke(OrderId $id): void
+    {
+        $this->logger->info('Processing order', ['id' => $id->value]);
+        ($this->inner)($id);
+        $this->logger->info('Order processed', ['id' => $id->value]);
+    }
+}
+```
+
+Le use case reste pur. Le logging est un détail d'infrastructure ajouté par composition.
+
+## Les ports : le contrat entre domaine et infrastructure
+
+Le mécanisme qui rend tout ça possible, c'est le [port](https://herbertograca.com/2017/09/14/ports-adapters-architecture/). Une interface définie dans le domaine, implémentée dans l'infrastructure.
+
+```php
+// Le port (domaine)
+namespace App\Order\Domain\Port;
+
+interface OrderRepositoryInterface
+{
+    public function findById(OrderId $id): Order;
+    public function save(Order $order): void;
+}
+```
+
+```php
+// L'adaptateur (infrastructure)
+namespace App\Order\Infrastructure\Persistence;
+
+class DoctrineOrderRepository implements OrderRepositoryInterface
+{
+    public function __construct(private EntityManagerInterface $em) {}
+
+    public function findById(OrderId $id): Order
+    {
+        $entity = $this->em->find(OrderEntity::class, $id->value);
+        if ($entity === null) {
+            throw new OrderNotFoundException($id);
+        }
+        return OrderMapper::toDomain($entity);
+    }
+
+    public function save(Order $order): void
+    {
+        $entity = OrderMapper::toEntity($order);
+        $this->em->persist($entity);
+        $this->em->flush();
+    }
+}
+```
+
+Le domaine définit ce dont il a besoin. L'infrastructure fournit comment. Le domaine ne sait pas que Doctrine existe. Le repository Doctrine sait traduire entre les deux mondes.
+
+[Symfony autowire](https://symfony.com/doc/current/service_container/autowiring.html) les interfaces automatiquement quand il n'y a qu'une seule implémentation. Zéro config nécessaire.
+
+## La question du mapping : le prix à payer
+
+Le reproche le plus courant contre cette approche : ça double les classes. Une entité Doctrine et un modèle domaine pour le même concept. Un mapper entre les deux. Du code "boilerplate".
+
+C'est vrai. Et c'est le prix de l'indépendance.
+
+Mais ce prix est souvent surestimé. Un mapper, c'est 20 lignes de code trivial. Pas de logique, pas de conditions, juste de l'assignation de propriétés. Sur un projet de 50 entités, ça représente 1000 lignes de code ennuyeux. Sur une base de code de 100 000 lignes, c'est 1%.
+
+Et ce 1% te donne :
+
+- **Des tests unitaires rapides** : ton domaine se teste sans base de données, sans container, en millisecondes
+- **La liberté de changer d'ORM** : improbable mais possible, et surtout ça simplifie les montées de version Doctrine
+- **Un domaine lisible** : tes modèles métier ne sont pas pollués par des annotations techniques
+- **Des refactorisations sûres** : tu changes la structure de la base sans toucher au domaine, et inversement
+
+## Vérifie tes dépendances avec Deptrac
+
+La discipline humaine ne suffit pas. Sur un projet avec dix développeurs, quelqu'un finira par ajouter un `use Doctrine\*` dans le domaine. [Deptrac](https://qossmic.github.io/deptrac/) automatise la vérification.
+
+```yaml
+deptrac:
+  paths:
+    - ./src
+
+  layers:
+    - name: Domain
+      collectors:
+        - type: directory
+          value: src/.*/Domain/.*
+    - name: Application
+      collectors:
+        - type: directory
+          value: src/.*/Application/.*
+    - name: Infrastructure
+      collectors:
+        - type: directory
+          value: src/.*/Infrastructure/.*
+
+  ruleset:
+    Domain: []
+    Application:
+      - Domain
+    Infrastructure:
+      - Domain
+      - Application
+```
+
+La règle `Domain: []` est la plus importante : le domaine ne dépend de rien. Aucune autre couche n'est autorisée. Si un développeur ajoute un import Doctrine dans le domaine, Deptrac casse le build.
+
+Ajoute-le dans ta CI :
+
+```bash
+vendor/bin/deptrac --no-interaction
+```
+
+C'est un filet de sécurité permanent. L'architecture n'est plus une convention orale, c'est une règle vérifiée à chaque commit.
+
+## Quand ne pas le faire
+
+Cette approche a un coût. Pour un CRUD d'admin avec cinq entités et aucune logique métier, séparer domaine et infrastructure est de l'over-engineering. Le couplage Doctrine n'est un problème que quand il y a de la logique métier à protéger.
+
+La règle pragmatique : si ta classe ne fait que stocker et relire des données, une entité Doctrine suffit. Si elle contient des calculs, des validations métier, des transitions d'état, des règles conditionnelles, alors elle mérite un domaine propre.
+
+Sur un projet Symfony typique, 20% des entités portent 80% de la logique métier. Commence par celles-là. Le reste peut attendre, ou ne jamais être migré.
+
+## Le domaine survit au framework
+
+Symfony 4 a remplacé Symfony 3. Symfony 5 a remplacé Symfony 4. Doctrine 3 a cassé des choses par rapport à Doctrine 2. Les frameworks évoluent, changent leurs APIs, déprécient des composants.
+
+Ton métier, lui, ne change pas parce que Symfony sort une nouvelle version. Une commande se calcule de la même façon, qu'elle soit persistée avec Doctrine, Eloquent ou un fichier CSV.
+
+Un domaine qui ne connaît pas Symfony survit à Symfony. Il survit aux montées de version, aux changements d'ORM, aux migrations de framework. C'est du code qui a une durée de vie de dix ans dans une industrie où les frameworks changent tous les trois ans.
+
+C'est pour ça que ton domaine ne devrait jamais connaître Symfony. Pas par purisme architectural, pas pour faire joli sur un schéma. Pour que le code le plus important de ton application soit aussi le plus durable.
