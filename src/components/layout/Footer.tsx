@@ -19,7 +19,10 @@ export default function Footer() {
               height={34}
             />
             <p className="mt-4 text-sm text-gray-300">
-              Société de conseil et développement web sur mesure.
+              Agence web et cloud à votre service : développement
+              d&apos;applications, infrastructure DevOps, automatisation et
+              conseil IT pour une transformation numérique performante et
+              durable.
             </p>
           </div>
 
