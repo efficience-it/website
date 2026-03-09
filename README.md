@@ -1,7 +1,7 @@
 # Efficience IT — Website
 
 [![CI](https://github.com/efficience-it/website/actions/workflows/ci.yml/badge.svg)](https://github.com/efficience-it/website/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/efficience-it/website/actions/workflows/codeql.yml/badge.svg)](https://github.com/efficience-it/website/actions/workflows/codeql.yml)
+[![CodeQL](https://github.com/efficience-it/website/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/efficience-it/website/actions/workflows/github-code-scanning/codeql)
 
 Site vitrine d'[Efficience IT](https://www.itefficience.com), agence web lilloise spécialisée dans le développement d'applications Symfony sur mesure.
 
