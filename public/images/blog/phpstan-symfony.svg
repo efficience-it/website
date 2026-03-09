@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#818cf8"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <g opacity="0.06">
+    <text x="50" y="80" font-family="monospace" font-size="14" fill="#818cf8">/** @var Collection&lt;int, Tag&gt; */</text>
+    <text x="50" y="110" font-family="monospace" font-size="14" fill="#818cf8">private Collection $tags;</text>
+    <text x="50" y="170" font-family="monospace" font-size="14" fill="#818cf8">$user = $this-&gt;repository-&gt;find($id)</text>
+    <text x="50" y="200" font-family="monospace" font-size="14" fill="#818cf8">    ?? throw new NotFoundException();</text>
+    <text x="50" y="260" font-family="monospace" font-size="14" fill="#818cf8">/** @return array&lt;Article&gt; */</text>
+    <text x="50" y="290" font-family="monospace" font-size="14" fill="#818cf8">public function findPublished(): array</text>
+    <text x="700" y="450" font-family="monospace" font-size="14" fill="#818cf8">vendor/bin/phpstan analyse --level=10</text>
+    <text x="700" y="480" font-family="monospace" font-size="14" fill="#818cf8"> [ERROR] Found 847 errors</text>
+    <text x="700" y="540" font-family="monospace" font-size="14" fill="#818cf8">fn (User $u): string =&gt; $u-&gt;getName()</text>
+  </g>
+  <rect x="80" y="160" width="500" height="6" rx="3" fill="url(#accent)" opacity="0.3"/>
+  <circle cx="1050" cy="150" r="120" fill="#6366f1" opacity="0.05"/>
+  <circle cx="150" cy="500" r="80" fill="#818cf8" opacity="0.05"/>
+  <text x="600" y="270" text-anchor="middle" font-family="system-ui,sans-serif" font-size="22" font-weight="600" fill="#94a3b8" letter-spacing="4">ANALYSE STATIQUE</text>
+  <text x="600" y="340" text-anchor="middle" font-family="system-ui,sans-serif" font-size="56" font-weight="800" fill="#f8fafc">PHPStan niveau max</text>
+  <text x="600" y="400" text-anchor="middle" font-family="system-ui,sans-serif" font-size="32" fill="#818cf8" font-weight="600">× Symfony</text>
+  <rect x="440" y="430" width="320" height="3" rx="1.5" fill="url(#accent)" opacity="0.5"/>
+  <text x="600" y="480" text-anchor="middle" font-family="system-ui,sans-serif" font-size="18" fill="#64748b">Les 10 erreurs que tu vas trouver</text>
+  <text x="600" y="570" text-anchor="middle" font-family="system-ui,sans-serif" font-size="16" fill="#475569" letter-spacing="2">EFFICIENCE IT</text>
+</svg>

@@ -4,7 +4,7 @@ date: "2026-03-09"
 author: "Louis-Arnaud Catoire"
 category: "Projet"
 excerpt: "Ton domaine métier ne devrait dépendre de rien. Ni de Symfony, ni de Doctrine, ni de quoi que ce soit d'autre. Voici pourquoi, comment, et ce que ça change concrètement sur un vrai projet."
-image: "/images/blog/domain-symfony.png"
+image: "/images/blog/domain-symfony.svg"
 ---
 
 Ouvre le répertoire `src/Entity/` de n'importe quel projet Symfony. Tu y trouveras des classes avec des attributs Doctrine, des validations Symfony, parfois des appels à des services, et au milieu de tout ça, de la logique métier. Le modèle de commande calcule ses totaux entre deux annotations `#[ORM\Column]`. L'entité utilisateur vérifie les permissions au milieu des `#[Assert\NotBlank]`.
