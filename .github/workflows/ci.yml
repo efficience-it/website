@@ -72,6 +72,7 @@ jobs:
           args: >-
             --no-progress
             --exclude 'mailto:'
+            --exclude '^/'
             --scheme https
             --scheme http
             --timeout 30
