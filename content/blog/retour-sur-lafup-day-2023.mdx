@@ -7,46 +7,80 @@ excerpt: "La 5e édition de l'AFUP Day s'est déroulée le 12 mai à l'Universit
 image: "/images/blog/afup-day-2023.webp"
 ---
 
-La 5e édition de l'AFUP Day s'est déroulée le 12 mai à l'Université Catholique de Lille. Une partie de l'équipe Efficience IT a participé à cet événement centré sur PHP, organisé par l'Association Française des Utilisateurs de PHP.
+Le 12 mai, se tenait la 5e édition, le rendez-vous a eu lieu au sein de l'**Université Catholique de Lille**.
 
 ## Qu'est-ce que l'AFUP Day ?
 
-Fondé en 2019 par l'AFUP (Association Française des Utilisateurs de PHP), cette conférence nationale annuelle rassemble des intervenants locaux et des leaders de l'industrie. L'édition lilloise a réuni environ dix intervenants couvrant divers sujets liés à PHP, attirant des développeurs de la région Hauts-de-France et des environs. Les sessions duraient entre 20 et 40 minutes.
+Créée en 2019 par l'AFUP (Association Française des Utilisateurs de PHP), cette journée de conférences à dimension nationale a lieu chaque année. L'AFUP Day de Lyon a par exemple eu lieu le même jour. Ce projet est porté par des antennes locales de l'AFUP. Celles-ci réunissent des conférenciers/ères locaux, ainsi que des têtes d'affiche qui viennent partager leur expertise aux passionnés présents.
 
-## Les temps forts des conférences
+Pour cet évènement, l'AFUP Day de Lille a sélectionné un panel d'une dizaine de conférenciers, avec chacun leur spécialité. Cette journée compte une dizaine de conférences d'environ 20 à 40 minutes dédiées à PHP et son écosystème, regroupant les développeurs des Hauts-de-France et des régions environnantes.
 
-### Doctrine, objets typés et colonnes JSON
+Dans cet article, nous vous proposons un récapitulatif des différentes conférences et les informations à retenir.
 
-Grégoire Pineau de Jolicode a discuté de la maîtrise des colonnes JSON et des objets typés via Doctrine ORM. Les colonnes JSON accélèrent le développement en simplifiant le code, les migrations et la maintenance. Les tableaux PHP offrent des solutions flexibles de stockage de données. Doctrine facilite la communication entre les applications et les bases de données relationnelles tout en prévenant la duplication de code.
+## Doctrine, objet typé et colonne JSON
 
-### Code legacy : Approval Testing
+Présent pour nous parler de **Doctrine, objet typé et de colonne JSON**, Grégoire Pineau a rejoint l'équipe de Jolicode en 2017, une agence spécialisée dans la réalisation de projet Web et mobile.
 
-Charles Desneuf, coach freelance et fondateur de Burrito Consulting, a expliqué l'approval testing pour le code legacy. Cette méthodologie de test aide à comprendre la structure du code existant et les scénarios potentiels, fonctionnant de manière similaire au traçage de courants électriques à travers divers chemins.
+Grégoire était présent pour nous orienter dans la maîtrise des colonnes et objets typés grâce à l'ORM Doctrine. Les colonnes JSON permettent d'accélérer le développement en simplifiant le code, les migrations et la maintenance. Quant aux array (tableaux) PHP, ils offrent aux développeurs des solutions de stockage et de manipulation des ensembles de données de différents formats. La maîtrise de ces deux éléments peut être facilitée par Doctrine, qui permet de favoriser la communication entre une application et une base de données relationnelle.
 
-### Compilation PHP vers WebAssembly
+L'objectif ici est d'éviter la duplication de code, en stockant les blocs en database. Les solutions proposées par notre intervenant sont soit l'utilisation de l'héritage de Doctrine (MappedSuperClass, Single table, Class table) soit le stockage du PHP sérialisé en JSON ou non.
 
-Antoine Bluchet, CTO chez LesTilleuls.coop, a présenté la technologie WebAssembly permettant la compilation de programmes pour l'exécution dans le navigateur. Cette approche permet à PHP de s'exécuter côté client et permet d'empaqueter des applications dans les navigateurs sans nécessiter de serveur — des applications PHP « serverless ».
+## Legacy sur Approval Testing
 
-### Les avantages du bulk avec Symfony Messenger
+Charles Desneuf, développeur depuis une dizaine d'années et fondateur de Burrito Consulting, fut notre conférencier sur l'**Approval testing**. Il est Coach Craft freelance et offre une refonte de tests et des conseils sur l'apprentissage du TDD à ses clients.
 
-Allison Guilhem de LesTilleuls.coop a discuté de l'optimisation de la configuration de Symfony Messenger. Cet outil permet une architecture orientée messages, découplant les composants de l'application grâce à la communication par messages. Le traitement en bulk améliore les performances en regroupant les messages.
+Le legacy code est un code existant, mais ancien, donc difficile à maintenir et à tester. L'Approval Testing est justement là pour le tester efficacement. Cela permet de comprendre les grandes lignes du code Legacy, et les différents scénarios possibles. La finalité est d'approuver ou non la proposition faite par l'Approval Testing.
 
-### Sécurité de la supply chain
+D'après nos développeurs, nous pourrions comparer cela à l'image d'un électricien qui essaie de voir où passe le courant et les différents scénarios possibles que cela engendre.
 
-Kevin Dunglas, co-fondateur de LesTilleuls.coop et créateur d'API Platform, a abordé les attaques de supply chain dans les écosystèmes PHP. Il a souligné comment les développeurs étendent leur confiance aux contributeurs de bibliothèques, dont beaucoup ne sont pas rémunérés. La Fondation PHP soutient les mainteneurs développant des packages et bundles largement utilisés.
+## La compilation de PHP en WebAssembly
 
-### Automatisation avec APITester
+Antoine Bluchet est directeur technique chez LesTilleuls.coop, l'agence à l'origine de API Platform sortie en 2015. Il est intervenu pour nous présenter WebAssembly, la technologie qui permet de compiler des programmes afin qu'ils s'exécutent dans les navigateurs.
 
-Olivier Mairet, développeur backend et mentor OpenClassroom, a présenté APITester pour les tests automatisés. Cet outil génère et exécute des tests, affichant les erreurs à travers les types de code avec des commentaires au niveau des fonctions.
+Il a ensuite pris le temps d'expliquer comment compiler PHP en WebAssembly. Ce langage propose un ensemble d'outils qui permettent de le transformer sous un autre langage. D'ici en ressortent les fichiers qui peuvent être ouverts dans le navigateur final du client. Cela permet d'orienter le PHP du côté du client et offre la possibilité d'empaqueter des applications dans un navigateur.
 
-### Gestion des erreurs PHP et monades
+Et pour finir, nous avons découvert la manière d'exécuter Symfony ou d'autres projets PHP sans nécessité de serveur, d'où l'utilisation du terme *serverless* dans sa conférence.
 
-George Banyard, développeur core de la Fondation PHP, a expliqué la gestion correcte des erreurs en PHP en utilisant des concepts monadiques. Les monades combinent des fragments de programme suivant des règles spécifiques pour améliorer la modularité. Cependant, l'implémentation des monades en PHP s'avère peu pratique étant donné la conception du langage.
+## Les avantages des bulks dans Symfony Messenger
 
-### Les femmes dans la technologie
+Développeuse Symfony au sein de l'agence LesTilleuls.coop, Allison Guilhem nous a présenté le paramétrage idéal de Symfony Messenger. Cet outil permet de mettre en place une architecture de message-driven pour les applications Web. Cet élément favorise le découplage de différents composants de celles-ci, en les faisant communiquer à travers des messages, ce qui permet de réduire la latence et d'améliorer les performances de votre application.
 
-Laura Durieux a conclu en mettant en lumière les contributions des femmes à l'histoire de la technologie, présentant des figures comme Grace Hopper et les « ENIAC Girls ». Elle a noté que les femmes ne représentent que 17 % des professionnels de la tech, tandis que l'équipe technique d'Efficience IT comprend environ 45 % de femmes.
+Ce talk fut particulièrement intéressant pour l'équipe, car Allison venait nous parler de Symfony, et du gain de performance que pouvait offrir les batchs face aux bulks, grâce à l'envoi par groupe de messages.
+
+## Les attaques de la chaîne logistique
+
+Nous avons eu l'occasion d'assister à une intervention du co-fondateur de l'agence LesTilleuls.coop, Kévin Dunglas. Il est également le fondateur du framework API Platform et membre de la Core Team Symfony.
+
+Kévin était là pour nous présenter comment fonctionnent les **attaques de la chaîne logistique**. Il a pris le temps de parler de quelques méthodes organisationnelles qui limiteraient le problème.
+
+Ce talk était très intéressant sans être trop technique, Kévin essayait de vulgariser le sujet. En clair, dans la tech, on fait confiance à beaucoup de gens, surtout aux contributeurs de librairies.
+
+Si l'on reprend l'exemple utilisé pendant la conférence, les bundles sont les briques qui permettent la base de la construction d'un bâtiment, sauf que celles-ci peuvent appartenir à des personnes malveillantes, d'où le risque de hacking.
+
+La plupart des contributeurs de bundles ne sont pas rémunérés. De ce fait, si l'un décide d'arrêter, un autre développeur doit reprendre le flambeau sinon rien ne sera maintenu. La PHP Foundation est justement présente pour payer les personnes qui développent les bundles et packages que tout le monde utilise avec la plus grande confiance.
+
+## L'automatisation des tests par APITester
+
+Avant une petite pause, Olivier Mairet est venu nous présenter **APITester** et l'**automatisation des tests**. Le conférencier est développeur backend et mentor chez OpenClassroom, une plateforme qui offre des formations, alternances, et propose même des financements de projet. Le bundle d'OpenClassroom, pour l'instant utilisé en interne, va passer en Open Source d'ici à quelques mois.
+
+Développé pour générer et exécuter automatiquement des tests, Olivier nous a déroulé le mode d'emploi de ce package API Tester. Le testeur lit et affiche les erreurs sur tous les types de code. Ensuite, un commentaire est émis sur chaque fonction.
+
+## La gestion d'erreur sous PHP et le concept des monades
+
+Après une formation à l'Imperial College de Londres, George Banyard est aujourd'hui Core Developer à la PHP Foundation. Nous avons eu la chance de l'entendre sur le sujet de la **gestion d'erreur** en PHP et comment utiliser son système correctement, en limitant les problèmes.
+
+À travers l'exemple de la gestion des erreurs, George a introduit le concept des monades. Cette structure permet de combiner des fragments de programme, appelés fonctions, qui viennent faciliter la modularité tout en suivant des règles spécifiques.
+
+C'était un talk plutôt technique et la conclusion plutôt surprenante, car au final, il serait fou de les coder sous PHP. Effectivement, ce langage n'est pas conçu pour faire ce genre de choses.
+
+## La place des femmes dans la tech
+
+Pour finir cette journée en beauté, Laura Durieux est venue nous parler de la place de **la femme dans l'histoire de la technologie**. Présente pour nous rappeler l'importance de Grace Hopper, une des premières programmeuses de l'ordinateur Harvard Mark I, Joan Clark, connue pour son travail de briseuse de code pendant la Seconde Guerre Mondiale. Ou encore les « ENIAC Girls », qui sont à l'origine du premier ordinateur complètement électronique, elle fait honneur aux femmes de ce monde vu comme masculin.
+
+Il est vrai qu'aujourd'hui les femmes sont sous-représentées dans ce milieu, soit 17 % selon le Gender Scan 2022. En 2018, la française Jasmine Anteunis, un repère dans le numérique, plus particulièrement dans l'Intelligence Artificielle, a fait le classement des 50 femmes les plus importantes dans la tech au niveau mondial.
+
+Nous avons la chance dans notre équipe de compter des femmes talentueuses qui représentent près de 45 % de notre équipe tech, et plus encore dans d'autres pôles.
 
 ## Conclusion
 
-L'événement a fourni de précieuses opportunités de réseautage parmi les passionnés de PHP. L'équipe de développement prévoit de participer aux prochains événements AFUP pour rester au courant des évolutions de l'industrie.
+Huit conférences plus tard, nous voilà à la fin de l'AFUP Day 2023. Ce fut un plaisir de se retrouver entre passionnés et de revoir des visages familiers. L'équipe des développeurs sera présente pour la prochaine édition. En attendant, nous assisterons aux évènements menés par l'AFUP sur le reste de l'année, ce qui nous permet de rester à jour sur les nouveautés.
