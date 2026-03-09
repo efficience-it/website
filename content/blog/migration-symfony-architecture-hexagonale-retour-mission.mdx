@@ -234,7 +234,7 @@ C'est un choix délibéré. L'archi hexagonale a un coût en complexité structu
 
 ### Garder Doctrine dans les queries
 
-Pour les lectures simples (listes, recherches, exports), on a gardé des requêtes Doctrine directes via le [QueryBuilder](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/query-builder.html), sans passer par le domaine. Le pattern [CQRS](https://martinfowler.com/bliki/CQRS.html) léger : les commandes (écritures) passent par les use cases et le domaine. Les queries (lectures) tapent directement dans l'infra. Pour aller plus loin sur cette séparation, on détaille l'implémentation avec [Symfony Messenger comme colonne vertébrale d'une archi hexagonale](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale).
+Pour les lectures simples (listes, recherches, exports), on a gardé des requêtes Doctrine directes via le [QueryBuilder](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/query-builder.html), sans passer par le domaine. Le pattern [CQRS](https://martinfowler.com/bliki/CQRS.html) léger : les commandes (écritures) passent par les use cases et le domaine. Les queries (lectures) tapent directement dans l'infra.
 
 C'est pragmatique. Mapper un résultat de recherche paginé à travers trois couches pour le remapper en JSON n'apporte rien. La lecture n'a pas de logique métier à protéger.
 
