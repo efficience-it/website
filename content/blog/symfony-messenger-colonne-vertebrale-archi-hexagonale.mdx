@@ -1,0 +1,447 @@
+---
+title: "Symfony Messenger comme colonne vertébrale d'une archi hexagonale"
+date: "2026-03-09"
+author: "Louis-Arnaud Catoire"
+category: "Outils"
+excerpt: "Symfony Messenger ne sert pas qu'à envoyer des messages en asynchrone. Découvre comment l'utiliser comme Command Bus, Query Bus et Event Bus pour structurer une architecture hexagonale propre."
+image: "/images/blog/symfony-messenger.png"
+---
+
+Tu utilises [Symfony Messenger](https://symfony.com/doc/current/messenger.html) depuis des mois, peut-être des années. Tu dispatches des messages, tu consommes des queues, tu gères des workers. Mais est-ce que tu exploites vraiment tout son potentiel ? La plupart des développeurs Symfony voient Messenger comme un outil d'async. C'est une erreur. Messenger est un **bus de messages complet**, et c'est exactement ce dont tu as besoin pour structurer une architecture hexagonale solide.
+
+## Messenger, bien plus que de l'async
+
+Quand on parle de Messenger, on pense immédiatement à RabbitMQ, aux workers, aux queues. C'est normal : c'est le cas d'usage le plus visible. Mais Messenger implémente le pattern **Message Bus**, et ça change tout.
+
+Un bus de messages, c'est un médiateur entre celui qui envoie une intention et celui qui la traite. Le sender ne connaît pas le handler. Le handler ne sait pas d'où vient le message. Ce découplage est exactement le fondement d'une [architecture hexagonale](https://alistair.cockburn.us/hexagonal-architecture/) : le domaine ne dépend de rien, c'est l'infrastructure qui s'adapte.
+
+Messenger te donne trois choses essentielles :
+
+- Un système de **dispatch** de messages
+- Un mécanisme de **routing** vers les handlers
+- Un pipeline de **middlewares** pour les préoccupations transversales
+
+Avec ça, tu peux construire trois bus distincts qui structurent toute ton application : le Command Bus, le Query Bus et l'Event Bus.
+
+## Configurer trois bus séparés
+
+La [documentation officielle sur les bus multiples](https://symfony.com/doc/current/messenger/multiple_buses.html) explique comment déclarer plusieurs bus. Voici la configuration de base dans `messenger.yaml` :
+
+```yaml
+framework:
+    messenger:
+        default_bus: command_bus
+
+        buses:
+            command_bus:
+                middleware:
+                    - doctrine_transaction
+
+            query_bus: ~
+
+            event_bus:
+                default_middleware:
+                    allow_no_handlers: true
+```
+
+Trois bus, trois responsabilités. Le `command_bus` est le bus par défaut : c'est lui qui porte les intentions de mutation. Le `query_bus` sert à interroger le système. L'`event_bus` notifie que quelque chose s'est passé.
+
+Pourquoi séparer ? Parce que chaque bus a des règles différentes. Un command ne retourne rien. Une query retourne toujours quelque chose. Un event peut avoir zéro, un ou plusieurs handlers. Mélanger tout dans un seul bus, c'est perdre ces garanties.
+
+## Le Command Bus : une intention, une action
+
+Un command représente une intention de modifier l'état du système. **Un command = un handler. Pas de valeur de retour.** C'est la règle fondamentale.
+
+Voici un command. C'est un objet du domaine, un simple DTO sans aucune dépendance Symfony :
+
+```php
+namespace App\Domain\Order\Command;
+
+final readonly class CreateOrder
+{
+    public function __construct(
+        public string $customerId,
+        public array $items,
+        public string $shippingAddress,
+    ) {
+    }
+}
+```
+
+Rien de Symfony là-dedans. Pas d'attribut, pas d'interface, pas de dépendance framework. C'est un objet du domaine pur. Tu pourrais le réutiliser dans un autre contexte sans toucher à une ligne.
+
+Le handler, lui, vit dans la couche Application :
+
+```php
+namespace App\Application\Order\Handler;
+
+use App\Domain\Order\Command\CreateOrder;
+use App\Domain\Order\Repository\OrderRepositoryInterface;
+use App\Domain\Order\Factory\OrderFactory;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+
+#[AsMessageHandler(bus: 'command_bus')]
+final readonly class CreateOrderHandler
+{
+    public function __construct(
+        private OrderRepositoryInterface $orderRepository,
+        private OrderFactory $orderFactory,
+    ) {
+    }
+
+    public function __invoke(CreateOrder $command): void
+    {
+        $order = $this->orderFactory->create(
+            customerId: $command->customerId,
+            items: $command->items,
+            shippingAddress: $command->shippingAddress,
+        );
+
+        $this->orderRepository->save($order);
+    }
+}
+```
+
+Le handler dépend de **ports** (interfaces) du domaine, pas d'implémentations concrètes. `OrderRepositoryInterface` est défini dans le domaine. L'implémentation Doctrine est dans l'infrastructure. Le handler ne sait pas et n'a pas besoin de savoir comment la persistence fonctionne.
+
+Dans ton controller, le dispatch est trivial :
+
+```php
+$this->commandBus->dispatch(new CreateOrder(
+    customerId: $user->getId(),
+    items: $request->get('items'),
+    shippingAddress: $request->get('address'),
+));
+```
+
+C'est tout. Le controller ne connaît pas le handler. Il exprime une intention, point final.
+
+## Le Query Bus : interroger sans muter
+
+Le Query Bus suit une logique symétrique mais inversée : **une query = un handler, retourne toujours une valeur, ne mute jamais l'état**.
+
+```php
+namespace App\Domain\Order\Query;
+
+final readonly class GetOrderById
+{
+    public function __construct(
+        public string $orderId,
+    ) {
+    }
+}
+```
+
+Encore une fois, un objet domaine pur. Le handler :
+
+```php
+namespace App\Application\Order\Handler;
+
+use App\Domain\Order\Query\GetOrderById;
+use App\Domain\Order\Repository\OrderRepositoryInterface;
+use App\Domain\Order\Model\Order;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+
+#[AsMessageHandler(bus: 'query_bus')]
+final readonly class GetOrderByIdHandler
+{
+    public function __construct(
+        private OrderRepositoryInterface $orderRepository,
+    ) {
+    }
+
+    public function __invoke(GetOrderById $query): Order
+    {
+        return $this->orderRepository->findById($query->orderId);
+    }
+}
+```
+
+Pour récupérer le résultat, tu utilises le système d'[enveloppes et stamps](https://symfony.com/doc/current/messenger.html#envelopes-stamps) de Messenger :
+
+```php
+$envelope = $this->queryBus->dispatch(new GetOrderById($orderId));
+$order = $envelope->last(HandledStamp::class)->getResult();
+```
+
+Le `HandledStamp` est ajouté automatiquement par le middleware `handle_message`. C'est le mécanisme standard de Messenger pour récupérer les résultats.
+
+## L'Event Bus : notifier sans coupler
+
+L'Event Bus est fondamentalement différent des deux autres. Un event, c'est un fait qui s'est produit. Il est nommé au passé : `OrderValidated`, `PaymentReceived`, `UserRegistered`.
+
+```php
+namespace App\Domain\Order\Event;
+
+final readonly class OrderValidated
+{
+    public function __construct(
+        public string $orderId,
+        public string $customerId,
+        public float $totalAmount,
+    ) {
+    }
+}
+```
+
+La différence clé : **un event peut avoir plusieurs handlers**. C'est pour ça qu'on a configuré `allow_no_handlers: true` sur l'event bus. Quand une commande est validée, tu veux peut-être envoyer un email, mettre à jour des statistiques, notifier un ERP. Chaque handler gère une réaction, indépendamment des autres.
+
+```php
+#[AsMessageHandler(bus: 'event_bus')]
+final readonly class SendOrderConfirmationEmail
+{
+    public function __construct(
+        private MailerInterface $mailer,
+    ) {
+    }
+
+    public function __invoke(OrderValidated $event): void
+    {
+        $this->mailer->sendConfirmation($event->orderId, $event->customerId);
+    }
+}
+```
+
+```php
+#[AsMessageHandler(bus: 'event_bus')]
+final readonly class UpdateSalesStatistics
+{
+    public function __construct(
+        private StatisticsServiceInterface $statistics,
+    ) {
+    }
+
+    public function __invoke(OrderValidated $event): void
+    {
+        $this->statistics->recordSale($event->orderId, $event->totalAmount);
+    }
+}
+```
+
+Par défaut, les events devraient être **asynchrones**. C'est le cas d'usage naturel : la validation de la commande n'a pas besoin d'attendre que l'email soit envoyé. Configure le routing dans `messenger.yaml` :
+
+```yaml
+framework:
+    messenger:
+        routing:
+            'App\Domain\Order\Event\OrderValidated': async
+```
+
+## Commands et queries sont des objets domaine
+
+C'est un point crucial que beaucoup ratent. Tes commands et queries ne doivent **jamais** dépendre de Symfony. Pas de `#[AsMessage]`, pas d'interface `MessageInterface`. Ce sont des objets du domaine, des DTOs purs.
+
+Pourquoi ? Parce que dans une architecture hexagonale, le domaine est au centre. Il ne dépend de rien. C'est l'infrastructure (ici Symfony Messenger) qui s'adapte au domaine, pas l'inverse.
+
+Messenger n'exige aucune interface sur tes messages. N'importe quel objet PHP peut être dispatché. C'est un choix de design brillant qui rend le composant compatible avec une archi hexagonale sans effort.
+
+## Les handlers vivent dans la couche Application
+
+Les handlers ne sont **pas** de l'infrastructure. Ils orchestrent la logique applicative en utilisant les ports du domaine. C'est la couche Application au sens DDD.
+
+```
+src/
+├── Domain/
+│   └── Order/
+│       ├── Command/
+│       │   └── CreateOrder.php
+│       ├── Query/
+│       │   └── GetOrderById.php
+│       ├── Event/
+│       │   └── OrderValidated.php
+│       ├── Model/
+│       │   └── Order.php
+│       └── Repository/
+│           └── OrderRepositoryInterface.php
+├── Application/
+│   └── Order/
+│       └── Handler/
+│           ├── CreateOrderHandler.php
+│           ├── GetOrderByIdHandler.php
+│           ├── SendOrderConfirmationEmail.php
+│           └── UpdateSalesStatistics.php
+└── Infrastructure/
+    └── Persistence/
+        └── Doctrine/
+            └── DoctrineOrderRepository.php
+```
+
+Le seul lien avec Symfony dans les handlers, c'est l'attribut `#[AsMessageHandler]`. C'est un compromis pragmatique : on pourrait utiliser la configuration YAML, mais l'attribut est plus lisible et ne pollue pas la logique.
+
+## Le système de middlewares
+
+Les middlewares sont la couche de préoccupations transversales. Chaque message passe par une chaîne de middlewares avant et après le handler. C'est le bon endroit pour le logging, la validation, les transactions.
+
+Le middleware le plus important dans notre contexte : le **Doctrine Transaction Middleware**. Il wrappe l'exécution du handler dans une transaction. Si le handler throw, rollback automatique.
+
+```yaml
+framework:
+    messenger:
+        buses:
+            command_bus:
+                middleware:
+                    - doctrine_transaction
+```
+
+On le met **uniquement sur le command bus**. Pourquoi ? Parce que seuls les commands mutent l'état. Les queries ne font que lire, pas besoin de transaction. Les events sont traités individuellement, chaque handler gère sa propre unité de travail.
+
+Tu peux aussi écrire tes propres middlewares. Un exemple classique pour du logging :
+
+```php
+namespace App\Infrastructure\Messenger\Middleware;
+
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Messenger\Envelope;
+use Symfony\Component\Messenger\Middleware\MiddlewareInterface;
+use Symfony\Component\Messenger\Middleware\StackInterface;
+
+final readonly class LoggingMiddleware implements MiddlewareInterface
+{
+    public function __construct(
+        private LoggerInterface $logger,
+    ) {
+    }
+
+    public function handle(Envelope $envelope, StackInterface $stack): Envelope
+    {
+        $message = $envelope->getMessage();
+        $this->logger->info('Dispatching {class}', [
+            'class' => get_class($message),
+        ]);
+
+        return $stack->next()->handle($envelope, $stack);
+    }
+}
+```
+
+## Le système d'enveloppes et stamps
+
+Chaque message dispatché est wrappé dans une `Envelope`. Les stamps sont des métadonnées attachées à l'enveloppe. C'est un pattern puissant pour ajouter du contexte sans modifier le message lui-même.
+
+Stamps natifs utiles :
+
+- `HandledStamp` : contient le résultat du handler (indispensable pour le query bus)
+- `SentStamp` : indique que le message a été envoyé à un transport
+- `ReceivedStamp` : indique que le message a été reçu depuis un transport
+- `DelayStamp` : permet de différer le traitement
+
+Tu peux créer tes propres stamps :
+
+```php
+namespace App\Infrastructure\Messenger\Stamp;
+
+use Symfony\Component\Messenger\Stamp\StampInterface;
+
+final readonly class TenantStamp implements StampInterface
+{
+    public function __construct(
+        public string $tenantId,
+    ) {
+    }
+}
+```
+
+Et les exploiter dans un middleware pour du multi-tenant, du tracing, ou n'importe quelle préoccupation transversale.
+
+## Fini les services à 30 méthodes
+
+Tu connais ce `OrderService` avec `createOrder()`, `validateOrder()`, `cancelOrder()`, `getOrderById()`, `getOrdersByCustomer()`, `calculateTotal()`, et 25 autres méthodes ? Ce service god-class qui viole le Single Responsibility Principle et qui est impossible à tester proprement ?
+
+Avec le pattern Command/Query/Event, chaque cas d'usage est isolé dans son propre handler. Un handler fait **une seule chose**. Il a ses propres dépendances, clairement déclarées dans le constructeur. Il est testable unitairement en quelques lignes.
+
+Tu passes de :
+
+```php
+class OrderService
+{
+    public function __construct(
+        private OrderRepository $repo,
+        private Mailer $mailer,
+        private StatsService $stats,
+        private PaymentGateway $payment,
+        private StockManager $stock,
+        // ... 10 autres dépendances
+    ) {
+    }
+
+    // ... 30 méthodes
+}
+```
+
+A des handlers ciblés qui n'injectent que ce dont ils ont besoin. Le graphe de dépendances est clair, les responsabilités sont explicites.
+
+## Tester les handlers simplement
+
+Comme les handlers dépendent de ports (interfaces), les tester est trivial :
+
+```php
+final class CreateOrderHandlerTest extends TestCase
+{
+    public function testItCreatesAnOrder(): void
+    {
+        $repository = $this->createMock(OrderRepositoryInterface::class);
+        $factory = $this->createMock(OrderFactory::class);
+
+        $order = new Order(/* ... */);
+        $factory->method('create')->willReturn($order);
+        $repository->expects($this->once())->method('save')->with($order);
+
+        $handler = new CreateOrderHandler($repository, $factory);
+        $handler(new CreateOrder('customer-1', ['item-1'], '123 rue de Paris'));
+    }
+}
+```
+
+Pas de kernel Symfony, pas de container, pas de base de données. Un test unitaire pur qui s'exécute en millisecondes. C'est le bénéfice direct d'avoir des handlers qui dépendent d'abstractions.
+
+## Les erreurs classiques à éviter
+
+### Mettre de l'infrastructure dans les commands
+
+```php
+final readonly class CreateOrder
+{
+    public function __construct(
+        public Request $request,
+    ) {
+    }
+}
+```
+
+Non. Le `Request` est un objet Symfony HTTP. Le command est un objet domaine. Extrais les données dans le controller et passe des types primitifs ou des value objects au command.
+
+### Retourner une valeur depuis un command handler
+
+```php
+public function __invoke(CreateOrder $command): Order
+{
+    // ...
+    return $order;
+}
+```
+
+Un command ne retourne rien. Si tu as besoin de l'ID de l'entité créée, génère-le **avant** le dispatch (avec un UUID par exemple) et passe-le dans le command.
+
+```php
+$orderId = Uuid::v7()->toString();
+$this->commandBus->dispatch(new CreateOrder($orderId, $customerId, $items));
+```
+
+### Events synchrones par défaut
+
+Si tes events sont traités de manière synchrone, tu perds un des principaux avantages : le découplage temporel. Un handler d'event qui fail ne devrait pas faire crasher le flow principal. Configure le routing async pour les events.
+
+### Un handler qui fait trop
+
+Si ton handler fait plus de 20 lignes, il y a un problème. Soit il contient de la logique domaine qui devrait être dans un service du domaine, soit il orchestre trop de choses et devrait être découpé.
+
+## Aller plus loin
+
+Le pattern CQRS/Event-driven avec Messenger est un excellent point de départ pour structurer des applications Symfony maintenables. Si tu veux approfondir le sujet, voici quelques ressources incontournables :
+
+- La [documentation officielle de Symfony Messenger](https://symfony.com/doc/current/messenger.html) est complète et bien structurée
+- Le [dépôt GitHub du composant](https://github.com/symfony/messenger) pour lire le code source et comprendre les internals
+- Le blog de [Matthias Noback](https://matthiasnoback.nl/tags/command%20bus/) sur le Command Bus, qui a largement influencé l'écosystème PHP sur ces patterns
+- Le livre [Advanced Web Application Architecture](https://matthiasnoback.nl/book/advanced-web-application-architecture/) du même auteur, référence sur l'architecture hexagonale en PHP
+
+L'architecture hexagonale avec Messenger n'est pas une mode. C'est une approche éprouvée qui rend ton code testable, maintenable et évolutif. Le framework devient un détail d'implémentation. Le domaine reste pur. Et tes collègues te remercieront quand ils ouvriront le projet dans six mois.
