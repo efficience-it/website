@@ -7,100 +7,84 @@ excerpt: "Le framework Diataxis fournit une structure pour la documentation tech
 image: "/images/blog/diataxis-symfony.webp"
 ---
 
-## Introduction
+## Pourquoi la documentation technique échoue
 
-Le framework Diataxis fournit une structure pour la documentation technique en répondant aux besoins des développeurs à travers quatre types de contenu distincts : les tutoriels, les guides pratiques, les références techniques et les explications. Chaque type sert des objectifs utilisateur différents et contribue à la qualité globale de la documentation.
+La plupart des projets Symfony disposent d'une documentation. Peu disposent d'une documentation utile. Le problème n'est ni le volume ni la volonté : c'est l'absence de structure intentionnelle. Un fichier README mêle instructions d'installation, justifications d'architecture et référence API dans un flux continu que personne ne lit en entier.
 
-L'approche est simple et adaptable, ne nécessitant aucune contrainte rigide d'implémentation. Diataxis a fait ses preuves sur des projets open source et propriétaires de tailles variées.
+Diataxis, créé par Daniele Procida, propose un cadre pour résoudre ce problème. Son principe fondateur : la documentation technique répond à quatre besoins cognitifs distincts, et mélanger ces besoins dans un même document dégrade l'ensemble.
 
-## Comment utiliser Diataxis
+## Les quatre quadrants de Diataxis
 
-Diataxis fonctionne mieux comme un outil de réflexion plutôt qu'une formule rigide. Sa valeur principale réside dans l'amélioration de l'utilité de la documentation pour les utilisateurs tout en simplifiant la création et la maintenance.
+Diataxis repose sur deux axes. Le premier oppose l'apprentissage (acquérir) à l'application (utiliser). Le second oppose la théorie (comprendre) à la pratique (faire). Leur croisement produit quatre types de documentation :
 
-**Utilisez Diataxis comme un guide, pas un plan :** le framework aide à évaluer la documentation, identifier les problèmes et déterminer les améliorations. Plutôt que d'imposer une structure en premier, laissez une meilleure documentation adopter naturellement la structure Diataxis grâce à des améliorations incrémentales.
+- **Tutoriels** : apprentissage orienté pratique. Le lecteur ne connaît pas encore le sujet.
+- **Guides pratiques** : résolution de problèmes concrets. Le lecteur sait ce qu'il veut accomplir.
+- **Référence** : description technique exhaustive. Le lecteur cherche une information précise.
+- **Explications** : compréhension approfondie. Le lecteur veut saisir le pourquoi.
 
-**Ne vous fixez pas sur la structure :** suivre les recommandations de manière organique produit l'organisation souhaitée au fur et à mesure que la documentation s'améliore.
+Chaque quadrant a ses propres règles de rédaction, son propre ton et sa propre structure. Un tutoriel qui s'interrompt pour expliquer un pattern d'architecture perd son lecteur. Une référence API qui raconte une histoire perd sa fonction de consultation rapide.
 
-**Travaillez de manière incrémentale :** publiez de petites améliorations immédiatement plutôt que d'attendre de grandes sections complètes.
+## Appliquer Diataxis à un projet Symfony
 
-**Agissez systématiquement :** choisissez un élément de documentation, évaluez-le de manière critique, décidez quoi améliorer, exécutez ce seul changement, puis répétez. Cette approche cyclique réduit la paralysie courante dans le travail de documentation.
+### Tutoriels : le parcours d'onboarding
 
-## Aspect 1 : Les tutoriels
+Sur un projet Symfony, le tutoriel correspond au parcours d'onboarding d'un nouveau développeur. Il ne s'agit pas de documenter chaque bundle : il s'agit de guider quelqu'un de `git clone` jusqu'à sa première contribution fonctionnelle.
 
-**Objectif :** permettre aux débutants d'acquérir les compétences fondamentales pour une utilisation autonome du projet tout en renforçant la confiance grâce à des tâches significatives et réalisables.
+Un tutoriel Symfony efficace suit une progression concrète : installer le projet, lancer les conteneurs Docker, créer une entité, écrire un test fonctionnel, observer le résultat. Chaque étape produit un résultat visible. Le développeur qui termine le tutoriel comprend la structure du projet, les conventions de l'équipe et le workflow de développement.
 
-Les tutoriels enseignent l'application pratique plutôt que les connaissances théoriques. À leur terme, les apprenants devraient comprendre la documentation restante et utiliser le code de manière autonome.
+Le piège classique : transformer le tutoriel en encyclopédie. Si votre tutoriel d'onboarding dépasse trente minutes, il contient probablement des explications ou de la référence qui appartiennent à d'autres quadrants.
 
-Abordez l'apprentissage comme l'enseignement des bases de la cuisine — des tâches simples renforcent la confiance et encouragent l'exploration continue. Évitez les détails excessifs qui deviennent contre-productifs.
+### Guides pratiques : répondre aux problèmes récurrents
 
-### Approche de rédaction des tutoriels
+Les guides pratiques constituent la section la plus consultée de toute documentation de projet. Sur un projet Symfony, ils répondent aux questions récurrentes : comment ajouter un voter personnalisé, comment configurer un nouveau environnement, comment déboguer un problème de sérialisation avec API Platform.
 
-L'apprentissage commence par la pratique. Guidez les apprenants à travers des étapes simples utilisant les outils et opérations nécessaires. Permettez une visibilité rapide des résultats pour maintenir la motivation et la confiance.
+Un guide pratique commence par le problème, pas par le contexte. Il décrit une séquence d'actions et s'arrête quand le problème est résolu. Il ne justifie pas les choix d'architecture, ne détaille pas les alternatives, ne raconte pas l'historique de la décision. Ces éléments relèvent des explications.
 
-### Conventions de langage des tutoriels
+La distinction entre tutoriel et guide pratique est souvent floue dans les projets Symfony. Le critère de démarcation : le tutoriel suppose que le lecteur ne sait pas encore faire, le guide suppose qu'il sait déjà travailler sur le projet mais bute sur un problème spécifique.
 
-- *« Dans ce tutoriel, vous allez... »* -- Décrivez les accomplissements, pas l'apprentissage
-- *« D'abord faites x. Maintenant faites y. Puisque vous avez fait y, faites z. »* -- Éliminez l'ambiguïté
-- *« Vous devez faire x avant y parce que... (voir Explication pour les détails) »* -- Fournissez une explication minimale avec des liens vers du contenu plus approfondi
-- *« Votre résultat devrait ressembler à ceci... »* -- Définissez des attentes claires
-- *« Remarquez que... Rappelez-vous que... »* -- Offrez des indices d'orientation
-- *« Vous avez construit un moteur de stase hylémorphique sécurisé à trois couches... »* -- Célébrez les accomplissements
+### Référence : la cartographie technique du projet
 
-## Aspect 2 : Les guides pratiques
+La référence technique d'un projet Symfony couvre les contrats d'interface, les configurations disponibles, les événements dispatchés, les services exposés. Elle reflète la structure du code, pas la structure narrative d'un récit.
 
-Ceux-ci fournissent des instructions pour résoudre des problèmes du monde réel, en se concentrant sur les objectifs et les résultats. Les guides cadrent les capacités du produit et sont les sections de documentation les plus fréquemment consultées.
+Sur Symfony, une partie de cette référence peut être générée automatiquement. PHPDoc, OpenAPI pour les endpoints REST, les fichiers de configuration YAML avec leurs options documentées : ces artefacts constituent déjà de la documentation de référence. L'enjeu est de les maintenir synchronisés avec le code, pas de les rédiger manuellement.
 
-### Rédiger des guides pratiques efficaces
+La règle cardinale de la référence : elle doit être exacte. Une référence inexacte est pire qu'une absence de référence, car elle induit activement en erreur. L'intégration de la génération de référence dans la CI (vérification de la couverture PHPDoc, validation des schémas OpenAPI) garantit cette exactitude dans la durée.
 
-- **Décrivez des séquences d'actions** dans un ordre spécifique, mais pas nécessairement du début à la fin du projet — commencez là où les utilisateurs rejoignent typiquement
-- **Résolvez des problèmes** : éliminez les explications inutiles qui distraient et diluent l'utilité
-- **Évitez l'explication des concepts** : les guides montrent comment faire quelque chose, pas pourquoi les concepts existent
-- **Restez flexible** : adaptez-vous aux cas d'utilisation réels au-delà de votre exemple spécifique
-- **Omettez les éléments inutiles** : contrairement aux tutoriels, les guides n'ont pas besoin d'être exhaustifs. Commencez et terminez à des points raisonnables
+### Explications : les décisions d'architecture
 
-### Langage des guides pratiques
+Les explications sont le quadrant le plus négligé et pourtant le plus précieux pour les développeurs seniors. Elles répondent à la question "pourquoi" : pourquoi le projet utilise Messenger plutôt qu'un système de queue maison, pourquoi l'authentification passe par un custom authenticator plutôt que par le guard par défaut, pourquoi le découpage en bounded contexts suit tel périmètre.
 
-- *« Ce guide vous montre comment... »* -- Décrivez clairement le problème ou la tâche
-- *« Si vous voulez x, faites y. Pour atteindre w, faites z. »* -- Utilisez des impératifs conditionnels
-- *« Voir le guide de référence x pour les listes complètes d'options. »* -- N'encombrez pas les guides de possibilités exhaustives
+Ce quadrant accueille les ADR (Architecture Decision Records), les analyses de compromis, les retours d'expérience post-incident. Il documente le raisonnement derrière le code, information qui disparaît dès que les développeurs originaux quittent le projet.
 
-## Aspect 3 : La documentation de référence
+## Outillage et intégration dans le workflow
 
-Les documents de référence fournissent des descriptions techniques des mécanismes et fonctionnalités, en priorisant la clarté de l'information. Leur seul objectif implique des descriptions succinctes et ordonnées des API logicielles, classes, fonctions et utilisation.
+Diataxis n'impose aucun outil. Cependant, certaines pratiques d'intégration renforcent son efficacité sur un projet Symfony.
 
-La documentation de référence exige une autorité absolue — zéro ambiguïté. Certaines références (comme les docs API) peuvent être automatiquement générées à partir du code source, garantissant l'exactitude.
+Stocker la documentation dans le même dépôt que le code (approche docs-as-code) permet de lier les modifications de documentation aux pull requests qui modifient le comportement. Un template de PR qui inclut une section "documentation impactée" rend le réflexe systématique.
 
-### Rédiger une documentation de référence efficace
+Les générateurs de sites statiques comme Docusaurus ou MkDocs structurent naturellement la navigation en sections qui correspondent aux quadrants Diataxis. Un répertoire `docs/tutorials/`, `docs/how-to/`, `docs/reference/`, `docs/explanation/` rend la taxonomie explicite pour les contributeurs.
 
-- **Reflétez la structure du produit** : organisez la documentation en correspondance avec l'architecture logique et conceptuelle de votre logiciel
-- **Maintenez la cohérence** : utilisez une structure, un langage, une terminologie et un ton uniformes
-- **Décrivez seulement** : présentez des descriptions claires, précises et complètes tout en liant les explications ailleurs
-- **Incluez des exemples** : fournissez des illustrations précieuses sans distraire des descriptions principales
-- **Assurez la précision et l'actualité** : toute divergence entre le code et la documentation induit les utilisateurs en erreur
+L'intégration dans la CI va au-delà de la vérification orthographique. Vérifier que les exemples de code compilent, que les liens internes ne sont pas cassés, que la référence générée est à jour : ces contrôles automatisés réduisent la dette documentaire avant qu'elle ne s'accumule.
 
-### Conventions de langage de référence
+## La documentation comme artefact d'architecture
 
-- *« X est un exemple de y. W doit être initialisé avec z. Cette option fait cela. »* -- Énoncez des faits sur le comportement des mécanismes
-- *« Les sous-commandes incluent : a, b, c, d, e, f. »* -- Listez les commandes, options, opérations, fonctionnalités, flags, limitations, messages d'erreur
-- *« Vous devez utiliser a. N'appliquez pas b sauf si c. Jamais d. »* -- Fournissez des avertissements appropriés
+Pour un architecte, la documentation n'est pas un livrable annexe : c'est un artefact d'architecture au même titre qu'un diagramme C4 ou un schéma de base de données. La qualité de la documentation révèle la qualité de la conception. Un système bien conçu se documente facilement. Un système dont la documentation est confuse trahit une architecture confuse.
 
-## Aspect 4 : Les explications
+Diataxis offre un outil de diagnostic inattendu : si vous ne parvenez pas à rédiger un tutoriel linéaire pour un module, c'est probablement que ce module souffre d'un couplage excessif. Si la référence d'une API est difficile à structurer, l'API elle-même manque peut-être de cohérence. La difficulté à documenter est un signal d'alerte sur la conception.
 
-Les explications clarifient et approfondissent la compréhension du sujet sous de multiples perspectives, fournissant un examen de plus haut niveau.
+### Gouvernance documentaire à l'échelle
 
-### Rédiger des explications efficaces
+Sur un projet impliquant plusieurs équipes, Diataxis fournit un vocabulaire commun pour la gouvernance documentaire. Plutôt que de débattre du contenu d'un document, les équipes peuvent s'accorder sur son quadrant. Ce cadre partagé simplifie les revues de documentation et réduit les désaccords sur le périmètre de chaque page.
 
-- **Établissez des connexions** : tissez la compréhension en liant les sujets, même au-delà des sujets immédiats
-- **Fournissez du contexte** : incluez le contexte et le raisonnement — décisions de conception, facteurs historiques, contraintes techniques — et discutez des implications avec des exemples spécifiques
-- **Considérez les alternatives** : examinez différentes approches et contre-exemples sans donner d'instructions ou de descriptions techniques
+Chaque équipe peut détenir la responsabilité de la référence de ses propres services tout en contribuant aux guides pratiques transverses. Les explications architecturales, elles, relèvent naturellement de la responsabilité de l'équipe plateforme ou de l'architecte. Cette répartition des responsabilités évite le problème classique de la documentation orpheline que personne ne maintient.
 
-### Langage des explications
+### Mesurer le retour sur investissement
 
-- *« X existe parce que historiquement y s'est produit... »* -- Fournissez le raisonnement
-- *« W est meilleur que z parce que... »* -- Offrez des jugements et opinions
-- *« X dans le système y ressemble à w dans le système z. Cependant... »* -- Fournissez un contexte utile
-- *« Certains utilisateurs préfèrent w (parce que z). Cette approche a du mérite, mais... »* -- Pesez les alternatives
-- *« X interagit avec y de la manière suivante... »* -- Révélez les mécanismes internes soutenant la compréhension
+La documentation a un coût : temps de rédaction, temps de maintenance, temps de revue. Mesurer son retour sur investissement reste un exercice difficile mais nécessaire.
+
+Les indicateurs indirects sont les plus fiables : réduction du temps d'onboarding des nouveaux développeurs, diminution des questions récurrentes sur Slack, baisse du nombre d'incidents liés à une mauvaise compréhension d'un composant. Un suivi trimestriel de ces métriques, même informel, justifie l'investissement en documentation et identifie les quadrants déficitaires.
+
+L'approche incrémentale propre à Diataxis facilite cette mesure : chaque amélioration documentaire est une PR traçable, dont l'impact peut être corrélé à l'évolution des indicateurs.
 
 ## Pour aller plus loin
 
