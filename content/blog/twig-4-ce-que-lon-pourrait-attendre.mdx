@@ -11,23 +11,110 @@ image: "/images/blog/twig-4.webp"
 
 [Twig](https://twig.symfony.com/) est un moteur de template bien connu pour PHP créé par Symfony en 2009. Il a continué à évoluer au fil des années pour répondre aux besoins changeants des développeurs. Il est même possible d'effectuer des [certifications](/article/les-certifications-symfony-twig-symfony-sylius) pour faire reconnaître ses compétences dans le domaine.
 
+Depuis sa création, Twig a traversé plusieurs versions majeures. Twig 2 avait apporté le support de PHP 7 et une refonte de l'architecture interne. Twig 3, sorti en 2019, avait supprimé les fonctionnalités dépréciées et renforcé la rigueur du moteur. Chaque version majeure a été l'occasion de moderniser le moteur tout en conservant sa philosophie : offrir un langage de templating sûr, rapide et extensible.
+
 Avec l'annonce d'une nouvelle version, Twig 4, les attentes sont élevées quant aux fonctionnalités et améliorations qu'elle apportera au code. Bien que les détails précis de ce à quoi on peut s'attendre dans Twig 4 ne soient pas encore totalement révélés, nous pouvons spéculer sur quelques domaines potentiels d'amélioration et de développement.
 
 ## Une amélioration de la sécurité et du typage
 
-Dans la perspective de la prochaine version de Twig, des améliorations significatives sont attendues pour renforcer à la fois la sécurité mais aussi le typage, que ce soit les variables ou les templates. Notamment, une approche similaire à celle d'Askama pour le typage des templates, ce qui offrirait une meilleure gestion des types de données et donc une sécurité accrue dans la manipulation des variables utilisateurs. Ensuite, il pourrait s'agir d'introduire un support natif pour les fonctions fléchées, une fonctionnalité précieuse pour les frameworks tels que Laravel, Craft et Drupal qui utilisent activement Twig. Cette intégration simplifiée des fonctions fléchées dans les templates permettrait une écriture de code plus fluide et concise. Enfin, l'analyse statique des templates Twig avec des outils tels que [PHPStan](https://phpstan.org/) ou Psalm améliorerait la détection des erreurs et des changements cassants dès la phase de développement.
+Dans la perspective de la prochaine version de Twig, des améliorations significatives sont attendues pour renforcer à la fois la sécurité mais aussi le typage, que ce soit les variables ou les templates. Notamment, une approche similaire à celle d'Askama pour le typage des templates, ce qui offrirait une meilleure gestion des types de données et donc une sécurité accrue dans la manipulation des variables utilisateurs.
+
+On pourrait imaginer une syntaxe permettant de déclarer explicitement les types attendus en entrée d'un template :
+
+```twig
+{% types {product: 'App\\Entity\\Product', price: 'float'} %}
+
+<h1>{{ product.name }}</h1>
+<p>Prix : {{ price|number_format(2, ',', ' ') }} €</p>
+```
+
+Cette déclaration permettrait à des outils comme [PHPStan](https://phpstan.org/) ou Psalm d'analyser statiquement les templates et de détecter les erreurs dès la phase de développement, avant même l'exécution du code. Un template mal typé serait signalé directement dans l'IDE, ce qui réduirait considérablement le temps de débogage.
+
+Ensuite, il pourrait s'agir d'introduire un support natif pour les fonctions fléchées, une fonctionnalité précieuse pour les frameworks tels que Laravel, Craft et Drupal qui utilisent activement Twig. Cette intégration simplifiée des fonctions fléchées dans les templates permettrait une écriture de code plus fluide et concise :
+
+```twig
+{% set filtered = users|filter(u => u.active) %}
+{% set names = users|map(u => u.firstName ~ ' ' ~ u.lastName) %}
+```
 
 ## Une syntaxe plus concise et plus lisible
 
-Des ajustements sont attendus afin d'offrir une syntaxe plus concise et lisible. L'introduction de blocs script permettrait d'écrire plusieurs instructions sur une seule ligne, sans nécessité de répéter les balises `{% %}`, une fonctionnalité attendue par de nombreux utilisateurs. De plus, l'ajout de nouveaux points d'extension entre l'analyseur et le lexer pourrait faciliter la maintenance de Twig et de LiveComponent, tout en ouvrant la voie à de nouvelles fonctionnalités. L'intégration de l'opérateur de coalescence vide (`??`) serait également un ajout pertinent, permettant de renvoyer la première valeur définie, non nulle et non vide, ce qui simplifierait la gestion des valeurs par défaut complexes. Autre point que l'on pourrait attendre est la possibilité de définir directement des propriétés d'objet sans fusion, améliorant ainsi la lisibilité du code en réduisant la complexité des structures de données. Une dernière chose aussi proposée par la communauté PHP, est la possibilité de commenter rapidement plusieurs lignes à la fois.
+Des ajustements sont attendus afin d'offrir une syntaxe plus concise et lisible. L'introduction de blocs script permettrait d'écrire plusieurs instructions sur une seule ligne, sans nécessité de répéter les balises `{% %}`, une fonctionnalité attendue par de nombreux utilisateurs. On pourrait imaginer un bloc dédié :
+
+```twig
+{% script %}
+  set total = 0
+  set items = cart.products
+  set currency = 'EUR'
+{% endscript %}
+```
+
+Cette approche réduirait le bruit visuel dans les templates qui nécessitent plusieurs assignations successives. Aujourd'hui, chaque instruction requiert sa propre paire de délimiteurs, ce qui alourdit le code lorsqu'on enchaîne les déclarations.
+
+L'intégration de l'opérateur de coalescence vide (`??`) serait également un ajout pertinent. Aujourd'hui, gérer les valeurs par défaut nécessite souvent des constructions verbeuses :
+
+```twig
+{# Twig 3 : verbeux #}
+{% if user.nickname is defined and user.nickname is not null and user.nickname != '' %}
+    {{ user.nickname }}
+{% else %}
+    {{ user.firstName }}
+{% endif %}
+
+{# Twig 4 : concis grâce à l'opérateur ?? #}
+{{ user.nickname ?? user.firstName ?? 'Anonyme' }}
+```
+
+De plus, l'ajout de nouveaux points d'extension entre l'analyseur et le lexer pourrait faciliter la maintenance de Twig et de LiveComponent, tout en ouvrant la voie à de nouvelles fonctionnalités. Autre point que l'on pourrait attendre est la possibilité de définir directement des propriétés d'objet sans fusion, améliorant ainsi la lisibilité du code en réduisant la complexité des structures de données. Enfin, la communauté PHP a aussi proposé la possibilité de commenter rapidement plusieurs lignes à la fois, ce qui faciliterait le débogage des templates complexes.
 
 ## Modernisation du templating : macros et composants
 
-Une attention particulière pourrait être portée sur le templating basé sur les composants, favorisant ainsi une approche plus modulaire et flexible par rapport aux méthodes traditionnelles de remplacement et d'héritage. Les améliorations apportées aux macros sont aussi attendues, notamment en simplifiant leur utilisation en éliminant le besoin de les importer individuellement dans chaque bloc. Parallèlement, le support natif de la syntaxe HTML pour les composants UX serait ajouté, offrant ainsi une meilleure intégration et une expérience de développement plus fluide pour les développeurs. Ces ajustements attendus visent à simplifier le processus de création et de gestion des templates, tout en offrant une plus grande flexibilité dans la construction d'interfaces utilisateur modulaires et réutilisables.
+### Les macros repensées
+
+Les macros constituent l'un des mécanismes les plus puissants de Twig, mais leur utilisation actuelle souffre de lourdeurs. En Twig 3, il faut importer chaque macro individuellement dans chaque bloc où elle est utilisée. Twig 4 pourrait introduire un héritage global des macros, rendant leur utilisation bien plus fluide :
+
+```twig
+{# Twig 3 : import nécessaire dans chaque fichier #}
+{% from 'ui/forms.html.twig' import input, button %}
+
+{{ input('email', 'Votre email') }}
+{{ button('Envoyer') }}
+
+{# Twig 4 : les macros enregistrées globalement seraient accessibles partout #}
+{{ ui.input('email', 'Votre email') }}
+{{ ui.button('Envoyer') }}
+```
+
+### Le templating basé sur les composants
+
+Une attention particulière pourrait être portée sur le templating basé sur les composants, favorisant ainsi une approche plus modulaire et flexible par rapport aux méthodes traditionnelles de remplacement et d'héritage. Le support natif de la syntaxe HTML pour les composants UX serait un changement majeur. Au lieu de passer par des inclusions classiques, on pourrait utiliser une syntaxe déclarative inspirée des frameworks JavaScript modernes :
+
+```twig
+<twig:Alert type="warning" dismissible>
+    <p>Votre session expire dans 5 minutes.</p>
+</twig:Alert>
+
+<twig:Card>
+    <twig:block name="header">
+        <h2>{{ article.title }}</h2>
+    </twig:block>
+    <twig:block name="body">
+        <p>{{ article.summary }}</p>
+    </twig:block>
+</twig:Card>
+```
+
+Cette syntaxe rend les templates plus lisibles et plus proches du HTML standard. Les développeurs habitués à React, Vue ou Svelte retrouveraient ainsi des concepts familiers. Chaque composant encapsulerait son propre rendu, ses styles et sa logique, favorisant la réutilisabilité et la maintenabilité du code.
+
+## Migrer de Twig 3 à Twig 4
+
+Comme pour chaque version majeure de Twig, la migration nécessitera une attention particulière. La stratégie recommandée consisterait à d'abord mettre à jour vers la dernière version mineure de Twig 3, puis corriger toutes les dépréciations signalées. Twig suit en effet un cycle de dépréciation strict : toute fonctionnalité supprimée dans une version majeure est d'abord dépréciée dans la version précédente.
+
+Les points de vigilance principaux pour la migration porteraient sur la suppression des fonctionnalités dépréciées en Twig 3, les éventuels changements dans le comportement de l'autoescaping, et l'adaptation aux nouvelles conventions de nommage. Il sera essentiel de s'appuyer sur les logs de dépréciation de Symfony pour identifier les ajustements nécessaires avant de passer à Twig 4.
 
 ## Autres améliorations attendues
 
-Des améliorations attendues pour Twig incluent la réduction de l'utilisation de `echo` et `ob_*`, améliorant la performance avec le rendu simultané. Le débogage pas à pas via les cartes sources accélérerait l'identification des erreurs. L'héritage global des macros et l'intégration des fonctionnalités de TwigExtraBundle dans TwigBundle renforceraient la cohérence et la facilité d'utilisation. Enfin, l'ajout de la fonctionnalité « composants » offrirait une nouvelle modularité, combinant les avantages des macros et de l'inclusion.
+Des améliorations attendues pour Twig incluent la réduction de l'utilisation de `echo` et `ob_*`, améliorant la performance avec le rendu simultané. Le débogage pas à pas via les cartes sources accélérerait l'identification des erreurs. L'intégration des fonctionnalités de TwigExtraBundle dans TwigBundle renforcerait la cohérence et la facilité d'utilisation. Enfin, l'ajout de la fonctionnalité « composants » offrirait une nouvelle modularité, combinant les avantages des macros et de l'inclusion.
 
 Avec l'arrivée prochaine de Twig 4, nous pouvons anticiper de nombreuses améliorations en termes de sécurité, de typage et de syntaxe. Cette nouvelle version devrait améliorer l'expérience de développement avec Twig et ouvrir de nouvelles perspectives dans la création d'interfaces.
 

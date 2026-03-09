@@ -9,6 +9,8 @@ image: "/images/blog/easyadmin-vs-forestadmin.webp"
 
 ## Easy Admin vs Forest Admin : différences et avantages
 
+Choisir le bon outil pour construire un panneau d'administration est une décision structurante pour tout projet web. Deux solutions se distinguent dans l'écosystème PHP et JavaScript : **EasyAdmin**, un bundle Symfony, et **Forest Admin**, une plateforme SaaS. Cet article détaille leurs différences, leurs forces respectives, et les critères concrets pour faire le bon choix.
+
 ### Qu'est-ce que c'est Easy Admin ?
 
 Cette extension est un **bundle** en open source, créé pour des projets Symfony. Il permet la conception rapide d'interfaces d'administration pour les applications web. Easy Admin facilite le processus de création de **backends administratifs** en fournissant des fonctionnalités utilisables dès l'installation.
@@ -25,7 +27,7 @@ Les développeurs Symfony sont des habitués d'Easy Admin, qui leur permet de ga
 
 ### Les différentes fonctionnalités Easy Admin
 
-#### Les tableaux de bord
+### Les tableaux de bord
 
 Le tableau de bord est la porte d'entrée des backends, il affiche des informations et des statistiques importantes d'un projet en cours. Easy Admin propose des tableaux de bord personnalisables, on peut définir les widgets à afficher, leur taille ou encore les données qu'ils affichent.
 
@@ -35,7 +37,7 @@ En utilisant du code PHP, on peut récupérer et formater les données à affich
 
 Le menu principal d'un tableau de bord est en lien direct avec les différentes étapes d'une opération CRUD. Il est le seul moyen qui permet d'associer les tableaux de bord aux ressources.
 
-#### Les contrôleurs CRUD
+### Les contrôleurs CRUD
 
 Les opérations appelées CRUD permettent de Créer, Afficher, Mettre à jour et Supprimer, dans les entités Doctrine ORM. Les contrôleurs peuvent être associés à plusieurs tableaux de bord à la fois. Ils permettent de gérer les opérations de base sur les données sans avoir à écrire beaucoup de code.
 
@@ -46,13 +48,72 @@ Le fonctionnement des contrôleurs CRUD s'effectue en 4 étapes :
 - **La personnalisation du contrôleur :** En ajoutant des annotations spécifiques à une entité ou en utilisant des événements/hooks fournis par EasyAdmin, on peut personnaliser le comportement du contrôleur.
 - **La configuration de l'interface d'administration :** Celle-ci est générée automatiquement au même niveau qu'un contrôleur. Cette interface comprend des listes, des formulaires de création et de modification, des actions en masse, des filtres, etc. Son apparence et son comportement sont configurables en utilisant des fichiers de configuration.
 
+### Exemple de mise en place avec EasyAdmin
+
+Pour illustrer la simplicité d'EasyAdmin, voici comment configurer un contrôleur CRUD pour une entité `Product` :
+
+```php
+class ProductCrudController extends AbstractCrudController
+{
+    public static function getEntityFqcn(): string
+    {
+        return Product::class;
+    }
+
+    public function configureFields(string $pageName): iterable
+    {
+        return [
+            IdField::new('id')->hideOnForm(),
+            TextField::new('name', 'Nom du produit'),
+            MoneyField::new('price', 'Prix')->setCurrency('EUR'),
+            BooleanField::new('isActive', 'Actif'),
+            DateTimeField::new('createdAt', 'Date de création')->hideOnForm(),
+        ];
+    }
+}
+```
+
+Ce simple fichier PHP génère automatiquement la liste paginée, le formulaire de création, le formulaire de modification et la confirmation de suppression pour l'entité `Product`. L'ensemble fonctionne sans aucune configuration supplémentaire.
+
 ### Rappel sur Forest Admin
 
 Forest Admin est une librairie SaaS (Software as a Service). Il permet de créer efficacement un panneau d'administration pour une application web. C'est un outil back-office essentiel à la gestion des données, des utilisateurs et des ressources d'un projet. C'est un logiciel accessible à tous car il est en open source.
 
+Forest Admin se distingue par son approche **agnostique vis-à-vis du framework**. Il fonctionne avec Node.js, Ruby on Rails, Django, Laravel et d'autres stacks. Un agent est installé côté serveur pour exposer les données, et l'interface d'administration est hébergée sur les serveurs de Forest Admin. Cette architecture permet une mise en place rapide, même sur des projets qui n'utilisent pas Symfony.
+
+L'interface de Forest Admin est entièrement configurable depuis un éditeur visuel en ligne. Les équipes métier peuvent modifier les vues, ajouter des filtres, créer des segments et configurer des actions sans intervention d'un développeur. Cette autonomie des équipes non techniques est un atout majeur pour les organisations où le back-office est utilisé par des profils variés.
+
+### Comparaison détaillée : critères concrets
+
+### Hébergement et architecture
+
+EasyAdmin est **auto-hébergé** : le panneau d'administration fait partie intégrante de l'application Symfony. Les données ne transitent pas par un service tiers. Forest Admin repose sur une architecture hybride : l'agent tourne sur votre serveur, mais l'interface est hébergée chez Forest Admin. Cette distinction a des implications directes en matière de souveraineté des données et de conformité RGPD.
+
+### Coût et modèle économique
+
+EasyAdmin est entièrement **gratuit et open source**, sans limite de fonctionnalités ni de nombre d'utilisateurs. Forest Admin propose un plan gratuit limité à un nombre restreint d'utilisateurs et de collections. Au-delà, les plans payants commencent à plusieurs centaines d'euros par mois, ce qui peut représenter un budget significatif pour une startup ou une PME.
+
+### Personnalisation et extensibilité
+
+Avec EasyAdmin, la personnalisation passe par du code PHP. On peut créer des champs personnalisés, surcharger les templates Twig, ajouter des actions sur mesure et intervenir à chaque étape du cycle de vie CRUD via des événements Symfony. La courbe d'apprentissage est modérée pour un développeur Symfony, car les concepts sont les mêmes que dans le reste du framework.
+
+Forest Admin offre une personnalisation via son éditeur visuel pour les cas courants, et via des **Smart Actions** en code pour les cas avancés. Cette approche permet aux équipes produit de configurer le back-office de manière autonome, mais les personnalisations profondes nécessitent tout de même l'intervention d'un développeur.
+
+### Gestion des droits et permissions
+
+Les deux outils proposent une gestion des rôles et des permissions. EasyAdmin s'appuie sur le système de sécurité natif de Symfony (voters, roles, firewalls), ce qui permet une granularité fine et une intégration complète avec la logique métier existante. Forest Admin intègre sa propre gestion des permissions via son interface, avec la possibilité de restreindre l'accès par collection, par action et par scope.
+
+### Cas d'usage typiques
+
+**EasyAdmin est idéal** pour les projets Symfony où l'équipe de développement maîtrise le framework. Il convient parfaitement aux applications monolithiques, aux projets avec des contraintes de confidentialité des données, et aux équipes qui souhaitent un contrôle total sur le back-office sans coût de licence.
+
+**Forest Admin est pertinent** pour les équipes qui utilisent des stacks variées (Node.js, Rails, Laravel) et qui souhaitent offrir un back-office accessible aux équipes métier sans mobiliser les développeurs pour chaque modification de vue. Il est particulièrement adapté aux startups en forte croissance qui ont besoin d'un back-office opérationnel rapidement, avec des équipes support ou opérations qui l'utilisent au quotidien.
+
 ### Alors que choisir entre Easy Admin et Forest Admin ?
 
 Comme dans chaque comparatif, il est essentiel de préciser que les avantages sont spécifiques à chaque solution, et que tout cela peut varier selon les besoins et l'environnement de développement. À vous d'évaluer chaque proposition pour déterminer laquelle correspond le mieux à votre projet.
+
+En résumé, si votre projet repose sur Symfony et que votre équipe est composée de développeurs PHP, EasyAdmin est le choix naturel : gratuit, intégré, souverain. Si votre stack est hétérogène et que vous avez besoin d'un outil accessible à des profils non techniques, Forest Admin apporte une valeur ajoutée par son interface visuelle et son approche SaaS. Le meilleur choix dépendra toujours du contexte technique, des contraintes budgétaires et des profils des utilisateurs du back-office.
 
 ## Pour aller plus loin
 

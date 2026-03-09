@@ -11,6 +11,8 @@ image: "/images/blog/phpstan-qualite.webp"
 
 [PHPStan](https://phpstan.org/) est un outil de vérification statique pour la programmation **PHP**. Il examine votre code à la recherche d'erreurs potentielles et de problèmes, améliorant la qualité du code et prévenant les erreurs courantes. Cela se fait sans nécessiter de code de test, tout est automatisé et open source. Lorsqu'il est intégré dans votre workflow de développement (comme gitlab-ci), vous pouvez identifier les bugs avant que les projets n'atteignent la production.
 
+Contrairement aux tests unitaires qui vérifient le comportement attendu, PHPStan vérifie la cohérence structurelle de votre code. Il détecte les appels à des méthodes inexistantes, les types incompatibles, les variables inutilisées ou les conditions toujours vraies. C'est un filet de sécurité complémentaire aux tests.
+
 ## Comment PHPStan fonctionne
 
 PHPStan fonctionne comme un exécutable qui s'installe facilement, analysant le code source PHP via un parseur syntaxique et appliquant des règles de vérification prédéfinies pour détecter les erreurs potentielles. Il exploite les informations de type pour s'assurer que les variables sont utilisées de manière appropriée et vérifie qu'il n'y a pas de **problèmes de typage**.
@@ -19,11 +21,48 @@ L'outil propose une intégration progressive à travers des [niveaux de règles]
 
 Symfony, Laravel et Drupal sont des citoyens de première classe dans cet outil, avec des extensions conçues pour chaque framework populaire. Le code utilisant des méthodes et propriétés magiques est également bien compris.
 
-## Comment utiliser PHPStan ?
+### Exemples concrets de bugs détectés
 
-PHPStan nécessite PHP >= 7.2. Vous devez l'exécuter dans un environnement avec PHP 7.x, bien que votre code réel n'ait pas besoin des fonctionnalités de PHP 7.x. Cet outil fonctionne mieux avec du code orienté objet moderne. Plus votre code est typé, plus vous fournissez d'informations à PHPStan.
+PHPStan détecte des erreurs que les développeurs laissent souvent passer en revue de code. Voici quelques situations typiques.
 
-Un code correctement annoté et typé (propriétés de classe, arguments de fonctions et méthodes, types de retour) assiste non seulement les outils d'analyse statique mais aussi les collègues qui comprennent votre code.
+Un appel de méthode sur un type potentiellement null :
+
+```php
+function getUsername(User $user): string
+{
+    return $user->getProfile()->getName();
+}
+```
+
+Si `getProfile()` peut retourner `null`, PHPStan signale l'erreur : *Cannot call method getName() on null*. La correction consiste à vérifier le retour avant l'appel.
+
+Un type de retour incohérent avec la déclaration :
+
+```php
+function findUser(int $id): User
+{
+    $user = $this->repository->find($id);
+
+    return $user;
+}
+```
+
+Si `find()` retourne `User|null`, PHPStan détecte que la fonction peut retourner `null` alors qu'elle déclare retourner `User`. Ce type d'erreur provoque des crashs en production difficiles à diagnostiquer.
+
+Une comparaison toujours vraie ou toujours fausse :
+
+```php
+function process(string $status): void
+{
+    if ($status === 'active' || $status === 'active') {
+        // ...
+    }
+}
+```
+
+PHPStan repère la condition dupliquée, signe probable d'un copier-coller oublié.
+
+## Installation et configuration
 
 ### Installation avec Composer
 
@@ -38,18 +77,121 @@ Accédez au [dépôt Github](https://github.com/phpstan/phpstan) pour des inform
 Exécutez-le sur votre code avec :
 
 ```bash
-./vendor/bin/phpstan analyse <votre-dossier-projet>
+./vendor/bin/phpstan analyse src
 ```
 
-Ou utilisez un fichier de configuration `.phpstan.neon` pour spécifier les paramètres d'analyse. Apprenez les détails de configuration [ici](https://phpstan.org/config-reference).
+Pour un projet Symfony, vous analyserez typiquement le dossier `src/`. Pour un projet Laravel, le dossier `app/`.
 
-PHPStan emploie différents niveaux de règles allant de 0 (vérification minimale) à 9 (vérification la plus stricte).
+### Le fichier phpstan.neon
 
-Le niveau de règle optimal dépend de vos besoins en qualité de code, de vos contraintes de temps et de budget, et des préférences de votre équipe de développement. Tester et mesurer les résultats d'analyse à travers différents niveaux aide à déterminer le bon seuil pour votre projet.
+Plutôt que de passer tous les paramètres en ligne de commande, il est recommandé de créer un fichier `phpstan.neon` à la racine du projet. Ce fichier centralise la configuration de l'analyse.
+
+```yaml
+parameters:
+    level: 6
+    paths:
+        - src
+    excludePaths:
+        - src/Migrations
+```
+
+Avec ce fichier en place, il suffit de lancer PHPStan sans argument :
+
+```bash
+./vendor/bin/phpstan analyse
+```
+
+Le fichier `phpstan.neon` permet de configurer les chemins à analyser, les chemins à exclure, le niveau de règles, les extensions à charger et les erreurs à ignorer. Consultez la [référence de configuration](https://phpstan.org/config-reference) pour la liste complète des options.
+
+Pour les projets Symfony, ajoutez l'extension dédiée :
+
+```bash
+composer require --dev phpstan/phpstan-symfony
+```
+
+Puis référencez-la dans la configuration :
+
+```yaml
+includes:
+    - vendor/phpstan/phpstan-symfony/extension.neon
+
+parameters:
+    level: 6
+    paths:
+        - src
+```
+
+L'extension Symfony permet à PHPStan de comprendre le conteneur de services, les types retournés par le Request, les commandes console et d'autres spécificités du framework.
+
+## Les niveaux d'analyse de 0 à 9
+
+PHPStan propose 10 niveaux de règles, de 0 (le plus permissif) à 9 (le plus strict). Chaque niveau inclut les vérifications du niveau précédent et en ajoute de nouvelles.
+
+**Niveau 0** : vérifications de base. PHPStan détecte les classes, fonctions et méthodes inconnues, le nombre incorrect d'arguments passés aux fonctions et les types de retour incompatibles avec la réalité.
+
+**Niveau 1** : les variables potentiellement non définies sont signalées, ainsi que les retours de méthodes magiques avec des types inconnus.
+
+**Niveau 2** : les méthodes et propriétés inconnues sur les expressions de type mixte sont vérifiées. PHPStan commence à analyser les types résultant des opérations.
+
+**Niveau 3** : les types de retour des fonctions sont vérifiés systématiquement.
+
+**Niveau 4** : le typage de base est vérifié. Les appels de méthodes et accès aux propriétés sur des types nullables sont signalés.
+
+**Niveau 5** : les types des arguments passés aux fonctions et méthodes sont vérifiés.
+
+**Niveau 6** : le typage strict entre en jeu. Les types manquants dans les annotations sont signalés. C'est le niveau recommandé pour la plupart des projets matures.
+
+**Niveau 7** : les unions et intersections de types sont vérifiées plus finement. Les méthodes partiellement typées sont signalées.
+
+**Niveau 8** : les appels de méthodes et accès aux propriétés sur des types nullables sont signalés même dans les contextes imbriqués.
+
+**Niveau 9** : le niveau le plus strict. Le type `mixed` est traité de manière stricte et doit être vérifié avant utilisation.
+
+Le niveau de règle optimal dépend de vos besoins en qualité de code, de vos contraintes de temps et de budget, et des préférences de votre équipe de développement. Pour un projet existant, commencez au niveau 0 et montez progressivement. Pour un nouveau projet, visez directement le niveau 6 ou plus.
+
+## La baseline : adopter PHPStan sur un projet existant
+
+Sur un projet existant avec des milliers de lignes de code, lancer PHPStan au niveau 6 peut générer des centaines d'erreurs. Corriger toutes ces erreurs d'un coup est irréaliste. C'est là que la **baseline** entre en jeu.
+
+La baseline est un fichier qui enregistre toutes les erreurs existantes pour les ignorer temporairement :
+
+```bash
+./vendor/bin/phpstan analyse --generate-baseline
+```
+
+Cette commande crée un fichier `phpstan-baseline.neon` contenant la liste des erreurs actuelles. Ajoutez-le dans votre configuration :
+
+```yaml
+includes:
+    - phpstan-baseline.neon
+
+parameters:
+    level: 6
+    paths:
+        - src
+```
+
+À partir de ce moment, PHPStan ne signale que les **nouvelles erreurs**. Le code existant est toléré, mais tout nouveau code doit respecter le niveau configuré. Vous pouvez ensuite réduire la baseline progressivement en corrigeant les erreurs existantes par lots.
+
+Cette approche permet d'adopter PHPStan à un niveau élevé sans bloquer le développement. C'est la stratégie recommandée pour les projets en production.
+
+## Intégration dans la CI
+
+PHPStan prend toute sa valeur lorsqu'il est intégré dans votre pipeline d'intégration continue. Dans un fichier `.gitlab-ci.yml` par exemple :
+
+```yaml
+phpstan:
+    stage: test
+    script:
+        - composer install
+        - vendor/bin/phpstan analyse --no-progress
+```
+
+Chaque merge request est alors vérifiée automatiquement. Si PHPStan détecte une erreur, la pipeline échoue et le développeur doit corriger avant de merger. Cette automatisation garantit que la qualité du code ne régresse jamais.
 
 ## Conclusion
 
-PHPStan est essentiel pour tout développeur PHP qui priorise la qualité du code. Il analyse automatiquement le code source à la recherche d'erreurs et de problèmes potentiels, améliorant la qualité et prévenant les erreurs courantes tout en facilitant le débogage. Intégrer PHPStan dans votre workflow de développement assure le respect des conventions de codage et des bonnes pratiques de programmation. L'installation et l'utilisation sont simples, applicables aux projets personnels et open-source. PHPStan est un outil efficace pour améliorer la qualité de votre code PHP.
+PHPStan est essentiel pour tout développeur PHP qui priorise la qualité du code. Il analyse automatiquement le code source à la recherche d'erreurs et de problèmes potentiels, améliorant la qualité et prévenant les erreurs courantes tout en facilitant le débogage. Intégrer PHPStan dans votre workflow de développement assure le respect des conventions de codage et des bonnes pratiques de programmation. Grâce à la baseline et aux niveaux progressifs, son adoption est réaliste même sur les projets les plus volumineux. PHPStan est un outil efficace pour améliorer la qualité de votre code PHP.
 
 ## Pour aller plus loin
 

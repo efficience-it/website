@@ -24,15 +24,129 @@ composer require enqueue/enqueue-bundle enqueue/fs
 composer require symfony/messenger
 ```
 
+Pour Symfony Messenger, la configuration se fait dans le fichier `messenger.yaml`. Vous y déclarez vos transports et le routage des messages :
+
+```yaml
+framework:
+    messenger:
+        transports:
+            async:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                retry_strategy:
+                    max_retries: 3
+                    delay: 1000
+                    multiplier: 2
+        routing:
+            'App\Message\MonMessage': async
+```
+
+Pour Enqueue, la configuration se fait dans `enqueue.yaml` et repose sur un système de factories :
+
+```yaml
+enqueue:
+    default:
+        transport:
+            dsn: '%env(ENQUEUE_DSN)%'
+        client: ~
+```
+
+### Architecture des messages
+
+La façon dont on crée et dispatche les messages diffère entre les deux outils. Avec Symfony Messenger, un message est un simple objet PHP (un POPO) accompagné d'un handler :
+
+```php
+namespace App\Message;
+
+class GenererRapportMessage
+{
+    public function __construct(
+        private int $rapportId,
+        private string $format = 'pdf',
+    ) {}
+
+    public function getRapportId(): int
+    {
+        return $this->rapportId;
+    }
+
+    public function getFormat(): string
+    {
+        return $this->format;
+    }
+}
+```
+
+```php
+namespace App\MessageHandler;
+
+use App\Message\GenererRapportMessage;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+
+#[AsMessageHandler]
+class GenererRapportHandler
+{
+    public function __invoke(GenererRapportMessage $message): void
+    {
+        // traitement du rapport
+    }
+}
+```
+
+Le dispatch se fait via le `MessageBusInterface` :
+
+```php
+$this->bus->dispatch(new GenererRapportMessage(42, 'xlsx'));
+```
+
+Avec Enqueue, l'approche est différente. On travaille directement avec des objets de type `Message`, `Queue` et `Producer` issus du protocole de messaging :
+
+```php
+use Enqueue\Client\ProducerInterface;
+
+$producer->sendEvent('generer_rapport', json_encode([
+    'rapport_id' => 42,
+    'format' => 'xlsx',
+]));
+```
+
+L'avantage de Messenger est sa simplicité et son intégration native avec Symfony. L'avantage d'Enqueue est sa proximité avec les protocoles de messaging standards, ce qui facilite l'interopérabilité avec des systèmes non-PHP.
+
 ### Les Transports
 
 Globalement, les deux systèmes ont les mêmes transports disponibles, alors il n'est pas forcément utile de tous les lister, mais vous avez AMQP, Kafka, MongoDB, Redis, SNS, SQS, Doctrine...
+
+Cependant, Enqueue se distingue par un plus grand nombre de transports natifs. Il supporte notamment Google PubSub, Stomp, Amazon Kinesis, Wamp et le filesystem, là où Messenger se concentre sur les transports les plus courants. Il est aussi important de noter que Messenger permet d'écrire facilement un transport custom en implémentant l'interface `TransportInterface`, ce qui offre une grande flexibilité.
+
+Un point intéressant concerne le transport Doctrine. Messenger utilise par défaut une table `messenger_messages` avec un système de polling, tandis qu'Enqueue utilise le protocole DBAL de manière similaire mais avec une gestion différente du verrouillage. En production, pour les deux outils, il est recommandé de privilégier un broker de messages dédié comme RabbitMQ ou Redis plutôt que la base de données relationnelle.
 
 ### Surveillance
 
 PHP Enqueue fournit un outil de surveillance des files d'attente de messages, alors que Messenger non. Avec Enqueue, vous pouvez contrôler combien de messages ont été envoyés, combien ont été traités avec succès ou ont échoué. Combien de Workers travaillent, leur temps de disponibilité, les statistiques des messages traités, l'utilisation de la mémoire et la charge du système. L'outil peut être intégré à pratiquement n'importe quelle plateforme d'analyse et de surveillance.
 
 Il existe plusieurs intégrations : Datadog, Grafana... donc si vous souhaitez l'essayer ou même l'intégrer, vous trouverez la page d'installation [ici](https://php-enqueue.github.io/monitoring/#installation).
+
+Du côté de Messenger, la surveillance passe par d'autres mécanismes. Depuis Symfony 5.2, le composant intègre des événements (`WorkerMessageReceivedEvent`, `WorkerMessageHandledEvent`, `WorkerMessageFailedEvent`) que vous pouvez écouter pour alimenter vos propres métriques. Il est également possible de combiner Messenger avec le Profiler de Symfony en développement, et avec des outils comme Prometheus ou StatsD en production via des listeners personnalisés.
+
+### Gestion des erreurs et retry
+
+Les deux outils gèrent les messages en échec, mais de manière différente. Messenger dispose d'une stratégie de retry configurable directement dans le YAML, avec un nombre maximum de tentatives, un délai entre chaque tentative et un multiplicateur. Les messages qui échouent définitivement sont envoyés vers un transport dédié appelé "failure transport" :
+
+```yaml
+framework:
+    messenger:
+        failure_transport: failed
+        transports:
+            failed: 'doctrine://default?queue_name=failed'
+```
+
+Vous pouvez ensuite inspecter et rejouer les messages échoués via la console :
+
+```bash
+php bin/console messenger:failed:show
+php bin/console messenger:failed:retry
+```
+
+Enqueue propose un mécanisme similaire via des extensions (DelayRedeliveredMessageExtension) mais nécessite davantage de configuration manuelle. La gestion des dead-letter queues est cependant plus flexible car elle s'appuie directement sur les fonctionnalités natives du broker sous-jacent.
 
 ## Les limites des files d'attente
 
@@ -53,6 +167,16 @@ Le problème était que nous dépilions pourtant bien, mais juste cette erreur r
 Nous avons lancé dans notre crontab des workers toutes les minutes avec un time-limit de 60 secondes, ainsi nous étions sûrs qu'ils seraient très souvent relancés malgré cette erreur, et que nous dépilerions rapidement nos listes de messages à traiter.
 
 Pour aller plus loin, nous serions passés par [RabbitMQ](https://www.rabbitmq.com/) qui stocke la donnée en NoSQL sous son propre format, et qui permet d'aller plus vite dans le système de dépilage puisque c'est un outil créé justement pour subir des INSERT/UPDATE/DELETE de manière concurrente sans problème.
+
+## Migrer de PHP Enqueue vers Symfony Messenger
+
+Si vous utilisez actuellement Enqueue et que vous envisagez de migrer vers Messenger, voici quelques conseils pratiques. La migration est facilitée par le fait que les deux outils partagent les mêmes concepts fondamentaux (messages, handlers, transports).
+
+La première étape consiste à réécrire vos processeurs Enqueue en handlers Messenger. Chaque `Processor` Enqueue devient un handler avec l'attribut `#[AsMessageHandler]`. Ensuite, remplacez les appels au `ProducerInterface` d'Enqueue par le `MessageBusInterface` de Messenger.
+
+Il est recommandé de procéder transport par transport plutôt que de tout migrer d'un coup. Vous pouvez faire cohabiter les deux systèmes temporairement en gardant Enqueue pour certaines queues et Messenger pour d'autres, le temps de valider que chaque migration fonctionne correctement en production.
+
+Un point d'attention important : si vous utilisez les fonctionnalités de monitoring d'Enqueue, prévoyez de mettre en place une solution de remplacement (listeners Symfony + outil de métriques) avant de désactiver Enqueue.
 
 ## Pour aller plus loin
 

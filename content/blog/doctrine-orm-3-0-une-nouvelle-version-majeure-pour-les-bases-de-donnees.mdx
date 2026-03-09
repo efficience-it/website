@@ -15,21 +15,25 @@ Dans le domaine des bibliothèques de persistance des bases de données en PHP, 
 
 Doctrine ORM, ou Mapping Objet-Relationnel, est un outil puissant qui fait le lien entre les bases de données relationnelles et les objets en PHP. Cette bibliothèque permet aux développeurs de manipuler des données en utilisant les principes de la programmation orientée objet, sans avoir à écrire des requêtes SQL directement. En d'autres termes, un ORM simplifie considérablement l'interaction avec la base de données en utilisant des objets et des relations entre eux.
 
+Doctrine ORM est utilisé massivement dans l'écosystème Symfony, mais il fonctionne aussi de manière autonome avec n'importe quel projet PHP. Sa version 2 a dominé le paysage pendant plus d'une décennie, et cette version 3.0 marque un tournant majeur dans la modernisation de la bibliothèque.
+
 ## Les améliorations de Doctrine ORM 3.0
 
 La version 3.0 de Doctrine ORM apporte plusieurs améliorations significatives par rapport aux anciennes versions.
 
 ### Taille réduite
 
-Le package est désormais bien plus léger, avec une taille réduite à 326 Ko contre 400 Ko pour la version 2.18.0. Cette réduction contribue à rendre ORM plus efficace, à concentrer les efforts de maintenance sur les fonctionnalités essentielles, et à accélérer l'exécution et le chargement du code avec PHP.
+Le package est désormais bien plus léger, avec une taille réduite à 326 Ko contre 400 Ko pour la version 2.18.0. Cette réduction de près de 20 % contribue à rendre ORM plus efficace, à concentrer les efforts de maintenance sur les fonctionnalités essentielles, et à accélérer l'exécution et le chargement du code avec PHP. Cette diminution est le résultat direct de la suppression de nombreuses fonctionnalités dépréciées et de code hérité qui alourdissait la bibliothèque.
 
 ### Couverture de code améliorée
 
-La couverture de code a été améliorée, passant de 84 % à 89 %. Ce qui garantit une meilleure fiabilité et une plus grande stabilité de l'écosystème Doctrine. C'est donc plus rassurant aussi pour le bon fonctionnement de nos applications.
+La couverture de code a été améliorée, passant de 84 % à 89 %. Ce qui garantit une meilleure fiabilité et une plus grande stabilité de l'écosystème Doctrine. C'est donc plus rassurant aussi pour le bon fonctionnement de nos applications. Les contributeurs ont profité de cette version majeure pour renforcer les tests unitaires et fonctionnels, en particulier sur les cas limites qui étaient auparavant mal couverts.
 
 ### Élimination des dépendances
 
 ORM 3.0 élimine les dépendances à doctrine/cache et à doctrine/common. Ce qui réduit la complexité, améliore la maintenabilité, et rend également Doctrine plus compatible avec d'autres frameworks grâce à l'utilisation de PSR-6 pour la gestion du cache.
+
+Concrètement, si votre projet utilisait `doctrine/cache` directement, vous devrez migrer vers une implémentation PSR-6 comme `symfony/cache`. Ce changement s'inscrit dans une tendance plus large de l'écosystème PHP vers l'adoption des standards PSR, garantissant une meilleure interopérabilité entre les bibliothèques.
 
 En plus de ces avancées, d'autres améliorations significatives ont été apportées dans la version 3.0.
 
@@ -40,9 +44,19 @@ L'une des améliorations les plus importantes concerne la gestion des associatio
 - Une meilleure détection du côté propriétaire ou inverse des relations entre entités
 - L'élimination des erreurs cachées grâce à la levée d'exceptions lorsque vous tentez d'accéder à des informations d'association incorrectes
 
+En pratique, les relations `ManyToMany`, `OneToMany` et `ManyToOne` bénéficient d'une validation plus stricte au moment du mapping. Si vous déclarez une relation bidirectionnelle sans définir correctement les attributs `mappedBy` et `inversedBy`, Doctrine lèvera désormais une exception claire au lieu de produire un comportement silencieusement incorrect.
+
+### Collections typées
+
+Doctrine ORM 3.0 introduit un meilleur support des collections typées. Les collections comme `ArrayCollection` et `PersistentCollection` bénéficient d'un typage plus strict grâce aux generics PHPDoc. Cela permet aux outils d'analyse statique comme PHPStan et Psalm de détecter les erreurs de typage dans vos relations avant même l'exécution du code.
+
+Par exemple, une propriété de collection dans une entité peut désormais être déclarée avec le type générique `Collection<int, Comment>`, ce qui garantit que seuls des objets `Comment` seront ajoutés à la collection. Ce renforcement du typage améliore considérablement la robustesse du code et facilite la maintenance à long terme.
+
 ### Chargement des proxies
 
 Les proxies sont des composants clés pour améliorer les performances de Doctrine ORM. Dans la version 3.0, le chargement des proxies a été optimisé pour une gestion plus efficace de la mémoire, accroissant les performances du chargement d'entités.
+
+Le système de proxies repose désormais exclusivement sur `doctrine/proxy-manager-bundle` dans sa version la plus récente. Les anciennes méthodes de génération de proxies basées sur des fichiers sont supprimées au profit d'une génération à la volée plus performante. Ce changement est transparent pour la plupart des projets, mais nécessite de vérifier que votre configuration de proxy est à jour.
 
 ### Génération d'identifiants
 
@@ -51,21 +65,47 @@ La stratégie de génération des identifiants a été améliorée avec :
 - Une génération automatique des identifiants plus flexible et adaptable aux différents cas d'usage
 - Une mise à jour spécifique pour PostgreSQL, alignant la génération des identifiants avec les normes actuelles de la base de données
 
+La stratégie `IDENTITY` est désormais découragée au profit de `SEQUENCE` pour PostgreSQL. Pour les nouvelles applications, il est recommandé d'utiliser la stratégie `AUTO` qui choisira automatiquement la meilleure approche selon le SGBD utilisé. Les UUID et ULID sont également mieux supportés en tant qu'identifiants de premier plan.
+
 ### Gestion des objets embeddables
 
 Les objets embeddables permettent de regrouper plusieurs champs de base de données dans une seule entité. Dans la version 3.0, une meilleure cohérence a été apportée pour faciliter le développement, et l'interface a été mise à jour pour la rendre plus intuitive et proposer une meilleure approche des objets embeddables.
+
+Les embeddables supportent désormais plus naturellement les valeurs nullables et les imbrications. Cela permet de modéliser des concepts métier complexes comme une adresse postale ou des coordonnées géographiques de manière plus élégante, sans avoir recours à des contournements.
 
 ### Suppression des objets partiels
 
 Les objets partiels étaient pratiques car cette fonctionnalité permettait de charger partiellement les données d'une entité. Mais les contributeurs ont préféré simplifier l'approche et améliorer les performances en éliminant cette fonctionnalité peu utilisée et complexe.
 
+Pour les cas où vous avez besoin de ne charger qu'un sous-ensemble de colonnes, la recommandation officielle est d'utiliser les DTO (Data Transfer Objects) via DQL ou le QueryBuilder. Cette approche est plus explicite, plus performante et plus facile à maintenir que les objets partiels.
+
+## Les principaux breaking changes
+
+Passer à Doctrine ORM 3.0 implique de prendre en compte plusieurs ruptures de compatibilité importantes :
+
+- Les annotations PHP (style `/** @ORM\Entity */`) ne sont plus supportées. Seuls les attributs PHP 8 (`#[ORM\Entity]`) et les fichiers XML sont pris en charge pour le mapping.
+- Les méthodes dépréciées de l'`EntityManager` ont été supprimées, notamment `merge()` et `detach()`. Il faut utiliser les alternatives recommandées depuis ORM 2.x.
+- Le système d'événements a été simplifié. Certains événements comme `onClear` ont été retirés, et les listeners doivent être adaptés en conséquence.
+- La configuration YAML pour le mapping a été définitivement supprimée, après avoir été dépréciée depuis ORM 2.x.
+
 ## Comment effectuer la mise à niveau ?
 
 Bien que la mise à niveau vers une nouvelle version majeure puisse paraître complexe, Doctrine propose des ressources complètes pour faciliter le processus. Les développeurs sont encouragés à d'abord effectuer la mise à niveau vers la dernière version de Doctrine ORM 2.18, en traitant les avertissements de dépréciation, avant de passer à ORM 3.0.
 
+Voici les étapes recommandées pour une migration réussie :
+
+- Mettre à jour vers Doctrine ORM 2.18 et DBAL 3.x en premier lieu
+- Activer le mode strict des dépréciations pour identifier tous les appels à du code déprécié
+- Corriger chaque dépréciation une par une, en commençant par la migration des annotations vers les attributs PHP 8
+- Mettre à jour les dépendances associées comme `doctrine/dbal` vers la version 4.x
+- Passer enfin à Doctrine ORM 3.0 une fois que toutes les dépréciations sont résolues
+- Lancer la suite de tests complète pour vérifier le bon fonctionnement de l'application
+
+Cette approche incrémentale permet de réduire les risques et de maîtriser chaque étape de la migration. La plupart des projets bien maintenus, ayant déjà traité les dépréciations au fil des mises à jour mineures, trouveront cette transition relativement fluide.
+
 ## Conclusion
 
-Doctrine ORM 3.0 représente une étape importante dans l'évolution de cette bibliothèque de persistance des bases de données en PHP. Avec des améliorations significatives en termes de performance, de qualité du code et de réduction des dépendances, ORM 3.0 offre une expérience de développement plus fluide et efficace.
+Doctrine ORM 3.0 représente une étape importante dans l'évolution de cette bibliothèque de persistance des bases de données en PHP. Avec des améliorations significatives en termes de performance, de qualité du code et de réduction des dépendances, ORM 3.0 offre une expérience de développement plus fluide et efficace. Le renforcement du typage, la modernisation du système de mapping avec les attributs PHP 8, et la simplification de l'architecture interne font de cette version une base solide pour les années à venir.
 
 Faites appel à nos équipes pour vous épauler dans cette migration, en nous contactant.
 

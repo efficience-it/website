@@ -11,7 +11,7 @@ image: "/images/blog/audit-efficience-it.webp"
 
 > "La première étape est de comprendre les objectifs et les exigences du projet"
 
-Une fois la récupération du code effectuée, l'audit se déroule à travers plusieurs domaines clés :
+Avant même de plonger dans le code, nous prenons le temps d'échanger avec le client pour comprendre le contexte du projet : son historique, les technologies utilisées, les équipes qui y ont travaillé, et surtout les objectifs à atteindre. Un audit n'a de valeur que s'il est ancré dans la réalité du projet. Une fois cette phase de cadrage terminée et la récupération du code effectuée, l'audit se déroule à travers plusieurs domaines clés.
 
 ## La qualité du code
 
@@ -22,7 +22,15 @@ Un code propre et bien structuré garantit la maintenabilité et l'évolution. L
 - La modularisation appropriée du code
 - L'optimisation des performances
 
-Des outils comme [PHPStan](https://phpstan.org/) et phpcs facilitent cette évaluation.
+### Les outils d'analyse statique
+
+Des outils comme [PHPStan](https://phpstan.org/) et phpcs facilitent cette évaluation. PHPStan analyse le code PHP sans l'exécuter et détecte des erreurs qui passeraient inaperçues autrement : appels de méthodes sur des types incompatibles, variables potentiellement nulles non vérifiées, ou encore paramètres manquants. Nous configurons PHPStan au niveau le plus élevé possible pour obtenir une couverture maximale.
+
+PHP_CodeSniffer (phpcs) vérifie quant à lui le respect des standards de codage. Sur un projet Symfony, nous vérifions la conformité aux [PSR](https://www.php-fig.org/psr/) (PSR-1, PSR-4, PSR-12) ainsi qu'aux conventions propres au framework. Un code qui respecte ces standards est un code que n'importe quel développeur peut reprendre facilement.
+
+### Ce que nous recherchons concrètement
+
+Au-delà des outils automatisés, nous effectuons une relecture manuelle du code pour détecter des problèmes plus subtils : des classes qui portent trop de responsabilités, des dépendances circulaires entre les modules, du code mort qui alourdit inutilement le projet, ou encore des requêtes SQL non optimisées qui ralentissent l'application. Nous vérifions aussi la présence de tests unitaires et fonctionnels, car un projet sans tests est un projet fragile.
 
 ## La sécurité
 
@@ -33,6 +41,16 @@ La sécurité protège les informations sensibles des utilisateurs contre les at
 - La protection contre les attaques Cross-Site Request Forgery (CSRF)
 - La vérification de la sécurité des bibliothèques et des versions pour Symfony et PHP
 
+### Les vulnérabilités les plus courantes
+
+Nous nous appuyons sur le référentiel [OWASP Top 10](https://owasp.org/www-project-top-ten/) pour structurer notre analyse de sécurité. Parmi les problèmes que nous rencontrons fréquemment : des formulaires dont les entrées ne sont pas correctement filtrées, exposant l'application à des injections SQL ou des attaques XSS. Nous vérifions également que les mots de passe sont hachés avec des algorithmes robustes comme bcrypt ou Argon2, et non stockés en clair ou avec un simple MD5.
+
+La gestion des sessions et des tokens CSRF fait aussi l'objet d'une attention particulière. Sur les projets Symfony, nous vérifions que le composant Security est correctement configuré, que les voters et les firewalls sont en place, et que les rôles utilisateurs respectent le principe du moindre privilège.
+
+### Les dépendances tierces
+
+Un point souvent négligé concerne les dépendances. Nous utilisons `composer audit` et le [Symfony Security Checker](https://symfony.com/doc/current/setup.html#checking-security-vulnerabilities) pour identifier les bibliothèques qui présentent des vulnérabilités connues (CVE). Une seule dépendance obsolète peut suffire à compromettre l'ensemble de l'application.
+
 ## Les performances
 
 L'optimisation des performances améliore l'expérience utilisateur et le référencement dans les moteurs de recherche grâce à :
@@ -42,9 +60,19 @@ L'optimisation des performances améliore l'expérience utilisateur et le réfé
 - La mise en place du cache navigateur
 - Des outils comme [Lighthouse](https://chrome.google.com/webstore/detail/lighthouse/blipmdconlkpinefehnmjammfjpmpbjk)
 
+### L'analyse avec Lighthouse
+
+Lighthouse, développé par Google, fournit un score détaillé sur plusieurs axes : performance, accessibilité, bonnes pratiques et SEO. Nous exécutons cet outil sur les pages principales du site pour mesurer les temps de chargement réels, identifier les ressources bloquantes et repérer les images non optimisées.
+
+Les métriques clés que nous surveillons incluent le **Largest Contentful Paint** (LCP), qui mesure le temps d'affichage du plus grand élément visible, le **First Input Delay** (FID), qui évalue la réactivité aux interactions utilisateur, et le **Cumulative Layout Shift** (CLS), qui détecte les décalages visuels indésirables pendant le chargement.
+
+### Côté serveur
+
+Les performances ne se limitent pas au navigateur. Nous analysons également le temps de réponse du serveur, la configuration du cache HTTP, la mise en place de CDN, et la gestion des requêtes en base de données. Sur un projet Symfony, le Profiler est un allié précieux pour identifier les requêtes N+1, les appels Doctrine non optimisés ou les services trop lourds à instancier.
+
 ## L'évaluation de la compatibilité avec les navigateurs
 
-Les tests sur Chrome, Firefox, Edge et d'autres navigateurs garantissent un fonctionnement multi-appareils.
+Les tests sur Chrome, Firefox, Edge et d'autres navigateurs garantissent un fonctionnement multi-appareils. Nous vérifions le rendu sur les navigateurs les plus utilisés par l'audience du site, en incluant les versions mobiles. Un formulaire qui fonctionne parfaitement sur Chrome peut se comporter différemment sur Safari, notamment en ce qui concerne la gestion des dates, des sélecteurs ou des animations CSS. Nous testons aussi la compatibilité responsive sur différentes tailles d'écran pour s'assurer que l'expérience utilisateur reste cohérente.
 
 ## L'accessibilité
 
@@ -54,6 +82,12 @@ L'accessibilité garantit que tous les utilisateurs peuvent naviguer et utiliser
 - L'utilisation appropriée du HTML pour les éléments de page
 - Le style CSS pour la lisibilité
 
+### Les critères que nous vérifions
+
+Nous évaluons la présence d'attributs `alt` pertinents sur les images, la hiérarchie correcte des titres (h1, h2, h3), le contraste suffisant entre le texte et l'arrière-plan, et la navigabilité au clavier. Les formulaires doivent comporter des labels explicites associés à chaque champ, et les messages d'erreur doivent être compréhensibles par les technologies d'assistance comme les lecteurs d'écran.
+
+En France, le [RGAA](https://accessibilite.numerique.gouv.fr/) (Référentiel Général d'Amélioration de l'Accessibilité) constitue le cadre réglementaire de référence. Nous nous appuyons sur ses critères pour évaluer la conformité du site et formuler des recommandations concrètes.
+
 ## Le rapport final
 
 À l'issue de l'audit, un rapport détaillé documente les conclusions avec des recommandations priorisées selon :
@@ -62,7 +96,23 @@ L'accessibilité garantit que tous les utilisateurs peuvent naviguer et utiliser
 - **Complexité** : le niveau de difficulté de mise en oeuvre
 - **Impact** : les effets sur les performances, la sécurité, la fiabilité et la maintenabilité
 
-Des audits de code réguliers maintiennent la qualité et la satisfaction des utilisateurs.
+### Le contenu du livrable
+
+Le rapport que nous remettons au client contient pour chaque point identifié : une description claire du problème, sa localisation dans le code ou sur le site, son niveau de criticité, et une recommandation précise pour le corriger. Nous fournissons également un tableau de synthèse qui permet de visualiser rapidement l'état général du projet et de prioriser les actions à mener.
+
+Ce document est conçu pour être exploitable aussi bien par les équipes techniques que par les décideurs. Les développeurs y trouvent des indications concrètes pour corriger les problèmes, tandis que les responsables de projet peuvent s'appuyer sur la priorisation pour planifier les évolutions.
+
+## Et après l'audit ?
+
+L'audit n'est pas une fin en soi. Il constitue le point de départ d'un plan d'action concret. En fonction des résultats, plusieurs scénarios sont possibles.
+
+Si les problèmes identifiés sont ciblés, un plan de correction à court terme peut suffire : mise à jour des dépendances, correction des failles de sécurité critiques, optimisation des requêtes les plus lentes. Ces interventions rapides apportent des bénéfices immédiats et mesurables.
+
+Si l'audit révèle une dette technique importante, nous proposons un accompagnement sur le moyen terme via une **Tierce Maintenance Applicative** (TMA). Cette approche permet de traiter progressivement les problèmes sans interrompre le fonctionnement du site, en planifiant les corrections par lots priorisés.
+
+Dans les cas les plus avancés, l'audit peut recommander une refonte partielle ou totale de certains composants. Plutôt que de réécrire tout le projet d'un coup, nous préconisons une approche progressive qui permet de moderniser l'application module par module, en limitant les risques.
+
+Des audits de code réguliers maintiennent la qualité et la satisfaction des utilisateurs. Comme pour un véhicule, un contrôle technique périodique permet de détecter les problèmes avant qu'ils ne deviennent critiques et de prolonger la durée de vie de votre application.
 
 ## Pour aller plus loin
 

@@ -15,6 +15,14 @@ C'est là qu'intervient la bibliothèque [DbToolsBundle](https://github.com/maki
 
 À utiliser sur Symfony, qui est l'un des frameworks PHP les plus populaires, elle offre de nombreux outils pour simplifier la gestion des bases de données dans les projets Symfony.
 
+## Le contexte RGPD et ses implications pour les développeurs
+
+Le Règlement Général sur la Protection des Données (RGPD), entré en vigueur en mai 2018, impose des obligations strictes sur le traitement des données personnelles. Pour les équipes de développement, cela signifie qu'il n'est plus acceptable de copier une base de données de production telle quelle pour travailler en local ou dans un environnement de staging.
+
+Les sanctions sont dissuasives : la CNIL peut infliger des amendes allant jusqu'à 4 % du chiffre d'affaires annuel mondial d'une entreprise. Plusieurs sociétés françaises ont déjà été sanctionnées pour des manquements liés à la protection des données, y compris des cas où des données personnelles étaient accessibles dans des environnements de développement non sécurisés.
+
+L'anonymisation des données constitue l'une des solutions recommandées par la CNIL pour permettre aux développeurs de travailler avec des jeux de données réalistes sans enfreindre la réglementation. C'est précisément ce que propose DbToolsBundle.
+
 ## Quelles sont les fonctionnalités de DbToolsBundle ?
 
 DbToolsBundle propose plusieurs fonctionnalités clés qui en font un choix judicieux pour tout projet Symfony :
@@ -31,11 +39,110 @@ De plus, il est important de noter que les développeurs peuvent également êtr
 
 ## Comment commencer avec DbToolsBundle ?
 
-Rien de plus simple ! Pour intégrer ce bundle dans les projets, il peut être installé en utilisant Composer. Une fois installé, il est possible de commencer immédiatement à utiliser ses fonctionnalités via la ligne de commande Symfony.
+Rien de plus simple ! Pour intégrer ce bundle dans les projets, il peut être installé en utilisant Composer :
+
+```bash
+composer require makinacorpus/db-tools-bundle
+```
+
+Une fois installé, il est possible de commencer immédiatement à utiliser ses fonctionnalités via la ligne de commande Symfony.
+
+### Configurer l'anonymisation avec des attributs PHP
+
+La méthode la plus directe pour configurer l'anonymisation consiste à utiliser des attributs PHP directement sur vos entités Doctrine. Le bundle fournit l'attribut `#[Anonymize]` qui se place sur les propriétés à anonymiser :
+
+```php
+use Doctrine\ORM\Mapping as ORM;
+use MakinaCorpus\DbToolsBundle\Attribute\Anonymize;
+
+#[ORM\Entity]
+class Customer
+{
+    #[ORM\Column]
+    #[Anonymize(type: 'firstname')]
+    private string $firstName;
+
+    #[ORM\Column]
+    #[Anonymize(type: 'lastname')]
+    private string $lastName;
+
+    #[ORM\Column]
+    #[Anonymize(type: 'email')]
+    private string $email;
+
+    #[ORM\Column]
+    #[Anonymize(type: 'phone')]
+    private string $phone;
+}
+```
+
+### Configurer l'anonymisation en YAML
+
+Il est également possible de configurer l'anonymisation via un fichier YAML, ce qui est pratique lorsque vous ne souhaitez pas modifier vos entités ou lorsque vous travaillez avec des tables qui ne sont pas gérées par Doctrine :
+
+```yaml
+db_tools:
+    anonymization:
+        default:
+            customer:
+                first_name:
+                    anonymizer: firstname
+                last_name:
+                    anonymizer: lastname
+                email:
+                    anonymizer: email
+                phone:
+                    anonymizer: phone
+            order:
+                shipping_address:
+                    anonymizer: address
+```
+
+### Lancer l'anonymisation
+
+Une fois la configuration en place, l'anonymisation s'exécute avec une seule commande :
+
+```bash
+php bin/console db-tools:anonymize
+```
+
+Le bundle traite alors chaque table configurée et remplace les données sensibles par des valeurs fictives mais cohérentes.
+
+## Les anonymiseurs disponibles
+
+DbToolsBundle propose une collection d'anonymiseurs couvrant les cas les plus courants :
+
+- **Identité** : `firstname`, `lastname` pour générer des prénoms et noms fictifs.
+- **Contact** : `email`, `phone`, `address` pour les coordonnées.
+- **Texte** : `lorem` pour remplacer du texte libre par du contenu généré, `string` pour une chaîne aléatoire.
+- **Données numériques** : `integer`, `float` pour générer des valeurs numériques aléatoires dans une plage définie.
+- **Dates** : `date` pour décaler les dates tout en conservant une cohérence relative.
+- **Mot de passe** : `password` pour remplacer les mots de passe hashés par une valeur commune, pratique pour se connecter facilement en environnement de test.
+
+Si aucun anonymiseur natif ne correspond à votre besoin, le bundle permet de créer des anonymiseurs personnalisés en implémentant une interface dédiée. Cela permet de gérer des formats de données spécifiques à votre métier.
+
+## Intégration dans une chaîne CI/CD
+
+L'un des usages les plus intéressants de DbToolsBundle est son intégration dans un pipeline CI/CD. Le scénario classique est le suivant :
+
+1. Un dump de la base de production est réalisé via `db-tools:backup`.
+2. Ce dump est restauré dans un environnement isolé avec `db-tools:restore`.
+3. L'anonymisation est lancée avec `db-tools:anonymize`.
+4. Le dump anonymisé peut ensuite être redistribué aux développeurs ou utilisé dans les environnements de staging.
+
+Cette automatisation garantit que les développeurs disposent toujours de données fraîches et anonymisées, sans intervention manuelle.
+
+## Considérations de performance
+
+Sur des bases de données volumineuses, l'anonymisation peut prendre un temps significatif. DbToolsBundle a été conçu avec la performance en tête : plutôt que de charger chaque ligne en PHP via Doctrine, le bundle génère des requêtes SQL natives qui s'exécutent directement sur le serveur de base de données.
+
+Cette approche en SQL pur présente plusieurs avantages. Elle évite la consommation mémoire liée au chargement d'objets PHP. Elle est considérablement plus rapide qu'une approche ligne par ligne. Elle fonctionne de manière fiable même sur des tables contenant des millions de lignes.
+
+Le bundle supporte PostgreSQL, MySQL et MariaDB, et adapte les requêtes générées au dialecte SQL du moteur utilisé.
 
 ## En résumé
 
-DbToolsBundle est un choix judicieux pour ceux qui souhaitent respecter les normes de sécurité et d'anonymisation dans la gestion des bases de données Symfony. Avec une communauté active sur [GitHub](https://github.com/makinacorpus/DbToolsBundle), le support à l'implémentation est facilement disponible.
+DbToolsBundle est un choix judicieux pour ceux qui souhaitent respecter les normes de sécurité et d'anonymisation dans la gestion des bases de données Symfony. Avec sa configuration simple par attributs PHP ou YAML, sa collection d'anonymiseurs prêts à l'emploi et son approche performante en SQL natif, le bundle s'intègre naturellement dans les projets Symfony existants. La communauté active sur [GitHub](https://github.com/makinacorpus/DbToolsBundle) garantit un support facilement disponible et une évolution continue de l'outil.
 
 ## Pour aller plus loin
 

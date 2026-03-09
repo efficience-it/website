@@ -49,11 +49,11 @@ Certaines versions introduisent des changements dans les API, en gardant les dé
 
 Pour ce faire, il suffit d'utiliser la commande `composer update`. A noter que lors des mises à jour, il est recommandé de tester l'application pour vérifier si celles-ci n'ont pas introduit de potentiels problèmes sur le code existant.
 
-#### Scripts Composer
+### Scripts Composer
 
 Continuons avec les **scripts Composer**. Ce sont des éléments personnalisables dans le fichier `composer.json`. Ils peuvent être utilisés pour personnaliser son flux de travail, et même automatiser des tâches courantes comme la génération de caches, la compilation de ressources, etc. C'est la commande `composer run` qui permet d'exécuter ces scripts.
 
-#### Dépôts privés
+### Dépôts privés
 
 Vous pouvez, à côté de ça, utiliser des bibliothèques ou des bundles Symfony privés. Vous avez la possibilité de **configurer des dépôts privés** dans le fichier `composer.json` d'un projet.
 
@@ -61,11 +61,11 @@ La commande `composer.lock` permet le partage d'un fichier avec l'équipe de dé
 
 Héberger des bibliothèques ou des bundles dans un dépôt permet de garder le contrôle sur le code source et de maintenir la confidentialité. En revanche, cela ne permet pas de contribuer à l'environnement open source, ce qui reste dommageable pour les autres développeurs.
 
-#### Conflits de dépendances
+### Conflits de dépendances
 
 Autre élément auquel il faut toujours faire attention, les **conflits de dépendances**. En ajoutant de nouvelles dépendances à un projet, vous pouvez causer des problèmes de compatibilité, de sécurité, et de stabilité. Pour vérifier des conflits potentiels, c'est la commande `composer show` qui est à utiliser. Pour les éviter, prenez garde à vérifier que les éléments énoncés précédemment soient respectés.
 
-#### Séparation des dépendances
+### Séparation des dépendances
 
 Composer offre la possibilité de séparer les dépendances régulières des dépendances de développement en utilisant les sections spécifiques du fichier `composer.json`.
 
