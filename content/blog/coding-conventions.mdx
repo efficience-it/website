@@ -7,33 +7,17 @@ excerpt: "Un code de qualité repose sur six critères clés : organisation, rap
 image: "/images/blog/conventions-codage.webp"
 ---
 
-Un code de qualité repose sur six critères clés : organisation, rapidité, lisibilité, concision, non-répétition et cohérence à travers les méthodes. Les "bonnes pratiques" émergent de la veille technologique et du partage de connaissances au sein des communautés de programmation. Elles ne sont pas figées : elles évoluent avec les langages, les frameworks et les retours d'expérience des équipes de développement.
+Les conventions de codage sont souvent perçues comme un sujet de débutant. En réalité, leur impact se mesure à l'échelle : plus un projet grandit, plus l'absence de conventions cohérentes devient un frein systémique. Ce qui commence comme une préférence esthétique devient progressivement un levier d'architecture, de vélocité et de gouvernance technique.
 
-## Quel est l'intérêt ?
+## Pourquoi les conventions sont un investissement, pas une contrainte
 
-Le principal avantage concerne la maintenance -- les projets nécessitent des modifications continues par des développeurs qui n'ont pas forcément écrit le code original. Étant donné que chaque fonction peut être écrite de centaines de manières, des conventions standardisées permettent une meilleure compréhension et un entretien plus facile.
+Un projet logiciel passe 80 % de son cycle de vie en maintenance. Le code est lu dix fois plus souvent qu'il n'est écrit. Les conventions réduisent la charge cognitive de cette lecture : un développeur qui rejoint un projet bien normé est productif en quelques jours plutôt qu'en quelques semaines.
 
-Les outils de scan de code comme les linters nécessitent le respect de conventions spécifiques. Un codage uniforme au sein de l'équipe prévient la dégradation organisationnelle et réduit les bugs tout en améliorant la sécurité.
+Au-delà de la lisibilité, les conventions éliminent une catégorie entière de débats en code review. Quand l'outillage tranche automatiquement les questions de formatage, les revues se concentrent sur ce qui compte : la logique métier, les choix d'abstraction, la gestion des cas limites. Le retour sur investissement est mesurable : moins de commentaires cosmétiques, des pull requests mergées plus vite, une friction d'équipe réduite.
 
-Dans un contexte d'équipe, les conventions jouent un rôle encore plus déterminant. Lorsqu'un nouveau développeur rejoint un projet, il doit pouvoir lire et comprendre le code existant sans effort supplémentaire. Si chaque membre de l'équipe code selon ses propres habitudes, le projet devient rapidement un patchwork illisible. Les conventions servent de langage commun : elles réduisent le temps d'intégration des nouveaux arrivants et diminuent les frictions lors des revues de code.
+## Les standards PSR : le socle commun en PHP
 
-## Nomenclature et conventions associées
-
-Les conventions de nommage améliorent la lisibilité. En PHP et dans les frameworks Symfony :
-
-- **PascalCase** s'applique aux classes, interfaces et noms de fichiers PHP
-- **camelCase** convient aux fonctions, méthodes et variables
-- **snake_case** est utilisé pour les clés de tableau et les fichiers SQL/YAML/Twig
-- **kebab-case** couvre les images, PDFs et URLs
-- **ALL_CAPS** désigne les constantes
-
-Le choix d'une convention de nommage n'est pas anodin. En JavaScript par exemple, les conventions diffèrent légèrement : les composants React utilisent le PascalCase, les fonctions et variables le camelCase, et les constantes globales le ALL_CAPS. L'essentiel est de rester cohérent au sein d'un même projet et de documenter les choix retenus.
-
-## Les standards par écosystème
-
-### PSR-12 en PHP
-
-Les PHP Standards Recommendations (PSR) standardisent le codage à travers les frameworks. Parmi elles, PSR-12 définit le style de code étendu. Elle impose notamment l'utilisation de 4 espaces pour l'indentation, une limite de 120 caractères par ligne, et des règles précises sur le placement des accolades et des mots-clés.
+Les PHP Standards Recommendations (PSR) constituent le contrat social de l'écosystème PHP. Parmi elles, PSR-12 définit le style de code étendu : 4 espaces d'indentation, 120 caractères par ligne, placement des accolades, déclaration des namespaces et imports.
 
 ```php
 namespace App\Service;
@@ -56,69 +40,79 @@ class UserService
 }
 ```
 
-Les PSR actuellement valides incluent PSR-1, PSR-3, PSR-4, PSR-6, PSR-7, PSR-11, PSR-12, PSR-13, PSR-14, PSR-15, PSR-16, PSR-17 et PSR-18. Chacune couvre un domaine précis : autoloading (PSR-4), logging (PSR-3), cache (PSR-6 et PSR-16), HTTP (PSR-7, PSR-15, PSR-17, PSR-18).
+PSR-12 s'appuie sur PSR-1 (codage de base) et PSR-4 (autoloading). Les autres PSR couvrent des domaines fonctionnels : logging (PSR-3), cache (PSR-6, PSR-16), HTTP (PSR-7, PSR-15, PSR-17, PSR-18), conteneur (PSR-11), événements (PSR-14). Connaître ces standards n'est pas optionnel pour un développeur PHP professionnel : ils définissent les interfaces d'interopérabilité entre frameworks et bibliothèques.
 
-### ESLint et Prettier en JavaScript
+### Nomenclature et conventions de nommage
 
-Côté JavaScript et TypeScript, ESLint est le linter de référence. Il analyse le code statiquement pour détecter les erreurs potentielles, les anti-patterns et les incohérences de style. Sa configuration est flexible : on peut partir d'un ensemble de règles recommandées puis les adapter aux besoins du projet.
+Les conventions de nommage sont un prolongement naturel des PSR. En PHP et dans l'écosystème Symfony, le consensus est établi : **PascalCase** pour les classes, interfaces et enums ; **camelCase** pour les méthodes, fonctions et variables ; **snake_case** pour les clés de configuration YAML, les noms de colonnes SQL et les variables Twig ; **kebab-case** pour les URLs et les assets ; **ALL_CAPS** pour les constantes.
 
-Prettier, quant à lui, se concentre exclusivement sur le formatage. Il reformate automatiquement le code selon des règles prédéfinies : longueur de ligne, guillemets simples ou doubles, points-virgules ou non. L'association ESLint + Prettier est devenue un standard dans l'écosystème JavaScript. ESLint vérifie la logique du code, Prettier s'occupe de sa mise en forme.
+Ce consensus n'est pas arbitraire. Il permet à un développeur de déduire la nature d'un identifiant à partir de sa casse, sans consulter sa déclaration. C'est un gain cognitif concret sur les projets de taille significative.
 
-## Indentations
+## PHP-CS-Fixer : du formatage manuel à l'automatisation
 
-Les développeurs débattent de l'utilisation des espaces ou des tabulations pour l'indentation. La recommandation est d'utiliser 2 ou 4 tabulations d'espaces selon l'environnement de travail. Les systèmes d'exploitation diffèrent dans les conventions de fin de ligne (Windows utilise CR+LF ; Linux utilise LF), nécessitant une configuration de l'IDE pour prévenir les conflits de compatibilité.
+PHP-CS-Fixer est l'outil de référence pour appliquer automatiquement les conventions de style en PHP. Son usage minimal est trivial : une commande reformate l'ensemble du projet selon PSR-12 ou les conventions Symfony.
 
-Pour résoudre ces problèmes de manière définitive, le fichier `.editorconfig` à la racine du projet permet de définir les conventions d'indentation, de fin de ligne et d'encodage. Tous les IDE modernes le reconnaissent nativement et appliquent ces règles automatiquement.
+L'intérêt réel apparaît avec la configuration personnalisée. Un fichier `.php-cs-fixer.dist.php` à la racine du projet permet de définir un ruleset précis, adapté aux choix de l'équipe. On peut activer ou désactiver des règles individuellement, combiner plusieurs presets, et exclure certains répertoires.
 
-## Documentations et commentaires
+### Construire un ruleset d'équipe
 
-Les commentaires et PHPDocs clarifient les fonctions complexes, résumant les entrées et sorties pour une référence rapide. Cependant, un bon code doit être suffisamment expressif pour se passer de commentaires dans la majorité des cas. Les noms de variables, de méthodes et de classes doivent être suffisamment parlants pour que le code se lise comme une phrase. Les commentaires restent utiles pour expliquer le "pourquoi" d'un choix technique, pas le "quoi" que le code fait déjà.
+Un ruleset efficace part d'un preset reconnu (Symfony, PSR-12, ou PER-CS) et ajuste les règles qui font débat. L'objectif est d'éliminer toute ambiguïté : chaque question de style doit avoir une réponse automatisée. Les règles les plus souvent personnalisées concernent l'import des classes (global ou par namespace), l'ordonnancement des use statements, le trailing comma dans les paramètres multi-lignes, et le style des PHPDoc.
 
-## Méthode SOLID
+Le fichier de configuration doit être versionné dans le dépôt. Il fait partie du contrat technique du projet, au même titre que le `composer.json`. Tout nouveau développeur qui clone le projet obtient les mêmes règles, sans configuration manuelle.
 
-**S - Single Responsibility (Responsabilité unique) :** Les classes ne doivent avoir qu'une seule raison de changer.
+### Conventions spécifiques à Symfony
 
-**O - Open/Closed (Ouvert/Fermé) :** Les classes restent ouvertes à l'extension mais fermées à la modification.
+Symfony impose ses propres conventions au-delà de PSR-12 : les services sont suffixés par leur rôle (`UserHandler`, `OrderNormalizer`), les commandes console héritent d'une structure précise, les voters et event subscribers suivent des conventions de nommage strictes. PHP-CS-Fixer avec le preset Symfony couvre une partie de ces règles, mais pas toutes.
 
-**L - Liskov Substitution (Substitution de Liskov) :** Les sous-types doivent pouvoir remplacer les types parents sans casser la logique du programme.
+Pour les conventions qui échappent au formatage automatique (structure des répertoires, nommage des services, patterns d'injection), la documentation d'équipe prend le relais. Un fichier `CONVENTIONS.md` versionné dans le dépôt, ou mieux, des Architecture Decision Records (ADR), formalisent ces choix et leur justification.
 
-**I - Interface Segregation (Ségrégation des interfaces) :** Les classes ne doivent pas dépendre de méthodes inutiles ; divisez les grandes interfaces en plus petites et spécifiques.
+## Intégration dans la CI : rendre les conventions incontournables
 
-**D - Dependency Inversion (Inversion des dépendances) :** Utilisez des abstractions entre les classes plutôt que des implémentations directes.
+Les conventions non automatisées sont des suggestions. Seule l'intégration continue transforme une convention en règle. Un pipeline CI robuste pour un projet PHP comprend au minimum trois étapes : vérification du formatage (PHP-CS-Fixer en mode `--dry-run --diff`), analyse statique (PHPStan), et exécution des tests.
 
-Ces principes ne sont pas de simples recommandations théoriques. En les appliquant, on obtient un code modulaire, testable et extensible. Par exemple, le principe de responsabilité unique conduit naturellement à créer des services dédiés dans Symfony plutôt que de concentrer toute la logique dans les contrôleurs.
+L'ordre compte. Le formatage est vérifié en premier car c'est le check le plus rapide et le plus fréquemment échoué par les nouveaux contributeurs. PHPStan vient ensuite, car ses erreurs sont souvent plus longues à corriger. Les tests passent en dernier.
 
-## Les outils pour appliquer les conventions
+### Hooks Git et feedback local
 
-Les conventions ne servent à rien si elles ne sont pas respectées. C'est pourquoi l'outillage automatique est indispensable.
+Attendre le retour de la CI pour découvrir un problème de style est un gaspillage. Les hooks Git locaux, via GrumPHP ou un simple pre-commit hook, offrent un feedback instantané. Le développeur corrige avant même de pousser son code. Cette boucle de feedback courte accélère considérablement le cycle de développement.
 
-### PHP CS Fixer
+Le fichier `.editorconfig` complète ce dispositif en normalisant les paramètres d'édition (indentation, fin de ligne, encodage) directement dans l'IDE, avant même la première frappe.
 
-PHP CS Fixer est l'outil de référence pour le formatage automatique du code PHP. Il corrige le code pour le rendre conforme aux standards PSR-12, aux conventions Symfony, ou à des règles personnalisées. Il suffit de lancer une commande pour reformater l'ensemble du projet.
+## Analyse statique : des conventions qui vont au-delà du style
 
-### PHPStan et Psalm
+PHPStan et Psalm ne vérifient pas le formatage : ils analysent la sémantique du code. Types incorrects, appels à des méthodes inexistantes, variables potentiellement nulles, branches mortes. À des niveaux élevés (PHPStan niveau 8 ou 9), ils imposent une rigueur de typage comparable à celle des langages compilés.
 
-Au-delà du formatage, les analyseurs statiques comme PHPStan et Psalm détectent les erreurs de type, les appels à des méthodes inexistantes, les variables non définies et bien d'autres problèmes avant même l'exécution du code.
+L'analyse statique est une forme de convention avancée. Elle établit un contrat sur la qualité structurelle du code, pas seulement sur son apparence. Monter progressivement le niveau de PHPStan sur un projet existant est une stratégie d'amélioration continue plus efficace que la plupart des refactorings manuels.
 
-### SonarQube
+### SonarQube et les métriques de qualité
 
-Des outils comme SonarQube et JUnit vérifient la conformité PSR, la qualité du code et le respect des bonnes pratiques. Ils signalent continuellement les erreurs, guidant les développeurs vers une production de qualité. SonarQube fournit également des métriques sur la complexité cyclomatique, la couverture de tests et la dette technique.
+SonarQube ajoute une dimension supplémentaire : la mesure dans le temps. Complexité cyclomatique, couverture de tests, dette technique, duplications. Ces métriques permettent de détecter les dérives avant qu'elles ne deviennent critiques. Pour un lead ou un architecte, SonarQube est un outil de pilotage, pas simplement de vérification.
 
-## Intégration dans la CI/CD
+## Les principes SOLID comme convention architecturale
 
-L'automatisation des vérifications via l'intégration continue (CI) garantit qu'aucun code non conforme n'est fusionné dans la branche principale. Un pipeline CI typique pour un projet PHP comprend plusieurs étapes : exécution de PHP CS Fixer en mode vérification, analyse statique avec PHPStan, et lancement des tests unitaires.
+Les principes SOLID transcendent le style pour atteindre l'architecture. **Responsabilité unique** : chaque classe a une seule raison de changer. **Ouvert/Fermé** : extension par ajout, pas par modification. **Substitution de Liskov** : les sous-types respectent le contrat du parent. **Ségrégation des interfaces** : pas de dépendance sur des méthodes inutilisées. **Inversion des dépendances** : dépendre des abstractions, pas des implémentations.
 
-En JavaScript, le pipeline inclut ESLint et Prettier en mode vérification, suivis des tests. On peut également configurer des hooks Git avec des outils comme Husky pour vérifier le code avant chaque commit localement, évitant ainsi d'attendre le retour de la CI pour découvrir un problème de style.
+Ces principes ne sont pas des règles de style. Ce sont des conventions architecturales. Dans un projet Symfony, ils se traduisent concrètement : la logique métier vit dans des services dédiés (pas dans les contrôleurs), les dépendances sont injectées via le conteneur (pas instanciées manuellement), les interfaces définissent les contrats entre couches.
 
-Cette approche présente un avantage majeur : les revues de code se concentrent sur la logique métier et l'architecture, plutôt que sur des discussions de formatage. Le débat "espaces vs tabulations" disparaît quand l'outil tranche automatiquement.
+## Scaler les conventions sur plusieurs équipes
 
-## Les Design Patterns
+Quand une organisation dépasse une seule équipe, les conventions deviennent un enjeu de gouvernance. Chaque équipe qui définit ses propres règles crée un dialecte. Un développeur qui change d'équipe doit réapprendre des habitudes. La mobilité interne ralentit, les revues croisées deviennent pénibles.
 
-Les design patterns fournissent des modèles réutilisables pour des situations de codage récurrentes. Les exemples courants incluent Singleton, Factory, Adapter, Observer et Composite. Ils constituent un vocabulaire partagé entre développeurs : dire "on utilise un pattern Observer ici" est immédiatement compréhensible par toute l'équipe, sans avoir à détailler l'implémentation.
+### Architecture Decision Records (ADR)
 
-## Conclusion
+Les ADR formalisent les décisions techniques et leur contexte. Pour les conventions, un ADR documente : quel choix a été fait, pourquoi, quelles alternatives ont été écartées, et dans quelles conditions la décision pourrait être révisée. Cette traçabilité est précieuse quand un nouveau lead reprend un projet et se demande pourquoi telle règle existe.
 
-Les développeurs doivent continuellement améliorer l'efficacité du codage tout en maintenant la lisibilité. Toutes les conventions et méthodes discutées deviennent indispensables pour un développement de qualité. L'outillage moderne permet d'automatiser leur application, transformant ce qui était autrefois un effort de discipline en un processus transparent. L'apprentissage continu et l'adoption progressive de ces pratiques assurent le maintien des standards de qualité du code sur le long terme.
+### Un socle partagé, des extensions par équipe
+
+La stratégie qui fonctionne à l'échelle est hiérarchique : un package de configuration partagé (un preset PHP-CS-Fixer interne, une baseline PHPStan commune) définit le socle. Chaque équipe peut ajouter des règles spécifiques à son domaine, mais ne peut pas désactiver les règles du socle. Ce modèle préserve la cohérence globale tout en laissant une marge d'adaptation locale.
+
+Les design patterns jouent un rôle similaire à cette échelle. Singleton, Factory, Observer, Adapter, Composite : ils constituent un vocabulaire partagé entre équipes. Dire "on utilise un pattern Strategy ici" est immédiatement compréhensible par tout développeur de l'organisation, indépendamment de son équipe d'origine.
+
+## Vers des conventions vivantes
+
+Les conventions ne sont pas un document figé rédigé une fois et oublié. Elles évoluent avec le projet, le langage, l'écosystème. PSR-12 sera remplacée par PER-CS (PHP Evolving Recommendation - Coding Style). PHPStan ajoute régulièrement de nouvelles règles. Les frameworks adoptent de nouveaux patterns.
+
+L'enjeu pour un architecte est de maintenir des conventions vivantes : régulièrement révisées, automatiquement appliquées, et comprises par tous. Un rituel trimestriel de revue des conventions, combiné à un outillage solide, garantit que les standards restent pertinents sans devenir un carcan.
 
 ## Pour aller plus loin
 
