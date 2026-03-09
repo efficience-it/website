@@ -7,7 +7,7 @@ excerpt: "Intégrer Symfony AI dans une application existante en production, c'e
 image: "/images/blog/symfony-ai.svg"
 ---
 
-Tous les articles sur [Symfony AI](https://symfony.com/blog/introducing-symfony-ai) partent du même postulat : tu crées un projet neuf, tu installes le composant, tu fais un chat avec GPT en dix lignes. Bravo. Maintenant essaie de faire la même chose sur une application Symfony 6.4 en production depuis quatre ans, avec 200 entités Doctrine, un monolithe qui tourne sur trois serveurs, et une équipe qui n'a jamais touché à une API d'IA.
+Tous les articles sur [Symfony AI](https://symfony.com/doc/current/ai.html) partent du même postulat : tu crées un projet neuf, tu installes le composant, tu fais un chat avec GPT en dix lignes. Bravo. Maintenant essaie de faire la même chose sur une application Symfony 6.4 en production depuis quatre ans, avec 200 entités Doctrine, un monolithe qui tourne sur trois serveurs, et une équipe qui n'a jamais touché à une API d'IA.
 
 C'est exactement ce qu'on a fait. Et ce qu'on a appris ne ressemble pas du tout aux tutoriels.
 
@@ -258,6 +258,6 @@ Ce n'est pas du test déterministe. C'est du monitoring de qualité. Mais c'est 
 
 L'intégration d'IA dans un projet legacy n'est pas un problème d'IA. C'est un problème d'architecture. Si ton code est proprement découplé, ajouter un appel LLM revient à ajouter n'importe quelle dépendance externe. Si ton code est un monolithe couplé, l'IA va amplifier le chaos.
 
-[Symfony AI](https://symfony.com/blog/introducing-symfony-ai) est un bon outil. L'abstraction fournisseur fonctionne. Le support du streaming est solide. Mais le composant ne résout pas les vrais problèmes : la gestion des erreurs, le coût, la qualité des prompts, et la cohabitation avec du code qui n'a pas été pensé pour.
+[Symfony AI](https://symfony.com/doc/current/ai.html) est un bon outil. L'abstraction fournisseur fonctionne. Le support du streaming est solide. Mais le composant ne résout pas les vrais problèmes : la gestion des erreurs, le coût, la qualité des prompts, et la cohabitation avec du code qui n'a pas été pensé pour.
 
 Le conseil le plus utile que je peux donner : traite l'IA comme une dépendance faillible et coûteuse. Mets-la derrière une interface. Prévois le fallback. Monitore le coût. Et surtout, ne laisse jamais un appel LLM devenir un point de défaillance unique dans ton application.
