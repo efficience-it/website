@@ -65,6 +65,7 @@ export const footerNav = {
     {
       label: "LinkedIn",
       href: "https://www.linkedin.com/company/efficience-it",
+      icon: "/images/icons/linkedin.svg",
     },
   ],
 };
