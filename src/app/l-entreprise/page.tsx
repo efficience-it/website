@@ -48,6 +48,25 @@ const timeline = [
     description:
       "Adhésion à l'AFUP (association des utilisateurs PHP) et AD2N (communauté des entreprises numériques du Nord). Contributions open-source et participation aux conférences majeures.",
   },
+  {
+    year: "Aujourd'hui",
+    title: "Notre Collaboration",
+    description:
+      "Développement back-end, développement front-end, accompagnement à la migration, automatisation et performance, audits et corrections, formation et montée en compétences… nos développeurs experts sauront vous accompagner au mieux.",
+  },
+];
+
+const pressTestimonials = [
+  {
+    source: "Pépites Tech",
+    quote:
+      "Efficience IT se distingue par son expertise en développement web. Leur équipe propose des solutions personnalisées alliant innovation et performance pour répondre aux besoins spécifiques de chaque client.",
+  },
+  {
+    source: "Sortlist",
+    quote:
+      "Efficience IT réunit des développeurs passionnés spécialisés dans la création de solutions web innovantes. Leur expertise transforme les idées ambitieuses en projets numériques réussis répondant aux besoins spécifiques de chaque client.",
+  },
 ];
 
 const values = [
@@ -102,6 +121,25 @@ export default function LEntreprise() {
                 title={item.title}
                 description={item.description}
               />
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      <section className="bg-white py-16">
+        <Container>
+          <SectionTitle>Ils parlent de nous</SectionTitle>
+          <div className="mx-auto grid max-w-4xl gap-8 md:grid-cols-2">
+            {pressTestimonials.map((t) => (
+              <blockquote
+                key={t.source}
+                className="rounded-lg bg-light-gray p-6"
+              >
+                <p className="text-gray italic">&ldquo;{t.quote}&rdquo;</p>
+                <footer className="mt-4 font-display font-bold text-dark">
+                  — {t.source}
+                </footer>
+              </blockquote>
             ))}
           </div>
         </Container>
