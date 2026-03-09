@@ -7,79 +7,116 @@ excerpt: "Pour utiliser pleinement le framework Symfony, le gestionnaire de dép
 image: "/images/blog/composer-symfony.webp"
 ---
 
-## Utilisation de Composer dans le développement Symfony : conseils pratiques
+## Les fondamentaux de Composer dans un projet Symfony
 
-Pour utiliser pleinement le framework Symfony, le gestionnaire de dépendances Composer est l'outil auquel les professionnels PHP font appel. Dans cet article, nous vous expliquons comment optimiser l'utilisation de Composer dans les projets Symfony.
+Composer est le gestionnaire de dépendances de l'écosystème PHP. Son rôle est de résoudre un arbre de dépendances : à partir d'un fichier `composer.json` déclarant les packages nécessaires au projet, il calcule les versions compatibles entre elles, les télécharge et génère un autoloader PSR-4. Symfony s'appuie entièrement sur Composer, que ce soit pour installer le framework lui-même, ajouter des bundles ou configurer les recettes Flex.
 
-### Le saviez-vous ?
-
-Pour construire un projet Symfony, vous pouvez avoir besoin d'utiliser différentes bibliothèques ou morceaux écrits par d'autres développeurs, appelés packages. Composer est un outil qui facilite la gestion de ces bibliothèques et de ces packages, de manière automatisée.
-
-### Comment utilise-t-on Composer ?
-
-La gestion des dépendances des projets PHP est facilitée par Composer, ce qui simplifie le développement, tout en éliminant les problèmes de compatibilité et de version des bibliothèques.
-
-Le fonctionnement de cet outil est plutôt simple, il lit un fichier de configuration appelé `composer.json`, dans lequel se trouve la liste des packages dont le projet dépend. Composer exploite ce fichier pour télécharger et installer automatiquement les bundles requis, en même temps que leurs dépendances, à partir d'un ou plusieurs dépôts en ligne. En plus de ce premier fichier, un autre est généré, `composer.lock`. Il vient figer les versions des packages installés, ce qui garantit la reproductibilité de l'environnement de développement.
-
-### Tuto d'ouverture d'un projet Composer
-
-Tout d'abord, la commande `composer create-project` permet de créer un nouveau projet Symfony selon un modèle prédéfini, tout en utilisant Composer. Vous pouvez l'utiliser en spécifiant la version de Symfony que vous souhaitez installer.
-
-Voici comment l'utiliser :
+Un projet Symfony démarre généralement avec une seule commande :
 
 ```bash
-composer create-project symfony/skeleton <nom_du_projet>
+composer create-project symfony/skeleton mon-projet
 ```
 
-Venez remplacer `<nom_du_projet>` par celui que vous souhaitez donner à votre projet. Cette commande autorise le téléchargement et l'installation du modèle Symfony Skeleton. La version minimale et légère du framework sans bundles spécifiques. Cela permet de construire votre propre application Symfony en ajoutant les bundles qui répondront à vos besoins.
+Cette commande installe le squelette minimal du framework. Symfony Flex, le plugin Composer intégré, se charge ensuite d'appliquer les recettes des packages installés : création des fichiers de configuration, ajout des variables d'environnement et mise en place de la structure de répertoires.
 
-Une fois cette commande exécutée, Composer s'occupe du téléchargement des dépendances nécessaires, de la création de la structure de base du projet et de la génération des fichiers de configuration initiaux.
+### require vs require-dev : séparer les contextes
 
-### Les conseils pratiques pour optimiser l'utilisation de Composer
+Le fichier `composer.json` distingue deux sections fondamentales. La section `require` contient les dépendances nécessaires à l'exécution en production : le framework, les bundles métier, les bibliothèques tierces. La section `require-dev` regroupe les outils de développement : PHPUnit, PHPStan, php-cs-fixer, le profiler Symfony.
 
-Il faut penser à la **mise à jour régulière** des dépendances par Symfony. Elle permet de :
+Cette séparation n'est pas cosmétique. En production, la commande `composer install --no-dev` exclut toutes les dépendances de développement. Le résultat est un répertoire `vendor` plus léger, une surface d'attaque réduite et un autoloader optimisé. Placer un outil de test dans `require` au lieu de `require-dev` revient à embarquer du code inutile sur chaque serveur de production.
 
-1. **Introduire de nouvelles fonctionnalités :** renforce les capacités de l'application
-2. **Maintenir la compatibilité :** entre les différentes bibliothèques et bundles couramment utilisés
-3. **Booster la performance :** avec des temps de réponse plus rapides et une meilleure expérience utilisateur
-4. **Améliorer la sécurité :** grâce à la résolution de problèmes de sécurité identifiés, et cela réduit les risques de piratage
-5. **Corriger les bugs :** sécurise la stabilité et la fiabilité d'un projet
+### Le fichier composer.lock : la reproductibilité
 
-Certaines versions introduisent des changements dans les API, en gardant les dépendances à jour, cela assure que toutes les parties de l'application fonctionnent en harmonie.
+Le fichier `composer.lock` enregistre les versions exactes de chaque package résolu. Ce fichier doit impérativement être versionné dans le dépôt Git. Sans lui, chaque `composer install` pourrait résoudre des versions différentes selon le moment de l'exécution, introduisant des écarts subtils entre les environnements.
 
-Pour ce faire, il suffit d'utiliser la commande `composer update`. A noter que lors des mises à jour, il est recommandé de tester l'application pour vérifier si celles-ci n'ont pas introduit de potentiels problèmes sur le code existant.
+La distinction est claire : `composer install` lit le fichier `composer.lock` et installe exactement les versions verrouillées. `composer update` recalcule l'arbre de dépendances à partir des contraintes du `composer.json` et met à jour le `composer.lock`. En production, seul `composer install` doit être utilisé.
 
-### Scripts Composer
+## Stratégie de contraintes de versions
 
-Continuons avec les **scripts Composer**. Ce sont des éléments personnalisables dans le fichier `composer.json`. Ils peuvent être utilisés pour personnaliser son flux de travail, et même automatiser des tâches courantes comme la génération de caches, la compilation de ressources, etc. C'est la commande `composer run` qui permet d'exécuter ces scripts.
+Le choix des contraintes de version dans `composer.json` est une décision d'ingénierie qui impacte la maintenabilité du projet sur le long terme.
 
-### Dépôts privés
+L'opérateur caret (`^5.4`) autorise les mises à jour mineures et de patch tout en interdisant les changements majeurs. C'est le choix par défaut pour la majorité des dépendances, car il respecte le semver : les mises à jour mineures ajoutent des fonctionnalités sans casser la rétrocompatibilité. L'opérateur tilde (`~5.4.0`) est plus restrictif et n'autorise que les mises à jour de patch. Il convient aux bibliothèques dont le respect du semver est incertain.
 
-Vous pouvez, à côté de ça, utiliser des bibliothèques ou des bundles Symfony privés. Vous avez la possibilité de **configurer des dépôts privés** dans le fichier `composer.json` d'un projet.
+Pour les projets Symfony, il est recommandé de s'aligner sur les branches de support à long terme (LTS). Contraindre `symfony/framework-bundle` à `^6.4` garantit de recevoir les correctifs de sécurité pendant trois ans sans risquer une montée de version majeure accidentelle.
 
-La commande `composer.lock` permet le partage d'un fichier avec l'équipe de développement, en l'incluant dans le dépôt git. Cela garantit que tous les développeurs utilisent exactement les mêmes versions de packages. Certains modules sont spécifiques à un projet particulier, ils ne sont donc pas destinés à être partagés avec la communauté. Avec les dépôts privés, la distribution de ces modules est plus facile à contrôler.
+### Dépôts privés et packages internes
 
-Héberger des bibliothèques ou des bundles dans un dépôt permet de garder le contrôle sur le code source et de maintenir la confidentialité. En revanche, cela ne permet pas de contribuer à l'environnement open source, ce qui reste dommageable pour les autres développeurs.
+Un projet d'entreprise dépend souvent de packages qui ne sont pas publiés sur Packagist. Composer permet de déclarer des dépôts supplémentaires directement dans `composer.json` :
 
-### Conflits de dépendances
+```json
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@gitlab.entreprise.com:libs/shared-kernel.git"
+        }
+    ]
+}
+```
 
-Autre élément auquel il faut toujours faire attention, les **conflits de dépendances**. En ajoutant de nouvelles dépendances à un projet, vous pouvez causer des problèmes de compatibilité, de sécurité, et de stabilité. Pour vérifier des conflits potentiels, c'est la commande `composer show` qui est à utiliser. Pour les éviter, prenez garde à vérifier que les éléments énoncés précédemment soient respectés.
+Pour les organisations qui gèrent plusieurs packages privés, un registre Composer dédié comme Private Packagist ou Satis simplifie considérablement la configuration. Satis génère un index statique déployable sur n'importe quel serveur web, tandis que Private Packagist offre une solution hébergée avec gestion des droits d'accès.
 
-### Séparation des dépendances
+### Scripts Composer et automatisation
 
-Composer offre la possibilité de séparer les dépendances régulières des dépendances de développement en utilisant les sections spécifiques du fichier `composer.json`.
+Les scripts Composer permettent de déclencher des commandes à des moments précis du cycle de vie : après l'installation, avant ou après une mise à jour, lors de l'événement `auto-scripts` propre à Symfony Flex.
 
-**1. Les dépendances régulières** (de production) se réfèrent aux bibliothèques ou aux bundles dont le projet a besoin pour fonctionner en production. Ce sont les dépendances nécessaires pour qu'il soit exécuté correctement sur un serveur en production. Elles sont définissables dans la section `require` du fichier `composer.json`.
+```json
+{
+    "scripts": {
+        "test": "php bin/phpunit",
+        "cs": "php-cs-fixer fix --dry-run --diff",
+        "stan": "phpstan analyse",
+        "ci": ["@cs", "@stan", "@test"]
+    }
+}
+```
 
-**2. Les dépendances de développement**, quant à elles, sont les bibliothèques ou les bundles utilisés **uniquement** pour le développement. On parle ici des outils de test, des générateurs de code, des serveurs de développement, etc. Celles-ci ne sont pas nécessaires pour exécuter l'application en production. On vient les définir dans la section `require-dev` du fichier `composer.json`.
+Un script `ci` qui chaîne linting, analyse statique et tests unitaires offre un point d'entrée unique pour la validation locale comme pour les pipelines CI/CD. Chaque développeur exécute `composer ci` avant de pousser, ce qui réduit le bruit sur les merge requests.
 
-En exécutant la commande `composer install --no-dev`, cela permet d'ignorer l'installation des dépendances de développement, tout en réduisant potentiellement la taille et la complexité de l'application en production. Seules les dépendances régulières nécessaires à l'exécution du projet sont installées.
+## Audit de sécurité et platform-check
 
-### Conclusion
+La commande `composer audit` vérifie les dépendances installées contre la base de données des vulnérabilités connues (PHP Security Advisories). Intégrée dans le pipeline CI, elle bloque automatiquement un déploiement si une CVE affecte l'une des bibliothèques du projet.
 
-En espérant que ces quelques conseils vous aient permis de mieux comprendre ce qu'est Composer, et son importance au sein des projets Symfony quant à la gestion des dépendances. L'équipe Efficience IT reste à votre disposition pour n'importe quelle question sur le sujet ou sur nos services de développement web.
+La section `config.platform` du `composer.json` permet de simuler un environnement PHP cible :
 
-Contactez-nous !
+```json
+{
+    "config": {
+        "platform": {
+            "php": "8.3.0",
+            "ext-intl": "1.0"
+        }
+    }
+}
+```
+
+Ce mécanisme garantit que Composer résout les dépendances en fonction de la version PHP de production, même si le poste de développement utilise une version différente. Combiné avec le plugin `composer/platform-check` (activé par défaut depuis Composer 2), l'application échoue au démarrage si le runtime ne correspond pas aux exigences déclarées, plutôt que de produire des erreurs silencieuses.
+
+## Gouvernance des dépendances à l'échelle
+
+Sur un projet mature, le nombre de dépendances croît naturellement. Sans gouvernance, le répertoire `vendor` devient un angle mort : des packages obsolètes cohabitent avec des bibliothèques redondantes, et personne ne sait qui a introduit quelle dépendance ni pourquoi.
+
+La première étape consiste à cartographier régulièrement l'arbre de dépendances avec `composer depends` et `composer why-not`. Ces commandes répondent aux questions essentielles : pourquoi tel package est-il installé, et qu'est-ce qui empêche la mise à jour vers telle version. Coupler cette analyse avec `composer outdated` fournit un tableau de bord de la dette technique liée aux dépendances.
+
+Une politique de mise à jour structurée passe par des cycles réguliers : mises à jour de patch en continu, mises à jour mineures mensuelles, mises à jour majeures planifiées avec une analyse d'impact. Automatiser la détection des mises à jour disponibles avec des outils comme Dependabot ou Renovate réduit la charge mentale et maintient le projet à jour sans effort conscient.
+
+### Stratégies monorepo et plugins Composer
+
+Dans les organisations qui maintiennent plusieurs applications Symfony partageant du code commun, la stratégie monorepo mérite d'être considérée. Des outils comme Symplify Monorepo Builder ou le plugin `wikimedia/composer-merge-plugin` permettent de gérer plusieurs `composer.json` au sein d'un même dépôt, avec un mécanisme de split automatique pour publier chaque package indépendamment.
+
+Les plugins Composer étendent le comportement du gestionnaire de dépendances. Symfony Flex en est l'exemple le plus connu, mais d'autres méritent l'attention : `composer-unused` détecte les dépendances déclarées mais jamais importées dans le code, `composer-require-checker` identifie les dépendances utilisées mais non déclarées. Ces outils, intégrés dans le pipeline CI, transforment la gestion des dépendances d'une corvée ponctuelle en un processus continu et fiable.
+
+### Sécurité de la chaîne d'approvisionnement
+
+La supply chain security est devenue un enjeu majeur. Chaque package installé via Composer est du code tiers exécuté avec les mêmes privilèges que l'application. Plusieurs pratiques réduisent ce risque.
+
+Vérifier l'intégrité des packages avec les checksums du `composer.lock`. Restreindre les plugins Composer autorisés via la directive `config.allow-plugins`, introduite dans Composer 2.2, qui force une validation explicite de chaque plugin. Auditer les scripts `post-install-cmd` et `post-update-cmd` des dépendances, car ils s'exécutent automatiquement et peuvent contenir du code arbitraire.
+
+Pour les architectures les plus sensibles, un miroir Composer interne (via Satis ou Private Packagist) permet de contrôler et valider chaque package avant qu'il ne soit accessible aux développeurs. Cette approche ajoute une couche de validation entre Packagist public et l'environnement de développement.
+
+## Conclusion
+
+Composer dépasse largement le rôle de simple installateur de packages. Utilisé avec rigueur, il devient un outil de gouvernance technique : contraintes de versions alignées sur la stratégie de support, audit de sécurité automatisé, reproductibilité garantie par le lock file, et maîtrise de la chaîne d'approvisionnement logicielle. La maîtrise de Composer est un marqueur de maturité dans un projet Symfony.
 
 ## Pour aller plus loin
 

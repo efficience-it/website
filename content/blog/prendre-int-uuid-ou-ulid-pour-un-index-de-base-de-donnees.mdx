@@ -7,27 +7,17 @@ excerpt: "L'indexation constitue une partie essentielle de la gestion de base de
 image: "/images/blog/int-uuid-ulid.webp"
 ---
 
-L'indexation constitue une partie essentielle de la gestion de base de données. Les index permettent d'accélérer les recherches et les jointures de tables, ce qui améliore considérablement les performances des requêtes SQL. Lorsqu'il s'agit de choisir le type d'identifiant primaire pour une base de données, il existe plusieurs options, notamment INT, UUID et ULID. Chacune possède des caractéristiques propres qui influencent directement les performances, la scalabilité et la maintenabilité de votre application.
+Le choix d'un identifiant primaire semble anodin. Pourtant, cette décision prise en début de projet irrigue l'ensemble de l'architecture : performances d'écriture, stratégie de sharding, sécurité des API, capacité à générer des identifiants sans coordination centralisée. Cet article pose les bases avec INT, UUID et ULID, puis approfondit les implications sur les index B-tree, les stratégies Doctrine, et enfin les contraintes architecturales des systèmes distribués à grande échelle.
 
-## INT
+## INT : la simplicité séquentielle
 
-Le type d'index INT est l'un des types les plus couramment utilisés dans les bases de données. INT signifie "entier" et est souvent utilisé pour stocker des valeurs numériques dans une base de données. Lorsqu'il est utilisé comme index, INT peut accélérer considérablement les recherches et les jointures de tables, car les valeurs numériques sont triées dans un ordre naturel et séquentiel.
+Un entier auto-incrémenté reste le choix par défaut de la majorité des projets. Un INT occupe 4 octets, un BIGINT 8. Cette compacité a un impact direct sur les index B-tree : plus les clés sont petites, plus il y a d'entrées par page mémoire (typiquement 16 Ko sur InnoDB), et moins l'arbre est profond. Le résultat : des lectures en 2 à 3 niveaux de profondeur même sur des tables de plusieurs millions de lignes.
 
-Sur le plan technique, un INT occupe 4 octets en mémoire et permet de stocker des valeurs allant de 0 à 4 294 967 295 en non signé. En comparaison, un BIGINT occupe 8 octets et monte jusqu'à 9,2 quintillions de valeurs possibles. Cette compacité fait de INT le choix le plus performant pour les index B-tree utilisés par MySQL et PostgreSQL, car davantage de clés tiennent dans une seule page mémoire.
+L'auto-incrémentation garantit des insertions séquentielles. Chaque nouvelle ligne s'ajoute à la fin de la dernière page de l'index clusterisé. Il n'y a ni page split, ni réorganisation de l'arbre. Sur MySQL InnoDB, où la clé primaire est aussi l'index clusterisé, c'est le scénario optimal pour les écritures.
 
-**Avantages :**
+Les limites apparaissent quand le projet grandit. Un INT non signé plafonne à 4,3 milliards de lignes, et la migration vers BIGINT sur une table volumineuse verrouille la table pendant de longues minutes. L'identifiant séquentiel expose aussi le volume de données : un `GET /api/users/42` révèle qu'il y a au moins 42 utilisateurs, et un attaquant peut énumérer les ressources par simple incrémentation.
 
-- Vitesse : les entiers sont des types de données primitifs, ultra rapides à manipuler et à comparer
-- Compacité : 4 octets seulement, ce qui maximise le nombre d'entrées par page d'index
-- Lisibilité : faciles à lire, à déboguer et à communiquer entre développeurs
-- Auto-incrémentation native : prise en charge par tous les SGBD sans configuration supplémentaire
-
-**Inconvénients :**
-
-- Limite de taille : un index INT ne peut pas stocker de valeurs supérieures à 2^32-1, soit environ 4,3 milliards de lignes
-- Migration requise vers BIGINT si besoin de valeurs plus grandes, opération coûteuse sur des tables volumineuses
-- Prévisibilité : les identifiants séquentiels exposent des informations sur le volume de données et permettent l'énumération des ressources via une API
-- Couplage au SGBD : l'identifiant ne peut être généré qu'au moment de l'insertion, ce qui pose problème dans les architectures distribuées ou événementielles
+Le point le plus structurant concerne l'architecture : l'identifiant ne peut être généré qu'au moment de l'insertion, par le SGBD. Impossible de créer un identifiant côté applicatif avant le flush, ce qui pose problème dans les architectures événementielles où un agrégat doit connaître son identité dès sa construction.
 
 ### INT dans Doctrine
 
@@ -38,37 +28,23 @@ Sur le plan technique, un INT occupe 4 octets en mémoire et permet de stocker d
 private ?int $id = null;
 ```
 
-Cette configuration repose sur la séquence auto-incrémentée du SGBD. La valeur de `$id` reste `null` tant que l'entité n'a pas été persistée et flushée.
+La valeur reste `null` tant que l'entité n'a pas été persistée et flushée. C'est une contrainte forte dans un design DDD où l'identité de l'agrégat doit exister dès l'instanciation.
 
-## UUID
+## UUID : l'unicité universelle
 
-UUID signifie "Universal Unique Identifier" (conforme à la RFC 4122) et est un type de données couramment utilisé dans les bases de données modernes. Les UUID sont des identifiants de 128 bits, représentés sous forme de 32 chiffres hexadécimaux séparés par des tirets. Certains systèmes font référence à l'UUID en tant que GUID (identificateur global unique).
+Un UUID (Universal Unique Identifier, RFC 4122) est un identifiant de 128 bits représenté en 32 chiffres hexadécimaux. Plusieurs versions coexistent, mais deux dominent les usages actuels.
 
-Il existe plusieurs versions de UUID. La version 4 (UUIDv4), la plus répandue, est entièrement aléatoire. La version 7 (UUIDv7), standardisée dans la RFC 9562, intègre un horodatage et se rapproche du comportement des ULID en termes de tri chronologique. Si vous démarrez un nouveau projet en 2024 et souhaitez utiliser des UUID, privilégiez UUIDv7.
+**UUIDv4** est entièrement aléatoire. Sa force : l'unicité sans coordination. Sa faiblesse : la fragmentation des index B-tree. Chaque insertion atterrit à une position aléatoire dans l'arbre, provoquant des page splits fréquents. Sur InnoDB, où l'index clusterisé dicte l'organisation physique des données, cela signifie des écritures aléatoires sur disque, un taux de remplissage des pages qui tombe à 50-70 % au lieu de 90 %+, et une dégradation progressive du buffer pool.
 
-**Avantages :**
-
-- Unicité universelle : particulièrement adapté aux bases de données distribuées et aux architectures microservices
-- Génération côté applicatif : pas besoin d'attendre l'insertion en base pour obtenir un identifiant
-- Sécurité : impossible de deviner l'identifiant suivant ou de déduire le nombre d'enregistrements
-
-**Inconvénients :**
-
-- Taille : 16 octets contre 4 pour un INT, soit 4 fois plus d'espace dans les index et les clés étrangères
-- Fragmentation des index B-tree : les UUIDv4, étant aléatoires, provoquent des insertions dispersées dans les pages d'index, dégradant les performances d'écriture
-- Performances en jointure : les comparaisons de chaînes ou de binaires de 16 octets sont plus lentes que les comparaisons d'entiers
-
-### Impact sur les performances
-
-Sur MySQL InnoDB, les mesures montrent qu'avec un million de lignes, les insertions avec UUIDv4 sont environ 2 à 3 fois plus lentes qu'avec un INT auto-incrémenté, principalement à cause de la fragmentation des index. PostgreSQL gère mieux la situation grâce à son type natif `uuid`, mais la différence de performance avec INT reste mesurable sur des volumes importants (au-delà de 10 millions de lignes).
-
-**Exemples de valeurs UUID :**
+**UUIDv7** (RFC 9562) intègre un horodatage Unix en millisecondes dans les 48 premiers bits. Les insertions redeviennent quasi-séquentielles, éliminant le problème de fragmentation. UUIDv7 conserve la compatibilité avec l'écosystème UUID (format, parsing, stockage) tout en offrant un tri chronologique natif. Pour tout nouveau projet, c'est la version à privilégier.
 
 ```
 40e6215d-b5c6-4896-987c-f30f3678f608
 6ecd8c99-4036-403d-bf84-cf8400f67836
 3f333df6-90a4-4fda-8dd3-9485d27cee36
 ```
+
+Le coût structurel reste constant quelle que soit la version : 16 octets par clé, soit 4 fois plus qu'un INT. Cela se répercute sur chaque clé étrangère, chaque index secondaire, chaque jointure. Sur une table avec 5 index secondaires et 10 millions de lignes, la différence de taille d'index entre INT et UUID dépasse le gigaoctet.
 
 ### UUID dans Doctrine
 
@@ -80,31 +56,11 @@ Sur MySQL InnoDB, les mesures montrent qu'avec un million de lignes, les inserti
 private ?Uuid $id;
 ```
 
-Avec Symfony, le composant Uid fournit le type Doctrine `uuid` et le générateur associé. Le stockage se fait en binaire (16 octets) et non en VARCHAR(36), ce qui préserve les performances.
+Le composant Symfony Uid fournit le type Doctrine `uuid` et le générateur associé. Le stockage se fait en binaire (16 octets) via `BINARY(16)`, jamais en `VARCHAR(36)` qui doublerait l'espace et dégraderait les comparaisons.
 
-## ULID
+## ULID : le compromis monotone
 
-ULID signifie "Universally Unique Lexicographically Sortable Identifier". C'est une évolution des UUID qui combine unicité et ordre chronologique. Un ULID se compose de 26 caractères encodés en Crockford Base32 : les 10 premiers caractères représentent un horodatage en millisecondes (48 bits), et les 16 suivants une partie aléatoire (80 bits). Cette structure permet un tri lexicographique naturel qui correspond à l'ordre chronologique de création.
-
-Contrairement aux UUIDv4, les ULID sont monotoniquement croissants. Cela signifie que les insertions en base de données se font de manière séquentielle dans les pages d'index, réduisant considérablement la fragmentation. En pratique, un ULID offre les avantages de sécurité et d'unicité d'un UUID tout en conservant des performances d'insertion proches d'un INT auto-incrémenté.
-
-**Avantages :**
-
-- Très bonne garantie contre les collisions d'identifiants, les rendant très fiables pour les applications critiques
-- Taille identique à un UUID : 16 octets en stockage binaire
-- Facilement triés en raison du horodatage dans la première partie, ce qui élimine la fragmentation d'index
-- Idéal pour systèmes distribués sur plusieurs instances
-- Aucune indexation supplémentaire requise pour le tri chronologique
-- Difficiles à deviner, voire impossibles à le faire manuellement
-- Génération côté applicatif, sans dépendance au SGBD
-
-**Inconvénients :**
-
-- Plus lents que les INT en termes de jointures de tables, car les ULID occupent 16 octets contre 4
-- Peuvent être plus difficiles à lire et à communiquer verbalement que les nombres entiers
-- Moins standardisés que les UUID : pas encore de RFC officielle, bien qu'une spécification communautaire existe
-
-**Structure ULID :**
+Un ULID (Universally Unique Lexicographically Sortable Identifier) encode 128 bits en 26 caractères Crockford Base32. Les 48 premiers bits portent un horodatage en millisecondes, les 80 suivants sont aléatoires. Cette structure garantit un tri lexicographique qui correspond à l'ordre chronologique.
 
 ```
 01AN4Z07BY      79KA1307SR9X4MV3
@@ -112,6 +68,10 @@ Contrairement aux UUIDv4, les ULID sont monotoniquement croissants. Cela signifi
   Timestamp          Randomness
       48bits               80bits
 ```
+
+La monotonie des ULID résout le problème fondamental des UUIDv4. Les insertions suivent l'ordre chronologique, les pages de l'index B-tree se remplissent séquentiellement. Les benchmarks sur InnoDB montrent des performances d'insertion proches de INT : environ 6 500 lignes/seconde contre 8 000 pour INT et 3 000 pour UUIDv4 sur une table de 5 millions de lignes.
+
+Le ULID partage avec UUIDv7 la même idée (horodatage + aléatoire), mais avec un encodage différent. UUIDv7 s'appuie sur un standard IETF (RFC 9562) et bénéficie du support natif des types `uuid` dans PostgreSQL et des outils existants. ULID offre un encodage plus compact en représentation textuelle (26 caractères contre 36 pour UUID) et une interopérabilité plus large hors de l'écosystème SQL.
 
 ### ULID dans Doctrine
 
@@ -127,23 +87,31 @@ public function getId(): ?Ulid {
 }
 ```
 
-### Comparatif de performances
+## Fragmentation B-tree : comprendre le mécanisme
 
-Sur une table MySQL InnoDB avec 5 millions de lignes, les ordres de grandeur observés sont les suivants :
+Pour saisir la différence de performance entre identifiants aléatoires et séquentiels, il faut comprendre le fonctionnement d'un index B-tree. Un index B-tree organise les clés dans des pages de taille fixe (16 Ko sur InnoDB, 8 Ko sur PostgreSQL). Quand une page est pleine et qu'une nouvelle clé doit y être insérée, le moteur effectue un page split : la page est coupée en deux, et la moitié des clés est déplacée vers une nouvelle page.
 
-- **INT auto-incrémenté** : insertion ~8 000 lignes/seconde, jointure sur 100 000 lignes en ~120 ms
-- **UUIDv4** : insertion ~3 000 lignes/seconde, jointure sur 100 000 lignes en ~280 ms
-- **ULID** : insertion ~6 500 lignes/seconde, jointure sur 100 000 lignes en ~200 ms
+Avec des clés séquentielles (INT, ULID, UUIDv7), les insertions se font toujours en fin d'arbre. Le page split ne se produit que lorsque la dernière page est pleine, et la nouvelle page commence vide. Le taux de remplissage moyen avoisine 90 %.
 
-Le ULID se positionne comme un excellent compromis : il offre des performances d'insertion proches de INT grâce à sa nature séquentielle, tout en garantissant l'unicité distribuée. L'écart se creuse davantage sur PostgreSQL en faveur de ULID grâce au stockage natif en binaire.
+Avec des clés aléatoires (UUIDv4), chaque insertion peut cibler n'importe quelle page. Les page splits sont fréquents et produisent des pages à moitié vides. Le taux de remplissage tombe à 60-70 %, l'arbre devient plus profond, et le buffer pool du SGBD est moins efficace car il doit maintenir davantage de pages en mémoire pour couvrir le même volume de données.
 
-## Et comment migrer vers UUID ou vers ULID ?
+Sur PostgreSQL, le mécanisme est atténué par le fill factor configurable et le TOAST pour les gros champs, mais le principe reste identique.
 
-La migration d'un système INT vers UUID ou ULID nécessite une approche progressive pour éviter les temps d'arrêt. Le principe est de faire coexister temporairement les deux systèmes d'identifiants avant de basculer.
+## Génération d'identifiants en architecture distribuée
 
-Imaginons une entité Enfant et une entité Parent, avec parent_id dans les colonnes de l'enfant.
+Dans un monolithe connecté à une seule base, l'auto-incrémentation suffit. Dès qu'on introduit plusieurs instances d'écriture, plusieurs bases, ou un bus de messages, la question de la génération d'identifiants devient architecturale.
 
-Dans les annotations Doctrine, vous créerez une colonne new_id dans la table enfant. Appelons-la new_parent_id et new_id :
+L'auto-incrémentation ne fonctionne plus sans coordination. Les solutions historiques (séquences avec pas de N, tables de séquences centralisées) ajoutent un point de contention. Les identifiants UUID/ULID, générables sans état partagé, éliminent ce goulot.
+
+Dans un contexte de sharding, l'identifiant influence directement la stratégie de répartition. Un INT auto-incrémenté global nécessite un coordinateur central (Snowflake ID chez Twitter, ou un service dédié). Un ULID ou UUIDv7, généré localement, permet à chaque noeud d'écrire indépendamment. L'horodatage intégré offre en prime un critère naturel de partitionnement temporel.
+
+Pour les architectures CQRS/Event Sourcing, l'identifiant doit exister avant la persistance. L'agrégat reçoit son identité dès sa création, et les événements le référencent immédiatement. Seuls les identifiants générés côté applicatif (UUID, ULID) rendent ce pattern possible sans contorsion.
+
+## Migrer un système existant
+
+La migration d'INT vers UUID ou ULID sur un système en production exige une approche progressive. Le principe : faire coexister temporairement les deux systèmes d'identifiants.
+
+Pour une relation Parent/Enfant avec `parent_id` en INT, le processus se déroule en étapes distinctes, chacune correspondant à une migration Doctrine séparée :
 
 ```php
 #[ORM\Id]
@@ -157,27 +125,25 @@ public function getId(): ?Ulid {
 }
 ```
 
-**Processus de migration :**
+1. Ajouter une colonne `new_id` (ULID) sur la table Parent et `new_parent_id` sur la table Enfant.
+2. Générer les ULID par lots de 5 000 à 10 000 lignes via `new Ulid()`, et propager la valeur du parent vers `new_parent_id` chez les enfants.
+3. Créer la contrainte de clé étrangère entre `new_parent_id` et `new_id`.
+4. Supprimer l'ancienne clé étrangère, l'ancienne clé primaire, puis les anciennes colonnes.
+5. Renommer `new_id` en `id` et `new_parent_id` en `parent_id`. Recréer la clé primaire.
 
-1. Générer pour chaque ligne Parent les nouveaux ULID avec l'objet `new Ulid()` et placer cette même valeur chez les enfants dans new_parent_id
-2. Ajouter une clé externe SQL entre new_parent_id et new_id
-3. Supprimer les id des parents et les parent_id des enfants, après avoir supprimé la clé externe liant les deux et la clé primaire sur l'id Parent
-4. Ajouter la clé primaire sur le new_id
-5. Renommer les colonnes pour que tout revienne dans l'ordre dans votre application
+### Pièges de migration à anticiper
 
-### Conseils pour une migration sans interruption
+Sur des tables dépassant le million de lignes, chaque `ALTER TABLE` peut verrouiller la table. MySQL 8 supporte les DDL instantanés pour l'ajout de colonnes, mais pas pour la suppression ou le renommage. Des outils comme `pt-online-schema-change` ou `gh-ost` permettent des migrations sans verrouillage.
 
-Chaque étape doit correspondre à une migration Doctrine distincte. Sur des tables volumineuses (plusieurs millions de lignes), la génération des nouveaux identifiants doit se faire par lots (batch de 1 000 à 10 000 lignes) pour éviter de verrouiller la table trop longtemps. Pensez également à mettre à jour les caches applicatifs et les références stockées dans d'autres services (files de messages, logs, systèmes externes) qui pourraient encore utiliser les anciens identifiants INT.
+Les références externes constituent l'angle mort classique : files de messages en cours de traitement, caches Redis, identifiants stockés dans des systèmes tiers, URLs bookmarkées par les utilisateurs. Prévoyez une période de double-résolution où l'ancien INT et le nouveau ULID coexistent et restent résolvables.
 
 ## Conclusion
 
-Le choix entre INT, UUID et ULID dépend avant tout du contexte de votre projet. Pour une application monolithique avec une seule base de données et des volumes modérés, INT reste le choix le plus simple et le plus performant. Pour une architecture distribuée ou une API publique où la prévisibilité des identifiants pose un risque de sécurité, UUID ou ULID s'imposent. Et si vous devez choisir entre UUID et ULID, ce dernier offre un meilleur compromis performances/unicité grâce à son tri chronologique natif.
+Le choix d'un identifiant primaire n'est pas qu'une question de performance brute. C'est une décision architecturale qui engage la capacité du système à évoluer.
 
-La migration d'un système à un autre est faisable, vous gardez toujours cette possibilité si vous souhaitez changer de système.
+Pour un monolithe à volume modéré, INT reste imbattable en simplicité et en performance. Pour une API publique ou une architecture distribuée, ULID et UUIDv7 offrent le meilleur compromis : unicité sans coordination, tri chronologique natif, performances d'insertion proches du séquentiel. Le ULID brille par son encodage compact, UUIDv7 par son standard IETF et le support natif PostgreSQL.
 
-Symfony a décidé d'intégrer UUID et ULID au sein de ses types Doctrine, dont le composant est disponible et également en tant que contrainte pour vos formulaires.
-
-Selon vos besoins, Efficience IT sait intégrer un système et un autre -- n'hésitez pas à contacter l'agence en cas de besoin d'accompagnement ou d'expertise sur ces sujets.
+La migration reste toujours possible. L'essentiel est de choisir en connaissance de cause, en mesurant les contraintes actuelles et en anticipant celles qui viendront avec la croissance du système.
 
 ## Pour aller plus loin
 
