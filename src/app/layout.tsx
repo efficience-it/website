@@ -6,6 +6,7 @@ import Footer from "@/components/layout/Footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.itefficience.com"),
   title: {
     default:
       "Efficience IT – Agence Symfony experte en développement web",

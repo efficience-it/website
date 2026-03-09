@@ -29,6 +29,8 @@ export async function generateMetadata({
     path: `/article/${slug}`,
   });
 
+  const articleImage = post.image ? `${BASE_URL}${post.image}` : `${BASE_URL}/images/logo/logo-og.png`;
+
   return {
     ...base,
     openGraph: {
@@ -36,9 +38,11 @@ export async function generateMetadata({
       type: "article",
       publishedTime: post.date,
       authors: [post.author],
-      images: [
-        { url: post.image ? `${BASE_URL}${post.image}` : `${BASE_URL}/images/logo/logo-og.png` }
-      ],
+      images: [{ url: articleImage }],
+    },
+    twitter: {
+      ...base.twitter,
+      images: [{ url: articleImage }],
     },
   };
 }
@@ -53,10 +57,17 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     "@type": "BlogPosting",
     headline: post.title,
     description: post.excerpt,
-    author: post.author,
+    author: {
+      "@type": "Person",
+      name: post.author,
+    },
     image: post.image ? `${BASE_URL}${post.image}` : undefined,
     genre: post.category,
-    publisher: SITE_NAME,
+    publisher: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: BASE_URL,
+    },
     datePublished: post.date,
     url: `${BASE_URL}/article/${slug}`,
   };
