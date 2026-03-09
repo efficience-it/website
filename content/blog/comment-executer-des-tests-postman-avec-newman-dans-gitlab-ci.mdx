@@ -7,101 +7,17 @@ excerpt: "Découvrez comment industrialiser l'exécution de vos tests Postman av
 image: "/images/blog/postman-newman.jpg"
 ---
 
-Avant de commencer, quelques définitions :
+Tester une API manuellement fonctionne au début d'un projet. Mais dès que l'équipe grandit, que les endpoints se multiplient et que les déploiements s'accélèrent, l'absence de tests automatisés devient un risque concret : régressions silencieuses, contrats cassés, intégrations fragiles. Newman, le runner CLI de Postman, permet de transformer des collections de requêtes en suite de tests exécutable dans un pipeline GitLab CI. Voici comment mettre cela en place, puis comment aller au-delà d'une configuration basique.
 
-## Postman
+## Postman et Newman : le tandem test d'API
 
-C'est un outil indispensable au développement web qui sert à exécuter des appels HTTP directement depuis une interface graphique. Postman permet d'automatiser et de tester les API de manière efficace. Les tests peuvent vérifier plusieurs aspects tels que :
+Postman est un client HTTP graphique qui permet de construire, organiser et exécuter des requêtes contre une API. Son intérêt principal réside dans sa capacité à aller au-delà du simple appel HTTP : chaque requête peut embarquer des scripts de test écrits en JavaScript, capables de vérifier le code de retour, le temps de réponse, la structure du payload ou la présence de champs spécifiques. Les requêtes se chaînent naturellement : une authentification stocke un token dans une variable, les requêtes suivantes le consomment. On modélise ainsi des parcours utilisateurs complets.
 
-- Le temps de réponse
-- Le code de retour
-- La conformité du contenu de la réponse (doit comporter des éléments spécifiques comme le nom de l'élément et sa valeur)
+Newman est la version headless de ce moteur d'exécution. Il prend en entrée une collection Postman (fichier JSON) et l'exécute en ligne de commande, avec le même moteur de scripts. Tout ce qui fonctionne dans Postman fonctionne dans Newman, ce qui élimine l'écart entre le poste du développeur et le pipeline CI.
 
-Au-delà de ces vérifications de base, Postman permet également de chaîner les requêtes entre elles. Par exemple, une première requête d'authentification peut stocker un token dans une variable, qui sera réutilisée automatiquement par les requêtes suivantes. Cette capacité de scénarisation est particulièrement utile pour tester des parcours utilisateurs complets sur une API REST ou GraphQL.
+## Configuration de base dans GitLab CI
 
-## Newman
-
-Afin d'industrialiser l'exécution des tests, il faut utiliser Newman, un puissant outil en ligne de commande pour exécuter les collections Postman. Newman permet d'intégrer les tests Postman dans divers systèmes CI/CD, ce qui facilite l'automatisation des tests dans un pipeline.
-
-### Options principales de la CLI Newman
-
-Newman offre de nombreuses options pour affiner l'exécution des tests. Voici les plus utiles :
-
-- `--environment <url|fichier>` : spécifie le fichier ou l'URL de l'environnement Postman à utiliser lors de l'exécution
-- `--globals <fichier>` : charge un fichier de variables globales partagées entre toutes les requêtes
-- `--iteration-count <n>` : exécute la collection un nombre défini de fois, utile pour les tests de charge légers
-- `--iteration-data <fichier>` : fournit un fichier CSV ou JSON contenant les données à injecter dans chaque itération
-- `--delay-request <ms>` : ajoute un délai en millisecondes entre chaque requête, ce qui peut éviter le rate-limiting côté serveur
-- `--timeout <ms>` : définit un timeout global pour l'ensemble de l'exécution
-- `--timeout-request <ms>` : définit un timeout par requête individuelle
-- `--folder <nom>` : exécute uniquement un dossier spécifique de la collection, pratique pour cibler un groupe de tests
-- `--bail` : arrête l'exécution dès la première erreur rencontrée, utile pour un feedback rapide en CI
-- `--suppress-exit-code` : empêche Newman de retourner un code de sortie non nul en cas d'échec, ce qui peut être utile pour des jobs non bloquants
-- `-k` ou `--insecure` : désactive la vérification des certificats SSL, nécessaire pour les environnements de développement utilisant des certificats auto-signés
-
-### Les reporters Newman
-
-Les reporters permettent de formater et d'exporter les résultats des tests. Newman supporte plusieurs reporters qui peuvent être utilisés simultanément :
-
-- **cli** : le reporter par défaut, affiche les résultats directement dans le terminal avec un formatage lisible
-- **json** : exporte les résultats au format JSON, idéal pour un traitement automatisé ou l'intégration avec d'autres outils
-- **junit** : génère un rapport au format JUnit XML, compatible nativement avec GitLab CI pour afficher les résultats de tests dans l'interface
-- **htmlextra** : génère un rapport HTML détaillé avec des graphiques et des statistiques (nécessite l'installation du package `newman-reporter-htmlextra`)
-
-Pour utiliser plusieurs reporters simultanément, il suffit de les combiner avec l'option `-r` :
-
-```
-newman run collection.json -r cli,junit,htmlextra --reporter-junit-export results.xml --reporter-htmlextra-export report.html
-```
-
-Le reporter JUnit est particulièrement intéressant dans le contexte de GitLab CI, car il permet de remonter les résultats des tests directement dans l'interface de la merge request grâce à la directive `artifacts:reports:junit`.
-
-## GitLab CI
-
-GitLab CI est un logiciel libre de forge basé sur Git proposant les fonctionnalités de wiki :
-
-- Un système de suivi des bugs
-- L'intégration continue
-- La livraison continue
-
-Développé par GitLab Inc, le logiciel est utilisé par plusieurs grandes entreprises informatiques pour automatiser le développement, les tests et les déploiements. Il est aussi possible d'utiliser GitHub Actions, CircleCI et d'autres outils de CI/CD.
-
-## Étapes pour exécuter des tests Postman avec Newman dans GitLab CI
-
-### 1. Générer une clé API
-
-Dans un premier temps il faut obtenir une clé API Postman, car elle est nécessaire pour obtenir l'URL de la collection et de l'environnement via l'API Postman, pour ensuite pouvoir exécuter des tests avec Newman.
-
-- Intégrations > l'API Postman
-- Aller sur le web > Choisir l'espace de travail > onglet « Intégrations »
-- Onglet « Parcourir les intégrations » > Choisir « Postman API » > cliquer sur « + Obtenir la clé API »
-
-Il est recommandé de stocker cette clé API dans les variables CI/CD de GitLab plutôt que de la coder en dur dans le fichier de configuration. Pour cela, dans GitLab, accéder à Settings > CI/CD > Variables et ajouter une variable nommée par exemple `POSTMAN_API_KEY`. Cocher l'option « Masked » pour que la valeur ne soit jamais affichée dans les logs du pipeline.
-
-### 2. Obtenir l'URL de la collection
-
-Pour que l'URL de la collection soit testée via l'API Postman avec la clé API, il y a 2 étapes. D'abord il faut récupérer une liste de la collection et obtenir un UID (identifiant unique) de la collection à tester dans la liste.
-
-La deuxième étape consiste à obtenir l'URL de la collection avec l'UID de l'étape précédente.
-
-Une alternative consiste à exporter la collection directement depuis Postman au format JSON et à la versionner dans le dépôt Git. Cette approche présente l'avantage de ne pas dépendre de l'API Postman au moment de l'exécution du pipeline et garantit que les tests exécutés correspondent exactement à la version du code.
-
-### 3. Obtenir l'URL de l'environnement
-
-Il faut procéder aux mêmes étapes que pour obtenir l'URL de la collection.
-
-- Récupérer une liste d'environnement et obtenir un UID de l'environnement
-- Obtenir l'URL de l'environnement
-
-### 4. Configuration .gitlab-ci.yml
-
-Enfin, pour exécuter le test Postman dans GitLab CI/CD, il faut ajouter une tâche intitulée « newman run command ». Il y a deux cas de figure :
-
-S'il n'est pas basé sur Docker, il faut installer Newman dans `before_script`.
-
-Sinon, l'image Docker `wojcjechzurek/newman-ci` aide à ne pas avoir à l'installer.
-
-Voici un exemple concret de configuration `.gitlab-ci.yml` :
+La mise en place minimale consiste à ajouter un job dans le fichier `.gitlab-ci.yml` qui installe Newman, exécute la collection et remonte les résultats.
 
 ```yaml
 stages:
@@ -132,41 +48,63 @@ postman_tests:
     - main
 ```
 
-Dans cet exemple, la directive `when: always` sur les artifacts garantit que les rapports sont conservés même en cas d'échec des tests, ce qui est indispensable pour le débogage. La directive `reports:junit` permet à GitLab d'afficher les résultats directement dans l'onglet Tests de la merge request.
+Quelques points importants dans cette configuration. La directive `when: always` sur les artifacts garantit que les rapports sont conservés même en cas d'échec, indispensable pour le débogage. La directive `reports:junit` permet à GitLab d'afficher les résultats directement dans l'onglet Tests de la merge request, sans quitter l'interface.
 
-### 5. Automatiser les tests Postman dans GitLab CI
+Pour obtenir la collection et l'environnement, deux approches coexistent. La première consiste à générer une clé API Postman, récupérer les UID via l'API, puis construire les URLs d'accès. La seconde, souvent préférable, consiste à exporter les fichiers JSON depuis Postman et à les versionner dans le dépôt. Cette approche garantit que les tests exécutés correspondent exactement à la version du code, sans dépendance réseau vers l'API Postman au moment du build.
 
-Pour automatiser l'exécution des tests, il suffit d'ajouter cette configuration dans le fichier `.gitlab-ci.yml`. Cela permettra de déclencher automatiquement les tests chaque fois que du code est poussé dans le dépôt ou à des moments spécifiques.
+## Gestion des environnements et des secrets
 
-Il est également possible de planifier l'exécution des tests via les Pipeline Schedules de GitLab. Cela permet par exemple de lancer les tests toutes les nuits sur un environnement de staging pour détecter les régressions avant même qu'une merge request ne soit ouverte.
+La gestion des variables d'environnement est le premier point où la configuration devient intéressante. Une stratégie robuste combine trois niveaux.
 
-## Gestion des variables d'environnement
+Le fichier d'environnement versionné contient la structure complète : noms de variables, valeurs par défaut pour le développement local, placeholders pour les valeurs sensibles. Ce fichier fait partie du dépôt Git et sert de documentation vivante des dépendances de la suite de tests.
 
-La gestion des variables d'environnement est un point central de l'intégration Newman/GitLab CI. Plusieurs stratégies sont possibles :
+Les variables CI/CD de GitLab stockent les secrets : tokens d'authentification, mots de passe de comptes de test, URLs d'environnements protégés. Elles sont marquées comme masked et protected dans les settings du projet.
 
-- **Fichier d'environnement versionné** : exporter l'environnement Postman en JSON et le committer dans le dépôt. Les valeurs sensibles sont remplacées par des placeholders
-- **Variables CI/CD GitLab** : stocker les valeurs sensibles (tokens, mots de passe, URLs de staging) dans les variables protégées de GitLab CI
-- **Surcharge via `--env-var`** : Newman permet de surcharger des variables d'environnement individuelles en ligne de commande avec `--env-var "baseUrl=https://staging.example.com"`, ce qui permet de combiner un fichier d'environnement de base avec des valeurs injectées par le pipeline
+La surcharge en ligne de commande via `--env-var "baseUrl=https://staging.example.com"` fait le lien entre les deux. Le pipeline injecte les valeurs sensibles depuis les variables CI/CD dans la commande Newman, sans jamais les exposer dans le dépôt.
 
-Cette combinaison de stratégies garantit que les secrets ne sont jamais exposés dans le dépôt Git tout en permettant une exécution reproductible des tests.
+Cette séparation est fondamentale. Elle permet de reproduire les tests en local avec un simple `newman run collection.json --environment environment.json` tout en garantissant que les secrets ne fuient jamais dans l'historique Git.
 
-## Déboguer les tests échoués
+## Data-driven testing et itérations
 
-Lorsqu'un test échoue dans le pipeline, plusieurs techniques permettent d'identifier rapidement la cause :
+Newman supporte nativement le data-driven testing via l'option `--iteration-data`. Un fichier CSV ou JSON contenant des jeux de données est injecté dans la collection : chaque ligne du fichier déclenche une exécution complète de la collection avec les valeurs correspondantes.
 
-- **Consulter le rapport HTML** : télécharger l'artifact HTML généré par le reporter `htmlextra` depuis la page du pipeline GitLab. Ce rapport contient le détail de chaque requête, les headers envoyés et reçus, le corps de la réponse et les assertions échouées
-- **Activer le mode verbose** : ajouter l'option `--verbose` à la commande Newman pour obtenir des informations détaillées sur chaque requête et réponse dans les logs du pipeline
-- **Reproduire en local** : exécuter la même commande Newman sur sa machine avec les mêmes paramètres pour reproduire l'erreur dans un environnement maîtrisé
-- **Vérifier les timeouts** : un test qui passe en local mais échoue en CI peut être victime d'un timeout trop court. Augmenter `--timeout-request` ou vérifier la connectivité réseau du runner
-- **Analyser les variables** : une cause fréquente d'échec est une variable d'environnement manquante ou mal configurée. Vérifier que toutes les variables nécessaires sont bien définies dans les settings CI/CD de GitLab
+C'est un levier puissant pour augmenter la couverture sans dupliquer les requêtes. Un même scénario de création de ressource peut être testé avec des données valides, des données limites (champs vides, caractères spéciaux, valeurs maximales) et des données invalides attendues. L'option `--iteration-count` permet quant à elle de répéter la collection un nombre défini de fois, utile pour détecter des problèmes d'idempotence ou de fuite de ressources.
 
-## Conseils pour optimiser le pipeline CI
+## Stratégies d'assertion efficaces
 
-- **Utiliser des variables d'environnement** : définir des variables d'environnement dans GitLab CI pour gérer les configurations sensibles telles que les clés API et les URLs
-- **Paralléliser les tests** : si le projet a de nombreux tests, les diviser en plusieurs jobs pour réduire le temps d'exécution global. Newman permet de cibler un dossier spécifique avec `--folder`, ce qui facilite la répartition entre plusieurs jobs parallèles
-- **Surveiller la performance** : utiliser les rapports de Newman pour surveiller les temps de réponse des API et détecter les problèmes de performance
-- **Mettre en cache les dépendances** : configurer le cache GitLab CI pour éviter de réinstaller Newman et ses reporters à chaque exécution du pipeline
-- **Séparer les environnements** : maintenir des fichiers d'environnement distincts pour le développement, le staging et la production, et utiliser les variables CI/CD pour sélectionner le bon fichier selon la branche
+La qualité d'une suite de tests Postman repose sur la pertinence des assertions. Tester uniquement le code HTTP 200 ne suffit pas. Une stratégie d'assertion progressive couvre plusieurs niveaux : le code de retour HTTP, la structure du payload (présence des champs attendus, types corrects), les valeurs métier (un calcul retourne le bon résultat, une liste est triée correctement), et les headers de réponse (Content-Type, Cache-Control, CORS).
+
+Les pre-request scripts permettent de préparer le contexte : générer des données uniques, stocker des timestamps pour des vérifications ultérieures, enchaîner des appels de setup. Les test scripts exploitent la bibliothèque Chai intégrée à Postman pour des assertions expressives. La combinaison des deux transforme une collection de requêtes en véritable suite de tests fonctionnels.
+
+## Optimisation du pipeline
+
+Sur un projet avec des dizaines de endpoints, le temps d'exécution du job Newman devient un sujet. Plusieurs leviers permettent de le maîtriser.
+
+La parallélisation est le plus efficace. L'option `--folder` de Newman permet de cibler un dossier spécifique de la collection. On découpe alors le job unique en plusieurs jobs parallèles, chacun responsable d'un sous-ensemble fonctionnel. GitLab exécute ces jobs simultanément, et le temps total est celui du job le plus long plutôt que la somme de tous.
+
+La mise en cache des dépendances Node.js évite de réinstaller Newman à chaque exécution. Un cache GitLab CI sur le répertoire global npm réduit le `before_script` de 15 secondes à moins de 2.
+
+Les Pipeline Schedules de GitLab permettent de séparer les exécutions par fréquence. Les tests critiques tournent sur chaque merge request avec `--bail` pour un feedback rapide. La suite complète, plus lente, tourne chaque nuit sur l'environnement de staging via un schedule planifié.
+
+L'option `--bail` mérite une attention particulière en CI : elle arrête l'exécution dès la première erreur. Sur une merge request, c'est exactement le comportement souhaité : un feedback en 30 secondes vaut mieux qu'un rapport complet au bout de 5 minutes. Sur le run nocturne, on retire `--bail` pour obtenir une vue exhaustive.
+
+## Déboguer les échecs en CI
+
+Un test qui passe en local mais échoue en CI est un classique. Les causes les plus fréquentes sont les timeouts trop courts (le runner CI n'a pas la même latence réseau que le poste développeur), les variables d'environnement manquantes ou mal configurées, et les dépendances implicites à un état (une donnée créée manuellement en base, un service tiers non disponible depuis le runner).
+
+Le reporter `htmlextra` est l'outil de débogage principal : le rapport HTML téléchargeable depuis les artifacts contient le détail complet de chaque requête, headers envoyés et reçus, corps de la réponse, assertions échouées. L'option `--verbose` ajoute des traces détaillées dans les logs du pipeline pour les cas où le rapport HTML ne suffit pas.
+
+## Penser l'architecture de test d'API
+
+Newman et Postman résolvent un problème précis : exécuter des tests fonctionnels HTTP contre une API déployée. Cette approche a sa place dans la pyramide de tests, mais il est essentiel de comprendre où elle se situe et ce qu'elle ne couvre pas.
+
+Les tests Postman/Newman sont des tests d'intégration de bout en bout. Ils traversent le réseau, le serveur web, le framework applicatif, la base de données. Leur force est de valider le comportement réel de l'API telle que le consommateur la perçoit. Leur faiblesse est leur fragilité (dépendance à l'infrastructure, aux données, à la disponibilité des services) et leur lenteur relative.
+
+Le contract testing (avec des outils comme Pact ou Spectral pour la validation OpenAPI) occupe une place complémentaire. Il vérifie que le format des échanges entre services respecte un contrat défini, sans nécessiter que les services soient déployés. C'est plus rapide, plus stable, mais cela ne valide pas le comportement métier.
+
+Une architecture de test d'API équilibrée combine les trois niveaux. Les tests unitaires du code applicatif forment la base large de la pyramide. Les tests de contrat vérifient la compatibilité des interfaces entre services. Les tests Newman valident les scénarios fonctionnels critiques sur un environnement déployé, en nombre restreint mais bien ciblé.
+
+Quand la suite Postman dépasse une centaine de requêtes, que la maintenance des collections devient un frein, ou que le besoin de tests de performance se fait sentir, il est temps d'envisager des outils dédiés : k6 pour la charge, Playwright pour les flux end-to-end impliquant une UI, ou un framework de test d'API programmatique (Jest + supertest, PyTest + requests) qui offre les capacités de refactoring et de composition qu'un outil graphique ne permet pas.
 
 ## Pour aller plus loin
 
