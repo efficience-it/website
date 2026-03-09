@@ -7,112 +7,93 @@ excerpt: "De son terme anglais 'Legacy', la dette technique est une notion fréq
 image: "/images/blog/dette-technique.webp"
 ---
 
-## Qu'est-ce que la dette technique ?
+## Comprendre la dette technique
 
-De son terme anglais "Legacy", la dette technique est une notion fréquemment utilisée en technologie de l'information pour faire référence aux systèmes dépassés, mais toujours en cours d'utilisation. La dette technique est synonyme d'obsolescence et éventuellement de coûts de remplacement élevés.
+Ward Cunningham a forgé cette métaphore au début des années 1990 en comparant le développement logiciel à un emprunt financier : chaque raccourci contracte une dette dont les intérêts s'accumulent. L'analogie est puissante parce qu'elle parle le langage du business. Un directeur financier comprend immédiatement qu'une dette non remboursée génère des intérêts composés, et c'est exactement ce qui se passe dans une base de code négligée.
 
-Le concept a été introduit par Ward Cunningham au début des années 1990. Il compare le développement logiciel à un emprunt financier : prendre des raccourcis revient à contracter une dette dont les intérêts s'accumulent avec le temps. Plus on attend pour la rembourser, plus le coût total augmente.
+On réduit souvent la dette technique au code "sale". En réalité, elle recouvre un spectre bien plus large : dépendances obsolètes, absence de tests, documentation inexistante, choix d'architecture devenus inadaptés, ou encore infrastructure non reproductible. Toute décision technique qui augmente le coût futur du changement constitue de la dette.
 
-On distingue généralement deux types de dette technique. La dette intentionnelle résulte d'un choix délibéré, par exemple livrer rapidement une fonctionnalité pour saisir une opportunité de marché, en sachant qu'il faudra revenir dessus. La dette involontaire, elle, apparaît par manque de compétences, de revue de code ou de tests, et s'accumule sans que l'équipe en ait conscience.
+### Les types de dette
 
-## Comment se produit-elle ?
+Le quadrant de Martin Fowler distingue quatre catégories selon deux axes : intentionnelle ou involontaire, prudente ou imprudente.
 
-La dette technique ou legacy désigne les conséquences de négligences, d'erreurs et de failles intentionnelles ou involontaires dans le code faisant état d'une dette envers un environnement propre et stable.
+La **dette prudente et intentionnelle** est un levier stratégique. L'équipe livre un MVP avec un ORM simplifié en sachant qu'elle le remplacera après validation du marché. La **dette imprudente et intentionnelle** est un pari dangereux : "on n'a pas le temps de tester, on verra". La **dette prudente et involontaire** apparaît quand l'équipe découvre a posteriori qu'une meilleure approche existait. Enfin, la **dette imprudente et involontaire** est la plus insidieuse : elle s'accumule par manque de compétences ou de revue de code, sans que personne n'en ait conscience.
 
-*Concrètement pour des développeurs, ce sont des bouts de code, dans lequel l'auteur se dit : "on laisse comme ça, on fera plus propre plus tard".*
+Savoir dans quel quadrant se situe chaque élément de dette change fondamentalement la manière de le traiter.
 
-Imaginez que vous deviez réaliser toute la peinture d'une maison sans trop de temps ni de moyen. Le résultat serait plutôt moyen et il serait nécessaire de recommencer plus tard.
+## Les causes structurelles
 
-C'est un peu pareil avec la dette technique. Migrer vers un framework permet d'ajouter un cadre et donc une peinture bien réalisée et homogène.
+Au-delà des raccourcis individuels, la dette technique a des racines systémiques qu'il faut identifier pour agir durablement.
 
-### Les causes les plus fréquentes
+Les **délais serrés** poussent les équipes à livrer vite au détriment de la qualité. L'**absence de tests automatisés** empêche de détecter les régressions et rend chaque modification risquée. La **rotation des équipes** entraîne une perte de connaissance tacite sur le projet : les conventions non documentées disparaissent avec leurs auteurs. Le **report systématique des montées de version** crée un fossé croissant entre le projet et l'écosystème supporté. Enfin, l'**absence de vision architecturale** conduit à des décisions locales incohérentes entre elles.
 
-Plusieurs facteurs favorisent l'apparition de la dette technique. Les délais serrés poussent les équipes à livrer vite au détriment de la qualité. L'absence de tests automatisés empêche de détecter les régressions. Le manque de documentation rend le code difficile à comprendre et à maintenir. La rotation des équipes entraîne une perte de connaissance sur le projet. Enfin, le report systématique des mises à jour de dépendances crée un fossé croissant entre le projet et les versions supportées des bibliothèques utilisées.
+Un exemple concret : une application e-commerce développée en PHP 5.6 avec un framework maison. Au fil des années, les développeurs ajoutent des fonctionnalités sans refactoriser le code existant. Cinq ans plus tard, le temps de déploiement passe de quelques minutes à plusieurs heures, chaque correction de bug en introduit deux nouveaux, et plus personne dans l'équipe ne comprend certains modules critiques. La dette a atteint un seuil où elle paralyse l'organisation.
 
-Un exemple concret : une application e-commerce développée en PHP 5.6 avec un framework maison. Au fil des années, les développeurs ajoutent des fonctionnalités sans refactoriser le code existant. Cinq ans plus tard, le temps de déploiement passe de quelques minutes à plusieurs heures, chaque correction de bug en introduit deux nouveaux, et plus personne dans l'équipe ne comprend certains modules critiques.
+## Mesurer la dette : outillage et indicateurs
 
-## Qu'engendre la dette technique ?
+Ce qui ne se mesure pas ne se gère pas. Quantifier la dette technique est un prérequis pour la prioriser et justifier les investissements de remédiation auprès du management.
 
-Non maîtrisée, elle peut vite devenir un véritable fardeau pour l'entreprise dans la production et l'exploitation de votre logiciel ou application.
+### Les métriques essentielles
 
-> On parle ici de baisse de vélocité dans les livraisons de fonctionnalités, voire de turn-over dans les équipes. Très démoralisant pour le support, les développeurs et les utilisateurs, elle est source de beaucoup de stress.
+La **couverture de tests** indique le pourcentage de code vérifié automatiquement. En dessous de 60 %, le risque de régression devient élevé, mais attention : une couverture à 90 % avec des assertions faibles donne un faux sentiment de sécurité. Privilégiez la couverture de mutation pour évaluer la qualité réelle des tests.
 
-Il faut être davantage vigilant dans le cadre d'une équipe restreinte, car cela peut être fatal. La dette technique reste une dette, qu'il faut tôt ou tard rembourser.
-
-### L'impact chiffré sur l'entreprise
-
-Dans les moyennes et grandes entreprises, l'attribution de budget pour la maintenance et la dette technique avoisine les 40% à 60% pour certaines, pour dire à quel point le sujet est épineux et sensible. Car au-delà d'une gestion compliquée de votre application et de votre logiciel, vous générez avec cette dette des **failles de sécurité**.
-
-Prenons un cas réel fréquent : une PME utilise un CMS dont la version PHP n'est plus maintenue. Le temps de développement d'une nouvelle fonctionnalité, qui prenait initialement deux jours, passe progressivement à deux semaines. Les développeurs passent 70 % de leur temps à contourner des limitations techniques au lieu de produire de la valeur. Le coût de la dette dépasse alors largement celui d'une migration.
-
-La cybersécurité battant son plein, il faut absolument prendre en compte ces éléments, si vous ne souhaitez pas vous retrouver avec vos données chiffrées, volées, supprimées par une personne malveillante qui aura profité de votre dette de sécurité pour s'introduire dans votre système.
-
-## Comment mesurer la dette technique ?
-
-Avant de traiter la dette, il faut pouvoir la quantifier. Plusieurs approches complémentaires existent.
-
-### Les indicateurs clés
-
-La couverture de tests indique le pourcentage de code vérifié automatiquement. En dessous de 60 %, le risque de régression est élevé. La complexité cyclomatique mesure le nombre de chemins possibles dans une fonction : plus elle est élevée, plus le code est difficile à maintenir. Le taux de duplication révèle les copier-coller qui alourdissent la base de code. Enfin, le temps moyen de correction d'un bug est un indicateur pragmatique : s'il augmente régulièrement, la dette s'accumule.
+La **complexité cyclomatique** mesure le nombre de chemins d'exécution dans une fonction. Au-delà de 10, le code devient difficile à tester et à raisonner. Le **couplage afférent et efférent** révèle les dépendances entre modules : un composant fortement couplé propage les changements en cascade. Le **taux de duplication** signale les copier-coller qui alourdissent la base de code. Enfin, le **temps moyen de correction d'un bug** est un indicateur pragmatique : s'il augmente régulièrement, la dette s'accumule.
 
 ### Les outils de mesure
 
-Des outils comme SonarQube, PHPStan ou Psalm permettent d'analyser automatiquement la qualité du code et d'estimer la dette technique en jours de travail. Ils identifient les points chauds du projet, c'est-à-dire les fichiers les plus modifiés et les plus complexes, qui concentrent généralement la majorité des problèmes.
+SonarQube reste la référence pour estimer la dette en jours de travail. PHPStan et Psalm offrent une analyse statique progressive : on commence au niveau 0 et on monte graduellement. Rector détecte les patterns obsolètes et propose des corrections automatisées. Ces outils identifient les hotspots, ces fichiers à la fois très modifiés et très complexes qui concentrent généralement la majorité des problèmes.
 
-## Comment savoir qu'il faut migrer vers un nouveau système ?
+L'approche la plus efficace combine l'analyse statique avec l'historique Git. Un fichier de 2 000 lignes avec une complexité cyclomatique de 45 et 300 commits sur les six derniers mois est un candidat prioritaire au refactoring, bien plus qu'un fichier tout aussi complexe mais jamais touché.
 
-Tôt ou tard, vous allez avoir de la dette technique au sein de votre système informatique, c'est inévitable. Soit c'est vous qui la gérez avec votre équipe dans le cadre d'un logiciel interne, soit c'est un prestataire qui s'en occupe.
+## Prioriser le remboursement
 
-Lorsque vous vous rendez compte que votre système est très dépassé, voire trop, il ne faut pas hésiter à prendre le taureau par les cornes et voir comment y remédier.
+Toute la dette ne mérite pas d'être remboursée. L'enjeu pour un lead ou un staff engineer est de construire un cadre de priorisation qui maximise le retour sur investissement.
 
-### Des signes précurseurs peuvent vous interpeller quant à cette migration
+### La matrice impact-effort
 
-- La technologie utilisée est obsolète
-- La maintenance est de plus en plus coûteuse
-- Le marché n'est pas évolutif
-- Réparer des bugs n'est plus rentable, trop de lenteurs. Cela peut facilement se remarquer : les développeurs mettent de plus en plus de temps à répondre à une demande, ou les modifications entraînent de plus en plus d'effets secondaires non désirés.
+Classez chaque élément de dette selon deux axes : l'impact sur la vélocité de l'équipe et l'effort de remédiation. Les quick wins (fort impact, faible effort) doivent être traités immédiatement. Les chantiers structurants (fort impact, effort élevé) nécessitent un planning dédié. La dette à faible impact peut souvent être acceptée consciemment.
 
-### Comment s'y prend-on ?
+### Les stratégies de remboursement
 
-Il y a plusieurs manières :
+Le **Strangler Fig Pattern** consiste à encapsuler le système existant et à le remplacer module par module. Chaque nouveau développement est réalisé dans le nouveau système, tandis que l'ancien est progressivement décommissionné. L'application reste fonctionnelle tout au long du processus, ce qui limite considérablement le risque.
 
-- Vous pouvez reprendre plus en profondeur votre système en refondant l'architecture, la sécurité et tous les systèmes dépassés, en appliquant des correctifs ci et là, pour maintenir votre application.
+La **règle du Boy Scout**, popularisée par Robert C. Martin, propose de laisser le code dans un meilleur état que celui dans lequel on l'a trouvé. À chaque intervention, les développeurs améliorent un petit morceau du code existant. Cette approche est particulièrement efficace pour maîtriser la dette au quotidien sans mobiliser de budget dédié.
 
-- Vous pouvez aussi faire appel à un framework, qui bénéficiera des standards de l'open source, de la sécurité, et de l'intelligence de tous les contributeurs à la technologie. Vous repartez sur des bases saines.
+Les **sprints de remboursement** consistent à consacrer régulièrement une part du temps de développement au traitement de la dette. Allouer 20 % de chaque sprint au refactoring permet de maintenir un rythme constant d'amélioration sans créer de conflit avec les demandes fonctionnelles.
+
+## La dette comme levier stratégique
+
+C'est ici que la perspective change radicalement. Pour un architecte ou un CTO, la dette technique n'est pas un problème à éliminer mais un paramètre à piloter.
+
+### Distinguer dette architecturale et dette de code
+
+La dette de code, une méthode trop longue, un nommage incohérent, un test manquant, se rembourse relativement facilement. La **dette architecturale** est d'une tout autre nature : un monolithe qui aurait dû être découpé en services, un choix de base de données inadapté à la charge, une absence de couche d'abstraction qui verrouille le système sur un fournisseur. Cette dette-là ne se rembourse pas en sprint. Elle exige une vision à long terme, un budget dédié et un sponsorship de la direction.
+
+### Communiquer avec les parties prenantes
+
+Le plus grand défi n'est pas technique, il est politique. Les développeurs voient la dette au quotidien ; les décideurs ne voient que la vélocité qui baisse. Pour obtenir les moyens de rembourser la dette, il faut la traduire en langage business.
+
+Plutôt que de dire "il faut refactoriser le module de paiement", dites : "le module de paiement nous coûte 15 jours supplémentaires par trimestre en temps de développement et représente 60 % de nos incidents en production. Un investissement de 30 jours de développement réduirait ce coût de 80 %". Chiffrez le coût de l'inaction autant que le coût de l'action.
+
+### Planifier la soutenabilité à long terme
+
+Un système soutenable n'est pas un système sans dette. C'est un système dont la dette est connue, mesurée, et dont le rythme de remboursement dépasse le rythme d'accumulation. Intégrez la revue de la dette technique dans vos rituels d'architecture. Maintenez un registre de décisions architecturales (ADR) pour documenter les compromis acceptés et leurs conditions de réévaluation.
+
+Les organisations les plus matures traitent la dette technique comme un indicateur de santé, au même titre que le chiffre d'affaires ou la satisfaction client. Elle figure dans les tableaux de bord de la direction et influence les décisions d'investissement.
+
+## Pourquoi choisir Symfony pour réduire la dette
+
+Symfony offre un cadre structurant pour les équipes qui souhaitent repartir sur des bases saines ou moderniser progressivement un système existant.
+
+Le framework est Open Source, porté par une communauté active et bénéficiant d'un cycle de release prévisible avec un support long terme. Son écosystème outille directement la lutte contre la dette : Rector automatise les montées de version et le refactoring, PHPStan détecte les erreurs sans exécuter le code, et le composant Deprecation Contract signale clairement les éléments qui seront retirés dans les versions futures, permettant aux équipes d'anticiper les changements.
 
 > Une des spécialités d'Efficience IT est justement de migrer vers le Framework Symfony en PHP, ce qui offre un cadre de maintenabilité fort et une sécurité puissante, maintenus par une communauté importante.
 
-### Les stratégies de refactoring
-
-Rembourser la dette technique ne signifie pas tout réécrire d'un coup. Plusieurs stratégies permettent une transition progressive.
-
-La méthode du Strangler Fig Pattern consiste à encapsuler le système existant et à le remplacer module par module. Chaque nouveau développement est réalisé dans le nouveau système, tandis que l'ancien est progressivement décommissionné. Cette approche limite les risques car l'application reste fonctionnelle tout au long du processus.
-
-La règle du Boy Scout, popularisée par Robert C. Martin, propose de laisser le code dans un meilleur état que celui dans lequel on l'a trouvé. À chaque intervention, les développeurs améliorent un petit morceau du code existant. Cette approche est particulièrement efficace pour maîtriser la dette au quotidien sans mobiliser de budget dédié.
-
-Enfin, les sprints de remboursement consistent à consacrer régulièrement une part du temps de développement au traitement de la dette. Par exemple, allouer 20 % de chaque sprint au refactoring permet de maintenir un rythme constant d'amélioration.
-
-## Pourquoi choisir Symfony ?
-
-> Symfony est efficace et simple. Il vous permettra de poser un cadre à votre dette technique.
-
-Il possède plusieurs principes :
-
-- C'est un framework Open Source. Il vous est donc possible de le redistribuer et le modifier autant que voulu.
-- Il est facile d'accès
-- Il possède une approche pragmatique
-- Sa communauté est importante et très active
-- Sa barre d'outils intégrée facilite les débogages rapides
-
-Migrer votre dette technique vers Symfony permettra d'éviter les failles de sécurité. Le framework Symfony bénéficie également d'une maintenance régulière pour vous permettre d'explorer toutes ses fonctionnalités.
-
-Symfony offre aussi un écosystème d'outils qui accompagne la réduction de la dette technique. Rector automatise les montées de version et le refactoring du code. PHPStan détecte les erreurs sans exécuter le code. Le composant Deprecation Contract signale clairement les éléments qui seront retirés dans les versions futures, permettant aux équipes d'anticiper les changements.
-
 ## Conclusion
 
-Il est important de se rappeler que la dette technique n'est pas quelque chose que l'on peut prévoir. Elle est présente dans tout projet IT. Le but n'est pas d'essayer de la supprimer mais bien de la maîtriser afin d'éviter le plus de dégâts possibles.
+La dette technique n'est pas un ennemi à vaincre mais un paramètre à piloter. Les équipes qui la craignent la subissent. Celles qui la mesurent, la priorisent et la communiquent en font un outil de décision.
 
-La clé réside dans une approche proactive : mesurer régulièrement la dette, prioriser les zones les plus critiques et intégrer le refactoring dans le cycle de développement. Avec les bons outils, les bonnes pratiques et un framework solide comme Symfony, la dette technique devient un indicateur de gestion plutôt qu'une source d'inquiétude.
+La clé réside dans une approche multiniveau : les développeurs appliquent la règle du Boy Scout au quotidien, les leads construisent des cadres de priorisation, et les architectes intègrent la gestion de la dette dans la stratégie technique de l'organisation. Avec les bons outils, les bonnes pratiques et un framework solide comme Symfony, la dette technique devient un indicateur de gestion plutôt qu'une source d'inquiétude.
 
 ## Pour aller plus loin
 
