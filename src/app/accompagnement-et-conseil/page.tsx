@@ -6,6 +6,7 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import CallToAction from "@/components/sections/CallToAction";
+import { breadcrumbJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "Conseil, formation et coaching Symfony",
@@ -64,8 +65,18 @@ const advantages = [
   },
 ];
 
+const breadcrumb = breadcrumbJsonLd([
+  { name: "Nos expertises", path: "/notre-expertise" },
+  { name: "Accompagnement et Conseil", path: "/accompagnement-et-conseil" },
+]);
+
 export default function AccompagnementEtConseil() {
   return (
+    <>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+    />
     <main>
       {/* Hero */}
       <section className="bg-light-gray py-16 md:py-24">
@@ -259,5 +270,6 @@ export default function AccompagnementEtConseil() {
 
       <CallToAction />
     </main>
+    </>
   );
 }

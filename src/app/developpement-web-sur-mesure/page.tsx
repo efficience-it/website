@@ -6,6 +6,7 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import CallToAction from "@/components/sections/CallToAction";
+import { breadcrumbJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "Développement web sur mesure | Expertise Symfony – Efficience IT",
@@ -38,8 +39,18 @@ const advantages = [
   },
 ];
 
+const breadcrumb = breadcrumbJsonLd([
+  { name: "Nos expertises", path: "/notre-expertise" },
+  { name: "Développement web sur mesure", path: "/developpement-web-sur-mesure" },
+]);
+
 export default function DeveloppementWeb() {
   return (
+    <>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+    />
     <main>
       {/* Hero */}
       <section className="bg-light-gray py-16 md:py-24">
@@ -461,5 +472,6 @@ export default function DeveloppementWeb() {
 
       <CallToAction />
     </main>
+    </>
   );
 }

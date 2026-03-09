@@ -5,6 +5,7 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import TimelineItem from "@/components/cards/TimelineItem";
 import Button from "@/components/ui/Button";
 import CallToAction from "@/components/sections/CallToAction";
+import { breadcrumbJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "Agence Symfony – Présentation et expertise",
@@ -104,8 +105,15 @@ const values = [
   },
 ];
 
+const breadcrumb = breadcrumbJsonLd([{ name: "Notre histoire", path: "/l-entreprise" }]);
+
 export default function LEntreprise() {
   return (
+    <>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+    />
     <main>
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
@@ -200,5 +208,6 @@ export default function LEntreprise() {
 
       <CallToAction />
     </main>
+    </>
   );
 }

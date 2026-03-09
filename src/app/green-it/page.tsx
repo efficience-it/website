@@ -4,6 +4,7 @@ import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
 import CallToAction from "@/components/sections/CallToAction";
+import { breadcrumbJsonLd } from "@/lib/structured-data";
 import {
   greenMetrics,
   greenPrinciple,
@@ -19,8 +20,15 @@ export const metadata = pageMetadata({
   absoluteTitle: true,
 });
 
+const breadcrumb = breadcrumbJsonLd([{ name: "Green IT", path: "/green-it" }]);
+
 export default function GreenIt() {
   return (
+    <>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+    />
     <main>
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
@@ -162,5 +170,6 @@ export default function GreenIt() {
 
       <CallToAction />
     </main>
+    </>
   );
 }

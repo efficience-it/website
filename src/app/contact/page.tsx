@@ -5,6 +5,7 @@ import Accordion from "@/components/ui/Accordion";
 import ContactForm from "@/components/sections/ContactForm";
 import { faqItems } from "@/../data/faq";
 import { BASE_URL } from "@/lib/metadata";
+import { breadcrumbJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "Contact | Agence web Symfony – Efficience IT",
@@ -27,12 +28,18 @@ const jsonLd = {
   })),
 };
 
+const breadcrumb = breadcrumbJsonLd([{ name: "Contact", path: "/contact" }]);
+
 export default function Contact() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
       />
       <main>
         <section className="bg-light-gray py-16 md:py-24">

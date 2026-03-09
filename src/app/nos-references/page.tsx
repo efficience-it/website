@@ -3,6 +3,7 @@ import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
 import Testimonials from "@/components/sections/Testimonials";
+import { breadcrumbJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "Nos réalisations et contributions open source",
@@ -59,8 +60,15 @@ const techStack = [
   { name: "GitLab", logo: "/images/references/tech/gitlab.svg" },
 ];
 
+const breadcrumb = breadcrumbJsonLd([{ name: "Références", path: "/nos-references" }]);
+
 export default function NosReferences() {
   return (
+    <>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+    />
     <main>
       <section className="bg-light-gray py-8 md:py-12">
         <Container className="text-center">
@@ -140,5 +148,6 @@ export default function NosReferences() {
 
       <Testimonials />
     </main>
+    </>
   );
 }

@@ -6,6 +6,7 @@ import MarkdownContent from "@/components/ui/MarkdownContent";
 import { pageMetadata } from "@/lib/metadata";
 import type { Metadata } from "next";
 import { BASE_URL, SITE_NAME } from "@/lib/metadata";
+import { breadcrumbJsonLd } from "@/lib/structured-data";
 
 interface ArticlePageProps {
   params: Promise<{ slug: string }>;
@@ -69,14 +70,24 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       url: BASE_URL,
     },
     datePublished: post.date,
+    dateModified: post.date,
     url: `${BASE_URL}/article/${slug}`,
   };
+
+  const breadcrumb = breadcrumbJsonLd([
+    { name: "Blog", path: "/blog" },
+    { name: post.title, path: `/article/${slug}` },
+  ]);
 
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
       />
       <main>
         <article className="py-16">
