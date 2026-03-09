@@ -187,10 +187,10 @@ export default function GreenIt() {
               — un moteur de recherche au service de la planète
             </li>
             <li>
-              <Link href="/article/la-decarbonation-du-numerique-une-des-tendances-technologiques-de-2022" className="text-primary hover:underline">
-                La décarbonation du numérique
+              <Link href="/article/normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous" className="text-primary hover:underline">
+                Normes RGAA : accessibilité pour tous
               </Link>{" "}
-              — tendances et bonnes pratiques
+              — concevoir des sites inclusifs et responsables
             </li>
             <li>
               <a href="https://www.greenit.fr/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
