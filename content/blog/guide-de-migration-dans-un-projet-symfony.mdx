@@ -7,102 +7,101 @@ excerpt: "Le framework Symfony est en constante évolution comme de nombreux asp
 image: "/images/blog/migration-symfony.webp"
 ---
 
-## Migration Symfony : guide pour mettre à jour un projet sereinement
+## Comprendre le cycle de release Symfony
 
-Le framework Symfony est en constante évolution comme de nombreux aspects du développement web. Efficience IT surveille de près ces changements et propose des services de migration. Ce guide complet présente les étapes à suivre pour mettre à jour votre projet Symfony sereinement.
+Symfony suit un calendrier de publication prévisible qui structure toute stratégie de migration. Les versions mineures sortent deux fois par an, en mai et en novembre. Les versions majeures arrivent environ tous les deux ans. Chaque version mineure bénéficie de huit mois de corrections de bugs et de quatorze mois de correctifs de sécurité. Les versions LTS prolongent ce support à trois ans de corrections et quatre ans de sécurité.
 
-Le terme « migration » peut sembler anxiogène, mais Symfony est conçu avec la rétrocompatibilité comme priorité, facilitant les transitions entre versions. Contrairement à d'autres frameworks qui imposent des réécritures profondes à chaque version majeure, Symfony adopte une approche progressive. Les fonctionnalités dépréciées sont signalées longtemps à l'avance, laissant aux développeurs le temps de s'adapter. Cette philosophie rend les migrations bien plus prévisibles et maîtrisées qu'on ne pourrait le craindre.
+Cette régularité a une conséquence directe : le coût d'une migration est proportionnel au temps écoulé depuis la dernière mise à jour. Un projet maintenu à jour sur chaque mineure absorbe des changements incrémentaux. Un projet figé sur Symfony 4.4 depuis 2019 affronte l'accumulation de trois versions majeures d'un coup.
 
-## Conseils pour une migration réussie
+### Le mécanisme des dépréciations
 
-### 1. Lire la documentation
+Le contrat de Symfony est clair : aucune fonctionnalité n'est supprimée sans avoir été dépréciée au moins une version majeure à l'avance. Concrètement, une classe marquée `@deprecated` en 5.2 reste fonctionnelle dans toute la branche 5.x. Elle disparaît en 6.0.
 
-Avant chaque mise à jour, consultez les articles publiés régulièrement sur le blog Symfony. Ils informent les utilisateurs des nouvelles fonctionnalités et des changements importants. Cette préparation en amont permet d'anticiper les impacts et de supprimer plus rapidement les éléments dépréciés avant même de lancer la migration.
+La dernière mineure avant une majeure (5.4 avant 6.0, 6.4 avant 7.0) joue un rôle pivot. Elle contient exactement les mêmes fonctionnalités que la majeure suivante, mais conserve la rétrocompatibilité. Migrer vers 5.4 et résoudre toutes les dépréciations revient à préparer le terrain pour un passage à 6.0 quasi transparent.
 
-Le fichier UPGRADE.md, présent dans le dépôt officiel de Symfony, constitue une ressource indispensable. Il répertorie précisément chaque modification entre deux versions et fournit les instructions de mise à jour correspondantes. Prenez le temps de le lire intégralement pour la version ciblée afin de dresser une cartographie complète des changements qui vous concernent.
+Le Profiler de Symfony expose un panneau dédié aux dépréciations. Exécuter la suite de tests avec la variable `SYMFONY_DEPRECATIONS_HELPER=max[direct]=0` force l'échec au moindre appel déprécié direct, transformant chaque dépréciation en signal immédiat.
 
-### 2. Tester votre code existant
+## Préparer le terrain : audit et couverture de tests
 
-Tester le code actuel est une étape fondamentale pour s'assurer du bon fonctionnement de l'application avant la migration. Sans une base de tests solide, il devient impossible de distinguer un bug préexistant d'une régression introduite par la migration. Plusieurs outils sont à votre disposition :
+### Évaluer la couverture existante
 
-- **PhpUnit** : permet d'écrire des tests unitaires garantissant que chaque unité de code se comporte comme prévu de manière isolée
-- **Behat** : complète PhpUnit en fournissant des capacités de tests fonctionnels, vérifiant le comportement de l'application dans son ensemble
-- **Tests manuels** : les développeurs vérifient directement le comportement de l'application en parcourant les scénarios critiques
+Avant de toucher à `composer.json`, mesurez votre couverture de tests. Non pas le pourcentage global qui rassure à tort, mais la couverture sur les chemins critiques : authentification, paiement, workflows métier, intégrations tierces. Un projet avec 70 % de couverture globale mais 0 % sur le contrôleur de paiement est un projet à risque.
 
-Si votre couverture de tests est insuffisante, investissez du temps pour ajouter des tests sur les fonctionnalités essentielles avant de démarrer la migration. Ce travail préparatoire vous fera gagner un temps considérable lors de la phase de validation.
+PHPUnit avec l'option `--coverage-html` génère un rapport exploitable. Identifiez les zones non couvertes qui touchent à des services utilisant des API Symfony susceptibles de changer. Concentrez l'effort de test sur ces zones avant de démarrer la migration.
 
-### 3. Identifier les changements de code nécessaires
+Behat ou Panther complètent cette couverture en validant les parcours utilisateurs de bout en bout. Un scénario Behat qui déroule le tunnel de commande détectera une régression que des tests unitaires isolés manqueront.
 
-Comparez les notes de version de Symfony pour identifier les modifications requises. Ces changements peuvent affecter les classes, les services, les configurations ou les templates. Listez-les et priorisez-les pour organiser votre travail de migration.
+### Construire la matrice de compatibilité des bundles
 
-Portez une attention particulière aux avertissements de dépréciation dans les logs de votre application. Symfony émet ces avertissements bien avant de supprimer une fonctionnalité, ce qui vous donne une visibilité claire sur les adaptations nécessaires. Le Profiler de Symfony dispose d'un panneau dédié aux dépréciations qui facilite grandement ce travail d'inventaire.
+Chaque bundle tiers constitue un point de friction potentiel. Dressez un inventaire exhaustif depuis `composer.lock` et vérifiez pour chacun : la version cible de Symfony est-elle supportée ? Le bundle est-il toujours maintenu ? Existe-t-il une branche ou un tag compatible ?
 
-### 4. Mettre à jour les dépendances Symfony
+Les bundles abandonnés représentent le risque principal. Un bundle sans mise à jour depuis deux ans et qui repose sur des classes internes de Symfony cassera probablement à la prochaine majeure. Identifiez les alternatives ou prévoyez un fork interne. Pour les bundles internes à votre organisation, planifiez leur mise à jour en parallèle du projet principal.
 
-Cette étape est essentielle : les dépendances nécessitent une harmonie entre tous les éléments du système. Un simple `composer update` permet de mettre à jour les relations de dépendances, mais vérifiez bien que toutes les contraintes de version sont satisfaites.
+## Automatiser avec Rector et PHPStan
 
-```bash
-composer update
-```
+### Rector : le levier de productivité
 
-Avant de lancer la mise à jour, ajustez les contraintes de version dans votre fichier `composer.json` pour autoriser la version cible. Pensez également à vérifier la version minimale de PHP requise par la nouvelle version de Symfony, car certaines mises à jour majeures exigent une version de PHP plus récente. Résolvez les éventuels conflits de dépendances un par un en consultant les messages d'erreur de Composer, qui sont généralement explicites.
+Rector applique des règles de transformation de code automatisées. Pour une migration Symfony, le set `symfony` de Rector réécrit les appels dépréciés, met à jour les signatures de méthodes et adapte les configurations. Sur un projet de taille moyenne, Rector automatise entre 60 et 80 % des modifications nécessaires.
 
-### 5. Vérifier les dépendances tierces, bundles et packages
+L'approche recommandée consiste à exécuter Rector set par set, pas tout d'un bloc. Lancez d'abord les règles de renommage de classes, validez avec la suite de tests, commitez. Puis les règles de configuration, validez, commitez. Cette granularité isole chaque catégorie de changement et simplifie le debug en cas de régression.
 
-Assurez-vous que vos dépendances tierces restent compatibles avec la version cible de Symfony. Vérifiez la documentation de chaque bundle pour identifier les modifications nécessaires. Si certaines dépendances sont abandonnées par leurs mainteneurs, il faudra trouver des alternatives avant de poursuivre la migration.
+Rector ne remplace pas la compréhension du changement. Certaines transformations nécessitent un contexte métier que l'outil ne possède pas. Relisez systématiquement les diffs générés, en particulier sur les services qui manipulent des événements Symfony ou des extensions du compilateur de conteneur.
 
-Certains bundles populaires publient leurs propres guides de migration ou disposent de branches dédiées à chaque version majeure de Symfony. Consultez leurs dépôts GitHub pour vérifier l'état de compatibilité. Dans le cas de bundles internes à votre organisation, planifiez leur mise à jour en parallèle de la migration du projet principal.
+### PHPStan : le filet de sécurité statique
 
-### 6. Utiliser les outils de migration
+PHPStan au niveau 6 minimum détecte les incompatibilités de types, les appels à des méthodes supprimées et les erreurs d'interface. Après chaque passe de Rector, lancez PHPStan pour attraper ce que l'outil de transformation a manqué ou mal transformé.
 
-Deux outils principaux facilitent les mises à niveau :
+L'extension `phpstan-symfony` apporte la connaissance du conteneur de services au moteur d'analyse. Elle détecte les services mal typés, les paramètres manquants et les routes invalides. Cette extension devient particulièrement précieuse lors d'une migration où la configuration du conteneur évolue.
 
-- **PHPStan** : analyseur statique qui détecte les erreurs PHP potentielles par inférence de type, sans exécuter le code. Il identifie les incompatibilités et les usages dépréciés avant même de lancer l'application.
-- **Rector** : outil de transformation de code automatisé. Grâce à des règles prédéfinies, il modifie votre code de manière sûre et cohérente, travaillant en complément de PHPStan pour automatiser les changements répétitifs.
+## Stratégie de migration par phases
 
-L'utilisation combinée de ces deux outils réduit considérablement l'effort manuel de migration. Rector peut automatiser jusqu'à 80 % des modifications de code nécessaires lors d'un changement de version, tandis que PHPStan vérifie que le résultat est cohérent. Exécutez Rector en premier pour appliquer les transformations automatiques, puis lancez PHPStan pour détecter les problèmes restants.
+### Phase 1 : stabilisation sur la dernière mineure
 
-### 7. Procéder de manière incrémentale
+Montez d'abord sur la dernière mineure de votre branche majeure actuelle. Si vous êtes sur Symfony 5.2, passez à 5.4. Résolvez toutes les dépréciations signalées. Cette phase est la moins risquée car la rétrocompatibilité est garantie au sein d'une même branche majeure.
 
-Pour les projets très anciens, des mises à jour incrémentales entre les versions sont possibles mais chronophages. Les développeurs recommandent généralement de mettre à jour directement vers la version souhaitée. L'idéal reste de réaliser les mises à jour au fur et à mesure de leur sortie pour éviter l'accumulation de dette technique.
+### Phase 2 : saut de version majeure
 
-**Note importante pour les développeurs :** pour des écarts de versions majeures très importants, recréer entièrement le projet dans la version actuelle de Symfony peut s'avérer plus efficace que d'adapter du code legacy. Pour un saut d'une seule version majeure (par exemple 5.4 vers 6.x), la revue de la documentation des différences entre versions nécessite généralement un minimum de changements de code.
+Une fois toutes les dépréciations éliminées en 5.4, le passage à 6.0 ne devrait introduire que des changements liés aux éléments dépréciés effectivement supprimés. Ajustez les contraintes dans `composer.json`, exécutez `composer update` et résolvez les conflits de dépendances un par un. Composer produit des messages d'erreur explicites qui guident la résolution.
 
-Quelle que soit la stratégie choisie, découpez le travail en étapes distinctes et validez chacune d'entre elles avant de passer à la suivante. Cette approche permet de localiser rapidement l'origine d'un problème et d'éviter les situations où de multiples erreurs s'accumulent.
+Vérifiez la version minimale de PHP requise. Symfony 6.0 exige PHP 8.0, Symfony 7.0 exige PHP 8.2. Un saut de version majeure Symfony implique souvent un saut de version PHP en parallèle, avec ses propres implications.
 
-### 8. Effectuer des tests approfondis
+### Phase 3 : validation et montée en version continue
 
-Étape finale indispensable : effectuer des tests unitaires, fonctionnels et d'intégration pour s'assurer que toutes les fonctionnalités de l'application fonctionnent correctement après la migration. Ne négligez aucun scénario critique.
+Exécutez la suite de tests complète. Organisez une recette avec les utilisateurs métier. Comparez les métriques de performance avant et après : temps de réponse, consommation mémoire, nombre de requêtes SQL, taux d'erreur. Blackfire ou le Profiler Symfony identifient les goulots d'étranglement introduits par la nouvelle version.
 
-Organisez une phase de recette dédiée avec les utilisateurs clés de l'application. Leur connaissance métier permet de détecter des régressions subtiles que les tests automatisés ne couvrent pas toujours. Documentez les anomalies rencontrées et corrigez-les avant le déploiement en production.
+## Penser à l'échelle : migrations architecturales
 
-### 9. Surveiller les performances
+### Le Strangler Fig appliqué à Symfony
 
-Les équipes opérationnelles doivent vérifier le comportement de l'application en production après la mise à jour. Les changements de version peuvent impacter les performances de manière inattendue, et un monitoring attentif permet de détecter rapidement les régressions.
+Pour les projets massifs où un big bang est trop risqué, le pattern Strangler Fig offre une alternative. Le principe : faire cohabiter l'ancien et le nouveau derrière un reverse proxy ou un load balancer, puis migrer route par route.
 
-Comparez les métriques clés avant et après la migration : temps de réponse des pages, consommation mémoire, nombre de requêtes SQL et taux d'erreur. Des outils comme Blackfire ou le Profiler Symfony permettent d'identifier précisément les éventuels goulots d'étranglement introduits par la nouvelle version.
+Concrètement, vous déployez une nouvelle instance Symfony 7 à côté de l'application Symfony 4 existante. Le proxy route `/api/v2/*` vers la nouvelle instance, tout le reste vers l'ancienne. Chaque endpoint migré bascule progressivement. L'ancienne application rétrécit jusqu'à disparaître.
 
-## Les avantages de la migration
+Cette approche exige une couche de partage de session (Redis, JWT stateless) et une stratégie de base de données cohérente entre les deux instances. Elle se justifie sur des applications critiques où l'indisponibilité n'est pas acceptable.
 
-Symfony publie trois types de versions, chacun avec ses objectifs :
+### Opérer en dual-stack
 
-### Version corrective
+Le dual-stack va plus loin que le Strangler Fig en maintenant deux versions en production simultanément pendant une période définie. Le trafic est réparti par feature flags ou par population d'utilisateurs. Les métriques de la nouvelle version sont comparées en conditions réelles avant le basculement complet.
 
-Publiée pour corriger des bugs, des problèmes de sécurité ou des erreurs antérieures. Aucune nouvelle fonctionnalité n'est introduite. Exemple : passage de la version 5.0 à 5.0.2. Ces mises à jour sont les plus simples et ne nécessitent généralement aucune modification de code. Elles doivent être appliquées rapidement, en particulier lorsqu'elles corrigent des failles de sécurité.
+Cette stratégie convient aux plateformes à fort trafic où les tests de charge en environnement de staging ne reproduisent pas fidèlement les conditions de production. Le coût opérationnel est élevé (double infrastructure, double monitoring), mais le risque métier est réduit au minimum.
 
-### Mise à jour mineure
+### Évaluation des risques et arbitrage
 
-Introduit des fonctionnalités mineures, des améliorations et des corrections de bugs tout en maintenant la compatibilité avec les versions précédentes de la même branche majeure. Ces mises à jour sont publiées deux fois par an, en mai et en novembre. Elles nécessitent un minimum de modifications de code grâce à la politique de rétrocompatibilité de Symfony. Profitez de ces mises à jour pour adopter les nouvelles bonnes pratiques recommandées et moderniser progressivement votre base de code.
+Toute migration majeure mérite une analyse de risques formalisée. Trois axes structurent cette évaluation :
 
-### Mise à jour majeure
+**Risque technique** : nombre de dépréciations non résolues, pourcentage de code couvert par les tests, nombre de bundles tiers non compatibles, écart de version PHP requis.
 
-Publiée environ tous les deux ans, une mise à jour majeure introduit des changements significatifs : nouvelles fonctionnalités, améliorations importantes et suppression des éléments dépréciés dans les versions précédentes. La documentation devient disponible des mois à l'avance, permettant aux développeurs de se préparer. La dernière version mineure avant une majeure (par exemple 5.4 avant 6.0) contient exactement les mêmes fonctionnalités que la nouvelle version majeure, mais conserve la rétrocompatibilité. C'est cette version intermédiaire qui facilite la transition en permettant de corriger toutes les dépréciations avant le saut de version.
+**Risque organisationnel** : disponibilité de l'équipe, niveau de connaissance Symfony dans l'équipe, existence de documentation interne sur l'architecture, capacité à geler les fonctionnalités pendant la migration.
 
-## Conclusion
+**Risque métier** : périodes critiques à éviter (Black Friday, clôture comptable), SLA à respecter, tolérance à l'indisponibilité, impact d'une régression sur le chiffre d'affaires.
 
-Chaque type de version contribue à maintenir votre projet sain et à jour au fil du temps. Les migrations éliminent les dépréciations accumulées et implémentent les innovations du framework, assurant la viabilité à long terme de votre projet. Une migration bien préparée et méthodiquement exécutée transforme ce qui pourrait être une épreuve en une opération de routine.
+Un projet avec une dette technique modérée, une bonne couverture de tests et une équipe expérimentée migrera en place avec la stratégie par phases. Un projet legacy critique avec peu de tests et des bundles abandonnés justifiera un Strangler Fig ou une réécriture partielle.
 
-Efficience IT accompagne les organisations tout au long de ce processus. Contactez-nous pour en savoir plus.
+### Conduire le changement dans l'organisation
+
+Les migrations majeures ne sont pas que techniques. Un saut de Symfony 4 à Symfony 7 implique de former l'équipe aux attributs PHP 8, au système de configuration modernisé, aux nouvelles pratiques de sécurité. Prévoyez des sessions de montée en compétence avant le démarrage, pas pendant.
+
+Communiquez un calendrier réaliste aux parties prenantes. Une migration majeure sur un projet de taille moyenne prend entre deux et six semaines selon la dette accumulée. Intégrez une marge pour les imprévus, en particulier sur les bundles tiers dont la compatibilité n'est pas garantie le jour J.
 
 ## Pour aller plus loin
 
