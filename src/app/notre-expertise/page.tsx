@@ -5,16 +5,12 @@ import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
-import {
-  technologies,
-  services,
-  symfonyAdvantages,
-  methodology,
-} from "@/../data/expertise";
+import { services, symfonyAdvantages, methodology } from "@/../data/expertise";
 import CallToAction from "@/components/sections/CallToAction";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
+import TechnologiesGrid from "@/components/sections/TechnologiesGrid";
 
 export const metadata = pageMetadata({
   title: "Expertise Symfony de référence",
@@ -113,20 +109,7 @@ export default function NotreExpertise() {
       <section className="py-16 md:py-24">
         <Container>
           <SectionTitle>Technologies maîtrisées</SectionTitle>
-          <div className="grid grid-cols-3 gap-6 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8">
-            {technologies.map((tech) => (
-              <div key={tech.name} className="flex flex-col items-center gap-2">
-                <Image
-                  src={tech.logo}
-                  alt={tech.name}
-                  width={48}
-                  height={48}
-                  className="h-12 w-12 object-contain"
-                />
-                <span className="text-xs font-medium text-dark">{tech.name}</span>
-              </div>
-            ))}
-          </div>
+          <TechnologiesGrid />
         </Container>
       </section>
 
