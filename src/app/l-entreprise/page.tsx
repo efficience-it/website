@@ -53,7 +53,7 @@ const timeline = [
       "Adhésion à l'AFUP (association des utilisateurs PHP) et AD2N (communauté des entreprises numériques du Nord). Contributions open-source et participation aux conférences majeures.",
   },
   {
-    year: "2024",
+    year: "2025",
     title: "Membre de l'équipe PHP",
     description:
       "Efficience IT rejoint l'équipe PHP avec de nombreuses contributions à son actif sur PHP, Symfony, la documentation Symfony, Nelmio, API Platform et Sylius.",
