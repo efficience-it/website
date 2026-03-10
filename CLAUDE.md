@@ -18,6 +18,7 @@ Clone/reproduction de https://www.itefficience.com en Next.js.
 - **Push / PR** : autorisé sans demander confirmation
 - **Pas de `npm run build`** : ne pas lancer de build, ça coupe le serveur de dev
 - **Pas de commentaires** : ne jamais ajouter de commentaires dans le code
+- **Pas de tiret cadratin** : ne jamais utiliser le caractère `—` (em dash), ni dans le code, ni dans les articles
 
 ## SEO — Articles de blog
 

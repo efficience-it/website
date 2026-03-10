@@ -23,7 +23,7 @@ L'OWASP ne se limite pas au Top 10. L'ASVS (Application Security Verification St
 
 ### Valider en profondeur, pas en surface
 
-La validation des entrées ne se résume pas à un `required` sur un champ de formulaire. Chaque donnée provenant de l'extérieur du système — requête HTTP, message de queue, fichier importé, réponse d'API tierce — doit être considérée comme hostile. La validation doit être stricte, en liste blanche, et appliquée au plus près de la couche métier, pas uniquement en bordure.
+La validation des entrées ne se résume pas à un `required` sur un champ de formulaire. Chaque donnée provenant de l'extérieur du système, requête HTTP, message de queue, fichier importé, réponse d'API tierce, doit être considérée comme hostile. La validation doit être stricte, en liste blanche, et appliquée au plus près de la couche métier, pas uniquement en bordure.
 
 Les requêtes paramétrées sont un acquis, mais les injections évoluent. Les injections NoSQL, les injections dans les templates (SSTI), les injections LDAP ou les manipulations de sérialiseurs restent des angles morts fréquents dans les revues de code.
 
@@ -63,7 +63,7 @@ Ce référent participe aux revues de code avec un regard orienté sécurité, r
 
 ### Le Threat Modeling comme pratique d'équipe
 
-Le threat modeling n'est pas un exercice réservé aux architectes sécurité. Sous sa forme la plus simple — la méthode STRIDE appliquée à un diagramme de flux de données —, il peut être mené par n'importe quelle équipe en début de projet ou avant une évolution majeure.
+Le threat modeling n'est pas un exercice réservé aux architectes sécurité. Sous sa forme la plus simple, la méthode STRIDE appliquée à un diagramme de flux de données, il peut être mené par n'importe quelle équipe en début de projet ou avant une évolution majeure.
 
 L'objectif est d'identifier systématiquement les actifs à protéger, les points d'entrée du système, les niveaux de confiance entre composants, et les menaces potentielles. Le résultat n'est pas un document théorique mais une liste priorisée de risques qui alimente directement le backlog sous forme d'exigences de sécurité testables. Intégrer cette pratique dans les rituels d'architecture (ADR, design reviews) garantit qu'elle ne sera pas oubliée une fois le projet lancé.
 
@@ -71,7 +71,7 @@ L'objectif est d'identifier systématiquement les actifs à protéger, les point
 
 ### Shift left, mais pas uniquement
 
-L'approche "shift left" — intégrer la sécurité le plus tôt possible dans le cycle de développement — est nécessaire mais insuffisante. Un pipeline DevSecOps mature couvre l'ensemble du cycle : pre-commit hooks (détection de secrets, linting de sécurité), CI (SAST, audit de dépendances, tests de sécurité automatisés), staging (DAST, scans d'infrastructure), production (monitoring de sécurité, détection d'anomalies, alerting).
+L'approche "shift left", intégrer la sécurité le plus tôt possible dans le cycle de développement, est nécessaire mais insuffisante. Un pipeline DevSecOps mature couvre l'ensemble du cycle : pre-commit hooks (détection de secrets, linting de sécurité), CI (SAST, audit de dépendances, tests de sécurité automatisés), staging (DAST, scans d'infrastructure), production (monitoring de sécurité, détection d'anomalies, alerting).
 
 Chaque étape doit avoir des gates clairement définis : quelles vulnérabilités bloquent le déploiement, lesquelles génèrent un ticket avec SLA, lesquelles sont acceptées avec documentation du risque. Sans ces gates, les outils produisent du bruit sans améliorer la posture de sécurité.
 
@@ -103,10 +103,10 @@ L'erreur la plus fréquente est de traiter la sécurité comme un sujet à part,
 
 ## Pour aller plus loin
 
-- [CVE : comprendre les failles pour mieux se protéger](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) — comprendre les vulnérabilités
-- [DbToolsBundle : anonymiser vos bases de données](/article/dbtoolsbundle-anonymiser-vos-bases-de-donnees) — sécuriser les données de dev
-- [Le Chocoblast : un premier pas vers la sécurité par le jeu](/article/le-chocoblast-un-premier-pas-vers-la-securite-par-le-jeu) — gamifier la sensibilisation
-- [ANSSI — SecNumacadémie](https://secnumacademie.gouv.fr/) — MOOC gratuit sur la cybersécurité
-- [OWASP — ressources gratuites](https://owasp.org/) — fondation pour la sécurité applicative
-- [Have I Been Pwned](https://haveibeenpwned.com/) — vérifier si vos identifiants ont fuité
-- [Symfony Security documentation](https://symfony.com/doc/current/security.html) — sécuriser une application Symfony
+- [CVE : comprendre les failles pour mieux se protéger](/article/cve-comprendre-les-failles-pour-mieux-se-proteger), comprendre les vulnérabilités
+- [DbToolsBundle : anonymiser vos bases de données](/article/dbtoolsbundle-anonymiser-vos-bases-de-donnees), sécuriser les données de dev
+- [Le Chocoblast : un premier pas vers la sécurité par le jeu](/article/le-chocoblast-un-premier-pas-vers-la-securite-par-le-jeu), gamifier la sensibilisation
+- [ANSSI : SecNumacadémie](https://secnumacademie.gouv.fr/), MOOC gratuit sur la cybersécurité
+- [OWASP : ressources gratuites](https://owasp.org/), fondation pour la sécurité applicative
+- [Have I Been Pwned](https://haveibeenpwned.com/), vérifier si vos identifiants ont fuité
+- [Symfony Security documentation](https://symfony.com/doc/current/security.html), sécuriser une application Symfony

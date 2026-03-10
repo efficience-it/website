@@ -15,7 +15,7 @@ Cet article te montre comment, concrètement, indexer ta base [Doctrine](https:/
 
 ## Pourquoi le RAG change la donne pour les apps métier
 
-Les LLM sont puissants, mais ils ne connaissent pas tes données. Ton catalogue produit, tes tickets support, tes contrats clients — tout ça n'existe pas pour GPT-4 ou Claude.
+Les LLM sont puissants, mais ils ne connaissent pas tes données. Ton catalogue produit, tes tickets support, tes contrats clients, tout ça n'existe pas pour GPT-4 ou Claude.
 
 Deux options s'offrent à toi :
 
@@ -79,7 +79,7 @@ symfony_ai:
 
 ## Choisir ce qu'on indexe
 
-Première erreur classique : vouloir tout indexer. Ta table `User` avec ses mots de passe hashés, tes logs d'audit, tes tables de jointure — rien de tout ça n'a de valeur pour un LLM.
+Première erreur classique : vouloir tout indexer. Ta table `User` avec ses mots de passe hashés, tes logs d'audit, tes tables de jointure, rien de tout ça n'a de valeur pour un LLM.
 
 Concentre-toi sur les **données à forte valeur sémantique** :
 
@@ -286,7 +286,7 @@ Demain, si tu passes de pgvector à Qdrant (ou l'inverse), tu changes l'adaptate
 
 ## Stratégies de chunking pour les textes longs
 
-Un embedding a une taille maximale de tokens (8191 pour `text-embedding-3-small` d'OpenAI). Si tes entités contiennent des champs longs — documentation technique, articles de blog, rapports — tu dois découper.
+Un embedding a une taille maximale de tokens (8191 pour `text-embedding-3-small` d'OpenAI). Si tes entités contiennent des champs longs, documentation technique, articles de blog, rapports, tu dois découper.
 
 ```php
 class TextChunker
@@ -533,10 +533,10 @@ Le RAG avec Symfony AI et Doctrine, c'est exactement le type de sujet qu'on ador
 
 ## Pour aller plus loin
 
-- [Symfony AI dans un projet legacy](/article/symfony-ai-projet-legacy-retour-experience) — retour d'expérience complet
-- [Claude comme assistant d'architecture Symfony](/article/claude-assistant-architecture-symfony-legacy) — IA et développement au quotidien
-- [Forces et faiblesses des IA génératives](/article/forces-et-faiblesses-des-ia-generatives-les-plus-utilisees) — comparatif des modèles
-- [Symfony AI sur GitHub](https://github.com/symfony/ai) — code source du composant
-- [Doctrine ORM](https://www.doctrine-project.org/) — documentation officielle
-- [OpenAI Embeddings Guide](https://platform.openai.com/docs/guides/embeddings) — comprendre les embeddings pour le RAG
-- [pgvector — extension PostgreSQL](https://github.com/pgvector/pgvector) — stockage de vecteurs pour la recherche sémantique
+- [Symfony AI dans un projet legacy](/article/symfony-ai-projet-legacy-retour-experience), retour d'expérience complet
+- [Claude comme assistant d'architecture Symfony](/article/claude-assistant-architecture-symfony-legacy), IA et développement au quotidien
+- [Forces et faiblesses des IA génératives](/article/forces-et-faiblesses-des-ia-generatives-les-plus-utilisees), comparatif des modèles
+- [Symfony AI sur GitHub](https://github.com/symfony/ai), code source du composant
+- [Doctrine ORM](https://www.doctrine-project.org/), documentation officielle
+- [OpenAI Embeddings Guide](https://platform.openai.com/docs/guides/embeddings), comprendre les embeddings pour le RAG
+- [pgvector : extension PostgreSQL](https://github.com/pgvector/pgvector), stockage de vecteurs pour la recherche sémantique

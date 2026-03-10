@@ -480,37 +480,37 @@ export default function DeveloppementWeb() {
               <Link href="/article/pourquoi-choisir-symfony-pour-vos-projets" className="text-primary hover:underline">
                 Pourquoi choisir Symfony pour vos projets
               </Link>{" "}
-              — les atouts du framework pour le développement sur mesure
+             , les atouts du framework pour le développement sur mesure
             </li>
             <li>
               <Link href="/article/api-rest-les-bonnes-pratiques" className="text-primary hover:underline">
                 API REST : les bonnes pratiques
               </Link>{" "}
-              — concevoir des API performantes et maintenables
+             , concevoir des API performantes et maintenables
             </li>
             <li>
               <Link href="/article/sylius-la-solution-e-commerce-du-framework-symfony" className="text-primary hover:underline">
                 Sylius : la solution e-commerce Symfony
               </Link>{" "}
-              — notre expertise e-commerce open source
+             , notre expertise e-commerce open source
             </li>
             <li>
               <a href="https://symfony.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                Symfony — site officiel
+                Symfony, site officiel
               </a>{" "}
-              — le framework PHP pour les applications web
+             , le framework PHP pour les applications web
             </li>
             <li>
               <a href="https://sylius.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                Sylius — site officiel
+                Sylius, site officiel
               </a>{" "}
-              — la plateforme e-commerce basée sur Symfony
+             , la plateforme e-commerce basée sur Symfony
             </li>
             <li>
               <a href="https://api-platform.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
                 API Platform
               </a>{" "}
-              — créer des API modernes en PHP
+             , créer des API modernes en PHP
             </li>
           </ul>
         </Container>

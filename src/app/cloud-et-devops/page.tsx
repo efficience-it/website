@@ -328,37 +328,37 @@ export default function CloudEtDevops() {
               <Link href="/article/pourquoi-docker-est-indispensable-en-production-aujourdhui" className="text-primary hover:underline">
                 Pourquoi Docker est indispensable en production
               </Link>{" "}
-              — conteneurisation et bonnes pratiques
+             , conteneurisation et bonnes pratiques
             </li>
             <li>
               <Link href="/article/deployer-nuxtjs-avec-gitlab-ci-s3-et-cloudfront" className="text-primary hover:underline">
                 Déployer avec GitLab CI, S3 et CloudFront
               </Link>{" "}
-              — automatisation du déploiement
+             , automatisation du déploiement
             </li>
             <li>
               <Link href="/article/comment-executer-des-tests-postman-avec-newman-dans-gitlab-ci" className="text-primary hover:underline">
                 Tests Postman avec Newman dans GitLab CI
               </Link>{" "}
-              — intégration continue des tests API
+             , intégration continue des tests API
             </li>
             <li>
               <a href="https://docs.docker.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                Docker — documentation officielle
+                Docker, documentation officielle
               </a>{" "}
-              — conteneurisation des applications
+             , conteneurisation des applications
             </li>
             <li>
               <a href="https://docs.gitlab.com/ee/ci/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                GitLab CI/CD — documentation
+                GitLab CI/CD, documentation
               </a>{" "}
-              — pipelines d&apos;intégration continue
+             , pipelines d&apos;intégration continue
             </li>
             <li>
               <a href="https://kubernetes.io/docs/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                Kubernetes — documentation officielle
+                Kubernetes, documentation officielle
               </a>{" "}
-              — orchestration de conteneurs
+             , orchestration de conteneurs
             </li>
           </ul>
         </Container>

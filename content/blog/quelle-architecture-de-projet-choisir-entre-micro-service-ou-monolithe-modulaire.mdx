@@ -15,7 +15,7 @@ Le choix d'une architecture logicielle conditionne la vélocité de développeme
 
 ### Le monolithe modulaire
 
-Un monolithe modulaire est une application déployée comme une unité unique, mais dont le code interne est découpé en modules aux frontières explicites. Chaque module encapsule un domaine métier — catalogue, commandes, facturation — et expose une interface publique. Les détails d'implémentation restent privés. La différence avec un monolithe classique est fondamentale : dans un monolithe classique, les dépendances circulent dans tous les sens et le code s'enchevêtre progressivement. Dans un monolithe modulaire, la discipline architecturale impose un couplage faible entre modules.
+Un monolithe modulaire est une application déployée comme une unité unique, mais dont le code interne est découpé en modules aux frontières explicites. Chaque module encapsule un domaine métier, catalogue, commandes, facturation, et expose une interface publique. Les détails d'implémentation restent privés. La différence avec un monolithe classique est fondamentale : dans un monolithe classique, les dépendances circulent dans tous les sens et le code s'enchevêtre progressivement. Dans un monolithe modulaire, la discipline architecturale impose un couplage faible entre modules.
 
 Dans un projet Symfony, cette approche se matérialise par un répertoire par module dans `src/`, chacun contenant ses couches `Domain/`, `Application/` et `Infrastructure/`. Le composant Messenger permet la communication entre modules via des messages et des handlers, découplant naturellement les responsabilités. L'autowiring et la configuration des services par répertoire rendent certains services privés à leur module. Les événements Symfony offrent un canal de communication supplémentaire sans couplage direct.
 
@@ -23,7 +23,7 @@ Dans un projet Symfony, cette approche se matérialise par un répertoire par mo
 
 L'architecture micro-services distribue l'application en services autonomes, chacun responsable d'un domaine métier précis et déployable indépendamment. Chaque service possède sa propre base de données et communique avec les autres via le réseau. Cette autonomie permet à des équipes distinctes de développer, tester et déployer leurs services sans coordination étroite.
 
-La communication entre services emprunte deux voies. La communication synchrone — HTTP REST ou gRPC — convient aux requêtes nécessitant une réponse immédiate : le service commandes interroge le service catalogue pour vérifier une disponibilité. La communication asynchrone — via un broker comme RabbitMQ ou Kafka — découple les services dans le temps : une commande validée publie un événement, et le service notifications envoie un email sans bloquer le processus principal.
+La communication entre services emprunte deux voies. La communication synchrone, HTTP REST ou gRPC, convient aux requêtes nécessitant une réponse immédiate : le service commandes interroge le service catalogue pour vérifier une disponibilité. La communication asynchrone, via un broker comme RabbitMQ ou Kafka, découple les services dans le temps : une commande validée publie un événement, et le service notifications envoie un email sans bloquer le processus principal.
 
 ## Frontières de modules et patterns de communication
 
@@ -31,7 +31,7 @@ La communication entre services emprunte deux voies. La communication synchrone 
 
 La qualité d'une architecture, quelle qu'elle soit, repose sur la rigueur des frontières entre domaines. Un module ou un service mal délimité génère du couplage temporel, des dépendances circulaires et une charge cognitive croissante. Le Domain-Driven Design fournit les outils conceptuels pour tracer ces frontières : les Bounded Contexts définissent les périmètres de cohérence, et les Context Maps cartographient les relations entre domaines.
 
-Dans un monolithe modulaire, la tentation de court-circuiter une interface pour accéder directement aux entités d'un autre module est permanente. Chaque violation érode la modularité. Les outils d'analyse statique — Deptrac pour PHP, ArchUnit pour Java — automatisent la vérification de ces règles et transforment une convention d'équipe en contrainte technique.
+Dans un monolithe modulaire, la tentation de court-circuiter une interface pour accéder directement aux entités d'un autre module est permanente. Chaque violation érode la modularité. Les outils d'analyse statique, Deptrac pour PHP, ArchUnit pour Java, automatisent la vérification de ces règles et transforment une convention d'équipe en contrainte technique.
 
 Dans une architecture micro-services, les frontières sont physiques : chaque service est un processus distinct. Mais cette séparation ne dispense pas d'une réflexion approfondie sur le découpage. Un service trop granulaire multiplie les appels réseau et la latence. Un service trop large devient un monolithe déguisé.
 
@@ -51,17 +51,17 @@ Un appel qui traversait trois classes dans un monolithe traverse désormais troi
 
 Le monolithe modulaire convient lorsque l'équipe compte moins de vingt développeurs, que le périmètre métier n'est pas encore stabilisé, ou que le budget infrastructure est limité. Son avantage décisif en phase de démarrage : il tolère les erreurs de découpage. Fusionner deux modules dans un monolithe est une opération de refactoring. Fusionner deux micro-services implique de migrer des bases de données, de supprimer des API et de reconfigurer l'infrastructure.
 
-Le debugging reste direct — un point d'arrêt dans l'IDE suffit pour suivre le flux d'exécution complet. Les tests d'intégration tournent dans un même processus. Le déploiement se fait en une seule opération.
+Le debugging reste direct, un point d'arrêt dans l'IDE suffit pour suivre le flux d'exécution complet. Les tests d'intégration tournent dans un même processus. Le déploiement se fait en une seule opération.
 
 ### Les micro-services à maturité
 
-Les micro-services se justifient lorsque plusieurs équipes indépendantes travaillent sur des domaines métier distincts et que la coordination par le code devient un goulot d'étranglement. Ils s'imposent quand certaines parties de l'application ont des besoins de scalabilité radicalement différents — un moteur de recherche sollicité massivement alors que le back-office d'administration reste peu utilisé. L'organisation doit être suffisamment mature pour absorber la complexité opérationnelle.
+Les micro-services se justifient lorsque plusieurs équipes indépendantes travaillent sur des domaines métier distincts et que la coordination par le code devient un goulot d'étranglement. Ils s'imposent quand certaines parties de l'application ont des besoins de scalabilité radicalement différents, un moteur de recherche sollicité massivement alors que le back-office d'administration reste peu utilisé. L'organisation doit être suffisamment mature pour absorber la complexité opérationnelle.
 
 ## Stratégies de transition et vision architecturale
 
 ### Le Strangler Fig Pattern
 
-Le passage d'un monolithe à des micro-services ne devrait jamais être une réécriture. Le Strangler Fig Pattern — nommé d'après les figuiers étrangleurs qui enveloppent progressivement leur arbre hôte — propose une migration incrémentale. On place un proxy ou une API gateway devant le monolithe. Les nouvelles fonctionnalités sont développées dans des services séparés. Les fonctionnalités existantes sont extraites une par une. Le monolithe rétrécit progressivement jusqu'à disparaître ou se stabiliser à un noyau résiduel.
+Le passage d'un monolithe à des micro-services ne devrait jamais être une réécriture. Le Strangler Fig Pattern, nommé d'après les figuiers étrangleurs qui enveloppent progressivement leur arbre hôte, propose une migration incrémentale. On place un proxy ou une API gateway devant le monolithe. Les nouvelles fonctionnalités sont développées dans des services séparés. Les fonctionnalités existantes sont extraites une par une. Le monolithe rétrécit progressivement jusqu'à disparaître ou se stabiliser à un noyau résiduel.
 
 Cette approche réduit les risques car chaque extraction est validée indépendamment. Elle permet aussi de constater si les bénéfices attendus se matérialisent avant de poursuivre. Dans certains cas, extraire deux ou trois services suffit à résoudre les problèmes de scalabilité sans transformer toute l'application.
 
@@ -73,7 +73,7 @@ Un monolithe modulaire, à l'inverse, tolère une organisation plus fluide où l
 
 ### Analyse coût-bénéfice
 
-Le coût total d'une architecture micro-services dépasse significativement celui d'un monolithe modulaire. L'infrastructure — clusters Kubernetes, brokers de messages, outils d'observabilité — représente un surcoût direct. Le coût humain est souvent sous-estimé : chaque développeur doit maîtriser les patterns distribués, et l'onboarding est plus long. La coordination inter-équipes, même réduite, ne disparaît pas. Il faut la formaliser via des contrats d'API, du versioning de schémas et de la gouvernance technique.
+Le coût total d'une architecture micro-services dépasse significativement celui d'un monolithe modulaire. L'infrastructure, clusters Kubernetes, brokers de messages, outils d'observabilité, représente un surcoût direct. Le coût humain est souvent sous-estimé : chaque développeur doit maîtriser les patterns distribués, et l'onboarding est plus long. La coordination inter-équipes, même réduite, ne disparaît pas. Il faut la formaliser via des contrats d'API, du versioning de schémas et de la gouvernance technique.
 
 Ce surcoût ne se justifie que si l'échelle de l'organisation et du trafic le requiert. Pour une équipe de dix développeurs sur un produit SaaS en croissance, un monolithe modulaire bien structuré offrira une vélocité supérieure à moindre coût. Pour une organisation de cent développeurs opérant une plateforme à fort trafic, les micro-services deviennent un levier d'autonomie et de passage à l'échelle.
 
@@ -83,9 +83,9 @@ Le meilleur choix architectural est celui qui correspond à la réalité actuell
 
 ## Pour aller plus loin
 
-- [Le domaine ne devrait jamais connaître Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony) — isoler le domaine quel que soit l'architecture
-- [Migration Symfony vers l'architecture hexagonale](/article/migration-symfony-architecture-hexagonale-retour-mission) — un cas concret de restructuration
-- [La dette technique : faut-il vraiment en avoir peur ?](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) — quand l'architecture génère de la dette
-- [Martin Fowler — Microservices](https://martinfowler.com/articles/microservices.html) — l'article de référence sur les microservices
-- [Symfony documentation — Architecture](https://symfony.com/doc/current/controller.html) — structurer un projet Symfony
-- [Sam Newman — Building Microservices (O'Reilly)](https://www.oreilly.com/library/view/building-microservices-2nd/9781492034018/) — le livre de référence
+- [Le domaine ne devrait jamais connaître Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony), isoler le domaine quel que soit l'architecture
+- [Migration Symfony vers l'architecture hexagonale](/article/migration-symfony-architecture-hexagonale-retour-mission), un cas concret de restructuration
+- [La dette technique : faut-il vraiment en avoir peur ?](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur), quand l'architecture génère de la dette
+- [Martin Fowler : Microservices](https://martinfowler.com/articles/microservices.html), l'article de référence sur les microservices
+- [Symfony documentation : Architecture](https://symfony.com/doc/current/controller.html), structurer un projet Symfony
+- [Sam Newman : Building Microservices (O'Reilly)](https://www.oreilly.com/library/view/building-microservices-2nd/9781492034018/), le livre de référence

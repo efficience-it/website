@@ -82,37 +82,37 @@ export default function TaCarriere() {
               <Link href="/article/7-bonnes-raisons-de-rejoindre-efficience-it" className="text-primary hover:underline">
                 7 bonnes raisons de rejoindre Efficience IT
               </Link>{" "}
-              — notre culture et nos valeurs
+             , notre culture et nos valeurs
             </li>
             <li>
               <Link href="/article/le-bien-etre-au-travail" className="text-primary hover:underline">
                 Le bien-être au travail
               </Link>{" "}
-              — notre vision du travail épanouissant
+             , notre vision du travail épanouissant
             </li>
             <li>
               <Link href="/article/les-6-etapes-pour-monter-en-competences-sur-symfony" className="text-primary hover:underline">
                 Les 6 étapes pour monter en compétences sur Symfony
               </Link>{" "}
-              — parcours de progression technique
+             , parcours de progression technique
             </li>
             <li>
               <a href="https://symfony.com/doc/current/index.html" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                Symfony — documentation officielle
+                Symfony, documentation officielle
               </a>{" "}
-              — apprendre le framework
+             , apprendre le framework
             </li>
             <li>
               <a href="https://www.welcometothejungle.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
                 Welcome to the Jungle
               </a>{" "}
-              — découvrir les entreprises tech
+             , découvrir les entreprises tech
             </li>
             <li>
               <a href="https://afup.org/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
                 AFUP
               </a>{" "}
-              — la communauté PHP en France
+             , la communauté PHP en France
             </li>
           </ul>
         </Container>
