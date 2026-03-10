@@ -2,15 +2,15 @@ import { render, screen } from "@testing-library/react";
 import NotFound from "@/app/not-found";
 
 describe("Not found page", () => {
-  it("renders 404 text", () => {
+  it("renders 404 heading", () => {
     render(<NotFound />);
-    expect(screen.getByText("404")).toBeInTheDocument();
+    expect(screen.getByText("Page non trouvée")).toBeInTheDocument();
   });
 
   it("renders a link back to home", () => {
     render(<NotFound />);
     expect(
-      screen.getByRole("link", { name: /retour à l'accueil/i }),
+      screen.getByRole("link", { name: /accueil/i }),
     ).toHaveAttribute("href", "/");
   });
 });

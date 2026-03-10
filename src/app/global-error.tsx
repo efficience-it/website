@@ -21,6 +21,7 @@ export default function GlobalError({ reset }: { reset: () => void }) {
               >
                 Réessayer
               </button>
+              {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
               <a
                 href="/"
                 className="rounded-md bg-[#153B6B] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#0f2d52]"
