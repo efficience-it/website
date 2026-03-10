@@ -275,12 +275,6 @@ export default function AccompagnementEtConseil() {
           <SectionTitle>Pour aller plus loin</SectionTitle>
           <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
             <li>
-              <Link href="/article/quest-ce-que-lapproche-agile" className="text-primary hover:underline">
-                Qu&apos;est-ce que l&apos;approche agile ?
-              </Link>{" "}
-             , comprendre les fondamentaux de l&apos;agilité
-            </li>
-            <li>
               <Link href="/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede" className="text-primary hover:underline">
                 Comment se passe un audit chez Efficience IT
               </Link>{" "}

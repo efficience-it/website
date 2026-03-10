@@ -210,12 +210,6 @@ export default function LaTeam() {
              , pourquoi nous rejoindre
             </li>
             <li>
-              <Link href="/article/le-bien-etre-au-travail" className="text-primary hover:underline">
-                Le bien-être au travail
-              </Link>{" "}
-             , notre approche du bien-être
-            </li>
-            <li>
               <Link href="/article/le-chocoblast-un-premier-pas-vers-la-securite-par-le-jeu" className="text-primary hover:underline">
                 Le chocoblast
               </Link>{" "}

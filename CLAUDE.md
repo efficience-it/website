@@ -16,6 +16,7 @@ Clone/reproduction de https://www.itefficience.com en Next.js.
 - **PRs courtes** : une PR = un changement ciblé
 - **Pas de co-auteur** : ne pas ajouter `Co-Authored-By` dans les commits
 - **Push / PR** : autorisé sans demander confirmation
+- **Jamais merger dans main** : ne jamais utiliser `gh pr merge` ou merger dans main, sous aucun prétexte
 - **Pas de `npm run build`** : ne pas lancer de build, ça coupe le serveur de dev
 - **Pas de commentaires** : ne jamais ajouter de commentaires dans le code
 - **Pas de tiret cadratin** : ne jamais utiliser le caractère `—` (em dash), ni dans le code, ni dans les articles
