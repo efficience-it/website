@@ -85,22 +85,32 @@ export default function Footer() {
             </Link>
 
             {/* Social links */}
-            <div className="mt-6 flex items-center gap-4">
-              {footerNav.social.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-gray-300 transition-colors hover:text-white"
-                >
-                  {link.icon ? (
-                    <Image src={link.icon} alt={link.label} width={24} height={24} className="brightness-0 invert" />
-                  ) : (
-                    link.label
-                  )}
-                </a>
-              ))}
+            <div className="mt-6 flex items-center gap-3">
+              {footerNav.social.map((link) => {
+                const isVectorIcon = link.icon?.endsWith(".svg");
+
+                return (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center text-sm text-gray-300 transition-opacity hover:opacity-80 hover:text-white"
+                  >
+                    {link.icon ? (
+                      <Image
+                        src={link.icon}
+                        alt={link.label}
+                        width={28}
+                        height={28}
+                        className={`h-7 w-7 rounded-full object-contain ${isVectorIcon ? "brightness-0 invert" : ""}`}
+                      />
+                    ) : (
+                      link.label
+                    )}
+                  </a>
+                );
+              })}
             </div>
           </div>
         </div>
