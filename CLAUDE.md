@@ -28,6 +28,25 @@ Clone/reproduction de https://www.itefficience.com en Next.js.
 - Ne jamais utiliser `<h4>`, `<h5>`, `<h6>`
 - Viser entre 1000 et 2000 mots par article
 
+### Liens internes (vers d'autres articles du blog)
+
+- Entre 2 et 5 par article, uniquement si c'est pertinent pour le lecteur
+- Privilégier les liens dans le corps du texte, ancrés sur un mot-clé descriptif (pas "cliquez ici")
+- Un lien dans le corps de l'article vaut 10x plus qu'un lien en bas de page dans une liste
+- Tisser des liens entre articles pour faire monter l'autorité des anciennes pages
+
+### Liens externes (vers des sources tierces)
+
+- Entre 1 et 3 par article, pas plus
+- Uniquement vers des sources à haute autorité : doc officielle Symfony, GitHub, article de référence
+- Jamais vers un concurrent direct
+- L'objectif : montrer qu'on s'appuie sur des sources sérieuses, pas faire fuir le lecteur
+
+### Articles techniques Symfony
+
+- Un lien vers la doc Symfony officielle du composant traité est quasi obligatoire
+- Un lien interne vers un article connexe (archi hexagonale, Messenger, etc.) pour le maillage long terme
+
 ## SEO — Décisions volontaires
 
 - Les pages `/domain/*` ne sont pas dans le sitemap (volontaire)
