@@ -51,7 +51,7 @@ export function getPostBySlug(slug: string): BlogPost | undefined {
 }
 
 export const categorySlugMap: Record<string, string> = {
-  Agence: "lagence",
+  Agence: "agence",
   Formation: "formation",
   "Green IT": "green-it",
   Outils: "outils",
