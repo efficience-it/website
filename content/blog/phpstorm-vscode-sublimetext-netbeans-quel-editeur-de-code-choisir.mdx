@@ -1,6 +1,6 @@
 ---
-title: "Quel éditeur de code choisir : PhpStorm, VS Code, Sublime ou NetBeans"
-date: "2023-05-23"
+title: "Quel éditeur de code choisir : PhpStorm, VS Code, Cursor, Sublime Text ou Zed"
+date: "2026-03-10"
 author: "Efficience IT"
 category: "Outils"
 excerpt: "Un IDE est une application qui permet aux développeurs d'écrire du code et de programmer efficacement avec des fonctionnalités d'édition."
@@ -9,15 +9,17 @@ image: "/images/blog/editeur-code.webp"
 
 Le choix d'un éditeur de code ne se résume pas à une préférence personnelle. C'est une décision technique qui influe sur la productivité individuelle, la cohérence d'équipe et la qualité du code livré. Entre un éditeur de texte enrichi et un IDE complet, l'écart fonctionnel est considérable, et les implications sur un projet professionnel méritent une analyse approfondie.
 
-Quatre outils dominent le paysage PHP : PhpStorm, VS Code, Sublime Text et NetBeans. Chacun occupe une position distincte sur le spectre qui va de l'éditeur léger à l'IDE monolithique.
+En 2026, le paysage a évolué. L'intelligence artificielle s'est imposée comme un critère de choix à part entière. De nouveaux acteurs comme Cursor et Zed bousculent les positions établies, tandis que PhpStorm et VS Code continuent de dominer le segment PHP. Cinq outils méritent une analyse détaillée.
 
 ## PhpStorm : l'intelligence statique au service du développeur
 
-PhpStorm, développé par JetBrains, est un IDE commercial conçu spécifiquement pour PHP. Sa force réside dans son moteur d'analyse statique embarqué : il comprend le graphe de dépendances, résout les types à travers les couches d'abstraction et détecte les erreurs avant même l'exécution.
+PhpStorm, développé par JetBrains, reste l'IDE commercial de référence pour PHP. Sa force réside dans son moteur d'analyse statique embarqué : il comprend le graphe de dépendances, résout les types à travers les couches d'abstraction et détecte les erreurs avant même l'exécution.
 
 Le débogueur Xdebug est intégré nativement avec un support du step debugging, du profiling et du tracing. Là où d'autres éditeurs nécessitent une configuration manuelle, PhpStorm propose une expérience clé en main : poser un breakpoint, inspecter la pile d'appels, évaluer des expressions à chaud. Pour un développeur senior qui travaille sur du code legacy ou des architectures complexes, cette capacité de diagnostic en temps réel est un gain de productivité mesurable.
 
 Les refactorings automatisés vont bien au-delà du simple renommage. Extraction de méthode, introduction de variable, changement de signature avec propagation aux appelants : PhpStorm garantit la cohérence structurelle du code après chaque transformation. Sur un projet Symfony de taille conséquente, la navigation par injection de dépendances et la résolution automatique des services du conteneur font une différence notable.
+
+JetBrains a intégré son propre assistant IA, JetBrains AI Assistant, basé sur plusieurs LLM dont Claude et GPT-4. Il propose de la complétion contextuelle, de la génération de tests, de l'explication de code et du refactoring assisté. L'avantage par rapport à un plugin tiers est l'intégration native avec les capacités d'analyse statique de l'IDE : l'IA a accès au graphe de types, aux références croisées et au contexte complet du projet. GitHub Copilot est également disponible via un plugin officiel, ce qui laisse le choix du moteur d'assistance.
 
 Le support natif de Docker, des bases de données et des outils de qualité (PHPStan, PHP CS Fixer) en fait un environnement complet. Le coût de la licence se justifie dès lors que le temps gagné sur le debugging et le refactoring dépasse quelques heures par mois.
 
@@ -27,9 +29,21 @@ Visual Studio Code, développé par Microsoft, est un éditeur de code gratuit e
 
 Pour le développement PHP, VS Code nécessite une configuration initiale plus importante. L'extension Intelephense fournit l'autocomplétion et l'analyse statique, PHP Debug assure le lien avec Xdebug, et une série d'extensions complémentaires reconstitue progressivement les fonctionnalités d'un IDE complet. Cette approche modulaire présente un avantage : chaque développeur peut composer son environnement exact. Elle présente aussi un inconvénient : deux développeurs de la même équipe peuvent avoir des configurations radicalement différentes.
 
-L'intégration de GitHub Copilot et des outils d'IA générative est particulièrement aboutie dans VS Code. L'éditeur sert de plateforme d'expérimentation pour les workflows assistés par IA, avec un écosystème d'extensions en constante évolution. Pour les équipes qui explorent activement le développement assisté, VS Code offre la plus grande surface d'intégration.
+L'écosystème d'extensions IA de VS Code est le plus riche du marché. GitHub Copilot, désormais en version mature, propose de l'autocomplétion, du chat inline, de la génération de tests et un mode agent capable d'exécuter des tâches complexes en autonomie. Claude pour VS Code (via l'extension officielle d'Anthropic) apporte le raisonnement approfondi et la gestion de contexte long. Cody de Sourcegraph, Continue, et des dizaines d'autres extensions couvrent des besoins spécifiques. Cette diversité fait de VS Code la plateforme la plus ouverte pour expérimenter les workflows assistés par IA.
 
 Le terminal intégré, le support natif de Git et la légèreté relative de l'application en font un outil polyvalent. Sa gratuité supprime la friction d'adoption et explique sa présence dominante dans les environnements polyglots où PHP coexiste avec TypeScript, Python ou Go.
+
+## Cursor : l'éditeur natif IA
+
+Cursor est un éditeur de code lancé en 2023, basé sur le code source de VS Code. Sa proposition de valeur est claire : placer l'IA au centre de l'expérience de développement, et non comme un plugin ajouté après coup.
+
+La différence avec VS Code + Copilot se situe dans la profondeur de l'intégration. Cursor indexe l'ensemble du codebase pour fournir un contexte riche à chaque interaction avec l'IA. Le mode Composer permet de décrire une modification en langage naturel et de voir Cursor générer les changements sur plusieurs fichiers simultanément, avec un diff que le développeur peut accepter ou rejeter fichier par fichier. Le mode Agent va plus loin : il planifie, exécute des commandes, lit les erreurs et corrige en boucle jusqu'à obtenir un résultat fonctionnel.
+
+Pour le développement PHP, Cursor hérite de toute la compatibilité VS Code. Les extensions Intelephense, PHP Debug et les autres fonctionnent sans modification. L'avantage est donc additif : les mêmes fonctionnalités PHP que VS Code, plus une couche IA significativement plus aboutie.
+
+Le modèle économique repose sur un abonnement (environ 20 dollars par mois pour le plan Pro). Cursor donne accès à plusieurs modèles (Claude, GPT-4, et d'autres) et gère la rotation entre eux selon le type de tâche. Le plan gratuit est limité en nombre de requêtes mais permet d'évaluer l'outil.
+
+L'inconvénient principal est la dépendance à un fork. Cursor suit les mises à jour de VS Code avec un décalage, et certaines extensions très récentes peuvent présenter des incompatibilités temporaires. Pour les équipes qui ont déjà un investissement fort dans la configuration VS Code, la migration reste néanmoins simple puisque les settings et extensions sont directement importables.
 
 ## Sublime Text : la performance brute
 
@@ -37,13 +51,37 @@ Sublime Text, développé par Sublime HQ, occupe une niche spécifique : celle d
 
 Cette performance a un prix fonctionnel. Sublime Text n'est pas un IDE. Il ne propose ni debugger intégré, ni analyse statique, ni refactoring assisté. Le système de plugins (Package Control) permet d'ajouter de la coloration syntaxique avancée et de l'autocomplétion basique, mais l'écart avec un IDE reste significatif pour du développement PHP professionnel.
 
-Sublime Text trouve sa pertinence dans des contextes précis : édition rapide de fichiers de configuration, modifications ponctuelles sur un serveur distant, navigation dans un codebase inconnu pour en comprendre la structure. C'est un outil complémentaire plutôt qu'un environnement principal pour un développeur PHP à temps plein. Sa version portable, utilisable depuis une clé USB, reste un atout unique pour les interventions nomades.
+L'intégration IA est minimale. Quelques plugins communautaires permettent de se connecter à des API de LLM, mais l'expérience reste artisanale comparée à ce que proposent VS Code, Cursor ou PhpStorm. Sublime Text n'est pas sur cette trajectoire et ne prétend pas l'être.
 
-## NetBeans : l'alternative open source complète
+Sublime Text trouve sa pertinence dans des contextes précis : édition rapide de fichiers de configuration, modifications ponctuelles sur un serveur distant, navigation dans un codebase inconnu pour en comprendre la structure. C'est un outil complémentaire plutôt qu'un environnement principal pour un développeur PHP à temps plein.
 
-Apache NetBeans est un IDE open source historiquement lié à Java, qui supporte également PHP, C++ et les technologies web. Entièrement gratuit et maintenu par la fondation Apache, il offre un ensemble de fonctionnalités comparable à celui d'un IDE commercial : débogage, refactoring, gestion de version intégrée avec Git et Subversion.
+## Zed : la vitesse rencontre la collaboration
 
-Sa couverture fonctionnelle est solide, mais son adoption dans l'écosystème PHP a décliné. La communauté de plugins est moins active que celle de VS Code, les mises à jour sont moins fréquentes, et les performances sur des machines modestes restent un point de friction. NetBeans demeure pertinent pour les développeurs qui travaillent simultanément en Java et PHP, ou dans des environnements où les licences commerciales ne sont pas envisageables.
+Zed est un éditeur de code développé par les anciens créateurs d'Atom (l'éditeur de GitHub). Écrit en Rust, il vise la performance maximale avec une interface native qui ne passe pas par Electron. Le résultat est un éditeur qui démarre instantanément, consomme peu de mémoire et reste fluide même sur des projets très volumineux.
+
+La collaboration en temps réel est intégrée nativement. Plusieurs développeurs peuvent éditer le même fichier simultanément, à la manière de Google Docs, sans passer par un outil tiers comme Live Share. Pour les sessions de pair programming à distance, c'est un avantage concret par rapport à VS Code ou PhpStorm.
+
+Zed intègre l'IA directement dans l'éditeur avec un assistant inline et un panneau de chat. Il supporte plusieurs fournisseurs (Anthropic, OpenAI, modèles locaux via Ollama) et permet de passer de l'un à l'autre selon les besoins. L'indexation du codebase permet de fournir du contexte pertinent sans configuration manuelle.
+
+Le support PHP est fonctionnel mais moins mature que celui de VS Code ou PhpStorm. Le système d'extensions est encore jeune, et l'écosystème PHP n'est pas la priorité de la communauté Zed. Pour un développeur PHP, Zed reste un choix à surveiller plutôt qu'un outil à adopter en production aujourd'hui. En revanche, pour les équipes polyglotes qui travaillent principalement en TypeScript ou Rust avec du PHP en complément, Zed mérite une évaluation sérieuse.
+
+## L'IA dans les éditeurs : un changement de paradigme
+
+L'intégration de l'IA dans les éditeurs de code n'est plus une fonctionnalité optionnelle. C'est devenu un axe de différenciation majeur et un critère de choix pour les équipes.
+
+### Les assistants de code en 2026
+
+GitHub Copilot reste l'assistant le plus déployé. Disponible dans VS Code, PhpStorm, Cursor et la plupart des éditeurs majeurs, il propose de l'autocomplétion prédictive, un chat contextuel, et un mode agent capable de réaliser des tâches multi-fichiers. La version Enterprise ajoute des fonctionnalités de personnalisation et de contrôle d'accès adaptées aux organisations.
+
+Claude (Anthropic) se distingue par sa capacité à gérer des contextes longs et à suivre des instructions complexes. Claude Code, utilisable en ligne de commande, et les extensions pour VS Code et JetBrains en font un outil particulièrement adapté au refactoring, à la revue d'architecture et aux tâches qui nécessitent une compréhension globale du projet.
+
+D'autres acteurs occupent des niches spécifiques. Cody de Sourcegraph excelle sur la recherche dans le code source. Codeium propose une alternative gratuite à Copilot avec des performances correctes. Supermaven mise sur la vitesse de complétion. L'écosystème est en évolution rapide et les positions ne sont pas figées.
+
+### L'impact sur le choix de l'éditeur
+
+Le choix de l'éditeur conditionne directement l'expérience IA. Cursor offre l'intégration la plus profonde, mais au prix d'un éditeur spécifique. VS Code propose la plus grande diversité d'extensions IA. PhpStorm intègre l'IA dans son moteur d'analyse statique, ce qui donne des suggestions plus précises dans le contexte PHP. Zed permet d'utiliser des modèles locaux pour les équipes soucieuses de confidentialité.
+
+Pour une équipe PHP, la question stratégique est de déterminer si l'IA est un outil d'aide ponctuel ou un composant central du workflow. Dans le premier cas, VS Code ou PhpStorm avec Copilot suffisent. Dans le second, Cursor ou une configuration VS Code fortement personnalisée méritent d'être évaluées.
 
 ## Du choix individuel à la stratégie d'équipe
 
@@ -51,34 +89,30 @@ Pour un développeur confirmé, le choix de l'éditeur relève de l'efficacité 
 
 ### Standardiser l'environnement de développement
 
-Un projet mature bénéficie d'une configuration partagée. PhpStorm permet d'exporter et de versionner les inspections, les styles de code et les configurations de run. VS Code propose le même mécanisme via le répertoire `.vscode` et les extensions recommandées dans `extensions.json`. Cette standardisation réduit le temps d'onboarding et garantit que les règles de qualité sont appliquées de manière uniforme.
+Un projet mature bénéficie d'une configuration partagée. PhpStorm permet d'exporter et de versionner les inspections, les styles de code et les configurations de run. VS Code propose le même mécanisme via le répertoire `.vscode` et les extensions recommandées dans `extensions.json`. Cursor hérite de ce mécanisme. Cette standardisation réduit le temps d'onboarding et garantit que les règles de qualité sont appliquées de manière uniforme.
 
 L'IDE devient alors un outil d'enforcement : les inspections bloquantes signalent les violations avant même le commit, le formateur automatique élimine les débats de style, et les templates de fichiers assurent la cohérence structurelle. Ce rôle de garde-fou est d'autant plus précieux sur les équipes nombreuses ou distribuées.
-
-### L'IA comme accélérateur de productivité
-
-L'intégration de l'IA dans les éditeurs de code modifie profondément les workflows. GitHub Copilot, disponible dans PhpStorm comme dans VS Code, génère du code contextuel, suggère des tests et accélère l'écriture de code répétitif. Mais l'impact va au-delà de la complétion : les assistants IA facilitent la compréhension de code legacy, la rédaction de documentation et l'exploration d'alternatives architecturales.
-
-Pour un architecte, la question n'est pas de savoir si l'équipe doit utiliser l'IA, mais comment encadrer son usage. Quels modèles sont autorisés ? Les données du projet transitent-elles par des serveurs tiers ? L'IA génère-t-elle du code conforme aux standards internes ? Le choix de l'IDE conditionne directement ces réponses, car chaque plateforme impose ses propres contraintes d'intégration et de confidentialité.
 
 ### La Developer Experience comme levier stratégique
 
 La Developer Experience (DX) est un facteur de rétention et de performance souvent sous-estimé. Un environnement de développement fluide, où le feedback est immédiat et les frictions minimales, impacte directement la vélocité de l'équipe. À l'inverse, un outillage inadapté génère de la dette technique invisible : contournements, configurations locales non reproductibles, perte de temps sur des tâches qui devraient être automatisées.
 
-L'arbitrage budgétaire entre un IDE commercial et un éditeur gratuit doit intégrer ce coût caché. Le prix d'une licence PhpStorm représente quelques heures de travail d'un développeur senior. Si l'outil fait gagner ne serait-ce qu'une heure par semaine en debugging, refactoring ou navigation, le retour sur investissement est immédiat.
+L'arbitrage budgétaire entre un IDE commercial et un éditeur gratuit doit intégrer ce coût caché. Le prix d'une licence PhpStorm ou d'un abonnement Cursor représente quelques heures de travail d'un développeur senior. Si l'outil fait gagner ne serait-ce qu'une heure par semaine en debugging, refactoring ou navigation, le retour sur investissement est immédiat.
 
 ## Le choix d'Efficience IT
 
-Chez Efficience IT, PhpStorm s'est imposé comme l'outil principal de l'équipe. La profondeur de son intégration avec l'écosystème Symfony, la fiabilité de son analyse statique et la puissance de son debugger en font l'IDE le plus adapté à notre contexte de développement PHP professionnel. VS Code reste le second choix privilégié, notamment pour sa polyvalence et son écosystème d'extensions IA en pleine expansion.
+Chez Efficience IT, PhpStorm reste l'outil principal de l'équipe. La profondeur de son intégration avec l'écosystème Symfony, la fiabilité de son analyse statique et la puissance de son debugger en font l'IDE le plus adapté à notre contexte de développement PHP professionnel. VS Code et Cursor sont les alternatives privilégiées, selon les préférences individuelles et l'intensité d'usage de l'IA dans le workflow quotidien.
 
-Le choix final dépend du contexte : taille de l'équipe, stack technique, budget, et maturité des pratiques de développement. L'essentiel est de traiter ce choix non pas comme une préférence individuelle, mais comme une décision d'ingénierie qui mérite réflexion et alignement collectif.
+Le choix final dépend du contexte : taille de l'équipe, stack technique, budget, maturité des pratiques de développement, et place de l'IA dans les processus. L'essentiel est de traiter ce choix non pas comme une préférence individuelle, mais comme une décision d'ingénierie qui mérite réflexion et alignement collectif.
 
 ## Pour aller plus loin
 
 - [Les conventions de codage](/article/coding-conventions), Les standards à respecter dans votre éditeur pour un code propre
 - [PHPStan niveau max sur Symfony](/article/phpstan-niveau-max-symfony-10-erreurs), Améliorer la qualité de votre code PHP avec l'analyse statique
 - [Mieux comprendre le vocabulaire des développeurs web](/article/mieux-comprendre-le-vocabulaire-des-developpeurs-web-guide-complet), IDE, framework, langage : les définitions essentielles
+- [IA génératives : forces et faiblesses](/article/forces-et-faiblesses-des-ia-generatives-les-plus-utilisees), Tour d'horizon des outils IA pour les développeurs
 - [PhpStorm : Site officiel JetBrains](https://www.jetbrains.com/phpstorm/), Téléchargement et documentation de PhpStorm
 - [Visual Studio Code : Site officiel](https://code.visualstudio.com/), Téléchargement et extensions de VS Code
+- [Cursor : Site officiel](https://www.cursor.com/), L'éditeur de code natif IA
+- [Zed : Site officiel](https://zed.dev/), L'éditeur rapide écrit en Rust
 - [Sublime Text : Site officiel](https://www.sublimetext.com/), Téléchargement et documentation de Sublime Text
-- [Apache NetBeans : Site officiel](https://netbeans.apache.org/), Téléchargement et documentation de NetBeans
