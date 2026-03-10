@@ -1,15 +1,15 @@
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import { getAllPosts, getPostBySlug } from "@/lib/blog";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import MarkdownContent from "@/components/ui/MarkdownContent";
-import { pageMetadata } from "@/lib/metadata";
 import type { Metadata } from "next";
-import { BASE_URL, SITE_NAME } from "@/lib/metadata";
+import { BASE_URL, SITE_NAME, pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
 
 interface ArticlePageProps {
-  params: Promise<{ slug: string }>;
+  readonly params: Promise<{ readonly slug: string }>;
 }
 
 export async function generateStaticParams() {
@@ -92,33 +92,50 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       <main>
         <article className="py-16">
           <Container className="mx-auto max-w-3xl">
-            <header className="mb-8">
-              <div className="mb-4 flex items-center gap-3 text-sm text-gray">
-                <time dateTime={post.date}>
-                  {new Date(post.date).toLocaleDateString("fr-FR", {
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric",
-                  })}
-                </time>
-                {post.category && (
-                  <>
-                    <span>&middot;</span>
-                    <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
-                      {post.category}
-                    </span>
-                  </>
+            <header className="mb-16">
+              <div className="flex flex-col gap-8 xl:flex-row xl:items-center xl:justify-between">
+                <div className="flex-1">
+                  <div className="mb-4 flex items-center gap-3 text-sm text-gray">
+                    <time dateTime={post.date}>
+                      {new Date(post.date).toLocaleDateString("fr-FR", {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                      })}
+                    </time>
+                    {post.category && (
+                      <>
+                        <span>&middot;</span>
+                        <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
+                          {post.category}
+                        </span>
+                      </>
+                    )}
+                  </div>
+                  <h1 className="font-display text-3xl font-bold text-dark md:text-4xl">
+                    {post.title}
+                  </h1>
+                  {post.author && (
+                    <p className="mt-4 text-gray">Par {post.author}</p>
+                  )}
+                </div>
+                {post.image && (
+                  <div className="mt-6 shrink-0 self-center xl:mt-0 xl:ml-8 xl:self-start">
+                    <Image
+                      src={post.image}
+                      alt={post.title}
+                      width={720}
+                      height={405}
+                      className="h-auto w-full max-w-full rounded-md object-contain sm:max-w-md lg:max-w-lg xl:max-w-xl"
+                    />
+                  </div>
                 )}
               </div>
-              <h1 className="font-display text-3xl font-bold text-dark md:text-4xl">
-                {post.title}
-              </h1>
-              {post.author && (
-                <p className="mt-4 text-gray">Par {post.author}</p>
-              )}
             </header>
 
-            <MarkdownContent content={post.content} />
+            <div className="mx-auto max-w-3xl">
+              <MarkdownContent content={post.content} />
+            </div>
 
             <div className="mt-12 border-t border-border pt-8">
               <Button href="/blog" variant="outline">
