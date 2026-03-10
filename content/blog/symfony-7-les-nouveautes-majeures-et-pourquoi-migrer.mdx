@@ -1,0 +1,291 @@
+---
+title: "Symfony 7 : les nouveautes majeures et pourquoi migrer"
+date: "2026-03-10"
+author: "Efficience IT"
+category: "Formation"
+excerpt: "Symfony 7 apporte des changements structurants : AssetMapper, nouveau systeme de securite, ameliorations DX. Decouvrez les nouveautes et les raisons de migrer depuis Symfony 6."
+image: "/images/blog/symfony-nouveautes.webp"
+---
+
+Symfony 7.0 est sorti en novembre 2023, suivi de Symfony 7.1 en mai 2024 et de Symfony 7.2 en novembre 2024. Cette nouvelle branche majeure marque un tournant dans la philosophie du framework : simplification des outils frontend, refonte du systeme de securite, et une serie d'ameliorations qui transforment l'experience developpeur au quotidien.
+
+Si votre projet tourne encore sur Symfony 6.x, la question de la migration se pose. Voici un tour complet des nouveautes et des raisons concretes de franchir le pas.
+
+## AssetMapper : la fin de Webpack Encore
+
+C'est probablement le changement le plus visible de cette generation. AssetMapper, introduit en Symfony 6.3 et devenu la solution recommandee depuis Symfony 7.0, remplace Webpack Encore pour la gestion des assets frontend.
+
+### Le principe
+
+AssetMapper fonctionne sans Node.js, sans npm, sans etape de build. Il s'appuie sur les import maps natifs des navigateurs modernes pour charger les modules JavaScript. Les fichiers CSS et JS sont servis directement, avec versioning automatique via un hash dans le nom de fichier.
+
+```php
+#[Route('/dashboard', name: 'app_dashboard')]
+public function dashboard(): Response
+{
+    return $this->render('dashboard/index.html.twig');
+}
+```
+
+Dans le template Twig, la fonction `importmap()` remplace les anciens appels a Encore :
+
+```twig
+{% block javascripts %}
+    {{ importmap('app') }}
+{% endblock %}
+```
+
+### Pourquoi c'est un vrai progres
+
+L'ecosysteme JavaScript evolue a un rythme soutenu, et maintenir une configuration Webpack fonctionnelle dans le temps represente un cout non negligeable. Les mises a jour de Node.js, les breaking changes dans les loaders, les conflits de dependances npm : tout cela disparait avec AssetMapper.
+
+Pour installer un package JavaScript, la commande `importmap:require` suffit :
+
+```bash
+php bin/console importmap:require lodash
+```
+
+Le package est telecharge depuis un CDN (jsDelivr par defaut) et reference dans le fichier `importmap.php`. Aucun `node_modules`, aucun `package.json`.
+
+### Les limites a connaitre
+
+AssetMapper ne gere pas la compilation TypeScript, le preprocessing SCSS complexe, ni le tree-shaking avance. Pour les applications avec un frontend riche (React, Vue, Angular), Webpack ou Vite restent pertinents. Pour les projets Symfony classiques avec du Twig et du JavaScript modere, AssetMapper couvre 90 % des besoins avec une complexite divisee par dix.
+
+## Le systeme de securite repense
+
+Symfony 7 poursuit la refonte du composant Security amorcee en 6.0. Le nouveau systeme, base sur les authenticators, est desormais le seul disponible. L'ancien systeme (Guard, anonymous tokens) a ete definitivement supprime.
+
+### Les authenticators comme standard unique
+
+Chaque methode d'authentification (formulaire, API token, OAuth) est un authenticator. La configuration est plus lisible et chaque authenticator gere son propre cycle :
+
+```yaml
+security:
+    firewalls:
+        main:
+            form_login:
+                login_path: app_login
+                check_path: app_login
+            login_throttling:
+                max_attempts: 5
+                interval: '15 minutes'
+```
+
+Le `login_throttling` integre nativement dans Symfony 7 protege contre les attaques par force brute, sans bundle tiers.
+
+### AccessTokenHandler pour les APIs
+
+Symfony 7.0 introduit un systeme natif de gestion des tokens d'acces pour les APIs. Plus besoin de LexikJWTAuthenticationBundle pour les cas simples :
+
+```php
+use Symfony\Component\Security\Http\AccessToken\AccessTokenHandlerInterface;
+
+class ApiTokenHandler implements AccessTokenHandlerInterface
+{
+    public function getUserBadgeFrom(string $accessToken): UserBadge
+    {
+        $user = $this->repository->findByApiToken($accessToken);
+
+        if (!$user) {
+            throw new BadCredentialsException('Invalid token.');
+        }
+
+        return new UserBadge($user->getEmail());
+    }
+}
+```
+
+La configuration dans `security.yaml` se resume a quelques lignes :
+
+```yaml
+security:
+    firewalls:
+        api:
+            pattern: ^/api
+            stateless: true
+            access_token:
+                token_handler: App\Security\ApiTokenHandler
+```
+
+## Ameliorations de l'experience developpeur
+
+### Les enums dans les routes
+
+Symfony 7.0 permet d'utiliser des enums PHP dans les parametres de route. Le framework resout automatiquement la valeur :
+
+```php
+enum UserStatus: string
+{
+    case Active = 'active';
+    case Suspended = 'suspended';
+}
+
+#[Route('/users/{status}', name: 'users_by_status')]
+public function listByStatus(UserStatus $status): Response
+{
+    $users = $this->repository->findByStatus($status);
+
+    return $this->render('user/list.html.twig', [
+        'users' => $users,
+    ]);
+}
+```
+
+Un appel a `/users/active` injecte directement `UserStatus::Active`. Une valeur invalide retourne une 404.
+
+### Le composant Scheduler
+
+Introduit en Symfony 6.3 et stabilise en 7.1, le composant Scheduler remplace les crontabs systeme par une gestion des taches planifiees directement dans le code PHP :
+
+```php
+use Symfony\Component\Scheduler\Attribute\AsSchedule;
+use Symfony\Component\Scheduler\RecurringMessage;
+use Symfony\Component\Scheduler\Schedule;
+use Symfony\Component\Scheduler\ScheduleProviderInterface;
+
+#[AsSchedule('default')]
+class DefaultSchedule implements ScheduleProviderInterface
+{
+    public function getSchedule(): Schedule
+    {
+        return (new Schedule())
+            ->add(RecurringMessage::every('1 hour', new CleanExpiredTokensMessage()))
+            ->add(RecurringMessage::cron('0 3 * * *', new GenerateDailyReportMessage()));
+    }
+}
+```
+
+Les taches sont des messages Messenger classiques. Elles beneficient de la meme infrastructure : retry, monitoring, transport asynchrone. La commande `messenger:consume scheduler_default` execute le scheduler.
+
+### Le composant Webhook
+
+Symfony 7.1 stabilise le composant Webhook, qui simplifie la reception de webhooks externes (Stripe, GitHub, Twilio). Le composant fournit un controller generique et un systeme de parsers typeset par provider :
+
+```yaml
+framework:
+    webhook:
+        routing:
+            stripe:
+                service: App\Webhook\StripeRequestParser
+                secret: '%env(STRIPE_WEBHOOK_SECRET)%'
+```
+
+Le parser transforme la requete brute en un objet exploitable, avec verification de signature integree.
+
+### Clock : un composant pour maitriser le temps
+
+Le composant Clock, stabilise en Symfony 7.0, resout un probleme recurrent dans les tests : la dependance au temps reel. Au lieu d'appeler `new \DateTimeImmutable()` directement, injectez `ClockInterface` :
+
+```php
+use Symfony\Component\Clock\ClockInterface;
+
+class SubscriptionService
+{
+    public function __construct(private ClockInterface $clock) {}
+
+    public function isExpired(Subscription $subscription): bool
+    {
+        return $subscription->getExpiresAt() < $this->clock->now();
+    }
+}
+```
+
+Dans les tests, le `MockClock` permet de figer ou avancer le temps a volonte :
+
+```php
+$clock = new MockClock('2026-01-15 10:00:00');
+$service = new SubscriptionService($clock);
+
+$clock->modify('+1 year');
+$this->assertTrue($service->isExpired($subscription));
+```
+
+## Symfony 7.2 : les dernieres evolutions
+
+### JsonStreamer : la serialisation haute performance
+
+Symfony 7.2 introduit le composant JsonStreamer en version experimentale. Il genere du code PHP optimise pour serialiser et deserialiser du JSON, sans la surcharge de reflexion du Serializer classique. Les benchmarks montrent des gains de performance significatifs sur les APIs a fort trafic.
+
+### Ameliorations de Twig
+
+Twig 4, inclus dans Symfony 7.2, apporte une syntaxe plus concise pour les filtres et les tests. La gestion des erreurs est amelioree, et les messages d'erreur pointent directement vers la ligne problematique dans le template source.
+
+### TypeInfo : introspection des types PHP
+
+Le composant TypeInfo, stabilise en 7.2, fournit une API unifiee pour inspecter les types PHP. Il remplace les multiples approches dispersees dans le framework (Reflection, PHPDoc parsing, annotations) par une source unique :
+
+```php
+use Symfony\Component\TypeInfo\TypeResolver\TypeResolver;
+
+$resolver = TypeResolver::create();
+$type = $resolver->resolve(new \ReflectionProperty(User::class, 'email'));
+```
+
+Ce composant est utilise en interne par le Serializer, le Validator et les formulaires. Pour les developpeurs de bundles, il offre une API stable pour l'introspection de types.
+
+## Migrer de Symfony 6.x a Symfony 7
+
+### La strategie recommandee
+
+Le chemin de migration suit le schema classique de Symfony : monter d'abord sur Symfony 6.4 (la derniere version mineure de la branche 6.x), resoudre toutes les deprecations, puis passer a 7.0.
+
+Symfony 6.4 contient exactement les memes fonctionnalites que Symfony 7.0. La seule difference : 6.4 conserve la retrocompatibilite avec les anciennes APIs, tandis que 7.0 les supprime. Corriger toutes les deprecations en 6.4 rend le passage a 7.0 quasi automatique.
+
+### Les prerequis techniques
+
+Symfony 7.0 exige PHP 8.2 au minimum. Si votre projet tourne sur PHP 8.0 ou 8.1, prevoyez la mise a jour PHP en amont. Les versions 8.2 et 8.3 apportent elles-memes des gains de performance et de nouvelles fonctionnalites (readonly classes, DNF types, typed class constants).
+
+Verifiez la compatibilite de vos bundles tiers. Les bundles majeurs de l'ecosysteme (DoctrineBundle, MonologBundle, API Platform) supportent Symfony 7 depuis plusieurs mois. Les bundles moins maintenus peuvent necessiter un fork ou un remplacement.
+
+### Automatiser avec Rector
+
+Rector dispose de sets dedies a Symfony 7 qui automatisent la majorite des transformations :
+
+```php
+use Rector\Config\RectorConfig;
+use Rector\Symfony\Set\SymfonySetList;
+
+return static function (RectorConfig $rectorConfig): void {
+    $rectorConfig->sets([
+        SymfonySetList::SYMFONY_70,
+        SymfonySetList::SYMFONY_71,
+    ]);
+};
+```
+
+Combinez Rector avec PHPStan pour detecter les incompatibilites residuelles. L'extension `phpstan-symfony` connait le conteneur et detecte les services mal types ou les parametres manquants.
+
+### Checklist de migration
+
+Voici les etapes cles pour une migration reussie :
+
+- Mettre a jour PHP vers 8.2 ou superieur
+- Monter sur Symfony 6.4 et resoudre toutes les deprecations
+- Verifier la compatibilite des bundles tiers
+- Executer Rector avec les sets Symfony 7.x
+- Lancer PHPStan pour detecter les erreurs restantes
+- Executer la suite de tests complete
+- Remplacer Webpack Encore par AssetMapper si le projet s'y prete
+- Adapter la configuration de securite au nouveau systeme d'authenticators
+
+## Pourquoi migrer maintenant
+
+Symfony 6.4 est une version LTS avec un support de securite jusqu'en novembre 2027. Rien ne presse techniquement. Mais plusieurs raisons justifient d'anticiper la migration.
+
+Les nouvelles fonctionnalites (Scheduler, Webhook, Clock, JsonStreamer) ne seront pas backportees sur la branche 6.x. Plus vous attendez, plus l'ecart se creuse et plus la migration coute cher.
+
+L'ecosysteme evolue : les nouveaux bundles ciblent Symfony 7, les tutoriels et la documentation officielle se concentrent sur la derniere version. Recruter des developpeurs sur un projet Symfony 6 en 2026 devient un frein.
+
+Enfin, PHP 8.2+ et Symfony 7 offrent des gains de performance mesurables. Le conteneur compile est plus rapide, le routing est optimise, et les composants tires de la refonte (Security, Serializer) sont plus efficaces.
+
+La migration de Symfony 6 a Symfony 7 est l'une des plus fluides de l'histoire du framework. Le mecanisme de deprecations, la parite 6.4/7.0, et les outils d'automatisation comme Rector reduisent considerablement l'effort. C'est le bon moment pour planifier la transition.
+
+## Pour aller plus loin
+
+- [Migration Symfony : guide pour mettre a jour un projet sereinement](/article/guide-de-migration-dans-un-projet-symfony), la methode complete pour migrer entre versions majeures
+- [Rector et ses pouvoirs](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony), automatiser les transformations de code lors d'une migration
+- [Pourquoi choisir Symfony pour vos projets](/article/pourquoi-choisir-symfony-pour-vos-projets), les atouts du framework pour les projets d'entreprise
+- [Symfony Messenger : colonne vertebrale de l'architecture hexagonale](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale), comprendre Messenger, le socle du Scheduler
+- [Symfony 7.0 Release Blog Post](https://symfony.com/blog/symfony-7-0-curated-new-features), les nouveautes officielles de Symfony 7.0
+- [Symfony Upgrade Guide](https://symfony.com/doc/current/setup/upgrade_major.html), guide officiel de mise a jour majeure
+- [AssetMapper Documentation](https://symfony.com/doc/current/frontend/asset_mapper.html), la documentation officielle d'AssetMapper
