@@ -146,6 +146,8 @@ export default function LEntreprise() {
                 width={400}
                 height={300}
                 className="w-full rounded-lg"
+                priority
+                fetchPriority="high"
               />
             </div>
           </div>

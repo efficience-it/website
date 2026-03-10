@@ -102,6 +102,8 @@ export default function CloudEtDevops() {
                 width={400}
                 height={300}
                 className="w-full max-w-md"
+                priority
+                fetchPriority="high"
               />
             </div>
           </div>
