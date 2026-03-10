@@ -31,7 +31,9 @@ export async function generateMetadata({
     path: `/article/${slug}`,
   });
 
-  const articleImage = post.image ? `${BASE_URL}${post.image}` : `${BASE_URL}/images/logo/logo-og.png`;
+  const articleImage = post.image
+    ? `${BASE_URL}${post.image}`
+    : `${BASE_URL}/images/logo/logo-og.png`;
 
   return {
     ...base,
@@ -141,9 +143,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 )}
               </div>
             </header>
-
             <div className="mx-auto max-w-3xl">
               <MarkdownContent content={post.content} />
+            </div>
+            <div className="mt-12 border-t border-border pt-8">
+              <Button href="/blog" variant="outline">
+                &larr; Retour au blog
+              </Button>
             </div>
           </Container>
         </article>
