@@ -138,6 +138,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                       width={720}
                       height={405}
                       className="h-auto w-full max-w-full rounded-md object-contain sm:max-w-md lg:max-w-lg xl:max-w-xl"
+                      priority
+                      fetchPriority="high"
                     />
                   </div>
                 )}

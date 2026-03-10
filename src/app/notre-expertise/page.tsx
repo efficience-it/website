@@ -61,6 +61,8 @@ export default function NotreExpertise() {
                 width={500}
                 height={350}
                 className="w-full rounded-lg"
+                priority
+                fetchPriority="high"
               />
             </div>
           </div>
