@@ -11,13 +11,11 @@ interface MarkdownContentProps {
 function extractText(node: React.ReactNode): string {
   if (typeof node === "string") return node;
   if (Array.isArray(node)) return node.map(extractText).join("");
-  if (
-    node !== null &&
-    typeof node === "object" &&
-    "props" in (node as Record<string, unknown>)
-  ) {
-    const el = node as React.ReactElement<{ children?: React.ReactNode }>;
-    return extractText(el.props.children);
+  if (node !== null && typeof node === "object" && "props" in (node as never)) {
+    return extractText(
+      (node as unknown as { props: { children?: React.ReactNode } }).props
+        .children,
+    );
   }
   return "";
 }
