@@ -7,13 +7,13 @@ excerpt: "Le fichier llms.txt aide les IA à comprendre votre site. Découvrez c
 image: "/images/blog/seo-ai.png"
 ---
 
-Le web traverse une mutation silencieuse. Les moteurs de recherche ne se contentent plus d'indexer des pages et de renvoyer des liens bleus : ils comprennent, synthétisent et génèrent des réponses. Google AI Overviews, Perplexity, ChatGPT Search, Claude — ces systèmes lisent le web pour le compte de l'utilisateur. Et la manière dont ils le lisent change tout.
+Le web traverse une mutation silencieuse. Les moteurs de recherche ne se contentent plus d'indexer des pages et de renvoyer des liens bleus : ils comprennent, synthétisent et génèrent des réponses. Google AI Overviews, Perplexity, ChatGPT Search, Claude, ces systèmes lisent le web pour le compte de l'utilisateur. Et la manière dont ils le lisent change tout.
 
 Dans ce nouveau paradigme, un fichier fait son apparition : `llms.txt`. Si vous connaissez `robots.txt`, l'analogie est immédiate. Là où `robots.txt` dit aux crawlers ce qu'ils ont le droit de faire, `llms.txt` dit aux IA ce qu'elles ont besoin de savoir. L'un contrôle l'accès, l'autre guide la compréhension.
 
 ## De robots.txt à llms.txt : un changement de paradigme
 
-`robots.txt` date de 1994. Il répond à une question binaire : « ce crawler peut-il accéder à cette URL ? ». `sitemap.xml`, apparu en 2005, répond à une question d'inventaire : « quelles URLs existent et quand ont-elles changé ? ». Ces deux fichiers parlent la langue des moteurs classiques — celle de l'indexation et du crawl.
+`robots.txt` date de 1994. Il répond à une question binaire : « ce crawler peut-il accéder à cette URL ? ». `sitemap.xml`, apparu en 2005, répond à une question d'inventaire : « quelles URLs existent et quand ont-elles changé ? ». Ces deux fichiers parlent la langue des moteurs classiques, celle de l'indexation et du crawl.
 
 Le `llms.txt`, proposé par Jeremy Howard (cofondateur de fast.ai), répond à une question radicalement différente : « que fait ce site, et quels contenus méritent d'être compris en priorité ? ». Ce n'est plus un fichier de permissions ni un inventaire technique. C'est un guide sémantique, rédigé en langage naturel, destiné à des systèmes qui raisonnent sur le texte.
 
@@ -27,7 +27,7 @@ La spécification publiée sur [llmstxt.org](https://llmstxt.org/) impose peu de
 
 Le fichier commence par un titre H1 (le nom du site ou de l'organisation), suivi d'un blockquote Markdown qui résume l'activité en une ou deux phrases. Viennent ensuite des sections H2 qui organisent les contenus par thématique. Chaque entrée est un lien Markdown suivi d'un deux-points et d'une description factuelle.
 
-La spécification prévoit une section `## Optional` pour les contenus secondaires. Cette distinction est fonctionnelle : les LLM ayant une fenêtre de contexte limitée, les contenus hors `Optional` sont traités en priorité. Un fichier complémentaire, `llms-full.txt`, peut contenir le texte intégral de toutes les pages référencées, concaténé en un seul document Markdown — utile pour les modèles capables de traiter de longs contextes.
+La spécification prévoit une section `## Optional` pour les contenus secondaires. Cette distinction est fonctionnelle : les LLM ayant une fenêtre de contexte limitée, les contenus hors `Optional` sont traités en priorité. Un fichier complémentaire, `llms-full.txt`, peut contenir le texte intégral de toutes les pages référencées, concaténé en un seul document Markdown, utile pour les modèles capables de traiter de longs contextes.
 
 Point important : les ressources liées doivent pointer vers des versions Markdown (`.md`) des pages, débarrassées de tout HTML. Ce n'est pas un détail cosmétique. Un LLM traite du Markdown avec une précision nettement supérieure à celle d'un HTML parsé à la volée.
 
@@ -41,7 +41,7 @@ Dans un projet Symfony, un fichier `llms.txt` placé dans `public/` est servi au
 
 ### Génération dynamique
 
-L'approche statique atteint ses limites dès que le contenu du site change fréquemment. Un `llms.txt` désynchronisé est pire qu'un `llms.txt` absent — il induit les IA en erreur.
+L'approche statique atteint ses limites dès que le contenu du site change fréquemment. Un `llms.txt` désynchronisé est pire qu'un `llms.txt` absent, il induit les IA en erreur.
 
 En Symfony, un contrôleur dédié peut générer le Markdown à la volée à partir des entités du projet (articles, services, pages). Le contrôleur retourne une `Response` avec le content-type `text/plain` et construit le contenu de manière programmatique. L'avantage : le fichier reflète toujours l'état réel du site, sans intervention manuelle.
 
@@ -77,7 +77,7 @@ Contrairement au SEO classique où les outils de mesure sont matures (Search Con
 
 ### Crawlabilité vs protection de la propriété intellectuelle
 
-Le `llms.txt` expose volontairement du contenu aux IA. C'est un choix qui mérite d'être fait en connaissance de cause. Certains contenus — méthodologies propriétaires, données concurrentielles, recherches non publiées — ne doivent pas y figurer. La question n'est pas uniquement « qu'est-ce qui est pertinent ? » mais aussi « qu'est-ce que je veux que les IA sachent et répètent ? ».
+Le `llms.txt` expose volontairement du contenu aux IA. C'est un choix qui mérite d'être fait en connaissance de cause. Certains contenus, méthodologies propriétaires, données concurrentielles, recherches non publiées, ne doivent pas y figurer. La question n'est pas uniquement « qu'est-ce qui est pertinent ? » mais aussi « qu'est-ce que je veux que les IA sachent et répètent ? ».
 
 Cette tension entre visibilité et protection est nouvelle. Le `robots.txt` permettait de bloquer l'accès. Le `llms.txt` invite à une granularité plus fine : vous ne bloquez pas, vous choisissez ce que vous rendez lisible. C'est un passage du contrôle d'accès au contrôle du récit.
 
@@ -89,15 +89,15 @@ L'architecture web de demain devra probablement servir trois audiences distincte
 
 ## Le llms.txt comme révélateur d'une transformation plus profonde
 
-Le `llms.txt` est un fichier texte de quelques dizaines de lignes. Sa valeur réelle ne réside pas dans sa complexité technique — elle est quasi nulle — mais dans le changement de posture qu'il requiert. Penser son contenu web du point de vue d'une IA qui doit comprendre et restituer, plutôt que d'un crawler qui doit indexer, c'est accepter que le web entre dans une nouvelle phase.
+Le `llms.txt` est un fichier texte de quelques dizaines de lignes. Sa valeur réelle ne réside pas dans sa complexité technique, elle est quasi nulle, mais dans le changement de posture qu'il requiert. Penser son contenu web du point de vue d'une IA qui doit comprendre et restituer, plutôt que d'un crawler qui doit indexer, c'est accepter que le web entre dans une nouvelle phase.
 
 Le retour sur investissement est immédiat : dès que le fichier est en ligne, les IA peuvent l'exploiter. Mais l'enjeu de long terme est ailleurs. C'est dans la capacité à construire une stratégie de contenu qui parle simultanément aux humains, aux moteurs classiques et aux IA génératives que se joue la prochaine génération de visibilité web.
 
 ## Pour aller plus loin
 
-- [GEO : rendre votre application Symfony visible dans les moteurs IA](/article/geo-rendre-votre-application-symfony-visible-dans-les-moteurs-ia) — optimiser pour les moteurs génératifs
-- [Symfony AI dans un projet legacy](/article/symfony-ai-projet-legacy-retour-experience) — intégrer l'IA côté backend
-- [Forces et faiblesses des IA génératives](/article/forces-et-faiblesses-des-ia-generatives-les-plus-utilisees) — comprendre les modèles qui consomment le llms.txt
-- [llms.txt — spécification officielle](https://llmstxt.org/) — le standard proposé
-- [Schema.org](https://schema.org/) — données structurées pour le web sémantique
-- [Google — Structured Data Guidelines](https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data) — référence Google sur les données structurées
+- [GEO : rendre votre application Symfony visible dans les moteurs IA](/article/geo-rendre-votre-application-symfony-visible-dans-les-moteurs-ia), optimiser pour les moteurs génératifs
+- [Symfony AI dans un projet legacy](/article/symfony-ai-projet-legacy-retour-experience), intégrer l'IA côté backend
+- [Forces et faiblesses des IA génératives](/article/forces-et-faiblesses-des-ia-generatives-les-plus-utilisees), comprendre les modèles qui consomment le llms.txt
+- [llms.txt : spécification officielle](https://llmstxt.org/), le standard proposé
+- [Schema.org](https://schema.org/), données structurées pour le web sémantique
+- [Google : Structured Data Guidelines](https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data), référence Google sur les données structurées

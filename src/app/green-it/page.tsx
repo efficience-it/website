@@ -178,37 +178,37 @@ export default function GreenIt() {
               <Link href="/article/eco-conception-un-ideal-en-marche-ou-une-illusion-durable" className="text-primary hover:underline">
                 L&apos;éco-conception : un idéal en marche ?
               </Link>{" "}
-              — numérique responsable et sobriété
+             , numérique responsable et sobriété
             </li>
             <li>
               <Link href="/article/ecosia-preservateur-decologie" className="text-primary hover:underline">
                 Ecosia, préservateur d&apos;écologie
               </Link>{" "}
-              — un moteur de recherche au service de la planète
+             , un moteur de recherche au service de la planète
             </li>
             <li>
               <Link href="/article/normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous" className="text-primary hover:underline">
                 Normes RGAA : accessibilité pour tous
               </Link>{" "}
-              — concevoir des sites inclusifs et responsables
+             , concevoir des sites inclusifs et responsables
             </li>
             <li>
               <a href="https://www.greenit.fr/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
                 GreenIT.fr
               </a>{" "}
-              — communauté du numérique responsable
+             , communauté du numérique responsable
             </li>
             <li>
               <a href="https://www.ecosia.org/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
                 Ecosia
               </a>{" "}
-              — le moteur de recherche qui plante des arbres
+             , le moteur de recherche qui plante des arbres
             </li>
             <li>
               <a href="https://www.w3.org/TR/sustainability-web/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                W3C — Web Sustainability Guidelines
+                W3C, Web Sustainability Guidelines
               </a>{" "}
-              — référentiel de durabilité web
+             , référentiel de durabilité web
             </li>
           </ul>
         </Container>

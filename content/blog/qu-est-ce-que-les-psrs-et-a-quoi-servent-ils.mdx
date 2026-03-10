@@ -7,7 +7,7 @@ excerpt: "Les PSR (PHP Standards Recommandations) sont un ensemble de normes éd
 image: "/images/blog/psr-php.webp"
 ---
 
-Les PSR (PHP Standards Recommendations) sont les spécifications techniques publiées par le [PHP-FIG](https://www.php-fig.org/) (PHP Framework Interop Group). Ce consortium, fondé en 2009, réunit les mainteneurs des principaux frameworks et bibliothèques PHP — Symfony, Laravel, Laminas, Slim, Doctrine, Composer — autour d'un objectif unique : définir des interfaces et des conventions communes pour que l'écosystème PHP parle un même langage technique.
+Les PSR (PHP Standards Recommendations) sont les spécifications techniques publiées par le [PHP-FIG](https://www.php-fig.org/) (PHP Framework Interop Group). Ce consortium, fondé en 2009, réunit les mainteneurs des principaux frameworks et bibliothèques PHP, Symfony, Laravel, Laminas, Slim, Doctrine, Composer, autour d'un objectif unique : définir des interfaces et des conventions communes pour que l'écosystème PHP parle un même langage technique.
 
 Contrairement à ce que leur nom suggère, les PSR ne sont pas de simples recommandations de style. Certaines définissent des interfaces PHP concrètes, distribuées via Composer, que des centaines de bibliothèques implémentent ou consomment. Comprendre les PSR, c'est comprendre le socle d'interopérabilité sur lequel repose l'écosystème PHP moderne.
 
@@ -41,7 +41,7 @@ Le PSR-17 complète PSR-7 en définissant des factories pour créer ces objets. 
 
 Le PSR-15 formalise le pattern middleware en PHP. Il définit deux interfaces : `RequestHandlerInterface` (le handler final) et `MiddlewareInterface` (chaque couche intermédiaire). Ce standard a unifié des dizaines d'implémentations incompatibles et permis l'émergence de micro-frameworks comme Slim 4 ou Mezzio, où l'application entière est un pipeline de middlewares PSR-15 empilés.
 
-L'architecture middleware PSR-15, combinée aux messages PSR-7, forme un modèle de traitement HTTP composable. Chaque middleware peut inspecter la requête, la transformer, déléguer au handler suivant, puis post-traiter la réponse. L'authentification, le CORS, le rate limiting, la compression — tous deviennent des briques interchangeables.
+L'architecture middleware PSR-15, combinée aux messages PSR-7, forme un modèle de traitement HTTP composable. Chaque middleware peut inspecter la requête, la transformer, déléguer au handler suivant, puis post-traiter la réponse. L'authentification, le CORS, le rate limiting, la compression, tous deviennent des briques interchangeables.
 
 ### PSR-11 : Container Interface
 
@@ -51,7 +51,7 @@ En pratique, PSR-11 a rendu possible la création de bibliothèques véritableme
 
 ### PSR-14 : Event Dispatcher
 
-Le PSR-14 définit un modèle d'événements basé sur deux concepts : le `EventDispatcherInterface` qui émet des événements, et le `ListenerProviderInterface` qui résout les listeners associés. Cette séparation est délibérée — elle découple l'émission d'événements de leur enregistrement, ce qui permet des stratégies de résolution variées (attributs PHP, configuration YAML, convention de nommage).
+Le PSR-14 définit un modèle d'événements basé sur deux concepts : le `EventDispatcherInterface` qui émet des événements, et le `ListenerProviderInterface` qui résout les listeners associés. Cette séparation est délibérée, elle découple l'émission d'événements de leur enregistrement, ce qui permet des stratégies de résolution variées (attributs PHP, configuration YAML, convention de nommage).
 
 Le PSR-14 a introduit le concept d'événement stoppable via `StoppableEventInterface`, permettant à un listener de court-circuiter la propagation. Ce pattern est particulièrement utile pour les systèmes de validation ou d'autorisation où un rejet doit interrompre la chaîne.
 
@@ -91,10 +91,10 @@ Pour une équipe, adopter les PSR signifie aussi réduire la surface de décisio
 
 ## Pour aller plus loin
 
-- [Conventions de codage](/article/coding-conventions) — Les conventions de codage pour un code propre et maintenable
-- [PHPStan : améliorer la qualité de votre code PHP](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) — L'analyse statique au service de la qualité
-- [Pourquoi choisir Symfony pour vos projets](/article/pourquoi-choisir-symfony-pour-vos-projets) — Un framework qui implémente les standards PSR
-- [PHP-FIG](https://www.php-fig.org/) — Le site officiel du PHP Framework Interop Group
-- [Liste des PSRs](https://www.php-fig.org/psr/) — Documentation complète de tous les PSRs
-- [PHP-FIG sur GitHub](https://github.com/php-fig) — Les dépôts officiels des interfaces PSR
-- [PHP.net](https://www.php.net/) — Site officiel du langage PHP
+- [Conventions de codage](/article/coding-conventions), Les conventions de codage pour un code propre et maintenable
+- [PHPStan : améliorer la qualité de votre code PHP](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php), L'analyse statique au service de la qualité
+- [Pourquoi choisir Symfony pour vos projets](/article/pourquoi-choisir-symfony-pour-vos-projets), Un framework qui implémente les standards PSR
+- [PHP-FIG](https://www.php-fig.org/), Le site officiel du PHP Framework Interop Group
+- [Liste des PSRs](https://www.php-fig.org/psr/), Documentation complète de tous les PSRs
+- [PHP-FIG sur GitHub](https://github.com/php-fig), Les dépôts officiels des interfaces PSR
+- [PHP.net](https://www.php.net/), Site officiel du langage PHP

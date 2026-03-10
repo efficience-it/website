@@ -7,7 +7,7 @@ excerpt: "Pourquoi Docker est indispensable en production : déploiement fiable,
 image: "/images/blog/pexels-tech.jpg"
 ---
 
-Mettre une application en production a toujours été un exercice à haut risque. Mais les exigences actuelles — performance, sécurité, scalabilité, time-to-market — ont rendu les approches artisanales tout simplement intenables. Docker s'est imposé comme le standard industriel de la production web, au même titre que Git ou les pipelines CI/CD. Ce n'est plus un choix technologique : c'est un prérequis.
+Mettre une application en production a toujours été un exercice à haut risque. Mais les exigences actuelles, performance, sécurité, scalabilité, time-to-market, ont rendu les approches artisanales tout simplement intenables. Docker s'est imposé comme le standard industriel de la production web, au même titre que Git ou les pipelines CI/CD. Ce n'est plus un choix technologique : c'est un prérequis.
 
 Cet article explore Docker en production sous trois angles progressifs : les fondamentaux qui éliminent les problèmes classiques de déploiement, les techniques avancées d'optimisation et de sécurité, et enfin les décisions architecturales qui déterminent le succès ou l'échec d'une stratégie de conteneurisation à l'échelle.
 
@@ -17,7 +17,7 @@ Cet article explore Docker en production sous trois angles progressifs : les fon
 
 Avant Docker, les environnements de production étaient configurés manuellement, partiellement documentés et structurellement incohérents entre dev, préprod et prod. Un développeur installe PHP 8.3.12 sur sa machine, la préprod tourne avec PHP 8.3.8, la prod reste bloquée sur PHP 8.2. Une extension intl compilée différemment provoque un comportement inattendu sur les formats de date. Ce type de scénario coûte des heures de débogage et érode la confiance de toute l'équipe.
 
-Docker résout ce problème par un principe fondamental : embarquer l'application **et** son environnement d'exécution dans une image immuable. Runtime, librairies système, extensions, configuration, dépendances applicatives — tout est figé. L'image construite lors de la CI est celle qui sera déployée sur chaque serveur, sans recompilation ni installation de paquets supplémentaires. Ce qui est testé est exactement ce qui tourne en production.
+Docker résout ce problème par un principe fondamental : embarquer l'application **et** son environnement d'exécution dans une image immuable. Runtime, librairies système, extensions, configuration, dépendances applicatives, tout est figé. L'image construite lors de la CI est celle qui sera déployée sur chaque serveur, sans recompilation ni installation de paquets supplémentaires. Ce qui est testé est exactement ce qui tourne en production.
 
 ### Le Dockerfile comme contrat d'exécution
 
@@ -64,7 +64,7 @@ opcache.preload=/app/config/preload.php
 opcache.preload_user=www-data
 ```
 
-Le paramètre `validate_timestamps=0` est le levier principal : il supprime les appels stat() sur chaque requête. Combiné au preload Symfony, le gain est mesurable — entre 10 et 30 % de réduction du temps de réponse sur une API typique. Ces paramètres seraient dangereux sur un serveur classique où les fichiers peuvent changer ; sur un conteneur immuable, ils sont parfaitement sûrs.
+Le paramètre `validate_timestamps=0` est le levier principal : il supprime les appels stat() sur chaque requête. Combiné au preload Symfony, le gain est mesurable, entre 10 et 30 % de réduction du temps de réponse sur une API typique. Ces paramètres seraient dangereux sur un serveur classique où les fichiers peuvent changer ; sur un conteneur immuable, ils sont parfaitement sûrs.
 
 ## Sécurité et durcissement des images
 
@@ -76,7 +76,7 @@ Chaque dépendance système ajoutée à l'image doit être justifiée. Les paque
 
 ### Scan de vulnérabilités et chaîne de confiance
 
-Docker s'intègre nativement dans une chaîne de sécurité automatisée. Les scanners de CVE — Trivy, Snyk, Docker Scout — analysent chaque image dans le pipeline CI/CD. Un seuil de vulnérabilités critiques peut bloquer automatiquement un déploiement. Les signatures d'images (Docker Content Trust, cosign) garantissent l'intégrité de la chaîne de distribution. Si un conteneur est compromis en production, la réponse est immédiate : détruire le conteneur et en relancer un nouveau à partir de l'image saine. Aucune forensics complexe sur un serveur muté au fil du temps.
+Docker s'intègre nativement dans une chaîne de sécurité automatisée. Les scanners de CVE, Trivy, Snyk, Docker Scout, analysent chaque image dans le pipeline CI/CD. Un seuil de vulnérabilités critiques peut bloquer automatiquement un déploiement. Les signatures d'images (Docker Content Trust, cosign) garantissent l'intégrité de la chaîne de distribution. Si un conteneur est compromis en production, la réponse est immédiate : détruire le conteneur et en relancer un nouveau à partir de l'image saine. Aucune forensics complexe sur un serveur muté au fil du temps.
 
 ## Pipelines CI/CD et déploiement continu
 
@@ -110,7 +110,7 @@ deploy:
     - main
 ```
 
-L'image taguée avec le SHA du commit traverse le pipeline sans jamais être reconstruite. Si les tests passent, la production reçoit exactement le même binaire. Un rollback se résume à redéployer l'image du commit précédent — en moins de trente secondes, la production revient à un état stable connu.
+L'image taguée avec le SHA du commit traverse le pipeline sans jamais être reconstruite. Si les tests passent, la production reçoit exactement le même binaire. Un rollback se résume à redéployer l'image du commit précédent, en moins de trente secondes, la production revient à un état stable connu.
 
 ### Docker Compose pour le développement et le staging
 
@@ -169,7 +169,7 @@ La densité serveur est un autre levier architectural. Un serveur avec 8 Go de R
 
 ### Quand Docker n'est pas la réponse
 
-Docker n'est pas universellement pertinent. Les applications nécessitant un accès direct au matériel (GPU, périphériques spécifiques) souffrent de la couche d'abstraction. Les workloads à très haute performance I/O (bases de données en production) bénéficient rarement de la conteneurisation — la plupart des équipes expérimentées déploient PostgreSQL ou MySQL sur bare metal ou sur des services managés. Les architectures serverless (Lambda, Cloud Run) rendent Docker transparent : le conteneur existe mais l'équipe n'a plus à le gérer.
+Docker n'est pas universellement pertinent. Les applications nécessitant un accès direct au matériel (GPU, périphériques spécifiques) souffrent de la couche d'abstraction. Les workloads à très haute performance I/O (bases de données en production) bénéficient rarement de la conteneurisation, la plupart des équipes expérimentées déploient PostgreSQL ou MySQL sur bare metal ou sur des services managés. Les architectures serverless (Lambda, Cloud Run) rendent Docker transparent : le conteneur existe mais l'équipe n'a plus à le gérer.
 
 Enfin, Docker ajoute une couche de complexité opérationnelle qui doit être assumée. Sans compétences internes pour maintenir les Dockerfiles, gérer les registries et monitorer les conteneurs, l'adoption de Docker peut créer plus de problèmes qu'elle n'en résout. La décision doit être prise en connaissance de cause, en fonction de la maturité de l'équipe et de la complexité réelle du système.
 
@@ -177,14 +177,14 @@ Enfin, Docker ajoute une couche de complexité opérationnelle qui doit être as
 
 Docker a transformé la production web d'un exercice artisanal en un processus industriel. Pour les développeurs, il garantit la reproductibilité. Pour les leads techniques, il offre des leviers concrets d'optimisation et de sécurité. Pour les architectes, il constitue la brique fondamentale sur laquelle reposent les stratégies d'orchestration, de scaling et de résilience.
 
-Chez Efficience IT, nous accompagnons quotidiennement des équipes sur ces sujets — du premier Dockerfile au déploiement zero-downtime sur des architectures distribuées. Docker n'est pas une fin en soi, mais un socle sur lequel construire une production fiable, performante et maîtrisée.
+Chez Efficience IT, nous accompagnons quotidiennement des équipes sur ces sujets, du premier Dockerfile au déploiement zero-downtime sur des architectures distribuées. Docker n'est pas une fin en soi, mais un socle sur lequel construire une production fiable, performante et maîtrisée.
 
 ## Pour aller plus loin
 
-- [Concrètement, c'est quoi FrankenPHP ?](/article/concretement-cest-quoi-frankenphp) — Un serveur PHP moderne basé sur Go et Caddy
-- [Déployer Nuxt.js avec GitLab CI, S3 et CloudFront](/article/deployer-nuxtjs-avec-gitlab-ci-s3-et-cloudfront) — Automatiser le déploiement avec CI/CD
-- [Pourquoi choisir Symfony pour vos projets](/article/pourquoi-choisir-symfony-pour-vos-projets) — Le framework PHP idéal à conteneuriser
-- [Documentation Docker](https://docs.docker.com/) — Guide officiel de Docker
-- [Docker Hub](https://hub.docker.com/) — Le registre d'images Docker
-- [Dockerfile reference](https://docs.docker.com/reference/dockerfile/) — Référence complète pour écrire des Dockerfiles
-- [Kubernetes](https://kubernetes.io/fr/docs/home/) — Documentation de l'orchestrateur de conteneurs
+- [Concrètement : c'est quoi FrankenPHP ?](/article/concretement-cest-quoi-frankenphp), Un serveur PHP moderne basé sur Go et Caddy
+- [Déployer Nuxt.js avec GitLab CI : S3 et CloudFront](/article/deployer-nuxtjs-avec-gitlab-ci-s3-et-cloudfront), Automatiser le déploiement avec CI/CD
+- [Pourquoi choisir Symfony pour vos projets](/article/pourquoi-choisir-symfony-pour-vos-projets), Le framework PHP idéal à conteneuriser
+- [Documentation Docker](https://docs.docker.com/), Guide officiel de Docker
+- [Docker Hub](https://hub.docker.com/), Le registre d'images Docker
+- [Dockerfile reference](https://docs.docker.com/reference/dockerfile/), Référence complète pour écrire des Dockerfiles
+- [Kubernetes](https://kubernetes.io/fr/docs/home/), Documentation de l'orchestrateur de conteneurs

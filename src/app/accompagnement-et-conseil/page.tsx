@@ -278,37 +278,37 @@ export default function AccompagnementEtConseil() {
               <Link href="/article/quest-ce-que-lapproche-agile" className="text-primary hover:underline">
                 Qu&apos;est-ce que l&apos;approche agile ?
               </Link>{" "}
-              — comprendre les fondamentaux de l&apos;agilité
+             , comprendre les fondamentaux de l&apos;agilité
             </li>
             <li>
               <Link href="/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede" className="text-primary hover:underline">
                 Comment se passe un audit chez Efficience IT
               </Link>{" "}
-              — notre méthodologie d&apos;audit détaillée
+             , notre méthodologie d&apos;audit détaillée
             </li>
             <li>
               <Link href="/article/les-6-etapes-pour-monter-en-competences-sur-symfony" className="text-primary hover:underline">
                 Les 6 étapes pour monter en compétences sur Symfony
               </Link>{" "}
-              — parcours de formation recommandé
+             , parcours de formation recommandé
             </li>
             <li>
               <a href="https://symfony.com/doc/current/index.html" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                Symfony — documentation officielle
+                Symfony, documentation officielle
               </a>{" "}
-              — référence technique du framework
+             , référence technique du framework
             </li>
             <li>
               <a href="https://scrumguides.org/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
                 Scrum Guide
               </a>{" "}
-              — le guide officiel de la méthodologie Scrum
+             , le guide officiel de la méthodologie Scrum
             </li>
             <li>
               <a href="https://agilemanifesto.org/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
                 Manifeste Agile
               </a>{" "}
-              — les principes fondateurs de l&apos;agilité
+             , les principes fondateurs de l&apos;agilité
             </li>
           </ul>
         </Container>

@@ -172,7 +172,7 @@ export default function LEntreprise() {
               >
                 <p className="text-gray italic">&ldquo;{t.quote}&rdquo;</p>
                 <footer className="mt-4 font-display font-bold text-dark">
-                  — {t.source}
+                 , {t.source}
                 </footer>
               </blockquote>
             ))}
@@ -216,37 +216,37 @@ export default function LEntreprise() {
               <Link href="/article/7-bonnes-raisons-de-rejoindre-efficience-it" className="text-primary hover:underline">
                 7 bonnes raisons de rejoindre Efficience IT
               </Link>{" "}
-              — découvrir notre culture d&apos;entreprise
+             , découvrir notre culture d&apos;entreprise
             </li>
             <li>
               <Link href="/article/les-contributions-open-source-un-enjeu-de-taille-pour-les-developpeurs-et-les-projets" className="text-primary hover:underline">
                 Les contributions open source
               </Link>{" "}
-              — notre engagement dans la communauté
+             , notre engagement dans la communauté
             </li>
             <li>
               <Link href="/article/pourquoi-choisir-symfony-pour-vos-projets" className="text-primary hover:underline">
                 Pourquoi choisir Symfony pour vos projets
               </Link>{" "}
-              — notre expertise technique
+             , notre expertise technique
             </li>
             <li>
               <a href="https://symfony.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                Symfony — site officiel
+                Symfony, site officiel
               </a>{" "}
-              — le framework au cœur de notre expertise
+             , le framework au cœur de notre expertise
             </li>
             <li>
               <a href="https://afup.org/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
                 AFUP
               </a>{" "}
-              — Association Française des Utilisateurs de PHP
+             , Association Française des Utilisateurs de PHP
             </li>
             <li>
               <a href="https://ad2n.fr/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
                 AD2N
               </a>{" "}
-              — communauté des entreprises numériques du Nord
+             , communauté des entreprises numériques du Nord
             </li>
           </ul>
         </Container>

@@ -9,9 +9,9 @@ image: "/images/blog/rector.jpg"
 
 ## Comprendre Rector et l'AST
 
-Rector est un outil de refactoring automatique pour PHP. Là où un développeur modifie du code manuellement — renommer une méthode, ajouter un type hint, remplacer une annotation par un attribut — Rector effectue ces transformations de manière programmatique sur l'ensemble d'une base de code.
+Rector est un outil de refactoring automatique pour PHP. Là où un développeur modifie du code manuellement, renommer une méthode, ajouter un type hint, remplacer une annotation par un attribut, Rector effectue ces transformations de manière programmatique sur l'ensemble d'une base de code.
 
-Le mécanisme repose sur l'AST (Abstract Syntax Tree). Plutôt que de manipuler du texte brut avec des expressions régulières, Rector utilise `nikic/php-parser` pour convertir chaque fichier PHP en arbre syntaxique. Chaque élément du code — classe, méthode, affectation, condition — devient un noeud typé dans cet arbre. Une affectation `$x = 1;` produit un noeud `Assign` contenant un noeud `Variable` et un noeud `LNumber`. Un double `!!$var` se traduit par deux noeuds `BooleanNot` imbriqués.
+Le mécanisme repose sur l'AST (Abstract Syntax Tree). Plutôt que de manipuler du texte brut avec des expressions régulières, Rector utilise `nikic/php-parser` pour convertir chaque fichier PHP en arbre syntaxique. Chaque élément du code, classe, méthode, affectation, condition, devient un noeud typé dans cet arbre. Une affectation `$x = 1;` produit un noeud `Assign` contenant un noeud `Variable` et un noeud `LNumber`. Un double `!!$var` se traduit par deux noeuds `BooleanNot` imbriqués.
 
 Le cycle de transformation suit trois phases : le parsing convertit le source en AST, la traversée applique les règles sur chaque noeud correspondant, et l'impression reconvertit l'arbre modifié en code PHP en préservant le style d'origine (indentation, espaces) pour minimiser les diffs. Cette approche structurelle garantit que seuls les patterns exacts sont modifiés, ce qui élimine la catégorie entière de bugs liés au rechercher-remplacer textuel.
 
@@ -120,7 +120,7 @@ Ce découpage produit des PRs atomiques, facilite la review et permet de reverte
 
 ## Règles personnalisées
 
-Les règles intégrées couvrent les cas génériques. Les besoins spécifiques à un projet — remplacer un helper legacy maison, migrer un pattern interne, appliquer une convention d'équipe — nécessitent des règles sur mesure.
+Les règles intégrées couvrent les cas génériques. Les besoins spécifiques à un projet, remplacer un helper legacy maison, migrer un pattern interne, appliquer une convention d'équipe, nécessitent des règles sur mesure.
 
 Une règle personnalisée étend `AbstractRector` et implémente trois méthodes :
 
@@ -169,7 +169,7 @@ Comprendre ce niveau de détail devient nécessaire quand une règle doit effect
 
 À l'échelle d'une organisation qui maintient plusieurs applications Symfony, Rector dépasse le rôle d'outil de migration ponctuel pour devenir un instrument de gouvernance du code.
 
-Un set de règles partagé entre équipes, distribué comme package Composer interne, encode les standards techniques de l'organisation. Quand une décision architecturale est prise — migrer de `ArrayCollection` vers un wrapper typé, bannir les appels statiques dans la couche domaine, imposer les readonly classes — elle se traduit en règle Rector. La CI l'applique automatiquement sur tous les projets. Le standard n'est plus un document qu'on espère voir respecté, mais une contrainte enforcée par l'outillage.
+Un set de règles partagé entre équipes, distribué comme package Composer interne, encode les standards techniques de l'organisation. Quand une décision architecturale est prise, migrer de `ArrayCollection` vers un wrapper typé, bannir les appels statiques dans la couche domaine, imposer les readonly classes, elle se traduit en règle Rector. La CI l'applique automatiquement sur tous les projets. Le standard n'est plus un document qu'on espère voir respecté, mais une contrainte enforcée par l'outillage.
 
 ### Migration par phases sur les grandes bases de code
 
@@ -193,10 +193,10 @@ Rector transforme la maintenance et l'évolution d'une base de code PHP d'un eff
 
 ## Pour aller plus loin
 
-- [Guide de migration dans un projet Symfony](/article/guide-de-migration-dans-un-projet-symfony) — méthodologie complète de migration
-- [PHPStan 2.0 : niveau 10 et nouvelles fonctionnalités](/article/phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable) — compléter Rector avec l'analyse statique
-- [Éliminer le code mort dans vos projets PHP](/article/code-mort-mission-elimination) — nettoyer le code avant de refactorer
-- [Documentation officielle Rector](https://getrector.com/documentation) — guide complet
-- [Rector rules overview](https://getrector.com/documentation/rules-overview) — catalogue des règles disponibles
-- [Rector sur GitHub](https://github.com/rectorphp/rector) — code source et contributions
-- [Symfony Upgrade Fixer](https://symfony.com/doc/current/setup/upgrade_major.html) — guide officiel de migration Symfony
+- [Guide de migration dans un projet Symfony](/article/guide-de-migration-dans-un-projet-symfony), méthodologie complète de migration
+- [PHPStan 2.0 : niveau 10 et nouvelles fonctionnalités](/article/phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable), compléter Rector avec l'analyse statique
+- [Éliminer le code mort dans vos projets PHP](/article/code-mort-mission-elimination), nettoyer le code avant de refactorer
+- [Documentation officielle Rector](https://getrector.com/documentation), guide complet
+- [Rector rules overview](https://getrector.com/documentation/rules-overview), catalogue des règles disponibles
+- [Rector sur GitHub](https://github.com/rectorphp/rector), code source et contributions
+- [Symfony Upgrade Fixer](https://symfony.com/doc/current/setup/upgrade_major.html), guide officiel de migration Symfony

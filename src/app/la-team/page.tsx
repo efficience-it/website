@@ -207,31 +207,31 @@ export default function LaTeam() {
               <Link href="/article/7-bonnes-raisons-de-rejoindre-efficience-it" className="text-primary hover:underline">
                 7 bonnes raisons de rejoindre Efficience IT
               </Link>{" "}
-              — pourquoi nous rejoindre
+             , pourquoi nous rejoindre
             </li>
             <li>
               <Link href="/article/le-bien-etre-au-travail" className="text-primary hover:underline">
                 Le bien-être au travail
               </Link>{" "}
-              — notre approche du bien-être
+             , notre approche du bien-être
             </li>
             <li>
               <Link href="/article/le-chocoblast-un-premier-pas-vers-la-securite-par-le-jeu" className="text-primary hover:underline">
                 Le chocoblast
               </Link>{" "}
-              — un premier pas vers la sécurité par le jeu
+             , un premier pas vers la sécurité par le jeu
             </li>
             <li>
               <a href="https://afup.org/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
                 AFUP
               </a>{" "}
-              — Association Française des Utilisateurs de PHP
+             , Association Française des Utilisateurs de PHP
             </li>
             <li>
               <a href="https://symfony.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                Symfony — site officiel
+                Symfony, site officiel
               </a>{" "}
-              — le framework au cœur de notre expertise
+             , le framework au cœur de notre expertise
             </li>
           </ul>
         </Container>
