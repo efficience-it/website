@@ -85,12 +85,6 @@ export default function TaCarriere() {
              , notre culture et nos valeurs
             </li>
             <li>
-              <Link href="/article/le-bien-etre-au-travail" className="text-primary hover:underline">
-                Le bien-être au travail
-              </Link>{" "}
-             , notre vision du travail épanouissant
-            </li>
-            <li>
               <Link href="/article/les-6-etapes-pour-monter-en-competences-sur-symfony" className="text-primary hover:underline">
                 Les 6 étapes pour monter en compétences sur Symfony
               </Link>{" "}
