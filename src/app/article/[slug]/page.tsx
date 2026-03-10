@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { getAllPosts, getPostBySlug } from "@/lib/blog";
+import Link from "next/link";
+import { getAllPosts, getPostBySlug, getCategorySlug } from "@/lib/blog";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import MarkdownContent from "@/components/ui/MarkdownContent";
@@ -30,7 +31,9 @@ export async function generateMetadata({
     path: `/article/${slug}`,
   });
 
-  const articleImage = post.image ? `${BASE_URL}${post.image}` : `${BASE_URL}/images/logo/logo-og.png`;
+  const articleImage = post.image
+    ? `${BASE_URL}${post.image}`
+    : `${BASE_URL}/images/logo/logo-og.png`;
 
   return {
     ...base,
@@ -95,6 +98,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             <header className="mb-16">
               <div className="flex flex-col gap-8 xl:flex-row xl:items-center xl:justify-between">
                 <div className="flex-1">
+                  <div className="mb-6">
+                    <Button href="/blog" variant="outline">
+                      &larr; Retour au blog
+                    </Button>
+                  </div>
                   <div className="mb-4 flex items-center gap-3 text-sm text-gray">
                     <time dateTime={post.date}>
                       {new Date(post.date).toLocaleDateString("fr-FR", {
@@ -106,9 +114,12 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                     {post.category && (
                       <>
                         <span>&middot;</span>
-                        <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
+                        <Link
+                          href={`/blog/${getCategorySlug(post.category)}`}
+                          className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary hover:bg-primary hover:text-white"
+                        >
                           {post.category}
-                        </span>
+                        </Link>
                       </>
                     )}
                   </div>
@@ -132,11 +143,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 )}
               </div>
             </header>
-
             <div className="mx-auto max-w-3xl">
               <MarkdownContent content={post.content} />
             </div>
-
             <div className="mt-12 border-t border-border pt-8">
               <Button href="/blog" variant="outline">
                 &larr; Retour au blog
