@@ -1,13 +1,13 @@
 ---
 title: "Pourquoi choisir Symfony pour vos projets"
-date: "2022-02-11"
+date: "2026-03-10"
 author: "Louis-Arnaud Catoire"
 category: "Projet"
 excerpt: "Un framework PHP se compose de multiples composants interconnectés formant une base de développement solide. Symfony, développé par des développeurs français, est un choix premier."
 image: "/images/blog/pourquoi-symfony.webp"
 ---
 
-Symfony occupe depuis plus de quinze ans une place singulière dans l'écosystème PHP. Né chez SensioLabs à Lille, il s'est imposé comme le framework de référence pour les projets d'entreprise en Europe, et sa réputation dépasse largement les frontières francophones. Mais au-delà du nom, qu'est-ce qui justifie de le choisir en 2024 plutôt qu'un concurrent, et surtout, dans quels contextes faut-il s'en détourner ?
+Symfony occupe depuis plus de quinze ans une place singulière dans l'écosystème PHP. Né chez SensioLabs à Lille, il s'est imposé comme le framework de référence pour les projets d'entreprise en Europe, et sa réputation dépasse largement les frontières francophones. Mais au-delà du nom, qu'est-ce qui justifie de le choisir en 2026 plutôt qu'un concurrent, et surtout, dans quels contextes faut-il s'en détourner ?
 
 Pour ceux qui découvrent Symfony, nous les invitons à lire notre article : [Symfony pour les moldus](/article/symfony-pour-les-moldus), avant d'aller plus loin.
 
@@ -49,6 +49,14 @@ Symfony est rapide par défaut, et les versions récentes de PHP (8.2, 8.3, 8.4)
 
 Pour les architectes, le reverse proxy intégré (HttpCache) ou la compatibilité native avec Varnish permettent de concevoir des stratégies de cache multi-couches sans dépendance externe.
 
+### FrankenPHP et le mode worker
+
+Le mode worker de [FrankenPHP](/article/concretement-cest-quoi-frankenphp) pousse les performances encore plus loin. En gardant le conteneur de services en mémoire entre les requêtes, il élimine le coût du bootstrap qui représentait 30 à 60 % du temps de traitement. Les benchmarks montrent des temps de réponse divisés par trois à cinq par rapport à PHP-FPM. L'architecture stateless de Symfony facilite aussi la scalabilité horizontale : chaque instance est autonome, il suffit d'en ajouter derrière un load balancer pour absorber la charge.
+
+### Messenger et le traitement asynchrone
+
+Le composant [Messenger](https://symfony.com/doc/current/messenger.html) permet d'exécuter des traitements lourds de manière asynchrone via des files de messages. Envoi d'emails, génération de rapports, synchronisation avec des services tiers : ces opérations ne bloquent plus la réponse HTTP. Messenger supporte plusieurs transports (RabbitMQ, Redis, Amazon SQS, Doctrine) et s'intègre nativement avec le conteneur de services. C'est devenu le standard pour le [messaging asynchrone dans l'écosystème Symfony](/article/quelles-sont-les-differences-entre-symfony-messenger-php-enqueue-quoi-utiliser).
+
 ## La promesse de compatibilité ascendante
 
 C'est un point que les développeurs seniors et les leads techniques apprécient particulièrement. Symfony suit un processus de dépréciation rigoureux : chaque fonctionnalité dépréciée dans une version mineure reste fonctionnelle jusqu'à la prochaine version majeure. Les dépréciations sont documentées, loguées, et détectables automatiquement via les tests.
@@ -67,6 +75,8 @@ Des milliers de bundles open source sont disponibles, maintenus et compatibles. 
 
 Pour une entreprise, cette communauté signifie aussi un vivier de recrutement. Le nombre d'offres de développeurs Symfony sur le marché français témoigne de l'adoption massive du framework. Former une équipe interne, internaliser un projet, ou recruter des renforts : Symfony rend tout cela possible sans dépendre d'un prestataire unique.
 
+SensioLabs propose des [certifications Symfony](https://certification.symfony.com/) reconnues par l'écosystème. Elles valident les compétences sur le framework, sur Twig et sur Sylius. Pour un CTO, exiger la certification à l'embauche ou financer la [certification des équipes](/article/le-chemin-de-la-certification-symfony) en poste garantit un socle de compétences homogène.
+
 ## Symfony vs Laravel : le choix de l'architecte
 
 La comparaison est inévitable. Laravel domine en popularité mondiale, Symfony en adoption entreprise européenne. Mais les différences sont plus profondes qu'un simple positionnement marché.
@@ -81,7 +91,7 @@ Un architecte avisé ne choisit pas un framework par préférence personnelle, m
 
 En pratique, Symfony répond à tous types de projets web, API et outils métiers. Espaces connectés de type intranet ou extranet, ERP et CRM sur mesure, plateformes SaaS, APIs RESTful ou GraphQL : le framework excelle dans ces contextes. Le composant Workflow permet de modéliser des processus métier complexes avec des machines à états, un atout pour les outils en constante évolution.
 
-Pour les APIs, Symfony est naturellement adapté grâce à son architecture HTTP-centric. Couplé à API Platform, il permet de générer des APIs REST et GraphQL conformes aux standards (JSON-LD, Hydra, OpenAPI) en un minimum de configuration.
+Pour les APIs, Symfony est naturellement adapté grâce à son architecture HTTP-centric. Couplé à [API Platform](https://api-platform.com/), il permet de générer des APIs REST et GraphQL conformes aux standards (JSON-LD, Hydra, OpenAPI) en un minimum de configuration.
 
 ## Quand ne pas choisir Symfony
 
@@ -97,8 +107,7 @@ Le piège le plus fréquent n'est pas de choisir le mauvais framework, mais de c
 
 - [Symfony pour les moldus](/article/symfony-pour-les-moldus), une introduction accessible pour les non-initiés
 - [Les 6 étapes pour monter en compétences sur Symfony](/article/les-6-etapes-pour-monter-en-competences-sur-symfony), un parcours progressif pour maîtriser le framework
+- [Guide de migration dans un projet Symfony](/article/guide-de-migration-dans-un-projet-symfony), stratégies pour monter de version sereinement
 - [Les contributions open source](/article/les-contributions-open-source-un-enjeu-de-taille-pour-les-developpeurs-et-les-projets), pourquoi contribuer à l'écosystème Symfony
 - [Documentation officielle Symfony](https://symfony.com/doc/current/index.html), le guide de référence du framework
-- [Dépôt GitHub de Symfony](https://github.com/symfony/symfony), le code source et les contributions de la communauté
 - [SymfonyCasts](https://symfonycasts.com/), tutoriels vidéo officiels pour apprendre Symfony
-- [Symfony Slack](https://symfony.com/community), rejoindre la communauté de développeurs
