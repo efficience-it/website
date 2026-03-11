@@ -52,6 +52,10 @@ export const localBusinessJsonLd = {
   areaServed: [
     { "@type": "Country", name: "France" },
     { "@type": "Country", name: "Belgique" },
+    { "@type": "Country", name: "United Kingdom" },
+    { "@type": "Country", name: "Luxembourg" },
+    { "@type": "Country", name: "Spain" },
+    { "@type": "Country", name: "Germany" },
   ],
   priceRange: "$$",
   openingHoursSpecification: [
@@ -89,6 +93,10 @@ export function serviceJsonLd({ name, description, path }: ServiceSchemaProps) {
     areaServed: [
       { "@type": "Country", name: "France" },
       { "@type": "Country", name: "Belgique" },
+      { "@type": "Country", name: "United Kingdom" },
+      { "@type": "Country", name: "Luxembourg" },
+      { "@type": "Country", name: "Spain" },
+      { "@type": "Country", name: "Germany" },
     ],
   };
 }
