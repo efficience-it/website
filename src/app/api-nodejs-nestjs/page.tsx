@@ -375,7 +375,7 @@ export default function ApiNodejsNestjs() {
             <p className="mx-auto mt-8 max-w-3xl text-center text-lg text-gray">
               Votre projet est en PHP ?{" "}
               <Link
-                href="/api-sur-mesure-symfony"
+                href="/developpement-web-sur-mesure"
                 className="text-primary hover:underline"
               >
                 Nous developpons aussi des API sur mesure avec Symfony
@@ -474,7 +474,7 @@ export default function ApiNodejsNestjs() {
               </li>
               <li>
                 <Link
-                  href="/api-sur-mesure-symfony"
+                  href="/developpement-web-sur-mesure"
                   className="text-primary hover:underline"
                 >
                   API sur mesure avec Symfony
