@@ -7,9 +7,18 @@ import CallToAction from "@/components/sections/CallToAction";
 import AuditCallToAction from "@/components/sections/AuditCallToAction";
 import BlogPreview from "@/components/sections/BlogPreview";
 import Testimonials from "@/components/sections/Testimonials";
+import Container from "@/components/ui/Container";
+import SectionTitle from "@/components/ui/SectionTitle";
 
 import { pageMetadata } from "@/lib/metadata";
 import type { Metadata } from "next";
+
+const keyFigures = [
+  { value: "10+", label: "Années d'expérience" },
+  { value: "150+", label: "Projets livrés" },
+  { value: "40+", label: "Clients accompagnés" },
+  { value: "500+", label: "Contributions open source" },
+];
 
 export const metadata: Metadata = pageMetadata({
   title: "Efficience IT – Agence Symfony à Lille, développement web sur mesure",
@@ -27,6 +36,19 @@ export default function Home() {
       <AboutPreview />
       <ProcessSteps />
       <ClientLogos />
+      <section className="py-16">
+        <Container>
+          <SectionTitle>Quelques chiffres</SectionTitle>
+          <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+            {keyFigures.map((figure) => (
+              <div key={figure.label} className="text-center">
+                <p className="font-display text-4xl font-bold text-primary">{figure.value}</p>
+                <p className="mt-2 text-gray">{figure.label}</p>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </section>
       <CallToAction />
       <BlogPreview />
       <Testimonials />
