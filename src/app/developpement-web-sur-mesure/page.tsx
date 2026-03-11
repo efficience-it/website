@@ -6,7 +6,7 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import CallToAction from "@/components/sections/CallToAction";
-import { breadcrumbJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "Développement web sur mesure | Expertise Symfony – Efficience IT",
@@ -44,12 +44,23 @@ const breadcrumb = breadcrumbJsonLd([
   { name: "Développement web sur mesure", path: "/developpement-web-sur-mesure" },
 ]);
 
+const service = serviceJsonLd({
+  name: "Développement web sur mesure",
+  description:
+    "Conception et développement d'applications web sur mesure avec Symfony, Sylius et les technologies PHP modernes.",
+  path: "/developpement-web-sur-mesure",
+});
+
 export default function DeveloppementWeb() {
   return (
     <>
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(service) }}
     />
     <main>
       {/* Hero */}

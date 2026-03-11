@@ -6,7 +6,7 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import CallToAction from "@/components/sections/CallToAction";
-import { breadcrumbJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "Conseil, formation et coaching Symfony",
@@ -70,12 +70,23 @@ const breadcrumb = breadcrumbJsonLd([
   { name: "Accompagnement et Conseil", path: "/accompagnement-et-conseil" },
 ]);
 
+const service = serviceJsonLd({
+  name: "Accompagnement et Conseil Symfony",
+  description:
+    "Conseil, coaching, formation et audit technique pour les équipes de développement Symfony et les projets web professionnels.",
+  path: "/accompagnement-et-conseil",
+});
+
 export default function AccompagnementEtConseil() {
   return (
     <>
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(service) }}
     />
     <main>
       {/* Hero */}

@@ -3,6 +3,7 @@ import Script from "next/script";
 import { montserrat, exo } from "@/lib/fonts";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { localBusinessJsonLd } from "@/lib/structured-data";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -72,6 +73,12 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(websiteJsonLd),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(localBusinessJsonLd),
           }}
         />
         <Script
