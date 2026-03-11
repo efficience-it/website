@@ -133,7 +133,7 @@ export default function ContactForm() {
           className="mt-1 w-full rounded-md border border-border px-4 py-2 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
         />
       </div>
-      <Button type="submit">Envoyer</Button>
+      <Button type="submit">Envoyer ma demande</Button>
     </form>
   );
 }
