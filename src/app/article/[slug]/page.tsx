@@ -10,6 +10,23 @@ import type { Metadata } from "next";
 import { BASE_URL, SITE_NAME, pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
 
+const SYMFONY_CATEGORIES = ["Outils", "Formation", "Projet"];
+
+function splitContentAfterThirdH2(content: string): [string, string] | null {
+  const h2Regex = /^## /gm;
+  let match: RegExpExecArray | null;
+  let count = 0;
+
+  while ((match = h2Regex.exec(content)) !== null) {
+    count++;
+    if (count === 4) {
+      return [content.slice(0, match.index), content.slice(match.index)];
+    }
+  }
+
+  return null;
+}
+
 interface ArticlePageProps {
   readonly params: Promise<{ readonly slug: string }>;
 }
@@ -159,7 +176,39 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               </div>
             </header>
             <div className="mx-auto max-w-3xl">
-              <MarkdownContent content={post.content} />
+              {(() => {
+                const parts = splitContentAfterThirdH2(post.content);
+                if (!parts) {
+                  return <MarkdownContent content={post.content} />;
+                }
+                const [firstPart, secondPart] = parts;
+                const isSymfony =
+                  post.category && SYMFONY_CATEGORIES.includes(post.category);
+                return (
+                  <>
+                    <MarkdownContent content={firstPart} />
+                    <div className="my-8 rounded-lg bg-primary/5 p-6 text-center">
+                      <p className="font-display text-lg font-semibold text-dark">
+                        {isSymfony
+                          ? "Besoin d'un regard expert sur votre code Symfony ?"
+                          : "Besoin d'accompagnement sur votre projet ?"}
+                      </p>
+                      <Button
+                        href={
+                          isSymfony ? "/audit-symfony-gratuit" : "/contact"
+                        }
+                        className="mt-3"
+                        variant="outline"
+                      >
+                        {isSymfony
+                          ? "Demander un audit gratuit"
+                          : "Parlons-en"}
+                      </Button>
+                    </div>
+                    <MarkdownContent content={secondPart} />
+                  </>
+                );
+              })()}
             </div>
             <ArticleCta category={post.category} />
             <div className="mt-12 border-t border-border pt-8">
