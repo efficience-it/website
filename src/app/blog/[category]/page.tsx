@@ -10,6 +10,19 @@ import {
 import Link from "next/link";
 import type { Metadata } from "next";
 
+const categoryDescriptions: Record<string, string> = {
+  Outils:
+    "Symfony, PHP, Docker, CI/CD : nos guides pratiques sur les outils que nous utilisons au quotidien en mission.",
+  Formation:
+    "Montée en compétences, certifications et événements tech : ressources pour progresser sur Symfony et l'écosystème PHP.",
+  Projet:
+    "Retours de mission, architecture logicielle et bonnes pratiques pour mener à bien vos projets web.",
+  Agence:
+    "Vie d'agence, recrutement et organisation : les coulisses d'Efficience IT.",
+  "Green IT":
+    "Éco-conception web, sobriété numérique et bonnes pratiques pour réduire l'impact environnemental de vos applications.",
+};
+
 interface BlogCategoryPageProps {
   params: Promise<{ category: string }>;
 }
@@ -30,7 +43,9 @@ export async function generateMetadata({
 
   return pageMetadata({
     title: `${categoryName} | Blog Efficience IT`,
-    description: `Articles de la catégorie ${categoryName} sur le blog Efficience IT.`,
+    description:
+      categoryDescriptions[categoryName] ??
+      `Articles de la catégorie ${categoryName} sur le blog Efficience IT.`,
     path: `/blog/${slug}`,
     absoluteTitle: true,
   });
@@ -56,7 +71,8 @@ export default async function BlogCategoryPage({
             {categoryName}
           </h1>
           <p className="mx-auto mt-6 max-w-3xl text-lg text-gray">
-            Articles de la catégorie {categoryName}.
+            {categoryDescriptions[categoryName] ??
+              `Articles de la catégorie ${categoryName}.`}
           </p>
         </Container>
       </section>

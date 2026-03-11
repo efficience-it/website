@@ -65,7 +65,7 @@ describe("Company pages", () => {
 describe("Blog & other pages", () => {
   it("renders Blog listing", () => {
     render(<BlogPage />);
-    expect(screen.getByRole("heading", { name: /^blog$/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /blog efficience it/i })).toBeInTheDocument();
   });
 
   it("renders Contact", () => {

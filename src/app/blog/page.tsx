@@ -29,11 +29,13 @@ export default function BlogPage() {
       <section className="bg-light-gray py-16 md:py-24">
         <Container className="text-center">
           <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
-            Blog
+            Blog Efficience IT
           </h1>
           <p className="mx-auto mt-6 max-w-3xl text-lg text-gray">
-            Nos derniers articles techniques sur Symfony, PHP, DevOps et les
-            bonnes pratiques du web.
+            Retours d&apos;expérience, guides techniques et veille sur
+            Symfony, PHP, DevOps et le développement web professionnel.
+            Nos articles sont rédigés par des développeurs en mission, à
+            partir de cas concrets rencontrés chez nos clients.
           </p>
         </Container>
       </section>
