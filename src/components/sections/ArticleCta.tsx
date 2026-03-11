@@ -12,6 +12,20 @@ interface CtaConfig {
   href: string;
 }
 
+const MIGRATION_SLUGS = [
+  "guide-de-migration-dans-un-projet-symfony",
+  "migration-symfony-architecture-hexagonale-retour-mission",
+  "la-dette-technique-faut-il-vraiment-en-avoir-peur",
+  "claude-assistant-architecture-symfony-legacy",
+  "symfony-ai-projet-legacy-retour-experience",
+  "rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony",
+];
+
+const REPRISE_SLUGS = [
+  "claude-assistant-architecture-symfony-legacy",
+  "symfony-ai-projet-legacy-retour-experience",
+];
+
 const CODE_QUALITY_SLUGS = [
   "phpstan",
   "code-mort",
@@ -37,6 +51,26 @@ function matchesSlugKeywords(slug: string, keywords: string[]): boolean {
 
 function getCtaConfig(category?: string, slug?: string): CtaConfig {
   const s = slug ?? "";
+
+  if (REPRISE_SLUGS.includes(s)) {
+    return {
+      heading: "Vous faites face a un projet legacy ou une migration PHP ?",
+      description:
+        "Notre offre de reprise de projet Symfony vous permet de reprendre le controle rapidement, avec un audit honnete et une stabilisation progressive.",
+      buttonLabel: "Decouvrir notre offre de reprise",
+      href: "/reprise-projet-symfony",
+    };
+  }
+
+  if (MIGRATION_SLUGS.includes(s)) {
+    return {
+      heading: "Vous faites face a un projet legacy ou une migration PHP ?",
+      description:
+        "Notre offre de modernisation d'application PHP accompagne la migration de votre base de code vers Symfony, etape par etape et sans interruption de service.",
+      buttonLabel: "Decouvrir notre offre de modernisation",
+      href: "/modernisation-application-php",
+    };
+  }
 
   if (matchesSlugKeywords(s, CODE_QUALITY_SLUGS)) {
     return {

@@ -86,6 +86,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: `${BASE_URL}/reprise-projet-symfony`,
+      lastModified: "2026-02-01",
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/api-sur-mesure-symfony`,
+      lastModified: "2026-03-11",
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
       url: `${BASE_URL}/agence-symfony-lille`,
       lastModified: "2026-03-11",
       changeFrequency: "monthly",
