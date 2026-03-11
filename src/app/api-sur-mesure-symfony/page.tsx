@@ -122,11 +122,6 @@ const symfonyReasons = [
 
 const faqItems = [
   {
-    title: "Combien de temps faut-il pour developper une API Symfony ?",
-    content:
-      "Un premier endpoint fonctionnel avec authentification et documentation peut etre livre en une semaine. Une API complete pour une application mobile ou un partenaire B2B prend generalement entre 4 et 10 semaines selon la complexite des regles metier et le nombre d'integrations.",
-  },
-  {
     title: "Quelle est la difference entre REST et GraphQL avec API Platform ?",
     content:
       "REST est ideal pour des interfaces stables avec des schemas connus a l'avance, notamment pour les integrateurs partenaires. GraphQL convient mieux aux clients qui ont besoin de flexibilite dans la selection des champs, comme une application mobile avec plusieurs vues differentes. API Platform supporte les deux : nous choisissons selon votre contexte.",
@@ -199,7 +194,15 @@ export default function ApiSurMesureSymfony() {
                   votre plateforme a des partenaires B2B ou synchroniser vos
                   outils internes, nous concevons des{" "}
                   <strong>API Symfony sur mesure</strong> adaptees a vos
-                  contraintes techniques et metier.
+                  contraintes techniques et metier. Ce service fait partie de
+                  l&apos;offre globale de notre{" "}
+                  <Link
+                    href="/agence-symfony-lille"
+                    className="text-primary hover:underline"
+                  >
+                    agence Symfony a Lille
+                  </Link>
+                  .
                 </p>
                 <p className="mt-4 max-w-3xl text-lg text-gray">
                   Notre stack repose sur{" "}
