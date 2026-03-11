@@ -82,9 +82,14 @@ export default function DeveloppementWeb() {
               <p className="mt-6 text-lg font-semibold text-dark">
                 Vous avez un projet en tête ?
               </p>
-              <Button href="/contact" className="mt-4">
-                Contactez-nous
-              </Button>
+              <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+                <Button href="/audit-symfony-gratuit">
+                  Audit Symfony gratuit
+                </Button>
+                <Button href="/contact" variant="outline">
+                  Contactez-nous
+                </Button>
+              </div>
             </div>
             <div className="flex justify-center">
               <Image
@@ -330,7 +335,11 @@ export default function DeveloppementWeb() {
               <p className="mt-2 text-gray">
                 Audit, planification et migration vers des solutions modernes
                 (Symfony, Cloud, etc.), avec une attention particulière à la
-                sécurité et aux performances.
+                sécurité et aux performances. Commencez par un{" "}
+                <Link href="/audit-symfony-gratuit" className="text-primary hover:underline">
+                  audit Symfony gratuit
+                </Link>{" "}
+                pour identifier vos priorités.
               </p>
             </Card>
           </div>

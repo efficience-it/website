@@ -37,7 +37,10 @@ export default function Header() {
               </Link>
             ),
           )}
-          <Button href="/contact" size="sm" className="ml-4">
+          <Button href="/audit-symfony-gratuit" size="sm" variant="outline" className="ml-4">
+            Audit gratuit
+          </Button>
+          <Button href="/contact" size="sm" className="ml-2">
             Contact
           </Button>
         </nav>

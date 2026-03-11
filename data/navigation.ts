@@ -14,6 +14,7 @@ export const mainNav: NavItem[] = [
         label: "Accompagnement et Conseil",
         href: "/accompagnement-et-conseil",
       },
+      { label: "Audit Symfony gratuit", href: "/audit-symfony-gratuit" },
     ],
   },
   {
@@ -59,6 +60,7 @@ export const footerNav = {
     title: "Contactez-nous !",
     email: "contact@itefficience.com",
     cta: { label: "Formulaire de contact", href: "/contact" },
+    auditCta: { label: "Audit Symfony gratuit", href: "/audit-symfony-gratuit" },
   },
   social: [
     { label: "GitHub", href: "https://github.com/efficience-it", icon: "/images/icons/github.svg" },
