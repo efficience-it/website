@@ -9,6 +9,7 @@ import ArticleCta from "@/components/sections/ArticleCta";
 import type { Metadata } from "next";
 import { BASE_URL, SITE_NAME, pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
+import { getAuthorSchema } from "@/data/authors";
 
 const SYMFONY_CATEGORIES = ["Outils", "Formation", "Projet"];
 
@@ -76,7 +77,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   if (!post) notFound();
 
   const url = `${BASE_URL}/article/${slug}`;
-  const isOrgAuthor = !post.author || post.author === "Efficience IT";
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -87,10 +87,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     },
     headline: post.title,
     description: post.excerpt,
-    author: {
-      "@type": isOrgAuthor ? "Organization" : "Person",
-      name: isOrgAuthor ? SITE_NAME : post.author,
-    },
+    author: getAuthorSchema(post.author),
     image: post.image ? `${BASE_URL}${post.image}` : undefined,
     genre: post.category,
     publisher: {
