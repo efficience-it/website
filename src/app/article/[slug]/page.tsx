@@ -61,11 +61,11 @@ export async function generateMetadata({
       type: "article",
       publishedTime: post.date,
       authors: [post.author],
-      images: [{ url: articleImage }],
+      images: [{ url: articleImage, width: 1200, height: 630 }],
     },
     twitter: {
       ...base.twitter,
-      images: [{ url: articleImage }],
+      images: [{ url: articleImage, width: 1200, height: 630 }],
     },
   };
 }
