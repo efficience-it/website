@@ -72,9 +72,9 @@ export const footerNav = {
     {
       label: "Google Maps",
       href: "https://www.google.com/maps/place/Efficience+IT",
-      icon: "/images/icons/google-maps.jpg",
+      icon: "/images/icons/google-maps.webp",
     },
-    { label: "AFUP", href: "https://afup.org/home", icon: "/images/icons/afup.png" },
-    { label: "AD2N", href: "https://www.ad2n.org/", icon: "/images/icons/ad2n.jpg" },
+    { label: "AFUP", href: "https://afup.org/home", icon: "/images/icons/afup.webp" },
+    { label: "AD2N", href: "https://www.ad2n.org/", icon: "/images/icons/ad2n.webp" },
   ],
 };
