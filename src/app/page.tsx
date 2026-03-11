@@ -21,11 +21,10 @@ const keyFigures = [
 ];
 
 export const metadata: Metadata = pageMetadata({
-  title: "Efficience IT – Agence Symfony à Lille, développement web sur mesure",
+  title: "Agence Symfony à Lille, experte en développement web",
   description:
     "Agence spécialisée Symfony et PHP, Efficience IT conçoit et développe des applications web sur mesure, robustes et adaptées aux enjeux métiers.",
   path: "/",
-  absoluteTitle: true,
 });
 
 export default function Home() {
