@@ -106,9 +106,14 @@ export default function AccompagnementEtConseil() {
               <p className="mt-6 text-lg font-semibold text-dark">
                 Envie d&apos;aller plus loin ?
               </p>
-              <Button href="/contact" className="mt-4">
-                Contactez-nous
-              </Button>
+              <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+                <Button href="/audit-symfony-gratuit">
+                  Audit Symfony gratuit
+                </Button>
+                <Button href="/contact" variant="outline">
+                  Contactez-nous
+                </Button>
+              </div>
             </div>
             <div className="flex justify-center">
               <Image
@@ -195,7 +200,11 @@ export default function AccompagnementEtConseil() {
               </h2>
               <p className="mt-4 text-lg text-gray">
                 Nos audits vous permettent d&apos;identifier les forces et
-                faiblesses de votre infrastructure numérique :
+                faiblesses de votre infrastructure numérique. Découvrez notre{" "}
+                <Link href="/audit-symfony-gratuit" className="text-primary hover:underline">
+                  audit Symfony gratuit de 30 minutes
+                </Link>{" "}
+                pour un premier diagnostic sans engagement.
               </p>
               <ul className="mt-4 space-y-3">
                 <li className="flex items-start gap-3 text-gray">

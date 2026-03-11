@@ -4,6 +4,7 @@ import AboutPreview from "@/components/sections/AboutPreview";
 import ProcessSteps from "@/components/sections/ProcessSteps";
 import ClientLogos from "@/components/sections/ClientLogos";
 import CallToAction from "@/components/sections/CallToAction";
+import AuditCallToAction from "@/components/sections/AuditCallToAction";
 import BlogPreview from "@/components/sections/BlogPreview";
 import Testimonials from "@/components/sections/Testimonials";
 
@@ -29,7 +30,7 @@ export default function Home() {
       <CallToAction />
       <BlogPreview />
       <Testimonials />
-      <CallToAction />
+      <AuditCallToAction />
     </main>
   );
 }

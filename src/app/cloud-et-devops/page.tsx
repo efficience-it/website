@@ -91,9 +91,14 @@ export default function CloudEtDevops() {
               <p className="mt-6 text-lg font-semibold text-dark">
                 Un projet à déployer ?
               </p>
-              <Button href="/contact" className="mt-4">
-                Contactez-nous
-              </Button>
+              <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+                <Button href="/audit-symfony-gratuit">
+                  Audit Symfony gratuit
+                </Button>
+                <Button href="/contact" variant="outline">
+                  Contactez-nous
+                </Button>
+              </div>
             </div>
             <div className="flex justify-center">
               <Image
