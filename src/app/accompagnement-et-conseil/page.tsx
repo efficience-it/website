@@ -328,6 +328,37 @@ export default function AccompagnementEtConseil() {
         </Container>
       </section>
 
+      <section className="bg-light-gray py-16 md:py-24">
+        <Container>
+          <SectionTitle>Nos autres expertises</SectionTitle>
+          <div className="mt-8 grid gap-6 md:grid-cols-2">
+            <Link href="/developpement-web-sur-mesure" className="group">
+              <Card>
+                <h3 className="font-display text-lg font-bold text-dark group-hover:text-primary">
+                  Développement web sur mesure
+                </h3>
+                <p className="mt-2 text-gray">
+                  Applications Symfony, sites e-commerce Sylius et intégrations
+                  CRM/ERP adaptées à vos processus métiers.
+                </p>
+              </Card>
+            </Link>
+            <Link href="/cloud-et-devops" className="group">
+              <Card>
+                <h3 className="font-display text-lg font-bold text-dark group-hover:text-primary">
+                  Cloud & DevOps
+                </h3>
+                <p className="mt-2 text-gray">
+                  Hébergement cloud, automatisation CI/CD et migration
+                  d&apos;infrastructure pour des déploiements fiables et
+                  performants.
+                </p>
+              </Card>
+            </Link>
+          </div>
+        </Container>
+      </section>
+
       <CallToAction />
     </main>
     </>

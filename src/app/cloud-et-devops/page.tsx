@@ -378,6 +378,36 @@ export default function CloudEtDevops() {
         </Container>
       </section>
 
+      <section className="py-16 md:py-24">
+        <Container>
+          <SectionTitle>Nos autres expertises</SectionTitle>
+          <div className="mt-8 grid gap-6 md:grid-cols-2">
+            <Link href="/developpement-web-sur-mesure" className="group">
+              <Card>
+                <h3 className="font-display text-lg font-bold text-dark group-hover:text-primary">
+                  Développement web sur mesure
+                </h3>
+                <p className="mt-2 text-gray">
+                  Applications Symfony, sites e-commerce Sylius et intégrations
+                  CRM/ERP adaptées à vos processus métiers.
+                </p>
+              </Card>
+            </Link>
+            <Link href="/accompagnement-et-conseil" className="group">
+              <Card>
+                <h3 className="font-display text-lg font-bold text-dark group-hover:text-primary">
+                  Accompagnement et Conseil
+                </h3>
+                <p className="mt-2 text-gray">
+                  Audit technique, formation Symfony et coaching agile pour
+                  structurer vos projets et monter en compétences.
+                </p>
+              </Card>
+            </Link>
+          </div>
+        </Container>
+      </section>
+
       <CallToAction />
     </main>
     </>
