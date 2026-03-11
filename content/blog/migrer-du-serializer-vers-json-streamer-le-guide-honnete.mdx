@@ -329,6 +329,10 @@ Sur 50 000 produits, on passe de ~340 ms à ~54 ms et de ~24 MB à ~8 MB.
 - [API REST : les bonnes pratiques](/article/api-rest-les-bonnes-pratiques), structurer vos endpoints avant de les optimiser
 - [Quelle architecture choisir entre micro-service ou monolithe modulaire](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire), le contexte architectural qui influence le choix Serializer vs JsonStreamer
 - [Pourquoi Docker est indispensable en production aujourd'hui](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui), containeriser pour maîtriser les versions PHP
+- [Migration Symfony vers l'architecture hexagonale](/article/migration-symfony-architecture-hexagonale-retour-mission), comprendre le contexte où les DTOs purs émergent naturellement
+- [Tout savoir sur la mise en cache](/article/tout-savoir-sur-la-mise-en-cache-tips), compléter la performance JSON avec une stratégie de cache adaptée
+- [Swagger et NelmioApiDocBundle](/article/swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on), documenter vos endpoints sérialisés
+- [Doctrine ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees), les changements côté persistance qui accompagnent cette migration
 - [Streaming JSON : documentation Symfony](https://symfony.com/doc/current/serializer/streaming_json.html), la référence officielle
 
 JsonStreamer n'est pas le futur du Serializer, c'est un outil spécialisé pour un problème précis. Si tu fais du volume, il est imbattable. Si tu as besoin de flexibilité de vue avec des groupes et du contexte dynamique, garde le Serializer. Les deux coexistent, utilise-les ensemble. La migration intelligente, c'est endpoint par endpoint, en commençant par ceux où le gain est mesurable.
