@@ -21,6 +21,7 @@ export function getAllPosts(): BlogPost[] {
       author: data.author ?? "",
       category: data.category ?? "",
       excerpt: data.excerpt ?? "",
+      updatedAt: data.updatedAt,
       image: data.image,
       content,
     };
@@ -45,6 +46,7 @@ export function getPostBySlug(slug: string): BlogPost | undefined {
     author: data.author ?? "",
     category: data.category ?? "",
     excerpt: data.excerpt ?? "",
+    updatedAt: data.updatedAt,
     image: data.image,
     content,
   };

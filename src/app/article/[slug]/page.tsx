@@ -74,7 +74,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       url: BASE_URL,
     },
     datePublished: post.date,
-    dateModified: post.date,
+    dateModified: post.updatedAt ?? post.date,
     url: `${BASE_URL}/article/${slug}`,
   };
 
@@ -129,6 +129,18 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   </h1>
                   {post.author && (
                     <p className="mt-4 text-gray">Par {post.author}</p>
+                  )}
+                  {post.updatedAt && (
+                    <p className="mt-2 text-sm text-gray">
+                      Mis à jour le{" "}
+                      <time dateTime={post.updatedAt}>
+                        {new Date(post.updatedAt).toLocaleDateString("fr-FR", {
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric",
+                        })}
+                      </time>
+                    </p>
                   )}
                 </div>
                 {post.image && (
