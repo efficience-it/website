@@ -1,27 +1,27 @@
 export const faqItems = [
   {
-    title: "Quelles sont les technologies utilisées ?",
+    title: "Quel est votre délai de réponse ?",
     content:
-      "Symfony est le cœur de notre métier. Nous maîtrisons également Redis, Varnish, ElasticSearch, RabbitMQ, PHP, JavaScript, Sass/Scss, CSS, HTML, Twig, Nginx, Apache, ainsi que les services AWS (EC2, SES, S3, Route53).",
+      "Nous répondons à toutes les demandes sous 24 heures ouvrées. Pour les demandes urgentes, n'hésitez pas à le préciser dans votre message.",
   },
   {
-    title: "Quel est le process de recrutement ?",
+    title: "Comment se passe un premier échange ?",
     content:
-      "Candidature reçue → entretien RH → test technique → entretien motivation → rencontre avec l'équipe → activités de détente.",
+      "Nous commençons par un appel de 30 minutes pour comprendre votre contexte, vos objectifs et vos contraintes. Ensuite, nous vous proposons une approche technique et un devis détaillé sous une semaine.",
   },
   {
-    title: "Engagez-vous des Juniors ?",
+    title: "Travaillez-vous avec des clients en dehors de Lille ?",
     content:
-      "Les équipes sont de tous les niveaux, de juniors à confirmés et experts.",
+      "Oui. Nous accompagnons des clients dans toute la France, en Belgique et au Luxembourg. Nos équipes travaillent en remote et se déplacent quand le projet le nécessite.",
   },
   {
-    title: "L'entreprise fait-elle du télétravail ?",
+    title: "Quelles technologies maîtrisez-vous ?",
     content:
-      "Les collaborateurs peuvent effectuer 40 % de leur temps en télétravail avec liberté d'accès aux bureaux.",
+      "Symfony est notre expertise principale. Nous travaillons aussi avec Sylius pour le e-commerce, API Platform pour les API, Docker, Redis, ElasticSearch et les services cloud AWS, Azure et OVH.",
   },
   {
-    title: "Que fait Efficience IT pour le développement durable ?",
+    title: "Pouvez-vous reprendre un projet existant développé par une autre équipe ?",
     content:
-      "Nous plantons un arbre par jour via ReforestAction, utilisons Ecosia, pratiquons le zéro papier, et encourageons les gourdes et tasses réutilisables.",
+      "Oui, c'est un cas fréquent. Nous réalisons d'abord un audit technique pour évaluer la dette technique et la qualité du code, puis nous proposons un plan de reprise adapté.",
   },
 ];
