@@ -49,9 +49,10 @@ export async function generateMetadata({
     path: `/article/${slug}`,
   });
 
-  const articleImage = post.image
-    ? `${BASE_URL}${post.image}`
-    : `${BASE_URL}/images/logo/logo-og.png`;
+  const articleImage =
+    post.image && !post.image.endsWith(".svg")
+      ? `${BASE_URL}${post.image}`
+      : `${BASE_URL}/images/logo/logo-og.png`;
 
   return {
     ...base,

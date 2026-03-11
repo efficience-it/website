@@ -36,7 +36,7 @@ export function pageMetadata({
       siteName: SITE_NAME,
       locale: "fr_FR",
       type: "website",
-      images: [{ url: ogImage }],
+      images: [{ url: ogImage, width: 1200, height: 630 }],
       ...(publishedTime && { publishedTime }),
       ...(authors && { authors }),
     },
@@ -44,7 +44,7 @@ export function pageMetadata({
       card: "summary_large_image",
       title,
       description,
-      images: [{ url: ogImage }],
+      images: [{ url: ogImage, width: 1200, height: 630 }],
     },
     alternates: {
       canonical: url,
