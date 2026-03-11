@@ -5,6 +5,7 @@ import { getAllPosts, getPostBySlug, getCategorySlug } from "@/lib/blog";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import MarkdownContent from "@/components/ui/MarkdownContent";
+import ArticleCta from "@/components/sections/ArticleCta";
 import type { Metadata } from "next";
 import { BASE_URL, SITE_NAME, pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
@@ -148,6 +149,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             <div className="mx-auto max-w-3xl">
               <MarkdownContent content={post.content} />
             </div>
+            <ArticleCta category={post.category} />
             <div className="mt-12 border-t border-border pt-8">
               <Button href="/blog" variant="outline">
                 &larr; Retour au blog
