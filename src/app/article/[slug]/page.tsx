@@ -221,7 +221,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 );
               })()}
             </div>
-            <ArticleCta category={post.category} slug={post.slug} />
+            <ArticleCta category={post.category} slug={slug} />
             <div className="mt-12 border-t border-border pt-8">
               <Button href="/blog" variant="outline">
                 &larr; Retour au blog
