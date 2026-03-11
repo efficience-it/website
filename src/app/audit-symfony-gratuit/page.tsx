@@ -4,6 +4,7 @@ import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
 import Card from "@/components/ui/Card";
+import Accordion from "@/components/ui/Accordion";
 import AuditForm from "@/components/sections/AuditForm";
 import { breadcrumbJsonLd, howToJsonLd } from "@/lib/structured-data";
 
@@ -42,6 +43,47 @@ const auditTopics = [
   },
 ];
 
+const faqItems = [
+  {
+    title: "Combien de temps dure un audit Symfony ?",
+    content:
+      "L'audit se déroule en un appel visio de 30 minutes. Nous préparons la session en amont à partir des informations que vous fournissez dans le formulaire. Vous recevez ensuite un compte-rendu écrit sous 48 heures.",
+  },
+  {
+    title: "Que contient le rapport d'audit ?",
+    content:
+      "Le rapport inclut une synthèse de l'état technique de votre application : architecture, dette technique, sécurité, performance et pistes de migration. Chaque constat est accompagné de recommandations concrètes et priorisées.",
+  },
+  {
+    title: "L'audit est-il vraiment gratuit ?",
+    content:
+      "Oui, l'audit de 30 minutes est entièrement gratuit et sans engagement. Il n'y a aucune obligation de poursuivre avec une prestation payante. C'est notre façon de vous montrer notre expertise avant tout engagement.",
+  },
+  {
+    title: "Mon code reste-t-il confidentiel ?",
+    content:
+      "Absolument. Si vous partagez un accès en lecture à votre repository, nous nous engageons à ne pas copier, diffuser ni réutiliser votre code. Nous pouvons signer un accord de confidentialité (NDA) si nécessaire.",
+  },
+  {
+    title: "Que se passe-t-il apres l'audit ?",
+    content:
+      "Vous êtes libre de mettre en oeuvre les recommandations par vous-même ou avec l'équipe de votre choix. Si vous souhaitez être accompagné, nous pouvons vous proposer une prestation adaptée, mais rien ne vous y oblige.",
+  },
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.title,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.content,
+    },
+  })),
+};
+
 const breadcrumb = breadcrumbJsonLd([
   { name: "Audit Symfony gratuit", path: "/audit-symfony-gratuit" },
 ]);
@@ -75,6 +117,10 @@ export default function AuditSymfonyGratuit() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howTo) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
       <main>
         <section className="bg-light-gray py-16 md:py-24">
@@ -321,6 +367,15 @@ export default function AuditSymfonyGratuit() {
                 </Link>
                 , sans engagement.
               </p>
+            </div>
+          </Container>
+        </section>
+
+        <section className="py-16 md:py-24">
+          <Container>
+            <SectionTitle>Questions fréquentes</SectionTitle>
+            <div className="mx-auto max-w-2xl">
+              <Accordion items={faqItems} />
             </div>
           </Container>
         </section>
