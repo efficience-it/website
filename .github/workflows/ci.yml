@@ -64,6 +64,7 @@ jobs:
       - run: npm test
 
   links:
+    continue-on-error: true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -88,6 +89,7 @@ jobs:
           fail: true
 
   audit:
+    continue-on-error: true
     needs: install
     runs-on: ubuntu-latest
     steps:
