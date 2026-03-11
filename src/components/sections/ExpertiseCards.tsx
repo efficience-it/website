@@ -16,6 +16,7 @@ const expertises = [
     outro:
       "De la plateforme e-commerce au CRM métier, nous bâtissons du code utile, durable et centré sur vos objectifs.",
     href: "/developpement-web-sur-mesure",
+    cta: "Découvrir notre expertise développement web",
   },
   {
     title: "Cloud & DevOps",
@@ -29,6 +30,7 @@ const expertises = [
       "Accompagnement DevOps",
     ],
     href: "/cloud-et-devops",
+    cta: "Découvrir notre offre Cloud & DevOps",
   },
   {
     title: "Accompagnement et Conseil",
@@ -40,6 +42,7 @@ const expertises = [
       "Audits IT pour identifier les freins, sécuriser et optimiser",
     ],
     href: "/accompagnement-et-conseil",
+    cta: "Découvrir notre accompagnement et conseil",
   },
 ];
 
@@ -71,7 +74,7 @@ export default function ExpertiseCards() {
                 <p className="mt-3 text-gray">{item.outro}</p>
               )}
               <Button href={item.href} variant="ghost" size="sm" className="mt-4">
-                En savoir plus &rarr;
+                {item.cta} &rarr;
               </Button>
             </Card>
           ))}
