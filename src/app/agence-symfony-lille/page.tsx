@@ -238,17 +238,51 @@ export default function AgenceSymfonyLille() {
                 </Card>
               ))}
             </div>
-            <div className="mt-10 text-center">
+            <div className="mt-10 space-y-4 text-center">
               <p className="text-lg text-gray">
-                Besoin de reprendre une application legacy ?{" "}
+                Vous reprenez une application abandonnee par votre prestataire ?
+                Nous intervenons rapidement pour stabiliser et documenter votre
+                projet via notre offre de{" "}
                 <Link
-                  href="/article/migration-symfony-architecture-hexagonale-retour-mission"
+                  href="/reprise-projet-symfony"
                   className="text-primary hover:underline"
                 >
-                  Notre retour d&apos;experience sur la migration vers une
-                  architecture hexagonale
+                  reprise de projet Symfony
+                </Link>
+                .
+              </p>
+              <p className="text-lg text-gray">
+                Pour les bases de code PHP legacy non-Symfony, nous proposons un
+                accompagnement dedie a la{" "}
+                <Link
+                  href="/modernisation-application-php"
+                  className="text-primary hover:underline"
+                >
+                  modernisation d&apos;application PHP
                 </Link>{" "}
-                detaille notre approche concrète.
+                avec migration progressive vers Symfony.
+              </p>
+              <p className="text-lg text-gray">
+                Vos equipes veulent monter en competences ?{" "}
+                <Link
+                  href="/formation-symfony-entreprise"
+                  className="text-primary hover:underline"
+                >
+                  Nos formations Symfony en entreprise
+                </Link>{" "}
+                sont dispensees en presentiel a Lille ou a distance, par des
+                formateurs actifs sur des projets en production.
+              </p>
+              <p className="text-lg text-gray">
+                Vous avez un besoin d&apos;{" "}
+                <Link
+                  href="/api-sur-mesure-symfony"
+                  className="text-primary hover:underline"
+                >
+                  API sur mesure avec Symfony et API Platform
+                </Link>{" "}
+                pour connecter vos systemes ou ouvrir votre plateforme a des
+                partenaires ?
               </p>
             </div>
           </Container>
