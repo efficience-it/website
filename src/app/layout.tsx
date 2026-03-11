@@ -33,6 +33,12 @@ const organizationJsonLd = {
     addressCountry: "FR",
   },
   email: "contact@itefficience.com",
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "5",
+    reviewCount: "6",
+    bestRating: "5",
+  },
   sameAs: [
     "https://github.com/efficience-it",
     "https://www.linkedin.com/company/efficience-it",
