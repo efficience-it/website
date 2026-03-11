@@ -171,7 +171,7 @@ export default function GreenIt() {
             l&apos;éco-conception et la décarbonation sur notre blog.
           </p>
           <Link
-            href="/blog/"
+            href="/blog"
             className="mt-6 inline-block font-semibold text-primary hover:underline"
           >
             Voir les articles Green IT →
