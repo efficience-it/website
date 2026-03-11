@@ -262,7 +262,7 @@ export default function RepriseProjetSymfony() {
                 dette technique
               </Link>{" "}
               s&apos;accumule silencieusement jusqu&apos;au moment ou elle bloque toute evolution.
-              Plus on attend, plus la reprise est couteuse.
+              Plus on attend, plus la reprise est complexe et risquee.
             </p>
           </Container>
         </section>
@@ -411,6 +411,31 @@ export default function RepriseProjetSymfony() {
                   DSI, entreprise industrielle
                 </p>
               </div>
+            </div>
+            <div className="mt-10 space-y-4 text-center text-lg text-gray">
+              <p>
+                Votre application n&apos;est pas sous Symfony ? Pour les projets
+                PHP natif, CodeIgniter ou Zend, decouvrez notre offre de{" "}
+                <Link
+                  href="/modernisation-application-php"
+                  className="text-primary hover:underline"
+                >
+                  modernisation d&apos;application PHP
+                </Link>
+                , qui suit la meme logique de migration progressive.
+              </p>
+              <p>
+                Nous intervenons principalement depuis Lille et la region
+                Hauts-de-France. En tant qu&apos;{" "}
+                <Link
+                  href="/agence-symfony-lille"
+                  className="text-primary hover:underline"
+                >
+                  agence Symfony a Lille
+                </Link>
+                , nous pouvons nous deplacer rapidement chez vous pour
+                comprendre votre contexte metier.
+              </p>
             </div>
           </Container>
         </section>
