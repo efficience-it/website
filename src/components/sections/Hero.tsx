@@ -9,7 +9,7 @@ export default function Hero() {
         <div className="grid items-center gap-12 md:grid-cols-2">
           <div>
             <h1 className="font-display text-4xl font-bold text-dark md:text-5xl lg:text-6xl">
-              Besoin d&apos;une Agence Symfony fiable ?
+              Agence Symfony à Lille, experte en développement web
             </h1>
             <p className="mt-6 max-w-2xl text-lg text-gray md:text-xl">
               À vos côtés, de la première idée jusqu&apos;à l&apos;application en
