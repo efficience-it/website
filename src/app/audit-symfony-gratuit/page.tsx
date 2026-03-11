@@ -137,6 +137,122 @@ export default function AuditSymfonyGratuit() {
           </Container>
         </section>
 
+        <section className="py-16 md:py-24">
+          <Container>
+            <SectionTitle>Résultats concrets</SectionTitle>
+            <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+              Quelques exemples de résultats obtenus lors de nos audits Symfony
+              auprès de clients aux profils variés.
+            </p>
+            <div className="mt-10 grid gap-6 sm:grid-cols-3">
+              <Card>
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100 text-green-600">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={2}
+                    stroke="currentColor"
+                    className="h-6 w-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M4.5 12.75l6 6 9-13.5"
+                    />
+                  </svg>
+                </div>
+                <p className="mt-4 font-display text-3xl font-bold text-primary">
+                  -40%
+                </p>
+                <p className="mt-2 text-gray">
+                  Réduction de 40% du temps de chargement après optimisation des
+                  requêtes Doctrine
+                </p>
+              </Card>
+              <Card>
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100 text-green-600">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={2}
+                    stroke="currentColor"
+                    className="h-6 w-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M4.5 12.75l6 6 9-13.5"
+                    />
+                  </svg>
+                </div>
+                <p className="mt-4 font-display text-3xl font-bold text-primary">
+                  12 failles
+                </p>
+                <p className="mt-2 text-gray">
+                  Détection de 12 failles de sécurité critiques sur une
+                  application e-commerce
+                </p>
+              </Card>
+              <Card>
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100 text-green-600">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={2}
+                    stroke="currentColor"
+                    className="h-6 w-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M4.5 12.75l6 6 9-13.5"
+                    />
+                  </svg>
+                </div>
+                <p className="mt-4 font-display text-3xl font-bold text-primary">
+                  3 sprints
+                </p>
+                <p className="mt-2 text-gray">
+                  Migration de Symfony 4.4 à 6.4 planifiée et exécutée en 3
+                  sprints
+                </p>
+              </Card>
+            </div>
+          </Container>
+        </section>
+
+        <section className="bg-light-gray py-16 md:py-24">
+          <Container>
+            <SectionTitle>Ce que nos clients en disent</SectionTitle>
+            <div className="mx-auto mt-10 grid max-w-4xl gap-8 md:grid-cols-2">
+              <Card>
+                <blockquote className="text-lg italic text-gray">
+                  &laquo;&nbsp;L&apos;audit nous a permis d&apos;identifier des
+                  problèmes de performance que nous n&apos;avions pas détectés.
+                  En 30 minutes, nous avions une feuille de route
+                  claire.&nbsp;&raquo;
+                </blockquote>
+                <p className="mt-4 font-semibold text-dark">
+                  CTO, PME e-commerce
+                </p>
+              </Card>
+              <Card>
+                <blockquote className="text-lg italic text-gray">
+                  &laquo;&nbsp;Pragmatique et sans jargon. L&apos;équipe a su
+                  vulgariser les enjeux techniques pour notre
+                  direction.&nbsp;&raquo;
+                </blockquote>
+                <p className="mt-4 font-semibold text-dark">
+                  Responsable projet, groupe industriel
+                </p>
+              </Card>
+            </div>
+          </Container>
+        </section>
+
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <SectionTitle>Comment ça se passe</SectionTitle>
@@ -194,6 +310,17 @@ export default function AuditSymfonyGratuit() {
                 planifier votre créneau.
               </p>
               <AuditForm />
+              <p className="mt-8 text-center text-gray">
+                Vous n&apos;êtes pas sûr que l&apos;audit soit adapté à votre
+                situation ?{" "}
+                <Link
+                  href="/contact"
+                  className="text-primary hover:underline"
+                >
+                  Contactez-nous pour en discuter
+                </Link>
+                , sans engagement.
+              </p>
             </div>
           </Container>
         </section>
