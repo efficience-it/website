@@ -417,7 +417,7 @@ export default function RepriseProjetSymfony() {
                 Votre application n&apos;est pas sous Symfony ? Pour les projets
                 PHP natif, CodeIgniter ou Zend, decouvrez notre offre de{" "}
                 <Link
-                  href="/modernisation-application-php"
+                  href="/developpement-web-sur-mesure"
                   className="text-primary hover:underline"
                 >
                   modernisation d&apos;application PHP
