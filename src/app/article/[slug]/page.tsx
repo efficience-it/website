@@ -49,9 +49,16 @@ export async function generateMetadata({
     path: `/article/${slug}`,
   });
 
+<<<<<<< fix/convert-images-webp-330
   const articleImage = post.image
     ? `${BASE_URL}${post.image}`
     : `${BASE_URL}/images/logo/logo-og.webp`;
+=======
+  const articleImage =
+    post.image && !post.image.endsWith(".svg")
+      ? `${BASE_URL}${post.image}`
+      : `${BASE_URL}/images/logo/logo-og.png`;
+>>>>>>> main
 
   return {
     ...base,

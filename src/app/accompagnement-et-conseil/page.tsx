@@ -383,6 +383,14 @@ export default function AccompagnementEtConseil() {
         </Container>
       </section>
 
+      <section className="bg-primary py-16 text-center text-white">
+        <div className="mx-auto max-w-3xl px-4">
+          <h2 className="font-display text-3xl font-bold">Une question sans réponse ?</h2>
+          <p className="mt-4 text-lg text-white/90">Réservez un appel de 30 minutes avec notre équipe pour discuter de votre projet.</p>
+          <Link href="/audit-symfony-gratuit" className="mt-8 inline-block rounded-lg bg-white px-8 py-3 font-semibold text-primary transition hover:bg-gray-100">Demander mon audit gratuit</Link>
+        </div>
+      </section>
+
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
           <SectionTitle>Nos autres expertises</SectionTitle>

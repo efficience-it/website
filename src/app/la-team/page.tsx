@@ -191,7 +191,7 @@ export default function LaTeam() {
             <p className="mt-4 text-lg text-gray">
               Pour animer le quotidien, l&apos;impitoyable{" "}
               <Link
-                href="/blog/le-chocoblast-un-premier-pas-vers-la-securite-par-le-jeu/"
+                href="/article/le-chocoblast-un-premier-pas-vers-la-securite-par-le-jeu"
                 className="font-semibold text-primary hover:underline"
               >
                 chocoblast
