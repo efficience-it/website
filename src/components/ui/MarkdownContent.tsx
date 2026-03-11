@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import CopyButton from "@/components/ui/CopyButton";
@@ -26,6 +27,16 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
       <Markdown
         remarkPlugins={[remarkGfm]}
         components={{
+          a({ href, children }) {
+            if (href && href.startsWith("http")) {
+              return (
+                <a href={href} target="_blank" rel="noopener noreferrer">
+                  {children}
+                </a>
+              );
+            }
+            return <Link href={href || ""}>{children}</Link>;
+          },
           pre({ children }) {
             const text = extractText(children);
             return (
