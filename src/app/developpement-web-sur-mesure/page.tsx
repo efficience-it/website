@@ -536,6 +536,37 @@ export default function DeveloppementWeb() {
         </Container>
       </section>
 
+      <section className="bg-light-gray py-16 md:py-24">
+        <Container>
+          <SectionTitle>Nos autres expertises</SectionTitle>
+          <div className="mt-8 grid gap-6 md:grid-cols-2">
+            <Link href="/cloud-et-devops" className="group">
+              <Card>
+                <h3 className="font-display text-lg font-bold text-dark group-hover:text-primary">
+                  Cloud & DevOps
+                </h3>
+                <p className="mt-2 text-gray">
+                  Hébergement cloud, automatisation CI/CD et migration
+                  d&apos;infrastructure pour des déploiements fiables et
+                  performants.
+                </p>
+              </Card>
+            </Link>
+            <Link href="/accompagnement-et-conseil" className="group">
+              <Card>
+                <h3 className="font-display text-lg font-bold text-dark group-hover:text-primary">
+                  Accompagnement et Conseil
+                </h3>
+                <p className="mt-2 text-gray">
+                  Audit technique, formation Symfony et coaching agile pour
+                  structurer vos projets et monter en compétences.
+                </p>
+              </Card>
+            </Link>
+          </div>
+        </Container>
+      </section>
+
       <CallToAction />
     </main>
     </>
