@@ -67,6 +67,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: .lycheecache
+          key: lychee-${{ hashFiles('content/blog/*.mdx') }}
+          restore-keys: lychee-
       - uses: lycheeverse/lychee-action@v2
         with:
           args: >-
@@ -74,8 +79,8 @@ jobs:
             --base https://www.itefficience.com
             --exclude 'mailto:'
             --exclude 'itefficience\.com'
-            --exclude 'linkedin\.com'
-            --exclude 'sonarsource\.com'
+            --cache
+            --max-cache-age 7d
             --timeout 30
             --max-retries 3
             --accept 200,204,301,302,403,429
