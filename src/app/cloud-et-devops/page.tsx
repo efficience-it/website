@@ -7,6 +7,9 @@ import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import CallToAction from "@/components/sections/CallToAction";
 import Accordion from "@/components/ui/Accordion";
+import TestimonialCard from "@/components/cards/TestimonialCard";
+import { clients } from "@/../data/clients";
+import { testimonials } from "@/../data/testimonials";
 import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
@@ -420,6 +423,32 @@ export default function CloudEtDevops() {
              , orchestration de conteneurs
             </li>
           </ul>
+        </Container>
+      </section>
+
+      <section className="py-16">
+        <Container>
+          <p className="text-center text-sm font-semibold uppercase tracking-wider text-gray-500">Ils nous font confiance</p>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-8 md:gap-12">
+            {clients.map((client) => (
+              <Image
+                key={client.name}
+                src={client.logo}
+                alt={client.name}
+                width={200}
+                height={120}
+                className="h-16 w-auto object-contain opacity-70 grayscale transition-all hover:opacity-100 hover:grayscale-0"
+              />
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      <section className="bg-light-gray py-16 md:py-24">
+        <Container>
+          <div className="mx-auto max-w-2xl">
+            <TestimonialCard testimonial={testimonials[0]} />
+          </div>
         </Container>
       </section>
 
