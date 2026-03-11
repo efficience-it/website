@@ -19,11 +19,11 @@ export default function Hero() {
               Vos objectifs, notre savoir-faire, des résultats mesurables.
             </p>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-              <Button href="/notre-expertise" size="lg">
-                Nos services
+              <Button href="/audit-symfony-gratuit" size="lg">
+                Demander mon audit gratuit
               </Button>
-              <Button href="/contact" variant="outline" size="lg">
-                Contactez-nous !
+              <Button href="/notre-expertise" variant="outline" size="lg">
+                Nos services
               </Button>
             </div>
           </div>
