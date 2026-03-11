@@ -181,8 +181,14 @@ export default function ApiNodejsNestjs() {
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
                   Construisez des API robustes et scalables avec NestJS. Un framework
-                  TypeScript d&apos;entreprise qui combine la puissance de Node.js avec
-                  une architecture modulaire et opinatee, pensee pour durer.
+                  TypeScript d&apos;entreprise qui combine la puissance de{" "}
+                  <Link
+                    href="/developpement-nodejs"
+                    className="text-primary hover:underline"
+                  >
+                    developpement Node.js
+                  </Link>{" "}
+                  avec une architecture modulaire et opinatee, pensee pour durer.
                 </p>
                 <p className="mt-4 max-w-3xl text-lg text-gray">
                   Que vous ayez besoin d&apos;une{" "}
@@ -373,14 +379,14 @@ export default function ApiNodejsNestjs() {
               </table>
             </div>
             <p className="mx-auto mt-8 max-w-3xl text-center text-lg text-gray">
-              Votre projet est en PHP ?{" "}
+              Votre projet est en PHP ? Decouvrez notre offre d&apos;
               <Link
-                href="/developpement-web-sur-mesure"
+                href="/api-sur-mesure-symfony"
                 className="text-primary hover:underline"
               >
-                Nous developpons aussi des API sur mesure avec Symfony
+                API avec Symfony et API Platform
               </Link>
-              , avec la meme rigueur architecturale.
+              , conçue avec la meme rigueur architecturale.
             </p>
           </Container>
         </section>

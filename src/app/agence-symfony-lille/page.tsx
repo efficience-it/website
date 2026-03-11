@@ -238,8 +238,8 @@ export default function AgenceSymfonyLille() {
                 </Card>
               ))}
             </div>
-            <div className="mt-10 text-center">
-              <p className="text-lg text-gray">
+            <div className="mt-10 space-y-4 text-center text-lg text-gray">
+              <p>
                 Besoin de reprendre une application legacy ?{" "}
                 <Link
                   href="/article/migration-symfony-architecture-hexagonale-retour-mission"
@@ -248,7 +248,38 @@ export default function AgenceSymfonyLille() {
                   Notre retour d&apos;experience sur la migration vers une
                   architecture hexagonale
                 </Link>{" "}
-                detaille notre approche concrète.
+                detaille notre approche concrète. Nous proposons aussi un service dedie de{" "}
+                <Link
+                  href="/reprise-projet-symfony"
+                  className="text-primary hover:underline"
+                >
+                  reprise de projets Symfony
+                </Link>{" "}
+                pour les applications sans mainteneur.
+              </p>
+              <p>
+                Au-dela de Symfony, nous intervenons sur la{" "}
+                <Link
+                  href="/modernisation-application-php"
+                  className="text-primary hover:underline"
+                >
+                  modernisation d&apos;applications PHP
+                </Link>{" "}
+                legacy, ainsi que sur le{" "}
+                <Link
+                  href="/api-sur-mesure-symfony"
+                  className="text-primary hover:underline"
+                >
+                  developpement d&apos;API sur mesure
+                </Link>{" "}
+                avec API Platform. Nos{" "}
+                <Link
+                  href="/formation-symfony-entreprise"
+                  className="text-primary hover:underline"
+                >
+                  formations Symfony
+                </Link>{" "}
+                permettent a vos equipes de monter en competences sur le framework.
               </p>
             </div>
           </Container>
