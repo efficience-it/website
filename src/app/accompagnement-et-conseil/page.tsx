@@ -6,6 +6,7 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import CallToAction from "@/components/sections/CallToAction";
+import Accordion from "@/components/ui/Accordion";
 import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
@@ -65,6 +66,47 @@ const advantages = [
   },
 ];
 
+const faqItems = [
+  {
+    title: "En quoi consiste un audit technique Symfony ?",
+    content:
+      "Nous analysons votre code, votre architecture, vos performances et votre sécurité. Vous recevez un rapport avec des recommandations priorisées et un plan d'action concret. Le premier audit de 30 minutes est gratuit.",
+  },
+  {
+    title: "Proposez-vous des formations Symfony pour les équipes ?",
+    content:
+      "Oui. Nos formations couvrent les fondamentaux jusqu'au niveau avancé : architecture hexagonale, Messenger, API Platform, tests automatisés. Elles sont adaptées au niveau et aux projets concrets de vos équipes.",
+  },
+  {
+    title: "Quelle méthodologie agile utilisez-vous ?",
+    content:
+      "Nous travaillons principalement en Scrum avec des sprints de 2 semaines. La méthode est adaptée selon le contexte : Kanban pour la maintenance, Scrum pour les projets neufs. L'essentiel est la livraison régulière de valeur.",
+  },
+  {
+    title: "Pouvez-vous intervenir ponctuellement sur un projet en difficulté ?",
+    content:
+      "Oui. Nous proposons des missions de coaching technique pour débloquer un projet : revue de code, refactoring ciblé, mise en place de tests, ou accompagnement sur une migration complexe.",
+  },
+  {
+    title: "Comment se déroule un accompagnement en transformation digitale ?",
+    content:
+      "Nous commençons par un audit de vos outils et processus existants. Puis nous définissons ensemble une roadmap réaliste, avec des jalons mesurables. L'accompagnement inclut le pilotage, la formation et le suivi post-déploiement.",
+  },
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.title,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.content,
+    },
+  })),
+};
+
 const breadcrumb = breadcrumbJsonLd([
   { name: "Nos expertises", path: "/notre-expertise" },
   { name: "Accompagnement et Conseil", path: "/accompagnement-et-conseil" },
@@ -87,6 +129,10 @@ export default function AccompagnementEtConseil() {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(service) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
     />
     <main>
       {/* Hero */}
@@ -325,6 +371,15 @@ export default function AccompagnementEtConseil() {
              , les principes fondateurs de l&apos;agilité
             </li>
           </ul>
+        </Container>
+      </section>
+
+      <section className="py-16 md:py-24">
+        <Container>
+          <SectionTitle>Questions fréquentes</SectionTitle>
+          <div className="mx-auto max-w-2xl">
+            <Accordion items={faqItems} />
+          </div>
         </Container>
       </section>
 

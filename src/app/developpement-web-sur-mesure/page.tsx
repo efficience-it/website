@@ -6,6 +6,7 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import CallToAction from "@/components/sections/CallToAction";
+import Accordion from "@/components/ui/Accordion";
 import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
@@ -39,6 +40,47 @@ const advantages = [
   },
 ];
 
+const faqItems = [
+  {
+    title: "Quelles technologies utilisez-vous pour le développement web ?",
+    content:
+      "Symfony est notre framework principal. Nous travaillons aussi avec Sylius pour le e-commerce, API Platform pour les API, et des outils comme Docker, Redis et ElasticSearch selon les besoins du projet.",
+  },
+  {
+    title: "Combien coûte le développement d'une application web sur mesure ?",
+    content:
+      "Le budget dépend de la complexité du projet. Un site vitrine Symfony démarre autour de 10 000 euros, une application métier complète entre 30 000 et 100 000 euros. Nous proposons un audit gratuit de 30 minutes pour estimer votre projet.",
+  },
+  {
+    title: "Quelle est la durée moyenne d'un projet de développement ?",
+    content:
+      "Un MVP fonctionnel peut être livré en 2 à 3 mois. Un projet complet avec intégrations CRM/ERP prend généralement 4 à 8 mois. Nous travaillons en sprints agiles avec des livraisons régulières.",
+  },
+  {
+    title: "Assurez-vous la maintenance après la mise en production ?",
+    content:
+      "Oui, nous proposons des contrats de maintenance incluant les mises à jour de sécurité, le monitoring, la correction de bugs et les évolutions fonctionnelles.",
+  },
+  {
+    title: "Pouvez-vous reprendre un projet existant développé par une autre agence ?",
+    content:
+      "Oui. Nous réalisons un audit technique du code existant pour évaluer la dette technique, puis nous proposons une stratégie de reprise adaptée : refactoring progressif, migration ou réécriture selon les cas.",
+  },
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.title,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.content,
+    },
+  })),
+};
+
 const breadcrumb = breadcrumbJsonLd([
   { name: "Nos expertises", path: "/notre-expertise" },
   { name: "Développement web sur mesure", path: "/developpement-web-sur-mesure" },
@@ -61,6 +103,10 @@ export default function DeveloppementWeb() {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(service) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
     />
     <main>
       {/* Hero */}
@@ -533,6 +579,15 @@ export default function DeveloppementWeb() {
              , créer des API modernes en PHP
             </li>
           </ul>
+        </Container>
+      </section>
+
+      <section className="py-16 md:py-24">
+        <Container>
+          <SectionTitle>Questions fréquentes</SectionTitle>
+          <div className="mx-auto max-w-2xl">
+            <Accordion items={faqItems} />
+          </div>
         </Container>
       </section>
 
