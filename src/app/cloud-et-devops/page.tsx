@@ -6,6 +6,7 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import CallToAction from "@/components/sections/CallToAction";
+import Accordion from "@/components/ui/Accordion";
 import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
@@ -57,6 +58,47 @@ const migrationSteps = [
   },
 ];
 
+const faqItems = [
+  {
+    title: "Quels fournisseurs cloud supportez-vous ?",
+    content:
+      "Nous travaillons avec AWS, Azure, Google Cloud, OVH et des hébergeurs certifiés HDS pour les données de santé. Le choix dépend de vos contraintes techniques, réglementaires et budgétaires.",
+  },
+  {
+    title: "Quelle est la différence entre hébergement cloud et hébergement classique ?",
+    content:
+      "L'hébergement cloud offre une scalabilité automatique, une haute disponibilité et un paiement à l'usage. Contrairement à un serveur dédié, les ressources s'ajustent en temps réel selon le trafic de votre application.",
+  },
+  {
+    title: "Comment se passe une migration vers le cloud ?",
+    content:
+      "Nous procédons en 5 étapes : audit de l'infrastructure existante, planification détaillée, migration progressive, validation et tests, puis supervision continue. L'objectif est zéro interruption de service.",
+  },
+  {
+    title: "Qu'est-ce que le CI/CD et pourquoi en ai-je besoin ?",
+    content:
+      "Le CI/CD (intégration et déploiement continus) automatise les tests et la mise en production de votre code. Résultat : moins de bugs, des livraisons plus fréquentes et une équipe de développement plus productive.",
+  },
+  {
+    title: "Proposez-vous du monitoring et de la supervision ?",
+    content:
+      "Oui. Nous mettons en place des outils de monitoring (alertes, dashboards, logs centralisés) pour détecter et résoudre les incidents avant qu'ils n'impactent vos utilisateurs.",
+  },
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.title,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.content,
+    },
+  })),
+};
+
 const breadcrumb = breadcrumbJsonLd([
   { name: "Nos expertises", path: "/notre-expertise" },
   { name: "Cloud & DevOps", path: "/cloud-et-devops" },
@@ -79,6 +121,10 @@ export default function CloudEtDevops() {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(service) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
     />
     <main>
       {/* Hero */}
@@ -375,6 +421,15 @@ export default function CloudEtDevops() {
              , orchestration de conteneurs
             </li>
           </ul>
+        </Container>
+      </section>
+
+      <section className="bg-light-gray py-16 md:py-24">
+        <Container>
+          <SectionTitle>Questions fréquentes</SectionTitle>
+          <div className="mx-auto max-w-2xl">
+            <Accordion items={faqItems} />
+          </div>
         </Container>
       </section>
 
