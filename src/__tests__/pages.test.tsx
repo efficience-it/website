@@ -16,7 +16,7 @@ import MentionsLegales from "@/app/mentions-legales/page";
 describe("Service pages", () => {
   it("renders Notre expertise", () => {
     render(<NotreExpertise />);
-    expect(screen.getByRole("heading", { name: /nos expertises/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /expertise symfony/i })).toBeInTheDocument();
   });
 
   it("renders Développement web sur mesure", () => {
@@ -26,12 +26,12 @@ describe("Service pages", () => {
 
   it("renders Cloud & DevOps", () => {
     render(<CloudEtDevops />);
-    expect(screen.getByRole("heading", { name: /cloud & devops/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /cloud & devops.*infrastructure/i })).toBeInTheDocument();
   });
 
   it("renders Accompagnement et Conseil", () => {
     render(<AccompagnementEtConseil />);
-    expect(screen.getByRole("heading", { name: /accompagnement et conseil/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /conseil.*formation.*coaching symfony/i })).toBeInTheDocument();
   });
 });
 

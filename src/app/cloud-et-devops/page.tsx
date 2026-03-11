@@ -10,11 +10,10 @@ import Accordion from "@/components/ui/Accordion";
 import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title: "Cloud & DevOps | Expertise technique – Efficience IT",
+  title: "Cloud & DevOps : infrastructure et automatisation",
   description:
     "Expertise Cloud et DevOps : Efficience IT accompagne la mise en place d'infrastructures, d'automatisation et de pratiques DevOps adaptées aux projets web.",
   path: "/cloud-et-devops",
-  absoluteTitle: true,
 });
 
 const platforms = [
@@ -133,7 +132,7 @@ export default function CloudEtDevops() {
           <div className="grid items-center gap-12 md:grid-cols-2">
             <div>
               <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
-                Cloud & DevOps
+                Cloud & DevOps : infrastructure et automatisation
               </h1>
               <p className="mt-6 max-w-3xl text-lg text-gray">
                 Chez Efficience IT, nous accompagnons les PME et grandes
