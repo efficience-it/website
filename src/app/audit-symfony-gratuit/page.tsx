@@ -151,7 +151,11 @@ export default function AuditSymfonyGratuit() {
                 </h3>
                 <p className="mt-2 text-gray">
                   Vous recevez une synthèse écrite avec nos constats et
-                  recommandations. Sans engagement.
+                  recommandations. Sans engagement. Pour en savoir plus sur{" "}
+                  <Link href="/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede" className="text-primary hover:underline">
+                    notre méthodologie d&apos;audit
+                  </Link>
+                  , consultez notre article dédié.
                 </p>
               </div>
             </div>
@@ -175,15 +179,6 @@ export default function AuditSymfonyGratuit() {
           <Container>
             <SectionTitle>Pour aller plus loin</SectionTitle>
             <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
-              <li>
-                <Link
-                  href="/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede"
-                  className="text-primary hover:underline"
-                >
-                  Comment se passe un audit chez Efficience IT
-                </Link>{" "}
-                , notre méthodologie d&apos;audit détaillée
-              </li>
               <li>
                 <Link
                   href="/article/pourquoi-choisir-symfony-pour-vos-projets"
