@@ -4,7 +4,6 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import Accordion from "@/components/ui/Accordion";
 import ContactForm from "@/components/sections/ContactForm";
 import { faqItems } from "@/../data/faq";
-import { BASE_URL } from "@/lib/metadata";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({

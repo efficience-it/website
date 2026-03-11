@@ -65,7 +65,7 @@ export default function LaTeam() {
           <div className="grid items-center gap-12 md:grid-cols-2">
             <div className="flex justify-center md:order-2">
               <Image
-                src="/images/team/team-cohesion-1.jpg"
+                src="/images/team/team-cohesion-1.webp"
                 alt="Séminaire avec l'équipe Efficience IT"
                 width={500}
                 height={375}
@@ -128,7 +128,7 @@ export default function LaTeam() {
           <div className="grid items-center gap-12 md:grid-cols-2">
             <div className="flex justify-center md:order-2">
               <Image
-                src="/images/team/equipo.jpg"
+                src="/images/team/equipo.webp"
                 alt="Projet avec l'équipe Efficience IT"
                 width={500}
                 height={375}

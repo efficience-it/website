@@ -12,7 +12,7 @@ interface PageMetadataOptions {
 
 export const BASE_URL = "https://www.itefficience.com";
 export const SITE_NAME = "Efficience IT";
-const DEFAULT_OG_IMAGE = `${BASE_URL}/images/logo/logo-og.png`;
+const DEFAULT_OG_IMAGE = `${BASE_URL}/images/logo/logo-og.webp`;
 
 export function pageMetadata({
   title,

@@ -52,7 +52,7 @@ export async function generateMetadata({
   const articleImage =
     post.image && !post.image.endsWith(".svg")
       ? `${BASE_URL}${post.image}`
-      : `${BASE_URL}/images/logo/logo-og.png`;
+      : `${BASE_URL}/images/logo/logo-og.webp`;
 
   return {
     ...base,
@@ -99,7 +99,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       url: BASE_URL,
       logo: {
         "@type": "ImageObject",
-        url: `${BASE_URL}/images/logo/logo-og.png`,
+        url: `${BASE_URL}/images/logo/logo-og.webp`,
       },
     },
     datePublished: post.date,
