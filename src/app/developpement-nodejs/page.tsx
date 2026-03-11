@@ -92,11 +92,6 @@ const faqItems = [
     content:
       "Oui. Nous realisons un audit du code existant pour evaluer la dette technique, la couverture de tests et les risques de securite. Nous proposons ensuite un plan de refactoring progressif pour stabiliser l'application sans tout recrire d'un coup.",
   },
-  {
-    title: "Combien coute un developpement Node.js sur mesure ?",
-    content:
-      "Une API REST simple avec authentification et quelques endpoints demarre autour de 10 000 euros. Un backend microservices complet avec temps reel, monitoring et CI/CD se situe entre 30 000 et 80 000 euros selon la complexite. Contactez-nous pour une estimation adaptee a votre projet.",
-  },
 ];
 
 const faqJsonLd = {
@@ -224,7 +219,7 @@ export default function DeveloppementNodejs() {
                     Le modele evenementiel de Node.js gere des milliers de
                     connexions simultanees sans creer un thread par requete. Pour
                     les APIs a forte concurrence, c&apos;est un avantage decisif en
-                    termes de performances et de couts d&apos;infrastructure.
+                    termes de performances et d&apos;efficacite infrastructure.
                   </p>
                 </div>
               </div>
