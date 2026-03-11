@@ -39,7 +39,7 @@ export default function NotreExpertise() {
                 Collaborez avec des experts engagés
               </p>
               <h1 className="mt-4 font-display text-4xl font-bold text-dark md:text-5xl">
-                Nos expertises
+                Expertise Symfony de référence
               </h1>
               <p className="mt-6 max-w-3xl text-lg text-gray">
                 Des passionnés à vos côtés, exigeants, curieux et toujours à

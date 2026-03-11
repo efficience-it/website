@@ -141,7 +141,7 @@ export default function AccompagnementEtConseil() {
           <div className="grid items-center gap-12 md:grid-cols-2">
             <div>
               <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
-                Accompagnement et Conseil
+                Conseil, formation et coaching Symfony
               </h1>
               <p className="mt-6 max-w-3xl text-lg text-gray">
                 Chez Efficience IT, nous croyons fermement que chaque projet
