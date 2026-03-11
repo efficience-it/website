@@ -103,7 +103,7 @@ export default function LaTeam() {
                 les maîtres mots dans les équipes.
               </p>
               <Link
-                href="/notre-expertise/"
+                href="/notre-expertise"
                 className="mt-4 inline-block font-semibold text-primary hover:underline"
               >
                 Découvrir nos expertises →
@@ -157,7 +157,7 @@ export default function LaTeam() {
                 informées et formées sur les dernières nouveautés Web.
               </p>
               <Link
-                href="/notre-expertise/"
+                href="/notre-expertise"
                 className="mt-4 inline-block font-semibold text-primary hover:underline"
               >
                 Découvrir nos services →

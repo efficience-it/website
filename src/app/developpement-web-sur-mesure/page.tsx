@@ -479,7 +479,7 @@ export default function DeveloppementWeb() {
               web sur mesure ou optimiser vos processus métiers avec des outils
               performants ?{" "}
               <Link
-                href="/contact/"
+                href="/contact"
                 className="font-semibold text-primary hover:underline"
               >
                 Contactez-nous dès aujourd&apos;hui
