@@ -38,11 +38,11 @@ parameters:
         - src/Migrations
 ```
 
-Avec ce fichier en place, un simple `./vendor/bin/phpstan analyse` suffit. Consultez la [référence de configuration](https://phpstan.org/config-reference) pour la liste complète des options.
+Avec ce fichier en place, un simple `./vendor/bin/phpstan analyse` suffit.
 
 ## Les niveaux de règles : une adoption progressive
 
-PHPStan propose 10 [niveaux de règles](https://phpstan.org/user-guide/rule-levels), de 0 à 9. Chaque niveau inclut les vérifications du précédent.
+PHPStan propose 10 niveaux de règles, de 0 à 9. Chaque niveau inclut les vérifications du précédent.
 
 **Niveaux 0-2** couvrent les bases : classes et fonctions inconnues, nombre d'arguments incorrect, variables potentiellement non définies, types inconnus sur les expressions `mixed`.
 
@@ -240,7 +240,3 @@ Un architecte qui configure PHPStan avec des règles custom, des generics et un 
 - [Les 10 erreurs PHPStan niveau max sur Symfony](/article/phpstan-niveau-max-symfony-10-erreurs), erreurs concrètes et corrections
 - [PHPStan 2.0 : niveau 10 et nouvelles fonctionnalités](/article/phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable), les nouveautés de la version 2.0
 - [Les conventions de codage](/article/coding-conventions), standards et bonnes pratiques complémentaires
-- [Site officiel PHPStan](https://phpstan.org/), documentation complète
-- [PHPStan config reference](https://phpstan.org/config-reference), toutes les options de configuration
-- [PHPStan rule levels](https://phpstan.org/user-guide/rule-levels), choisir le bon niveau d'analyse
-- [PHP-FIG : PSR standards](https://www.php-fig.org/psr/), les standards PHP que PHPStan vérifie

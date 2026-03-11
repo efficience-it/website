@@ -7,11 +7,11 @@ excerpt: "Comment configurer Claude Code avec un CLAUDE.md qui encode tes conven
 image: "/images/blog/claude-symfony.svg"
 ---
 
-Tu ouvres [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview) sur ton projet Symfony. Tu lui demandes de créer un use case. Il te génère un service avec 15 dépendances, des annotations Doctrine dans le domaine, et un contrôleur de 200 lignes. Exactement ce que tu passes tes journées à corriger en code review.
+Tu ouvres Claude Code sur ton projet Symfony. Tu lui demandes de créer un use case. Il te génère un service avec 15 dépendances, des annotations Doctrine dans le domaine, et un contrôleur de 200 lignes. Exactement ce que tu passes tes journées à corriger en code review.
 
 Le problème n'est pas Claude. C'est que Claude ne connaît pas ton architecture. Il génère du code Symfony "standard" parce que c'est ce qu'il a vu le plus souvent. Ton archi hexagonale, tes conventions DDD, tes règles sur les repositories Doctrine : il ne les connaît pas tant que tu ne les lui expliques pas.
 
-La solution s'appelle `CLAUDE.md`. Un fichier à la racine de ton projet que [Claude Code](https://docs.anthropic.com/en/docs/claude-code/memory) lit automatiquement à chaque session. C'est ton onboarding permanent. Et bien configuré, il transforme Claude en assistant qui respecte ton archi dès la première ligne de code.
+La solution s'appelle `CLAUDE.md`. Un fichier à la racine de ton projet que Claude Code lit automatiquement à chaque session. C'est ton onboarding permanent. Et bien configuré, il transforme Claude en assistant qui respecte ton archi dès la première ligne de code.
 
 ## Le CLAUDE.md minimal qui change tout
 
@@ -52,7 +52,7 @@ Avec ces dix lignes, Claude arrête de générer des contrôleurs-services et co
 
 ## Encoder les conventions Doctrine
 
-[Doctrine](https://www.doctrine-project.org/) est le point de friction numéro un entre Claude et ton archi. Par défaut, Claude traite les entités Doctrine comme des modèles domaine. Il colle des `#[ORM\Column]` partout et appelle `$entityManager->flush()` depuis les use cases.
+Doctrine est le point de friction numéro un entre Claude et ton archi. Par défaut, Claude traite les entités Doctrine comme des modèles domaine. Il colle des `#[ORM\Column]` partout et appelle `$entityManager->flush()` depuis les use cases.
 
 Ajoute une section dédiée dans ton `CLAUDE.md` :
 
@@ -150,7 +150,7 @@ Claude va maintenant générer un `InMemoryProductRepository` quand tu lui deman
 
 ## Les hooks Claude Code pour automatiser les vérifications
 
-[Claude Code](https://docs.anthropic.com/en/docs/claude-code/hooks) supporte des hooks qui s'exécutent automatiquement après certaines actions. On les utilise pour vérifier que le code généré respecte l'architecture.
+Claude Code supporte des hooks qui s'exécutent automatiquement après certaines actions. On les utilise pour vérifier que le code généré respecte l'architecture.
 
 Un hook simple avec [Deptrac](https://github.com/qossmic/deptrac) qui vérifie les dépendances entre couches :
 
@@ -167,9 +167,9 @@ Un hook simple avec [Deptrac](https://github.com/qossmic/deptrac) qui vérifie l
 }
 ```
 
-À chaque fois que Claude modifie ou crée un fichier, [Deptrac](https://github.com/qossmic/deptrac) vérifie que les règles de dépendances sont respectées. Si un use case importe une classe Doctrine, le hook le signale immédiatement. Claude corrige avant même que tu aies lu le code.
+À chaque fois que Claude modifie ou crée un fichier, Deptrac vérifie que les règles de dépendances sont respectées. Si un use case importe une classe Doctrine, le hook le signale immédiatement. Claude corrige avant même que tu aies lu le code.
 
-Combine ça avec [PHPStan](https://phpstan.org/) :
+Combine ça avec PHPStan :
 
 ```json
 {
@@ -188,7 +188,7 @@ Claude reçoit le feedback de PHPStan en temps réel et corrige ses propres erre
 
 ## Les sous-fichiers CLAUDE.md par contexte
 
-Sur un projet avec plusieurs bounded contexts, un seul `CLAUDE.md` à la racine ne suffit pas. Claude Code supporte les [fichiers CLAUDE.md dans les sous-répertoires](https://docs.anthropic.com/en/docs/claude-code/memory). Chaque contexte peut avoir ses propres règles.
+Sur un projet avec plusieurs bounded contexts, un seul `CLAUDE.md` à la racine ne suffit pas. Claude Code supporte les fichiers CLAUDE.md dans les sous-répertoires. Chaque contexte peut avoir ses propres règles.
 
 ```
 src/
@@ -268,6 +268,5 @@ Le plus inattendu : le `CLAUDE.md` est devenu le document d'architecture de réf
 - [Symfony AI dans un projet legacy](/article/symfony-ai-projet-legacy-retour-experience), intégrer l'IA dans du code existant
 - [RAG avec Symfony AI et Doctrine](/article/rag-symfony-ai-doctrine-indexer-base-metier), indexer sa base métier pour l'IA
 - [Migration Symfony vers l'architecture hexagonale](/article/migration-symfony-architecture-hexagonale-retour-mission), structurer le legacy
-- [Claude Code : documentation officielle](https://docs.anthropic.com/en/docs/claude-code), guide complet de Claude Code
-- [CLAUDE.md : best practices](https://docs.anthropic.com/en/docs/claude-code/memory), configurer les fichiers mémoire
-- [ADR : Architecture Decision Records](https://adr.github.io/), documenter les décisions d'architecture
+- [PHPStan au niveau max sur un projet Symfony](/article/phpstan-niveau-max-symfony-10-erreurs), valider l'architecture par analyse statique
+- [Documentation Claude Code](https://docs.anthropic.com/en/docs/claude-code), guide officiel et configuration des fichiers mémoire

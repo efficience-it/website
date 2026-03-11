@@ -27,7 +27,7 @@ Sur une application Symfony typique, le bootstrap représente entre 30 et 60 % d
 
 FrankenPHP est un serveur d'application écrit en Go, bâti sur [Caddy](https://caddyserver.com/), qui embarque directement l'interpréteur PHP dans son processus. Il ne s'agit pas d'un simple wrapper autour de PHP-FPM : FrankenPHP utilise CGO pour lier le runtime Go au code C de la Zend Engine, la machine virtuelle de PHP. Cette approche permet au serveur web et à l'interpréteur de coexister dans le même espace mémoire, sans communication inter-processus ni protocole intermédiaire.
 
-Le résultat concret : un unique binaire capable de servir une application PHP avec support natif de HTTP/1.1, HTTP/2 et HTTP/3, génération automatique de certificats TLS via Let's Encrypt ou ZeroSSL, et support du temps réel via le protocole Mercure. FrankenPHP peut déployer nativement Symfony, Laravel, [API Platform](https://api-platform.com/), WordPress, Drupal ou toute application PHP standard.
+Le résultat concret : un unique binaire capable de servir une application PHP avec support natif de HTTP/1.1, HTTP/2 et HTTP/3, génération automatique de certificats TLS via Let's Encrypt ou ZeroSSL, et support du temps réel via le protocole Mercure. FrankenPHP peut déployer nativement Symfony, Laravel, API Platform, WordPress, Drupal ou toute application PHP standard.
 
 ## Architecture interne et choix techniques
 
@@ -105,6 +105,4 @@ FrankenPHP représente une évolution architecturale significative pour l'écosy
 - [Tout savoir sur la mise en cache](/article/tout-savoir-sur-la-mise-en-cache-tips), optimiser les performances de vos applications PHP
 - [Retour sur le Forum PHP 2024](/article/retour-sur-le-forum-php-2024), les tendances et nouveautés de l'écosystème PHP
 - [Site officiel de FrankenPHP](https://frankenphp.dev/), documentation, installation et guides de démarrage
-- [Dépôt GitHub de FrankenPHP](https://github.com/dunglas/frankenphp), code source et contributions
-- [Site officiel de Caddy](https://caddyserver.com/), le serveur web sur lequel repose FrankenPHP
 - [PHP 9.0 : ce que vous devez savoir](/article/php-9-0-devoile-ce-que-vous-devez-savoir-avant-la-sortie), les évolutions à venir du langage PHP

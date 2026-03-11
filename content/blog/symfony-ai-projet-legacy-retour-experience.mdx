@@ -17,7 +17,7 @@ L'application gère des milliers de documents pour des cabinets d'avocats. Uploa
 
 L'idée : utiliser un LLM pour analyser le contenu du document, proposer un classement et pré-remplir les métadonnées. L'opérateur valide ou corrige. On ne remplace personne, on accélère le processus.
 
-Le choix de [Symfony AI](https://github.com/symfony/ai) plutôt qu'un appel direct à l'API OpenAI ou Anthropic s'est imposé pour une raison simple : l'abstraction. On ne voulait pas coupler le code métier à un fournisseur. Aujourd'hui c'est Claude, demain c'est peut-être Mistral ou un modèle on-premise. Symfony AI fournit cette couche d'abstraction nativement.
+Le choix de Symfony AI plutôt qu'un appel direct à l'API OpenAI ou Anthropic s'est imposé pour une raison simple : l'abstraction. On ne voulait pas coupler le code métier à un fournisseur. Aujourd'hui c'est Claude, demain c'est peut-être Mistral ou un modèle on-premise. Symfony AI fournit cette couche d'abstraction nativement.
 
 ## L'installation : premier mur
 
@@ -36,7 +36,7 @@ On a dû mettre à jour cinq composants Symfony avant de pouvoir installer le pa
 
 ### La config du transport HTTP
 
-Symfony AI utilise le [HttpClient](https://symfony.com/doc/current/http_client.html) pour communiquer avec les APIs. Notre application utilisait déjà un HttpClient custom avec un proxy corporate, des headers d'authentification maison et des timeouts agressifs.
+Symfony AI utilise le HttpClient Symfony pour communiquer avec les APIs. Notre application utilisait déjà un HttpClient custom avec un proxy corporate, des headers d'authentification maison et des timeouts agressifs.
 
 Le composant AI a besoin de son propre client HTTP avec des timeouts longs (les LLM prennent du temps à répondre) et du streaming. On a dû configurer un client dédié :
 
@@ -200,14 +200,14 @@ On n'avait pas anticipé la consommation de tokens. Les documents juridiques fon
 On a ajouté trois garde-fous :
 
 - **Troncature intelligente** : on envoie les 3 premières pages et la dernière. Pour le classement, c'est suffisant dans 95% des cas.
-- **Cache de résultats** : un document identique (même hash) retourne le résultat en cache via [Symfony Cache](https://symfony.com/doc/current/cache.html).
+- **Cache de résultats** : un document identique (même hash) retourne le résultat en cache via Symfony Cache.
 - **Budget quotidien** : un compteur coupe les appels IA au-delà d'un seuil. Les documents passent en classement manuel.
 
 ## Le streaming : plus compliqué qu'il n'y paraît
 
-Symfony AI supporte le streaming des réponses. Sur un projet greenfield avec [Mercure](https://mercure.rocks/), c'est élégant. Sur notre legacy avec des réponses JSON synchrones, c'est un casse-tête.
+Symfony AI supporte le streaming des réponses. Sur un projet greenfield avec Mercure, c'est élégant. Sur notre legacy avec des réponses JSON synchrones, c'est un casse-tête.
 
-On a fait le choix de ne pas streamer pour le classement automatique (processus batch, pas besoin de feedback temps réel). Par contre, on a ajouté un endpoint de résumé de document où l'utilisateur voit le texte apparaître progressivement. Pour ça, on a utilisé des [Server-Sent Events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events) natifs sans Mercure :
+On a fait le choix de ne pas streamer pour le classement automatique (processus batch, pas besoin de feedback temps réel). Par contre, on a ajouté un endpoint de résumé de document où l'utilisateur voit le texte apparaître progressivement. Pour ça, on a utilisé des Server-Sent Events natifs sans Mercure :
 
 ```php
 #[Route('/documents/{id}/summary', methods: ['GET'])]
@@ -258,7 +258,7 @@ Ce n'est pas du test déterministe. C'est du monitoring de qualité. Mais c'est 
 
 L'intégration d'IA dans un projet legacy n'est pas un problème d'IA. C'est un problème d'architecture. Si ton code est proprement découplé, ajouter un appel LLM revient à ajouter n'importe quelle dépendance externe. Si ton code est un monolithe couplé, l'IA va amplifier le chaos.
 
-[Symfony AI](https://symfony.com/doc/current/ai.html) est un bon outil. L'abstraction fournisseur fonctionne. Le support du streaming est solide. Mais le composant ne résout pas les vrais problèmes : la gestion des erreurs, le coût, la qualité des prompts, et la cohabitation avec du code qui n'a pas été pensé pour.
+Symfony AI est un bon outil. L'abstraction fournisseur fonctionne. Le support du streaming est solide. Mais le composant ne résout pas les vrais problèmes : la gestion des erreurs, le coût, la qualité des prompts, et la cohabitation avec du code qui n'a pas été pensé pour.
 
 Le conseil le plus utile que je peux donner : traite l'IA comme une dépendance faillible et coûteuse. Mets-la derrière une interface. Prévois le fallback. Monitore le coût. Et surtout, ne laisse jamais un appel LLM devenir un point de défaillance unique dans ton application.
 
@@ -267,7 +267,4 @@ Le conseil le plus utile que je peux donner : traite l'IA comme une dépendance 
 - [RAG avec Symfony AI et Doctrine](/article/rag-symfony-ai-doctrine-indexer-base-metier), indexer et interroger sa base métier
 - [Claude comme assistant d'architecture Symfony](/article/claude-assistant-architecture-symfony-legacy), configurer CLAUDE.md sur un legacy
 - [Le domaine ne devrait jamais connaître Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony), isoler le domaine avant d'intégrer l'IA
-- [Symfony AI : annonce officielle](https://symfony.com/doc/current/ai.html), présentation du composant
-- [Symfony AI sur GitHub](https://github.com/symfony/ai), code source et documentation
-- [Anthropic : documentation Claude](https://docs.anthropic.com/), API et bonnes pratiques
-- [OpenAI Platform](https://platform.openai.com/docs), documentation de l'API GPT
+- [Documentation Symfony AI](https://symfony.com/doc/current/ai.html), guide officiel du composant
