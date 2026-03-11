@@ -9,6 +9,7 @@ import {
 } from "@/lib/blog";
 import Link from "next/link";
 import type { Metadata } from "next";
+import { breadcrumbJsonLd } from "@/lib/structured-data";
 
 const categoryDescriptions: Record<string, string> = {
   Outils:
@@ -63,7 +64,17 @@ export default async function BlogCategoryPage({
 
   const posts = getPostsByCategory(categoryName);
 
+  const breadcrumb = breadcrumbJsonLd([
+    { name: "Blog", path: "/blog" },
+    { name: categoryName, path: `/blog/${slug}` },
+  ]);
+
   return (
+    <>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+    />
     <main>
       <section className="bg-light-gray py-16 md:py-24">
         <Container className="text-center">
@@ -102,5 +113,6 @@ export default async function BlogCategoryPage({
         </Container>
       </section>
     </main>
+    </>
   );
 }
