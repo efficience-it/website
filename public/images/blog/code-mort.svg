@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <g opacity="0.06">
+    <text x="60" y="90" font-family="monospace" font-size="13" fill="#ef4444">class UserManager {</text>
+    <text x="60" y="120" font-family="monospace" font-size="13" fill="#ef4444">  // @deprecated since v2</text>
+    <text x="60" y="150" font-family="monospace" font-size="13" fill="#ef4444">  public function oldMethod() {}</text>
+    <text x="60" y="180" font-family="monospace" font-size="13" fill="#ef4444">  private function unused() {}</text>
+    <text x="60" y="210" font-family="monospace" font-size="13" fill="#ef4444">}</text>
+    <text x="700" y="460" font-family="monospace" font-size="13" fill="#22c55e">vendor/bin/phpstan analyse</text>
+    <text x="700" y="490" font-family="monospace" font-size="13" fill="#22c55e">  --level=max</text>
+    <text x="700" y="520" font-family="monospace" font-size="13" fill="#22c55e">  --configuration=phpstan.neon</text>
+  </g>
+  <line x1="350" y1="120" x2="550" y2="120" stroke="#ef4444" stroke-width="2" opacity="0.15"/>
+  <line x1="350" y1="150" x2="600" y2="150" stroke="#ef4444" stroke-width="2" opacity="0.15"/>
+  <line x1="350" y1="180" x2="580" y2="180" stroke="#ef4444" stroke-width="2" opacity="0.15"/>
+  <circle cx="1020" cy="160" r="90" fill="#ef4444" opacity="0.04"/>
+  <circle cx="160" cy="500" r="60" fill="#22c55e" opacity="0.04"/>
+  <text x="600" y="240" text-anchor="middle" font-family="system-ui,sans-serif" font-size="22" font-weight="600" fill="#94a3b8" letter-spacing="4">PHP x PHPSTAN</text>
+  <text x="600" y="310" text-anchor="middle" font-family="system-ui,sans-serif" font-size="48" font-weight="800" fill="#f8fafc">Code mort en PHP</text>
+  <text x="600" y="375" text-anchor="middle" font-family="system-ui,sans-serif" font-size="48" font-weight="800" fill="#ef4444">mission elimination</text>
+  <rect x="400" y="405" width="400" height="3" rx="1.5" fill="#ef4444" opacity="0.5"/>
+  <text x="600" y="450" text-anchor="middle" font-family="system-ui,sans-serif" font-size="18" fill="#64748b">Detecter et supprimer le code inutilise</text>
+  <text x="600" y="570" text-anchor="middle" font-family="system-ui,sans-serif" font-size="16" fill="#475569" letter-spacing="2">EFFICIENCE IT</text>
+</svg>
