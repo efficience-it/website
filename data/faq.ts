@@ -1,27 +1,27 @@
 export const faqItems = [
   {
-    title: "Quelles sont les technologies utilisées ?",
+    title: "Quel est votre délai de réponse ?",
     content:
-      "Symfony est le cœur de notre métier. Nous maîtrisons également Redis, Varnish, ElasticSearch, RabbitMQ, PHP, JavaScript, Sass/Scss, CSS, HTML, Twig, Nginx, Apache, ainsi que les services AWS (EC2, SES, S3, Route53).",
+      "Nous répondons à toutes les demandes sous 24 heures ouvrées. Pour les demandes urgentes, n'hésitez pas à le préciser dans votre message.",
   },
   {
-    title: "Quel est le process de recrutement ?",
+    title: "Combien coûte un projet de développement web ?",
     content:
-      "Candidature reçue → entretien RH → test technique → entretien motivation → rencontre avec l'équipe → activités de détente.",
+      "Le budget dépend de la complexité du projet. Un site vitrine Symfony démarre autour de 10 000 euros, une application métier complète entre 30 000 et 100 000 euros. Nous proposons un audit gratuit de 30 minutes pour estimer votre projet.",
   },
   {
-    title: "Engagez-vous des Juniors ?",
+    title: "Comment se passe un premier échange ?",
     content:
-      "Les équipes sont de tous les niveaux, de juniors à confirmés et experts.",
+      "Nous commençons par un appel de 30 minutes pour comprendre votre contexte, vos objectifs et vos contraintes. Ensuite, nous vous proposons une approche technique et un devis détaillé sous une semaine.",
   },
   {
-    title: "L'entreprise fait-elle du télétravail ?",
+    title: "Travaillez-vous avec des clients en dehors de Lille ?",
     content:
-      "Les collaborateurs peuvent effectuer 40 % de leur temps en télétravail avec liberté d'accès aux bureaux.",
+      "Oui. Nous accompagnons des clients dans toute la France, en Belgique et au Luxembourg. Nos équipes travaillent en remote et se déplacent quand le projet le nécessite.",
   },
   {
-    title: "Que fait Efficience IT pour le développement durable ?",
+    title: "Proposez-vous un devis gratuit ?",
     content:
-      "Nous plantons un arbre par jour via ReforestAction, utilisons Ecosia, pratiquons le zéro papier, et encourageons les gourdes et tasses réutilisables.",
+      "Oui, le devis est gratuit et sans engagement. Pour les projets Symfony, nous proposons également un audit technique gratuit de 30 minutes pour identifier vos priorités.",
   },
 ];
