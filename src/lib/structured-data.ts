@@ -101,6 +101,29 @@ export function serviceJsonLd({ name, description, path }: ServiceSchemaProps) {
   };
 }
 
+import { Testimonial } from "@/types/testimonial";
+
+export function reviewsJsonLd(testimonials: Testimonial[]) {
+  return testimonials.map((t) => ({
+    "@context": "https://schema.org",
+    "@type": "Review",
+    author: {
+      "@type": "Person",
+      name: t.name,
+    },
+    reviewBody: t.quote,
+    itemReviewed: {
+      "@type": "Organization",
+      name: "Efficience IT",
+    },
+    reviewRating: {
+      "@type": "Rating",
+      ratingValue: "5",
+      bestRating: "5",
+    },
+  }));
+}
+
 interface HowToStep {
   name: string;
   text: string;
