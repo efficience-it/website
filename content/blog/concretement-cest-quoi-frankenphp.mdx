@@ -21,7 +21,7 @@ Ce modèle share nothing garantit une isolation totale entre les requêtes. Un b
 
 Sur une application Symfony typique, le bootstrap représente entre 30 et 60 % du temps de traitement d'une requête : lecture des fichiers de configuration, construction du conteneur d'injection de dépendances, compilation des routes, initialisation des listeners. OPcache atténue le coût en mettant en cache le bytecode compilé, mais l'instanciation des objets et l'assemblage du graphe de services restent incompressibles à chaque requête.
 
-À cette charge computationnelle s'ajoute une complexité opérationnelle. L'architecture de production classique requiert la coordination de plusieurs services : Nginx ou Apache en reverse proxy, PHP-FPM pour l'exécution, Certbot ou un autre outil pour la gestion des certificats TLS, parfois Varnish pour le cache HTTP. Chaque service apporte son fichier de configuration, ses logs, ses mécanismes de reload et ses propres modes de défaillance.
+À cette charge computationnelle s'ajoute une complexité opérationnelle. L'architecture de production classique requiert la coordination de plusieurs services : Nginx ou Apache en reverse proxy, PHP-FPM pour l'exécution, Certbot ou un autre outil pour la gestion des certificats TLS, parfois Varnish pour le cache HTTP. Les stratégies de mise en cache sont abordées en détail dans notre guide sur [la mise en cache appliquée aux applications PHP](/article/tout-savoir-sur-la-mise-en-cache-tips). Chaque service apporte son fichier de configuration, ses logs, ses mécanismes de reload et ses propres modes de défaillance.
 
 ## FrankenPHP : un serveur d'application natif pour PHP
 
@@ -47,7 +47,7 @@ Le mode worker constitue l'apport le plus significatif de FrankenPHP. Dans ce mo
 
 Le gain mesuré est substantiel. Les benchmarks montrent des temps de réponse divisés par trois à cinq par rapport à PHP-FPM sur des applications Symfony ou Laravel. Sur une API REST typique, le temps de traitement passe de 15-20 ms à 3-5 ms par requête, le bootstrap n'étant exécuté qu'une seule fois.
 
-Pour activer le mode worker avec Symfony, l'intégration passe par le composant Runtime :
+FrankenPHP s'intègre particulièrement bien avec Symfony, un framework dont [les atouts pour les projets web](/article/pourquoi-choisir-symfony-pour-vos-projets) se combinent naturellement avec les gains de performance du mode worker. Pour activer le mode worker avec Symfony, l'intégration passe par le composant Runtime :
 
 ```bash
 composer require runtime/frankenphp-symfony
@@ -101,8 +101,6 @@ FrankenPHP représente une évolution architecturale significative pour l'écosy
 
 ## Pour aller plus loin
 
-- [Pourquoi choisir Symfony pour vos projets](/article/pourquoi-choisir-symfony-pour-vos-projets), les atouts du framework pour vos applications web
-- [Tout savoir sur la mise en cache](/article/tout-savoir-sur-la-mise-en-cache-tips), optimiser les performances de vos applications PHP
 - [Retour sur le Forum PHP 2024](/article/retour-sur-le-forum-php-2024), les tendances et nouveautés de l'écosystème PHP
 - [Site officiel de FrankenPHP](https://frankenphp.dev/), documentation, installation et guides de démarrage
 - [PHP 9.0 : ce que vous devez savoir](/article/php-9-0-devoile-ce-que-vous-devez-savoir-avant-la-sortie), les évolutions à venir du langage PHP

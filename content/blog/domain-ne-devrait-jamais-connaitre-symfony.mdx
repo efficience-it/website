@@ -371,11 +371,11 @@ Ajoute-le dans ta CI :
 vendor/bin/deptrac --no-interaction
 ```
 
-C'est un filet de sécurité permanent. L'architecture n'est plus une convention orale, c'est une règle vérifiée à chaque commit.
+C'est un filet de sécurité permanent. L'architecture n'est plus une convention orale, c'est une règle vérifiée à chaque commit. Coupler Deptrac avec des [conventions de codage formalisées](/article/coding-conventions) dans l'équipe renforce encore davantage l'isolation du domaine sur le long terme.
 
 ## Quand ne pas le faire
 
-Cette approche a un coût. Pour un CRUD d'admin avec cinq entités et aucune logique métier, séparer domaine et infrastructure est de l'over-engineering. Le couplage Doctrine n'est un problème que quand il y a de la logique métier à protéger.
+Cette approche a un coût. Pour un CRUD d'admin avec cinq entités et aucune logique métier, séparer domaine et infrastructure est de l'over-engineering. Le couplage Doctrine n'est un problème que quand il y a de la logique métier à protéger. La question de [choisir entre micro-services et monolithe modulaire](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) se pose dans le même esprit : l'architecture doit servir le projet, pas l'inverse.
 
 La règle pragmatique : si ta classe ne fait que stocker et relire des données, une entité Doctrine suffit. Si elle contient des calculs, des validations métier, des transitions d'état, des règles conditionnelles, alors elle mérite un domaine propre.
 
@@ -395,8 +395,6 @@ C'est pour ça que ton domaine ne devrait jamais connaître Symfony. Pas par pur
 
 - [Migration Symfony vers l'architecture hexagonale](/article/migration-symfony-architecture-hexagonale-retour-mission), retour d'expérience concret
 - [Symfony Messenger : colonne vertébrale de l'archi hexagonale](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale), le Command Bus en pratique
-- [Micro-service ou monolithe modulaire ?](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire), choisir la bonne architecture
 - [Prendre int, UUID ou ULID pour un index de base de données](/article/prendre-int-uuid-ou-ulid-pour-un-index-de-base-de-donnees), choisir le bon identifiant pour vos Value Objects de domaine
-- [Conventions de codage](/article/coding-conventions), formaliser les règles qui renforcent l'isolation du domaine dans toute l'équipe
 - [Alistair Cockburn : Hexagonal Architecture](https://alistair.cockburn.us/hexagonal-architecture/), l'article fondateur
 - [Bonnes pratiques Symfony](https://symfony.com/doc/current/best_practices.html), les conventions officielles Symfony

@@ -56,7 +56,7 @@ php vendor/bin/rector process
 
 Le choix et l'ordonnancement des rule sets déterminent la qualité d'une migration. Rector propose plusieurs catégories de sets, chacune avec un périmètre précis :
 
-- `SetList::DEAD_CODE` supprime le code mort : variables inutilisées, conditions toujours vraies, méthodes privées jamais appelées.
+- `SetList::DEAD_CODE` supprime le [code mort](/article/code-mort-mission-elimination) : variables inutilisées, conditions toujours vraies, méthodes privées jamais appelées.
 - `SetList::CODE_QUALITY` simplifie les conditions, élimine les redondances, améliore la lisibilité.
 - `SetList::CODING_STYLE` uniformise le style : ternaires, early returns, conventions d'écriture.
 - `SetList::TYPE_DECLARATION` ajoute les type hints manquants sur les paramètres, retours et propriétés.
@@ -185,7 +185,7 @@ Chaque module migre indépendamment, avec sa propre PR, ses propres tests et sa 
 
 Rector ne peut pas garantir l'équivalence comportementale de toutes les transformations. Les transformations syntaxiques pures (promotion de propriétés dans le constructeur, match expression) sont sûres. Les transformations sémantiques (remplacement de patterns, modification de nommage) exigent une couverture de tests solide et une review humaine.
 
-La stratégie de mitigation repose sur trois piliers : une suite de tests avec un coverage suffisant sur le code transformé, un passage PHPStan au niveau le plus élevé possible avant et après migration, et des PRs suffisamment petites pour qu'un reviewer puisse les analyser en profondeur. Si un de ces piliers manque, ralentir le rythme de migration est la décision responsable.
+La stratégie de mitigation repose sur trois piliers : une suite de tests avec un coverage suffisant sur le code transformé, un passage PHPStan au niveau le plus élevé possible avant et après migration, et des PRs suffisamment petites pour qu'un reviewer puisse les analyser en profondeur. Si un de ces piliers manque, ralentir le rythme de migration est la décision responsable. Pour structurer la démarche d'ensemble, un [guide de migration dans un projet Symfony](/article/guide-de-migration-dans-un-projet-symfony) détaille la méthodologie complète, étape par étape.
 
 ## Conclusion
 
@@ -193,9 +193,7 @@ Rector transforme la maintenance et l'évolution d'une base de code PHP d'un eff
 
 ## Pour aller plus loin
 
-- [Guide de migration dans un projet Symfony](/article/guide-de-migration-dans-un-projet-symfony), méthodologie complète de migration
 - [PHPStan 2.0 : niveau 10 et nouvelles fonctionnalités](/article/phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable), compléter Rector avec l'analyse statique
-- [Éliminer le code mort dans vos projets PHP](/article/code-mort-mission-elimination), nettoyer le code avant de refactorer
 - [Comment PHPStan peut vous aider à améliorer la qualité de votre code PHP](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php), analyse statique en complément du refactoring
 - [La dette technique : faut-il vraiment en avoir peur ?](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur), comprendre la dette que Rector aide à résorber
 - [Documentation officielle Rector](https://getrector.com/documentation), guide complet

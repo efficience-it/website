@@ -13,7 +13,7 @@ Tu utilises Symfony Messenger depuis des mois, peut-être des années. Tu dispat
 
 Quand on parle de Messenger, on pense immédiatement à RabbitMQ, aux workers, aux queues. C'est normal : c'est le cas d'usage le plus visible. Mais Messenger implémente le pattern **Message Bus**, et ça change tout.
 
-Un bus de messages, c'est un médiateur entre celui qui envoie une intention et celui qui la traite. Le sender ne connaît pas le handler. Le handler ne sait pas d'où vient le message. Ce découplage est exactement le fondement d'une architecture hexagonale : le domaine ne dépend de rien, c'est l'infrastructure qui s'adapte.
+Un bus de messages, c'est un médiateur entre celui qui envoie une intention et celui qui la traite. Le sender ne connaît pas le handler. Le handler ne sait pas d'où vient le message. Ce découplage est exactement le fondement d'une architecture hexagonale : [le domaine ne devrait jamais connaître Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony), c'est l'infrastructure qui s'adapte.
 
 Messenger te donne trois choses essentielles :
 
@@ -439,12 +439,10 @@ Si ton handler fait plus de 20 lignes, il y a un problème. Soit il contient de 
 
 Le pattern CQRS/Event-driven avec Messenger est un excellent point de départ pour structurer des applications Symfony maintenables. Si tu veux approfondir le sujet, la [documentation officielle de Symfony Messenger](https://symfony.com/doc/current/messenger.html) est complète et bien structurée, et le [dépôt GitHub du composant](https://github.com/symfony/messenger) permet de lire le code source pour comprendre les internals.
 
-L'architecture hexagonale avec Messenger n'est pas une mode. C'est une approche éprouvée qui rend ton code testable, maintenable et évolutif. Le framework devient un détail d'implémentation. Le domaine reste pur. Et tes collègues te remercieront quand ils ouvriront le projet dans six mois.
+L'architecture hexagonale avec Messenger n'est pas une mode. C'est une approche éprouvée qui rend ton code testable, maintenable et évolutif. Le framework devient un détail d'implémentation. Le domaine reste pur. Et tes collègues te remercieront quand ils ouvriront le projet dans six mois. Si tu pars d'un projet existant et que tu veux adopter cette architecture progressivement, le [retour de mission sur la migration vers l'architecture hexagonale](/article/migration-symfony-architecture-hexagonale-retour-mission) offre une démarche pragmatique issue du terrain.
 
 ## Pour aller plus loin
 
-- [Le domaine ne devrait jamais connaître Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony), les principes d'isolation du domaine
-- [Migration Symfony vers l'architecture hexagonale](/article/migration-symfony-architecture-hexagonale-retour-mission), retour de mission
 - [Symfony Messenger vs PHP-Enqueue](/article/quelles-sont-les-differences-entre-symfony-messenger-php-enqueue-quoi-utiliser), comparatif des bus de messages
 - [Quelle architecture choisir : micro-service ou monolithe modulaire ?](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire), choisir l'architecture qui accueillera vos bus
 - [Tout savoir sur la mise en cache](/article/tout-savoir-sur-la-mise-en-cache-tips), coupler le cache et Messenger pour l'invalidation asynchrone

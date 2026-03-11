@@ -82,7 +82,7 @@ Sur un projet avec des dizaines de endpoints, le temps d'exécution du job Newma
 
 La parallélisation est le plus efficace. L'option `--folder` de Newman permet de cibler un dossier spécifique de la collection. On découpe alors le job unique en plusieurs jobs parallèles, chacun responsable d'un sous-ensemble fonctionnel. GitLab exécute ces jobs simultanément, et le temps total est celui du job le plus long plutôt que la somme de tous.
 
-La mise en cache des dépendances Node.js évite de réinstaller Newman à chaque exécution. Un cache GitLab CI sur le répertoire global npm réduit le `before_script` de 15 secondes à moins de 2.
+La mise en cache des dépendances Node.js évite de réinstaller Newman à chaque exécution. Un cache GitLab CI sur le répertoire global npm réduit le `before_script` de 15 secondes à moins de 2. Les runners GitLab CI fonctionnent souvent dans des conteneurs : [pourquoi Docker est indispensable en production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) explique comment bien configurer cet environnement d'exécution.
 
 Les Pipeline Schedules de GitLab permettent de séparer les exécutions par fréquence. Les tests critiques tournent sur chaque merge request avec `--bail` pour un feedback rapide. La suite complète, plus lente, tourne chaque nuit sur l'environnement de staging via un schedule planifié.
 
@@ -96,7 +96,7 @@ Le reporter `htmlextra` est l'outil de débogage principal : le rapport HTML té
 
 ## Penser l'architecture de test d'API
 
-Newman et Postman résolvent un problème précis : exécuter des tests fonctionnels HTTP contre une API déployée. Cette approche a sa place dans la pyramide de tests, mais il est essentiel de comprendre où elle se situe et ce qu'elle ne couvre pas.
+Newman et Postman résolvent un problème précis : exécuter des tests fonctionnels HTTP contre une API déployée. Pour que ces tests soient fiables, l'API elle-même doit être bien conçue : [les bonnes pratiques REST](/article/api-rest-les-bonnes-pratiques) définissent des contrats stables qui simplifient l'écriture des assertions. Cette approche a sa place dans la pyramide de tests, mais il est essentiel de comprendre où elle se situe et ce qu'elle ne couvre pas.
 
 Les tests Postman/Newman sont des tests d'intégration de bout en bout. Ils traversent le réseau, le serveur web, le framework applicatif, la base de données. Leur force est de valider le comportement réel de l'API telle que le consommateur la perçoit. Leur faiblesse est leur fragilité (dépendance à l'infrastructure, aux données, à la disponibilité des services) et leur lenteur relative.
 
@@ -109,8 +109,6 @@ Quand la suite Postman dépasse une centaine de requêtes, que la maintenance de
 ## Pour aller plus loin
 
 - [Déployer Nuxt.js avec GitLab CI : S3 et CloudFront](/article/deployer-nuxtjs-avec-gitlab-ci-s3-et-cloudfront), un autre cas d'usage de GitLab CI/CD pour le déploiement
-- [Docker en production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui), pourquoi Docker est indispensable pour vos pipelines CI/CD
-- [API REST : les bonnes pratiques](/article/api-rest-les-bonnes-pratiques), concevoir des API robustes et bien documentées avant de les tester
 - [Swagger Nelmio bundle et ses fonctionnalités](/article/swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on), documenter vos API pour faciliter la création de collections de tests
 - [Former vos équipes à la sécurité informatique efficacement](/article/comment-former-vos-equipes-a-la-securite-informatique-en-toute-simplicite), intégrer les tests de sécurité dans vos pipelines CI/CD
 - [Postman](https://www.postman.com/), site officiel de Postman pour le test d'API

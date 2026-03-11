@@ -60,7 +60,7 @@ src/
 │           └── ProductController.php
 ```
 
-Le modèle `Product` dans le domaine n'est plus une entité Doctrine. C'est un objet PHP pur, sans annotation, sans dépendance framework. Il porte la logique métier et rien d'autre.
+Le modèle `Product` dans le domaine n'est plus une entité Doctrine. C'est un objet PHP pur, sans annotation, sans dépendance framework. Il porte la logique métier et rien d'autre. C'est précisément ce que traduit le principe selon lequel [le domaine ne devrait jamais connaître Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony) : la logique métier doit rester ignorante du framework qui l'entoure.
 
 ### Le premier problème : la duplication
 
@@ -261,16 +261,14 @@ On commencerait par les événements domaine avant de toucher à la structure de
 
 On investirait plus tôt dans un ADR (Architecture Decision Record) partagé. Chaque compromis, chaque exception à la règle, devrait être documenté. Six mois plus tard, personne ne se souvient pourquoi tel service a été laissé dans l'ancien code.
 
-Et on poserait PHPStan au niveau max dès le début de la migration. L'analyse statique attrape les violations d'architecture en temps réel. Un use case qui importe une classe Doctrine, c'est une erreur PHPStan avant même d'être une erreur de design.
+Et on poserait [PHPStan au niveau max](/article/phpstan-niveau-max-symfony-10-erreurs) dès le début de la migration. L'analyse statique attrape les violations d'architecture en temps réel. Un use case qui importe une classe Doctrine, c'est une erreur PHPStan avant même d'être une erreur de design.
 
 L'archi hexagonale n'est pas une fin en soi. C'est un outil pour rendre le code métier indépendant de l'infrastructure. Sur un projet Symfony de cette taille, c'est la différence entre une application qu'on subit et une application qu'on maîtrise.
 
 ## Pour aller plus loin
 
-- [Le domaine ne devrait jamais connaître Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony), pourquoi isoler le domaine du framework
 - [Symfony Messenger : colonne vertébrale de l'archi hexagonale](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale), implémenter le CQRS avec Messenger
 - [Guide de migration dans un projet Symfony](/article/guide-de-migration-dans-un-projet-symfony), méthodologie de migration
-- [PHPStan au niveau max sur un projet Symfony](/article/phpstan-niveau-max-symfony-10-erreurs), valider les contraintes d'architecture par l'analyse statique
 - [Quelle architecture choisir entre micro-service ou monolithe modulaire ?](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire), choisir la bonne structure de projet avant d'entamer une migration
 - [Alistair Cockburn : Hexagonal Architecture](https://alistair.cockburn.us/hexagonal-architecture/), l'article fondateur de l'architecture hexagonale
 - [Documentation Symfony Messenger](https://symfony.com/doc/current/messenger.html), guide officiel du composant

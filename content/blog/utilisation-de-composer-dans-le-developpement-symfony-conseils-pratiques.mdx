@@ -98,13 +98,13 @@ Sur un projet mature, le nombre de dépendances croît naturellement. Sans gouve
 
 La première étape consiste à cartographier régulièrement l'arbre de dépendances avec `composer depends` et `composer why-not`. Ces commandes répondent aux questions essentielles : pourquoi tel package est-il installé, et qu'est-ce qui empêche la mise à jour vers telle version. Coupler cette analyse avec `composer outdated` fournit un tableau de bord de la dette technique liée aux dépendances.
 
-Une politique de mise à jour structurée passe par des cycles réguliers : mises à jour de patch en continu, mises à jour mineures mensuelles, mises à jour majeures planifiées avec une analyse d'impact. Automatiser la détection des mises à jour disponibles avec des outils comme Dependabot ou Renovate réduit la charge mentale et maintient le projet à jour sans effort conscient.
+Une politique de mise à jour structurée passe par des cycles réguliers : mises à jour de patch en continu, mises à jour mineures mensuelles, mises à jour majeures planifiées avec une analyse d'impact. Automatiser la détection des mises à jour disponibles avec des outils comme Dependabot ou Renovate réduit la charge mentale et maintient le projet à jour sans effort conscient. Pour les mises à jour majeures de Symfony lui-même, le [guide de migration dans un projet Symfony](/article/guide-de-migration-dans-un-projet-symfony) détaille une méthodologie complète pour gérer ces transitions en toute sécurité.
 
 ### Stratégies monorepo et plugins Composer
 
 Dans les organisations qui maintiennent plusieurs applications Symfony partageant du code commun, la stratégie monorepo mérite d'être considérée. Des outils comme Symplify Monorepo Builder ou le plugin `wikimedia/composer-merge-plugin` permettent de gérer plusieurs `composer.json` au sein d'un même dépôt, avec un mécanisme de split automatique pour publier chaque package indépendamment.
 
-Les plugins Composer étendent le comportement du gestionnaire de dépendances. Symfony Flex en est l'exemple le plus connu, mais d'autres méritent l'attention : `composer-unused` détecte les dépendances déclarées mais jamais importées dans le code, `composer-require-checker` identifie les dépendances utilisées mais non déclarées. Ces outils, intégrés dans le pipeline CI, transforment la gestion des dépendances d'une corvée ponctuelle en un processus continu et fiable.
+Les plugins Composer étendent le comportement du gestionnaire de dépendances. Symfony Flex en est l'exemple le plus connu, mais d'autres méritent l'attention : `composer-unused` détecte les dépendances déclarées mais jamais importées dans le code, `composer-require-checker` identifie les dépendances utilisées mais non déclarées. Ces outils, intégrés dans le pipeline CI, transforment la gestion des dépendances d'une corvée ponctuelle en un processus continu et fiable. Pour avoir une vue d'ensemble des packages couramment installés dans les projets Symfony, consulter la liste des [bundles les plus utilisés dans Symfony](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony) permet de mieux évaluer les dépendances candidates.
 
 ### Sécurité de la chaîne d'approvisionnement
 
@@ -120,8 +120,6 @@ Composer dépasse largement le rôle de simple installateur de packages. Utilis�
 
 ## Pour aller plus loin
 
-- [Les bundles les plus utilisés dans Symfony](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony), découvrir les bundles incontournables installables via Composer
-- [Guide de migration Symfony](/article/guide-de-migration-dans-un-projet-symfony), gérer les mises à jour de dépendances lors d'une migration
 - [Les PSRs et à quoi servent-ils](/article/qu-est-ce-que-les-psrs-et-a-quoi-servent-ils), comprendre les standards PHP que Composer aide à respecter
 - [Composer Documentation](https://getcomposer.org/doc/), documentation officielle de Composer
 - [Packagist](https://packagist.org/), le répertoire principal des packages PHP

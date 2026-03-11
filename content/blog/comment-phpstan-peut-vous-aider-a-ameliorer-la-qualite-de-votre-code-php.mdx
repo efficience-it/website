@@ -114,7 +114,7 @@ Un réflexe utile : intégrez dans votre CI un check qui compte les entrées de 
 
 ## Intégration CI et workflow d'équipe
 
-PHPStan prend toute sa valeur dans un pipeline d'intégration continue. Dans un `.gitlab-ci.yml` :
+PHPStan prend toute sa valeur dans un pipeline d'intégration continue. Il s'intègre naturellement aux côtés de PHP-CS-Fixer et des [conventions de codage PHP](/article/coding-conventions) pour former un pipeline de qualité complet. Dans un `.gitlab-ci.yml` :
 
 ```yaml
 phpstan:
@@ -231,12 +231,10 @@ Les conditional return types (`@return ($flag is true ? Foo : Bar)`) et les asse
 
 ## PHPStan comme philosophie de design
 
-Au-delà de l'outil, adopter PHPStan au niveau max transforme la façon de concevoir du code. L'obligation de satisfaire l'analyseur pousse vers des designs plus explicites : moins de `mixed`, moins de magie, des contrats clairs entre les couches. Le code devient sa propre documentation.
+Au-delà de l'outil, adopter PHPStan au niveau max transforme la façon de concevoir du code. L'obligation de satisfaire l'analyseur pousse vers des designs plus explicites : moins de `mixed`, moins de magie, des contrats clairs entre les couches. Le code devient sa propre documentation. Pour découvrir les erreurs concrètes les plus fréquentes à ce niveau, l'article sur [les 10 erreurs PHPStan niveau max sur un projet Symfony](/article/phpstan-niveau-max-symfony-10-erreurs) fournit des exemples et des corrections directement applicables.
 
 Un architecte qui configure PHPStan avec des règles custom, des generics et un niveau 9 ne cherche pas à satisfaire un outil. Il encode les invariants de son système dans un vérificateur automatique qui tourne à chaque commit. C'est de la gouvernance technique exécutable.
 
 ## Pour aller plus loin
 
-- [Les 10 erreurs PHPStan niveau max sur Symfony](/article/phpstan-niveau-max-symfony-10-erreurs), erreurs concrètes et corrections
 - [PHPStan 2.0 : niveau 10 et nouvelles fonctionnalités](/article/phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable), les nouveautés de la version 2.0
-- [Les conventions de codage](/article/coding-conventions), standards et bonnes pratiques complémentaires

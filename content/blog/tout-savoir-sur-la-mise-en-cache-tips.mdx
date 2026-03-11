@@ -11,7 +11,7 @@ image: "/images/blog/mise-en-cache.webp"
 
 Chaque requête HTTP non mise en cache impose un aller-retour complet entre le client et le serveur : résolution DNS, négociation TLS, traitement applicatif, lecture en base de données, sérialisation de la réponse. Sur une application qui traite plusieurs milliers de requêtes par seconde, chacune de ces étapes représente un coût cumulé considérable en latence, en consommation CPU et en bande passante.
 
-La mise en cache consiste à stocker temporairement le résultat d'un traitement coûteux afin de le restituer directement lors des requêtes suivantes, sans recalcul ni retransmission. Qu'il s'agisse du cache navigateur, d'un proxy intermédiaire ou d'un CDN, le principe fondamental reste identique : servir une copie locale plutôt que solliciter l'origine. Un site correctement configuré peut diviser ses temps de réponse par deux, voire davantage, tout en réduisant significativement la charge sur son infrastructure.
+La mise en cache consiste à stocker temporairement le résultat d'un traitement coûteux afin de le restituer directement lors des requêtes suivantes, sans recalcul ni retransmission. Qu'il s'agisse du cache navigateur, d'un proxy intermédiaire ou d'un CDN, le principe fondamental reste identique : servir une copie locale plutôt que solliciter l'origine. Un site correctement configuré peut diviser ses temps de réponse par deux, voire davantage, tout en réduisant significativement la charge sur son infrastructure. L'utilisation du cache HTTP fait d'ailleurs partie des [bonnes pratiques des API REST](/article/api-rest-les-bonnes-pratiques) que tout projet exposant des endpoints publics devrait appliquer.
 
 ## Les couches de cache dans une architecture web
 
@@ -85,7 +85,7 @@ Plusieurs stratégies permettent de s'en prémunir. Le verrouillage probabiliste
 
 Dans un système distribué, invalider une entrée de cache n'est pas une opération atomique. Un changement en base de données doit se propager au cache applicatif, puis au reverse proxy, puis au CDN. Chaque étape introduit un délai pendant lequel différentes couches servent des versions potentiellement incohérentes.
 
-Pour maîtriser cette propagation, il est recommandé d'adopter un modèle événementiel : chaque mutation publie un événement qui déclenche l'invalidation à chaque couche, permettant une propagation ordonnée et traçable. Symfony Messenger, combiné à un bus de messages asynchrone, constitue un excellent support pour implémenter ce patron.
+Pour maîtriser cette propagation, il est recommandé d'adopter un modèle événementiel : chaque mutation publie un événement qui déclenche l'invalidation à chaque couche, permettant une propagation ordonnée et traçable. [Symfony Messenger](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale), combiné à un bus de messages asynchrone, constitue un excellent support pour implémenter ce patron.
 
 ### Stale-while-revalidate et stale-if-error
 
@@ -99,10 +99,8 @@ Varnish expose ses statistiques via `varnishstat`, et les CDN fournissent des ta
 
 ## Pour aller plus loin
 
-- [API REST : les bonnes pratiques](/article/api-rest-les-bonnes-pratiques), utiliser le cache HTTP pour optimiser vos API
 - [Pourquoi Docker est indispensable en production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui), déployer des caches et des CDN avec Docker
 - [Les bundles les plus utilisés dans Symfony](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony), découvrir les bundles de cache et de performance
-- [Symfony Messenger : colonne vertébrale de l'archi hexagonale](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale), gérer l'invalidation de cache de façon asynchrone avec Messenger
 - [Déployer NuxtJS avec GitLab CI, S3 et CloudFront](/article/deployer-nuxtjs-avec-gitlab-ci-s3-et-cloudfront), mettre en place un CDN pour vos assets front-end
 - [Symfony HTTP Cache](https://symfony.com/doc/current/http_cache.html), documentation officielle du cache HTTP dans Symfony
 - [MDN Web Docs : HTTP Caching](https://developer.mozilla.org/fr/docs/Web/HTTP/Caching), référence complète sur la mise en cache HTTP

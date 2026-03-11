@@ -15,7 +15,7 @@ Un entier auto-incrémenté reste le choix par défaut de la majorité des proje
 
 L'auto-incrémentation garantit des insertions séquentielles. Chaque nouvelle ligne s'ajoute à la fin de la dernière page de l'index clusterisé. Il n'y a ni page split, ni réorganisation de l'arbre. Sur MySQL InnoDB, où la clé primaire est aussi l'index clusterisé, c'est le scénario optimal pour les écritures.
 
-Les limites apparaissent quand le projet grandit. Un INT non signé plafonne à 4,3 milliards de lignes, et la migration vers BIGINT sur une table volumineuse verrouille la table pendant de longues minutes. L'identifiant séquentiel expose aussi le volume de données : un `GET /api/users/42` révèle qu'il y a au moins 42 utilisateurs, et un attaquant peut énumérer les ressources par simple incrémentation.
+Les limites apparaissent quand le projet grandit. Un INT non signé plafonne à 4,3 milliards de lignes, et [arriver au max des ID INT](/article/arrives-au-max-des-id-int-2147483647) oblige à migrer vers BIGINT, une opération qui verrouille la table pendant de longues minutes sur une table volumineuse. L'identifiant séquentiel expose aussi le volume de données : un `GET /api/users/42` révèle qu'il y a au moins 42 utilisateurs, et un attaquant peut énumérer les ressources par simple incrémentation.
 
 Le point le plus structurant concerne l'architecture : l'identifiant ne peut être généré qu'au moment de l'insertion, par le SGBD. Impossible de créer un identifiant côté applicatif avant le flush, ce qui pose problème dans les architectures événementielles où un agrégat doit connaître son identité dès sa construction.
 
@@ -56,7 +56,7 @@ Le coût structurel reste constant quelle que soit la version : 16 octets par cl
 private ?Uuid $id;
 ```
 
-Le composant Symfony Uid fournit le type Doctrine `uuid` et le générateur associé. Le stockage se fait en binaire (16 octets) via `BINARY(16)`, jamais en `VARCHAR(36)` qui doublerait l'espace et dégraderait les comparaisons.
+Le composant Symfony Uid fournit le type Doctrine `uuid` et le générateur associé. Le stockage se fait en binaire (16 octets) via `BINARY(16)`, jamais en `VARCHAR(36)` qui doublerait l'espace et dégraderait les comparaisons. [Doctrine ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) a par ailleurs amélioré la gestion des types personnalisés, dont les UUID et ULID.
 
 ## ULID : le compromis monotone
 
@@ -147,8 +147,6 @@ La migration reste toujours possible. L'essentiel est de choisir en connaissance
 
 ## Pour aller plus loin
 
-- [Arrivés au max des ID INT (2 147 483 647)](/article/arrives-au-max-des-id-int-2147483647), comment migrer vers BIGINT quand on atteint la limite
-- [Doctrine ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees), les nouveautés de Doctrine pour la gestion des bases de données
 - [Symfony pour les moldus](/article/symfony-pour-les-moldus), découvrir les fondamentaux du framework Symfony
 - [Quelle architecture choisir entre micro-service ou monolithe modulaire ?](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire), comprendre comment le choix d'identifiant influence les architectures distribuées
 - [Migration Symfony vers l'architecture hexagonale](/article/migration-symfony-architecture-hexagonale-retour-mission), voir comment les identifiants applicatifs s'imposent en architecture hexagonale

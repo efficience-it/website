@@ -9,7 +9,7 @@ image: "/images/blog/phpstan-symfony.svg"
 
 Tu viens de monter PHPStan au niveau 10 sur ton projet Symfony. Le terminal affiche 847 erreurs. Tu refermes le couvercle de ton laptop et tu te demandes si c'était une bonne idée.
 
-Bonne nouvelle : c'en était une. Ces erreurs ne sont pas du bruit. Elles pointent vers de vrais problèmes que tu traînes depuis des mois, parfois des années. Après avoir accompagné une dizaine d'équipes dans cette montée en niveau, les mêmes patterns reviennent systématiquement.
+Bonne nouvelle : c'en était une. Ces erreurs ne sont pas du bruit. Elles pointent vers de vrais problèmes que tu traînes depuis des mois, parfois des années. Si tu débutes avec PHPStan, commence par lire [comment PHPStan peut améliorer la qualité de votre code PHP](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) avant d'aller plus loin. Après avoir accompagné une dizaine d'équipes dans cette montée en niveau, les mêmes patterns reviennent systématiquement.
 
 Voici les 10 erreurs que tu vas trouver, et surtout comment les corriger sans y passer trois sprints.
 
@@ -279,7 +279,7 @@ $names = array_map(fn (User $user): string => $user->getName(), $users);
 
 ## La stratégie pour monter progressivement
 
-Ne passe pas du niveau 0 au niveau 10 en un commit. Voici une approche qui fonctionne :
+Ne passe pas du niveau 0 au niveau 10 en un commit. Si tu utilises [PHPStan 2.0](/article/phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable), les nouvelles vérifications du niveau 10 sont encore plus nombreuses. Voici une approche qui fonctionne :
 
 ### Utilise la baseline
 
@@ -313,8 +313,6 @@ PHPStan au niveau max n'est pas un caprice de perfectionniste. C'est un filet de
 
 ## Pour aller plus loin
 
-- [PHPStan 2.0 : niveau 10 et nouvelles fonctionnalités](/article/phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable), les nouveautés de la version 2.0
-- [Comment PHPStan peut améliorer la qualité de votre code PHP](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php), guide d'introduction à PHPStan
 - [Éliminer le code mort dans vos projets PHP](/article/code-mort-mission-elimination), détecter et supprimer le code inutilisé avec PHPStan
 - [Rector : maîtrisez l'évolution de votre code Symfony](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony), automatiser les migrations de code en complément de PHPStan
 - [Migration Symfony vers l'architecture hexagonale](/article/migration-symfony-architecture-hexagonale-retour-mission), appliquer PHPStan pour valider les contraintes d'architecture lors d'une migration

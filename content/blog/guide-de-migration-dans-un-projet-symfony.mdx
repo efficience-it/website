@@ -41,7 +41,7 @@ Les bundles abandonnés représentent le risque principal. Un bundle sans mise �
 
 ### Rector : le levier de productivité
 
-Rector applique des règles de transformation de code automatisées. Pour une migration Symfony, le set `symfony` de Rector réécrit les appels dépréciés, met à jour les signatures de méthodes et adapte les configurations. Sur un projet de taille moyenne, Rector automatise entre 60 et 80 % des modifications nécessaires.
+[Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) applique des règles de transformation de code automatisées. Pour une migration Symfony, le set `symfony` de Rector réécrit les appels dépréciés, met à jour les signatures de méthodes et adapte les configurations. Sur un projet de taille moyenne, Rector automatise entre 60 et 80 % des modifications nécessaires.
 
 L'approche recommandée consiste à exécuter Rector set par set, pas tout d'un bloc. Lancez d'abord les règles de renommage de classes, validez avec la suite de tests, commitez. Puis les règles de configuration, validez, commitez. Cette granularité isole chaque catégorie de changement et simplifie le debug en cas de régression.
 
@@ -49,7 +49,7 @@ Rector ne remplace pas la compréhension du changement. Certaines transformation
 
 ### PHPStan : le filet de sécurité statique
 
-PHPStan au niveau 6 minimum détecte les incompatibilités de types, les appels à des méthodes supprimées et les erreurs d'interface. Après chaque passe de Rector, lancez PHPStan pour attraper ce que l'outil de transformation a manqué ou mal transformé.
+[PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) au niveau 6 minimum détecte les incompatibilités de types, les appels à des méthodes supprimées et les erreurs d'interface. Après chaque passe de Rector, lancez PHPStan pour attraper ce que l'outil de transformation a manqué ou mal transformé.
 
 L'extension `phpstan-symfony` apporte la connaissance du conteneur de services au moteur d'analyse. Elle détecte les services mal typés, les paramètres manquants et les routes invalides. Cette extension devient particulièrement précieuse lors d'une migration où la configuration du conteneur évolue.
 
@@ -105,8 +105,6 @@ Communiquez un calendrier réaliste aux parties prenantes. Une migration majeure
 
 ## Pour aller plus loin
 
-- [Rector et ses pouvoirs](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony), automatiser les transformations de code lors d'une migration
-- [PHPStan : améliorer la qualité du code PHP](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php), détecter les erreurs statiques avant de migrer
 - [La dette technique](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur), comprendre et gérer la dette technique accumulée entre les versions
 - [Migration Symfony vers l'architecture hexagonale : retour de mission](/article/migration-symfony-architecture-hexagonale-retour-mission), aller plus loin en restructurant l'architecture lors de la migration
 - [Découvrez les raisons de nous confier la maintenance de vos applications web](/article/decouvrez-les-raisons-de-nous-confier-la-maintenance-de-vos-applications-web), maintenir le projet à jour après la migration pour éviter d'accumuler à nouveau du retard

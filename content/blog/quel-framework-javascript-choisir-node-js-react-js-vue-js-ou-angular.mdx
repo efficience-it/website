@@ -21,7 +21,7 @@ Node.js repose sur un modèle d'entrées/sorties non bloquant et événementiel.
 
 L'écosystème NPM, avec plusieurs millions de packages, constitue à la fois sa force et un risque. La facilité d'intégration de dépendances accélère le développement, mais impose une discipline rigoureuse dans l'audit des packages, la gestion des versions et la surveillance des vulnérabilités dans l'arbre de dépendances.
 
-Node.js sert aussi de socle aux meta-frameworks front-end. Next.js, Nuxt et Angular Universal s'appuient tous sur lui pour le rendu côté serveur. Maîtriser Node.js, c'est comprendre la couche d'exécution commune à l'ensemble de l'écosystème JavaScript moderne.
+Node.js sert aussi de socle aux meta-frameworks front-end. Next.js, Nuxt et Angular Universal s'appuient tous sur lui pour le rendu côté serveur. Maîtriser Node.js, c'est comprendre la couche d'exécution commune à l'ensemble de l'écosystème JavaScript moderne. Ces frameworks consomment des API backend, et le choix entre [REST et GraphQL](/article/que-vaut-rest-face-a-son-nouveau-challenger-graphql) influence directement la façon dont le front-end interroge le serveur.
 
 ## React : flexibilité maximale, responsabilité maximale
 
@@ -44,7 +44,7 @@ La gestion d'état dans l'écosystème React a connu plusieurs générations : R
 
 ## Vue.js : la progressivité comme philosophie
 
-Vue.js adopte une approche progressivement adoptable. On peut l'intégrer dans une page existante via un simple tag script, puis monter en puissance vers une SPA complète avec routeur, store et rendu serveur via Nuxt. Cette progressivité n'est pas un compromis : c'est une décision architecturale qui réduit le coût d'entrée sans sacrifier les capacités avancées.
+Vue.js adopte une approche progressivement adoptable. On peut l'intégrer dans une page existante via un simple tag script, puis monter en puissance vers une SPA complète avec routeur, store et rendu serveur via Nuxt. Pour aller plus loin sur les applications web modernes, notre article sur l'[amélioration de l'expérience utilisateur avec le manifeste des applications web](/article/ameliorer-lexperience-utilisateur-grace-au-manifeste-des-applications-web) couvre la transformation de ces SPA en PWA installables. Cette progressivité n'est pas un compromis : c'est une décision architecturale qui réduit le coût d'entrée sans sacrifier les capacités avancées.
 
 Le système de réactivité de Vue 3, basé sur les Proxies JavaScript, offre un tracking granulaire des dépendances. Contrairement au modèle de réconciliation de React qui compare des arbres entiers, Vue sait précisément quels composants doivent être mis à jour lorsqu'une donnée change. Sur les interfaces avec de nombreux composants, cette granularité se traduit par des performances de re-rendering supérieures sans optimisation manuelle.
 
@@ -90,9 +90,7 @@ La vraie question n'est pas quel framework est le meilleur, mais quel framework 
 
 ## Pour aller plus loin
 
-- [Que vaut REST face à GraphQL ?](/article/que-vaut-rest-face-a-son-nouveau-challenger-graphql), Comparer les architectures API pour vos applications JavaScript
 - [Quel éditeur de code choisir ?](/article/phpstorm-vscode-sublimetext-netbeans-quel-editeur-de-code-choisir), Sélectionner l'éditeur adapté à votre workflow de développement
-- [Améliorer l'expérience utilisateur avec le manifeste des applications web](/article/ameliorer-lexperience-utilisateur-grace-au-manifeste-des-applications-web), Transformer vos applications web en PWA installables
 - [Déployer Nuxt.js avec GitLab CI : S3 et CloudFront](/article/deployer-nuxtjs-avec-gitlab-ci-s3-et-cloudfront), Mettre en production un projet Vue/Nuxt avec un pipeline CI/CD automatisé
 - [Les normes RGAA : accessibilité pour tous](/article/normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous), Intégrer les exigences d'accessibilité dans vos applications front-end
 - [React](https://react.dev/), Documentation officielle de React par Meta

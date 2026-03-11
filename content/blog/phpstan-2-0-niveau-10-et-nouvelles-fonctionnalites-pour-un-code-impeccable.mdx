@@ -7,7 +7,7 @@ excerpt: "PHPStan 2.0 introduit le niveau 10 pour une analyse statique PHP encor
 image: "/images/blog/phpstan-2.png"
 ---
 
-PHPStan 2.0 marque un tournant dans l'analyse statique PHP. Au-delà des gains de performance et du nouveau niveau 10, cette version transforme la manière dont on conçoit, documente et sécurise une base de code. Que vous cherchiez à migrer depuis la 1.x ou à comprendre comment le système de types peut porter vos décisions d'architecture, cet article couvre l'essentiel.
+PHPStan 2.0 marque un tournant dans l'analyse statique PHP. Au-delà des gains de performance et du nouveau niveau 10, cette version transforme la manière dont on conçoit, documente et sécurise une base de code. Que vous cherchiez à migrer depuis la 1.x ou à comprendre comment le système de types peut porter vos décisions d'architecture, cet article couvre l'essentiel. Pour aller directement dans le concret, les [10 erreurs PHPStan niveau max sur un projet Symfony](/article/phpstan-niveau-max-symfony-10-erreurs) illustrent les cas les plus fréquents.
 
 ## Ce que le niveau 10 change concrètement
 
@@ -86,7 +86,7 @@ Sur un projet legacy de plusieurs centaines de milliers de lignes, activer le ni
 phpstan analyse --generate-baseline
 ```
 
-Cette commande génère un fichier `phpstan-baseline.neon` qui recense toutes les erreurs existantes. PHPStan ne les signale plus dans les analyses suivantes, mais toute nouvelle erreur est détectée immédiatement. La stratégie recommandée consiste à réduire cette baseline progressivement, module par module, en commençant par les couches les plus critiques (domaine métier, services partagés).
+Cette commande génère un fichier `phpstan-baseline.neon` qui recense toutes les erreurs existantes. PHPStan ne les signale plus dans les analyses suivantes, mais toute nouvelle erreur est détectée immédiatement. La stratégie recommandée consiste à réduire cette baseline progressivement, module par module, en commençant par les couches les plus critiques (domaine métier, services partagés). Pour accélérer ce travail de refactoring, [Rector automatise les transformations répétitives](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) et s'intègre naturellement dans ce processus.
 
 Les options de configuration dépréciées depuis la 1.x sont supprimées. Si votre `phpstan.neon` utilise des clés obsolètes, PHPStan affichera un message clair indiquant la syntaxe de remplacement.
 
@@ -186,9 +186,7 @@ Imposer le niveau 10 sur l'ensemble d'un projet revient à dire : chaque interac
 
 ## Pour aller plus loin
 
-- [Les 10 erreurs PHPStan niveau max sur Symfony](/article/phpstan-niveau-max-symfony-10-erreurs), cas concrets et solutions
 - [Comment PHPStan peut améliorer la qualité de votre code PHP](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php), guide d'introduction
-- [Rector : maîtrisez l'évolution de votre code Symfony](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony), automatiser le refactoring
 - [Blog officiel PHPStan : annonce de la version 2.0](https://phpstan.org/blog/phpstan-2-0-released-level-10-elephpants), détails complets de la release
 - [PHPStan sur GitHub](https://github.com/phpstan/phpstan), code source et issues
 - [PHP 8.4 : nouvelles fonctionnalités](https://www.php.net/releases/8.4/en.php), la version PHP supportée par PHPStan 2.0

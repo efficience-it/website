@@ -63,7 +63,7 @@ Le réflexe de l'équipe : ajouter l'appel IA dans le contrôleur existant de cl
 
 ### La solution : un port dans le domaine
 
-On a traité l'IA comme n'importe quelle dépendance d'infrastructure. Une interface dans le domaine, une implémentation dans l'infra :
+On a traité l'IA comme n'importe quelle dépendance d'infrastructure, en appliquant le principe selon lequel [le domaine ne devrait jamais connaître Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony). Une interface dans le domaine, une implémentation dans l'infra :
 
 ```php
 namespace App\Classification\Domain\Port;
@@ -203,6 +203,8 @@ On a ajouté trois garde-fous :
 - **Cache de résultats** : un document identique (même hash) retourne le résultat en cache via Symfony Cache.
 - **Budget quotidien** : un compteur coupe les appels IA au-delà d'un seuil. Les documents passent en classement manuel.
 
+Ce projet nous a également ouvert des pistes pour aller plus loin : indexer notre base documentaire dans un vector store afin d'interroger les données métier par similarité sémantique, selon le pattern [RAG avec Symfony AI et Doctrine](/article/rag-symfony-ai-doctrine-indexer-base-metier).
+
 ## Le streaming : plus compliqué qu'il n'y paraît
 
 Symfony AI supporte le streaming des réponses. Sur un projet greenfield avec Mercure, c'est élégant. Sur notre legacy avec des réponses JSON synchrones, c'est un casse-tête.
@@ -264,9 +266,7 @@ Le conseil le plus utile que je peux donner : traite l'IA comme une dépendance 
 
 ## Pour aller plus loin
 
-- [RAG avec Symfony AI et Doctrine](/article/rag-symfony-ai-doctrine-indexer-base-metier), indexer et interroger sa base métier
 - [Claude comme assistant d'architecture Symfony](/article/claude-assistant-architecture-symfony-legacy), configurer CLAUDE.md sur un legacy
-- [Le domaine ne devrait jamais connaître Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony), isoler le domaine avant d'intégrer l'IA
 - [Migration Symfony vers l'architecture hexagonale](/article/migration-symfony-architecture-hexagonale-retour-mission), structurer un legacy avant d'y greffer de l'IA
 - [Symfony Messenger : colonne vertébrale de l'archi hexagonale](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale), dispatcher les tâches IA de manière asynchrone
 - [Documentation Symfony AI](https://symfony.com/doc/current/ai.html), guide officiel du composant

@@ -13,7 +13,7 @@ Le véritable enjeu n'est pas de cocher une case conformité. C'est de transform
 
 ## Comprendre le paysage des menaces applicatives
 
-Avant de former, il faut aligner les équipes sur un référentiel commun. L'OWASP Top 10 reste le point d'entrée incontournable : injection, authentification défaillante, exposition de données sensibles, XXE, contrôle d'accès cassé, mauvaise configuration, XSS, désérialisation non sécurisée, composants vulnérables, journalisation insuffisante.
+Avant de former, il faut aligner les équipes sur un référentiel commun. L'OWASP Top 10 reste le point d'entrée incontournable : injection, authentification défaillante, exposition de données sensibles, XXE, contrôle d'accès cassé, mauvaise configuration, XSS, désérialisation non sécurisée, composants vulnérables, journalisation insuffisante. Ces catégories correspondent souvent à des [CVE publiées sur des bibliothèques connues](/article/cve-comprendre-les-failles-pour-mieux-se-proteger), qu'il est utile de savoir interpréter pour contextualiser la menace.
 
 Chaque développeur devrait être capable de reconnaître ces catégories de vulnérabilités dans le code qu'il produit. Ce n'est pas un savoir théorique : c'est la base de lecture critique que tout professionnel du développement doit posséder pour évaluer la surface d'attaque d'une fonctionnalité qu'il implémente.
 
@@ -57,7 +57,7 @@ La supply chain est devenue un vecteur d'attaque majeur. Composer Audit, npm aud
 
 ### Le programme Security Champions
 
-La sécurité ne peut pas reposer uniquement sur une équipe dédiée. Le modèle des Security Champions consiste à identifier dans chaque équipe de développement un référent volontaire, formé en continu sur les pratiques de sécurité, qui devient le relais entre l'équipe sécurité et l'équipe produit.
+La sécurité ne peut pas reposer uniquement sur une équipe dédiée. Le modèle des Security Champions consiste à identifier dans chaque équipe de développement un référent volontaire, formé en continu sur les pratiques de sécurité, qui devient le relais entre l'équipe sécurité et l'équipe produit. Pour amorcer cette culture de manière ludique, [le Chocoblast illustre comment la gamification peut rendre la sensibilisation à la sécurité plus engageante](/article/le-chocoblast-un-premier-pas-vers-la-securite-par-le-jeu).
 
 Ce référent participe aux revues de code avec un regard orienté sécurité, remonte les préoccupations architecturales, et maintient le niveau de conscience de l'équipe. Le programme fonctionne quand il est soutenu par du temps dédié (au moins une demi-journée par semaine), une communauté de pratique entre champions, et une reconnaissance explicite de ce rôle dans l'évolution de carrière.
 
@@ -103,9 +103,7 @@ L'erreur la plus fréquente est de traiter la sécurité comme un sujet à part,
 
 ## Pour aller plus loin
 
-- [CVE : comprendre les failles pour mieux se protéger](/article/cve-comprendre-les-failles-pour-mieux-se-proteger), comprendre les vulnérabilités
 - [DbToolsBundle : anonymiser vos bases de données](/article/dbtoolsbundle-anonymiser-vos-bases-de-donnees), sécuriser les données de dev
-- [Le Chocoblast : un premier pas vers la sécurité par le jeu](/article/le-chocoblast-un-premier-pas-vers-la-securite-par-le-jeu), gamifier la sensibilisation
 - [Comment PHPStan peut améliorer la qualité de votre code PHP](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php), détecter automatiquement les erreurs de typage et les vulnérabilités potentielles
 - [Normes RGAA : une expérience utilisateur réussie pour tous](/article/normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous), intégrer conformité et accessibilité dans la démarche qualité globale
 - [ANSSI : SecNumacadémie](https://secnumacademie.gouv.fr/), MOOC gratuit sur la cybersécurité

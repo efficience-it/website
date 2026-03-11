@@ -23,7 +23,7 @@ La prévisibilité de REST constitue son premier atout. Un endpoint retourne tou
 
 La mise en cache HTTP fonctionne nativement grâce aux headers standards (`Cache-Control`, `ETag`, `Last-Modified`). Un reverse proxy ou un CDN peut mettre en cache les réponses GET sans configuration applicative. Pour des API à fort trafic, cet avantage se traduit directement en économies d'infrastructure.
 
-L'écosystème est par ailleurs extrêmement mature. Des outils comme Swagger (OpenAPI) génèrent automatiquement documentation interactive, SDK clients et tests de conformité. La plupart des frameworks backend proposent un support natif pour la création d'API REST.
+L'écosystème est par ailleurs extrêmement mature. Des outils comme [Swagger via NelmioApiDocBundle](/article/swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on) génèrent automatiquement documentation interactive, SDK clients et tests de conformité. La plupart des frameworks backend proposent un support natif pour la création d'API REST.
 
 ### Limites connues
 
@@ -93,7 +93,7 @@ Pour une équipe de cinq développeurs, la question est rarement pertinente. Pou
 
 ## Pour conclure
 
-REST et GraphQL ne sont pas des technologies concurrentes mais complémentaires. REST reste le choix le plus naturel pour les API simples, orientées CRUD, où la mise en cache HTTP et la standardisation apportent une valeur immédiate. GraphQL excelle dans les contextes où les données sont fortement interconnectées, où les clients ont des besoins hétérogènes, et où la flexibilité de requêtage réduit la prolifération d'endpoints spécialisés.
+REST et GraphQL ne sont pas des technologies concurrentes mais complémentaires. REST reste le choix le plus naturel pour les API simples, orientées CRUD, où la mise en cache HTTP et la standardisation apportent une valeur immédiate. Pour approfondir les bonnes pratiques de conception REST, notre article sur [les bonnes pratiques des API REST](/article/api-rest-les-bonnes-pratiques) couvre les patterns essentiels. GraphQL excelle dans les contextes où les données sont fortement interconnectées, où les clients ont des besoins hétérogènes, et où la flexibilité de requêtage réduit la prolifération d'endpoints spécialisés.
 
 Les architectures les plus robustes combinent souvent les deux : des API REST pour les opérations bien définies et les services internes, un endpoint GraphQL en façade pour les clients ayant besoin d'agrégation et de souplesse. Le critère de décision n'est pas la modernité de la technologie, mais l'adéquation entre les contraintes du système, les compétences de l'équipe et les besoins réels des clients de l'API.
 
@@ -101,8 +101,6 @@ Chez Efficience IT, nous l'avons très bien compris et elles font partie intégr
 
 ## Pour aller plus loin
 
-- [API REST : les bonnes pratiques](/article/api-rest-les-bonnes-pratiques), Concevoir des API REST robustes et maintenables
-- [Swagger : NelmioBundle et ses fonctionnalités](/article/swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on), Documenter vos API avec Swagger et NelmioApiDocBundle
 - [Quel framework JavaScript choisir ?](/article/quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular), Choisir le bon framework front-end pour consommer vos API
 - [Migrer du Serializer vers JsonStreamer](/article/migrer-du-serializer-vers-json-streamer-le-guide-honnete), Optimiser la sérialisation JSON de vos réponses d'API
 - [Quelle architecture choisir entre micro-service ou monolithe modulaire ?](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire), Comprendre comment l'architecture influence la conception de vos API
