@@ -314,12 +314,12 @@ export default function FormationSymfonyEntreprise() {
               </p>
               <p>
                 Le module API Platform est particulierement plebe pour les equipes qui doivent
-                ensuite mettre en pratique leurs acquis sur un vrai projet d&apos;
+                ensuite mettre en pratique leurs acquis sur un vrai projet de{" "}
                 <Link
-                  href="/developpement-web-sur-mesure"
+                  href="/api-sur-mesure-symfony"
                   className="text-primary hover:underline"
                 >
-                  API sur mesure avec Symfony
+                  developpement d&apos;API avec Symfony
                 </Link>
                 .
               </p>

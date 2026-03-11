@@ -301,7 +301,16 @@ export default function DeveloppementNodejs() {
                 bonnes pratiques REST
               </Link>{" "}
               : nommage coherent, codes HTTP semantiques, pagination, gestion
-              des erreurs et documentation OpenAPI generee depuis le code.
+              des erreurs et documentation OpenAPI generee depuis le code. Pour
+              les projets qui necessitent une architecture d&apos;entreprise
+              poussee, nous intervenons en priorite via nos{" "}
+              <Link
+                href="/api-nodejs-nestjs"
+                className="text-primary hover:underline"
+              >
+                API avec NestJS
+              </Link>
+              .
             </p>
           </Container>
         </section>
