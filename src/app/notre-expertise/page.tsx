@@ -116,7 +116,7 @@ export default function NotreExpertise() {
                   size="sm"
                   className="mt-4"
                 >
-                  En savoir plus &rarr;
+                  Découvrir {service.title} &rarr;
                 </Button>
               </Card>
             ))}
