@@ -46,7 +46,7 @@ class Order
 
 Cette classe dépend de trois composants Symfony/Doctrine. Si tu veux tester `calculateTotal()`, tu dois charger l'ORM. Si tu veux réutiliser cette logique dans un contexte non-Symfony (une commande CLI, un worker, un autre projet), tu traînes tout le framework avec toi.
 
-Le principe fondamental de [l'architecture hexagonale](https://alistair.cockburn.us/hexagonal-architecture/) tient en une phrase : le domaine est au centre, et il ne dépend de rien.
+Le principe fondamental de l'architecture hexagonale tient en une phrase : le domaine est au centre, et il ne dépend de rien.
 
 ## Le test décisif
 
@@ -99,7 +99,7 @@ Le modèle découplé est un objet PHP pur. Il ne sait pas comment il sera stock
 
 ### 2. Les contraintes de validation Symfony
 
-[Le composant Validator de Symfony](https://symfony.com/doc/current/validation.html) est puissant, mais il n'a rien à faire dans le domaine.
+Le composant Validator de Symfony est puissant, mais il n'a rien à faire dans le domaine.
 
 ```php
 // Couplé
@@ -129,7 +129,7 @@ class Email
 }
 ```
 
-La validation dans le domaine est native. Le [Value Object](https://martinfowler.com/bliki/ValueObject.html) garantit sa propre cohérence à la construction. Pas besoin d'un framework de validation pour ça. Un `Email` invalide ne peut tout simplement pas exister.
+La validation dans le domaine est native. Le Value Object garantit sa propre cohérence à la construction. Pas besoin d'un framework de validation pour ça. Un `Email` invalide ne peut tout simplement pas exister.
 
 La validation Symfony reste utile pour valider les entrées HTTP (formulaires, requêtes API) dans la couche infrastructure. Mais c'est une validation de format, pas une validation métier.
 
@@ -202,7 +202,7 @@ class OrderValidated extends Event
 }
 ```
 
-Ton événement domaine hérite d'une classe Symfony. Si demain tu passes sur [Laravel](https://laravel.com/) ou un autre framework, tu dois réécrire tous tes événements.
+Ton événement domaine hérite d'une classe Symfony. Si demain tu passes sur un autre framework, tu dois réécrire tous tes événements.
 
 ```php
 // Découplé
@@ -273,7 +273,7 @@ Le use case reste pur. Le logging est un détail d'infrastructure ajouté par co
 
 ## Les ports : le contrat entre domaine et infrastructure
 
-Le mécanisme qui rend tout ça possible, c'est le [port](https://herbertograca.com/2017/09/14/ports-adapters-architecture/). Une interface définie dans le domaine, implémentée dans l'infrastructure.
+Le mécanisme qui rend tout ça possible, c'est le port. Une interface définie dans le domaine, implémentée dans l'infrastructure.
 
 ```php
 // Le port (domaine)
@@ -314,7 +314,7 @@ class DoctrineOrderRepository implements OrderRepositoryInterface
 
 Le domaine définit ce dont il a besoin. L'infrastructure fournit comment. Le domaine ne sait pas que Doctrine existe. Le repository Doctrine sait traduire entre les deux mondes.
 
-[Symfony autowire](https://symfony.com/doc/current/service_container/autowiring.html) les interfaces automatiquement quand il n'y a qu'une seule implémentation. Zéro config nécessaire.
+Symfony autowire les interfaces automatiquement quand il n'y a qu'une seule implémentation. Zéro config nécessaire.
 
 ## La question du mapping : le prix à payer
 
@@ -333,7 +333,7 @@ Et ce 1% te donne :
 
 ## Vérifie tes dépendances avec Deptrac
 
-La discipline humaine ne suffit pas. Sur un projet avec dix développeurs, quelqu'un finira par ajouter un `use Doctrine\*` dans le domaine. [Deptrac](https://github.com/qossmic/deptrac) automatise la vérification.
+La discipline humaine ne suffit pas. Sur un projet avec dix développeurs, quelqu'un finira par ajouter un `use Doctrine\*` dans le domaine. Deptrac automatise la vérification.
 
 ```yaml
 deptrac:
@@ -371,11 +371,11 @@ Ajoute-le dans ta CI :
 vendor/bin/deptrac --no-interaction
 ```
 
-C'est un filet de sécurité permanent. L'architecture n'est plus une convention orale, c'est une règle vérifiée à chaque commit.
+C'est un filet de sécurité permanent. L'architecture n'est plus une convention orale, c'est une règle vérifiée à chaque commit. Coupler Deptrac avec des [conventions de codage formalisées](/article/coding-conventions) dans l'équipe renforce encore davantage l'isolation du domaine sur le long terme.
 
 ## Quand ne pas le faire
 
-Cette approche a un coût. Pour un CRUD d'admin avec cinq entités et aucune logique métier, séparer domaine et infrastructure est de l'over-engineering. Le couplage Doctrine n'est un problème que quand il y a de la logique métier à protéger.
+Cette approche a un coût. Pour un CRUD d'admin avec cinq entités et aucune logique métier, séparer domaine et infrastructure est de l'over-engineering. Le couplage Doctrine n'est un problème que quand il y a de la logique métier à protéger. La question de [choisir entre micro-services et monolithe modulaire](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) se pose dans le même esprit : l'architecture doit servir le projet, pas l'inverse.
 
 La règle pragmatique : si ta classe ne fait que stocker et relire des données, une entité Doctrine suffit. Si elle contient des calculs, des validations métier, des transitions d'état, des règles conditionnelles, alors elle mérite un domaine propre.
 
@@ -395,8 +395,6 @@ C'est pour ça que ton domaine ne devrait jamais connaître Symfony. Pas par pur
 
 - [Migration Symfony vers l'architecture hexagonale](/article/migration-symfony-architecture-hexagonale-retour-mission), retour d'expérience concret
 - [Symfony Messenger : colonne vertébrale de l'archi hexagonale](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale), le Command Bus en pratique
-- [Micro-service ou monolithe modulaire ?](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire), choisir la bonne architecture
+- [Prendre int, UUID ou ULID pour un index de base de données](/article/prendre-int-uuid-ou-ulid-pour-un-index-de-base-de-donnees), choisir le bon identifiant pour vos Value Objects de domaine
 - [Alistair Cockburn : Hexagonal Architecture](https://alistair.cockburn.us/hexagonal-architecture/), l'article fondateur
-- [Matthias Noback : Advanced Web Application Architecture](https://matthiasnoback.nl/book/advanced-web-application-architecture/), référence sur l'archi hexagonale en PHP
-- [Symfony best practices](https://symfony.com/doc/current/best_practices.html), les conventions officielles Symfony
-- [Martin Fowler : Bounded Context](https://martinfowler.com/bliki/BoundedContext.html), comprendre les limites du domaine
+- [Bonnes pratiques Symfony](https://symfony.com/doc/current/best_practices.html), les conventions officielles Symfony

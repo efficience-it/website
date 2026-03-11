@@ -11,7 +11,7 @@ Déployer un site statique généré par Nuxt.js sur une infrastructure AWS ne s
 
 ## Le socle AWS : S3 et CloudFront
 
-Le principe est limpide. S3 stocke les fichiers statiques (HTML, CSS, JS, images). CloudFront les distribue via un réseau de points de présence répartis mondialement. Un utilisateur IAM dédié permet à GitLab CI d'interagir avec ces services de manière programmatique.
+Le principe est limpide. S3 stocke les fichiers statiques (HTML, CSS, JS, images). CloudFront les distribue via un réseau de points de présence répartis mondialement. Avant de choisir Nuxt.js, il peut être utile de [comparer les frameworks JavaScript disponibles](/article/quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular) pour s'assurer que cette infrastructure de déploiement correspond bien au bon outil. Un utilisateur IAM dédié permet à GitLab CI d'interagir avec ces services de manière programmatique.
 
 ### Configuration du bucket S3
 
@@ -204,7 +204,7 @@ L'utilisation des templates YAML (`.build_site`, `.deploy_s3`) évite la duplica
 
 ## Stratégies d'invalidation de cache
 
-L'invalidation `--paths "/*"` est la méthode la plus simple mais aussi la plus coûteuse. AWS facture au-delà de 1000 invalidations par mois. Sur un projet avec des déploiements fréquents, la facture peut surprendre.
+L'invalidation `--paths "/*"` est la méthode la plus simple mais aussi la plus coûteuse. AWS facture au-delà de 1000 invalidations par mois. Sur un projet avec des déploiements fréquents, la facture peut surprendre. Pour bien maîtriser les [stratégies de mise en cache complémentaires au CDN CloudFront](/article/tout-savoir-sur-la-mise-en-cache-tips), il est essentiel d'avoir une vision globale du cache côté serveur, navigateur et réseau.
 
 Deux approches alternatives existent. La première consiste à invalider uniquement les fichiers modifiés en comparant le build courant avec le contenu du bucket via `aws s3 sync --dryrun`, puis en ciblant les chemins concernés. La seconde, plus élégante, repose sur le versioning des assets : puisque Nuxt.js génère des noms hashés, seul `index.html` et les fichiers à chemin fixe nécessitent une invalidation. L'invalidation ciblée de quelques fichiers est gratuite et instantanée.
 
@@ -234,9 +234,9 @@ Trois leviers principaux permettent de maîtriser la facture AWS sur ce type d'a
 
 ## Pour aller plus loin
 
-- [Tests Postman avec Newman dans GitLab CI](/article/comment-executer-des-tests-postman-avec-newman-dans-gitlab-ci), automatiser les tests API dans la CI
 - [Pourquoi Docker est indispensable en production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui), conteneurisation et déploiement
-- [Cloud & DevOps](/cloud-et-devops), notre expertise infrastructure
+- [API REST : les bonnes pratiques](/article/api-rest-les-bonnes-pratiques), concevoir les endpoints consommés par votre application Nuxt.js
+- [Améliorer l'expérience utilisateur grâce au manifeste des applications web](/article/ameliorer-lexperience-utilisateur-grace-au-manifeste-des-applications-web), rendre une application Nuxt.js installable en complément du déploiement S3
 - [GitLab CI/CD : documentation](https://docs.gitlab.com/ee/ci/), pipelines d'intégration continue
 - [AWS S3 : documentation](https://docs.aws.amazon.com/s3/), stockage objet Amazon
 - [Amazon CloudFront : documentation](https://docs.aws.amazon.com/cloudfront/), CDN et distribution de contenu

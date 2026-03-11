@@ -13,7 +13,7 @@ Cet article fait le point sur cette évolution et rassemble les bonnes pratiques
 
 ## L'ascension de Messenger, le déclin d'Enqueue
 
-Messenger est apparu avec Symfony 4.1 en 2018. A ses débuts, il était minimaliste : un bus, quelques transports, une intégration correcte mais sans plus. Enqueue, déja mature, offrait un catalogue de transports bien plus large (Kafka, Google PubSub, Kinesis, MongoDB, Stomp) et un monitoring intégré. Pour les projets polyglottes ou ceux qui avaient besoin d'un transport exotique, Enqueue était le choix logique.
+Messenger est apparu avec Symfony 4.1 en 2018. A ses débuts, il était minimaliste : un bus, quelques transports, une intégration correcte mais sans plus. Pour une vue d'ensemble des bundles disponibles dans l'écosystème Symfony, notre article sur les [bundles les plus utilisés dans les projets Symfony](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony) situe Messenger dans ce contexte. Enqueue, déja mature, offrait un catalogue de transports bien plus large (Kafka, Google PubSub, Kinesis, MongoDB, Stomp) et un monitoring intégré. Pour les projets polyglottes ou ceux qui avaient besoin d'un transport exotique, Enqueue était le choix logique.
 
 Depuis, Messenger a rattrapé son retard puis creusé l'écart. Chaque version de Symfony a apporté des améliorations : les stamps pour enrichir les messages de métadonnées, le failure transport pour gérer les échecs, le scheduler pour planifier des taches récurrentes, le support natif de transports variés. En parallele, l'écosysteme communautaire a produit des transports tiers pour couvrir les besoins spécifiques.
 
@@ -223,7 +223,7 @@ Enqueue ne proposait pas cette abstraction. C'était un outil de queuing, pas un
 
 Si vous maintenez un projet qui utilise encore Enqueue, la migration vers Messenger est un investissement raisonnable. Les concepts se transposent : les `Producer` deviennent des appels a `MessageBusInterface::dispatch()`, les `Processor` deviennent des handlers marqués `#[AsMessageHandler]`, les topics et queues se mappent sur des transports Messenger.
 
-Le point d'attention principal est la coexistence pendant la migration. Si vos queues contiennent des messages au format Enqueue, vous devrez soit les vider avant de basculer, soit implémenter un serializer de transition qui comprend les deux formats. Privilégiez une migration progressive transport par transport plutot qu'un big bang.
+Le point d'attention principal est la coexistence pendant la migration. Si vos queues contiennent des messages au format Enqueue, vous devrez soit les vider avant de basculer, soit implémenter un serializer de transition qui comprend les deux formats. Privilégiez une migration progressive transport par transport plutot qu'un big bang. La gestion des dépendances via [Composer](/article/utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques) est aussi un point d'attention : Enqueue et Messenger peuvent coexister temporairement dans le `composer.json` pendant la transition.
 
 ## Verdict 2026
 
@@ -238,7 +238,7 @@ Investissez dans un broker dédié des que le volume dépasse quelques milliers 
 Si vous souhaitez aller plus loin, nous mettons a disposition des développeurs spécialisés sur **Symfony** qui sauront intégrer Messenger dans vos projets. N'hésitez pas a nous contacter, ou a approfondir la [documentation officielle de Messenger](https://symfony.com/doc/current/messenger.html).
 
 - [Symfony Messenger : colonne vertébrale de l'architecture hexagonale](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale), aller plus loin avec Messenger
-- [Les bundles les plus utilisés dans les projets Symfony](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony), l'écosysteme Symfony
 - [Quelle architecture choisir : micro-service ou monolithe modulaire ?](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire), choix d'architecture
+- [Le domaine ne devrait jamais connaître Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony), isoler le domaine du framework
 - [Symfony Messenger : documentation officielle](https://symfony.com/doc/current/messenger.html), guide complet du composant
 - [RabbitMQ : site officiel](https://www.rabbitmq.com/), broker de messages

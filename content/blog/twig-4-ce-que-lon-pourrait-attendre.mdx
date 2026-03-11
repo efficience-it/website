@@ -26,7 +26,7 @@ Twig 4 pourrait introduire un tag `types` permettant de déclarer les variables 
 <p>Prix : {{ price|number_format(2, ',', ' ') }} €</p>
 ```
 
-L'intérêt dépasse la simple documentation. Un tel tag ouvrirait la porte à l'analyse statique par [PHPStan](https://phpstan.org/) ou Psalm : détection de propriétés inexistantes, de types incompatibles, de variables non passées. Le template deviendrait un artefact vérifiable dans la chaîne CI, au même titre qu'une classe PHP. Pour les équipes qui maintiennent des centaines de templates, le gain en fiabilité serait considérable.
+L'intérêt dépasse la simple documentation. Un tel tag ouvrirait la porte à l'analyse statique par [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) ou Psalm : détection de propriétés inexistantes, de types incompatibles, de variables non passées. Le template deviendrait un artefact vérifiable dans la chaîne CI, au même titre qu'une classe PHP. Pour les équipes qui maintiennent des centaines de templates, le gain en fiabilité serait considérable.
 
 Cette approche s'inspire de ce que fait Askama dans l'écosystème Rust, où les templates sont compilés et vérifiés à la compilation. Twig n'irait pas aussi loin, mais le principe est le même : remonter les erreurs le plus tôt possible dans le cycle de développement.
 
@@ -125,13 +125,9 @@ Le paysage des moteurs de templates PHP a évolué. Blade (Laravel) a gagné en 
 
 Twig 4 ne cherche pas à devenir un framework front-end. Son positionnement reste celui d'un moteur de templates serveur, mais un moteur qui absorbe les meilleures idées de son époque : typage explicite, composants déclaratifs, pipeline de rendu optimisé. Le choix de rester dans cet espace, plutôt que de tenter une convergence artificielle avec les frameworks JavaScript, est en soi une décision architecturale. Il reconnaît que le rendu serveur a sa propre légitimité et que l'approche hypermedia (Turbo, htmx) représente une alternative viable au tout-SPA.
 
-Pour les architectes qui conçoivent des applications Symfony, Twig 4 confirmerait une tendance : le front-end Symfony n'est pas un front-end au rabais, mais un front-end opiniâtre, qui assume le serveur comme point de contrôle principal et traite le JavaScript comme un enrichissement progressif.
+Pour les architectes qui conçoivent des applications Symfony, Twig 4 confirmerait une tendance : le front-end Symfony n'est pas un front-end au rabais, mais un front-end opiniâtre, qui assume le serveur comme point de contrôle principal et traite le JavaScript comme un enrichissement progressif. Pour comprendre pourquoi cette approche s'inscrit dans la philosophie du framework, l'article [pourquoi choisir Symfony pour vos projets](/article/pourquoi-choisir-symfony-pour-vos-projets) en expose les fondements.
 
 ## Pour aller plus loin
 
 - [Les certifications Symfony : Twig et Sylius](/article/les-certifications-symfony-twig-symfony-sylius), passer la certification Twig pour valider vos compétences
-- [Pourquoi choisir Symfony pour vos projets](/article/pourquoi-choisir-symfony-pour-vos-projets), les atouts du framework qui porte Twig
-- [Comment PHPStan peut améliorer la qualité de votre code PHP](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php), l'analyse statique mentionnée pour les templates Twig
-- [Site officiel de Twig](https://twig.symfony.com/), documentation et référence du moteur de templates
-- [Dépôt GitHub de Twig](https://github.com/twigphp/Twig), code source, issues et roadmap
 - [Documentation Symfony sur les templates Twig](https://symfony.com/doc/current/templates.html), guide complet d'utilisation dans Symfony

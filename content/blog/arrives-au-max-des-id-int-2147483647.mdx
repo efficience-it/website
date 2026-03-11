@@ -148,7 +148,7 @@ Intégrer cette vérification dans un cron ou un check Prometheus/Datadog avec u
 
 La vraie question d'architecture n'est pas "comment migrer vers BIGINT" mais "pourquoi dépend-on d'un compteur séquentiel monotable". Les auto-incréments entiers posent plusieurs problèmes structurels au-delà de la saturation : ils fuient de l'information (un concurrent peut estimer le volume d'activité en observant les IDs), ils créent un point de contention sur l'insertion (le compteur est un verrou global), et ils ne survivent pas au sharding.
 
-Les alternatives à considérer dès la conception :
+Les alternatives à considérer dès la conception sont détaillées dans notre comparaison [INT, UUID ou ULID : quel identifiant choisir pour vos bases de données](/article/prendre-int-uuid-ou-ulid-pour-un-index-de-base-de-donnees) :
 
 - **UUID v7 / ULID** : identifiants triés chronologiquement, compatibles avec les index B-tree, générés côté applicatif sans coordination. Ils éliminent le point de contention à l'insertion et fonctionnent nativement en architecture distribuée.
 - **Snowflake IDs** : encodent un timestamp, un identifiant de machine et un compteur local sur 64 bits. Utilisés à l'échelle de Twitter/X et Discord, ils garantissent l'unicité globale sans coordination centrale.
@@ -158,7 +158,7 @@ Le choix entre ces stratégies dépend des contraintes de l'écosystème (compat
 
 ## Ce que recommande Efficience IT
 
-Chaque migration est unique, mais la méthode reste constante :
+Chaque migration est unique, mais la méthode reste constante. Pour détecter ces problèmes avant qu'ils n'atteignent la production, [notre processus d'audit technique](/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede) inclut systématiquement une analyse des auto-incréments à risque :
 
 - **Audit préalable** de la base MySQL, du graphe de clés étrangères et des dépendances applicatives
 - **Simulation sur environnement miroir** avec un jeu de données représentatif
@@ -173,9 +173,9 @@ Si votre application approche de ses limites techniques ou si vous anticipez une
 
 ## Pour aller plus loin
 
-- [INT : UUID ou ULID : quel identifiant choisir](/article/prendre-int-uuid-ou-ulid-pour-un-index-de-base-de-donnees), comparaison des types d'identifiants en base de données
 - [Doctrine ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees), les nouveautés de Doctrine pour la gestion des bases de données
 - [Guide de migration Symfony](/article/guide-de-migration-dans-un-projet-symfony), méthodologie pour migrer un projet sereinement
+- [DbToolsBundle : anonymiser vos bases de données](/article/dbtoolsbundle-anonymiser-vos-bases-de-donnees), gérer et sécuriser vos bases de données en environnement de développement
 - [MySQL Documentation : ALTER TABLE](https://dev.mysql.com/doc/refman/8.0/en/alter-table.html), référence officielle MySQL pour les modifications de tables
 - [MySQL Documentation : Integer Types](https://dev.mysql.com/doc/refman/8.0/en/integer-types.html), documentation des types entiers MySQL
 - [Doctrine DBAL Documentation](https://www.doctrine-project.org/projects/doctrine-dbal/en/current/index.html), couche d'abstraction de base de données utilisée par Symfony

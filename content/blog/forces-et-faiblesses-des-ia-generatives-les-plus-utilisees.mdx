@@ -39,7 +39,7 @@ Le segment des assistants de code a connu la transformation la plus radicale ent
 
 ### Claude Code
 
-[Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview) a redéfini ce qu'un assistant de développement peut faire. En tant qu'agent en ligne de commande, il lit le code source, exécute des commandes, modifie des fichiers, lance des tests et itère jusqu'a obtenir un résultat qui passe la CI. L'intégration avec un fichier [CLAUDE.md](https://docs.anthropic.com/en/docs/claude-code/memory) permet d'encoder les conventions d'architecture, les règles de nommage et les patterns spécifiques au projet. Sur nos projets Symfony, cette approche a réduit de 60% le temps passé sur les taches de refactoring répétitives.
+Claude Code a redéfini ce qu'un assistant de développement peut faire. En tant qu'agent en ligne de commande, il lit le code source, exécute des commandes, modifie des fichiers, lance des tests et itère jusqu'a obtenir un résultat qui passe la CI. L'intégration avec un fichier `CLAUDE.md` permet d'encoder les conventions d'architecture, les règles de nommage et les patterns spécifiques au projet. Sur nos projets Symfony, cette approche a réduit de 60% le temps passé sur les taches de refactoring répétitives. Notre retour d'expérience sur [l'utilisation de Claude comme assistant d'architecture Symfony legacy](/article/claude-assistant-architecture-symfony-legacy) illustre concrètement comment configurer cet agent pour un projet existant.
 
 ### GitHub Copilot
 
@@ -59,7 +59,7 @@ Avec les modèles 2026, le prompt engineering a évolué. Les modèles comprenne
 
 ### Segmenter ses usages par outil
 
-Utiliser un seul outil pour tout reste une erreur courante. La segmentation optimale en 2026 : Claude Code pour le refactoring, les revues d'architecture et les taches multi-fichiers. Copilot ou Cursor pour l'autocomplétion quotidienne et le flux de développement continu. Perplexity pour la recherche documentaire et la veille. GPT-5 pour le brainstorming, la rédaction technique et les cas d'usage métier via les GPTs personnalisés. Cette spécialisation réduit le temps perdu a reformuler des prompts et améliore la pertinence des résultats.
+Utiliser un seul outil pour tout reste une erreur courante. La segmentation optimale en 2026 : Claude Code pour le refactoring, les revues d'architecture et les taches multi-fichiers. Copilot ou Cursor pour l'autocomplétion quotidienne et le flux de développement continu. Perplexity pour la recherche documentaire et la veille. GPT-5 pour le brainstorming, la rédaction technique et les cas d'usage métier via les GPTs personnalisés. Cette spécialisation réduit le temps perdu a reformuler des prompts et améliore la pertinence des résultats. Si vous souhaitez aller plus loin dans le choix de votre outil principal, le [guide pratique pour choisir votre assistant IA pour coder](/article/quel-assistant-ia-choisir-pour-coder) détaille les critères de sélection selon votre contexte.
 
 ### Accès API et automatisation
 
@@ -95,9 +95,8 @@ La spécialisation continue de s'accélérer. Des modèles plus petits et plus r
 
 ## Pour aller plus loin
 
-- [Utiliser Claude comme assistant d'architecture Symfony legacy](/article/claude-assistant-architecture-symfony-legacy), configurer Claude Code avec un CLAUDE.md pour encoder ses conventions d'archi
 - [Symfony et IA : retour d'expérience sur un projet legacy](/article/symfony-ai-projet-legacy-retour-experience), comment utiliser l'IA concrètement dans des projets Symfony
 - [RAG avec Symfony : indexer une base métier avec l'IA](/article/rag-symfony-ai-doctrine-indexer-base-metier), mise en pratique de l'IA générative dans un contexte Symfony
-- [OpenAI : ChatGPT](https://openai.com/chatgpt), l'IA conversationnelle la plus populaire
-- [Anthropic : Claude](https://www.anthropic.com/), l'IA conversationnelle axée sur la sécurité et l'alignement
-- [GitHub Copilot](https://github.com/features/copilot), l'assistant IA intégré a votre IDE pour le développement
+- [LLMs.txt : le nouveau levier SEO à l'ère de l'intelligence artificielle](/article/llms-txt-le-nouveau-levier-seo-a-lere-de-lintelligence-artificielle), rendre son application visible pour les IA génératives
+- [GEO : rendre votre application Symfony visible dans les moteurs IA](/article/geo-rendre-votre-application-symfony-visible-dans-les-moteurs-ia), optimiser sa présence dans les réponses générées par les LLM
+- [PHPStorm, VS Code, Sublime Text : quel éditeur choisir ?](/article/phpstorm-vscode-sublimetext-netbeans-quel-editeur-de-code-choisir), les outils de développement qui intègrent ces assistants IA

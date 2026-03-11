@@ -306,6 +306,11 @@ export default function DeveloppementWeb() {
               <p className="mt-2 text-gray">
                 Création d&apos;API sur mesure, adaptées à vos exigences
                 techniques et métiers pour fluidifier vos échanges de données.
+                Nous respectons les{" "}
+                <Link href="/article/api-rest-les-bonnes-pratiques" className="text-primary hover:underline">
+                  bonnes pratiques API REST
+                </Link>{" "}
+                pour garantir des interfaces performantes et maintenables.
               </p>
             </Card>
             <Card>
@@ -355,6 +360,11 @@ export default function DeveloppementWeb() {
               <p className="mt-4 text-lg text-gray">
                 Chez Efficience IT, nous ne livrons pas simplement du code :
                 nous construisons des solutions utiles, avec vous et pour vous.
+                Notre cœur de métier repose sur{" "}
+                <Link href="/article/pourquoi-choisir-symfony-pour-vos-projets" className="text-primary hover:underline">
+                  Symfony, le framework PHP de référence
+                </Link>{" "}
+                pour les applications robustes et évolutives.
               </p>
               <p className="mt-4 text-lg text-gray">
                 Notre objectif est simple : vous faire gagner du temps,
@@ -478,18 +488,6 @@ export default function DeveloppementWeb() {
         <Container>
           <SectionTitle>Pour aller plus loin</SectionTitle>
           <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
-            <li>
-              <Link href="/article/pourquoi-choisir-symfony-pour-vos-projets" className="text-primary hover:underline">
-                Pourquoi choisir Symfony pour vos projets
-              </Link>{" "}
-             , les atouts du framework pour le développement sur mesure
-            </li>
-            <li>
-              <Link href="/article/api-rest-les-bonnes-pratiques" className="text-primary hover:underline">
-                API REST : les bonnes pratiques
-              </Link>{" "}
-             , concevoir des API performantes et maintenables
-            </li>
             <li>
               <Link href="/article/sylius-la-solution-e-commerce-du-framework-symfony" className="text-primary hover:underline">
                 Sylius : la solution e-commerce Symfony

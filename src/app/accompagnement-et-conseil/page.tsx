@@ -247,7 +247,11 @@ export default function AccompagnementEtConseil() {
                 Votre entreprise doit évoluer avec les technologies ! Nos
                 formations sur Symfony et les méthodes agiles vous permettent de
                 renforcer l&apos;expertise de vos collaborateurs, en
-                s&apos;adaptant à tous les niveaux.
+                s&apos;adaptant à tous les niveaux. Découvrez par exemple{" "}
+                <Link href="/article/les-6-etapes-pour-monter-en-competences-sur-symfony" className="text-primary hover:underline">
+                  les 6 étapes pour monter en compétences sur Symfony
+                </Link>{" "}
+                que nous recommandons à nos clients.
               </p>
             </div>
           </div>
@@ -281,12 +285,6 @@ export default function AccompagnementEtConseil() {
                 Comment se passe un audit chez Efficience IT
               </Link>{" "}
              , notre méthodologie d&apos;audit détaillée
-            </li>
-            <li>
-              <Link href="/article/les-6-etapes-pour-monter-en-competences-sur-symfony" className="text-primary hover:underline">
-                Les 6 étapes pour monter en compétences sur Symfony
-              </Link>{" "}
-             , parcours de formation recommandé
             </li>
             <li>
               <a href="https://symfony.com/doc/current/index.html" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">

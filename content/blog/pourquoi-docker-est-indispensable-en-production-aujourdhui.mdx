@@ -82,7 +82,7 @@ Docker s'intègre nativement dans une chaîne de sécurité automatisée. Les sc
 
 ### Une image, un SHA, zéro divergence
 
-Le pipeline Docker canonique est d'une simplicité redoutable :
+Le pipeline Docker canonique est d'une simplicité redoutable. Notre article sur [le déploiement de Nuxt.js avec GitLab CI, S3 et CloudFront](/article/deployer-nuxtjs-avec-gitlab-ci-s3-et-cloudfront) illustre concrètement l'automatisation de ce type de pipeline :
 
 ```yaml
 stages:
@@ -157,7 +157,7 @@ Ce fichier remplace des pages de documentation d'installation. En staging, un fi
 
 ### Choisir son orchestrateur
 
-Docker Swarm et Kubernetes répondent à des besoins différents. Swarm convient aux équipes qui cherchent la simplicité : rolling updates natifs, service discovery intégré, courbe d'apprentissage raisonnable. Kubernetes s'impose lorsque les besoins dépassent le cadre d'une application unique : multi-tenancy, auto-scaling basé sur des métriques custom, gestion fine des ressources sur des clusters hétérogènes.
+Docker Swarm et Kubernetes répondent à des besoins différents. Swarm convient aux équipes qui cherchent la simplicité : rolling updates natifs, service discovery intégré, courbe d'apprentissage raisonnable. Kubernetes s'impose lorsque les besoins dépassent le cadre d'une application unique : multi-tenancy, auto-scaling basé sur des métriques custom, gestion fine des ressources sur des clusters hétérogènes. Le [choix entre micro-services et monolithe modulaire](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) détermine aussi directement la complexité de votre stratégie de conteneurisation.
 
 Le piège classique est d'adopter Kubernetes trop tôt. Une application Symfony avec trois services (PHP-FPM, PostgreSQL, Redis) déployée sur deux serveurs ne justifie pas la complexité opérationnelle d'un cluster Kubernetes. Docker Swarm ou un déploiement Docker classique avec un reverse proxy couvre ce cas avec une fraction de la charge cognitive.
 
@@ -182,9 +182,8 @@ Chez Efficience IT, nous accompagnons quotidiennement des équipes sur ces sujet
 ## Pour aller plus loin
 
 - [Concrètement : c'est quoi FrankenPHP ?](/article/concretement-cest-quoi-frankenphp), Un serveur PHP moderne basé sur Go et Caddy
-- [Déployer Nuxt.js avec GitLab CI : S3 et CloudFront](/article/deployer-nuxtjs-avec-gitlab-ci-s3-et-cloudfront), Automatiser le déploiement avec CI/CD
 - [Pourquoi choisir Symfony pour vos projets](/article/pourquoi-choisir-symfony-pour-vos-projets), Le framework PHP idéal à conteneuriser
+- [Les certifications Symfony, Twig et Sylius](/article/les-certifications-symfony-twig-symfony-sylius), La certification Docker Certified Associate pour valider vos compétences en conteneurisation
 - [Documentation Docker](https://docs.docker.com/), Guide officiel de Docker
 - [Docker Hub](https://hub.docker.com/), Le registre d'images Docker
 - [Dockerfile reference](https://docs.docker.com/reference/dockerfile/), Référence complète pour écrire des Dockerfiles
-- [Kubernetes](https://kubernetes.io/fr/docs/home/), Documentation de l'orchestrateur de conteneurs

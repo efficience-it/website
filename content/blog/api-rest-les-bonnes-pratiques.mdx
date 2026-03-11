@@ -43,7 +43,7 @@ La négociation de contenu via le header `Accept` permet à un même endpoint de
 
 ## HATEOAS et la maturité d'une API
 
-Le modèle de maturité de Richardson classe les API REST en quatre niveaux. Le niveau 0 correspond à un tunnel HTTP unique (type RPC). Le niveau 1 introduit les ressources. Le niveau 2 ajoute les verbes HTTP. Le niveau 3 intègre les contrôles hypermédia : c'est HATEOAS (Hypermedia As The Engine Of Application State).
+Le modèle de maturité de Richardson classe les API REST en quatre niveaux. Le niveau 0 correspond à un tunnel HTTP unique (type RPC). Le niveau 1 introduit les ressources. Le niveau 2 ajoute les verbes HTTP. Le niveau 3 intègre les contrôles hypermédia : c'est HATEOAS (Hypermedia As The Engine Of Application State). Pour aller au-delà de REST, il est utile de comprendre [les différences entre REST et GraphQL](/article/que-vaut-rest-face-a-son-nouveau-challenger-graphql) afin de choisir l'architecture la mieux adaptée à chaque contexte.
 
 Avec HATEOAS, chaque réponse contient les liens vers les actions possibles. Une commande au statut "en préparation" expose un lien `cancel` ; une fois expédiée, ce lien disparaît et un lien `track` apparaît. Le client n'a pas besoin de coder en dur les transitions d'état : il découvre les actions disponibles à travers les liens fournis par le serveur. JSON-LD et Hydra, utilisés par API Platform, sont les formats les plus répandus dans l'écosystème PHP pour implémenter ce niveau de maturité.
 
@@ -57,7 +57,7 @@ La plus classique : `?page=3&itemsPerPage=25`. Simple à implémenter, elle souf
 
 ### Pagination par curseur
 
-Le serveur retourne un curseur opaque (`?after=eyJpZCI6NDJ9`) qui pointe vers le dernier élément affiché. Les performances restent constantes quelle que soit la profondeur, car la requête SQL utilise un `WHERE id > :cursor` indexé. C'est la stratégie adoptée par les API de Stripe, Slack et GitHub.
+Le serveur retourne un curseur opaque (`?after=eyJpZCI6NDJ9`) qui pointe vers le dernier élément affiché. Les performances restent constantes quelle que soit la profondeur, car la requête SQL utilise un `WHERE id > :cursor` indexé. C'est la stratégie adoptée par les API de Stripe, Slack et GitHub. Le choix du type d'identifiant pour la colonne de curseur n'est pas anodin : [INT, UUID ou ULID ont chacun des implications sur les performances d'index](/article/prendre-int-uuid-ou-ulid-pour-un-index-de-base-de-donnees).
 
 ### Pagination par range header
 
@@ -102,9 +102,8 @@ Concevoir une API REST professionnelle va bien au-delà du CRUD basique. Des fon
 ## Pour aller plus loin
 
 - [Swagger Nelmio bundle et ses fonctionnalités](/article/swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on), documenter et tester vos API REST avec Swagger
-- [REST face à GraphQL](/article/que-vaut-rest-face-a-son-nouveau-challenger-graphql), comprendre les différences entre REST et GraphQL
 - [Tout savoir sur la mise en cache](/article/tout-savoir-sur-la-mise-en-cache-tips), optimiser les performances de vos API avec le cache HTTP
-- [MDN Web Docs : HTTP](https://developer.mozilla.org/fr/docs/Web/HTTP), référence complète sur le protocole HTTP
+- [Comment exécuter des tests Postman avec Newman dans GitLab CI](/article/comment-executer-des-tests-postman-avec-newman-dans-gitlab-ci), automatiser les tests fonctionnels de vos API en pipeline CI
 - [Symfony HttpClient](https://symfony.com/doc/current/http_client.html), le composant Symfony pour consommer des API REST
 - [OpenAPI Specification](https://spec.openapis.org/oas/latest.html), la spécification standard pour décrire les API REST
 - [GitHub : API Platform](https://github.com/api-platform/api-platform), framework PHP pour créer des API REST et GraphQL

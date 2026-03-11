@@ -40,7 +40,7 @@ Le manifeste seul ne suffit pas à créer une PWA fonctionnelle. C'est le Servic
 
 ### Stratégies de cache
 
-Le choix de la stratégie de cache dépend directement de la nature du contenu servi :
+Le choix de la stratégie de cache dépend directement de la nature du contenu servi. Ces mécanismes rejoignent les principes plus larges abordés dans notre guide sur [la mise en cache appliquée aux applications web](/article/tout-savoir-sur-la-mise-en-cache-tips) :
 
 - **Cache First** : les ressources statiques (CSS, JavaScript, images) sont servies depuis le cache, avec une mise à jour en arrière-plan. Cette approche privilégie la vitesse au détriment de la fraîcheur
 - **Network First** : les données dynamiques (API, contenu personnalisé) passent d'abord par le réseau. Le cache ne sert qu'en cas d'échec réseau, garantissant la fraîcheur des données tout en assurant un fallback hors ligne
@@ -80,7 +80,7 @@ L'application native garde l'avantage quand le produit repose sur un accès inte
 
 L'approche la plus pérenne consiste à adopter le progressive enhancement comme principe directeur. Le manifeste incarne cette philosophie : il ajoute des capacités applicatives à un site web sans rien retirer à l'expérience de base. Un utilisateur sans support PWA accède toujours au contenu via son navigateur. Un utilisateur sur Chrome Android bénéficie de l'installation, du mode hors ligne et des notifications push. Chaque couche enrichit l'expérience sans créer de dépendance.
 
-Cette stratégie d'enrichissement progressif s'étend au-delà du manifeste. Elle guide les choix d'architecture : une API REST bien conçue sert aussi bien une PWA qu'une application native future, un Service Worker bien structuré prépare le terrain pour des fonctionnalités temps réel sans refonte.
+Cette stratégie d'enrichissement progressif s'étend au-delà du manifeste. Elle guide les choix d'architecture : une [API REST respectant les bonnes pratiques](/article/api-rest-les-bonnes-pratiques) sert aussi bien une PWA qu'une application native future, un Service Worker bien structuré prépare le terrain pour des fonctionnalités temps réel sans refonte.
 
 ## Conclusion
 
@@ -90,9 +90,9 @@ La maturité croissante des API navigateur, l'adoption progressive par Apple et 
 
 ## Pour aller plus loin
 
-- [Normes RGAA : les clés d'une expérience utilisateur réussie pour tous](/article/normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous), Rendre vos applications web accessibles à tous les utilisateurs
-- [Quel framework JavaScript choisir ?](/article/quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular), Choisir le bon framework pour développer vos applications web
-- [Éco-conception : un idéal en marche ou une illusion durable ?](/article/eco-conception-un-ideal-en-marche-ou-une-illusion-durable), Concevoir des applications web responsables et performantes
-- [MDN : Web App Manifest](https://developer.mozilla.org/fr/docs/Web/Manifest), Documentation de référence sur le manifeste des applications web
-- [web.dev : Progressive Web Apps](https://web.dev/progressive-web-apps/), Guide Google sur les PWA et les bonnes pratiques
-- [W3C : Web Application Manifest](https://www.w3.org/TR/appmanifest/), La spécification officielle du W3C
+- [Normes RGAA : les clés d'une expérience utilisateur réussie pour tous](/article/normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous), rendre vos applications web accessibles à tous les utilisateurs
+- [Quel framework JavaScript choisir ?](/article/quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular), choisir le bon framework pour développer vos applications web
+- [Éco-conception : un idéal en marche ou une illusion durable ?](/article/eco-conception-un-ideal-en-marche-ou-une-illusion-durable), concevoir des applications web responsables et performantes
+- [MDN : Web App Manifest](https://developer.mozilla.org/fr/docs/Web/Manifest), documentation de référence sur le manifeste des applications web
+- [web.dev : Progressive Web Apps](https://web.dev/progressive-web-apps/), guide Google sur les PWA et les bonnes pratiques
+- [W3C : Web Application Manifest](https://www.w3.org/TR/appmanifest/), la spécification officielle du W3C

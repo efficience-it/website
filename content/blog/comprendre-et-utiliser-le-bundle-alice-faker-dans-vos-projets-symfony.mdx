@@ -13,7 +13,7 @@ Tout projet Symfony digne de ce nom repose sur un jeu de données maîtrisé. Qu
 
 ## Alice et FakerPHP : les fondations
 
-Le bundle Alice repose sur deux briques complémentaires. **Nelmio Alice** fournit un moteur de fixtures déclaratif capable de lire des fichiers YAML, JSON ou PHP pour instancier des objets Doctrine. **FakerPHP** est le générateur de données réalistes : noms, adresses, dates, textes, identifiants bancaires. L'intégration Symfony est assurée par `hautelook/alice-bundle`, qui enregistre automatiquement les fixtures et expose une commande CLI de chargement.
+Le bundle Alice repose sur deux briques complémentaires. **Nelmio Alice** fournit un moteur de fixtures déclaratif capable de lire des fichiers YAML, JSON ou PHP pour instancier des objets Doctrine. Les changements introduits par [Doctrine ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) impactent directement la façon de définir les entités utilisées dans les fixtures. **FakerPHP** est le générateur de données réalistes : noms, adresses, dates, textes, identifiants bancaires. L'intégration Symfony est assurée par `hautelook/alice-bundle`, qui enregistre automatiquement les fixtures et expose une commande CLI de chargement.
 
 L'installation se résume à une ligne Composer :
 
@@ -225,7 +225,7 @@ Le staging pose un défi différent du développement local : il doit refléter 
 
 ### Anonymisation et conformité RGPD
 
-Dès que des données de production alimentent un environnement non-production, la question de l'anonymisation devient juridique. FakerPHP peut servir de brique d'anonymisation en remplaçant les champs sensibles par des valeurs générées. Mais attention : une anonymisation naïve (remplacer chaque email par `<email()>`) ne suffit pas si les données restent corrélables via d'autres champs. Une stratégie robuste exige une analyse du modèle de données pour identifier tous les attributs directement ou indirectement identifiants, et appliquer une transformation cohérente qui préserve l'utilité statistique sans permettre la ré-identification.
+Dès que des données de production alimentent un environnement non-production, la question de l'anonymisation devient juridique. Pour des besoins d'anonymisation plus avancés, [DbToolsBundle propose une solution dédiée à l'anonymisation des bases de données](/article/dbtoolsbundle-anonymiser-vos-bases-de-donnees) directement intégrée à Symfony. FakerPHP peut servir de brique d'anonymisation en remplaçant les champs sensibles par des valeurs générées. Mais attention : une anonymisation naïve (remplacer chaque email par `<email()>`) ne suffit pas si les données restent corrélables via d'autres champs. Une stratégie robuste exige une analyse du modèle de données pour identifier tous les attributs directement ou indirectement identifiants, et appliquer une transformation cohérente qui préserve l'utilité statistique sans permettre la ré-identification.
 
 ### Fixtures et tests de performance
 
@@ -246,5 +246,4 @@ Dans tous les cas, l'outil n'est qu'un moyen. La vraie valeur réside dans une s
 - [Comment PHPStan peut améliorer la qualité de votre code PHP](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php), renforcer la qualité de votre code avec l'analyse statique
 - [Documentation officielle de nelmio/alice sur GitHub](https://github.com/nelmio/alice), guide complet du bundle Alice
 - [Documentation officielle de zenstruck/foundry](https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html), le bundle Foundry dans la documentation Symfony
-- [FakerPHP sur GitHub](https://github.com/FakerPHP/Faker), la bibliothèque de génération de données fictives pour PHP
 - [Documentation Symfony sur les fixtures avec Doctrine](https://symfony.com/bundles/DoctrineFixturesBundle/current/index.html), guide officiel pour charger des données de test

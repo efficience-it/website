@@ -129,6 +129,13 @@ export default function NotreExpertise() {
           <SectionTitle subtitle="Ce framework est notre cœur de métier. Choisir Symfony, c'est faire le pari de la performance, de la flexibilité et de la pérennité pour vos outils digitaux. Voici pourquoi nous le préconisons :">
             Pourquoi Symfony ?
           </SectionTitle>
+          <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+            Nous avons détaillé{" "}
+            <Link href="/article/pourquoi-choisir-symfony-pour-vos-projets" className="text-primary hover:underline">
+              les raisons de choisir Symfony pour vos projets
+            </Link>{" "}
+            dans un article de fond qui revient sur les atouts concrets du framework.
+          </p>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {symfonyAdvantages.map((adv) => (
               <Card key={adv.title}>
@@ -148,6 +155,13 @@ export default function NotreExpertise() {
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
           <SectionTitle>Comment nous travaillons</SectionTitle>
+          <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+            Notre équipe valorise ses compétences à travers{" "}
+            <Link href="/article/les-certifications-symfony-twig-symfony-sylius" className="text-primary hover:underline">
+              les certifications Symfony, Twig et Sylius
+            </Link>
+            , gages de rigueur et d&apos;expertise reconnue.
+          </p>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {methodology.map((step, i) => (
               <div key={step.title} className="flex gap-4">
@@ -173,18 +187,6 @@ export default function NotreExpertise() {
         <Container>
           <SectionTitle>Pour aller plus loin</SectionTitle>
           <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
-            <li>
-              <Link href="/article/pourquoi-choisir-symfony-pour-vos-projets" className="text-primary hover:underline">
-                Pourquoi choisir Symfony pour vos projets
-              </Link>{" "}
-             , les avantages du framework
-            </li>
-            <li>
-              <Link href="/article/les-certifications-symfony-twig-symfony-sylius" className="text-primary hover:underline">
-                Les certifications Symfony, Twig et Sylius
-              </Link>{" "}
-             , valoriser les compétences de l&apos;équipe
-            </li>
             <li>
               <Link href="/article/les-contributions-open-source-un-enjeu-de-taille-pour-les-developpeurs-et-les-projets" className="text-primary hover:underline">
                 Les contributions open source

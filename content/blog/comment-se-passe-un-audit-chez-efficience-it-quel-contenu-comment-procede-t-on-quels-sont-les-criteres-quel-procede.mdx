@@ -23,7 +23,7 @@ La qualité du code conditionne la capacité d'une équipe à faire évoluer un 
 
 [PHPStan](https://phpstan.org/) constitue notre premier levier d'investigation. Configuré au niveau le plus élevé, il révèle les incohérences de typage, les appels de méthodes sur des types incompatibles, les variables potentiellement nulles non vérifiées. Le nombre d'erreurs détectées et le niveau maximal atteignable sans modification du code donnent une mesure objective de la rigueur technique du projet.
 
-PHP_CodeSniffer vérifie la conformité aux [PSR](https://www.php-fig.org/psr/) (PSR-1, PSR-4, PSR-12) et aux conventions du framework utilisé. Sur un projet Symfony, nous ajoutons les rulesets spécifiques au framework. L'écart entre le nombre de violations et le nombre de fichiers concernés indique si les problèmes sont systémiques ou localisés.
+PHP_CodeSniffer vérifie la conformité aux PSR (PSR-1, PSR-4, PSR-12) et aux conventions du framework utilisé. Sur un projet Symfony, nous ajoutons les rulesets spécifiques au framework. L'écart entre le nombre de violations et le nombre de fichiers concernés indique si les problèmes sont systémiques ou localisés. Les équipes souhaitant établir ces règles en amont peuvent s'appuyer sur notre guide des [conventions de codage pour un code maintenable](/article/coding-conventions).
 
 Nous évaluons aussi la présence et la pertinence des tests. Un projet sans tests unitaires ni fonctionnels est un projet dont chaque modification représente un risque. Nous mesurons la couverture de code, mais surtout la qualité des assertions : des tests qui n'assertent rien ne protègent de rien.
 
@@ -43,7 +43,7 @@ Les en-têtes HTTP de sécurité font aussi l'objet d'une vérification : Conten
 
 ### Audit des dépendances tierces
 
-Un point souvent sous-estimé : les dépendances. Nous utilisons `composer audit` et le [Symfony Security Checker](https://symfony.com/doc/current/setup.html#checking-security-vulnerabilities) pour identifier les bibliothèques présentant des CVE connues. Au-delà des vulnérabilités publiées, nous évaluons la santé des dépendances : date de dernière mise à jour, fréquence de maintenance, nombre de dépendances transitives. Une bibliothèque abandonnée par son mainteneur représente un risque latent même sans CVE déclarée.
+Un point souvent sous-estimé : les dépendances. Nous utilisons `composer audit` et le Symfony Security Checker pour identifier les bibliothèques présentant des [CVE connues](/article/cve-comprendre-les-failles-pour-mieux-se-proteger). Au-delà des vulnérabilités publiées, nous évaluons la santé des dépendances : date de dernière mise à jour, fréquence de maintenance, nombre de dépendances transitives. Une bibliothèque abandonnée par son mainteneur représente un risque latent même sans CVE déclarée.
 
 ## Performances : métriques navigateur et profiling serveur
 
@@ -69,7 +69,7 @@ Nous vérifions le rendu sur les navigateurs les plus utilisés par l'audience d
 
 ### Conformité accessibilité
 
-L'accessibilité est évaluée selon les [standards WCAG](https://www.w3.org/Translations/WCAG20-fr/) et le [RGAA](https://accessibilite.numerique.gouv.fr/) en France. Nous vérifions les attributs `alt` sur les images, la hiérarchie des titres, le contraste texte/arrière-plan, la navigabilité au clavier, et l'association correcte des labels aux champs de formulaire. Les messages d'erreur doivent être interprétables par les technologies d'assistance.
+L'accessibilité est évaluée selon les standards WCAG et le RGAA en France. Nous vérifions les attributs `alt` sur les images, la hiérarchie des titres, le contraste texte/arrière-plan, la navigabilité au clavier, et l'association correcte des labels aux champs de formulaire. Les messages d'erreur doivent être interprétables par les technologies d'assistance.
 
 ## L'audit comme évaluation architecturale
 
@@ -101,10 +101,8 @@ Un audit technique régulier, comme un contrôle technique pour un véhicule, d�
 
 ## Pour aller plus loin
 
-- [Découvrez les raisons de nous confier la maintenance de vos applications web](/article/decouvrez-les-raisons-de-nous-confier-la-maintenance-de-vos-applications-web), Pourquoi la maintenance applicative est indispensable après un audit
-- [La dette technique : faut-il vraiment en avoir peur ?](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur), Comprendre et gérer la dette technique identifiée lors d'un audit
-- [Conventions de codage](/article/coding-conventions), Les bonnes pratiques de code que nous évaluons lors de nos audits
-- [PHPStan : Analyseur statique pour PHP](https://phpstan.org/), Outil d'analyse statique utilisé dans nos audits de qualité de code
-- [Lighthouse : Outil d'audit de performance web](https://developer.chrome.com/docs/lighthouse/), L'outil Google pour évaluer performances et accessibilité
-- [WCAG : Web Content Accessibility Guidelines](https://www.w3.org/WAI/standards-guidelines/wcag/), Les standards d'accessibilité web de référence
-- [OWASP : Open Web Application Security Project](https://owasp.org/), Ressources de référence pour la sécurité des applications web
+- [Découvrez les raisons de nous confier la maintenance de vos applications web](/article/decouvrez-les-raisons-de-nous-confier-la-maintenance-de-vos-applications-web), pourquoi la maintenance applicative est indispensable après un audit
+- [La dette technique : faut-il vraiment en avoir peur ?](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur), comprendre et gérer la dette technique identifiée lors d'un audit
+- [PHPStan au niveau max sur un projet Symfony](/article/phpstan-niveau-max-symfony-10-erreurs), les erreurs les plus courantes révélées par l'analyse statique
+- [Guide de migration dans un projet Symfony](/article/guide-de-migration-dans-un-projet-symfony), transformer les recommandations d'audit en plan de migration concret
+- [Symfony Insight : à quoi ça sert et comment le met-on en place ?](/article/symfony-insight-a-quoi-ca-sert-et-comment-le-met-on-en-place), un outil d'analyse automatisée complémentaire à l'audit manuel

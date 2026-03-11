@@ -182,7 +182,11 @@ export default function LaTeam() {
             <p className="mt-4 text-lg text-gray">
               En mettant un point d&apos;honneur à être centré sur le
               collaborateur, le bien-être au travail est une valeur importante
-              chez Efficience IT !
+              chez Efficience IT ! Retrouvez{" "}
+              <Link href="/article/7-bonnes-raisons-de-rejoindre-efficience-it" className="text-primary hover:underline">
+                7 bonnes raisons de rejoindre Efficience IT
+              </Link>{" "}
+              si vous souhaitez faire partie de l&apos;aventure.
             </p>
             <p className="mt-4 text-lg text-gray">
               Pour animer le quotidien, l&apos;impitoyable{" "}
@@ -205,12 +209,6 @@ export default function LaTeam() {
             Pour aller plus loin
           </h2>
           <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
-            <li>
-              <Link href="/article/7-bonnes-raisons-de-rejoindre-efficience-it" className="text-primary hover:underline">
-                7 bonnes raisons de rejoindre Efficience IT
-              </Link>{" "}
-             , pourquoi nous rejoindre
-            </li>
             <li>
               <Link href="/article/le-chocoblast-un-premier-pas-vers-la-securite-par-le-jeu" className="text-primary hover:underline">
                 Le chocoblast

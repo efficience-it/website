@@ -14,7 +14,7 @@ Clone/reproduction de https://www.itefficience.com en Next.js.
 ## Préférences
 
 - **PRs courtes** : une PR = un changement ciblé
-- **Pas de co-auteur** : ne pas ajouter `Co-Authored-By` dans les commits
+- **Pas de mention de Claude** : ne jamais ajouter `Co-Authored-By`, `Generated with Claude`, ni aucune référence à Claude dans les commits, PRs, code ou contenu
 - **Push / PR** : autorisé sans demander confirmation
 - **Jamais merger dans main** : ne jamais utiliser `gh pr merge` ou merger dans main, sous aucun prétexte
 - **Pas de `npm run build`** : ne pas lancer de build, ça coupe le serveur de dev
@@ -31,14 +31,14 @@ Clone/reproduction de https://www.itefficience.com en Next.js.
 
 ### Liens internes (vers d'autres articles du blog)
 
-- Entre 2 et 5 par article, uniquement si c'est pertinent pour le lecteur
+- ~1 lien interne tous les 200-300 mots : 3-5 pour un article de 1000 mots, 7-10 pour 1500-2000 mots
 - Privilégier les liens dans le corps du texte, ancrés sur un mot-clé descriptif (pas "cliquez ici")
 - Un lien dans le corps de l'article vaut 10x plus qu'un lien en bas de page dans une liste
 - Tisser des liens entre articles pour faire monter l'autorité des anciennes pages
 
 ### Liens externes (vers des sources tierces)
 
-- Entre 1 et 3 par article, pas plus
+- ~1-2 liens externes tous les 500 mots, max 5 pour un article long (1500+ mots)
 - Uniquement vers des sources à haute autorité : doc officielle Symfony, GitHub, article de référence
 - Jamais vers un concurrent direct
 - L'objectif : montrer qu'on s'appuie sur des sources sérieuses, pas faire fuir le lecteur

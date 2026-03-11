@@ -186,7 +186,11 @@ export default function CloudEtDevops() {
               <p className="mt-2 text-gray">
                 Grâce aux outils <strong>CI/CD</strong> (GitLab, Bitbucket, CircleCI, etc.), vos
                 projets passent de l&apos;idée à la production plus rapidement,
-                améliorant ainsi votre réactivité face aux besoins du marché.
+                améliorant ainsi votre réactivité face aux besoins du marché.{" "}
+                <Link href="/article/comment-executer-des-tests-postman-avec-newman-dans-gitlab-ci" className="text-primary hover:underline">
+                  L&apos;intégration des tests API dans GitLab CI
+                </Link>{" "}
+                est un exemple concret de cette automatisation.
               </p>
             </Card>
             <Card>
@@ -232,7 +236,11 @@ export default function CloudEtDevops() {
             Facilitez votre passage vers le Cloud avec l&apos;accompagnement de
             nos experts. Nous vous aidons à choisir le fournisseur le mieux
             adapté (AWS, Azure, Google Cloud, OVH, etc.) et à planifier une
-            migration fluide et sécurisée.
+            migration fluide et sécurisée. Notre approche intègre la{" "}
+            <Link href="/article/pourquoi-docker-est-indispensable-en-production-aujourdhui" className="text-primary hover:underline">
+              conteneurisation avec Docker
+            </Link>{" "}
+            pour garantir la portabilité et la cohérence de vos environnements tout au long de la transition.
           </p>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
             {migrationSteps.map((s) => (
@@ -327,22 +335,10 @@ export default function CloudEtDevops() {
           <SectionTitle>Pour aller plus loin</SectionTitle>
           <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
             <li>
-              <Link href="/article/pourquoi-docker-est-indispensable-en-production-aujourdhui" className="text-primary hover:underline">
-                Pourquoi Docker est indispensable en production
-              </Link>{" "}
-             , conteneurisation et bonnes pratiques
-            </li>
-            <li>
               <Link href="/article/deployer-nuxtjs-avec-gitlab-ci-s3-et-cloudfront" className="text-primary hover:underline">
                 Déployer avec GitLab CI, S3 et CloudFront
               </Link>{" "}
              , automatisation du déploiement
-            </li>
-            <li>
-              <Link href="/article/comment-executer-des-tests-postman-avec-newman-dans-gitlab-ci" className="text-primary hover:underline">
-                Tests Postman avec Newman dans GitLab CI
-              </Link>{" "}
-             , intégration continue des tests API
             </li>
             <li>
               <a href="https://docs.docker.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">

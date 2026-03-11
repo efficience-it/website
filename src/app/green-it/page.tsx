@@ -49,7 +49,11 @@ export default function GreenIt() {
                 Nous croyons que la technologie peut être au service de la
                 transition écologique. Grâce à des pratiques clean, nous
                 optimisons les applications pour réduire les ressources
-                nécessaires. Économie et écologie sont des maîtres mots.
+                nécessaires. Économie et écologie sont des maîtres mots.{" "}
+                <Link href="/article/eco-conception-un-ideal-en-marche-ou-une-illusion-durable" className="text-primary hover:underline">
+                  L&apos;éco-conception
+                </Link>{" "}
+                est au cœur de notre approche du développement web responsable.
               </p>
               <p className="mt-4 text-lg text-gray">
                 Nous encourageons le télétravail et les déplacements à vélo ou
@@ -155,8 +159,12 @@ export default function GreenIt() {
           <SectionTitle>Découvrez nos articles Green IT</SectionTitle>
           <p className="mx-auto max-w-2xl text-gray">
             Au-delà de cet engagement, nos collaborateurs utilisent le moteur de
-            recherche Ecosia, qui plante des arbres grâce aux recherches des
-            utilisateurs. Chaque petit geste a son impact.
+            recherche{" "}
+            <Link href="/article/ecosia-preservateur-decologie" className="text-primary hover:underline">
+              Ecosia
+            </Link>
+            , qui plante des arbres grâce aux recherches des utilisateurs.
+            Chaque petit geste a son impact.
           </p>
           <p className="mx-auto mt-4 max-w-2xl text-gray">
             Retrouvez nos articles sur le numérique responsable,
@@ -176,18 +184,6 @@ export default function GreenIt() {
         <Container>
           <SectionTitle>Pour aller plus loin</SectionTitle>
           <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
-            <li>
-              <Link href="/article/eco-conception-un-ideal-en-marche-ou-une-illusion-durable" className="text-primary hover:underline">
-                L&apos;éco-conception : un idéal en marche ?
-              </Link>{" "}
-             , numérique responsable et sobriété
-            </li>
-            <li>
-              <Link href="/article/ecosia-preservateur-decologie" className="text-primary hover:underline">
-                Ecosia, préservateur d&apos;écologie
-              </Link>{" "}
-             , un moteur de recherche au service de la planète
-            </li>
             <li>
               <Link href="/article/normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous" className="text-primary hover:underline">
                 Normes RGAA : accessibilité pour tous

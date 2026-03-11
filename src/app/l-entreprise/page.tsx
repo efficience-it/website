@@ -133,10 +133,17 @@ export default function LEntreprise() {
                 Expert en Symfony et en développement sur mesure
               </h2>
               <p className="mt-6 max-w-3xl text-lg text-gray">
-                Efficience IT est une agence Web spécialisée dans le conseil et le développement avec un ADN 100% Symfony créée pour répondre aux besoins digitaux des entreprises. Elle accompagne ses clients dans la création et reprise de projets web, en mettant à disposition des experts techniques Symfony, sur des prestations sur-mesure.
+                Efficience IT est une agence Web spécialisée dans le conseil et le développement avec un ADN 100% Symfony créée pour répondre aux besoins digitaux des entreprises. Elle accompagne ses clients dans la création et reprise de projets web, en mettant à disposition des experts techniques Symfony, sur des prestations sur-mesure. Notre équipe contribue activement à la communauté : retrouvez notre vision des{" "}
+                <Link href="/article/les-contributions-open-source-un-enjeu-de-taille-pour-les-developpeurs-et-les-projets" className="text-primary hover:underline">
+                  contributions open source
+                </Link>{" "}
+                et leur importance pour les développeurs.
               </p>
               <p className="mt-6 max-w-3xl text-lg text-gray">
-                Symfony nous permet de construire des applications robustes, évolutives, personnalisables et sécurisées, dans un délai et un budget maitrisé.
+                <Link href="/article/pourquoi-choisir-symfony-pour-vos-projets" className="text-primary hover:underline">
+                  Symfony
+                </Link>{" "}
+                nous permet de construire des applications robustes, évolutives, personnalisables et sécurisées, dans un délai et un budget maitrisé.
               </p>
             </div>
             <div className="flex justify-center">
@@ -225,18 +232,6 @@ export default function LEntreprise() {
                 7 bonnes raisons de rejoindre Efficience IT
               </Link>{" "}
              , découvrir notre culture d&apos;entreprise
-            </li>
-            <li>
-              <Link href="/article/les-contributions-open-source-un-enjeu-de-taille-pour-les-developpeurs-et-les-projets" className="text-primary hover:underline">
-                Les contributions open source
-              </Link>{" "}
-             , notre engagement dans la communauté
-            </li>
-            <li>
-              <Link href="/article/pourquoi-choisir-symfony-pour-vos-projets" className="text-primary hover:underline">
-                Pourquoi choisir Symfony pour vos projets
-              </Link>{" "}
-             , notre expertise technique
             </li>
             <li>
               <a href="https://symfony.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">

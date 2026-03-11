@@ -41,7 +41,7 @@ VuePress, porté par l'écosystème Vue.js, offre une personnalisation poussée 
 
 ## Docs-as-code : traiter la documentation comme du logiciel
 
-L'approche docs-as-code consiste à appliquer les pratiques du développement logiciel à la documentation : fichiers en texte brut versionnés dans Git, relecture par pull request, déploiement automatisé. Ce n'est pas qu'une question d'outillage, c'est un changement de culture. La documentation vit dans le même dépôt que le code (ou dans un dépôt dédié avec les mêmes standards), elle suit le même workflow de contribution, elle est soumise aux mêmes exigences de qualité.
+L'approche docs-as-code consiste à appliquer les pratiques du développement logiciel à la documentation : fichiers en texte brut versionnés dans Git, relecture par pull request, déploiement automatisé. Ce n'est pas qu'une question d'outillage, c'est un changement de culture. La documentation vit dans le même dépôt que le code (ou dans un dépôt dédié avec les mêmes standards), elle suit le même workflow de contribution, elle est soumise aux mêmes exigences de qualité. Pour les projets [Symfony](/article/pourquoi-choisir-symfony-pour-vos-projets), ce dépôt s'intègre naturellement au pipeline CI/CD du projet.
 
 L'avantage principal est la réduction de la friction. Un développeur qui corrige un bug peut mettre à jour la documentation dans la même pull request, sans changer de contexte ni d'outil. Les relecteurs voient le diff de la doc en même temps que le diff du code. Le déploiement est atomique.
 
@@ -85,7 +85,7 @@ Ces métriques ne remplacent pas le feedback qualitatif. Un bouton "cette page v
 
 ## Témoignage d'un de nos développeurs
 
-Chez Efficience IT, nous accordons une grande importance à la documentation de nos projets. Voici le témoignage de Gaëtan, l'un de nos développeurs, qui utilise Docusaurus et Diataxis au quotidien.
+Chez Efficience IT, nous accordons une grande importance à la documentation de nos projets. Le choix de l'[éditeur de code](/article/phpstorm-vscode-sublimetext-netbeans-quel-editeur-de-code-choisir) influence aussi la fluidité de la rédaction documentaire, PhpStorm et VS Code offrant des extensions Markdown avancées. Voici le témoignage de Gaëtan, l'un de nos développeurs, qui utilise Docusaurus et Diataxis au quotidien.
 
 > "Docusaurus, car c'est un outil clé en main. C'est du React, mais très simple a utilisé finalement. Tout ce qu'on a à faire en tant qu'utilisateur de Docusaurus c'est de placer nos documents Markdown comme on le souhaite. Lors du build, l'application va générer les routes, gérer la liste déroulante, compartimenter nos pages automatiquement. Docusaurus se charge de la partie redondante et nous, seulement de l'écriture des documents. De plus, l'appli ne requiert pas de base de données et peut être considéré comme un site vitrine, beaucoup plus simple à déployer et mettre en place."
 >
@@ -94,9 +94,7 @@ Chez Efficience IT, nous accordons une grande importance à la documentation de 
 ## Pour aller plus loin
 
 - [Documentation Symfony avec l'approche Diataxis](/article/comment-produire-la-documentation-sur-votre-projet-symfony-avec-lapproche-diataxis), Structurer votre documentation avec le framework Diataxis
-- [Pourquoi choisir Symfony pour vos projets](/article/pourquoi-choisir-symfony-pour-vos-projets), Découvrir les atouts du framework Symfony pour vos projets web
-- [Quel éditeur de code choisir ?](/article/phpstorm-vscode-sublimetext-netbeans-quel-editeur-de-code-choisir), Comparer les éditeurs de code pour vos projets de développement
+- [Swagger : NelmioBundle et ses fonctionnalités](/article/swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on), Générer automatiquement une documentation d'API dans vos projets Symfony
 - [Docusaurus](https://docusaurus.io/), Générateur de sites de documentation open source par Meta
 - [MkDocs](https://www.mkdocs.org/), Générateur de documentation statique basé sur Python
-- [GitBook](https://www.gitbook.com/), Plateforme SaaS pour créer et héberger votre documentation
 - [Diataxis](https://diataxis.fr/), Le framework de référence pour structurer la documentation technique
