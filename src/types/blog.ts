@@ -8,4 +8,5 @@ export interface BlogPost {
   updatedAt?: string;
   image?: string;
   content: string;
+  wordCount: number;
 }

@@ -74,14 +74,21 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const post = getPostBySlug(slug);
   if (!post) notFound();
 
+  const url = `${BASE_URL}/article/${slug}`;
+  const isOrgAuthor = !post.author || post.author === "Efficience IT";
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": url,
+    },
     headline: post.title,
     description: post.excerpt,
     author: {
-      "@type": "Person",
-      name: post.author,
+      "@type": isOrgAuthor ? "Organization" : "Person",
+      name: isOrgAuthor ? SITE_NAME : post.author,
     },
     image: post.image ? `${BASE_URL}${post.image}` : undefined,
     genre: post.category,
@@ -89,10 +96,16 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       "@type": "Organization",
       name: SITE_NAME,
       url: BASE_URL,
+      logo: {
+        "@type": "ImageObject",
+        url: `${BASE_URL}/images/logo/logo-og.png`,
+      },
     },
     datePublished: post.date,
     dateModified: post.updatedAt ?? post.date,
-    url: `${BASE_URL}/article/${slug}`,
+    url,
+    wordCount: post.wordCount,
+    inLanguage: "fr-FR",
   };
 
   const breadcrumb = breadcrumbJsonLd([
