@@ -5,7 +5,7 @@ import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
 import Card from "@/components/ui/Card";
 import AuditForm from "@/components/sections/AuditForm";
-import { breadcrumbJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, howToJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "Audit Symfony gratuit 30 min",
@@ -46,12 +46,35 @@ const breadcrumb = breadcrumbJsonLd([
   { name: "Audit Symfony gratuit", path: "/audit-symfony-gratuit" },
 ]);
 
+const howTo = howToJsonLd(
+  "Obtenir un audit Symfony gratuit",
+  "Comment obtenir un audit technique gratuit de 30 minutes pour votre application Symfony.",
+  [
+    {
+      name: "Remplir le formulaire",
+      text: "Renseignez quelques informations sur votre projet Symfony (version, taille de l'équipe, problème principal) via le formulaire en ligne.",
+    },
+    {
+      name: "Appel visio de 30 minutes",
+      text: "Un expert Symfony analyse votre application avec vous en visioconférence. Partagez un accès en lecture au repo si possible.",
+    },
+    {
+      name: "Compte-rendu sous 48h",
+      text: "Recevez une synthèse écrite avec les constats et recommandations d'amélioration, sans engagement.",
+    },
+  ],
+);
+
 export default function AuditSymfonyGratuit() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howTo) }}
       />
       <main>
         <section className="bg-light-gray py-16 md:py-24">

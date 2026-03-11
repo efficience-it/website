@@ -6,7 +6,7 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import CallToAction from "@/components/sections/CallToAction";
-import { breadcrumbJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "Cloud & DevOps | Expertise technique – Efficience IT",
@@ -62,12 +62,23 @@ const breadcrumb = breadcrumbJsonLd([
   { name: "Cloud & DevOps", path: "/cloud-et-devops" },
 ]);
 
+const service = serviceJsonLd({
+  name: "Cloud & DevOps",
+  description:
+    "Hébergement cloud, automatisation DevOps, migration d'infrastructure et CI/CD pour les projets web professionnels.",
+  path: "/cloud-et-devops",
+});
+
 export default function CloudEtDevops() {
   return (
     <>
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(service) }}
     />
     <main>
       {/* Hero */}
