@@ -110,11 +110,6 @@ const faqItems = [
     content:
       "Nous delivrons une attestation de formation a chaque participant. Pour une certification officielle Symfony, nous recommandons le passage de l'examen Symfony Certification disponible sur le site de SensioLabs. Nos formations constituent une excellente preparation.",
   },
-  {
-    title: "Quel est le prix d'une formation Symfony en entreprise ?",
-    content:
-      "Le tarif depend de la duree, du format (presentiel ou distanciel) et du nombre de participants. Contactez-nous pour recevoir un devis personnalise adapte a votre programme et a votre equipe.",
-  },
 ];
 
 const faqJsonLd = {
@@ -304,6 +299,29 @@ export default function FormationSymfonyEntreprise() {
                   les 6 etapes pour monter en competences sur Symfony
                 </Link>{" "}
                 constitue une bonne preparation.
+              </p>
+              <p>
+                Les formations en presentiel sont dispensees depuis nos bureaux lillois ou chez
+                vous en region Hauts-de-France. Notre{" "}
+                <Link
+                  href="/agence-symfony-lille"
+                  className="text-primary hover:underline"
+                >
+                  agence Symfony a Lille
+                </Link>{" "}
+                vous garantit une proximite reelle avec un formateur qui connait votre ecosysteme
+                local.
+              </p>
+              <p>
+                Le module API Platform est particulierement plebe pour les equipes qui doivent
+                ensuite mettre en pratique leurs acquis sur un vrai projet d&apos;
+                <Link
+                  href="/api-sur-mesure-symfony"
+                  className="text-primary hover:underline"
+                >
+                  API sur mesure avec Symfony
+                </Link>
+                .
               </p>
             </div>
           </Container>
