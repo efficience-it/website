@@ -170,7 +170,7 @@ export default function DeveloppementNodejs() {
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
                   Des applications rapides, scalables et modernes avec{" "}
-                  <strong>Node.js</strong>. Efficience IT conoit des{" "}
+                  <strong>Node.js</strong>. Efficience IT concoit des{" "}
                   <strong>APIs REST et GraphQL</strong>, des backends temps reel
                   et des architectures microservices avec les memes exigences
                   qualite que nos projets Symfony.
@@ -257,7 +257,7 @@ export default function DeveloppementNodejs() {
                   </h3>
                   <p className="mt-2 text-gray">
                     Partager du code TypeScript entre le frontend et le backend
-                    reduit la duplication, acelere les livraisons et simplifie
+                    reduit la duplication, accelere les livraisons et simplifie
                     la montee en competences des equipes. Un seul langage pour
                     toute la stack.
                   </p>

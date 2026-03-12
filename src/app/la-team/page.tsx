@@ -134,9 +134,9 @@ export default function LaTeam() {
                 Comment se compose l&apos;équipe ?
               </h2>
               <p className="mt-4 text-lg text-gray">
-                Équipé de chefs de projets, et de développeurs Symfony (certifiés
+                Équipée de chefs de projets et de développeurs Symfony (certifiés
                 pour la plupart), Efficience IT vous propose un accompagnement sur
-                mesure en toute agilité. La réactivité, et la communication sont
+                mesure en toute agilité. La réactivité et la communication sont
                 les maîtres mots dans les équipes.
               </p>
               <Link

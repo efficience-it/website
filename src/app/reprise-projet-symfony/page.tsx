@@ -37,7 +37,7 @@ const signes = [
   {
     title: "Deploiements risques et manuels",
     description:
-      "Mettre en production necessite des interventions manuelles, des fenetre de maintenance et une apprehension a chaque fois.",
+      "Mettre en production necessite des interventions manuelles, des fenêtres de maintenance et une apprehension a chaque fois.",
   },
   {
     title: "Turnover ou disparition du prestataire",
@@ -406,7 +406,7 @@ export default function RepriseProjetSymfony() {
                     <h3 className="font-display font-bold text-dark">Rapport ecrit sous 48h</h3>
                     <p className="mt-1 text-gray">
                       Un document clair avec les constats, les risques priorises et
-                      les recommandations d&apos;action imediates et a moyen terme.
+                      les recommandations d&apos;action immediates et a moyen terme.
                     </p>
                   </div>
                 </div>
