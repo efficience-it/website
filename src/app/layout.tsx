@@ -61,6 +61,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr-FR">
+      <head>
+        <link rel="ai-metadata" href="/.well-known/llms.txt" />
+      </head>
       <body
         className={`${montserrat.variable} ${exo.variable} font-sans antialiased`}
       >
