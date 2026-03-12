@@ -23,13 +23,6 @@ export const testimonials: Testimonial[] = [
       "Nous travaillons depuis plusieurs années avec eux. Efficience IT partage nos valeurs et font de leur mieux pour satisfaire clients.",
   },
   {
-    name: "Robin Rins",
-    role: "COO",
-    company: "Faceel IT",
-    quote:
-      "Une belle société lilloise disposant d'une expertise poussée sur Symfony. Louis Arnaud toujours à l'écoute pour ses clients.",
-  },
-  {
     name: "Samy Venin",
     role: "COO",
     company: "TELTEC",

@@ -135,7 +135,7 @@ Lien : https://www.itefficience.com/secteur/industrie
 
 ### SaaS
 
-Applications SaaS robustes avec Symfony : architecture multi-tenant, API REST/GraphQL, scalabilite horizontale, CI/CD et monitoring en production. References : Assoconnect, Sesame IT, Faceel IT.
+Applications SaaS robustes avec Symfony : architecture multi-tenant, API REST/GraphQL, scalabilite horizontale, CI/CD et monitoring en production. References : Assoconnect, Sesame IT.
 
 Lien : https://www.itefficience.com/secteur/saas
 
