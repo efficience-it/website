@@ -74,6 +74,16 @@ function getAllFiles(dir: string, ext: string): string[] {
   return results;
 }
 
+function extractExternalHrefs(content: string): string[] {
+  const regex = /href="(https?:\/\/[^"]*?)"/g;
+  const hrefs: string[] = [];
+  let match;
+  while ((match = regex.exec(content)) !== null) {
+    hrefs.push(match[1]);
+  }
+  return hrefs;
+}
+
 describe("Internal links", () => {
   const validRoutes = getValidRoutes();
 
@@ -136,6 +146,74 @@ describe("Internal links", () => {
         .map((b) => `  ${b.file}: ${b.href}`)
         .join("\n");
       throw new Error(`Broken internal links:\n${details}`);
+    }
+  });
+
+  it("all external links use valid URL format", () => {
+    const tsxFiles = getAllFiles(SRC_DIR, ".tsx").filter(
+      (f) => !f.includes("__tests__") && !f.includes(".test.")
+    );
+
+    const invalid: { file: string; href: string; reason: string }[] = [];
+
+    for (const file of tsxFiles) {
+      const content = fs.readFileSync(file, "utf-8");
+      const hrefs = extractExternalHrefs(content);
+      for (const href of hrefs) {
+        try {
+          const url = new URL(href);
+          if (!url.hostname.includes(".")) {
+            invalid.push({ file: path.relative(process.cwd(), file), href, reason: "invalid hostname" });
+          }
+        } catch {
+          invalid.push({ file: path.relative(process.cwd(), file), href, reason: "malformed URL" });
+        }
+      }
+    }
+
+    if (invalid.length > 0) {
+      const details = invalid
+        .map((b) => `  ${b.file}: ${b.href} (${b.reason})`)
+        .join("\n");
+      throw new Error(`Invalid external links:\n${details}`);
+    }
+  });
+
+  it("all service pages with page.tsx are in the sitemap", () => {
+    const sitemapContent = fs.readFileSync(
+      path.join(SRC_DIR, "app/sitemap.ts"),
+      "utf-8"
+    );
+
+    const excludedDirs = [
+      "domain",
+      "mentions-legales",
+      "politique-de-confidentialite",
+    ];
+
+    const serviceDirs = fs
+      .readdirSync(path.join(SRC_DIR, "app"), { withFileTypes: true })
+      .filter(
+        (e) =>
+          e.isDirectory() &&
+          !e.name.startsWith("[") &&
+          !e.name.startsWith("_") &&
+          !excludedDirs.includes(e.name) &&
+          fs.existsSync(path.join(SRC_DIR, "app", e.name, "page.tsx"))
+      )
+      .map((e) => e.name);
+
+    const missing: string[] = [];
+    for (const dir of serviceDirs) {
+      if (!sitemapContent.includes(`/${dir}`)) {
+        missing.push(`/${dir}`);
+      }
+    }
+
+    if (missing.length > 0) {
+      throw new Error(
+        `Pages missing from sitemap:\n${missing.map((p) => `  ${p}`).join("\n")}`
+      );
     }
   });
 });
