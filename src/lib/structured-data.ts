@@ -171,7 +171,7 @@ export function webPageJsonLd({
       url: BASE_URL,
     },
     ...(datePublished && { datePublished }),
-    ...(dateModified && { dateModified: dateModified ?? datePublished }),
+    ...(dateModified && { dateModified }),
   };
 }
 
