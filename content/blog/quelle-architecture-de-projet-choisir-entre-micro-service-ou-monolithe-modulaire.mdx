@@ -66,6 +66,21 @@ Le debugging reste direct, un point d'arrêt dans l'IDE suffit pour suivre le fl
 
 Les micro-services se justifient lorsque plusieurs équipes indépendantes travaillent sur des domaines métier distincts et que la coordination par le code devient un goulot d'étranglement. Ils s'imposent quand certaines parties de l'application ont des besoins de scalabilité radicalement différents, un moteur de recherche sollicité massivement alors que le back-office d'administration reste peu utilisé. L'organisation doit être suffisamment mature pour absorber la complexité opérationnelle.
 
+## Tableau comparatif monolithe modulaire vs micro-services
+
+| Critere | Monolithe modulaire | Micro-services |
+|---------|---------------------|----------------|
+| Deploiement | Unique, simple | Independant par service |
+| Scalabilite | Horizontale (instances) | Fine (par service) |
+| Coherence des donnees | Transactions ACID natives | Eventuelle (Sagas) |
+| Debugging | Direct (breakpoints IDE) | Distribue (tracing, logs centralises) |
+| Cout infrastructure | Faible | Eleve (Kubernetes, brokers, observabilite) |
+| Autonomie des equipes | Moderee | Forte |
+| Tolerance aux erreurs de decoupage | Refactoring interne | Migration de bases, APIs, infra |
+| Complexite operationnelle | Faible | Elevee |
+| Onboarding developpeurs | Rapide | Plus long (patterns distribues) |
+| Equipe ideale | Jusqu'a ~20 developpeurs | Au-dela de 20, equipes autonomes |
+
 ## Stratégies de transition et vision architecturale
 
 ### Le Strangler Fig Pattern

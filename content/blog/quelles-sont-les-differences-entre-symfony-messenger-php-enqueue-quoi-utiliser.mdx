@@ -225,6 +225,21 @@ Si vous maintenez un projet qui utilise encore Enqueue, la migration vers Messen
 
 Le point d'attention principal est la coexistence pendant la migration. Si vos queues contiennent des messages au format Enqueue, vous devrez soit les vider avant de basculer, soit implémenter un serializer de transition qui comprend les deux formats. Privilégiez une migration progressive transport par transport plutot qu'un big bang. La gestion des dépendances via [Composer](/article/utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques) est aussi un point d'attention : Enqueue et Messenger peuvent coexister temporairement dans le `composer.json` pendant la transition.
 
+## Tableau comparatif Messenger vs Enqueue
+
+| Critere | Symfony Messenger | PHP Enqueue |
+|---------|-------------------|-------------|
+| Maintenance | Active (chaque version Symfony) | Quasi abandonne depuis 2023 |
+| Integration Symfony | Native (autowiring, DI, Profiler) | Via bridge, moins integre |
+| Pipeline de middlewares | Oui (validation, transaction, stamps) | Non |
+| Transports natifs | Doctrine, AMQP, Redis, SQS, In-Memory | AMQP, Kafka, Redis, SQS, GPS, MongoDB |
+| Transports communautaires | Kafka, Beanstalkd et autres | Limites (maintenance inactive) |
+| Failure transport | Natif (inspection et replay en CLI) | Via mecanismes du broker |
+| Scheduler | Integre depuis Symfony 6.3 | Non |
+| Multi-bus (CQRS) | Oui (command, query, event) | Non |
+| Serialisation configurable | Oui (serializer custom) | Basique |
+| Compatibilite PHP 8.3+ | Oui | Non garantie |
+
 ## Verdict 2026
 
 En 2026, le choix est clair : **Symfony Messenger est le standard**. Il couvre tous les cas d'usage du messaging asynchrone dans l'écosysteme Symfony, il évolue avec chaque version du framework, et sa communauté est massive.
