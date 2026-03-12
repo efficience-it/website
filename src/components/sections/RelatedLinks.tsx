@@ -43,7 +43,7 @@ export default function RelatedLinks({ links, className = "" }: RelatedLinksProp
                 >
                   {content}
                   <span className="mt-3 inline-block text-sm font-medium text-primary">
-                    Consulter ↗
+                    Consulter <span className="inline-block transition-transform duration-200 group-hover:translate-x-1">↗</span>
                   </span>
                 </a>
               );
@@ -57,7 +57,7 @@ export default function RelatedLinks({ links, className = "" }: RelatedLinksProp
               >
                 {content}
                 <span className="mt-3 inline-block text-sm font-medium text-primary">
-                  Découvrir →
+                  Découvrir <span className="inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
                 </span>
               </Link>
             );

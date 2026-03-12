@@ -50,9 +50,9 @@ export default function BlogCard({ post, headingLevel = 3 }: BlogCardProps) {
       <p className="mt-2 text-sm text-gray">{post.excerpt}</p>
       <Link
         href={`/article/${post.slug}`}
-        className="mt-4 inline-block text-sm font-semibold text-primary hover:text-primary-dark"
+        className="group/arrow mt-4 inline-block text-sm font-semibold text-primary hover:text-primary-dark"
       >
-        Lire la suite &rarr;
+        Lire la suite <span className="inline-block transition-transform duration-200 group-hover/arrow:translate-x-1">&rarr;</span>
       </Link>
       </div>
     </article>
