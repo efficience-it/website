@@ -92,6 +92,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: `${BASE_URL}/formation-symfony-entreprise`,
+      lastModified: "2026-01-13",
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/modernisation-application-php`,
+      lastModified: "2026-02-01",
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
       url: `${BASE_URL}/reprise-projet-symfony`,
       lastModified: "2026-02-01",
       changeFrequency: "monthly",
