@@ -9,6 +9,7 @@ import BlogPreview from "@/components/sections/BlogPreview";
 import Testimonials from "@/components/sections/Testimonials";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
+import FadeIn from "@/components/ui/FadeIn";
 
 import { pageMetadata } from "@/lib/metadata";
 import { webPageJsonLd, reviewsJsonLd } from "@/lib/structured-data";
@@ -53,27 +54,45 @@ export default function Home() {
     />
     <main>
       <Hero />
-      <ExpertiseCards />
-      <AboutPreview />
-      <ProcessSteps />
-      <ClientLogos />
-      <section className="py-16">
-        <Container>
-          <SectionTitle>Quelques chiffres</SectionTitle>
-          <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
-            {keyFigures.map((figure) => (
-              <div key={figure.label} className="text-center">
-                <p className="font-display text-4xl font-bold text-primary">{figure.value}</p>
-                <p className="mt-2 text-gray">{figure.label}</p>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </section>
-      <CallToAction />
-      <BlogPreview />
-      <Testimonials />
-      <AuditCallToAction />
+      <FadeIn>
+        <ExpertiseCards />
+      </FadeIn>
+      <FadeIn>
+        <AboutPreview />
+      </FadeIn>
+      <FadeIn>
+        <ProcessSteps />
+      </FadeIn>
+      <FadeIn>
+        <ClientLogos />
+      </FadeIn>
+      <FadeIn>
+        <section className="py-16">
+          <Container>
+            <SectionTitle>Quelques chiffres</SectionTitle>
+            <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+              {keyFigures.map((figure) => (
+                <div key={figure.label} className="text-center">
+                  <p className="font-display text-4xl font-bold text-primary">{figure.value}</p>
+                  <p className="mt-2 text-gray">{figure.label}</p>
+                </div>
+              ))}
+            </div>
+          </Container>
+        </section>
+      </FadeIn>
+      <FadeIn>
+        <CallToAction />
+      </FadeIn>
+      <FadeIn>
+        <BlogPreview />
+      </FadeIn>
+      <FadeIn>
+        <Testimonials />
+      </FadeIn>
+      <FadeIn>
+        <AuditCallToAction />
+      </FadeIn>
     </main>
     </>
   );

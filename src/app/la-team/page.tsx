@@ -4,6 +4,7 @@ import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import CallToAction from "@/components/sections/CallToAction";
+import FadeIn from "@/components/ui/FadeIn";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
@@ -94,7 +95,7 @@ export default function LaTeam() {
         </Container>
       </section>
 
-      {/* Qui sommes-nous */}
+      <FadeIn>
       <section className="py-16 md:py-24">
         <Container>
           <div className="grid items-center gap-12 md:grid-cols-2">
@@ -122,8 +123,9 @@ export default function LaTeam() {
           </div>
         </Container>
       </section>
+      </FadeIn>
 
-      {/* Comment se compose l'équipe */}
+      <FadeIn>
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
           <div className="grid items-center gap-12 md:grid-cols-2">
@@ -156,8 +158,9 @@ export default function LaTeam() {
           </div>
         </Container>
       </section>
+      </FadeIn>
 
-      {/* Experts */}
+      <FadeIn>
       <section className="py-16 md:py-24">
         <Container>
           <div className="grid items-center gap-12 md:grid-cols-2">
@@ -201,8 +204,9 @@ export default function LaTeam() {
           </div>
         </Container>
       </section>
+      </FadeIn>
 
-      {/* Cohésion */}
+      <FadeIn>
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
           <div className="mx-auto max-w-3xl text-center">
@@ -236,10 +240,15 @@ export default function LaTeam() {
           </div>
         </Container>
       </section>
+      </FadeIn>
 
+      <FadeIn>
       <RelatedLinks links={teamRelatedLinks} />
+      </FadeIn>
 
+      <FadeIn>
       <CallToAction />
+      </FadeIn>
     </main>
     </>
   );

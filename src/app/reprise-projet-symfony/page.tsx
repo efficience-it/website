@@ -8,6 +8,7 @@ import Accordion from "@/components/ui/Accordion";
 import StickyMobileCta from "@/components/sections/StickyMobileCta";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
+import FadeIn from "@/components/ui/FadeIn";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
@@ -239,6 +240,7 @@ export default function RepriseProjetSymfony() {
           </Container>
         </section>
 
+        <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
             <SectionTitle>Les signes qu&apos;il est temps de changer</SectionTitle>
@@ -289,7 +291,9 @@ export default function RepriseProjetSymfony() {
             </p>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <SectionTitle>Notre approche de reprise</SectionTitle>
@@ -323,7 +327,9 @@ export default function RepriseProjetSymfony() {
             </p>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
             <SectionTitle>Ce que comprend notre audit de reprise</SectionTitle>
@@ -408,7 +414,9 @@ export default function RepriseProjetSymfony() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <SectionTitle>Pourquoi nous confier votre projet</SectionTitle>
@@ -462,7 +470,9 @@ export default function RepriseProjetSymfony() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="bg-primary py-16 text-center text-white">
           <div className="mx-auto max-w-3xl px-4">
             <h2 className="font-display text-3xl font-bold">
@@ -480,7 +490,9 @@ export default function RepriseProjetSymfony() {
             </Link>
           </div>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
             <SectionTitle>Questions frequentes</SectionTitle>
@@ -489,9 +501,12 @@ export default function RepriseProjetSymfony() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <RelatedLinks links={repriseRelatedLinks} className="bg-light-gray" />
         <StickyMobileCta />
+        </FadeIn>
       </main>
     </>
   );

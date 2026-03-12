@@ -12,6 +12,7 @@ import type { Metadata } from "next";
 import { BASE_URL, SITE_NAME, pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
 import { getAuthorSchema } from "@/data/authors";
+import FadeIn from "@/components/ui/FadeIn";
 
 const TECH_CATEGORIES = ["Outils", "Formation", "Projet", "Green IT"];
 
@@ -214,6 +215,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 )}
               </div>
             </header>
+            <FadeIn>
             <div className="mx-auto max-w-3xl">
               {(() => {
                 const parts = splitContentAfterThirdH2(post.content);
@@ -249,8 +251,12 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 );
               })()}
             </div>
+            </FadeIn>
+            <FadeIn>
             <ArticleCta category={post.category} slug={slug} />
+            </FadeIn>
             {post.faq && post.faq.length > 0 && (
+              <FadeIn>
               <div className="mt-16">
                 <SectionTitle>Questions frequentes</SectionTitle>
                 <div className="mx-auto mt-8 max-w-2xl">
@@ -262,6 +268,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   />
                 </div>
               </div>
+              </FadeIn>
             )}
             <div className="mt-12 border-t border-border pt-8">
               <Button href="/blog" variant="outline">

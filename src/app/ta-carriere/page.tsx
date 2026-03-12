@@ -5,6 +5,7 @@ import Button from "@/components/ui/Button";
 import JobCard from "@/components/cards/JobCard";
 import { jobs, domains, spontaneousEmail } from "@/../data/jobs";
 import Link from "next/link";
+import FadeIn from "@/components/ui/FadeIn";
 import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
@@ -63,6 +64,7 @@ export default function TaCarriere() {
         </Container>
       </section>
 
+      <FadeIn>
       <section className="py-16">
         <Container>
           <SectionTitle>Nos domaines</SectionTitle>
@@ -95,9 +97,13 @@ export default function TaCarriere() {
           )}
         </Container>
       </section>
+      </FadeIn>
 
+      <FadeIn>
       <RelatedLinks links={relatedLinks} />
+      </FadeIn>
 
+      <FadeIn>
       <section className="bg-light-gray py-16">
         <Container className="text-center">
           <SectionTitle>Candidature spontanée</SectionTitle>
@@ -116,6 +122,7 @@ export default function TaCarriere() {
           <p className="mt-4 text-sm text-gray">{spontaneousEmail}</p>
         </Container>
       </section>
+      </FadeIn>
     </main>
     </>
   );

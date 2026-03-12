@@ -3,6 +3,7 @@ import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
 import Accordion from "@/components/ui/Accordion";
 import ContactForm from "@/components/sections/ContactForm";
+import FadeIn from "@/components/ui/FadeIn";
 import { faqItems } from "@/../data/faq";
 import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
@@ -66,6 +67,7 @@ export default function Contact() {
           </Container>
         </section>
 
+        <FadeIn>
         <section className="py-16">
           <Container>
             <div className="grid gap-12 lg:grid-cols-2">
@@ -95,7 +97,9 @@ export default function Contact() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="bg-light-gray py-16">
           <Container>
             <SectionTitle>Questions fréquentes</SectionTitle>
@@ -104,6 +108,7 @@ export default function Contact() {
             </div>
           </Container>
         </section>
+        </FadeIn>
       </main>
     </>
   );

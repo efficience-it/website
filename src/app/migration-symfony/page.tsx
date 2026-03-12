@@ -7,6 +7,7 @@ import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
 import CallToAction from "@/components/sections/CallToAction";
 import StickyMobileCta from "@/components/sections/StickyMobileCta";
+import FadeIn from "@/components/ui/FadeIn";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
@@ -232,6 +233,7 @@ export default function MigrationSymfony() {
           </Container>
         </section>
 
+        <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
             <SectionTitle>Versions supportees et chemins de migration</SectionTitle>
@@ -276,7 +278,9 @@ export default function MigrationSymfony() {
             </p>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <SectionTitle>Notre methodologie de migration</SectionTitle>
@@ -310,7 +314,9 @@ export default function MigrationSymfony() {
             </p>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
             <SectionTitle>Pourquoi nous confier votre migration</SectionTitle>
@@ -363,7 +369,9 @@ export default function MigrationSymfony() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="bg-primary py-16 text-center text-white">
           <div className="mx-auto max-w-3xl px-4">
             <h2 className="font-display text-3xl font-bold">
@@ -382,7 +390,9 @@ export default function MigrationSymfony() {
             </Link>
           </div>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
             <SectionTitle>Questions frequentes</SectionTitle>
@@ -391,7 +401,9 @@ export default function MigrationSymfony() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="bg-light-gray py-16">
           <Container>
             <SectionTitle>Pour aller plus loin</SectionTitle>
@@ -446,9 +458,12 @@ export default function MigrationSymfony() {
             </ul>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <CallToAction />
         <StickyMobileCta />
+        </FadeIn>
       </main>
     </>
   );

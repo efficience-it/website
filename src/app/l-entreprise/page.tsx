@@ -6,6 +6,7 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import TimelineItem from "@/components/cards/TimelineItem";
 import Button from "@/components/ui/Button";
 import CallToAction from "@/components/sections/CallToAction";
+import FadeIn from "@/components/ui/FadeIn";
 import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
@@ -184,6 +185,7 @@ export default function LEntreprise() {
         </Container>
       </section>
 
+      <FadeIn>
       <section className="py-16">
         <Container>
           <div className="mx-auto max-w-2xl">
@@ -198,7 +200,9 @@ export default function LEntreprise() {
           </div>
         </Container>
       </section>
+      </FadeIn>
 
+      <FadeIn>
       <section className="bg-white py-16">
         <Container>
           <SectionTitle>Ils parlent de nous</SectionTitle>
@@ -217,7 +221,9 @@ export default function LEntreprise() {
           </div>
         </Container>
       </section>
+      </FadeIn>
 
+      <FadeIn>
       <section className="bg-light-gray py-16">
         <Container>
           <SectionTitle>Nos fondamentaux</SectionTitle>
@@ -236,7 +242,9 @@ export default function LEntreprise() {
           </div>
         </Container>
       </section>
+      </FadeIn>
 
+      <FadeIn>
       <section className="bg-white py-16">
         <Container className="text-center">
           <Button href="/contact" variant="primary" size="lg">
@@ -244,10 +252,15 @@ export default function LEntreprise() {
           </Button>
         </Container>
       </section>
+      </FadeIn>
 
+      <FadeIn>
       <RelatedLinks links={enterpriseRelatedLinks} />
+      </FadeIn>
 
+      <FadeIn>
       <CallToAction />
+      </FadeIn>
     </main>
     </>
   );

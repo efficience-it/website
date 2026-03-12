@@ -7,6 +7,7 @@ import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import { services, symfonyAdvantages, methodology } from "@/../data/expertise";
 import CallToAction from "@/components/sections/CallToAction";
+import FadeIn from "@/components/ui/FadeIn";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
@@ -106,13 +107,16 @@ export default function NotreExpertise() {
         </Container>
       </section>
 
+      <FadeIn>
       <section className="py-16 md:py-24">
         <Container>
           <SectionTitle>Technologies maîtrisées</SectionTitle>
           <TechnologiesGrid />
         </Container>
       </section>
+      </FadeIn>
 
+      <FadeIn>
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
           <SectionTitle>Nos services</SectionTitle>
@@ -147,7 +151,9 @@ export default function NotreExpertise() {
           </div>
         </Container>
       </section>
+      </FadeIn>
 
+      <FadeIn>
       <section className="py-16 md:py-24">
         <Container>
           <SectionTitle subtitle="Ce framework est notre cœur de métier. Choisir Symfony, c'est faire le pari de la performance, de la flexibilité et de la pérennité pour vos outils digitaux. Voici pourquoi nous le préconisons :">
@@ -175,7 +181,9 @@ export default function NotreExpertise() {
           </div>
         </Container>
       </section>
+      </FadeIn>
 
+      <FadeIn>
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
           <SectionTitle>Comment nous travaillons</SectionTitle>
@@ -206,9 +214,15 @@ export default function NotreExpertise() {
           </div>
         </Container>
       </section>
-      <RelatedLinks links={expertiseRelatedLinks} />
+      </FadeIn>
 
+      <FadeIn>
+      <RelatedLinks links={expertiseRelatedLinks} />
+      </FadeIn>
+
+      <FadeIn>
       <CallToAction />
+      </FadeIn>
     </main>
     </>
   );
