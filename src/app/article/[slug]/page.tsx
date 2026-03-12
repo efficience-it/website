@@ -106,7 +106,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     url,
     wordCount: post.wordCount,
     inLanguage: "fr-FR",
-    ...(isTech && { proficiencyLevel: "Expert" }),
+    ...(isTech && { proficiencyLevel: post.proficiencyLevel ?? "Intermediate" }),
   };
 
   const breadcrumb = breadcrumbJsonLd([
