@@ -13,7 +13,7 @@ import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/structured-data";
 export const metadata = pageMetadata({
   title: "GEO : optimisez votre visibilite dans les moteurs IA",
   description:
-    "Votre marque est invisible ou mal representee dans ChatGPT, Perplexity et Google AI Overviews ? Efficience IT audite vos citations IA et optimise votre presence dans les moteurs generatifs.",
+    "Votre marque est invisible ou mal representee dans ChatGPT, Perplexity et Google AI Overviews ? Efficience IT vous accompagne pour optimiser votre presence dans les moteurs generatifs.",
   path: "/geo-optimisation-ia",
 });
 
@@ -38,9 +38,9 @@ const problems = [
 const approche = [
   {
     num: "1",
-    title: "Audit de citations IA",
+    title: "Etat des lieux",
     description:
-      "Nous interrogeons ChatGPT, Perplexity, Gemini et Google AI Overviews sur les requetes cles de votre secteur. Vous recevez un rapport qui montre ou vous etes cite, ou vous etes absent, et ou vos concurrents apparaissent a votre place.",
+      "Nous analysons votre presence dans les reponses de ChatGPT, Perplexity, Gemini et Google AI Overviews sur les requetes cles de votre secteur. On identifie ensemble ou vous etes cite, ou vous etes absent et ou sont vos concurrents.",
   },
   {
     num: "2",
@@ -92,7 +92,7 @@ const faqItems = [
   {
     title: "Comment savoir si mon site est cite par les moteurs IA ?",
     content:
-      "C'est justement l'objet de notre audit de citations IA. Nous interrogeons les principaux moteurs (ChatGPT, Perplexity, Gemini, Google AI Overviews) sur les requetes cles de votre secteur et vous livrons un rapport detaille : ou vous etes cite, ou vous etes absent, et ce que font vos concurrents sur ces memes requetes.",
+      "Il suffit d'interroger les principaux moteurs (ChatGPT, Perplexity, Gemini, Google AI Overviews) sur les requetes cles de votre secteur. Nous vous aidons a faire cet etat des lieux et a identifier ou vous etes cite, ou vous etes absent, et ce que font vos concurrents sur ces memes requetes.",
   },
   {
     title: "Est-ce que le GEO remplace le SEO traditionnel ?",
@@ -131,7 +131,7 @@ const breadcrumb = breadcrumbJsonLd([
 const service = serviceJsonLd({
   name: "GEO - Generative Engine Optimization",
   description:
-    "Audit de citations IA et optimisation de votre visibilite dans les moteurs generatifs : ChatGPT, Perplexity, Gemini et Google AI Overviews.",
+    "Accompagnement GEO pour optimiser votre visibilite dans les moteurs generatifs : ChatGPT, Perplexity, Gemini et Google AI Overviews.",
   path: "/geo-optimisation-ia",
 });
 
@@ -202,14 +202,15 @@ export default function GeoOptimisationIa() {
                   sans meme le savoir.
                 </p>
                 <p className="mt-4 max-w-3xl text-lg text-gray">
-                  Efficience IT audite vos citations dans les moteurs IA et
-                  optimise votre presence pour que votre expertise soit{" "}
-                  <strong>correctement representee, citee et recommandee</strong>{" "}
-                  par les intelligences artificielles.
+                  Efficience IT vous accompagne pour rendre votre site{" "}
+                  <strong>visible, correctement represente et cite</strong>{" "}
+                  par les moteurs IA. Donnees structurees, contenu optimise,
+                  balisage semantique : nous mettons en place les fondations
+                  techniques qui font la difference.
                 </p>
                 <div className="mt-8">
                   <Button href="/contact">
-                    Demander un audit de citations IA
+                    Parlons de votre visibilite IA
                   </Button>
                 </div>
               </div>
@@ -353,18 +354,18 @@ export default function GeoOptimisationIa() {
         <section className="bg-primary py-16 text-center text-white">
           <div className="mx-auto max-w-3xl px-4">
             <h2 className="font-display text-3xl font-bold">
-              Decouvrez ou vous etes invisible dans les moteurs IA
+              Rendez votre expertise visible dans les moteurs IA
             </h2>
             <p className="mt-4 text-lg text-white/90">
-              Notre audit de citations IA revele les requetes ou vos
-              concurrents apparaissent a votre place. Vous repartez avec un
-              diagnostic clair et un plan d&apos;action priorise.
+              Echangeons sur votre visibilite dans ChatGPT, Perplexity et les
+              AI Overviews. Nous identifions les opportunites et mettons en
+              place les optimisations qui feront la difference.
             </p>
             <Link
               href="/contact"
               className="mt-8 inline-block rounded-lg bg-white px-8 py-3 font-semibold text-primary transition hover:bg-gray-100"
             >
-              Demander mon audit de citations IA
+              Parlons de votre visibilite IA
             </Link>
           </div>
         </section>
