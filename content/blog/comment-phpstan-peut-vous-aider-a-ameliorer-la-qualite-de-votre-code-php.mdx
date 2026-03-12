@@ -5,6 +5,13 @@ author: "Louis-Arnaud Catoire"
 category: "Formation"
 excerpt: "PHPStan est un outil de vérification statique pour la programmation PHP. Il examine votre code à la recherche d'erreurs potentielles et améliore la qualité du code."
 image: "/images/blog/phpstan-qualite.webp"
+faq:
+  - question: "A quoi sert PHPStan dans un projet PHP ?"
+    answer: "PHPStan est un outil d'analyse statique qui detecte les erreurs dans votre code PHP sans l'executer. Il verifie la coherence des types, les appels de methodes inexistantes, les variables non definies et les problemes de logique. C'est un complement aux tests unitaires qui attrape les bugs avant qu'ils n'arrivent en production."
+  - question: "Quel niveau PHPStan utiliser pour commencer ?"
+    answer: "Commencez par le niveau 1 et montez progressivement. Le niveau 5 est un bon objectif pour la plupart des projets : il verifie les types de retour, les parametres et les proprietes. Les niveaux 8 a 10 imposent un typage strict quasi complet, ideal pour les projets critiques mais plus exigeant a maintenir."
+  - question: "PHPStan peut-il s'integrer dans un pipeline CI/CD ?"
+    answer: "Oui, c'est meme la pratique recommandee. PHPStan s'execute en ligne de commande et retourne un code d'erreur non nul si des problemes sont detectes. Il s'integre dans GitLab CI, GitHub Actions ou tout autre outil de CI en une seule ligne de configuration."
 ---
 
 ## L'analyse statique : un compilateur pour PHP

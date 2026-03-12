@@ -36,6 +36,7 @@ export function getAllPosts(): BlogPost[] {
       updatedAt: data.updatedAt,
       image: data.image,
       proficiencyLevel: data.proficiencyLevel,
+      faq: data.faq,
       content,
       wordCount: countWords(content),
     };
@@ -63,6 +64,7 @@ export function getPostBySlug(slug: string): BlogPost | undefined {
     updatedAt: data.updatedAt,
     image: data.image,
     proficiencyLevel: data.proficiencyLevel,
+    faq: data.faq,
     content,
     wordCount: countWords(content),
   };

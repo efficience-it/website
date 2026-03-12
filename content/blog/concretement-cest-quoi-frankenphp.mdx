@@ -7,6 +7,13 @@ excerpt: "PHP reste pertinent malgré sa réputation vieillissante, avec des fra
 image: "/images/blog/frankenphp.webp"
 proficiencyLevel: "Expert"
 updatedAt: "2026-01-13"
+faq:
+  - question: "FrankenPHP est-il pret pour la production ?"
+    answer: "Oui, FrankenPHP est stable et utilise en production. Il est officiellement supporte par Symfony et fait partie de la distribution Docker officielle de PHP. Les gains de performance sont significatifs grace au mode worker qui evite le bootstrap PHP a chaque requete."
+  - question: "Quelle est la difference entre FrankenPHP et PHP-FPM ?"
+    answer: "PHP-FPM utilise le protocole FastCGI pour communiquer entre le serveur web (Nginx) et PHP, ce qui ajoute un overhead a chaque requete. FrankenPHP embarque directement l'interpreteur PHP dans un serveur Caddy en Go, eliminant cette couche intermediaire. Le mode worker garde l'application en memoire entre les requetes."
+  - question: "FrankenPHP fonctionne-t-il avec Symfony et Laravel ?"
+    answer: "Oui, FrankenPHP est compatible avec tous les frameworks PHP. Symfony le supporte officiellement via le composant Runtime. Laravel fonctionne egalement avec FrankenPHP grace a Laravel Octane. La configuration est minimale : une seule ligne dans le Dockerfile suffit."
 ---
 
 PHP propulse encore aujourd'hui une part considérable du web, porté par des frameworks matures comme Symfony, Laravel et des CMS comme WordPress ou Drupal. Pourtant, son modèle d'exécution historique souffre d'une limitation fondamentale : chaque requête HTTP déclenche un cycle complet d'initialisation, d'exécution et de destruction. FrankenPHP propose de résoudre ce problème structurel en repensant la manière dont PHP s'exécute côté serveur.

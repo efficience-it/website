@@ -6,6 +6,13 @@ category: "Outils"
 excerpt: "Pourquoi Docker est indispensable en production : déploiement fiable, isolation des services et performances optimisées pour vos applications Symfony."
 image: "/images/blog/pexels-tech.webp"
 updatedAt: "2026-01-13"
+faq:
+  - question: "Pourquoi utiliser Docker en production plutot qu'un serveur classique ?"
+    answer: "Docker garantit que l'application tourne dans le meme environnement en dev, en recette et en production. Plus de problemes de versions PHP differentes ou de dependances manquantes. Le deploiement devient reproductible : une image Docker testee en staging est identique a celle deployee en production."
+  - question: "Docker ralentit-il les performances d'une application web ?"
+    answer: "Non, l'overhead de Docker est negligeable (moins de 2% sur le CPU). Docker utilise les cgroups et namespaces du noyau Linux, pas de la virtualisation. Les performances reseau et disque sont quasi identiques a celles d'un serveur bare metal, surtout avec les volumes natifs."
+  - question: "Faut-il utiliser Docker Compose ou Kubernetes en production ?"
+    answer: "Docker Compose convient aux applications simples avec quelques conteneurs sur un seul serveur. Kubernetes est necessaire quand vous avez besoin de scalabilite horizontale, de rolling updates sans downtime et de gestion multi-serveurs. Pour la plupart des projets Symfony, Docker Compose avec un reverse proxy Traefik suffit."
 ---
 
 Mettre une application en production a toujours été un exercice à haut risque. Mais les exigences actuelles, performance, sécurité, scalabilité, time-to-market, ont rendu les approches artisanales tout simplement intenables. Docker s'est imposé comme le standard industriel de la production web, au même titre que Git ou les pipelines CI/CD. Ce n'est plus un choix technologique : c'est un prérequis.
