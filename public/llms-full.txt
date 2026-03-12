@@ -1,0 +1,447 @@
+# Efficience IT - Informations completes
+
+> Agence web et cloud basee a Lille, specialisee en developpement Symfony, DevOps et conseil IT. Nous accompagnons les PME et grandes entreprises dans leurs projets digitaux sur mesure.
+
+## Chiffres cles
+
+- 10+ ans d'experience
+- 150+ projets livres
+- 40+ clients actifs
+- 500+ contributions open source
+
+## Services detailles
+
+### Developpement web sur mesure
+
+Applications metiers, intranets, progiciels et sites complexes avec Symfony et PHP. Nous concevons des solutions sur mesure adaptees aux besoins specifiques de chaque client : applications de gestion interne, portails clients, plateformes SaaS, systemes de facturation, CRM metier et outils de pilotage. Notre expertise couvre l'ensemble du cycle de developpement, de l'analyse fonctionnelle a la mise en production, en passant par le prototypage, le developpement iteratif et les tests automatises. Nous travaillons principalement avec Symfony, API Platform, Doctrine ORM et les standards PHP modernes (PHP 8.x, PSR, Composer).
+
+Lien : https://www.itefficience.com/developpement-web-sur-mesure
+
+### Cloud & DevOps
+
+Infrastructure cloud, CI/CD, automatisation, monitoring et deploiement continu. Nous accompagnons les equipes de developpement dans la mise en place de pipelines CI/CD robustes (GitLab CI, GitHub Actions), la conteneurisation avec Docker et Kubernetes, et le deploiement sur les principaux cloud providers (AWS, GCP). Notre approche inclut l'infrastructure as code, le monitoring applicatif, la gestion des logs, les alertes et l'optimisation des couts cloud. Nous intervenons aussi bien sur la mise en place initiale que sur l'amelioration continue des pratiques DevOps existantes.
+
+Lien : https://www.itefficience.com/cloud-et-devops
+
+### Accompagnement et conseil
+
+Gestion de projet agile, audit IT, transformation digitale, coaching et formation Symfony. Nous proposons des audits techniques complets (qualite de code, performance, securite, architecture), du conseil en architecture logicielle (monolithe modulaire, micro-services, architecture hexagonale), de la formation Symfony pour les equipes de developpement, et de l'accompagnement a la transformation digitale. Nos consultants interviennent en regie ou au forfait selon les besoins du projet.
+
+Lien : https://www.itefficience.com/accompagnement-et-conseil
+
+### Green IT
+
+Demarche RSE et eco-conception web. Un arbre plante par journee de developpement. Nous integrons les principes d'eco-conception dans nos projets : optimisation des performances, reduction du poids des pages, choix d'hebergement responsable et sensibilisation des equipes aux bonnes pratiques numeriques responsables.
+
+Lien : https://www.itefficience.com/green-it
+
+### Audit Symfony gratuit
+
+Nous proposons un audit technique gratuit de votre projet Symfony pour identifier les axes d'amelioration : qualite de code, performance, securite et architecture.
+
+Lien : https://www.itefficience.com/audit-symfony-gratuit
+
+### Agence Symfony Lille
+
+Efficience IT est une agence Symfony basee a Lille, specialisee dans le developpement d'applications web sur mesure. Developpeurs certifies, contributeurs open source, experts en architecture hexagonale et DDD.
+
+Lien : https://www.itefficience.com/agence-symfony-lille
+
+### API sur mesure Symfony
+
+Conception et developpement d'API REST et GraphQL avec Symfony et API Platform. APIs versionnables, documentees automatiquement et securisees pour vos applications web, mobiles et partenaires.
+
+Lien : https://www.itefficience.com/api-sur-mesure-symfony
+
+### API Node.js NestJS
+
+Developpement d'API performantes avec Node.js et NestJS. Architecture modulaire, TypeScript natif, scalabilite horizontale et integration avec l'ecosysteme JavaScript moderne.
+
+Lien : https://www.itefficience.com/api-nodejs-nestjs
+
+### Developpement Node.js
+
+Expertise Node.js pour le developpement d'applications temps reel, APIs haute performance et microservices. Accompagnement sur l'architecture, le deploiement et la scalabilite.
+
+Lien : https://www.itefficience.com/developpement-nodejs
+
+### Audit de code PHP
+
+Audit complet de votre code PHP : qualite, securite, performance, architecture et dette technique. Un rapport detaille avec des recommandations priorisees et un plan d'action concret.
+
+Lien : https://www.itefficience.com/audit-code-php
+
+### Migration Symfony
+
+Migration de vos applications vers les dernieres versions de Symfony. Montee de version progressive, compatibilite ascendante, zero interruption de service.
+
+Lien : https://www.itefficience.com/migration-symfony
+
+### Modernisation d'application PHP
+
+Migration et modernisation de vos applications PHP legacy vers Symfony. Strangler Fig pattern, refactoring progressif, architecture hexagonale.
+
+Lien : https://www.itefficience.com/modernisation-application-php
+
+### Reprise de projet Symfony
+
+Reprise en main de projets Symfony existants : audit, stabilisation, refactoring et mise en place de bonnes pratiques pour repartir sur des bases saines.
+
+Lien : https://www.itefficience.com/reprise-projet-symfony
+
+### Maintenance applicative Symfony (TMA)
+
+Maintenance corrective, evolutive et preventive de vos applications Symfony. Correction de bugs, evolutions fonctionnelles, mises a jour de securite, monitoring et SLA sur mesure.
+
+Lien : https://www.itefficience.com/maintenance-applicative-symfony
+
+### Architecture hexagonale Symfony
+
+Mise en place de l'architecture hexagonale dans vos projets Symfony. Separation du domaine metier, ports et adapters, testabilite et independance vis-a-vis du framework.
+
+Lien : https://www.itefficience.com/architecture-hexagonale-symfony
+
+### Tests automatises PHP
+
+Strategie de tests pour vos applications PHP et Symfony : tests unitaires, d'integration et fonctionnels. PHPUnit, Behat, Pest et integration dans le pipeline CI/CD.
+
+Lien : https://www.itefficience.com/tests-automatises-php
+
+### Formation Symfony entreprise
+
+Formations Symfony sur mesure pour vos equipes de developpement. Du debutant a l'expert, en presentiel ou a distance, adaptees a votre contexte projet.
+
+Lien : https://www.itefficience.com/formation-symfony-entreprise
+
+### GEO et optimisation IA
+
+Optimisation de votre visibilite dans les moteurs d'IA (ChatGPT, Gemini, Perplexity). Donnees structurees, llms.txt, contenu optimise pour le Generative Engine Optimization.
+
+Lien : https://www.itefficience.com/geo-optimisation-ia
+
+## Secteurs d'activite
+
+### E-commerce
+
+Plateformes e-commerce sur mesure avec Symfony et Sylius : catalogue produit, API headless, integration PIM/ERP et scalabilite. References : Decathlon, Carter Cash, Mecatechnic.
+
+Lien : https://www.itefficience.com/secteur/e-commerce
+
+### Industrie
+
+Applications metier pour l'industrie : outils de production, interconnexion SI, workflows complexes avec Symfony Messenger et modernisation d'applications legacy. References : Groupe Atlantic, Mobivia, OEMServices.
+
+Lien : https://www.itefficience.com/secteur/industrie
+
+### SaaS
+
+Applications SaaS robustes avec Symfony : architecture multi-tenant, API REST/GraphQL, scalabilite horizontale, CI/CD et monitoring en production. References : Assoconnect, Sesame IT, Faceel IT.
+
+Lien : https://www.itefficience.com/secteur/saas
+
+### Finance
+
+Applications web securisees pour le secteur financier : conformite, haute disponibilite, integration de systemes bancaires et traitement de donnees sensibles. References : Credit Agricole Auto Bank, Mon Petit Placement, Keyliance.
+
+Lien : https://www.itefficience.com/secteur/finance
+
+## Expertises techniques
+
+- Symfony (developpeurs certifies)
+- PHP, JavaScript, TypeScript
+- API REST / SOAP / GraphQL
+- Docker, Kubernetes, CI/CD
+- AWS, GCP, infrastructure cloud
+- Methodes agiles (Scrum, Kanban)
+- Architecture hexagonale, DDD, CQRS
+- PHPStan, Rector, PHPUnit
+- Doctrine ORM, API Platform
+- FrankenPHP, Sylius, Monofony
+
+## Engagements
+
+- **Green IT** : demarche RSE, eco-conception web, un arbre plante par journee de developpement.
+- **Qualite** : membre de l'AFUP, veille technologique continue, conformite aux standards du secteur.
+- **Diversite** : signataire de la charte de diversite, parite entre 40 et 60 %.
+
+## References
+
+Nous travaillons avec des entreprises de toutes tailles dans divers secteurs : e-commerce, industrie, SaaS, finance, services.
+
+Clients : Decathlon, Credit Agricole, Carter Cash, Schneider Electric, Groupe Atlantic, Ministere de la Transition Ecologique.
+
+Lien : https://www.itefficience.com/nos-references
+
+## Contact
+
+- Site : https://www.itefficience.com
+- Email : contact@itefficience.com
+- Telephone : +33 9 79 32 05 08
+- Adresse : 677 Avenue de la Republique, 59800 Lille, France
+- LinkedIn : https://www.linkedin.com/company/efficience-it
+- GitHub : https://github.com/efficience-it
+
+## Articles de blog
+
+### Symfony AI et architecture
+
+- [J'ai integre Symfony AI dans un projet legacy : ce que personne ne te dit](/article/symfony-ai-projet-legacy-retour-experience) - 2026-03-09
+  Integrer Symfony AI dans une application existante en production, c'est autre chose qu'un hello world. Voici les pieges, les choix d'architecture et les solutions concretes tires d'une vraie mission.
+
+- [RAG avec Symfony AI et Doctrine : indexer sa base metier pour un agent IA](/article/rag-symfony-ai-doctrine-indexer-base-metier) - 2026-03-09
+  Comment connecter un LLM a ta base Doctrine grace au RAG, Symfony AI et pgvector. Guide complet pour indexer, rechercher et interroger tes donnees metier.
+
+- [Utiliser Claude comme assistant d'architecture dans un projet Symfony legacy](/article/claude-assistant-architecture-symfony-legacy) - 2026-03-09
+  Comment configurer Claude Code avec un CLAUDE.md qui encode tes conventions d'archi hexagonale, tes regles DDD et tes patterns Doctrine.
+
+### Architecture et patterns
+
+- [Symfony Messenger comme colonne vertebrale d'une archi hexagonale](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) - 2026-03-09
+  Symfony Messenger ne sert pas qu'a envoyer des messages en asynchrone. Decouvre comment l'utiliser comme Command Bus, Query Bus et Event Bus pour structurer une architecture hexagonale propre.
+
+- [Migration d'une app Symfony couplee vers l'archi hexagonale : retour de mission](/article/migration-symfony-architecture-hexagonale-retour-mission) - 2026-03-09
+  Retour d'experience sur la migration d'une application Symfony monolithique vers une architecture hexagonale. Les vraies etapes, les vrais problemes, et les compromis qu'on a du faire.
+
+- [Pourquoi ton Domain ne devrait jamais connaitre Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony) - 2026-03-09
+  Ton domaine metier ne devrait dependre de rien. Ni de Symfony, ni de Doctrine, ni de quoi que ce soit d'autre.
+
+- [Quelle architecture de projet choisir entre micro-service ou monolithe modulaire ?](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) - 2022-02-11
+  Deux approches architecturales dominent : les micro-services et les monolithes modulaires. Laquelle choisir ?
+
+### Qualite de code et outils
+
+- [PHPStan niveau max sur un projet Symfony : les 10 erreurs que tu vas trouver](/article/phpstan-niveau-max-symfony-10-erreurs) - 2026-03-09
+  Passer PHPStan au niveau 10 sur un projet Symfony revele des dizaines d'erreurs. Voici les 10 plus frequentes et comment les corriger.
+
+- [Migrer du Serializer vers JsonStreamer : le guide honnete](/article/migrer-du-serializer-vers-json-streamer-le-guide-honnete) - 2026-03-10
+  JsonStreamer promet des gains de performance impressionnants. On a mesure les vrais chiffres, et voici pourquoi tu ne peux pas juste remplacer ton Serializer demain.
+
+- [PHPStan 2.0 : niveau 10 et nouvelles fonctionnalites](/article/phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable) - 2025-01-06
+  PHPStan 2.0 introduit le niveau 10 pour une analyse statique PHP encore plus stricte.
+
+- [Comment PHPStan peut vous aider a ameliorer la qualite de votre code PHP](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) - 2023-01-31
+  PHPStan est un outil de verification statique pour la programmation PHP.
+
+- [Code mort en PHP : detecter et supprimer le code inutilise](/article/code-mort-mission-elimination) - 2025-01-06
+  Identifier et eliminer le code inutilise dans vos projets PHP pour ameliorer la qualite et la maintenabilite.
+
+- [Rector et ses pouvoirs : maitrisez l'evolution de votre code Symfony](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) - 2023-12-05
+  Rector est un instrument PHP robuste concu pour automatiser les processus de mise a niveau du code.
+
+- [Conventions de codage : bonnes pratiques pour un code maintenable](/article/coding-conventions) - 2022-02-11
+  Un code de qualite repose sur six criteres cles : organisation, rapidite, lisibilite, concision, non-repetition et coherence.
+
+### Symfony et PHP
+
+- [Pourquoi choisir Symfony pour vos projets](/article/pourquoi-choisir-symfony-pour-vos-projets) - 2026-03-10
+  Un framework PHP compose de multiples composants interconnectes formant une base de developpement solide.
+
+- [Les certifications Symfony, Twig & Sylius](/article/les-certifications-symfony-twig-symfony-sylius) - 2026-03-10
+  Les certifications officielles valident l'expertise et boostent la credibilite.
+
+- [Symfony Messenger vs PHP Enqueue : le verdict en 2026](/article/quelles-sont-les-differences-entre-symfony-messenger-php-enqueue-quoi-utiliser) - 2026-03-10
+  Symfony Messenger s'est impose comme le standard du messaging asynchrone en PHP.
+
+- [Symfony pour les moldus](/article/symfony-pour-les-moldus) - 2022-02-11
+  Symfony est un framework ecrit en PHP. Decouvrez pourquoi les developpeurs l'utilisent.
+
+- [Les 6 etapes pour monter en competences sur Symfony](/article/les-6-etapes-pour-monter-en-competences-sur-symfony) - 2023-01-31
+  Pour devenir un expert Symfony, vous devez maitriser les composants cles du framework.
+
+- [Bundles Symfony les plus utilises](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony) - 2023-07-18
+  Les bundles designent un regroupement de fichiers livres comme un ensemble logique de fonctionnalites.
+
+- [Migration Symfony : guide pour mettre a jour un projet sereinement](/article/guide-de-migration-dans-un-projet-symfony) - 2023-07-17
+  Le framework Symfony est en constante evolution. Efficience IT surveille ces changements de pres.
+
+- [Utilisation de Composer dans le developpement Symfony](/article/utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques) - 2023-07-18
+  Le gestionnaire de dependances Composer est l'outil auquel les professionnels PHP font appel.
+
+- [Comprendre et utiliser le bundle Alice Faker dans vos projets Symfony](/article/comprendre-et-utiliser-le-bundle-alice-faker-dans-vos-projets-symfony) - 2024-06-24
+  Les developpeurs ont frequemment besoin de donnees fictives pour les tests.
+
+- [PHP 9.0 : nouveautes, changements majeurs et impacts a venir](/article/php-9-0-devoile-ce-que-vous-devez-savoir-avant-la-sortie) - 2025-05-06
+  PHP 9.0 introduit des changements majeurs : typage plus strict, suppression des fonctionnalites obsoletes.
+
+- [La Fondation PHP fete ses 3 ans](/article/la-fondation-php-souffle-ses-trois-bougies) - 2025-01-06
+  Retour sur les realisations de la Fondation PHP depuis 2021 et ses ambitions pour l'ecosysteme PHP mondial.
+
+- [Qu'est-ce que les PSRs et a quoi servent-ils ?](/article/qu-est-ce-que-les-psrs-et-a-quoi-servent-ils) - 2022-02-11
+  Les PSR sont un ensemble de normes edictees par la communaute PHP pour etablir des standards de codage communs.
+
+- [Concretement, c'est quoi FrankenPHP ?](/article/concretement-cest-quoi-frankenphp) - 2024-02-29
+  PHP reste pertinent avec des frameworks comme Laravel, Symfony et WordPress qui gardent le langage essentiel.
+
+### Doctrine et bases de donnees
+
+- [Doctrine ORM 3.0 : une nouvelle version majeure](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) - 2024-04-22
+  Peu de noms portent autant de poids que Doctrine ORM dans les bibliotheques de persistance PHP.
+
+- [INT, UUID ou ULID : quel identifiant choisir en base de donnees ?](/article/prendre-int-uuid-ou-ulid-pour-un-index-de-base-de-donnees) - 2022-02-11
+  L'indexation constitue une partie essentielle de la gestion de base de donnees.
+
+- [Arrives au max des ID INT (2 147 483 647) : comment migrer vers BIGINT](/article/arrives-au-max-des-id-int-2147483647) - 2022-02-11
+  Les developpeurs rencontrent frequemment le defi d'atteindre la limite maximale des identifiants INT dans MySQL.
+
+- [DbToolsBundle : anonymiser vos bases de donnees](/article/dbtoolsbundle-anonymiser-vos-bases-de-donnees) - 2024-04-22
+  Comment les developpeurs accedent aux donnees de production en toute securite.
+
+### API et web services
+
+- [API REST en PHP : bonnes pratiques](/article/api-rest-les-bonnes-pratiques) - 2023-07-18
+  API est l'acronyme d'Application Programming Interface. Bonnes pratiques pour concevoir des applications professionnelles.
+
+- [Que vaut REST face a son nouveau challenger GraphQL ?](/article/que-vaut-rest-face-a-son-nouveau-challenger-graphql) - 2022-02-11
+  REST s'est impose comme un style architectural dominant. GraphQL est souvent positionne comme un remplacant revolutionnaire.
+
+- [Swagger Nelmio Bundle et ses fonctionnalites](/article/swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on) - 2022-09-08
+  Swagger Nelmio Bundle genere automatiquement une documentation interactive des API.
+
+### DevOps et CI/CD
+
+- [Docker en production : performance et fiabilite des applications web](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) - 2026-01-13
+  Pourquoi Docker est indispensable en production : deploiement fiable, isolation des services et performances optimisees.
+
+- [Comment executer des tests Postman avec Newman dans GitLab CI](/article/comment-executer-des-tests-postman-avec-newman-dans-gitlab-ci) - 2022-02-11
+  Industrialiser l'execution de vos tests Postman avec Newman dans un pipeline GitLab CI/CD.
+
+- [Deployer Nuxt.js avec GitLab CI, S3 et CloudFront](/article/deployer-nuxtjs-avec-gitlab-ci-s3-et-cloudfront) - 2020-11-25
+  Comment publier un site Vue.js ou Nuxt.js sur Amazon S3 avec le cache CDN CloudFront.
+
+### Documentation et outils
+
+- [Documentation Symfony : structurer un projet avec l'approche Diataxis](/article/comment-produire-la-documentation-sur-votre-projet-symfony-avec-lapproche-diataxis) - 2023-03-17
+  Le framework Diataxis fournit une structure pour la documentation technique.
+
+- [Quel outil choisir pour votre documentation technique ?](/article/quel-outil-choisir-pour-votre-documentation-technique) - 2024-07-15
+  La documentation technique est un element essentiel de tout projet numerique.
+
+- [Symfony Insight : a quoi ca sert et comment le mettre en place](/article/symfony-insight-a-quoi-ca-sert-et-comment-le-met-on-en-place) - 2023-01-31
+  Symfony Insight est un outil en ligne d'analyse du code PHP, specialise sur Symfony.
+
+### SEO et IA
+
+- [llms.txt : le nouveau levier SEO a l'ere de l'intelligence artificielle](/article/llms-txt-le-nouveau-levier-seo-a-lere-de-lintelligence-artificielle) - 2026-01-13
+  Le fichier llms.txt aide les IA a comprendre votre site. Decouvrez comment ce nouvel outil peut ameliorer votre visibilite.
+
+- [GEO et Symfony : optimiser la visibilite dans les moteurs d'IA](/article/geo-rendre-votre-application-symfony-visible-dans-les-moteurs-ia) - 2025-10-29
+  Comment ameliorer la visibilite de votre application Symfony dans ChatGPT, Gemini et Perplexity grace au GEO.
+
+- [Ameliorer l'experience utilisateur avec le manifeste des applications web](/article/ameliorer-lexperience-utilisateur-grace-au-manifeste-des-applications-web) - 2025-02-28
+  Le Web App Manifest transforme votre site web en application installable.
+
+### IA et outils
+
+- [IA generatives : forces et faiblesses des outils les plus utilises](/article/forces-et-faiblesses-des-ia-generatives-les-plus-utilisees) - 2026-03-10
+  Les IA generatives sont-elles aussi puissantes qu'on le dit ? Tour d'horizon des outils qui transforment le quotidien des developpeurs.
+
+- [Quel assistant IA choisir pour coder en 2026 ?](/article/quel-assistant-ia-choisir-pour-coder) - 2026-03-10
+  Comparatif complet des assistants IA pour le developpement en 2026. GitHub Copilot, ChatGPT, Claude Code, Cursor.
+
+- [Quel editeur de code choisir : PhpStorm, VS Code, Cursor, Sublime Text ou Zed](/article/phpstorm-vscode-sublimetext-netbeans-quel-editeur-de-code-choisir) - 2026-03-10
+  Un IDE est une application qui permet aux developpeurs d'ecrire du code efficacement.
+
+### Securite
+
+- [CVE : comprendre les failles de securite et proteger les applications web](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) - 2025-06-10
+  Comprendre les CVE, leur role en cybersecurite et comment proteger vos applications web.
+
+- [Former vos equipes a la securite informatique efficacement](/article/comment-former-vos-equipes-a-la-securite-informatique-en-toute-simplicite) - 2025-04-15
+  Former aux bonnes pratiques de cybersecurite : sensibilisation, gestes simples et methodes.
+
+- [Chocoblast : sensibiliser a la securite informatique par le jeu](/article/le-chocoblast-un-premier-pas-vers-la-securite-par-le-jeu) - 2023-04-25
+  Le Chocoblast est un outil de sensibilisation a la securite informatique par le jeu.
+
+### Accessibilite et UX
+
+- [Normes RGAA : ameliorer l'accessibilite et l'experience utilisateur](/article/normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous) - 2025-02-27
+  Comprendre les normes RGAA pour une experience utilisateur inclusive.
+
+- [Twig 4 : ce que l'on pourrait attendre](/article/twig-4-ce-que-lon-pourrait-attendre) - 2024-04-11
+  Twig est un moteur de templates bien connu pour PHP, cree par Symfony en 2009.
+
+### E-commerce
+
+- [Sylius : la solution e-commerce du framework Symfony](/article/sylius-la-solution-e-commerce-du-framework-symfony) - 2022-02-11
+  Sylius est une plateforme e-commerce open-source construite sur le framework Symfony.
+
+- [Monofony : le guide ultime pour les debutants](/article/monofony-le-guide-ultime-pour-les-debutants) - 2020-11-25
+  Monofony est une solution de developpement Open-Source construite sur Symfony utilisant l'architecture de Sylius.
+
+- [Easy Admin vs Forest Admin : differences et avantages](/article/easy-admin-vs-forest-admin-differences-et-avantages) - 2023-07-19
+  Easy Admin est un bundle open source pour des projets Symfony.
+
+### JavaScript et front-end
+
+- [Framework JavaScript : Node.js, React, Vue ou Angular ?](/article/quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular) - 2023-07-18
+  JavaScript est un langage de programmation largement utilise dans le developpement web moderne.
+
+### Gestion de projet et methodologie
+
+- [Comment rediger un cahier des charges pour un projet agile](/article/comment-rediger-un-cahier-de-charge-pour-un-projet-agile) - 2022-05-30
+  L'approche Agile est une methode de gestion de projet qui preconise une planification sur courte periode.
+
+- [La dette technique : faut-il vraiment en avoir peur ?](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) - 2022-02-22
+  La dette technique est une notion frequemment utilisee pour faire reference aux systemes depasses.
+
+- [Audit web chez Efficience IT : methode, criteres et contenu](/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede) - 2023-01-31
+  L'audit constitue un processus vital pour evaluer la qualite, la securite et les performances d'un site web.
+
+### Vie de l'agence et evenements
+
+- [7 bonnes raisons de rejoindre Efficience IT](/article/7-bonnes-raisons-de-rejoindre-efficience-it) - 2022-12-22
+  Decouvrez les 7 bonnes raisons de rejoindre Efficience IT : bien-etre des collaborateurs, challenges quotidiens et plus encore.
+
+- [Doctavis et Efficience IT : une course contre la montre pour sortir un MVP](/article/doctavis-et-efficience-it-une-course-contre-la-montre-pour-sortir-un-mvp) - 2022-02-11
+  Zoe Finders, fondatrice de Doctavis, nous a contacte pour nous expliquer son projet.
+
+- [Retour sur l'AFUP Day 2025 Lille](/article/retour-sur-lafup-day-2025-lille-php-a-lhonneur-communaute-au-coeur) - 2025-05-27
+  Retour sur l'AFUP Day 2025 a Lille : conferences PHP, echanges communautaires et enseignements professionnels.
+
+- [Forum PHP & SymfonyCon 2024 : retours et tendances cles](/article/retour-sur-le-forum-php-2024) - 2024-10-25
+  Retour sur le Forum PHP et la SymfonyCon 2024 : conferences, innovations PHP 8.4 et Symfony UX.
+
+- [Retour sur l'AFUP Day 2024](/article/retour-sur-lafup-day-2024) - 2024-06-05
+  Le 24 mai 2024 se tenait la 6eme edition de l'AFUP Day.
+
+- [AFUP Day 2023 : retours et conferences PHP](/article/retour-sur-lafup-day-2023) - 2023-05-17
+  La 5e edition de l'AFUP Day s'est deroulee le 12 mai a l'Universite Catholique de Lille.
+
+- [Evenements Symfony et PHP : lesquels suivre et pourquoi](/article/quels-evenements-suivre-dans-le-monde-de-symfony-php-quelles-differences-entre-eux) - 2026-03-10
+  SymfonyLive represente une serie de conferences organisees par SensioLabs.
+
+- [Evenements incontournables de l'innovation en 2025](/article/les-evenements-incontournables-de-linnovation-2025) - 2024-12-17
+  Selection des rendez-vous innovation et tendances technologiques numeriques pour 2025.
+
+- [Vivatech 2025 : innovations tech et tendances cles](/article/vivatech-2025-linnovation-au-rendez-vous) - 2025-06-26
+  Retour sur VivaTech 2025 : innovations, tendances IA, conferences tech et outils a surveiller.
+
+### Open source et communaute
+
+- [Les contributions open source : un enjeu de taille](/article/les-contributions-open-source-un-enjeu-de-taille-pour-les-developpeurs-et-les-projets) - 2024-07-31
+  L'open source represente bien plus qu'un jargon industriel. Efficience IT contribue fierement a de nombreux projets.
+
+### Divers
+
+- [Tout savoir sur la mise en cache](/article/tout-savoir-sur-la-mise-en-cache-tips) - 2022-11-23
+  Le cache fonctionne de maniere similaire a la RAM : un type de memoire concu pour booster les performances.
+
+- [Methode du canard en plastique : mieux deboguer et coder efficacement](/article/la-methode-du-canard-en-plastique-le-secret-des-developpeurs) - 2023-06-08
+  Le Rubber Duck Debugging est une strategie de debogage bien etablie dans le monde du developpement.
+
+- [Mieux comprendre le vocabulaire des developpeurs web](/article/mieux-comprendre-le-vocabulaire-des-developpeurs-web-guide-complet) - 2023-07-18
+  Cet article est fait pour vous si vous en avez marre de ne pas comprendre le jargon IT.
+
+- [Quels sont les avantages d'un progiciel pour votre entreprise ?](/article/quels-sont-les-avantages-dun-progiciel-pour-votre-entreprise) - 2023-07-18
+  Un logiciel specifique, concu pour repondre aux besoins d'une entreprise.
+
+- [Decouvrez les raisons de nous confier la maintenance de vos applications web](/article/decouvrez-les-raisons-de-nous-confier-la-maintenance-de-vos-applications-web) - 2024-02-28
+  Les applications web sont des entites dynamiques, evolutives et vieillissantes.
+
+### Ecologie et numerique responsable
+
+- [Eco-conception : un ideal en marche ou une illusion durable ?](/article/eco-conception-un-ideal-en-marche-ou-une-illusion-durable) - 2022-02-07
+  Le secteur numerique occupe une place centrale mais represente une source majeure de consommation d'electricite.
+
+- [Ecosia et ReforestAction : agir pour le climat grace au numerique](/article/ecosia-preservateur-decologie) - 2022-06-23
+  Des initiatives innovantes comme Ecosia et ReforestAction jouent un role crucial dans la lutte contre le changement climatique.

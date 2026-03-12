@@ -83,6 +83,12 @@ export default function Footer() {
             >
               {footerNav.contact.cta.label}
             </Link>
+            <Link
+              href={footerNav.contact.auditCta.href}
+              className="mt-1 block text-sm font-semibold text-primary-light transition-colors hover:text-white"
+            >
+              {footerNav.contact.auditCta.label}
+            </Link>
 
             {/* Social links */}
             <div className="mt-6 flex items-center gap-3">

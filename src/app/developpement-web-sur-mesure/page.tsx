@@ -6,7 +6,13 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import CallToAction from "@/components/sections/CallToAction";
-import { breadcrumbJsonLd } from "@/lib/structured-data";
+import Accordion from "@/components/ui/Accordion";
+import RelatedLinks from "@/components/sections/RelatedLinks";
+import type { RelatedLink } from "@/components/sections/RelatedLinks";
+import TestimonialCard from "@/components/cards/TestimonialCard";
+import { clients } from "@/../data/clients";
+import { testimonials } from "@/../data/testimonials";
+import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "Développement web sur mesure | Expertise Symfony – Efficience IT",
@@ -39,10 +45,74 @@ const advantages = [
   },
 ];
 
+const faqItems = [
+  {
+    title: "Quelles technologies utilisez-vous pour le développement web ?",
+    content:
+      "Symfony est notre framework principal. Nous travaillons aussi avec Sylius pour le e-commerce, API Platform pour les API, et des outils comme Docker, Redis et ElasticSearch selon les besoins du projet.",
+  },
+  {
+    title: "Combien coûte le développement d'une application web sur mesure ?",
+    content:
+      "Le budget dépend de la complexité du projet. Un site vitrine Symfony démarre autour de 10 000 euros, une application métier complète entre 30 000 et 100 000 euros. Nous proposons un audit gratuit de 30 minutes pour estimer votre projet.",
+  },
+  {
+    title: "Quelle est la durée moyenne d'un projet de développement ?",
+    content:
+      "Un MVP fonctionnel peut être livré en 2 à 3 mois. Un projet complet avec intégrations CRM/ERP prend généralement 4 à 8 mois. Nous travaillons en sprints agiles avec des livraisons régulières.",
+  },
+  {
+    title: "Assurez-vous la maintenance après la mise en production ?",
+    content:
+      "Oui, nous proposons des contrats de maintenance incluant les mises à jour de sécurité, le monitoring, la correction de bugs et les évolutions fonctionnelles.",
+  },
+  {
+    title: "Pouvez-vous reprendre un projet existant développé par une autre agence ?",
+    content:
+      "Oui. Nous réalisons un audit technique du code existant pour évaluer la dette technique, puis nous proposons une stratégie de reprise adaptée : refactoring progressif, migration ou réécriture selon les cas.",
+  },
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.title,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.content,
+    },
+  })),
+};
+
 const breadcrumb = breadcrumbJsonLd([
   { name: "Nos expertises", path: "/notre-expertise" },
   { name: "Développement web sur mesure", path: "/developpement-web-sur-mesure" },
 ]);
+
+const service = serviceJsonLd({
+  name: "Développement web sur mesure",
+  description:
+    "Conception et développement d'applications web sur mesure avec Symfony, Sylius et les technologies PHP modernes.",
+  path: "/developpement-web-sur-mesure",
+});
+
+const webPage = webPageJsonLd({
+  name: "Développement web sur mesure | Expertise Symfony",
+  description:
+    "Expertise en développement web sur mesure : Efficience IT accompagne des projets applicatifs, notamment basés sur Symfony, de la conception à la mise en oeuvre.",
+  path: "/developpement-web-sur-mesure",
+  datePublished: "2025-09-01",
+  dateModified: "2026-03-10",
+});
+
+const devWebRelatedLinks: RelatedLink[] = [
+  { title: "Sylius : la solution e-commerce Symfony", description: "Notre expertise e-commerce open source", href: "/article/sylius-la-solution-e-commerce-du-framework-symfony" },
+  { title: "Symfony, site officiel", description: "Le framework PHP pour les applications web", href: "https://symfony.com/", external: true },
+  { title: "Sylius, site officiel", description: "La plateforme e-commerce bas\u00e9e sur Symfony", href: "https://sylius.com/", external: true },
+  { title: "API Platform", description: "Cr\u00e9er des API modernes en PHP", href: "https://api-platform.com/", external: true },
+];
 
 export default function DeveloppementWeb() {
   return (
@@ -50,6 +120,18 @@ export default function DeveloppementWeb() {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(service) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
     />
     <main>
       {/* Hero */}
@@ -82,9 +164,14 @@ export default function DeveloppementWeb() {
               <p className="mt-6 text-lg font-semibold text-dark">
                 Vous avez un projet en tête ?
               </p>
-              <Button href="/contact" className="mt-4">
-                Contactez-nous
-              </Button>
+              <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+                <Button href="/audit-symfony-gratuit">
+                  Audit Symfony gratuit
+                </Button>
+                <Button href="/contact" variant="outline">
+                  Contactez-nous
+                </Button>
+              </div>
             </div>
             <div className="flex justify-center">
               <Image
@@ -93,6 +180,8 @@ export default function DeveloppementWeb() {
                 width={400}
                 height={300}
                 className="w-full max-w-md"
+                priority
+                fetchPriority="high"
               />
             </div>
           </div>
@@ -304,6 +393,11 @@ export default function DeveloppementWeb() {
               <p className="mt-2 text-gray">
                 Création d&apos;API sur mesure, adaptées à vos exigences
                 techniques et métiers pour fluidifier vos échanges de données.
+                Nous respectons les{" "}
+                <Link href="/article/api-rest-les-bonnes-pratiques" className="text-primary hover:underline">
+                  bonnes pratiques API REST
+                </Link>{" "}
+                pour garantir des interfaces performantes et maintenables.
               </p>
             </Card>
             <Card>
@@ -323,7 +417,11 @@ export default function DeveloppementWeb() {
               <p className="mt-2 text-gray">
                 Audit, planification et migration vers des solutions modernes
                 (Symfony, Cloud, etc.), avec une attention particulière à la
-                sécurité et aux performances.
+                sécurité et aux performances. Commencez par un{" "}
+                <Link href="/audit-symfony-gratuit" className="text-primary hover:underline">
+                  audit Symfony gratuit
+                </Link>{" "}
+                pour identifier vos priorités.
               </p>
             </Card>
           </div>
@@ -353,6 +451,11 @@ export default function DeveloppementWeb() {
               <p className="mt-4 text-lg text-gray">
                 Chez Efficience IT, nous ne livrons pas simplement du code :
                 nous construisons des solutions utiles, avec vous et pour vous.
+                Notre cœur de métier repose sur{" "}
+                <Link href="/article/pourquoi-choisir-symfony-pour-vos-projets" className="text-primary hover:underline">
+                  Symfony, le framework PHP de référence
+                </Link>{" "}
+                pour les applications robustes et évolutives.
               </p>
               <p className="mt-4 text-lg text-gray">
                 Notre objectif est simple : vous faire gagner du temps,
@@ -398,7 +501,7 @@ export default function DeveloppementWeb() {
               web sur mesure ou optimiser vos processus métiers avec des outils
               performants ?{" "}
               <Link
-                href="/contact/"
+                href="/contact"
                 className="font-semibold text-primary hover:underline"
               >
                 Contactez-nous dès aujourd&apos;hui
@@ -471,48 +574,79 @@ export default function DeveloppementWeb() {
         </Container>
       </section>
 
-      {/* Pour aller plus loin */}
+      <RelatedLinks links={devWebRelatedLinks} />
+
+      <section className="py-16">
+        <Container>
+          <p className="text-center text-sm font-semibold uppercase tracking-wider text-gray-500">Ils nous font confiance</p>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-8 md:gap-12">
+            {clients.map((client) => (
+              <Image
+                key={client.name}
+                src={client.logo}
+                alt={client.name}
+                width={200}
+                height={120}
+                className="h-16 w-auto object-contain opacity-70 grayscale transition-all hover:opacity-100 hover:grayscale-0"
+              />
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      <section className="bg-light-gray py-16 md:py-24">
+        <Container>
+          <div className="mx-auto max-w-2xl">
+            <TestimonialCard testimonial={testimonials[3]} />
+          </div>
+        </Container>
+      </section>
+
       <section className="py-16 md:py-24">
         <Container>
-          <SectionTitle>Pour aller plus loin</SectionTitle>
-          <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
-            <li>
-              <Link href="/article/pourquoi-choisir-symfony-pour-vos-projets" className="text-primary hover:underline">
-                Pourquoi choisir Symfony pour vos projets
-              </Link>{" "}
-             , les atouts du framework pour le développement sur mesure
-            </li>
-            <li>
-              <Link href="/article/api-rest-les-bonnes-pratiques" className="text-primary hover:underline">
-                API REST : les bonnes pratiques
-              </Link>{" "}
-             , concevoir des API performantes et maintenables
-            </li>
-            <li>
-              <Link href="/article/sylius-la-solution-e-commerce-du-framework-symfony" className="text-primary hover:underline">
-                Sylius : la solution e-commerce Symfony
-              </Link>{" "}
-             , notre expertise e-commerce open source
-            </li>
-            <li>
-              <a href="https://symfony.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                Symfony, site officiel
-              </a>{" "}
-             , le framework PHP pour les applications web
-            </li>
-            <li>
-              <a href="https://sylius.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                Sylius, site officiel
-              </a>{" "}
-             , la plateforme e-commerce basée sur Symfony
-            </li>
-            <li>
-              <a href="https://api-platform.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                API Platform
-              </a>{" "}
-             , créer des API modernes en PHP
-            </li>
-          </ul>
+          <SectionTitle>Questions fréquentes</SectionTitle>
+          <div className="mx-auto max-w-2xl">
+            <Accordion items={faqItems} />
+          </div>
+        </Container>
+      </section>
+
+      <section className="bg-primary py-16 text-center text-white">
+        <div className="mx-auto max-w-3xl px-4">
+          <h2 className="font-display text-3xl font-bold">Une question sans réponse ?</h2>
+          <p className="mt-4 text-lg text-white/90">Réservez un appel de 30 minutes avec notre équipe pour discuter de votre projet.</p>
+          <Link href="/audit-symfony-gratuit" className="mt-8 inline-block rounded-lg bg-white px-8 py-3 font-semibold text-primary transition hover:bg-gray-100">Demander mon audit gratuit</Link>
+        </div>
+      </section>
+
+      <section className="bg-light-gray py-16 md:py-24">
+        <Container>
+          <SectionTitle>Nos autres expertises</SectionTitle>
+          <div className="mt-8 grid gap-6 md:grid-cols-2">
+            <Link href="/cloud-et-devops" className="group">
+              <Card>
+                <h3 className="font-display text-lg font-bold text-dark group-hover:text-primary">
+                  Cloud & DevOps
+                </h3>
+                <p className="mt-2 text-gray">
+                  Hébergement cloud, automatisation CI/CD et migration
+                  d&apos;infrastructure pour des déploiements fiables et
+                  performants.
+                </p>
+              </Card>
+            </Link>
+            <Link href="/accompagnement-et-conseil" className="group">
+              <Card>
+                <h3 className="font-display text-lg font-bold text-dark group-hover:text-primary">
+                  Accompagnement et Conseil
+                </h3>
+                <p className="mt-2 text-gray">
+                  Audit technique, formation Symfony et coaching agile pour
+                  structurer vos projets et monter en compétences.
+                </p>
+              </Card>
+            </Link>
+          </div>
         </Container>
       </section>
 

@@ -5,6 +5,7 @@ author: "Louis-Arnaud Catoire"
 category: "Outils"
 excerpt: "Easy Admin est un bundle en open source, créé pour des projets Symfony. Il permet la conception rapide d'interfaces d'administration."
 image: "/images/blog/easyadmin-vs-forestadmin.webp"
+updatedAt: "2026-01-13"
 ---
 
 ## Deux philosophies, un même besoin
@@ -13,7 +14,7 @@ Toute application métier finit par avoir besoin d'un panneau d'administration. 
 
 ## EasyAdmin : l'admin comme extension naturelle de Symfony
 
-EasyAdmin génère un back-office complet à partir des entités Doctrine ORM. L'installation se résume à un `composer require` et à la création d'un Dashboard Controller. À partir de là, chaque entité peut disposer de son propre CRUD Controller qui expose automatiquement la liste paginée, les formulaires de création et de modification, et la suppression avec confirmation.
+EasyAdmin génère un back-office complet à partir des entités Doctrine ORM. L'installation se résume à un `composer require` et à la création d'un Dashboard Controller. Il fait partie des [bundles les plus utilisés dans les projets Symfony](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony), aux côtés d'autres briques essentielles de l'écosystème. À partir de là, chaque entité peut disposer de son propre CRUD Controller qui expose automatiquement la liste paginée, les formulaires de création et de modification, et la suppression avec confirmation.
 
 La configuration des champs se fait en PHP pur, dans la méthode `configureFields`. On déclare les types (`TextField`, `MoneyField`, `BooleanField`, `AssociationField`...), on masque certains champs selon la page (`hideOnForm`, `hideOnIndex`), et on applique des règles de formatage. Cette approche déclarative en code offre un avantage décisif : tout passe par le même workflow que le reste de l'application (versioning, code review, tests, CI).
 
@@ -71,7 +72,7 @@ Pour les applications SaaS qui doivent fournir un back-office par tenant, EasyAd
 
 ### L'admin comme produit interne
 
-Les organisations matures traitent leur back-office comme un produit interne à part entière, avec ses propres itérations, son backlog et ses métriques d'usage. Dans cette optique, EasyAdmin offre un contrôle total : on peut instrumenter l'interface, ajouter de la télémétrie, construire des workflows complexes et faire évoluer le back-office au même rythme que l'application principale. Forest Admin convient mieux aux phases où le back-office doit exister rapidement sans mobiliser l'équipe de développement, quitte à accepter les limites de la plateforme.
+Les organisations matures traitent leur back-office comme un produit interne à part entière, avec ses propres itérations, son backlog et ses métriques d'usage. Dans cette optique, EasyAdmin offre un contrôle total : on peut instrumenter l'interface, ajouter de la télémétrie, construire des workflows complexes et faire évoluer le back-office au même rythme que l'application principale. Pour une approche encore plus intégrée, [Monofony](/article/monofony-le-guide-ultime-pour-les-debutants) propose une autre manière de structurer des back-offices Symfony robustes. Forest Admin convient mieux aux phases où le back-office doit exister rapidement sans mobiliser l'équipe de développement, quitte à accepter les limites de la plateforme.
 
 ## Critères de décision
 
@@ -83,10 +84,7 @@ Le bon choix dépend du contexte organisationnel autant que du contexte techniqu
 
 ## Pour aller plus loin
 
-- [Les bundles les plus utilisés dans les projets Symfony](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony), découvrir les bundles essentiels dont EasyAdmin
 - [Pourquoi choisir Symfony pour vos projets](/article/pourquoi-choisir-symfony-pour-vos-projets), les raisons de bâtir vos applications sur Symfony
-- [Monofony : le guide ultime pour les débutants](/article/monofony-le-guide-ultime-pour-les-debutants), une autre approche pour créer des back-offices Symfony
 - [Documentation officielle EasyAdmin](https://symfony.com/bundles/EasyAdminBundle/current/index.html), guide complet du bundle dans la documentation Symfony
 - [Dépôt GitHub EasyAdmin](https://github.com/EasyCorp/EasyAdminBundle), code source et contributions
-- [Site officiel Forest Admin](https://www.forestadmin.com/), documentation et fonctionnalités de Forest Admin
 - [Documentation Symfony sur Doctrine ORM](https://symfony.com/doc/current/doctrine.html), le socle de données derrière EasyAdmin

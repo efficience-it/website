@@ -6,7 +6,13 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import CallToAction from "@/components/sections/CallToAction";
-import { breadcrumbJsonLd } from "@/lib/structured-data";
+import Accordion from "@/components/ui/Accordion";
+import RelatedLinks from "@/components/sections/RelatedLinks";
+import type { RelatedLink } from "@/components/sections/RelatedLinks";
+import TestimonialCard from "@/components/cards/TestimonialCard";
+import { clients } from "@/../data/clients";
+import { testimonials } from "@/../data/testimonials";
+import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "Conseil, formation et coaching Symfony",
@@ -65,10 +71,74 @@ const advantages = [
   },
 ];
 
+const faqItems = [
+  {
+    title: "En quoi consiste un audit technique Symfony ?",
+    content:
+      "Nous analysons votre code, votre architecture, vos performances et votre sécurité. Vous recevez un rapport avec des recommandations priorisées et un plan d'action concret. Le premier audit de 30 minutes est gratuit.",
+  },
+  {
+    title: "Proposez-vous des formations Symfony pour les équipes ?",
+    content:
+      "Oui. Nos formations couvrent les fondamentaux jusqu'au niveau avancé : architecture hexagonale, Messenger, API Platform, tests automatisés. Elles sont adaptées au niveau et aux projets concrets de vos équipes.",
+  },
+  {
+    title: "Quelle méthodologie agile utilisez-vous ?",
+    content:
+      "Nous travaillons principalement en Scrum avec des sprints de 2 semaines. La méthode est adaptée selon le contexte : Kanban pour la maintenance, Scrum pour les projets neufs. L'essentiel est la livraison régulière de valeur.",
+  },
+  {
+    title: "Pouvez-vous intervenir ponctuellement sur un projet en difficulté ?",
+    content:
+      "Oui. Nous proposons des missions de coaching technique pour débloquer un projet : revue de code, refactoring ciblé, mise en place de tests, ou accompagnement sur une migration complexe.",
+  },
+  {
+    title: "Comment se déroule un accompagnement en transformation digitale ?",
+    content:
+      "Nous commençons par un audit de vos outils et processus existants. Puis nous définissons ensemble une roadmap réaliste, avec des jalons mesurables. L'accompagnement inclut le pilotage, la formation et le suivi post-déploiement.",
+  },
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.title,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.content,
+    },
+  })),
+};
+
 const breadcrumb = breadcrumbJsonLd([
   { name: "Nos expertises", path: "/notre-expertise" },
   { name: "Accompagnement et Conseil", path: "/accompagnement-et-conseil" },
 ]);
+
+const service = serviceJsonLd({
+  name: "Accompagnement et Conseil Symfony",
+  description:
+    "Conseil, coaching, formation et audit technique pour les équipes de développement Symfony et les projets web professionnels.",
+  path: "/accompagnement-et-conseil",
+});
+
+const webPage = webPageJsonLd({
+  name: "Conseil, formation et coaching Symfony",
+  description:
+    "Efficience IT accompagne les équipes sur l'organisation, le conseil, le coaching et la formation autour de Symfony et des projets web professionnels.",
+  path: "/accompagnement-et-conseil",
+  datePublished: "2025-09-01",
+  dateModified: "2026-03-10",
+});
+
+const accompagnementRelatedLinks: RelatedLink[] = [
+  { title: "Comment se passe un audit chez Efficience IT", description: "Notre m\u00e9thodologie d'audit d\u00e9taill\u00e9e", href: "/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede" },
+  { title: "Symfony, documentation officielle", description: "R\u00e9f\u00e9rence technique du framework", href: "https://symfony.com/doc/current/index.html", external: true },
+  { title: "Scrum Guide", description: "Le guide officiel de la m\u00e9thodologie Scrum", href: "https://scrumguides.org/", external: true },
+  { title: "Manifeste Agile", description: "Les principes fondateurs de l'agilit\u00e9", href: "https://agilemanifesto.org/", external: true },
+];
 
 export default function AccompagnementEtConseil() {
   return (
@@ -77,6 +147,18 @@ export default function AccompagnementEtConseil() {
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
     />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(service) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
+    />
     <main>
       {/* Hero */}
       <section className="bg-light-gray py-16 md:py-24">
@@ -84,7 +166,7 @@ export default function AccompagnementEtConseil() {
           <div className="grid items-center gap-12 md:grid-cols-2">
             <div>
               <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
-                Accompagnement et Conseil
+                Conseil, formation et coaching Symfony
               </h1>
               <p className="mt-6 max-w-3xl text-lg text-gray">
                 Chez Efficience IT, nous croyons fermement que chaque projet
@@ -106,9 +188,14 @@ export default function AccompagnementEtConseil() {
               <p className="mt-6 text-lg font-semibold text-dark">
                 Envie d&apos;aller plus loin ?
               </p>
-              <Button href="/contact" className="mt-4">
-                Contactez-nous
-              </Button>
+              <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+                <Button href="/audit-symfony-gratuit">
+                  Audit Symfony gratuit
+                </Button>
+                <Button href="/contact" variant="outline">
+                  Contactez-nous
+                </Button>
+              </div>
             </div>
             <div className="flex justify-center">
               <Image
@@ -117,6 +204,8 @@ export default function AccompagnementEtConseil() {
                 width={400}
                 height={300}
                 className="w-full max-w-md"
+                priority
+                fetchPriority="high"
               />
             </div>
           </div>
@@ -193,7 +282,11 @@ export default function AccompagnementEtConseil() {
               </h2>
               <p className="mt-4 text-lg text-gray">
                 Nos audits vous permettent d&apos;identifier les forces et
-                faiblesses de votre infrastructure numérique :
+                faiblesses de votre infrastructure numérique. Découvrez notre{" "}
+                <Link href="/audit-symfony-gratuit" className="text-primary hover:underline">
+                  audit Symfony gratuit de 30 minutes
+                </Link>{" "}
+                pour un premier diagnostic sans engagement.
               </p>
               <ul className="mt-4 space-y-3">
                 <li className="flex items-start gap-3 text-gray">
@@ -245,7 +338,11 @@ export default function AccompagnementEtConseil() {
                 Votre entreprise doit évoluer avec les technologies ! Nos
                 formations sur Symfony et les méthodes agiles vous permettent de
                 renforcer l&apos;expertise de vos collaborateurs, en
-                s&apos;adaptant à tous les niveaux.
+                s&apos;adaptant à tous les niveaux. Découvrez par exemple{" "}
+                <Link href="/article/les-6-etapes-pour-monter-en-competences-sur-symfony" className="text-primary hover:underline">
+                  les 6 étapes pour monter en compétences sur Symfony
+                </Link>{" "}
+                que nous recommandons à nos clients.
               </p>
             </div>
           </div>
@@ -269,42 +366,79 @@ export default function AccompagnementEtConseil() {
         </Container>
       </section>
 
-      {/* Pour aller plus loin */}
+      <RelatedLinks links={accompagnementRelatedLinks} />
+
+      <section className="py-16">
+        <Container>
+          <p className="text-center text-sm font-semibold uppercase tracking-wider text-gray-500">Ils nous font confiance</p>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-8 md:gap-12">
+            {clients.map((client) => (
+              <Image
+                key={client.name}
+                src={client.logo}
+                alt={client.name}
+                width={200}
+                height={120}
+                className="h-16 w-auto object-contain opacity-70 grayscale transition-all hover:opacity-100 hover:grayscale-0"
+              />
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      <section className="bg-light-gray py-16 md:py-24">
+        <Container>
+          <div className="mx-auto max-w-2xl">
+            <TestimonialCard testimonial={testimonials[2]} />
+          </div>
+        </Container>
+      </section>
+
       <section className="py-16 md:py-24">
         <Container>
-          <SectionTitle>Pour aller plus loin</SectionTitle>
-          <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
-            <li>
-              <Link href="/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede" className="text-primary hover:underline">
-                Comment se passe un audit chez Efficience IT
-              </Link>{" "}
-             , notre méthodologie d&apos;audit détaillée
-            </li>
-            <li>
-              <Link href="/article/les-6-etapes-pour-monter-en-competences-sur-symfony" className="text-primary hover:underline">
-                Les 6 étapes pour monter en compétences sur Symfony
-              </Link>{" "}
-             , parcours de formation recommandé
-            </li>
-            <li>
-              <a href="https://symfony.com/doc/current/index.html" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                Symfony, documentation officielle
-              </a>{" "}
-             , référence technique du framework
-            </li>
-            <li>
-              <a href="https://scrumguides.org/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                Scrum Guide
-              </a>{" "}
-             , le guide officiel de la méthodologie Scrum
-            </li>
-            <li>
-              <a href="https://agilemanifesto.org/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                Manifeste Agile
-              </a>{" "}
-             , les principes fondateurs de l&apos;agilité
-            </li>
-          </ul>
+          <SectionTitle>Questions fréquentes</SectionTitle>
+          <div className="mx-auto max-w-2xl">
+            <Accordion items={faqItems} />
+          </div>
+        </Container>
+      </section>
+
+      <section className="bg-primary py-16 text-center text-white">
+        <div className="mx-auto max-w-3xl px-4">
+          <h2 className="font-display text-3xl font-bold">Une question sans réponse ?</h2>
+          <p className="mt-4 text-lg text-white/90">Réservez un appel de 30 minutes avec notre équipe pour discuter de votre projet.</p>
+          <Link href="/audit-symfony-gratuit" className="mt-8 inline-block rounded-lg bg-white px-8 py-3 font-semibold text-primary transition hover:bg-gray-100">Demander mon audit gratuit</Link>
+        </div>
+      </section>
+
+      <section className="bg-light-gray py-16 md:py-24">
+        <Container>
+          <SectionTitle>Nos autres expertises</SectionTitle>
+          <div className="mt-8 grid gap-6 md:grid-cols-2">
+            <Link href="/developpement-web-sur-mesure" className="group">
+              <Card>
+                <h3 className="font-display text-lg font-bold text-dark group-hover:text-primary">
+                  Développement web sur mesure
+                </h3>
+                <p className="mt-2 text-gray">
+                  Applications Symfony, sites e-commerce Sylius et intégrations
+                  CRM/ERP adaptées à vos processus métiers.
+                </p>
+              </Card>
+            </Link>
+            <Link href="/cloud-et-devops" className="group">
+              <Card>
+                <h3 className="font-display text-lg font-bold text-dark group-hover:text-primary">
+                  Cloud & DevOps
+                </h3>
+                <p className="mt-2 text-gray">
+                  Hébergement cloud, automatisation CI/CD et migration
+                  d&apos;infrastructure pour des déploiements fiables et
+                  performants.
+                </p>
+              </Card>
+            </Link>
+          </div>
         </Container>
       </section>
 

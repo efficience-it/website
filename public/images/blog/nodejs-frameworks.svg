@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <g opacity="0.06">
+    <text x="60" y="90" font-family="monospace" font-size="13" fill="#22c55e">const app = express()</text>
+    <text x="60" y="120" font-family="monospace" font-size="13" fill="#22c55e">fastify.register(plugin)</text>
+    <text x="60" y="150" font-family="monospace" font-size="13" fill="#22c55e">const hono = new Hono()</text>
+    <text x="60" y="180" font-family="monospace" font-size="13" fill="#22c55e">@Controller('users')</text>
+    <text x="700" y="480" font-family="monospace" font-size="13" fill="#22c55e">npm install fastify</text>
+    <text x="700" y="510" font-family="monospace" font-size="13" fill="#22c55e">node --version v22</text>
+    <text x="700" y="540" font-family="monospace" font-size="13" fill="#22c55e">req/s | latency | p99</text>
+  </g>
+  <rect x="240" y="165" width="150" height="55" rx="8" fill="#22c55e" opacity="0.08" stroke="#22c55e" stroke-opacity="0.15"/>
+  <text x="315" y="199" text-anchor="middle" font-family="system-ui,sans-serif" font-size="15" font-weight="600" fill="#22c55e" opacity="0.35">Express</text>
+  <rect x="410" y="165" width="150" height="55" rx="8" fill="#22c55e" opacity="0.08" stroke="#22c55e" stroke-opacity="0.15"/>
+  <text x="485" y="199" text-anchor="middle" font-family="system-ui,sans-serif" font-size="15" font-weight="600" fill="#22c55e" opacity="0.35">Fastify</text>
+  <rect x="580" y="165" width="150" height="55" rx="8" fill="#22c55e" opacity="0.08" stroke="#22c55e" stroke-opacity="0.15"/>
+  <text x="655" y="199" text-anchor="middle" font-family="system-ui,sans-serif" font-size="15" font-weight="600" fill="#22c55e" opacity="0.35">Hono</text>
+  <rect x="750" y="165" width="150" height="55" rx="8" fill="#22c55e" opacity="0.08" stroke="#22c55e" stroke-opacity="0.15"/>
+  <text x="825" y="199" text-anchor="middle" font-family="system-ui,sans-serif" font-size="15" font-weight="600" fill="#22c55e" opacity="0.35">NestJS</text>
+  <text x="600" y="300" text-anchor="middle" font-family="system-ui,sans-serif" font-size="22" font-weight="600" fill="#94a3b8" letter-spacing="4">COMPARATIF NODE.JS 2026</text>
+  <text x="600" y="370" text-anchor="middle" font-family="system-ui,sans-serif" font-size="48" font-weight="800" fill="#f8fafc">Express, Fastify, Hono</text>
+  <text x="600" y="435" text-anchor="middle" font-family="system-ui,sans-serif" font-size="48" font-weight="800" fill="#22c55e">quel framework choisir ?</text>
+  <rect x="360" y="460" width="480" height="3" rx="1.5" fill="#22c55e" opacity="0.5"/>
+  <text x="600" y="500" text-anchor="middle" font-family="system-ui,sans-serif" font-size="18" fill="#64748b">Express, Fastify, Hono, NestJS</text>
+  <text x="600" y="570" text-anchor="middle" font-family="system-ui,sans-serif" font-size="16" fill="#475569" letter-spacing="2">EFFICIENCE IT</text>
+</svg>

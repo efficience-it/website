@@ -5,6 +5,7 @@ author: "Louis-Arnaud Catoire"
 category: "Outils"
 excerpt: "JsonStreamer promet des gains de performance impressionnants. On a mesuré les vrais chiffres, et voici pourquoi tu ne peux pas juste remplacer ton Serializer demain."
 image: "/images/blog/json-streamer.svg"
+proficiencyLevel: "Expert"
 ---
 
 JsonStreamer sérialise jusqu'à 6x plus vite. Voilà pourquoi tu ne peux pas juste remplacer ton Serializer demain.
@@ -157,7 +158,7 @@ foreach ($phpFiles as $file) {
 }
 ```
 
-Sur un projet Symfony typique, ne sois pas surpris si 70% de tes classes sont incompatibles. C'est normal, les entités Doctrine, les services, les value objects avec constructeur sont tous exclus. Seuls tes DTOs purs sont candidats.
+Sur un projet Symfony typique, ne sois pas surpris si 70% de tes classes sont incompatibles. C'est normal, les entités Doctrine, les services, les value objects avec constructeur sont tous exclus. Seuls tes DTOs purs sont candidats. Note que les changements introduits par [Doctrine ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) peuvent influencer la structure de tes entités dans ce contexte.
 
 ### Inventaire des fonctionnalités Serializer utilisées
 
@@ -191,7 +192,7 @@ $dto = PublicUserDto::fromEntity($user);
 $json = $jsonStreamer->serialize($dto);
 ```
 
-C'est plus verbeux, mais architecturalement plus propre. Chaque représentation est explicite dans le code, pas cachée dans une annotation. Si tu travailles en architecture hexagonale, tu as probablement déjà ces DTOs.
+C'est plus verbeux, mais architecturalement plus propre. Chaque représentation est explicite dans le code, pas cachée dans une annotation. Si tu travailles en architecture hexagonale, tu as probablement déjà ces DTOs : la [migration vers l'architecture hexagonale](/article/migration-symfony-architecture-hexagonale-retour-mission) est précisément le contexte où cette séparation émergera naturellement.
 
 ### Le contexte dynamique
 
@@ -329,6 +330,8 @@ Sur 50 000 produits, on passe de ~340 ms à ~54 ms et de ~24 MB à ~8 MB.
 - [API REST : les bonnes pratiques](/article/api-rest-les-bonnes-pratiques), structurer vos endpoints avant de les optimiser
 - [Quelle architecture choisir entre micro-service ou monolithe modulaire](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire), le contexte architectural qui influence le choix Serializer vs JsonStreamer
 - [Pourquoi Docker est indispensable en production aujourd'hui](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui), containeriser pour maîtriser les versions PHP
+- [Tout savoir sur la mise en cache](/article/tout-savoir-sur-la-mise-en-cache-tips), compléter la performance JSON avec une stratégie de cache adaptée
+- [Swagger et NelmioApiDocBundle](/article/swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on), documenter vos endpoints sérialisés
 - [Streaming JSON : documentation Symfony](https://symfony.com/doc/current/serializer/streaming_json.html), la référence officielle
 
 JsonStreamer n'est pas le futur du Serializer, c'est un outil spécialisé pour un problème précis. Si tu fais du volume, il est imbattable. Si tu as besoin de flexibilité de vue avec des groupes et du contexte dynamique, garde le Serializer. Les deux coexistent, utilise-les ensemble. La migration intelligente, c'est endpoint par endpoint, en commençant par ceux où le gain est mesurable.

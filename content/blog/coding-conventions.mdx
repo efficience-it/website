@@ -5,6 +5,7 @@ author: "Florian Chenot"
 category: "Projet"
 excerpt: "Un code de qualité repose sur six critères clés : organisation, rapidité, lisibilité, concision, non-répétition et cohérence à travers les méthodes."
 image: "/images/blog/conventions-codage.webp"
+updatedAt: "2026-01-13"
 ---
 
 Les conventions de codage sont souvent perçues comme un sujet de débutant. En réalité, leur impact se mesure à l'échelle : plus un projet grandit, plus l'absence de conventions cohérentes devient un frein systémique. Ce qui commence comme une préférence esthétique devient progressivement un levier d'architecture, de vélocité et de gouvernance technique.
@@ -17,7 +18,7 @@ Au-delà de la lisibilité, les conventions éliminent une catégorie entière d
 
 ## Les standards PSR : le socle commun en PHP
 
-Les PHP Standards Recommendations (PSR) constituent le contrat social de l'écosystème PHP. Parmi elles, PSR-12 définit le style de code étendu : 4 espaces d'indentation, 120 caractères par ligne, placement des accolades, déclaration des namespaces et imports.
+Les PHP Standards Recommendations (PSR) constituent le contrat social de l'écosystème PHP. Pour bien comprendre leur rôle et leur portée, un article détaillé explique [ce que sont les PSR et à quoi ils servent](/article/qu-est-ce-que-les-psrs-et-a-quoi-servent-ils). Parmi elles, PSR-12 définit le style de code étendu : 4 espaces d'indentation, 120 caractères par ligne, placement des accolades, déclaration des namespaces et imports.
 
 ```php
 namespace App\Service;
@@ -112,14 +113,13 @@ Les design patterns jouent un rôle similaire à cette échelle. Singleton, Fact
 
 Les conventions ne sont pas un document figé rédigé une fois et oublié. Elles évoluent avec le projet, le langage, l'écosystème. PSR-12 sera remplacée par PER-CS (PHP Evolving Recommendation - Coding Style). PHPStan ajoute régulièrement de nouvelles règles. Les frameworks adoptent de nouveaux patterns.
 
-L'enjeu pour un architecte est de maintenir des conventions vivantes : régulièrement révisées, automatiquement appliquées, et comprises par tous. Un rituel trimestriel de revue des conventions, combiné à un outillage solide, garantit que les standards restent pertinents sans devenir un carcan.
+L'enjeu pour un architecte est de maintenir des conventions vivantes : régulièrement révisées, automatiquement appliquées, et comprises par tous. Des outils comme [Rector permettent d'appliquer les conventions automatiquement sur le code existant](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony), y compris lors des migrations de version. Un rituel trimestriel de revue des conventions, combiné à un outillage solide, garantit que les standards restent pertinents sans devenir un carcan.
 
 ## Pour aller plus loin
 
-- [Qu'est-ce que les PSRs et à quoi servent-ils ?](/article/qu-est-ce-que-les-psrs-et-a-quoi-servent-ils), les standards PHP en détail
 - [Comment PHPStan peut améliorer la qualité de votre code PHP](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php), automatiser le contrôle qualité
-- [Rector : maîtrisez l'évolution de votre code Symfony](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony), appliquer les conventions automatiquement
+- [La dette technique : faut-il vraiment en avoir peur ?](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur), comprendre les conséquences de l'absence de conventions sur le long terme
+- [Code mort : mission élimination](/article/code-mort-mission-elimination), identifier et supprimer le code inutile pour assainir le projet
 - [PHP-FIG : PSR-12 Extended Coding Style](https://www.php-fig.org/psr/psr-12/), le standard de style PHP
 - [Symfony Coding Standards](https://symfony.com/doc/current/contributing/code/standards.html), conventions Symfony officielles
 - [PHP CS Fixer sur GitHub](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer), outil de formatage automatique
-- [SOLID principles (Wikipedia)](https://en.wikipedia.org/wiki/SOLID), référence sur les principes SOLID

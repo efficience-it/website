@@ -3,6 +3,7 @@ import Script from "next/script";
 import { montserrat, exo } from "@/lib/fonts";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { localBusinessJsonLd } from "@/lib/structured-data";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -32,6 +33,33 @@ const organizationJsonLd = {
     addressCountry: "FR",
   },
   email: "contact@itefficience.com",
+  foundingDate: "2018",
+  numberOfEmployees: {
+    "@type": "QuantitativeValue",
+    value: 15,
+  },
+  contactPoint: {
+    "@type": "ContactPoint",
+    email: "contact@itefficience.com",
+    contactType: "customer service",
+    availableLanguage: ["French", "English"],
+  },
+  knowsAbout: [
+    "Symfony",
+    "PHP",
+    "Architecture hexagonale",
+    "Domain-Driven Design",
+    "API Platform",
+    "DevOps",
+    "Docker",
+    "Node.js",
+  ],
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "5",
+    reviewCount: "6",
+    bestRating: "5",
+  },
   sameAs: [
     "https://github.com/efficience-it",
     "https://www.linkedin.com/company/efficience-it",
@@ -43,11 +71,6 @@ const websiteJsonLd = {
   "@type": "WebSite",
   name: "Efficience IT",
   url: "https://www.itefficience.com",
-  potentialAction: {
-    "@type": "SearchAction",
-    target: "https://www.itefficience.com/blog?q={search_term_string}",
-    "query-input": "required name=search_term_string",
-  },
 };
 
 const GA_MEASUREMENT_ID = "G-CZN94LWSH2";
@@ -59,6 +82,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr-FR">
+      <head>
+        <link rel="ai-metadata" href="/.well-known/llms.txt" />
+      </head>
       <body
         className={`${montserrat.variable} ${exo.variable} font-sans antialiased`}
       >
@@ -72,6 +98,12 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(websiteJsonLd),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(localBusinessJsonLd),
           }}
         />
         <Script

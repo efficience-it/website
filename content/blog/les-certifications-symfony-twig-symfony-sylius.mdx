@@ -1,10 +1,11 @@
 ---
 title: "Les certifications Symfony, Twig & Sylius"
-date: "2023-10-04"
+date: "2026-03-10"
 author: "Louis-Arnaud Catoire"
 category: "Formation"
 excerpt: "Vous êtes développeur et cherchez à renforcer votre profil technique ? Les certifications officielles valident l'expertise et boostent la crédibilité."
-image: "/images/blog/certifications-symfony.png"
+image: "/images/blog/certifications-symfony.webp"
+proficiencyLevel: "Beginner"
 ---
 
 ## Certifications Symfony : Twig, Symfony et Sylius
@@ -28,20 +29,15 @@ Il existe deux niveaux de certification Symfony. Le premier valide une maîtrise
 - L'expérience pratique sur des projets concrets
 - La plateforme e-learning Sensiolabs University, qui propose 20 questions de pratique quotidiennes reproduisant le format de la certification
 
-**Outils pratiques pour s'entraîner :**
-
-- [onlinephp.io](https://onlinephp.io) pour tester du code PHP directement en ligne
-- [twig.symfony.com/play](https://twig.symfony.com/play) pour expérimenter avec Twig
-
 ### Twig Certified Designer
 
 Cette certification valide les compétences frontend au sein des projets Symfony. Le diplôme « Twig Certified Designer » s'adresse aux développeurs et intégrateurs qui ont besoin de maîtriser le moteur de templates.
 
-Les candidats doivent connaître les tags, fonctions et filtres principaux de Twig, tels que documentés dans la section officielle « Templates for Designers ». L'examen dure environ 30 minutes et peut être préparé en quelques jours avec une pratique ciblée et dédiée. La certification Twig est particulièrement intéressante pour les profils front-end ou les intégrateurs qui travaillent régulièrement sur des projets Symfony sans nécessairement maîtriser l'ensemble du framework. Elle valide une compétence précise et directement exploitable au quotidien.
+Les candidats doivent connaître les tags, fonctions et filtres principaux de Twig, tels que documentés dans la section officielle « Templates for Designers ». L'examen dure environ 30 minutes et peut être préparé en quelques jours avec une pratique ciblée et dédiée. La certification Twig est particulièrement intéressante pour les profils front-end ou les intégrateurs qui travaillent régulièrement sur des projets Symfony sans nécessairement maîtriser l'ensemble du framework. Elle valide une compétence précise et directement exploitable au quotidien. Pour les candidats qui souhaitent anticiper les évolutions du moteur de templates, l'article sur [les nouveautés attendues dans Twig 4](/article/twig-4-ce-que-lon-pourrait-attendre) donne un aperçu des changements à venir.
 
 ### Sylius Certified Developer
 
-Idéale pour les développeurs e-commerce utilisant Symfony, cette certification démontre l'expertise avec l'un des frameworks e-commerce open source les plus flexibles du marché. Sylius s'appuie entièrement sur l'écosystème Symfony, ce qui en fait un choix naturel pour les équipes déjà familières avec le framework.
+Idéale pour les développeurs e-commerce utilisant Symfony, cette certification démontre l'expertise avec l'un des frameworks e-commerce open source les plus flexibles du marché. [Sylius est la solution e-commerce du framework Symfony](/article/sylius-la-solution-e-commerce-du-framework-symfony), ce qui en fait un choix naturel pour les équipes déjà familières avec le framework.
 
 L'évaluation couvre :
 
@@ -54,6 +50,27 @@ L'évaluation couvre :
 L'examen en ligne dure 90 minutes. La préparation s'appuie sur les ressources officielles, la documentation technique et la personnalisation de projets en local. Travailler sur un projet Sylius concret reste le meilleur moyen de se préparer, car l'examen évalue la capacité à résoudre des problématiques réelles liées au développement e-commerce.
 
 **Accompagnement professionnel :** Efficience IT propose un accompagnement de deux jours pour la préparation à la certification.
+
+## Préparer la certification Symfony : plan en 6 étapes
+
+Avant de commencer, identifiez vos forces et vos lacunes sur les 14 sujets de l'examen. Si vous travaillez sur Symfony au quotidien, vous maîtrisez probablement le routing et les contrôleurs. Mais connaissez-vous les compiler passes ? Les data transformers des formulaires ?
+
+1. **Évaluer son niveau** : listez les 14 sujets et notez votre confiance sur chacun
+2. **Étudier la [documentation officielle Symfony](https://symfony.com/doc/current/index.html)** : ne vous limitez pas aux guides de démarrage, explorez les pages de référence et les options avancées
+3. **Pratiquer avec [SymfonyCasts](https://symfonycasts.com/)** : les parcours vidéo couvrent chaque sujet et expliquent le "pourquoi" derrière chaque mécanisme
+4. **S'entraîner avec les examens blancs** sur la [plateforme de certification](https://certification.symfony.com/) pour se familiariser avec le format
+5. **Lire le code source du framework** : c'est l'étape qui sépare les candidats bien préparés de ceux qui réussissent avec marge. Comprendre l'implémentation de HttpKernel ou du Security component transforme votre compréhension du framework
+6. **Planifier et passer l'examen** : 90 minutes, 75 questions, en ligne via SymfonyConnect. Réservez un créneau au calme
+
+### Conseils de développeurs certifiés
+
+Ne sous-estimez pas le composant Form. C'est le sujet ou les candidats perdent le plus de points. Les data transformers, les événements de formulaire et le rendu custom demandent une préparation spécifique.
+
+Maîtrisez le conteneur de services en profondeur. L'autowiring simplifie l'usage quotidien, mais l'examen teste ce qui se passe en dessous : compiler passes, service locators, tagged services.
+
+Lisez les questions lentement. L'examen est en anglais et les nuances comptent. Une question sur le comportement "par défaut" attend une réponse différente d'une question sur le comportement "recommandé".
+
+Chez Efficience IT, plusieurs membres de l'équipe sont certifiés et la préparation est intégrée dans nos [programmes de montée en compétences](/article/les-6-etapes-pour-monter-en-competences-sur-symfony). La certification est particulièrement efficace en équipe : les développeurs partagent leurs découvertes, se challengent et créent une dynamique d'apprentissage collective. Pour les entreprises qui souhaitent faire certifier leur équipe dans un cadre structuré, notre offre de [formation Symfony certifiante](/formation-symfony-entreprise) accompagne les développeurs de la préparation jusqu'à l'examen.
 
 ## Les certifications PHP et Laravel
 
@@ -95,20 +112,16 @@ L'examen en ligne dure environ une heure, avec une préparation disponible via d
 
 Certifiée par la Fondation OpenJS, cette certification valide le développement d'applications backend avec Node.js : gestion des modules, programmation asynchrone avec les promesses et les patterns async/await, création d'API REST, gestion des erreurs, méthodologies de test et sécurité des applications.
 
-## Pourquoi se certifier en 2025 ?
+## Pourquoi se certifier en 2026 ?
 
 La certification technique représente un investissement professionnel. Que ce soit pour progresser en interne, se positionner sur des projets de haut niveau, construire la confiance des clients ou renforcer son CV, ces diplômes démontrent la rigueur, la maîtrise technique et l'engagement envers l'amélioration continue.
 
 Au-delà du diplôme lui-même, le processus de préparation est formateur. Il pousse à explorer des pans du framework ou du langage que l'on néglige dans le travail quotidien. Cette démarche d'approfondissement améliore concrètement la qualité du code produit et la capacité à résoudre des problèmes complexes.
 
-Efficience IT met l'accent sur la formation continue, combinant connaissances théoriques et application pratique. L'entreprise encourage les développeurs à se former, contribuer, se challenger collectivement et poursuivre des certifications soutenant leur mission de construire des applications métier robustes, évolutives et bien conçues.
+Efficience IT met l'accent sur la formation continue, combinant connaissances théoriques et application pratique. L'entreprise encourage les développeurs à se former, [contribuer à l'open source](/article/les-contributions-open-source-un-enjeu-de-taille-pour-les-developpeurs-et-les-projets), se challenger collectivement et poursuivre des certifications soutenant leur mission de construire des applications métier robustes, évolutives et bien conçues.
 
 ## Pour aller plus loin
 
 - [Les 6 étapes pour monter en compétences sur Symfony](/article/les-6-etapes-pour-monter-en-competences-sur-symfony), Un parcours structuré pour progresser sur le framework
 - [Pourquoi choisir Symfony pour vos projets](/article/pourquoi-choisir-symfony-pour-vos-projets), Les atouts de Symfony pour le développement d'applications métier
-- [Les contributions open source](/article/les-contributions-open-source-un-enjeu-de-taille-pour-les-developpeurs-et-les-projets), Comment contribuer à l'écosystème Symfony et progresser
-- [Symfony Certification : Page officielle](https://certification.symfony.com/), Informations et inscription à la certification Symfony
-- [SymfonyCasts](https://symfonycasts.com/), Cours vidéo pour préparer les certifications Symfony et Twig
-- [Sylius : Documentation officielle](https://docs.sylius.com/), Ressources pour préparer la certification Sylius
-- [Documentation officielle de Twig](https://twig.symfony.com/doc/), Référence complète du moteur de templates
+- [Symfony pour les moldus](/article/symfony-pour-les-moldus), Revenir aux fondamentaux du framework avant de passer la certification

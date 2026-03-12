@@ -30,11 +30,14 @@ describe("Home page", () => {
     ).toBeInTheDocument();
   });
 
-  it("renders the CTA section", () => {
+  it("renders the CTA sections", () => {
     render(<Home />);
     expect(
-      screen.getAllByRole("heading", { name: /projet en tête/i }),
-    ).toHaveLength(2);
+      screen.getByRole("heading", { name: /projet en tête/i }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /check-up/i }),
+    ).toBeInTheDocument();
   });
 
   it("renders the testimonials section", () => {

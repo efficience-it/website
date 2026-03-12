@@ -86,6 +86,15 @@ export default function MobileMenu({ items }: MobileMenuProps) {
             )}
             <li>
               <Link
+                href="/audit-symfony-gratuit"
+                className="block px-4 py-3 font-semibold text-primary"
+                onClick={() => setOpen(false)}
+              >
+                Audit Symfony gratuit
+              </Link>
+            </li>
+            <li>
+              <Link
                 href="/contact"
                 className="block px-4 py-3 font-semibold text-primary"
                 onClick={() => setOpen(false)}

@@ -4,8 +4,7 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import Accordion from "@/components/ui/Accordion";
 import ContactForm from "@/components/sections/ContactForm";
 import { faqItems } from "@/../data/faq";
-import { BASE_URL } from "@/lib/metadata";
-import { breadcrumbJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "Contact | Agence web Symfony – Efficience IT",
@@ -30,6 +29,15 @@ const jsonLd = {
 
 const breadcrumb = breadcrumbJsonLd([{ name: "Contact", path: "/contact" }]);
 
+const webPage = webPageJsonLd({
+  name: "Contact | Agence web Symfony – Efficience IT",
+  description: "Contactez Efficience IT pour échanger autour de vos projets web, besoins techniques ou demandes de collaboration.",
+  path: "/contact",
+  type: "ContactPage",
+  datePublished: "2025-09-01",
+  dateModified: "2025-09-01",
+});
+
 export default function Contact() {
   return (
     <>
@@ -40,6 +48,10 @@ export default function Contact() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
       />
       <main>
         <section className="bg-light-gray py-16 md:py-24">

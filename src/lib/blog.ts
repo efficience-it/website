@@ -5,6 +5,18 @@ import { BlogPost } from "@/types/blog";
 
 const BLOG_DIR = path.join(process.cwd(), "content/blog");
 
+function countWords(markdown: string): number {
+  const text = markdown
+    .replace(/```[\s\S]*?```/g, "")
+    .replace(/`[^`]*`/g, "")
+    .replace(/!?\[.*?\]\(.*?\)/g, "")
+    .replace(/#{1,3}\s+/g, "")
+    .replace(/[*_~`>|\\[\]()-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  return text ? text.split(" ").length : 0;
+}
+
 export function getAllPosts(): BlogPost[] {
   const files = fs.readdirSync(BLOG_DIR).filter((f) => f.endsWith(".mdx"));
 
@@ -21,8 +33,12 @@ export function getAllPosts(): BlogPost[] {
       author: data.author ?? "",
       category: data.category ?? "",
       excerpt: data.excerpt ?? "",
+      updatedAt: data.updatedAt,
       image: data.image,
+      proficiencyLevel: data.proficiencyLevel,
+      faq: data.faq,
       content,
+      wordCount: countWords(content),
     };
   });
 
@@ -45,8 +61,12 @@ export function getPostBySlug(slug: string): BlogPost | undefined {
     author: data.author ?? "",
     category: data.category ?? "",
     excerpt: data.excerpt ?? "",
+    updatedAt: data.updatedAt,
     image: data.image,
+    proficiencyLevel: data.proficiencyLevel,
+    faq: data.faq,
     content,
+    wordCount: countWords(content),
   };
 }
 

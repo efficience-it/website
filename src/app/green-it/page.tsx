@@ -4,7 +4,9 @@ import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
 import CallToAction from "@/components/sections/CallToAction";
-import { breadcrumbJsonLd } from "@/lib/structured-data";
+import RelatedLinks from "@/components/sections/RelatedLinks";
+import type { RelatedLink } from "@/components/sections/RelatedLinks";
+import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 import {
   greenMetrics,
   greenPrinciple,
@@ -22,12 +24,51 @@ export const metadata = pageMetadata({
 
 const breadcrumb = breadcrumbJsonLd([{ name: "Green IT", path: "/green-it" }]);
 
+const webPage = webPageJsonLd({
+  name: "Green IT | Démarche numérique responsable",
+  description:
+    "Efficience IT s'engage dans une démarche Green IT pour réduire l'impact environnemental du numérique, à travers des pratiques techniques et responsables.",
+  path: "/green-it",
+  datePublished: "2025-09-01",
+  dateModified: "2025-09-01",
+});
+
+const greenItRelatedLinks: RelatedLink[] = [
+  {
+    title: "Normes RGAA : accessibilité pour tous",
+    description: "Concevoir des sites inclusifs et responsables",
+    href: "/article/normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous",
+  },
+  {
+    title: "GreenIT.fr",
+    description: "Communauté du numérique responsable",
+    href: "https://www.greenit.fr/",
+    external: true,
+  },
+  {
+    title: "Ecosia",
+    description: "Le moteur de recherche qui plante des arbres",
+    href: "https://www.ecosia.org/",
+    external: true,
+  },
+  {
+    title: "W3C, Web Sustainability Guidelines",
+    description: "Référentiel de durabilité web",
+    href: "https://www.w3.org/TR/sustainability-web/",
+    external: true,
+  },
+];
+
 export default function GreenIt() {
   return (
     <>
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
     />
     <main>
       <section className="bg-light-gray py-16 md:py-24">
@@ -49,7 +90,11 @@ export default function GreenIt() {
                 Nous croyons que la technologie peut être au service de la
                 transition écologique. Grâce à des pratiques clean, nous
                 optimisons les applications pour réduire les ressources
-                nécessaires. Économie et écologie sont des maîtres mots.
+                nécessaires. Économie et écologie sont des maîtres mots.{" "}
+                <Link href="/article/eco-conception-un-ideal-en-marche-ou-une-illusion-durable" className="text-primary hover:underline">
+                  L&apos;éco-conception
+                </Link>{" "}
+                est au cœur de notre approche du développement web responsable.
               </p>
               <p className="mt-4 text-lg text-gray">
                 Nous encourageons le télétravail et les déplacements à vélo ou
@@ -70,6 +115,8 @@ export default function GreenIt() {
                 width={400}
                 height={300}
                 className="w-full max-w-md"
+                priority
+                fetchPriority="high"
               />
             </div>
           </div>
@@ -153,15 +200,19 @@ export default function GreenIt() {
           <SectionTitle>Découvrez nos articles Green IT</SectionTitle>
           <p className="mx-auto max-w-2xl text-gray">
             Au-delà de cet engagement, nos collaborateurs utilisent le moteur de
-            recherche Ecosia, qui plante des arbres grâce aux recherches des
-            utilisateurs. Chaque petit geste a son impact.
+            recherche{" "}
+            <Link href="/article/ecosia-preservateur-decologie" className="text-primary hover:underline">
+              Ecosia
+            </Link>
+            , qui plante des arbres grâce aux recherches des utilisateurs.
+            Chaque petit geste a son impact.
           </p>
           <p className="mx-auto mt-4 max-w-2xl text-gray">
             Retrouvez nos articles sur le numérique responsable,
             l&apos;éco-conception et la décarbonation sur notre blog.
           </p>
           <Link
-            href="/blog/"
+            href="/blog"
             className="mt-6 inline-block font-semibold text-primary hover:underline"
           >
             Voir les articles Green IT →
@@ -169,50 +220,10 @@ export default function GreenIt() {
         </Container>
       </section>
 
-      {/* Pour aller plus loin */}
-      <section className="bg-light-gray py-16">
-        <Container>
-          <SectionTitle>Pour aller plus loin</SectionTitle>
-          <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
-            <li>
-              <Link href="/article/eco-conception-un-ideal-en-marche-ou-une-illusion-durable" className="text-primary hover:underline">
-                L&apos;éco-conception : un idéal en marche ?
-              </Link>{" "}
-             , numérique responsable et sobriété
-            </li>
-            <li>
-              <Link href="/article/ecosia-preservateur-decologie" className="text-primary hover:underline">
-                Ecosia, préservateur d&apos;écologie
-              </Link>{" "}
-             , un moteur de recherche au service de la planète
-            </li>
-            <li>
-              <Link href="/article/normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous" className="text-primary hover:underline">
-                Normes RGAA : accessibilité pour tous
-              </Link>{" "}
-             , concevoir des sites inclusifs et responsables
-            </li>
-            <li>
-              <a href="https://www.greenit.fr/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                GreenIT.fr
-              </a>{" "}
-             , communauté du numérique responsable
-            </li>
-            <li>
-              <a href="https://www.ecosia.org/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                Ecosia
-              </a>{" "}
-             , le moteur de recherche qui plante des arbres
-            </li>
-            <li>
-              <a href="https://www.w3.org/TR/sustainability-web/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                W3C, Web Sustainability Guidelines
-              </a>{" "}
-             , référentiel de durabilité web
-            </li>
-          </ul>
-        </Container>
-      </section>
+      <RelatedLinks
+        links={greenItRelatedLinks}
+        className="bg-light-gray"
+      />
 
       <CallToAction />
     </main>

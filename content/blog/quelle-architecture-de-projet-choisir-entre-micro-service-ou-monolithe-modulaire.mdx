@@ -5,6 +5,15 @@ author: "Louis-Arnaud Catoire"
 category: "Outils"
 excerpt: "Bien structurer son projet est essentiel. Deux approches architecturales dominent : les micro-services et les monolithes modulaires. Laquelle choisir ?"
 image: "/images/blog/microservices-monolithe.webp"
+proficiencyLevel: "Expert"
+updatedAt: "2026-01-13"
+faq:
+  - question: "Quand faut-il passer aux micro-services ?"
+    answer: "Les micro-services se justifient quand vous avez des equipes independantes qui doivent deployer a des rythmes differents, des parties de l'application avec des besoins de scalabilite tres differents, ou un domaine metier suffisamment mature pour definir des frontieres claires. Pour la plupart des projets, un monolithe modulaire bien structure est plus adapte."
+  - question: "Un monolithe modulaire est-il scalable ?"
+    answer: "Oui, un monolithe bien concu peut scaler horizontalement en ajoutant des instances derriere un load balancer. Les traitements lourds peuvent etre decharges vers des workers asynchrones (Symfony Messenger). La limite arrive quand differentes parties de l'application ont des besoins de scalabilite radicalement differents."
+  - question: "Comment eviter qu'un monolithe devienne un monolithe couple ?"
+    answer: "La cle est la discipline architecturale : separer le code en modules avec des frontieres explicites, interdire les acces directs entre modules (passer par des interfaces), utiliser des evenements pour la communication inter-modules et verifier l'absence de couplage avec des outils comme Deptrac."
 ---
 
 ## Micro-services ou monolithe modulaire : un choix structurant
@@ -17,7 +26,7 @@ Le choix d'une architecture logicielle conditionne la vélocité de développeme
 
 Un monolithe modulaire est une application déployée comme une unité unique, mais dont le code interne est découpé en modules aux frontières explicites. Chaque module encapsule un domaine métier, catalogue, commandes, facturation, et expose une interface publique. Les détails d'implémentation restent privés. La différence avec un monolithe classique est fondamentale : dans un monolithe classique, les dépendances circulent dans tous les sens et le code s'enchevêtre progressivement. Dans un monolithe modulaire, la discipline architecturale impose un couplage faible entre modules.
 
-Dans un projet Symfony, cette approche se matérialise par un répertoire par module dans `src/`, chacun contenant ses couches `Domain/`, `Application/` et `Infrastructure/`. Le composant Messenger permet la communication entre modules via des messages et des handlers, découplant naturellement les responsabilités. L'autowiring et la configuration des services par répertoire rendent certains services privés à leur module. Les événements Symfony offrent un canal de communication supplémentaire sans couplage direct.
+Dans un projet Symfony, cette approche se matérialise par un répertoire par module dans `src/`, chacun contenant ses couches `Domain/`, `Application/` et `Infrastructure/`. Le composant [Symfony Messenger](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) permet la communication entre modules via des messages et des handlers, découplant naturellement les responsabilités. L'autowiring et la configuration des services par répertoire rendent certains services privés à leur module. Les événements Symfony offrent un canal de communication supplémentaire sans couplage direct.
 
 ### Les micro-services
 
@@ -57,6 +66,21 @@ Le debugging reste direct, un point d'arrêt dans l'IDE suffit pour suivre le fl
 
 Les micro-services se justifient lorsque plusieurs équipes indépendantes travaillent sur des domaines métier distincts et que la coordination par le code devient un goulot d'étranglement. Ils s'imposent quand certaines parties de l'application ont des besoins de scalabilité radicalement différents, un moteur de recherche sollicité massivement alors que le back-office d'administration reste peu utilisé. L'organisation doit être suffisamment mature pour absorber la complexité opérationnelle.
 
+## Tableau comparatif monolithe modulaire vs micro-services
+
+| Critere | Monolithe modulaire | Micro-services |
+|---------|---------------------|----------------|
+| Deploiement | Unique, simple | Independant par service |
+| Scalabilite | Horizontale (instances) | Fine (par service) |
+| Coherence des donnees | Transactions ACID natives | Eventuelle (Sagas) |
+| Debugging | Direct (breakpoints IDE) | Distribue (tracing, logs centralises) |
+| Cout infrastructure | Faible | Eleve (Kubernetes, brokers, observabilite) |
+| Autonomie des equipes | Moderee | Forte |
+| Tolerance aux erreurs de decoupage | Refactoring interne | Migration de bases, APIs, infra |
+| Complexite operationnelle | Faible | Elevee |
+| Onboarding developpeurs | Rapide | Plus long (patterns distribues) |
+| Equipe ideale | Jusqu'a ~20 developpeurs | Au-dela de 20, equipes autonomes |
+
 ## Stratégies de transition et vision architecturale
 
 ### Le Strangler Fig Pattern
@@ -75,7 +99,7 @@ Un monolithe modulaire, à l'inverse, tolère une organisation plus fluide où l
 
 Le coût total d'une architecture micro-services dépasse significativement celui d'un monolithe modulaire. L'infrastructure, clusters Kubernetes, brokers de messages, outils d'observabilité, représente un surcoût direct. Le coût humain est souvent sous-estimé : chaque développeur doit maîtriser les patterns distribués, et l'onboarding est plus long. La coordination inter-équipes, même réduite, ne disparaît pas. Il faut la formaliser via des contrats d'API, du versioning de schémas et de la gouvernance technique.
 
-Ce surcoût ne se justifie que si l'échelle de l'organisation et du trafic le requiert. Pour une équipe de dix développeurs sur un produit SaaS en croissance, un monolithe modulaire bien structuré offrira une vélocité supérieure à moindre coût. Pour une organisation de cent développeurs opérant une plateforme à fort trafic, les micro-services deviennent un levier d'autonomie et de passage à l'échelle.
+Ce surcoût ne se justifie que si l'échelle de l'organisation et du trafic le requiert. Pour une équipe de dix développeurs sur un produit SaaS en croissance, un monolithe modulaire bien structuré offrira une vélocité supérieure à moindre coût. Pour une organisation de cent développeurs opérant une plateforme à fort trafic, les micro-services deviennent un levier d'autonomie et de passage à l'échelle. Ce choix architectural est aussi indissociable de la [gestion de la dette technique](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) : une mauvaise découpe génère une dette structurelle difficile à rembourser.
 
 ## Conclusion
 
@@ -85,7 +109,7 @@ Le meilleur choix architectural est celui qui correspond à la réalité actuell
 
 - [Le domaine ne devrait jamais connaître Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony), isoler le domaine quel que soit l'architecture
 - [Migration Symfony vers l'architecture hexagonale](/article/migration-symfony-architecture-hexagonale-retour-mission), un cas concret de restructuration
-- [La dette technique : faut-il vraiment en avoir peur ?](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur), quand l'architecture génère de la dette
+- [Les différences entre Symfony Messenger et PHP Enqueue](/article/quelles-sont-les-differences-entre-symfony-messenger-php-enqueue-quoi-utiliser), choisir le bon outil de messaging pour votre architecture distribuée
 - [Martin Fowler : Microservices](https://martinfowler.com/articles/microservices.html), l'article de référence sur les microservices
 - [Symfony documentation : Architecture](https://symfony.com/doc/current/controller.html), structurer un projet Symfony
 - [Sam Newman : Building Microservices (O'Reilly)](https://www.oreilly.com/library/view/building-microservices-2nd/9781492034018/), le livre de référence

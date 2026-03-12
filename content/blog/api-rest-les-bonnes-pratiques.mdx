@@ -5,6 +5,14 @@ author: "Efficience IT"
 category: "Formation"
 excerpt: "Dans le monde du web, API est l'acronyme d'Application Programming Interface, traduit en français par interface de programmation d'application."
 image: "/images/blog/api-rest.webp"
+updatedAt: "2026-01-13"
+faq:
+  - question: "Quelles sont les bonnes pratiques pour concevoir une API REST ?"
+    answer: "Les fondamentaux sont : utiliser les bons verbes HTTP (GET, POST, PUT, DELETE), nommer les ressources au pluriel dans les URIs, retourner les codes de statut HTTP appropriate (200, 201, 404, 422), paginer les collections et versionner l'API. La documentation automatique avec OpenAPI/Swagger est egalement essentielle."
+  - question: "Comment securiser une API REST en PHP ?"
+    answer: "Les mecanismes de securite essentiels sont l'authentification par token (JWT ou OAuth2), le rate limiting pour prevenir les abus, la validation stricte des entrees, le chiffrement HTTPS obligatoire et la gestion fine des autorisations par role. En Symfony, le composant Security et API Platform couvrent ces besoins nativement."
+  - question: "REST ou GraphQL : lequel choisir pour mon API ?"
+    answer: "REST convient a la majorite des projets grace a sa simplicite et son ecosysteme mature (cache HTTP, documentation OpenAPI). GraphQL est plus adapte quand les clients ont des besoins de donnees tres variables (applications mobiles, dashboards complexes). Les deux peuvent coexister dans un meme projet."
 ---
 
 ## Les fondamentaux REST que tout développeur doit maîtriser
@@ -43,7 +51,7 @@ La négociation de contenu via le header `Accept` permet à un même endpoint de
 
 ## HATEOAS et la maturité d'une API
 
-Le modèle de maturité de Richardson classe les API REST en quatre niveaux. Le niveau 0 correspond à un tunnel HTTP unique (type RPC). Le niveau 1 introduit les ressources. Le niveau 2 ajoute les verbes HTTP. Le niveau 3 intègre les contrôles hypermédia : c'est HATEOAS (Hypermedia As The Engine Of Application State).
+Le modèle de maturité de Richardson classe les API REST en quatre niveaux. Le niveau 0 correspond à un tunnel HTTP unique (type RPC). Le niveau 1 introduit les ressources. Le niveau 2 ajoute les verbes HTTP. Le niveau 3 intègre les contrôles hypermédia : c'est HATEOAS (Hypermedia As The Engine Of Application State). Pour aller au-delà de REST, il est utile de comprendre [les différences entre REST et GraphQL](/article/que-vaut-rest-face-a-son-nouveau-challenger-graphql) afin de choisir l'architecture la mieux adaptée à chaque contexte.
 
 Avec HATEOAS, chaque réponse contient les liens vers les actions possibles. Une commande au statut "en préparation" expose un lien `cancel` ; une fois expédiée, ce lien disparaît et un lien `track` apparaît. Le client n'a pas besoin de coder en dur les transitions d'état : il découvre les actions disponibles à travers les liens fournis par le serveur. JSON-LD et Hydra, utilisés par API Platform, sont les formats les plus répandus dans l'écosystème PHP pour implémenter ce niveau de maturité.
 
@@ -57,7 +65,7 @@ La plus classique : `?page=3&itemsPerPage=25`. Simple à implémenter, elle souf
 
 ### Pagination par curseur
 
-Le serveur retourne un curseur opaque (`?after=eyJpZCI6NDJ9`) qui pointe vers le dernier élément affiché. Les performances restent constantes quelle que soit la profondeur, car la requête SQL utilise un `WHERE id > :cursor` indexé. C'est la stratégie adoptée par les API de Stripe, Slack et GitHub.
+Le serveur retourne un curseur opaque (`?after=eyJpZCI6NDJ9`) qui pointe vers le dernier élément affiché. Les performances restent constantes quelle que soit la profondeur, car la requête SQL utilise un `WHERE id > :cursor` indexé. C'est la stratégie adoptée par les API de Stripe, Slack et GitHub. Le choix du type d'identifiant pour la colonne de curseur n'est pas anodin : [INT, UUID ou ULID ont chacun des implications sur les performances d'index](/article/prendre-int-uuid-ou-ulid-pour-un-index-de-base-de-donnees).
 
 ### Pagination par range header
 
@@ -97,14 +105,13 @@ Le pattern gateway aggregation résout le problème du "chattiness" : plutôt qu
 
 ## Conclusion
 
-Concevoir une API REST professionnelle va bien au-delà du CRUD basique. Des fondamentaux (verbes HTTP, codes de statut, nommage des ressources) jusqu'aux décisions d'architecture (gateway, contract-first, gouvernance du contrat), chaque niveau de maturité apporte de la valeur mesurable : moins de bugs d'intégration, des évolutions sans rupture, une scalabilité maîtrisée. La clé reste de choisir le bon niveau de sophistication pour le contexte du projet, sans sur-ingénierie ni sous-estimation des besoins futurs.
+Concevoir une API REST professionnelle va bien au-delà du CRUD basique. Des fondamentaux (verbes HTTP, codes de statut, nommage des ressources) jusqu'aux décisions d'architecture (gateway, contract-first, gouvernance du contrat), chaque niveau de maturité apporte de la valeur mesurable : moins de bugs d'intégration, des évolutions sans rupture, une scalabilité maîtrisée. La clé reste de choisir le bon niveau de sophistication pour le contexte du projet, sans sur-ingénierie ni sous-estimation des besoins futurs. Pour les équipes qui souhaitent aller plus loin, le [développement d'API sur mesure avec Symfony](/api-sur-mesure-symfony) offre un cadre éprouvé pour construire des API robustes, documentées et maintenables sur la durée.
 
 ## Pour aller plus loin
 
 - [Swagger Nelmio bundle et ses fonctionnalités](/article/swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on), documenter et tester vos API REST avec Swagger
-- [REST face à GraphQL](/article/que-vaut-rest-face-a-son-nouveau-challenger-graphql), comprendre les différences entre REST et GraphQL
 - [Tout savoir sur la mise en cache](/article/tout-savoir-sur-la-mise-en-cache-tips), optimiser les performances de vos API avec le cache HTTP
-- [MDN Web Docs : HTTP](https://developer.mozilla.org/fr/docs/Web/HTTP), référence complète sur le protocole HTTP
+- [Comment exécuter des tests Postman avec Newman dans GitLab CI](/article/comment-executer-des-tests-postman-avec-newman-dans-gitlab-ci), automatiser les tests fonctionnels de vos API en pipeline CI
 - [Symfony HttpClient](https://symfony.com/doc/current/http_client.html), le composant Symfony pour consommer des API REST
 - [OpenAPI Specification](https://spec.openapis.org/oas/latest.html), la spécification standard pour décrire les API REST
 - [GitHub : API Platform](https://github.com/api-platform/api-platform), framework PHP pour créer des API REST et GraphQL

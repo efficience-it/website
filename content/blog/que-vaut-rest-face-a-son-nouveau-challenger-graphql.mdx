@@ -5,6 +5,7 @@ author: "Louis-Arnaud Catoire"
 category: "Formation"
 excerpt: "REST s'est imposé comme un style architectural dominant pour la transmission de données via HTTP. GraphQL est souvent positionné comme un remplaçant révolutionnaire."
 image: "/images/blog/rest-vs-graphql.webp"
+updatedAt: "2026-01-13"
 ---
 
 Depuis plus d'une décennie, REST (Representational State Transfer) constitue le socle architectural de la majorité des API web. Son adoption massive, sa compatibilité native avec le protocole HTTP et la richesse de son écosystème en ont fait un standard de facto. En 2012, Facebook crée GraphQL pour résoudre les problèmes de performance de son application mobile, avant de le rendre open source en 2015. Depuis, la question revient régulièrement : GraphQL est-il le successeur naturel de REST, ou ces deux approches répondent-elles à des problématiques fondamentalement différentes ?
@@ -23,7 +24,7 @@ La prévisibilité de REST constitue son premier atout. Un endpoint retourne tou
 
 La mise en cache HTTP fonctionne nativement grâce aux headers standards (`Cache-Control`, `ETag`, `Last-Modified`). Un reverse proxy ou un CDN peut mettre en cache les réponses GET sans configuration applicative. Pour des API à fort trafic, cet avantage se traduit directement en économies d'infrastructure.
 
-L'écosystème est par ailleurs extrêmement mature. Des outils comme Swagger (OpenAPI) génèrent automatiquement documentation interactive, SDK clients et tests de conformité. La plupart des frameworks backend proposent un support natif pour la création d'API REST.
+L'écosystème est par ailleurs extrêmement mature. Des outils comme [Swagger via NelmioApiDocBundle](/article/swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on) génèrent automatiquement documentation interactive, SDK clients et tests de conformité. La plupart des frameworks backend proposent un support natif pour la création d'API REST.
 
 ### Limites connues
 
@@ -71,6 +72,20 @@ GraphQL contourne ce problème par sa nature additive, mais impose en contrepart
 
 En pratique, les équipes expérimentées adoptent un schema-first approach : le schéma est défini, discuté et validé avant toute implémentation, au même titre qu'un contrat OpenAPI pour REST.
 
+## Tableau comparatif REST vs GraphQL
+
+| Critere | REST | GraphQL |
+|---------|------|---------|
+| Modele d'acces | Ressources via endpoints multiples | Requete flexible via endpoint unique |
+| Over/under-fetching | Frequent (structure fixe) | Elimine (le client choisit les champs) |
+| Cache HTTP | Natif (headers standards, CDN) | Complexe (Persisted Queries, cache applicatif) |
+| Versioning | Explicite (v1, v2, v3) | Additif (pas de versioning) |
+| Monitoring | Immediat (un endpoint = une operation) | Necessite une instrumentation dediee |
+| Typage | Via OpenAPI/Swagger | Natif (schema typé) |
+| Courbe d'apprentissage | Faible (verbes HTTP standards) | Moyenne (langage de requete, resolvers) |
+| Ecosysteme | Tres mature | En croissance rapide |
+| Temps reel | Polling ou SSE | Subscriptions natives |
+
 ## Perspectives architecturales : combiner les deux approches
 
 À l'échelle d'un système distribué, la question n'est plus REST ou GraphQL, mais comment les articuler pour tirer parti des forces de chacun.
@@ -93,7 +108,7 @@ Pour une équipe de cinq développeurs, la question est rarement pertinente. Pou
 
 ## Pour conclure
 
-REST et GraphQL ne sont pas des technologies concurrentes mais complémentaires. REST reste le choix le plus naturel pour les API simples, orientées CRUD, où la mise en cache HTTP et la standardisation apportent une valeur immédiate. GraphQL excelle dans les contextes où les données sont fortement interconnectées, où les clients ont des besoins hétérogènes, et où la flexibilité de requêtage réduit la prolifération d'endpoints spécialisés.
+REST et GraphQL ne sont pas des technologies concurrentes mais complémentaires. REST reste le choix le plus naturel pour les API simples, orientées CRUD, où la mise en cache HTTP et la standardisation apportent une valeur immédiate. Pour approfondir les bonnes pratiques de conception REST, notre article sur [les bonnes pratiques des API REST](/article/api-rest-les-bonnes-pratiques) couvre les patterns essentiels. GraphQL excelle dans les contextes où les données sont fortement interconnectées, où les clients ont des besoins hétérogènes, et où la flexibilité de requêtage réduit la prolifération d'endpoints spécialisés.
 
 Les architectures les plus robustes combinent souvent les deux : des API REST pour les opérations bien définies et les services internes, un endpoint GraphQL en façade pour les clients ayant besoin d'agrégation et de souplesse. Le critère de décision n'est pas la modernité de la technologie, mais l'adéquation entre les contraintes du système, les compétences de l'équipe et les besoins réels des clients de l'API.
 
@@ -101,9 +116,9 @@ Chez Efficience IT, nous l'avons très bien compris et elles font partie intégr
 
 ## Pour aller plus loin
 
-- [API REST : les bonnes pratiques](/article/api-rest-les-bonnes-pratiques), Concevoir des API REST robustes et maintenables
-- [Swagger : NelmioBundle et ses fonctionnalités](/article/swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on), Documenter vos API avec Swagger et NelmioApiDocBundle
 - [Quel framework JavaScript choisir ?](/article/quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular), Choisir le bon framework front-end pour consommer vos API
+- [Migrer du Serializer vers JsonStreamer](/article/migrer-du-serializer-vers-json-streamer-le-guide-honnete), Optimiser la sérialisation JSON de vos réponses d'API
+- [Quelle architecture choisir entre micro-service ou monolithe modulaire ?](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire), Comprendre comment l'architecture influence la conception de vos API
 - [GraphQL](https://graphql.org/), Site officiel et documentation de GraphQL
 - [Swagger / OpenAPI](https://swagger.io/), Spécification et outils pour concevoir des API REST
 - [MDN : HTTP](https://developer.mozilla.org/fr/docs/Web/HTTP), Documentation de référence sur le protocole HTTP

@@ -5,6 +5,15 @@ author: "Efficience IT"
 category: "Formation"
 excerpt: "Le framework Symfony est en constante évolution comme de nombreux aspects du développement web. Efficience IT surveille ces changements de près."
 image: "/images/blog/migration-symfony.webp"
+proficiencyLevel: "Expert"
+updatedAt: "2026-01-13"
+faq:
+  - question: "Combien de temps prend une migration Symfony ?"
+    answer: "Ca depend de la taille du projet et du nombre de versions a sauter. Une migration d'une version mineure (ex: 6.3 vers 6.4) prend quelques jours. Une migration majeure (ex: 4.4 vers 6.4) peut prendre plusieurs semaines. L'utilisation de Rector et PHPStan automatise 60 a 80% des changements et reduit considerablement le temps necessaire."
+  - question: "Peut-on migrer Symfony sans interruption de service ?"
+    answer: "Oui, c'est l'approche que nous recommandons. En travaillant branche par branche et en resolvant les deprecations progressivement, vous pouvez continuer a livrer des fonctionnalites pendant la migration. Les tests automatises garantissent qu'aucune regression n'est introduite."
+  - question: "Que risque-t-on a rester sur une version Symfony non supportee ?"
+    answer: "Les versions en fin de vie ne recoivent plus de correctifs de securite. Votre application devient vulnerable aux failles connues (CVE). De plus, les nouvelles versions de PHP et des bundles tiers cessent de supporter les anciennes versions de Symfony, ce qui cree un effet domino sur tout l'ecosysteme."
 ---
 
 ## Comprendre le cycle de release Symfony
@@ -41,7 +50,7 @@ Les bundles abandonnés représentent le risque principal. Un bundle sans mise �
 
 ### Rector : le levier de productivité
 
-Rector applique des règles de transformation de code automatisées. Pour une migration Symfony, le set `symfony` de Rector réécrit les appels dépréciés, met à jour les signatures de méthodes et adapte les configurations. Sur un projet de taille moyenne, Rector automatise entre 60 et 80 % des modifications nécessaires.
+[Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) applique des règles de transformation de code automatisées. Pour une migration Symfony, le set `symfony` de Rector réécrit les appels dépréciés, met à jour les signatures de méthodes et adapte les configurations. Sur un projet de taille moyenne, Rector automatise entre 60 et 80 % des modifications nécessaires.
 
 L'approche recommandée consiste à exécuter Rector set par set, pas tout d'un bloc. Lancez d'abord les règles de renommage de classes, validez avec la suite de tests, commitez. Puis les règles de configuration, validez, commitez. Cette granularité isole chaque catégorie de changement et simplifie le debug en cas de régression.
 
@@ -49,7 +58,7 @@ Rector ne remplace pas la compréhension du changement. Certaines transformation
 
 ### PHPStan : le filet de sécurité statique
 
-PHPStan au niveau 6 minimum détecte les incompatibilités de types, les appels à des méthodes supprimées et les erreurs d'interface. Après chaque passe de Rector, lancez PHPStan pour attraper ce que l'outil de transformation a manqué ou mal transformé.
+[PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) au niveau 6 minimum détecte les incompatibilités de types, les appels à des méthodes supprimées et les erreurs d'interface. Après chaque passe de Rector, lancez PHPStan pour attraper ce que l'outil de transformation a manqué ou mal transformé.
 
 L'extension `phpstan-symfony` apporte la connaissance du conteneur de services au moteur d'analyse. Elle détecte les services mal typés, les paramètres manquants et les routes invalides. Cette extension devient particulièrement précieuse lors d'une migration où la configuration du conteneur évolue.
 
@@ -95,7 +104,7 @@ Toute migration majeure mérite une analyse de risques formalisée. Trois axes s
 
 **Risque métier** : périodes critiques à éviter (Black Friday, clôture comptable), SLA à respecter, tolérance à l'indisponibilité, impact d'une régression sur le chiffre d'affaires.
 
-Un projet avec une dette technique modérée, une bonne couverture de tests et une équipe expérimentée migrera en place avec la stratégie par phases. Un projet legacy critique avec peu de tests et des bundles abandonnés justifiera un Strangler Fig ou une réécriture partielle.
+Un projet avec une dette technique modérée, une bonne couverture de tests et une équipe expérimentée migrera en place avec la stratégie par phases. Un projet legacy critique avec peu de tests et des bundles abandonnés justifiera un Strangler Fig ou une réécriture partielle. Dans ce second cas, une [reprise de projet Symfony](/reprise-projet-symfony) avec un regard extérieur permet souvent d'accélérer l'audit initial et de définir une trajectoire réaliste.
 
 ### Conduire le changement dans l'organisation
 
@@ -105,10 +114,9 @@ Communiquez un calendrier réaliste aux parties prenantes. Une migration majeure
 
 ## Pour aller plus loin
 
-- [Rector et ses pouvoirs](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony), automatiser les transformations de code lors d'une migration
-- [PHPStan : améliorer la qualité du code PHP](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php), détecter les erreurs statiques avant de migrer
 - [La dette technique](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur), comprendre et gérer la dette technique accumulée entre les versions
+- [Migration Symfony vers l'architecture hexagonale : retour de mission](/article/migration-symfony-architecture-hexagonale-retour-mission), aller plus loin en restructurant l'architecture lors de la migration
+- [Découvrez les raisons de nous confier la maintenance de vos applications web](/article/decouvrez-les-raisons-de-nous-confier-la-maintenance-de-vos-applications-web), maintenir le projet à jour après la migration pour éviter d'accumuler à nouveau du retard
 - [Symfony Upgrade Guide](https://symfony.com/doc/current/setup/upgrade_major.html), guide officiel de mise à jour majeure Symfony
 - [Rector : Automated Refactoring](https://github.com/rectorphp/rector), outil de refactoring automatisé pour PHP
-- [PHPStan](https://phpstan.org/), analyseur statique de code PHP
 - [Symfony Release Process](https://symfony.com/doc/current/contributing/community/releases.html), calendrier et politique de versions Symfony

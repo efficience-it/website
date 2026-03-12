@@ -14,6 +14,7 @@ export const mainNav: NavItem[] = [
         label: "Accompagnement et Conseil",
         href: "/accompagnement-et-conseil",
       },
+      { label: "Audit Symfony gratuit", href: "/audit-symfony-gratuit" },
     ],
   },
   {
@@ -59,6 +60,7 @@ export const footerNav = {
     title: "Contactez-nous !",
     email: "contact@itefficience.com",
     cta: { label: "Formulaire de contact", href: "/contact" },
+    auditCta: { label: "Audit Symfony gratuit", href: "/audit-symfony-gratuit" },
   },
   social: [
     { label: "GitHub", href: "https://github.com/efficience-it", icon: "/images/icons/github.svg" },
@@ -72,7 +74,7 @@ export const footerNav = {
       href: "https://www.google.com/maps/place/Efficience+IT",
       icon: "/images/icons/google-maps.webp",
     },
-    { label: "AFUP", href: "https://afup.org/home", icon: "/images/icons/afup.png" },
-    { label: "AD2N", href: "https://www.ad2n.org/", icon: "/images/icons/ad2n.jpg" },
+    { label: "AFUP", href: "https://afup.org/home", icon: "/images/icons/afup.webp" },
+    { label: "AD2N", href: "https://www.ad2n.org/", icon: "/images/icons/ad2n.webp" },
   ],
 };

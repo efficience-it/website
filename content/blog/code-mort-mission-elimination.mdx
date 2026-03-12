@@ -4,14 +4,15 @@ date: "2025-01-06"
 author: "Louis-Arnaud Catoire"
 category: "Outils"
 excerpt: "Identifier et éliminer le code inutilisé dans vos projets PHP pour améliorer la qualité, la maintenabilité et les performances."
-image: "/images/blog/code-mort.png"
+image: "/images/blog/code-mort.svg"
+updatedAt: "2026-01-13"
 ---
 
 Le développement web, tout comme l'entretien d'un jardin, nécessite un entretien régulier pour éviter que des éléments tombés dans l'oubli, et inutiles ne s'accumulent et ralentissent vos projets. C'est là qu'intervient le **Détecteur de code mort pour PHP**, une extension puissante de **[PHPStan](https://phpstan.org/)** qui aide à identifier et à supprimer le code inutilisé dans les projets PHP. Voici tout ce qu'il faut savoir sur cet outil pratique et ses fonctionnalités clés.
 
 ## PHPStan : l'outil indispensable pour un code PHP propre
 
-PHPStan est un outil d'analyse statique pour le langage PHP. Son objectif principal est de détecter des erreurs dans le code avant même que celui-ci ne soit exécuté. Il agit comme un vérificateur de type avancé en inspectant le code source et en identifiant des problèmes potentiels tels que les incohérences de typage, en détectant des types incorrects ou incompatibles dans les variables, paramètres ou retours de fonctions. Il repère les appels de méthodes inexistantes, avertissant si l'on tente d'appeler une méthode qui n'existe pas dans une classe. Il signale également les propriétés manquantes si elles sont utilisées sans avoir été définies, et identifie des erreurs logiques courantes, comme des conditions toujours vraies ou fausses.
+PHPStan est un outil d'analyse statique pour le langage PHP. Pour une présentation complète de ses capacités, [notre guide sur PHPStan et l'amélioration de la qualité du code PHP](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) couvre l'installation, les niveaux de règles et les cas d'usage courants. Son objectif principal est de détecter des erreurs dans le code avant même que celui-ci ne soit exécuté. Il agit comme un vérificateur de type avancé en inspectant le code source et en identifiant des problèmes potentiels tels que les incohérences de typage, en détectant des types incorrects ou incompatibles dans les variables, paramètres ou retours de fonctions. Il repère les appels de méthodes inexistantes, avertissant si l'on tente d'appeler une méthode qui n'existe pas dans une classe. Il signale également les propriétés manquantes si elles sont utilisées sans avoir été définies, et identifie des erreurs logiques courantes, comme des conditions toujours vraies ou fausses.
 
 PHPStan est particulièrement utile dans les projets où la robustesse et la maintenance du code sont essentielles. Il fonctionne avec une configuration modifiable, permettant de s'adapter aux normes et contraintes spécifiques d'un projet. En outre, il peut s'intégrer facilement dans les pipelines CI/CD pour automatiser l'analyse et garantir une qualité constante du code.
 
@@ -39,7 +40,7 @@ Bien que le code mort ne soit pas exécuté, il peut encore avoir un impact sur 
 
 ### Coûts de maintenance
 
-Maintenir du code mort implique des coûts supplémentaires en termes de temps et de ressources. Les développeurs doivent passer du temps à comprendre et à gérer ce code, ce qui pourrait être mieux utilisé pour améliorer les fonctionnalités existantes ou en ajouter de nouvelles.
+Maintenir du code mort implique des coûts supplémentaires en termes de temps et de ressources. Les développeurs doivent passer du temps à comprendre et à gérer ce code, ce qui pourrait être mieux utilisé pour améliorer les fonctionnalités existantes ou en ajouter de nouvelles. Cette accumulation non traitée contribue directement à la [dette technique, dont les conséquences méritent d'être anticipées](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur).
 
 ### Dégradation de la qualité du code
 
@@ -105,10 +106,5 @@ En adoptant cette extension, on fait un pas de plus vers un code PHP plus propre
 
 ## Pour aller plus loin
 
-- [Comment PHPStan peut améliorer la qualité de votre code PHP](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php), introduction à PHPStan
 - [Les 10 erreurs PHPStan niveau max sur Symfony](/article/phpstan-niveau-max-symfony-10-erreurs), aller plus loin avec PHPStan niveau 10
-- [La dette technique : faut-il vraiment en avoir peur ?](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur), comprendre l'accumulation de dette
 - [shipmonk/dead-code-detector sur GitHub](https://github.com/shipmonk-rnd/dead-code-detector), l'extension utilisée dans cet article
-- [PHPStan : guide de démarrage](https://phpstan.org/user-guide/getting-started), installer et configurer PHPStan
-- [Rector sur GitHub](https://github.com/rectorphp/rector), automatiser le nettoyage de code
-- [PHP The Right Way : Code Style](https://phptherightway.com/#code_style_guide), bonnes pratiques PHP

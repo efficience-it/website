@@ -5,15 +5,16 @@ author: "Louis-Arnaud Catoire"
 category: "Outils"
 excerpt: "Symfony Messenger ne sert pas qu'à envoyer des messages en asynchrone. Découvre comment l'utiliser comme Command Bus, Query Bus et Event Bus pour structurer une architecture hexagonale propre."
 image: "/images/blog/symfony-messenger.svg"
+proficiencyLevel: "Expert"
 ---
 
-Tu utilises [Symfony Messenger](https://symfony.com/doc/current/messenger.html) depuis des mois, peut-être des années. Tu dispatches des messages, tu consommes des queues, tu gères des workers. Mais est-ce que tu exploites vraiment tout son potentiel ? La plupart des développeurs Symfony voient Messenger comme un outil d'async. C'est une erreur. Messenger est un **bus de messages complet**, et c'est exactement ce dont tu as besoin pour structurer une architecture hexagonale solide.
+Tu utilises Symfony Messenger depuis des mois, peut-être des années. Tu dispatches des messages, tu consommes des queues, tu gères des workers. Mais est-ce que tu exploites vraiment tout son potentiel ? La plupart des développeurs Symfony voient Messenger comme un outil d'async. C'est une erreur. Messenger est un **bus de messages complet**, et c'est exactement ce dont tu as besoin pour structurer une architecture hexagonale solide.
 
 ## Messenger, bien plus que de l'async
 
 Quand on parle de Messenger, on pense immédiatement à RabbitMQ, aux workers, aux queues. C'est normal : c'est le cas d'usage le plus visible. Mais Messenger implémente le pattern **Message Bus**, et ça change tout.
 
-Un bus de messages, c'est un médiateur entre celui qui envoie une intention et celui qui la traite. Le sender ne connaît pas le handler. Le handler ne sait pas d'où vient le message. Ce découplage est exactement le fondement d'une [architecture hexagonale](https://alistair.cockburn.us/hexagonal-architecture/) : le domaine ne dépend de rien, c'est l'infrastructure qui s'adapte.
+Un bus de messages, c'est un médiateur entre celui qui envoie une intention et celui qui la traite. Le sender ne connaît pas le handler. Le handler ne sait pas d'où vient le message. Ce découplage est exactement le fondement d'une architecture hexagonale : [le domaine ne devrait jamais connaître Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony), c'est l'infrastructure qui s'adapte.
 
 Messenger te donne trois choses essentielles :
 
@@ -25,7 +26,7 @@ Avec ça, tu peux construire trois bus distincts qui structurent toute ton appli
 
 ## Configurer trois bus séparés
 
-La [documentation officielle sur les bus multiples](https://symfony.com/doc/current/messenger/multiple_buses.html) explique comment déclarer plusieurs bus. Voici la configuration de base dans `messenger.yaml` :
+La documentation officielle sur les bus multiples explique comment déclarer plusieurs bus. Voici la configuration de base dans `messenger.yaml` :
 
 ```yaml
 framework:
@@ -157,7 +158,7 @@ final readonly class GetOrderByIdHandler
 }
 ```
 
-Pour récupérer le résultat, tu utilises le système d'[enveloppes et stamps](https://symfony.com/doc/current/messenger.html#envelopes-stamps) de Messenger :
+Pour récupérer le résultat, tu utilises le système d'enveloppes et stamps de Messenger :
 
 ```php
 $envelope = $this->queryBus->dispatch(new GetOrderById($orderId));
@@ -437,20 +438,14 @@ Si ton handler fait plus de 20 lignes, il y a un problème. Soit il contient de 
 
 ## Aller plus loin
 
-Le pattern CQRS/Event-driven avec Messenger est un excellent point de départ pour structurer des applications Symfony maintenables. Si tu veux approfondir le sujet, voici quelques ressources incontournables :
+Le pattern CQRS/Event-driven avec Messenger est un excellent point de départ pour structurer des applications Symfony maintenables. Si tu veux approfondir le sujet, la [documentation officielle de Symfony Messenger](https://symfony.com/doc/current/messenger.html) est complète et bien structurée, et le [dépôt GitHub du composant](https://github.com/symfony/messenger) permet de lire le code source pour comprendre les internals.
 
-- La [documentation officielle de Symfony Messenger](https://symfony.com/doc/current/messenger.html) est complète et bien structurée
-- Le [dépôt GitHub du composant](https://github.com/symfony/messenger) pour lire le code source et comprendre les internals
-- Le blog de [Matthias Noback](https://matthiasnoback.nl/) sur le Command Bus, qui a largement influencé l'écosystème PHP sur ces patterns
-- Le livre [Advanced Web Application Architecture](https://matthiasnoback.nl/book/advanced-web-application-architecture/) du même auteur, référence sur l'architecture hexagonale en PHP
-
-L'architecture hexagonale avec Messenger n'est pas une mode. C'est une approche éprouvée qui rend ton code testable, maintenable et évolutif. Le framework devient un détail d'implémentation. Le domaine reste pur. Et tes collègues te remercieront quand ils ouvriront le projet dans six mois.
+L'architecture hexagonale avec Messenger n'est pas une mode. C'est une approche éprouvée qui rend ton code testable, maintenable et évolutif. Le framework devient un détail d'implémentation. Le domaine reste pur. Et tes collègues te remercieront quand ils ouvriront le projet dans six mois. Si tu pars d'un projet existant et que tu veux adopter cette architecture progressivement, le [retour de mission sur la migration vers l'architecture hexagonale](/article/migration-symfony-architecture-hexagonale-retour-mission) offre une démarche pragmatique issue du terrain.
 
 ## Pour aller plus loin
 
-- [Le domaine ne devrait jamais connaître Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony), les principes d'isolation du domaine
-- [Migration Symfony vers l'architecture hexagonale](/article/migration-symfony-architecture-hexagonale-retour-mission), retour de mission
 - [Symfony Messenger vs PHP-Enqueue](/article/quelles-sont-les-differences-entre-symfony-messenger-php-enqueue-quoi-utiliser), comparatif des bus de messages
-- [Documentation Symfony Messenger](https://symfony.com/doc/current/messenger.html), guide officiel
-- [GitHub : symfony/messenger](https://github.com/symfony/messenger), code source du composant
-- [Matthias Noback : blog sur le Command Bus](https://matthiasnoback.nl/tags/command-bus/), articles de référence sur le pattern
+- [Quelle architecture choisir : micro-service ou monolithe modulaire ?](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire), choisir l'architecture qui accueillera vos bus
+- [Tout savoir sur la mise en cache](/article/tout-savoir-sur-la-mise-en-cache-tips), coupler le cache et Messenger pour l'invalidation asynchrone
+- [RAG avec Symfony AI et Doctrine](/article/rag-symfony-ai-doctrine-indexer-base-metier), utiliser Messenger pour l'indexation asynchrone des embeddings
+- [Prendre int, UUID ou ULID pour un index de base de données](/article/prendre-int-uuid-ou-ulid-pour-un-index-de-base-de-donnees), choisir les identifiants de vos commands et events

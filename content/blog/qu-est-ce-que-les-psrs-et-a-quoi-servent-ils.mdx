@@ -5,6 +5,7 @@ author: "Florian Chenot"
 category: "Projet"
 excerpt: "Les PSR (PHP Standards Recommandations) sont un ensemble de normes édictées par la communauté PHP pour établir des standards de codage communs et cohérents."
 image: "/images/blog/psr-php.webp"
+updatedAt: "2026-01-13"
 ---
 
 Les PSR (PHP Standards Recommendations) sont les spécifications techniques publiées par le [PHP-FIG](https://www.php-fig.org/) (PHP Framework Interop Group). Ce consortium, fondé en 2009, réunit les mainteneurs des principaux frameworks et bibliothèques PHP, Symfony, Laravel, Laminas, Slim, Doctrine, Composer, autour d'un objectif unique : définir des interfaces et des conventions communes pour que l'écosystème PHP parle un même langage technique.
@@ -17,7 +18,7 @@ Contrairement à ce que leur nom suggère, les PSR ne sont pas de simples recomm
 
 Le PSR-1 pose les bases minimales : PascalCase pour les classes, camelCase pour les méthodes, UPPER_CASE pour les constantes, un seul effet de bord par fichier. Le PSR-2, puis le PSR-12 qui l'a remplacé, précisent les règles de formatage : indentation à quatre espaces, placement des accolades, longueur de ligne, déclarations de types.
 
-Depuis 2022, le PHP-FIG a introduit le PER Coding Style (PHP Evolving Recommendation), un format vivant qui évolue avec le langage sans nécessiter un nouveau numéro de PSR à chaque version de PHP. PER 2.0 intègre notamment les types d'union, les enums et les propriétés en lecture seule. En pratique, des outils comme PHP-CS-Fixer ou PHP_CodeSniffer appliquent ces règles automatiquement : le débat sur le style devient un non-sujet dès lors que l'équipe adopte un standard partagé.
+Depuis 2022, le PHP-FIG a introduit le PER Coding Style (PHP Evolving Recommendation), un format vivant qui évolue avec le langage sans nécessiter un nouveau numéro de PSR à chaque version de PHP. PER 2.0 intègre notamment les types d'union, les enums et les propriétés en lecture seule. En pratique, des outils comme PHP-CS-Fixer ou PHP_CodeSniffer appliquent ces règles automatiquement : le débat sur le style devient un non-sujet dès lors que l'équipe adopte un standard partagé, complété par des [conventions de codage](/article/coding-conventions) internes.
 
 ### Autoloading : PSR-0 et PSR-4
 
@@ -85,16 +86,12 @@ Le PHP-FIG compte parmi ses membres votants les représentants de Symfony, Larav
 
 ### PSR et qualité logicielle
 
-Les PSR incarnent le principe d'inversion de dépendance (le D de SOLID) à l'échelle d'un écosystème entier. En dépendant d'abstractions plutôt que de concrétions, le code applicatif gagne en testabilité (les mocks implémentent la même interface), en maintenabilité (les composants sont remplaçables) et en lisibilité (les contrats sont explicites).
+Les PSR incarnent le principe d'inversion de dépendance (le D de SOLID) à l'échelle d'un écosystème entier. En dépendant d'abstractions plutôt que de concrétions, le code applicatif gagne en testabilité (les mocks implémentent la même interface), en maintenabilité (les composants sont remplaçables) et en lisibilité (les contrats sont explicites). Des outils comme [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) vérifient statiquement que vos dépendances respectent bien les interfaces PSR attendues.
 
 Pour une équipe, adopter les PSR signifie aussi réduire la surface de décision : les débats sur le style de code, le choix d'interface de logging ou le format des messages HTTP sont déjà tranchés. L'énergie se concentre sur la logique métier.
 
 ## Pour aller plus loin
 
-- [Conventions de codage](/article/coding-conventions), Les conventions de codage pour un code propre et maintenable
-- [PHPStan : améliorer la qualité de votre code PHP](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php), L'analyse statique au service de la qualité
 - [Pourquoi choisir Symfony pour vos projets](/article/pourquoi-choisir-symfony-pour-vos-projets), Un framework qui implémente les standards PSR
 - [PHP-FIG](https://www.php-fig.org/), Le site officiel du PHP Framework Interop Group
 - [Liste des PSRs](https://www.php-fig.org/psr/), Documentation complète de tous les PSRs
-- [PHP-FIG sur GitHub](https://github.com/php-fig), Les dépôts officiels des interfaces PSR
-- [PHP.net](https://www.php.net/), Site officiel du langage PHP

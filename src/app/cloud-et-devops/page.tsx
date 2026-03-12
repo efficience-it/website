@@ -6,14 +6,19 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import CallToAction from "@/components/sections/CallToAction";
-import { breadcrumbJsonLd } from "@/lib/structured-data";
+import Accordion from "@/components/ui/Accordion";
+import RelatedLinks from "@/components/sections/RelatedLinks";
+import type { RelatedLink } from "@/components/sections/RelatedLinks";
+import TestimonialCard from "@/components/cards/TestimonialCard";
+import { clients } from "@/../data/clients";
+import { testimonials } from "@/../data/testimonials";
+import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title: "Cloud & DevOps | Expertise technique – Efficience IT",
+  title: "Cloud & DevOps : infrastructure et automatisation",
   description:
     "Expertise Cloud et DevOps : Efficience IT accompagne la mise en place d'infrastructures, d'automatisation et de pratiques DevOps adaptées aux projets web.",
   path: "/cloud-et-devops",
-  absoluteTitle: true,
 });
 
 const platforms = [
@@ -57,10 +62,74 @@ const migrationSteps = [
   },
 ];
 
+const faqItems = [
+  {
+    title: "Quels fournisseurs cloud supportez-vous ?",
+    content:
+      "Nous travaillons avec AWS, Azure, Google Cloud, OVH et des hébergeurs certifiés HDS pour les données de santé. Le choix dépend de vos contraintes techniques, réglementaires et budgétaires.",
+  },
+  {
+    title: "Quelle est la différence entre hébergement cloud et hébergement classique ?",
+    content:
+      "L'hébergement cloud offre une scalabilité automatique, une haute disponibilité et un paiement à l'usage. Contrairement à un serveur dédié, les ressources s'ajustent en temps réel selon le trafic de votre application.",
+  },
+  {
+    title: "Comment se passe une migration vers le cloud ?",
+    content:
+      "Nous procédons en 5 étapes : audit de l'infrastructure existante, planification détaillée, migration progressive, validation et tests, puis supervision continue. L'objectif est zéro interruption de service.",
+  },
+  {
+    title: "Qu'est-ce que le CI/CD et pourquoi en ai-je besoin ?",
+    content:
+      "Le CI/CD (intégration et déploiement continus) automatise les tests et la mise en production de votre code. Résultat : moins de bugs, des livraisons plus fréquentes et une équipe de développement plus productive.",
+  },
+  {
+    title: "Proposez-vous du monitoring et de la supervision ?",
+    content:
+      "Oui. Nous mettons en place des outils de monitoring (alertes, dashboards, logs centralisés) pour détecter et résoudre les incidents avant qu'ils n'impactent vos utilisateurs.",
+  },
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.title,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.content,
+    },
+  })),
+};
+
 const breadcrumb = breadcrumbJsonLd([
   { name: "Nos expertises", path: "/notre-expertise" },
   { name: "Cloud & DevOps", path: "/cloud-et-devops" },
 ]);
+
+const service = serviceJsonLd({
+  name: "Cloud & DevOps",
+  description:
+    "Hébergement cloud, automatisation DevOps, migration d'infrastructure et CI/CD pour les projets web professionnels.",
+  path: "/cloud-et-devops",
+});
+
+const webPage = webPageJsonLd({
+  name: "Cloud & DevOps : infrastructure et automatisation",
+  description:
+    "Expertise Cloud et DevOps : Efficience IT accompagne la mise en place d'infrastructures, d'automatisation et de pratiques DevOps adaptées aux projets web.",
+  path: "/cloud-et-devops",
+  datePublished: "2025-09-01",
+  dateModified: "2026-03-10",
+});
+
+const cloudRelatedLinks: RelatedLink[] = [
+  { title: "D\u00e9ployer avec GitLab CI, S3 et CloudFront", description: "Automatisation du d\u00e9ploiement", href: "/article/deployer-nuxtjs-avec-gitlab-ci-s3-et-cloudfront" },
+  { title: "Docker, documentation officielle", description: "Conteneurisation des applications", href: "https://docs.docker.com/", external: true },
+  { title: "GitLab CI/CD, documentation", description: "Pipelines d'int\u00e9gration continue", href: "https://docs.gitlab.com/ee/ci/", external: true },
+  { title: "Kubernetes, documentation officielle", description: "Orchestration de conteneurs", href: "https://kubernetes.io/docs/", external: true },
+];
 
 export default function CloudEtDevops() {
   return (
@@ -69,6 +138,18 @@ export default function CloudEtDevops() {
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
     />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(service) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
+    />
     <main>
       {/* Hero */}
       <section className="bg-light-gray py-16 md:py-24">
@@ -76,7 +157,7 @@ export default function CloudEtDevops() {
           <div className="grid items-center gap-12 md:grid-cols-2">
             <div>
               <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
-                Cloud & DevOps
+                Cloud & DevOps : infrastructure et automatisation
               </h1>
               <p className="mt-6 max-w-3xl text-lg text-gray">
                 Chez Efficience IT, nous accompagnons les PME et grandes
@@ -91,9 +172,14 @@ export default function CloudEtDevops() {
               <p className="mt-6 text-lg font-semibold text-dark">
                 Un projet à déployer ?
               </p>
-              <Button href="/contact" className="mt-4">
-                Contactez-nous
-              </Button>
+              <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+                <Button href="/audit-symfony-gratuit">
+                  Audit Symfony gratuit
+                </Button>
+                <Button href="/contact" variant="outline">
+                  Contactez-nous
+                </Button>
+              </div>
             </div>
             <div className="flex justify-center">
               <Image
@@ -102,6 +188,8 @@ export default function CloudEtDevops() {
                 width={400}
                 height={300}
                 className="w-full max-w-md"
+                priority
+                fetchPriority="high"
               />
             </div>
           </div>
@@ -184,7 +272,11 @@ export default function CloudEtDevops() {
               <p className="mt-2 text-gray">
                 Grâce aux outils <strong>CI/CD</strong> (GitLab, Bitbucket, CircleCI, etc.), vos
                 projets passent de l&apos;idée à la production plus rapidement,
-                améliorant ainsi votre réactivité face aux besoins du marché.
+                améliorant ainsi votre réactivité face aux besoins du marché.{" "}
+                <Link href="/article/comment-executer-des-tests-postman-avec-newman-dans-gitlab-ci" className="text-primary hover:underline">
+                  L&apos;intégration des tests API dans GitLab CI
+                </Link>{" "}
+                est un exemple concret de cette automatisation.
               </p>
             </Card>
             <Card>
@@ -230,7 +322,11 @@ export default function CloudEtDevops() {
             Facilitez votre passage vers le Cloud avec l&apos;accompagnement de
             nos experts. Nous vous aidons à choisir le fournisseur le mieux
             adapté (AWS, Azure, Google Cloud, OVH, etc.) et à planifier une
-            migration fluide et sécurisée.
+            migration fluide et sécurisée. Notre approche intègre la{" "}
+            <Link href="/article/pourquoi-docker-est-indispensable-en-production-aujourdhui" className="text-primary hover:underline">
+              conteneurisation avec Docker
+            </Link>{" "}
+            pour garantir la portabilité et la cohérence de vos environnements tout au long de la transition.
           </p>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
             {migrationSteps.map((s) => (
@@ -319,48 +415,78 @@ export default function CloudEtDevops() {
         </Container>
       </section>
 
-      {/* Pour aller plus loin */}
+      <RelatedLinks links={cloudRelatedLinks} className="bg-light-gray" />
+
+      <section className="py-16">
+        <Container>
+          <p className="text-center text-sm font-semibold uppercase tracking-wider text-gray-500">Ils nous font confiance</p>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-8 md:gap-12">
+            {clients.map((client) => (
+              <Image
+                key={client.name}
+                src={client.logo}
+                alt={client.name}
+                width={200}
+                height={120}
+                className="h-16 w-auto object-contain opacity-70 grayscale transition-all hover:opacity-100 hover:grayscale-0"
+              />
+            ))}
+          </div>
+        </Container>
+      </section>
+
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
-          <SectionTitle>Pour aller plus loin</SectionTitle>
-          <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
-            <li>
-              <Link href="/article/pourquoi-docker-est-indispensable-en-production-aujourdhui" className="text-primary hover:underline">
-                Pourquoi Docker est indispensable en production
-              </Link>{" "}
-             , conteneurisation et bonnes pratiques
-            </li>
-            <li>
-              <Link href="/article/deployer-nuxtjs-avec-gitlab-ci-s3-et-cloudfront" className="text-primary hover:underline">
-                Déployer avec GitLab CI, S3 et CloudFront
-              </Link>{" "}
-             , automatisation du déploiement
-            </li>
-            <li>
-              <Link href="/article/comment-executer-des-tests-postman-avec-newman-dans-gitlab-ci" className="text-primary hover:underline">
-                Tests Postman avec Newman dans GitLab CI
-              </Link>{" "}
-             , intégration continue des tests API
-            </li>
-            <li>
-              <a href="https://docs.docker.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                Docker, documentation officielle
-              </a>{" "}
-             , conteneurisation des applications
-            </li>
-            <li>
-              <a href="https://docs.gitlab.com/ee/ci/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                GitLab CI/CD, documentation
-              </a>{" "}
-             , pipelines d&apos;intégration continue
-            </li>
-            <li>
-              <a href="https://kubernetes.io/docs/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                Kubernetes, documentation officielle
-              </a>{" "}
-             , orchestration de conteneurs
-            </li>
-          </ul>
+          <div className="mx-auto max-w-2xl">
+            <TestimonialCard testimonial={testimonials[0]} />
+          </div>
+        </Container>
+      </section>
+
+      <section className="bg-light-gray py-16 md:py-24">
+        <Container>
+          <SectionTitle>Questions fréquentes</SectionTitle>
+          <div className="mx-auto max-w-2xl">
+            <Accordion items={faqItems} />
+          </div>
+        </Container>
+      </section>
+
+      <section className="bg-primary py-16 text-center text-white">
+        <div className="mx-auto max-w-3xl px-4">
+          <h2 className="font-display text-3xl font-bold">Une question sans réponse ?</h2>
+          <p className="mt-4 text-lg text-white/90">Réservez un appel de 30 minutes avec notre équipe pour discuter de votre projet.</p>
+          <Link href="/audit-symfony-gratuit" className="mt-8 inline-block rounded-lg bg-white px-8 py-3 font-semibold text-primary transition hover:bg-gray-100">Demander mon audit gratuit</Link>
+        </div>
+      </section>
+
+      <section className="py-16 md:py-24">
+        <Container>
+          <SectionTitle>Nos autres expertises</SectionTitle>
+          <div className="mt-8 grid gap-6 md:grid-cols-2">
+            <Link href="/developpement-web-sur-mesure" className="group">
+              <Card>
+                <h3 className="font-display text-lg font-bold text-dark group-hover:text-primary">
+                  Développement web sur mesure
+                </h3>
+                <p className="mt-2 text-gray">
+                  Applications Symfony, sites e-commerce Sylius et intégrations
+                  CRM/ERP adaptées à vos processus métiers.
+                </p>
+              </Card>
+            </Link>
+            <Link href="/accompagnement-et-conseil" className="group">
+              <Card>
+                <h3 className="font-display text-lg font-bold text-dark group-hover:text-primary">
+                  Accompagnement et Conseil
+                </h3>
+                <p className="mt-2 text-gray">
+                  Audit technique, formation Symfony et coaching agile pour
+                  structurer vos projets et monter en compétences.
+                </p>
+              </Card>
+            </Link>
+          </div>
         </Container>
       </section>
 

@@ -5,13 +5,14 @@ author: "Louis-Arnaud Catoire"
 category: "Outils"
 excerpt: "Comment connecter un LLM à ta base Doctrine grâce au RAG, Symfony AI et pgvector. Guide complet pour indexer, rechercher et interroger tes données métier."
 image: "/images/blog/rag-symfony.svg"
+proficiencyLevel: "Expert"
 ---
 
 Tu as une application Symfony en production, une base Doctrine bien remplie, et tu te demandes comment rendre tout ça interrogeable par un LLM. Pas via une API REST classique. Via du langage naturel : « quels tickets similaires ont déjà été résolus ? », « quel client a eu ce problème en janvier ? ».
 
 La réponse tient en trois lettres : **RAG** (Retrieval-Augmented Generation). Et depuis l'arrivée de [Symfony AI](https://symfony.com/doc/current/ai.html), on a enfin les briques pour le faire proprement dans l'écosystème Symfony.
 
-Cet article te montre comment, concrètement, indexer ta base [Doctrine](https://www.doctrine-project.org/) dans un vector store et construire un pipeline RAG fonctionnel. Pas de théorie creuse. Du code, des choix d'architecture, des pièges à éviter.
+Cet article te montre comment, concrètement, indexer ta base Doctrine dans un vector store et construire un pipeline RAG fonctionnel. Pas de théorie creuse. Du code, des choix d'architecture, des pièges à éviter.
 
 ## Pourquoi le RAG change la donne pour les apps métier
 
@@ -50,14 +51,14 @@ Utilisateur → Question
 
 Côté stack :
 
-- **Symfony 7** avec [Symfony AI](https://github.com/symfony/ai) pour l'orchestration
+- **Symfony 7** avec Symfony AI pour l'orchestration
 - **Doctrine ORM** comme source de données
 - **pgvector** ou **Qdrant** comme vector store
 - **OpenAI / Mistral** pour les embeddings et la génération
 
 ## Installer Symfony AI
 
-[Symfony AI](https://github.com/symfony/ai) fournit les abstractions nécessaires : modèles d'embedding, vector stores, chaînes de traitement.
+Symfony AI fournit les abstractions nécessaires : modèles d'embedding, vector stores, chaînes de traitement.
 
 ```bash
 composer require symfony/ai
@@ -180,7 +181,7 @@ Avantages : pas d'infra supplémentaire, backup unifié, transactions ACID. Pour
 
 ### Qdrant
 
-Si tu as besoin de performances poussées sur de gros volumes ou de fonctionnalités avancées (filtrage par payload, sharding), [Qdrant](https://qdrant.tech/) est un excellent choix. C'est un vector store dédié, conçu spécifiquement pour la recherche de similarité.
+Si tu as besoin de performances poussées sur de gros volumes ou de fonctionnalités avancées (filtrage par payload, sharding), Qdrant est un excellent choix. C'est un vector store dédié, conçu spécifiquement pour la recherche de similarité.
 
 ```yaml
 symfony_ai:
@@ -378,7 +379,7 @@ class EmbeddingIndexerSubscriber implements EventSubscriberInterface
 }
 ```
 
-On passe par [Symfony Messenger](https://symfony.com/doc/current/messenger.html) pour ne pas bloquer la requête HTTP. L'embedding est calculé de façon asynchrone.
+On passe par Symfony Messenger pour ne pas bloquer la requête HTTP. L'embedding est calculé de façon asynchrone. Notre [retour d'expérience sur l'intégration de Symfony AI dans un projet legacy](/article/symfony-ai-projet-legacy-retour-experience) montre comment ce type d'architecture s'intègre dans un codebase existant.
 
 L'interface `EmbeddableInterface` sert de marqueur :
 
@@ -407,7 +408,7 @@ foreach ($batches as $batch) {
 }
 ```
 
-Le `$this->em->clear()` est essentiel pour libérer la mémoire entre chaque batch. Sans ça, Doctrine garde toutes les entités en mémoire et ton process explose sur un gros dataset.
+Le `$this->em->clear()` est essentiel pour libérer la mémoire entre chaque batch. Sans ça, Doctrine garde toutes les entités en mémoire et ton process explose sur un gros dataset. Les améliorations de [Doctrine ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) sur la gestion des entités rendent d'ailleurs ce type de traitement batch plus robuste.
 
 Pour l'indexation asynchrone, le handler Messenger :
 
@@ -527,16 +528,16 @@ Le RAG est une première étape. Une fois le pipeline en place, tu peux :
 - Construire un **agent conversationnel** avec historique de conversation
 - Mettre en place des **guardrails** pour limiter les réponses aux données autorisées
 
-L'écosystème [Symfony AI](https://github.com/symfony/ai) est encore jeune mais progresse vite. Combiné avec la maturité de [Doctrine](https://www.doctrine-project.org/) et la richesse de l'écosystème Symfony (Messenger, Security, Cache), tu as tout ce qu'il faut pour construire des applications IA robustes en PHP.
+L'écosystème Symfony AI est encore jeune mais progresse vite. Combiné avec la maturité de Doctrine et la richesse de l'écosystème Symfony (Messenger, Security, Cache), tu as tout ce qu'il faut pour construire des applications IA robustes en PHP.
 
 Le RAG avec Symfony AI et Doctrine, c'est exactement le type de sujet qu'on adore creuser chez Efficience IT. Si tu veux discuter de ton cas d'usage, [contacte-nous](https://www.itefficience.com/contact).
 
 ## Pour aller plus loin
 
-- [Symfony AI dans un projet legacy](/article/symfony-ai-projet-legacy-retour-experience), retour d'expérience complet
 - [Claude comme assistant d'architecture Symfony](/article/claude-assistant-architecture-symfony-legacy), IA et développement au quotidien
 - [Forces et faiblesses des IA génératives](/article/forces-et-faiblesses-des-ia-generatives-les-plus-utilisees), comparatif des modèles
-- [Symfony AI sur GitHub](https://github.com/symfony/ai), code source du composant
-- [Doctrine ORM](https://www.doctrine-project.org/), documentation officielle
-- [OpenAI Embeddings Guide](https://platform.openai.com/docs/guides/embeddings), comprendre les embeddings pour le RAG
+- [Symfony Messenger : colonne vertébrale de l'archi hexagonale](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale), gérer l'indexation asynchrone avec Messenger
+- [Le domaine ne devrait jamais connaître Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony), structurer les ports et adaptateurs autour du RAG
+- [Quel assistant IA choisir pour coder en 2026 ?](/article/quel-assistant-ia-choisir-pour-coder), choisir les LLM à connecter au pipeline RAG
+- [Documentation Symfony AI](https://symfony.com/doc/current/ai.html), guide officiel du composant
 - [pgvector : extension PostgreSQL](https://github.com/pgvector/pgvector), stockage de vecteurs pour la recherche sémantique

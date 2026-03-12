@@ -5,6 +5,14 @@ author: "Louis-Arnaud Catoire"
 category: "Projet"
 excerpt: "De son terme anglais 'Legacy', la dette technique est une notion fréquemment utilisée en technologie de l'information pour faire référence aux systèmes dépassés."
 image: "/images/blog/dette-technique.webp"
+updatedAt: "2026-01-13"
+faq:
+  - question: "Comment mesurer la dette technique d'un projet ?"
+    answer: "Plusieurs indicateurs permettent de la quantifier : la couverture de tests (PHPUnit), la complexite cyclomatique (PHPStan, SonarQube), le couplage entre modules, le nombre de deprecations non traitees et le temps necessaire pour ajouter une fonctionnalite simple. Un audit de code donne une vision globale et priorisee."
+  - question: "Faut-il rembourser toute la dette technique d'un coup ?"
+    answer: "Non, c'est rarement la bonne approche. Priorisez les zones du code qui changent le plus souvent et celles qui presentent des risques de securite. Remboursez la dette par increments : chaque sprint peut inclure une part de refactoring cible. L'objectif est de reduire la dette progressivement, pas de tout reecrire."
+  - question: "La dette technique est-elle toujours negative ?"
+    answer: "Non. Une dette technique deliberee et maitrisee peut etre strategique, par exemple pour livrer un MVP rapidement et valider un marche. Le probleme survient quand la dette est involontaire (mauvaises pratiques) ou quand elle n'est jamais remboursee. La cle est de la documenter et de planifier son remboursement."
 ---
 
 ## Comprendre la dette technique
@@ -41,7 +49,7 @@ La **complexité cyclomatique** mesure le nombre de chemins d'exécution dans un
 
 ### Les outils de mesure
 
-SonarQube reste la référence pour estimer la dette en jours de travail. PHPStan et Psalm offrent une analyse statique progressive : on commence au niveau 0 et on monte graduellement. Rector détecte les patterns obsolètes et propose des corrections automatisées. Ces outils identifient les hotspots, ces fichiers à la fois très modifiés et très complexes qui concentrent généralement la majorité des problèmes.
+SonarQube reste la référence pour estimer la dette en jours de travail. PHPStan et Psalm offrent une analyse statique progressive : on commence au niveau 0 et on monte graduellement. Rector détecte les patterns obsolètes et propose des corrections automatisées. Ces outils identifient les hotspots, ces fichiers à la fois très modifiés et très complexes qui concentrent généralement la majorité des problèmes. Une autre approche efficace est d'[éliminer le code mort dans vos projets PHP](/article/code-mort-mission-elimination) : supprimer ce qui n'est plus utilisé réduit mécaniquement la surface de maintenance et clarifie le périmètre réel de l'application.
 
 L'approche la plus efficace combine l'analyse statique avec l'historique Git. Un fichier de 2 000 lignes avec une complexité cyclomatique de 45 et 300 commits sur les six derniers mois est un candidat prioritaire au refactoring, bien plus qu'un fichier tout aussi complexe mais jamais touché.
 
@@ -67,13 +75,13 @@ C'est ici que la perspective change radicalement. Pour un architecte ou un CTO, 
 
 ### Distinguer dette architecturale et dette de code
 
-La dette de code, une méthode trop longue, un nommage incohérent, un test manquant, se rembourse relativement facilement. La **dette architecturale** est d'une tout autre nature : un monolithe qui aurait dû être découpé en services, un choix de base de données inadapté à la charge, une absence de couche d'abstraction qui verrouille le système sur un fournisseur. Cette dette-là ne se rembourse pas en sprint. Elle exige une vision à long terme, un budget dédié et un sponsorship de la direction.
+La dette de code, une méthode trop longue, un nommage incohérent, un test manquant, se rembourse relativement facilement. La **dette architecturale** est d'une tout autre nature : un monolithe qui aurait dû être découpé en services, un choix de base de données inadapté à la charge, une absence de couche d'abstraction qui verrouille le système sur un fournisseur. Cette dette-là ne se rembourse pas en sprint. Elle exige une vision à long terme, un budget dédié et un sponsorship de la direction. [Reprendre un projet en dette technique](/reprise-projet-symfony) avec un regard extérieur permet souvent de sortir de l'impasse quand l'équipe interne est trop proche du code pour définir une trajectoire objective.
 
 ### Communiquer avec les parties prenantes
 
 Le plus grand défi n'est pas technique, il est politique. Les développeurs voient la dette au quotidien ; les décideurs ne voient que la vélocité qui baisse. Pour obtenir les moyens de rembourser la dette, il faut la traduire en langage business.
 
-Plutôt que de dire "il faut refactoriser le module de paiement", dites : "le module de paiement nous coûte 15 jours supplémentaires par trimestre en temps de développement et représente 60 % de nos incidents en production. Un investissement de 30 jours de développement réduirait ce coût de 80 %". Chiffrez le coût de l'inaction autant que le coût de l'action.
+Plutôt que de dire "il faut refactoriser le module de paiement", dites : "le module de paiement nous coûte 15 jours supplémentaires par trimestre en temps de développement et représente 60 % de nos incidents en production. Un investissement de 30 jours de développement réduirait ce coût de 80 %". Chiffrez le coût de l'inaction autant que le coût de l'action. Un [audit web structuré](/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede) permet précisément de quantifier et prioriser la dette technique avec des données factuelles à présenter aux décideurs.
 
 ### Planifier la soutenabilité à long terme
 
@@ -99,7 +107,7 @@ La clé réside dans une approche multiniveau : les développeurs appliquent la 
 
 - [Guide de migration dans un projet Symfony](/article/guide-de-migration-dans-un-projet-symfony), comment moderniser un projet existant
 - [Rector : maîtrisez l'évolution de votre code Symfony](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony), automatiser le refactoring
-- [Éliminer le code mort dans vos projets PHP](/article/code-mort-mission-elimination), réduire la dette en nettoyant le code
+- [Découvrez les raisons de nous confier la maintenance de vos applications web](/article/decouvrez-les-raisons-de-nous-confier-la-maintenance-de-vos-applications-web), éviter l'accumulation de dette grâce à une maintenance régulière
 - [Martin Fowler : Technical Debt](https://martinfowler.com/bliki/TechnicalDebt.html), l'article fondateur sur la dette technique
 - [Symfony : Upgrade Guide](https://symfony.com/doc/current/setup/upgrade_major.html), rester à jour pour limiter la dette
 - [SonarQube](https://www.sonarsource.com/products/sonarqube/), mesurer la dette technique de votre projet

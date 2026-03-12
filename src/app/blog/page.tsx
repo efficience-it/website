@@ -3,7 +3,7 @@ import Container from "@/components/ui/Container";
 import BlogCard from "@/components/cards/BlogCard";
 import { getAllPosts, getCategories, getCategorySlug } from "@/lib/blog";
 import Link from "next/link";
-import { breadcrumbJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, blogItemListJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "Blog Efficience IT | Symfony, PHP et développement web",
@@ -18,6 +18,15 @@ export default function BlogPage() {
   const categories = getCategories();
 
   const breadcrumb = breadcrumbJsonLd([{ name: "Blog", path: "/blog" }]);
+  const itemList = blogItemListJsonLd(posts);
+  const webPage = webPageJsonLd({
+    name: "Blog Efficience IT | Symfony, PHP et développement web",
+    description: "Articles techniques, retours d'expérience et veille autour de Symfony, PHP et du développement d'applications web professionnelles.",
+    path: "/blog",
+    type: "CollectionPage",
+    datePublished: "2025-09-01",
+    dateModified: "2026-03-11",
+  });
 
   return (
     <>
@@ -25,15 +34,25 @@ export default function BlogPage() {
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
     />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(itemList) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
+    />
     <main>
       <section className="bg-light-gray py-16 md:py-24">
         <Container className="text-center">
           <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
-            Blog
+            Blog Efficience IT
           </h1>
           <p className="mx-auto mt-6 max-w-3xl text-lg text-gray">
-            Nos derniers articles techniques sur Symfony, PHP, DevOps et les
-            bonnes pratiques du web.
+            Retours d&apos;expérience, guides techniques et veille sur
+            Symfony, PHP, DevOps et le développement web professionnel.
+            Nos articles sont rédigés par des développeurs en mission, à
+            partir de cas concrets rencontrés chez nos clients.
           </p>
         </Container>
       </section>

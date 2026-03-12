@@ -1,48 +1,85 @@
 # Efficience IT
 
-> Agence web et cloud basée à Lille, spécialisée en développement Symfony, DevOps et conseil IT. Nous accompagnons les PME et grandes entreprises dans leurs projets digitaux sur mesure.
+> Agence web et cloud basee a Lille, specialisee en developpement Symfony, DevOps et conseil IT. Nous accompagnons les PME et grandes entreprises dans leurs projets digitaux sur mesure.
+
+## Chiffres cles
+
+- 10+ ans d'experience
+- 150+ projets livres
+- 40+ clients actifs
+- 500+ contributions open source
 
 ## Services
 
-- **Développement web sur mesure** : Applications métiers, intranets, progiciels et sites complexes avec Symfony et PHP.
-- **Cloud & DevOps** : Infrastructure cloud, CI/CD, automatisation, monitoring et déploiement continu.
+- **Developpement web sur mesure** : Applications metiers, intranets, progiciels et sites complexes avec Symfony et PHP.
+- **Cloud & DevOps** : Infrastructure cloud, CI/CD, automatisation, monitoring et deploiement continu.
 - **Accompagnement et conseil** : Gestion de projet agile, audit IT, transformation digitale, coaching et formation Symfony.
 
 ## Expertises techniques
 
-- Symfony (développeurs certifiés)
+- Symfony (developpeurs certifies)
 - PHP, JavaScript, TypeScript
 - API REST / SOAP
 - Docker, Kubernetes, CI/CD
 - AWS, GCP, infrastructure cloud
-- Méthodes agiles (Scrum, Kanban)
+- Methodes agiles (Scrum, Kanban)
 
 ## Engagements
 
-- **Green IT** : démarche RSE, éco-conception web, un arbre planté par journée de développement.
-- **Qualité** : membre de l'AFUP, veille technologique continue, conformité aux standards du secteur.
-- **Diversité** : signataire de la charte de diversité, parité entre 40 et 60 %.
+- **Green IT** : demarche RSE, eco-conception web, un arbre plante par journee de developpement.
+- **Qualite** : membre de l'AFUP, veille technologique continue, conformite aux standards du secteur.
+- **Diversite** : signataire de la charte de diversite, parite entre 40 et 60 %.
 
-## Références
+## References
 
-Nous travaillons avec des entreprises de toutes tailles dans divers secteurs : retail, industrie, services, santé.
+Nous travaillons avec des entreprises de toutes tailles dans divers secteurs : e-commerce, industrie, SaaS, finance, services.
+
+Clients : Decathlon, Credit Agricole, Carter Cash, Schneider Electric, Groupe Atlantic, Ministere de la Transition Ecologique.
 
 ## Contact
 
 - Site : https://www.itefficience.com
 - Email : contact@itefficience.com
-- Téléphone : +33 9 79 32 05 08
-- Adresse : 677 Avenue de la République, 59800 Lille, France
+- Telephone : +33 9 79 32 05 08
+- Adresse : 677 Avenue de la Republique, 59800 Lille, France
 - LinkedIn : https://www.linkedin.com/company/efficience-it
 - GitHub : https://github.com/efficience-it
 
 ## Liens utiles
 
 - [Nos expertises](https://www.itefficience.com/notre-expertise)
-- [Développement web sur mesure](https://www.itefficience.com/developpement-web-sur-mesure)
+- [Developpement web sur mesure](https://www.itefficience.com/developpement-web-sur-mesure)
 - [Cloud & DevOps](https://www.itefficience.com/cloud-et-devops)
 - [Accompagnement et conseil](https://www.itefficience.com/accompagnement-et-conseil)
 - [Green IT](https://www.itefficience.com/green-it)
-- [Nos références](https://www.itefficience.com/nos-references)
+- [Nos references](https://www.itefficience.com/nos-references)
 - [Blog](https://www.itefficience.com/blog)
 - [Contact](https://www.itefficience.com/contact)
+
+## Pages de service
+
+- [Agence Symfony Lille](https://www.itefficience.com/agence-symfony-lille)
+- [API sur mesure Symfony](https://www.itefficience.com/api-sur-mesure-symfony)
+- [API Node.js NestJS](https://www.itefficience.com/api-nodejs-nestjs)
+- [Developpement Node.js](https://www.itefficience.com/developpement-nodejs)
+- [Audit Symfony gratuit](https://www.itefficience.com/audit-symfony-gratuit)
+- [Audit de code PHP](https://www.itefficience.com/audit-code-php)
+- [Migration Symfony](https://www.itefficience.com/migration-symfony)
+- [Modernisation d'application PHP](https://www.itefficience.com/modernisation-application-php)
+- [Reprise de projet Symfony](https://www.itefficience.com/reprise-projet-symfony)
+- [Maintenance applicative Symfony](https://www.itefficience.com/maintenance-applicative-symfony)
+- [Architecture hexagonale Symfony](https://www.itefficience.com/architecture-hexagonale-symfony)
+- [Tests automatises PHP](https://www.itefficience.com/tests-automatises-php)
+- [Formation Symfony entreprise](https://www.itefficience.com/formation-symfony-entreprise)
+- [GEO et optimisation IA](https://www.itefficience.com/geo-optimisation-ia)
+
+## Secteurs d'activite
+
+- [E-commerce](https://www.itefficience.com/secteur/e-commerce)
+- [Industrie](https://www.itefficience.com/secteur/industrie)
+- [SaaS](https://www.itefficience.com/secteur/saas)
+- [Finance](https://www.itefficience.com/secteur/finance)
+
+## Pour plus d'informations
+
+Pour une version complete avec la liste des articles de blog et le detail des services, consultez [llms-full.txt](https://www.itefficience.com/.well-known/llms-full.txt).

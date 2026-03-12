@@ -9,21 +9,18 @@ export default function Hero() {
         <div className="grid items-center gap-12 md:grid-cols-2">
           <div>
             <h1 className="font-display text-4xl font-bold text-dark md:text-5xl lg:text-6xl">
-              Besoin d&apos;une Agence Symfony fiable ?
+              Agence Symfony à Lille, experte en développement web
             </h1>
             <p className="mt-6 max-w-2xl text-lg text-gray md:text-xl">
-              À vos côtés, de la première idée jusqu&apos;à l&apos;application en
-              main.
-            </p>
-            <p className="mt-4 text-gray">
-              Vos objectifs, notre savoir-faire, des résultats mesurables.
+              Votre application Symfony merite mieux. On la stabilise, la
+              migre et la rend maintenable.
             </p>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-              <Button href="/notre-expertise" size="lg">
-                Nos services
+              <Button href="/audit-symfony-gratuit" size="lg">
+                Demander mon audit gratuit
               </Button>
-              <Button href="/contact" variant="outline" size="lg">
-                Contactez-nous !
+              <Button href="/notre-expertise" variant="outline" size="lg">
+                Nos services
               </Button>
             </div>
           </div>
@@ -35,6 +32,7 @@ export default function Hero() {
               height={400}
               className="w-full max-w-md"
               priority
+              fetchPriority="high"
             />
           </div>
         </div>

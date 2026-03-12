@@ -81,7 +81,21 @@ D'autres acteurs occupent des niches spécifiques. Cody de Sourcegraph excelle s
 
 Le choix de l'éditeur conditionne directement l'expérience IA. Cursor offre l'intégration la plus profonde, mais au prix d'un éditeur spécifique. VS Code propose la plus grande diversité d'extensions IA. PhpStorm intègre l'IA dans son moteur d'analyse statique, ce qui donne des suggestions plus précises dans le contexte PHP. Zed permet d'utiliser des modèles locaux pour les équipes soucieuses de confidentialité.
 
-Pour une équipe PHP, la question stratégique est de déterminer si l'IA est un outil d'aide ponctuel ou un composant central du workflow. Dans le premier cas, VS Code ou PhpStorm avec Copilot suffisent. Dans le second, Cursor ou une configuration VS Code fortement personnalisée méritent d'être évaluées.
+Pour une équipe PHP, la question stratégique est de déterminer si l'IA est un outil d'aide ponctuel ou un composant central du workflow. Dans le premier cas, VS Code ou PhpStorm avec Copilot suffisent. Dans le second, Cursor ou une configuration VS Code fortement personnalisée méritent d'être évaluées. Notre comparatif sur [quel assistant IA choisir pour coder en 2026](/article/quel-assistant-ia-choisir-pour-coder) détaille les critères pour aligner le choix de l'outil avec le choix de l'IDE.
+
+## Tableau comparatif des editeurs
+
+| Critere | PhpStorm | VS Code | Cursor | Sublime Text | Zed |
+|---------|----------|---------|--------|--------------|-----|
+| Type | IDE complet | Editeur extensible | IDE natif IA | Editeur leger | Editeur natif Rust |
+| Analyse statique PHP | Native et profonde | Via Intelephense | Via Intelephense | Minimale | Basique |
+| Debugger Xdebug | Integre nativement | Via extension | Via extension | Non | Non |
+| Refactoring automatise | Avance (multi-fichiers) | Basique | Basique + IA | Non | Non |
+| Integration IA | JetBrains AI + Copilot | Copilot, Claude, Cody... | Native (multi-modeles) | Minimale | Integree (multi-fournisseurs) |
+| Performance demarrage | Lent | Rapide | Rapide | Instantane | Instantane |
+| Collaboration temps reel | Via Code With Me | Via Live Share | Non | Non | Native |
+| TypeScript | Bon | Excellent | Excellent | Basique | Bon |
+| Modele economique | Licence annuelle | Gratuit | Abonnement (~20$/mois) | Licence unique | Gratuit |
 
 ## Du choix individuel à la stratégie d'équipe
 
@@ -91,7 +105,7 @@ Pour un développeur confirmé, le choix de l'éditeur relève de l'efficacité 
 
 Un projet mature bénéficie d'une configuration partagée. PhpStorm permet d'exporter et de versionner les inspections, les styles de code et les configurations de run. VS Code propose le même mécanisme via le répertoire `.vscode` et les extensions recommandées dans `extensions.json`. Cursor hérite de ce mécanisme. Cette standardisation réduit le temps d'onboarding et garantit que les règles de qualité sont appliquées de manière uniforme.
 
-L'IDE devient alors un outil d'enforcement : les inspections bloquantes signalent les violations avant même le commit, le formateur automatique élimine les débats de style, et les templates de fichiers assurent la cohérence structurelle. Ce rôle de garde-fou est d'autant plus précieux sur les équipes nombreuses ou distribuées.
+L'IDE devient alors un outil d'enforcement : les inspections bloquantes signalent les violations avant même le commit, le formateur automatique élimine les débats de style conformément aux [conventions de codage](/article/coding-conventions) de l'équipe, et les templates de fichiers assurent la cohérence structurelle. Ce rôle de garde-fou est d'autant plus précieux sur les équipes nombreuses ou distribuées.
 
 ### La Developer Experience comme levier stratégique
 
@@ -107,12 +121,11 @@ Le choix final dépend du contexte : taille de l'équipe, stack technique, budge
 
 ## Pour aller plus loin
 
-- [Les conventions de codage](/article/coding-conventions), Les standards à respecter dans votre éditeur pour un code propre
 - [PHPStan niveau max sur Symfony](/article/phpstan-niveau-max-symfony-10-erreurs), Améliorer la qualité de votre code PHP avec l'analyse statique
 - [Mieux comprendre le vocabulaire des développeurs web](/article/mieux-comprendre-le-vocabulaire-des-developpeurs-web-guide-complet), IDE, framework, langage : les définitions essentielles
 - [IA génératives : forces et faiblesses](/article/forces-et-faiblesses-des-ia-generatives-les-plus-utilisees), Tour d'horizon des outils IA pour les développeurs
+- [Rector : maîtriser l'évolution de votre code Symfony](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony), Le refactoring automatisé à intégrer dans son IDE
+- [Comment PHPStan peut vous aider à améliorer la qualité de votre code PHP](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php), L'analyse statique à configurer dans PhpStorm ou VS Code
 - [PhpStorm : Site officiel JetBrains](https://www.jetbrains.com/phpstorm/), Téléchargement et documentation de PhpStorm
 - [Visual Studio Code : Site officiel](https://code.visualstudio.com/), Téléchargement et extensions de VS Code
 - [Cursor : Site officiel](https://www.cursor.com/), L'éditeur de code natif IA
-- [Zed : Site officiel](https://zed.dev/), L'éditeur rapide écrit en Rust
-- [Sublime Text : Site officiel](https://www.sublimetext.com/), Téléchargement et documentation de Sublime Text

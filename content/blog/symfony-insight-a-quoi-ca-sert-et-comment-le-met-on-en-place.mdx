@@ -5,6 +5,7 @@ author: "Louis-Arnaud Catoire"
 category: "Outils"
 excerpt: "Symfony Insight est un outil en ligne d'analyse du code PHP, spécialisé sur Symfony. Découvrez ses fonctionnalités, ses bénéfices et comment le mettre en place."
 image: "/images/blog/symfony-insight.webp"
+updatedAt: "2026-01-13"
 ---
 
 ## Ce que Symfony Insight apporte à un projet PHP
@@ -39,7 +40,7 @@ Les violations se répartissent en grandes familles que tout lead ou staff engin
 
 ### Sécurité
 
-Détection des injections SQL, des failles XSS, des secrets exposés dans le code, des dépendances avec CVE connues, et des configurations Symfony permissives (debug activé en production, firewalls trop ouverts). Ce sont les violations à corriger en priorité absolue, car elles exposent le projet à des risques juridiques au regard du RGPD et à des atteintes à la réputation.
+Détection des injections SQL, des failles XSS, des secrets exposés dans le code, des dépendances avec [CVE connues](/article/cve-comprendre-les-failles-pour-mieux-se-proteger), et des configurations Symfony permissives (debug activé en production, firewalls trop ouverts). Ce sont les violations à corriger en priorité absolue, car elles exposent le projet à des risques juridiques au regard du RGPD et à des atteintes à la réputation.
 
 ### Performance
 
@@ -53,7 +54,7 @@ Code dupliqué, couplage excessif entre bundles, commentaires TODO abandonnés, 
 
 Symfony Insight n'opère pas dans le même registre que PHPStan ou SonarQube, et les trois outils se complètent plus qu'ils ne se concurrencent.
 
-**PHPStan** excelle dans l'analyse statique de types. Son système de niveaux (0 à 9) permet une adoption progressive, et ses extensions spécifiques Symfony et Doctrine détectent des incohérences fines dans le graphe de types. En revanche, PHPStan ne sait rien du comportement runtime de l'application.
+**[PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php)** excelle dans l'analyse statique de types. Son système de niveaux (0 à 9) permet une adoption progressive, et ses extensions spécifiques Symfony et Doctrine détectent des incohérences fines dans le graphe de types. En revanche, PHPStan ne sait rien du comportement runtime de l'application.
 
 **SonarQube** est une plateforme multi-langages auto-hébergée, avec des profils de qualité entièrement personnalisables, un historique illimité et une gestion fine des quality gates. C'est la solution privilégiée pour les organisations qui travaillent sur des stacks hétérogènes ou qui ont besoin d'un contrôle total sur les règles appliquées.
 
@@ -94,9 +95,7 @@ Symfony Insight présente des contraintes qu'il faut évaluer avant de l'adopter
 
 ## Pour aller plus loin
 
-- [PHPStan : améliorer la qualité du code PHP](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php), compléter Symfony Insight avec l'analyse statique PHPStan
 - [Les certifications Symfony](/article/les-certifications-symfony-twig-symfony-sylius), valider ses compétences Symfony avec les certifications officielles
-- [CVE : comprendre les failles pour mieux se protéger](/article/cve-comprendre-les-failles-pour-mieux-se-proteger), approfondir la sécurité des applications PHP
 - [Symfony Insight](https://insight.symfony.com/), plateforme officielle d'analyse de qualité de code
 - [SonarQube](https://www.sonarsource.com/products/sonarqube/), alternative open source d'analyse de qualité de code
 - [PHPStan](https://phpstan.org/), analyseur statique de code PHP complémentaire

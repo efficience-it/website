@@ -5,6 +5,15 @@ author: "Louis-Arnaud Catoire"
 category: "Outils"
 excerpt: "PHP reste pertinent malgré sa réputation vieillissante, avec des frameworks comme Laravel, Symfony et WordPress qui gardent le langage essentiel."
 image: "/images/blog/frankenphp.webp"
+proficiencyLevel: "Expert"
+updatedAt: "2026-01-13"
+faq:
+  - question: "FrankenPHP est-il pret pour la production ?"
+    answer: "Oui, FrankenPHP est stable et utilise en production. Il est officiellement supporte par Symfony et fait partie de la distribution Docker officielle de PHP. Les gains de performance sont significatifs grace au mode worker qui evite le bootstrap PHP a chaque requete."
+  - question: "Quelle est la difference entre FrankenPHP et PHP-FPM ?"
+    answer: "PHP-FPM utilise le protocole FastCGI pour communiquer entre le serveur web (Nginx) et PHP, ce qui ajoute un overhead a chaque requete. FrankenPHP embarque directement l'interpreteur PHP dans un serveur Caddy en Go, eliminant cette couche intermediaire. Le mode worker garde l'application en memoire entre les requetes."
+  - question: "FrankenPHP fonctionne-t-il avec Symfony et Laravel ?"
+    answer: "Oui, FrankenPHP est compatible avec tous les frameworks PHP. Symfony le supporte officiellement via le composant Runtime. Laravel fonctionne egalement avec FrankenPHP grace a Laravel Octane. La configuration est minimale : une seule ligne dans le Dockerfile suffit."
 ---
 
 PHP propulse encore aujourd'hui une part considérable du web, porté par des frameworks matures comme Symfony, Laravel et des CMS comme WordPress ou Drupal. Pourtant, son modèle d'exécution historique souffre d'une limitation fondamentale : chaque requête HTTP déclenche un cycle complet d'initialisation, d'exécution et de destruction. FrankenPHP propose de résoudre ce problème structurel en repensant la manière dont PHP s'exécute côté serveur.
@@ -21,13 +30,13 @@ Ce modèle share nothing garantit une isolation totale entre les requêtes. Un b
 
 Sur une application Symfony typique, le bootstrap représente entre 30 et 60 % du temps de traitement d'une requête : lecture des fichiers de configuration, construction du conteneur d'injection de dépendances, compilation des routes, initialisation des listeners. OPcache atténue le coût en mettant en cache le bytecode compilé, mais l'instanciation des objets et l'assemblage du graphe de services restent incompressibles à chaque requête.
 
-À cette charge computationnelle s'ajoute une complexité opérationnelle. L'architecture de production classique requiert la coordination de plusieurs services : Nginx ou Apache en reverse proxy, PHP-FPM pour l'exécution, Certbot ou un autre outil pour la gestion des certificats TLS, parfois Varnish pour le cache HTTP. Chaque service apporte son fichier de configuration, ses logs, ses mécanismes de reload et ses propres modes de défaillance.
+À cette charge computationnelle s'ajoute une complexité opérationnelle. L'architecture de production classique requiert la coordination de plusieurs services : Nginx ou Apache en reverse proxy, PHP-FPM pour l'exécution, Certbot ou un autre outil pour la gestion des certificats TLS, parfois Varnish pour le cache HTTP. Les stratégies de mise en cache sont abordées en détail dans notre guide sur [la mise en cache appliquée aux applications PHP](/article/tout-savoir-sur-la-mise-en-cache-tips). Chaque service apporte son fichier de configuration, ses logs, ses mécanismes de reload et ses propres modes de défaillance.
 
 ## FrankenPHP : un serveur d'application natif pour PHP
 
 FrankenPHP est un serveur d'application écrit en Go, bâti sur [Caddy](https://caddyserver.com/), qui embarque directement l'interpréteur PHP dans son processus. Il ne s'agit pas d'un simple wrapper autour de PHP-FPM : FrankenPHP utilise CGO pour lier le runtime Go au code C de la Zend Engine, la machine virtuelle de PHP. Cette approche permet au serveur web et à l'interpréteur de coexister dans le même espace mémoire, sans communication inter-processus ni protocole intermédiaire.
 
-Le résultat concret : un unique binaire capable de servir une application PHP avec support natif de HTTP/1.1, HTTP/2 et HTTP/3, génération automatique de certificats TLS via Let's Encrypt ou ZeroSSL, et support du temps réel via le protocole Mercure. FrankenPHP peut déployer nativement Symfony, Laravel, [API Platform](https://api-platform.com/), WordPress, Drupal ou toute application PHP standard.
+Le résultat concret : un unique binaire capable de servir une application PHP avec support natif de HTTP/1.1, HTTP/2 et HTTP/3, génération automatique de certificats TLS via Let's Encrypt ou ZeroSSL, et support du temps réel via le protocole Mercure. FrankenPHP peut déployer nativement Symfony, Laravel, API Platform, WordPress, Drupal ou toute application PHP standard.
 
 ## Architecture interne et choix techniques
 
@@ -47,7 +56,7 @@ Le mode worker constitue l'apport le plus significatif de FrankenPHP. Dans ce mo
 
 Le gain mesuré est substantiel. Les benchmarks montrent des temps de réponse divisés par trois à cinq par rapport à PHP-FPM sur des applications Symfony ou Laravel. Sur une API REST typique, le temps de traitement passe de 15-20 ms à 3-5 ms par requête, le bootstrap n'étant exécuté qu'une seule fois.
 
-Pour activer le mode worker avec Symfony, l'intégration passe par le composant Runtime :
+FrankenPHP s'intègre particulièrement bien avec Symfony, un framework dont [les atouts pour les projets web](/article/pourquoi-choisir-symfony-pour-vos-projets) se combinent naturellement avec les gains de performance du mode worker. Pour activer le mode worker avec Symfony, l'intégration passe par le composant Runtime :
 
 ```bash
 composer require runtime/frankenphp-symfony
@@ -101,10 +110,6 @@ FrankenPHP représente une évolution architecturale significative pour l'écosy
 
 ## Pour aller plus loin
 
-- [Pourquoi choisir Symfony pour vos projets](/article/pourquoi-choisir-symfony-pour-vos-projets), les atouts du framework pour vos applications web
-- [Tout savoir sur la mise en cache](/article/tout-savoir-sur-la-mise-en-cache-tips), optimiser les performances de vos applications PHP
 - [Retour sur le Forum PHP 2024](/article/retour-sur-le-forum-php-2024), les tendances et nouveautés de l'écosystème PHP
 - [Site officiel de FrankenPHP](https://frankenphp.dev/), documentation, installation et guides de démarrage
-- [Dépôt GitHub de FrankenPHP](https://github.com/dunglas/frankenphp), code source et contributions
-- [Site officiel de Caddy](https://caddyserver.com/), le serveur web sur lequel repose FrankenPHP
 - [PHP 9.0 : ce que vous devez savoir](/article/php-9-0-devoile-ce-que-vous-devez-savoir-avant-la-sortie), les évolutions à venir du langage PHP

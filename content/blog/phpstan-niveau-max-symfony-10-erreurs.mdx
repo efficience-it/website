@@ -5,11 +5,12 @@ author: "Louis-Arnaud Catoire"
 category: "Outils"
 excerpt: "Passer PHPStan au niveau 10 sur un projet Symfony révèle des dizaines d'erreurs. Voici les 10 plus fréquentes, pourquoi elles existent, et comment les corriger proprement."
 image: "/images/blog/phpstan-symfony.svg"
+proficiencyLevel: "Expert"
 ---
 
-Tu viens de monter [PHPStan](https://phpstan.org/) au niveau 10 sur ton projet Symfony. Le terminal affiche 847 erreurs. Tu refermes le couvercle de ton laptop et tu te demandes si c'était une bonne idée.
+Tu viens de monter PHPStan au niveau 10 sur ton projet Symfony. Le terminal affiche 847 erreurs. Tu refermes le couvercle de ton laptop et tu te demandes si c'était une bonne idée.
 
-Bonne nouvelle : c'en était une. Ces erreurs ne sont pas du bruit. Elles pointent vers de vrais problèmes que tu traînes depuis des mois, parfois des années. Après avoir accompagné une dizaine d'équipes dans cette montée en niveau, les mêmes patterns reviennent systématiquement.
+Bonne nouvelle : c'en était une. Ces erreurs ne sont pas du bruit. Elles pointent vers de vrais problèmes que tu traînes depuis des mois, parfois des années. Si tu débutes avec PHPStan, commence par lire [comment PHPStan peut améliorer la qualité de votre code PHP](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) avant d'aller plus loin. Après avoir accompagné une dizaine d'équipes dans cette montée en niveau, les mêmes patterns reviennent systématiquement.
 
 Voici les 10 erreurs que tu vas trouver, et surtout comment les corriger sans y passer trois sprints.
 
@@ -26,7 +27,7 @@ private Collection $tags;
 private Collection $tags;
 ```
 
-[Doctrine](https://www.doctrine-project.org/) utilise l'interface `Collection` qui est générique. PHPStan au niveau 10 exige que tu précises le type de la clé et de la valeur. Sans ça, il considère que ta collection contient du `mixed`, et chaque accès à un élément perd son typage.
+Doctrine utilise l'interface `Collection` qui est générique. PHPStan au niveau 10 exige que tu précises le type de la clé et de la valeur. Sans ça, il considère que ta collection contient du `mixed`, et chaque accès à un élément perd son typage.
 
 ### La correction
 
@@ -143,7 +144,7 @@ public function findPublished(): array
 }
 ```
 
-PHPStan fait confiance au `@return` déclaré. Ça résout l'erreur et ça documente le contrat de ta méthode. L'extension [`phpstan/phpstan-doctrine`](https://github.com/phpstan/phpstan-doctrine) améliore aussi la compréhension des types DQL.
+PHPStan fait confiance au `@return` déclaré. Ça résout l'erreur et ça documente le contrat de ta méthode. L'extension [phpstan/phpstan-doctrine](https://github.com/phpstan/phpstan-doctrine) améliore aussi la compréhension des types DQL.
 
 ## 6. Les event subscribers avec des signatures trop larges
 
@@ -157,7 +158,7 @@ PHPStan vérifie que la signature du listener correspond à ce que le dispatcher
 
 ### La correction
 
-Vérifie que tes méthodes de listener acceptent exactement le type d'événement dispatché. L'extension [`phpstan/phpstan-symfony`](https://github.com/phpstan/phpstan-symfony) connaît les types d'événements du kernel et valide les signatures automatiquement.
+Vérifie que tes méthodes de listener acceptent exactement le type d'événement dispatché. L'extension [phpstan/phpstan-symfony](https://github.com/phpstan/phpstan-symfony) connaît les types d'événements du kernel et valide les signatures automatiquement.
 
 Installe-la si ce n'est pas déjà fait :
 
@@ -192,7 +193,7 @@ Mieux : remplace les tableaux associatifs par des objets typés. Un simple DTO a
 
 ## 8. Les templates Twig référencés comme strings
 
-Si tu utilises [`phpstan/phpstan-symfony`](https://github.com/phpstan/phpstan-symfony), PHPStan vérifie que les templates [Twig](https://twig.symfony.com/) existent. Les fautes de frappe dans les noms de templates deviennent des erreurs.
+Si tu utilises phpstan/phpstan-symfony, PHPStan vérifie que les templates Twig existent. Les fautes de frappe dans les noms de templates deviennent des erreurs.
 
 ```php
 return $this->render('article/shwo.html.twig', [
@@ -279,11 +280,11 @@ $names = array_map(fn (User $user): string => $user->getName(), $users);
 
 ## La stratégie pour monter progressivement
 
-Ne passe pas du niveau 0 au niveau 10 en un commit. Voici une approche qui fonctionne :
+Ne passe pas du niveau 0 au niveau 10 en un commit. Si tu utilises [PHPStan 2.0](/article/phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable), les nouvelles vérifications du niveau 10 sont encore plus nombreuses. Voici une approche qui fonctionne :
 
 ### Utilise la baseline
 
-PHPStan permet de générer un [fichier baseline](https://phpstan.org/user-guide/baseline) qui ignore toutes les erreurs existantes :
+PHPStan permet de générer un fichier baseline qui ignore toutes les erreurs existantes :
 
 ```bash
 vendor/bin/phpstan analyse --generate-baseline
@@ -293,11 +294,11 @@ vendor/bin/phpstan analyse --generate-baseline
 
 ### Monte niveau par niveau
 
-Chaque niveau ajoute des vérifications. Consulte la [liste des niveaux PHPStan](https://phpstan.org/user-guide/rule-levels) pour savoir ce que chaque palier apporte. Stabilise un niveau avant de passer au suivant. Les niveaux 6 à 10 sont ceux qui révèlent le plus de problèmes dans un projet Symfony, surtout autour de Doctrine et des formulaires.
+Chaque niveau ajoute des vérifications. Consulte la liste des niveaux PHPStan pour savoir ce que chaque palier apporte. Stabilise un niveau avant de passer au suivant. Les niveaux 6 à 10 sont ceux qui révèlent le plus de problèmes dans un projet Symfony, surtout autour de Doctrine et des formulaires.
 
 ### Installe les extensions Symfony et Doctrine
 
-Ces deux extensions sont indispensables. Tu peux aussi ajouter [`phpstan/phpstan-strict-rules`](https://github.com/phpstan/phpstan-strict-rules) pour aller encore plus loin, et [`phpstan/extension-installer`](https://github.com/phpstan/extension-installer) pour enregistrer automatiquement les extensions :
+Ces deux extensions sont indispensables. Tu peux aussi ajouter `phpstan/phpstan-strict-rules` pour aller encore plus loin, et `phpstan/extension-installer` pour enregistrer automatiquement les extensions :
 
 ```bash
 composer require --dev phpstan/phpstan-symfony phpstan/phpstan-doctrine
@@ -313,10 +314,7 @@ PHPStan au niveau max n'est pas un caprice de perfectionniste. C'est un filet de
 
 ## Pour aller plus loin
 
-- [PHPStan 2.0 : niveau 10 et nouvelles fonctionnalités](/article/phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable), les nouveautés de la version 2.0
-- [Comment PHPStan peut améliorer la qualité de votre code PHP](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php), guide d'introduction à PHPStan
 - [Éliminer le code mort dans vos projets PHP](/article/code-mort-mission-elimination), détecter et supprimer le code inutilisé avec PHPStan
-- [Documentation officielle PHPStan](https://phpstan.org/user-guide/getting-started), guide de démarrage
-- [PHPStan rule levels](https://phpstan.org/user-guide/rule-levels), comprendre les niveaux d'analyse
-- [Extension PHPStan pour Symfony](https://github.com/phpstan/phpstan-symfony), support natif Symfony
-- [Extension PHPStan pour Doctrine](https://github.com/phpstan/phpstan-doctrine), typage des repositories et collections
+- [Rector : maîtrisez l'évolution de votre code Symfony](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony), automatiser les migrations de code en complément de PHPStan
+- [Migration Symfony vers l'architecture hexagonale](/article/migration-symfony-architecture-hexagonale-retour-mission), appliquer PHPStan pour valider les contraintes d'architecture lors d'une migration
+- [Documentation officielle PHPStan](https://phpstan.org/user-guide/getting-started), guide de démarrage et niveaux d'analyse

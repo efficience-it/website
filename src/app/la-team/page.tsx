@@ -4,7 +4,9 @@ import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import CallToAction from "@/components/sections/CallToAction";
-import { breadcrumbJsonLd } from "@/lib/structured-data";
+import RelatedLinks from "@/components/sections/RelatedLinks";
+import type { RelatedLink } from "@/components/sections/RelatedLinks";
+import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "L'équipe Efficience IT | Agence web et technique",
@@ -16,12 +18,45 @@ export const metadata = pageMetadata({
 
 const breadcrumb = breadcrumbJsonLd([{ name: "La team", path: "/la-team" }]);
 
+const webPage = webPageJsonLd({
+  name: "L'équipe Efficience IT | Agence web et technique",
+  description:
+    "Découvrez l'équipe d'Efficience IT : développeurs, profils techniques et métiers engagés dans la réalisation de projets web et applicatifs.",
+  path: "/la-team",
+  datePublished: "2025-09-01",
+  dateModified: "2025-09-01",
+});
+
+const teamRelatedLinks: RelatedLink[] = [
+  {
+    title: "Le chocoblast",
+    description: "Un premier pas vers la sécurité par le jeu",
+    href: "/article/le-chocoblast-un-premier-pas-vers-la-securite-par-le-jeu",
+  },
+  {
+    title: "AFUP",
+    description: "Association Française des Utilisateurs de PHP",
+    href: "https://afup.org/",
+    external: true,
+  },
+  {
+    title: "Symfony, site officiel",
+    description: "Le framework au cœur de notre expertise",
+    href: "https://symfony.com/",
+    external: true,
+  },
+];
+
 export default function LaTeam() {
   return (
     <>
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
     />
     <main>
       {/* Hero */}
@@ -51,6 +86,8 @@ export default function LaTeam() {
                 width={400}
                 height={300}
                 className="w-full max-w-md"
+                priority
+                fetchPriority="high"
               />
             </div>
           </div>
@@ -101,7 +138,7 @@ export default function LaTeam() {
                 les maîtres mots dans les équipes.
               </p>
               <Link
-                href="/notre-expertise/"
+                href="/notre-expertise"
                 className="mt-4 inline-block font-semibold text-primary hover:underline"
               >
                 Découvrir nos expertises →
@@ -155,7 +192,7 @@ export default function LaTeam() {
                 informées et formées sur les dernières nouveautés Web.
               </p>
               <Link
-                href="/notre-expertise/"
+                href="/notre-expertise"
                 className="mt-4 inline-block font-semibold text-primary hover:underline"
               >
                 Découvrir nos services →
@@ -180,12 +217,16 @@ export default function LaTeam() {
             <p className="mt-4 text-lg text-gray">
               En mettant un point d&apos;honneur à être centré sur le
               collaborateur, le bien-être au travail est une valeur importante
-              chez Efficience IT !
+              chez Efficience IT ! Retrouvez{" "}
+              <Link href="/article/7-bonnes-raisons-de-rejoindre-efficience-it" className="text-primary hover:underline">
+                7 bonnes raisons de rejoindre Efficience IT
+              </Link>{" "}
+              si vous souhaitez faire partie de l&apos;aventure.
             </p>
             <p className="mt-4 text-lg text-gray">
               Pour animer le quotidien, l&apos;impitoyable{" "}
               <Link
-                href="/blog/le-chocoblast-un-premier-pas-vers-la-securite-par-le-jeu/"
+                href="/article/le-chocoblast-un-premier-pas-vers-la-securite-par-le-jeu"
                 className="font-semibold text-primary hover:underline"
               >
                 chocoblast
@@ -196,40 +237,7 @@ export default function LaTeam() {
         </Container>
       </section>
 
-      {/* Pour aller plus loin */}
-      <section className="py-16">
-        <Container>
-          <h2 className="text-center font-display text-3xl font-bold text-dark">
-            Pour aller plus loin
-          </h2>
-          <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
-            <li>
-              <Link href="/article/7-bonnes-raisons-de-rejoindre-efficience-it" className="text-primary hover:underline">
-                7 bonnes raisons de rejoindre Efficience IT
-              </Link>{" "}
-             , pourquoi nous rejoindre
-            </li>
-            <li>
-              <Link href="/article/le-chocoblast-un-premier-pas-vers-la-securite-par-le-jeu" className="text-primary hover:underline">
-                Le chocoblast
-              </Link>{" "}
-             , un premier pas vers la sécurité par le jeu
-            </li>
-            <li>
-              <a href="https://afup.org/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                AFUP
-              </a>{" "}
-             , Association Française des Utilisateurs de PHP
-            </li>
-            <li>
-              <a href="https://symfony.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                Symfony, site officiel
-              </a>{" "}
-             , le framework au cœur de notre expertise
-            </li>
-          </ul>
-        </Container>
-      </section>
+      <RelatedLinks links={teamRelatedLinks} />
 
       <CallToAction />
     </main>

@@ -5,6 +5,8 @@ author: "Louis-Arnaud Catoire"
 category: "Agence"
 excerpt: "Les applications web sont des entités dynamiques, évolutives et vieillissantes, susceptibles de dysfonctionnements. Cela nécessite une maintenance continue."
 image: "/images/blog/maintenance-applicative.webp"
+proficiencyLevel: "Beginner"
+updatedAt: "2026-01-13"
 ---
 
 ## Tierce Maintenance Applicative (TMA) expliquée
@@ -19,7 +21,7 @@ Une application web est un organisme vivant : ses dépendances reçoivent des co
 
 La **dette technique** représente les coûts futurs de développement liés à une conception logicielle négligée. Une telle conception se caractérise généralement par le non-respect des normes de programmation et l'utilisation de technologies obsolètes.
 
-Bien que les nouveaux projets soient généralement à jour des dernières normes, ils accumulent une dette technique au fil du temps, même s'ils restent fonctionnels en l'état.
+Bien que les nouveaux projets soient généralement à jour des dernières normes, ils accumulent une dette technique au fil du temps, même s'ils restent fonctionnels en l'état. Pour comprendre les mécanismes qui amplifient ce phénomène, l'article sur [la dette technique et ses impacts réels](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) offre un cadre d'analyse utile pour les équipes techniques et les décideurs.
 
 Concrètement, la dette technique se manifeste de plusieurs manières. Des bibliothèques tierces qui ne reçoivent plus de mises à jour de sécurité exposent votre application à des vulnérabilités connues. Des versions de PHP ou de frameworks comme Symfony qui atteignent leur fin de vie officielle vous privent de correctifs critiques. Des pratiques de développement qui étaient acceptables il y a quelques années deviennent des obstacles lorsqu'il faut faire évoluer l'application ou intégrer de nouveaux développeurs dans l'équipe.
 
@@ -62,7 +64,7 @@ Cette approche vise à réduire la dette technique et à prolonger la vie d'un p
 
 Pour mieux comprendre ce que recouvre la TMA au quotidien, voici des exemples de tâches que nous réalisons régulièrement pour nos clients :
 
-- Mise à jour de Symfony vers une nouvelle version LTS pour bénéficier de quatre ans de support et de correctifs de sécurité
+- Mise à jour de Symfony vers une nouvelle version LTS pour bénéficier de quatre ans de support et de correctifs de sécurité, en s'appuyant sur des outils comme [Rector pour automatiser les montées de version PHP et Symfony](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony)
 - Montée de version de PHP pour profiter des améliorations de performances et des nouvelles fonctionnalités du langage
 - Correction d'une régression introduite par une mise à jour de navigateur qui modifie le comportement d'une API JavaScript
 - Optimisation de requêtes SQL lentes identifiées grâce à l'analyse des temps de réponse en production
@@ -113,9 +115,9 @@ Pour garantir la pérennité de votre application web, une maintenance réguliè
 
 ## Pour aller plus loin
 
-- [La dette technique : faut-il vraiment en avoir peur ?](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur), Approfondir la notion de dette technique et ses impacts sur vos projets
-- [Audit web chez Efficience IT : méthode : critères et contenu](/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede), Comment nous évaluons la santé de vos applications
-- [Pourquoi choisir Symfony pour vos projets](/article/pourquoi-choisir-symfony-pour-vos-projets), Le framework que nous utilisons pour des applications maintenables et performantes
-- [Symfony : Le framework PHP pour les projets web](https://symfony.com/), Documentation officielle du framework au cœur de nos développements
-- [Symfony Releases](https://symfony.com/releases), Calendrier des versions Symfony pour planifier vos mises à jour
-- [Rector : Outil de refactoring automatisé pour PHP](https://github.com/rectorphp/rector), Automatiser les montées de version PHP et Symfony
+- [Audit web chez Efficience IT : méthode, critères et contenu](/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede), comment nous évaluons la santé de vos applications
+- [Pourquoi choisir Symfony pour vos projets](/article/pourquoi-choisir-symfony-pour-vos-projets), le framework que nous utilisons pour des applications maintenables et performantes
+- [Guide de migration dans un projet Symfony](/article/guide-de-migration-dans-un-projet-symfony), planifier les montées de version Symfony incluses dans votre contrat de maintenance
+- [CVE : comprendre les failles de sécurité et protéger les applications web](/article/cve-comprendre-les-failles-pour-mieux-se-proteger), gérer les vulnérabilités de dépendances dans le cadre de la maintenance préventive
+- [Symfony : Le framework PHP pour les projets web](https://symfony.com/), documentation officielle du framework au coeur de nos développements
+- [Symfony Releases](https://symfony.com/releases), calendrier des versions Symfony pour planifier vos mises à jour

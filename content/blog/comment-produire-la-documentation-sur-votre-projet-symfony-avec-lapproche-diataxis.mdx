@@ -5,6 +5,7 @@ author: "Louis-Arnaud Catoire"
 category: "Outils"
 excerpt: "Le framework Diataxis fournit une structure pour la documentation technique en répondant aux besoins des développeurs à travers quatre types."
 image: "/images/blog/diataxis-symfony.webp"
+updatedAt: "2026-01-13"
 ---
 
 ## Pourquoi la documentation technique échoue
@@ -28,7 +29,7 @@ Chaque quadrant a ses propres règles de rédaction, son propre ton et sa propre
 
 ### Tutoriels : le parcours d'onboarding
 
-Sur un projet Symfony, le tutoriel correspond au parcours d'onboarding d'un nouveau développeur. Il ne s'agit pas de documenter chaque bundle : il s'agit de guider quelqu'un de `git clone` jusqu'à sa première contribution fonctionnelle.
+Sur un projet Symfony, le tutoriel correspond au parcours d'onboarding d'un nouveau développeur. Pour comprendre pourquoi Symfony est un choix structurant qui mérite d'être bien documenté, notre article sur [les raisons de choisir Symfony pour vos projets](/article/pourquoi-choisir-symfony-pour-vos-projets) pose ce contexte. Il ne s'agit pas de documenter chaque bundle : il s'agit de guider quelqu'un de `git clone` jusqu'à sa première contribution fonctionnelle.
 
 Un tutoriel Symfony efficace suit une progression concrète : installer le projet, lancer les conteneurs Docker, créer une entité, écrire un test fonctionnel, observer le résultat. Chaque étape produit un résultat visible. Le développeur qui termine le tutoriel comprend la structure du projet, les conventions de l'équipe et le workflow de développement.
 
@@ -60,7 +61,7 @@ Ce quadrant accueille les ADR (Architecture Decision Records), les analyses de c
 
 Diataxis n'impose aucun outil. Cependant, certaines pratiques d'intégration renforcent son efficacité sur un projet Symfony.
 
-Stocker la documentation dans le même dépôt que le code (approche docs-as-code) permet de lier les modifications de documentation aux pull requests qui modifient le comportement. Un template de PR qui inclut une section "documentation impactée" rend le réflexe systématique.
+Stocker la documentation dans le même dépôt que le code (approche docs-as-code) permet de lier les modifications de documentation aux pull requests qui modifient le comportement. Ce principe rejoint celui des [conventions de codage](/article/coding-conventions) : un contrat technique versionné, partagé et maintenu par toute l'équipe. Un template de PR qui inclut une section "documentation impactée" rend le réflexe systématique.
 
 Les générateurs de sites statiques comme Docusaurus ou MkDocs structurent naturellement la navigation en sections qui correspondent aux quadrants Diataxis. Un répertoire `docs/tutorials/`, `docs/how-to/`, `docs/reference/`, `docs/explanation/` rend la taxonomie explicite pour les contributeurs.
 
@@ -88,9 +89,7 @@ L'approche incrémentale propre à Diataxis facilite cette mesure : chaque amél
 
 ## Pour aller plus loin
 
-- [Quel outil choisir pour votre documentation technique ?](/article/quel-outil-choisir-pour-votre-documentation-technique), Comparer Docusaurus, MkDocs, GitBook et d'autres outils de documentation
-- [Pourquoi choisir Symfony pour vos projets](/article/pourquoi-choisir-symfony-pour-vos-projets), Découvrir les atouts du framework Symfony
-- [Diataxis](https://diataxis.fr/), Le site officiel du framework Diataxis pour la documentation technique
-- [Symfony Documentation](https://symfony.com/doc/current/index.html), La documentation officielle de Symfony, un exemple concret d'application de Diataxis
-- [Docusaurus](https://docusaurus.io/), Générateur de sites de documentation open source par Meta
-- [Write the Docs](https://www.writethedocs.org/), Communauté et ressources pour les rédacteurs de documentation technique
+- [Quel outil choisir pour votre documentation technique ?](/article/quel-outil-choisir-pour-votre-documentation-technique), comparer Docusaurus, MkDocs, GitBook et d'autres outils de documentation
+- [Diataxis](https://diataxis.fr/), le site officiel du framework Diataxis pour la documentation technique
+- [Symfony Documentation](https://symfony.com/doc/current/index.html), la documentation officielle de Symfony, un exemple concret d'application de Diataxis
+- [Docusaurus](https://docusaurus.io/), générateur de sites de documentation open source par Meta

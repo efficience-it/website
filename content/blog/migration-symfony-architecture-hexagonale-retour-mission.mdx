@@ -5,11 +5,12 @@ author: "Louis-Arnaud Catoire"
 category: "Projet"
 excerpt: "Retour d'expérience sur la migration d'une application Symfony monolithique vers une architecture hexagonale. Les vraies étapes, les vrais problèmes, et les compromis qu'on a dû faire."
 image: "/images/blog/archi-hexagonale.svg"
+proficiencyLevel: "Expert"
 ---
 
 Le client nous appelle un mardi. Son application Symfony gère 40 000 commandes par mois. Le code a six ans. Trois équipes bossent dessus en parallèle. Les déploiements prennent deux heures parce que personne n'ose toucher au code sans régression. La dette technique est devenue un risque business.
 
-La demande : rendre l'application maintenable sans tout réécrire. On a proposé une migration progressive vers une [architecture hexagonale](https://alistair.cockburn.us/hexagonal-architecture/). Pas un big bang. Pas un projet de six mois en salle blanche. Une migration chirurgicale, feature par feature, en continuant à livrer.
+La demande : rendre l'application maintenable sans tout réécrire. On a proposé une migration progressive vers une architecture hexagonale. Pas un big bang. Pas un projet de six mois en salle blanche. Une migration chirurgicale, feature par feature, en continuant à livrer.
 
 Voici comment ça s'est passé.
 
@@ -23,7 +24,7 @@ Le couplage n'est pas qu'un problème d'architecture. C'est un problème de vél
 
 ## Le plan : migrer par bounded context
 
-On ne migre pas toute l'application d'un coup. On identifie les [bounded contexts](https://martinfowler.com/bliki/BoundedContext.html) les plus critiques et on les traite un par un.
+On ne migre pas toute l'application d'un coup. On identifie les bounded contexts les plus critiques et on les traite un par un.
 
 Sur ce projet, trois contextes se dégagent :
 
@@ -60,7 +61,7 @@ src/
 │           └── ProductController.php
 ```
 
-Le modèle `Product` dans le domaine n'est plus une entité Doctrine. C'est un objet PHP pur, sans annotation, sans dépendance framework. Il porte la logique métier et rien d'autre.
+Le modèle `Product` dans le domaine n'est plus une entité Doctrine. C'est un objet PHP pur, sans annotation, sans dépendance framework. Il porte la logique métier et rien d'autre. C'est précisément ce que traduit le principe selon lequel [le domaine ne devrait jamais connaître Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony) : la logique métier doit rester ignorante du framework qui l'entoure.
 
 ### Le premier problème : la duplication
 
@@ -92,7 +93,7 @@ Un mapper fait la conversion entre l'entité Doctrine et le modèle domaine. C'e
 
 ## Étape 2 : les use cases comme point d'entrée
 
-Chaque action métier devient un [use case](https://herbertograca.com/2017/11/16/explicit-architecture-01-ddd-hexagonal-onion-clean-cqrs-how-i-put-it-all-together/) explicite. Plus de services fourre-tout à 30 méthodes.
+Chaque action métier devient un use case explicite. Plus de services fourre-tout à 30 méthodes.
 
 ```php
 final class GetProduct
@@ -132,7 +133,7 @@ Ce test s'exécute en 2 millisecondes. Pas en 2 secondes. La boucle de feedback 
 
 ## Étape 3 : le câblage Symfony
 
-[Symfony](https://symfony.com/) gère l'injection de dépendances automatiquement. Il suffit de binder les interfaces aux implémentations :
+Symfony gère l'injection de dépendances automatiquement. Il suffit de binder les interfaces aux implémentations :
 
 ```yaml
 services:
@@ -163,7 +164,7 @@ Le contrôleur ne contient aucune logique. Il traduit une requête HTTP en appel
 
 ### Les événements Doctrine qui cassent tout
 
-L'ancienne application utilisait massivement les [lifecycle callbacks Doctrine](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/events.html) : `prePersist`, `postUpdate`, `preRemove`. Ces callbacks contenaient de la logique métier. Un `postUpdate` sur `Order` envoyait un email. Un `prePersist` sur `Invoice` calculait le numéro de facture.
+L'ancienne application utilisait massivement les lifecycle callbacks Doctrine : `prePersist`, `postUpdate`, `preRemove`. Ces callbacks contenaient de la logique métier. Un `postUpdate` sur `Order` envoyait un email. Un `prePersist` sur `Invoice` calculait le numéro de facture.
 
 Migrer ces callbacks vers le domaine est le chantier le plus sous-estimé. On a dû remplacer chaque callback par un événement domaine explicite, dispatché manuellement après l'action métier :
 
@@ -209,7 +210,7 @@ Plus de `$orderLine->getProduct()->getName()`. Si le contexte Commandes a besoin
 
 ### Les formulaires Symfony
 
-Les [formulaires Symfony](https://symfony.com/doc/current/forms.html) sont conçus pour binder directement sur des entités. Avec l'archi hexagonale, le formulaire ne touche plus l'entité. Il bind sur un DTO de commande :
+Les formulaires Symfony sont conçus pour binder directement sur des entités. Avec l'archi hexagonale, le formulaire ne touche plus l'entité. Il bind sur un DTO de commande :
 
 ```php
 final class CreateProductCommand
@@ -234,7 +235,7 @@ C'est un choix délibéré. L'archi hexagonale a un coût en complexité structu
 
 ### Garder Doctrine dans les queries
 
-Pour les lectures simples (listes, recherches, exports), on a gardé des requêtes Doctrine directes via le [QueryBuilder](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/query-builder.html), sans passer par le domaine. Le pattern [CQRS](https://martinfowler.com/bliki/CQRS.html) léger : les commandes (écritures) passent par les use cases et le domaine. Les queries (lectures) tapent directement dans l'infra.
+Pour les lectures simples (listes, recherches, exports), on a gardé des requêtes Doctrine directes via le QueryBuilder, sans passer par le domaine. Le pattern CQRS léger : les commandes (écritures) passent par les use cases et le domaine. Les queries (lectures) tapent directement dans l'infra.
 
 C'est pragmatique. Mapper un résultat de recherche paginé à travers trois couches pour le remapper en JSON n'apporte rien. La lecture n'a pas de logique métier à protéger.
 
@@ -259,18 +260,16 @@ Le code n'est pas parfait. Il ne le sera jamais. Mais il est structuré. Chaque 
 
 On commencerait par les événements domaine avant de toucher à la structure des répertoires. Les lifecycle callbacks Doctrine sont le plus gros piège. Les identifier et les remplacer en premier aurait évité des semaines de debugging.
 
-On investirait plus tôt dans un [ADR](https://adr.github.io/) (Architecture Decision Record) partagé. Chaque compromis, chaque exception à la règle, devrait être documenté. Six mois plus tard, personne ne se souvient pourquoi tel service a été laissé dans l'ancien code.
+On investirait plus tôt dans un ADR (Architecture Decision Record) partagé. Chaque compromis, chaque exception à la règle, devrait être documenté. Six mois plus tard, personne ne se souvient pourquoi tel service a été laissé dans l'ancien code.
 
-Et on poserait [PHPStan](https://phpstan.org/) au niveau max dès le début de la migration. L'analyse statique attrape les violations d'architecture en temps réel. Un use case qui importe une classe Doctrine, c'est une erreur PHPStan avant même d'être une erreur de design.
+Et on poserait [PHPStan au niveau max](/article/phpstan-niveau-max-symfony-10-erreurs) dès le début de la migration. L'analyse statique attrape les violations d'architecture en temps réel. Un use case qui importe une classe Doctrine, c'est une erreur PHPStan avant même d'être une erreur de design.
 
 L'archi hexagonale n'est pas une fin en soi. C'est un outil pour rendre le code métier indépendant de l'infrastructure. Sur un projet Symfony de cette taille, c'est la différence entre une application qu'on subit et une application qu'on maîtrise.
 
 ## Pour aller plus loin
 
-- [Le domaine ne devrait jamais connaître Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony), pourquoi isoler le domaine du framework
 - [Symfony Messenger : colonne vertébrale de l'archi hexagonale](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale), implémenter le CQRS avec Messenger
 - [Guide de migration dans un projet Symfony](/article/guide-de-migration-dans-un-projet-symfony), méthodologie de migration
+- [Quelle architecture choisir entre micro-service ou monolithe modulaire ?](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire), choisir la bonne structure de projet avant d'entamer une migration
 - [Alistair Cockburn : Hexagonal Architecture](https://alistair.cockburn.us/hexagonal-architecture/), l'article fondateur de l'architecture hexagonale
-- [ADR : Architecture Decision Records](https://adr.github.io/), documenter les décisions d'architecture
-- [PHPStan](https://phpstan.org/), valider les contraintes d'architecture par l'analyse statique
-- [Symfony Messenger documentation](https://symfony.com/doc/current/messenger.html), le composant au cœur du CQRS
+- [Documentation Symfony Messenger](https://symfony.com/doc/current/messenger.html), guide officiel du composant
