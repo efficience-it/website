@@ -6,7 +6,10 @@ import Testimonials from "@/components/sections/Testimonials";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import FadeIn from "@/components/ui/FadeIn";
-import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, webPageJsonLd, reviewsJsonLd } from "@/lib/structured-data";
+import { testimonials } from "@/../data/testimonials";
+
+const reviews = reviewsJsonLd(testimonials);
 
 export const metadata = pageMetadata({
   title: "Nos réalisations et contributions open source",
@@ -120,6 +123,10 @@ export default function NosReferences() {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(reviews) }}
     />
     <main>
       <section className="bg-light-gray py-8 md:py-12">

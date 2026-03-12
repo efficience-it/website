@@ -12,8 +12,11 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import FadeIn from "@/components/ui/FadeIn";
 
 import { pageMetadata } from "@/lib/metadata";
-import { webPageJsonLd } from "@/lib/structured-data";
+import { webPageJsonLd, reviewsJsonLd } from "@/lib/structured-data";
+import { testimonials } from "@/../data/testimonials";
 import type { Metadata } from "next";
+
+const reviews = reviewsJsonLd(testimonials);
 
 const keyFigures = [
   { value: "10+", label: "Années d'expérience" },
@@ -44,6 +47,10 @@ export default function Home() {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(reviews) }}
     />
     <main>
       <Hero />
