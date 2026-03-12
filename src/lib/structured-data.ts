@@ -124,6 +124,21 @@ export function reviewsJsonLd(testimonials: Testimonial[]) {
   }));
 }
 
+import { BlogPost } from "@/types/blog";
+
+export function blogItemListJsonLd(posts: BlogPost[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: posts.map((post, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      url: `${BASE_URL}/blog/${post.slug}`,
+      name: post.title,
+    })),
+  };
+}
+
 interface HowToStep {
   name: string;
   text: string;
