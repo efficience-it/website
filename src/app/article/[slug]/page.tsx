@@ -104,6 +104,10 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     url,
     wordCount: post.wordCount,
     inLanguage: "fr-FR",
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: ["h1", "article > p:first-of-type"],
+    },
   };
 
   const breadcrumb = breadcrumbJsonLd([
