@@ -104,6 +104,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: `${BASE_URL}/audit-code-php`,
+      lastModified: "2026-03-12",
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
       url: `${BASE_URL}/api-sur-mesure-symfony`,
       lastModified: "2026-03-11",
       changeFrequency: "monthly",
@@ -112,6 +118,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: `${BASE_URL}/agence-symfony-lille`,
       lastModified: "2026-03-11",
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/migration-symfony`,
+      lastModified: "2026-03-12",
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/architecture-hexagonale-symfony`,
+      lastModified: "2026-03-12",
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/geo-optimisation-ia`,
+      lastModified: "2026-03-12",
       changeFrequency: "monthly",
       priority: 0.8,
     },
