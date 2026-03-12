@@ -1,4 +1,10 @@
-import type { MetadataRoute } from "next";
+i
+    {
+      url: `${BASE_URL}/migration-symfony`,
+      lastModified: "2026-03-12",
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },mport type { MetadataRoute } from "next";
 import { getAllPosts, getPostsByCategory, categorySlugMap } from "@/lib/blog";
 
 export const dynamic = "force-static";
