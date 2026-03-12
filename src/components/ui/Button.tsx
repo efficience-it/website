@@ -36,7 +36,7 @@ export default function Button({
   onClick,
 }: ButtonProps) {
   const baseStyles =
-    "inline-flex items-center justify-center font-semibold rounded-md transition-colors duration-200";
+    "inline-flex items-center justify-center font-semibold rounded-md transition-all duration-200 hover:scale-105 active:scale-95";
   const styles = `${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`;
 
   if (href) {

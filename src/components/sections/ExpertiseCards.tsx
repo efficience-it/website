@@ -73,8 +73,8 @@ export default function ExpertiseCards() {
               {"outro" in item && item.outro && (
                 <p className="mt-3 text-gray">{item.outro}</p>
               )}
-              <Button href={item.href} variant="ghost" size="sm" className="mt-4">
-                {item.cta} &rarr;
+              <Button href={item.href} variant="ghost" size="sm" className="group/arrow mt-4">
+                {item.cta} <span className="inline-block transition-transform duration-200 group-hover/arrow:translate-x-1">&rarr;</span>
               </Button>
             </Card>
           ))}

@@ -23,7 +23,7 @@ export default function FadeIn({ children, className = "", delay = 0 }: FadeInPr
           observer.unobserve(el);
         }
       },
-      { threshold: 0.15 },
+      { threshold: 0.01 },
     );
 
     observer.observe(el);
