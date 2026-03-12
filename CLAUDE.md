@@ -21,6 +21,7 @@ Clone/reproduction de https://www.itefficience.com en Next.js.
 - **Pas de commentaires** : ne jamais ajouter de commentaires dans le code
 - **Pas de tiret cadratin** : ne jamais utiliser le caractère `—` (em dash), ni dans le code, ni dans les articles
 - **Pas de commentaires GitHub** : ne jamais commenter sur GitHub (issues, PRs, commits), sous aucun prétexte
+- **PRs concises** : titres de PR courts, descriptions brèves (quelques bullet points max), pas de pavés
 
 ## SEO — Articles de blog
 
