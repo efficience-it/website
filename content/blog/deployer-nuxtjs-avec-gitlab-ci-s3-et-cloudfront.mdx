@@ -5,6 +5,7 @@ author: "Louis-Arnaud Catoire"
 category: "Outils"
 excerpt: "Ce guide montre comment publier un site Vue.js ou Nuxt.js sur Amazon S3 avec le cache CDN CloudFront, le tout automatisé via GitLab CI/CD."
 image: "/images/blog/deployer-nuxtjs.webp"
+updatedAt: "2026-01-13"
 ---
 
 Déployer un site statique généré par Nuxt.js sur une infrastructure AWS ne se résume pas à pousser des fichiers sur un bucket. Derrière cette apparente simplicité se cachent des décisions d'architecture qui impactent la performance, la sécurité, le coût et la résilience de votre plateforme. Cet article parcourt le chemin complet : de la mise en place initiale S3 + CloudFront jusqu'aux stratégies de déploiement multi-environnement, en passant par les considérations d'architecture CDN à grande échelle.
