@@ -158,6 +158,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: `${BASE_URL}/secteur/e-commerce`,
+      lastModified: "2026-03-12",
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/secteur/industrie`,
+      lastModified: "2026-03-12",
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/secteur/saas`,
+      lastModified: "2026-03-12",
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/secteur/finance`,
+      lastModified: "2026-03-12",
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
       url: `${BASE_URL}/contact`,
       lastModified: "2025-09-01",
       changeFrequency: "yearly",
