@@ -87,6 +87,8 @@ function findUser(int $id): User
 
 Si `find()` retourne `User|null`, PHPStan détecte l'incohérence. En production, c'est un crash sur le premier appel avec un ID invalide.
 
+PHPStan excelle aussi à repérer le [code mort dans vos projets](/article/code-mort-mission-elimination), ces branches jamais atteintes qui alourdissent la base de code.
+
 Une condition dupliquée, signe de copier-coller :
 
 ```php
@@ -97,7 +99,7 @@ PHPStan repère la redondance. La deuxième condition masque probablement un aut
 
 ## La baseline : dette technique maîtrisée
 
-Sur un projet existant, lancer PHPStan au niveau 6 peut générer des centaines d'erreurs. La baseline résout ce problème en gelant l'état actuel :
+Sur un projet existant, lancer PHPStan au niveau 6 peut générer des centaines d'erreurs. Cette accumulation est un symptôme classique de [dette technique](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) qu'il faut traiter méthodiquement. La baseline résout ce problème en gelant l'état actuel :
 
 ```bash
 ./vendor/bin/phpstan analyse --generate-baseline
@@ -212,7 +214,7 @@ services:
             - phpstan.rules.rule
 ```
 
-D'autres cas d'usage courants pour les règles custom : interdire l'utilisation de `new` dans les controllers (tout doit passer par l'injection), forcer l'usage de value objects pour certains paramètres, ou empêcher les dépendances circulaires entre bounded contexts.
+D'autres cas d'usage courants pour les règles custom : interdire l'utilisation de `new` dans les controllers (tout doit passer par l'injection), forcer l'usage de value objects pour certains paramètres, ou empêcher les dépendances circulaires entre bounded contexts. Ce type de règle rejoint la philosophie du [domaine qui ne devrait jamais connaître Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony), où PHPStan devient le gardien des frontières architecturales.
 
 ## Le système de types avancé : generics et template types
 

@@ -46,13 +46,13 @@ Cette compétence ne s'acquiert pas dans un cours magistral. Elle se développe 
 
 ### SAST et DAST dans la chaîne de build
 
-L'analyse statique (SAST) et dynamique (DAST) ne remplace pas la revue humaine, mais elle la complète en attrapant les patterns mécaniquement détectables. Semgrep, SonarQube, PHPStan avec des règles de sécurité personnalisées, ou Snyk Code s'intègrent directement dans la CI. L'enjeu n'est pas d'activer l'outil, c'est de le configurer avec des règles pertinentes pour votre stack, de traiter les faux positifs pour éviter la fatigue d'alerte, et de définir des seuils bloquants qui empêchent le merge en cas de vulnérabilité critique.
+L'analyse statique (SAST) et dynamique (DAST) ne remplace pas la revue humaine, mais elle la complète en attrapant les patterns mécaniquement détectables. Semgrep, SonarQube, [PHPStan avec des règles de sécurité personnalisées](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php), ou Snyk Code s'intègrent directement dans la CI. L'enjeu n'est pas d'activer l'outil, c'est de le configurer avec des règles pertinentes pour votre stack, de traiter les faux positifs pour éviter la fatigue d'alerte, et de définir des seuils bloquants qui empêchent le merge en cas de vulnérabilité critique.
 
 Côté DAST, des outils comme OWASP ZAP ou Nuclei permettent de scanner les environnements de staging en continu. L'intégration dans la pipeline CI/CD transforme ces scans ponctuels en filet de sécurité permanent.
 
 ### Audit des dépendances
 
-La supply chain est devenue un vecteur d'attaque majeur. Composer Audit, npm audit, ou Dependabot ne suffisent pas s'ils ne sont pas couplés à un processus de réponse. Chaque alerte doit avoir un responsable, un SLA de traitement, et une escalade définie. La politique de mise à jour des dépendances doit être proactive, pas réactive : des mises à jour régulières et incrémentales sont moins risquées qu'un rattrapage massif après des mois d'inaction.
+La supply chain est devenue un vecteur d'attaque majeur. [Composer](/article/utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques) Audit, npm audit, ou Dependabot ne suffisent pas s'ils ne sont pas couplés à un processus de réponse. Chaque alerte doit avoir un responsable, un SLA de traitement, et une escalade définie. La politique de mise à jour des dépendances doit être proactive, pas réactive : des mises à jour régulières et incrémentales sont moins risquées qu'un rattrapage massif après des mois d'inaction.
 
 ## Construire une culture sécurité durable
 

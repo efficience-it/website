@@ -92,7 +92,7 @@ En pratique, les équipes expérimentées adoptent un schema-first approach : le
 
 ### Le pattern BFF (Backend for Frontend)
 
-Le Backend for Frontend consiste à placer une couche d'agrégation entre les clients et les microservices. Un BFF GraphQL peut agréger les données de plusieurs API REST internes, offrant au client une interface unifiée tout en conservant la simplicité de REST pour les services backend. Cette architecture est particulièrement pertinente lorsque plusieurs clients (web, mobile, IoT) consomment les mêmes services avec des besoins de données très différents.
+Le Backend for Frontend consiste à placer une couche d'agrégation entre les clients et les microservices. Un BFF GraphQL peut agréger les données de plusieurs API REST internes, offrant au client une interface unifiée tout en conservant la simplicité de REST pour les services backend. Côté serveur, des [frameworks Node.js comme Express, Fastify ou Hono](/article/express-fastify-hono-quel-framework-nodejs-choisir) sont des choix courants pour implémenter cette couche d'agrégation. Cette architecture est particulièrement pertinente lorsque plusieurs clients (web, mobile, IoT) consomment les mêmes services avec des besoins de données très différents.
 
 ### Performance à grande échelle
 
@@ -102,13 +102,13 @@ Le coût opérationnel de GraphQL est donc plus élevé, mais il se justifie lor
 
 ### Implications organisationnelles
 
-Le choix entre REST et GraphQL a des répercussions au-delà du code. REST favorise une organisation par domaine métier : chaque équipe possède ses endpoints et son contrat d'API. GraphQL tend vers un schéma fédéré où plusieurs équipes contribuent à un graphe unifié, ce qui nécessite une gouvernance du schéma, des conventions de nommage partagées et des outils de composition comme Apollo Federation.
+Le choix entre REST et GraphQL a des répercussions au-delà du code. Ce choix est d'ailleurs étroitement lié à la [décision entre micro-services et monolithe modulaire](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire). REST favorise une organisation par domaine métier : chaque équipe possède ses endpoints et son contrat d'API. GraphQL tend vers un schéma fédéré où plusieurs équipes contribuent à un graphe unifié, ce qui nécessite une gouvernance du schéma, des conventions de nommage partagées et des outils de composition comme Apollo Federation.
 
 Pour une équipe de cinq développeurs, la question est rarement pertinente. Pour une organisation de cinquante développeurs travaillant sur un même produit, le choix architectural influence directement l'autonomie des équipes, la vitesse de livraison et la surface de coordination nécessaire.
 
 ## Pour conclure
 
-REST et GraphQL ne sont pas des technologies concurrentes mais complémentaires. REST reste le choix le plus naturel pour les API simples, orientées CRUD, où la mise en cache HTTP et la standardisation apportent une valeur immédiate. Pour approfondir les bonnes pratiques de conception REST, notre article sur [les bonnes pratiques des API REST](/article/api-rest-les-bonnes-pratiques) couvre les patterns essentiels. GraphQL excelle dans les contextes où les données sont fortement interconnectées, où les clients ont des besoins hétérogènes, et où la flexibilité de requêtage réduit la prolifération d'endpoints spécialisés.
+REST et GraphQL ne sont pas des technologies concurrentes mais complémentaires. REST reste le choix le plus naturel pour les API simples, orientées CRUD, où la [mise en cache HTTP](/article/tout-savoir-sur-la-mise-en-cache-tips) et la standardisation apportent une valeur immédiate. Pour approfondir les bonnes pratiques de conception REST, notre article sur [les bonnes pratiques des API REST](/article/api-rest-les-bonnes-pratiques) couvre les patterns essentiels. GraphQL excelle dans les contextes où les données sont fortement interconnectées, où les clients ont des besoins hétérogènes, et où la flexibilité de requêtage réduit la prolifération d'endpoints spécialisés.
 
 Les architectures les plus robustes combinent souvent les deux : des API REST pour les opérations bien définies et les services internes, un endpoint GraphQL en façade pour les clients ayant besoin d'agrégation et de souplesse. Le critère de décision n'est pas la modernité de la technologie, mais l'adéquation entre les contraintes du système, les compétences de l'équipe et les besoins réels des clients de l'API.
 

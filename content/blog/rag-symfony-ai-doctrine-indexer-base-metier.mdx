@@ -8,7 +8,7 @@ image: "/images/blog/rag-symfony.svg"
 proficiencyLevel: "Expert"
 ---
 
-Tu as une application Symfony en production, une base Doctrine bien remplie, et tu te demandes comment rendre tout ça interrogeable par un LLM. Pas via une API REST classique. Via du langage naturel : « quels tickets similaires ont déjà été résolus ? », « quel client a eu ce problème en janvier ? ».
+Tu as une application Symfony en production, une base [Doctrine](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) bien remplie, et tu te demandes comment rendre tout ça interrogeable par un LLM. Pas via une API REST classique. Via du langage naturel : « quels tickets similaires ont déjà été résolus ? », « quel client a eu ce problème en janvier ? ».
 
 La réponse tient en trois lettres : **RAG** (Retrieval-Augmented Generation). Et depuis l'arrivée de [Symfony AI](https://symfony.com/doc/current/ai.html), on a enfin les briques pour le faire proprement dans l'écosystème Symfony.
 
@@ -250,7 +250,7 @@ Le point clé : le prompt dit explicitement au LLM de se baser **uniquement** su
 
 ## Structurer la recherche en architecture hexagonale
 
-Dans une application Symfony sérieuse, tu ne veux pas coupler ton domaine à un vector store spécifique. On définit un port :
+Dans une application Symfony sérieuse, tu ne veux pas coupler ton domaine à un vector store spécifique. C'est le principe fondamental de [l'architecture hexagonale appliquée à Symfony](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) : isoler le domaine de l'infrastructure. On définit un port :
 
 ```php
 interface SemanticSearchPort

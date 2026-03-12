@@ -16,7 +16,7 @@ Tout projet Symfony digne de ce nom repose sur un jeu de données maîtrisé. Qu
 
 Le bundle Alice repose sur deux briques complémentaires. **Nelmio Alice** fournit un moteur de fixtures déclaratif capable de lire des fichiers YAML, JSON ou PHP pour instancier des objets Doctrine. Les changements introduits par [Doctrine ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) impactent directement la façon de définir les entités utilisées dans les fixtures. **FakerPHP** est le générateur de données réalistes : noms, adresses, dates, textes, identifiants bancaires. L'intégration Symfony est assurée par `hautelook/alice-bundle`, qui enregistre automatiquement les fixtures et expose une commande CLI de chargement.
 
-L'installation se résume à une ligne Composer :
+La [gestion des dépendances via Composer](/article/utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques) rend l'installation triviale :
 
 ```bash
 composer require --dev nelmio/alice hautelook/alice-bundle
@@ -171,7 +171,7 @@ ArticleFactory::createOne([
 ]);
 ```
 
-Le trait `ResetDatabase` isole chaque test PHPUnit avec un rollback transactionnel automatique, ce qui élimine les effets de bord entre tests sans le coût d'un rechargement complet des fixtures :
+Pour garantir la cohérence des données, le choix du [type d'identifiant (INT, UUID ou ULID)](/article/prendre-int-uuid-ou-ulid-pour-un-index-de-base-de-donnees) impacte directement la génération des fixtures et les performances en test. Le trait `ResetDatabase` isole chaque test PHPUnit avec un rollback transactionnel automatique, ce qui élimine les effets de bord entre tests sans le coût d'un rechargement complet des fixtures :
 
 ```php
 use Zenstruck\Foundry\Test\ResetDatabase;

@@ -36,7 +36,7 @@ Sur une application Symfony typique, le bootstrap représente entre 30 et 60 % d
 
 FrankenPHP est un serveur d'application écrit en Go, bâti sur [Caddy](https://caddyserver.com/), qui embarque directement l'interpréteur PHP dans son processus. Il ne s'agit pas d'un simple wrapper autour de PHP-FPM : FrankenPHP utilise CGO pour lier le runtime Go au code C de la Zend Engine, la machine virtuelle de PHP. Cette approche permet au serveur web et à l'interpréteur de coexister dans le même espace mémoire, sans communication inter-processus ni protocole intermédiaire.
 
-Le résultat concret : un unique binaire capable de servir une application PHP avec support natif de HTTP/1.1, HTTP/2 et HTTP/3, génération automatique de certificats TLS via Let's Encrypt ou ZeroSSL, et support du temps réel via le protocole Mercure. FrankenPHP peut déployer nativement Symfony, Laravel, API Platform, WordPress, Drupal ou toute application PHP standard.
+Le résultat concret : un unique binaire capable de servir une application PHP avec support natif de HTTP/1.1, HTTP/2 et HTTP/3, génération automatique de certificats TLS via Let's Encrypt ou ZeroSSL, et support du temps réel via le protocole Mercure. FrankenPHP peut déployer nativement Symfony, Laravel, API Platform, WordPress, Drupal ou toute application PHP standard. Combiné avec [Docker en production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui), le binaire unique simplifie considérablement l'orchestration des conteneurs.
 
 ## Architecture interne et choix techniques
 
@@ -56,7 +56,7 @@ Le mode worker constitue l'apport le plus significatif de FrankenPHP. Dans ce mo
 
 Le gain mesuré est substantiel. Les benchmarks montrent des temps de réponse divisés par trois à cinq par rapport à PHP-FPM sur des applications Symfony ou Laravel. Sur une API REST typique, le temps de traitement passe de 15-20 ms à 3-5 ms par requête, le bootstrap n'étant exécuté qu'une seule fois.
 
-FrankenPHP s'intègre particulièrement bien avec Symfony, un framework dont [les atouts pour les projets web](/article/pourquoi-choisir-symfony-pour-vos-projets) se combinent naturellement avec les gains de performance du mode worker. Pour activer le mode worker avec Symfony, l'intégration passe par le composant Runtime :
+FrankenPHP s'intègre particulièrement bien avec Symfony, un framework dont [les atouts pour les projets web](/article/pourquoi-choisir-symfony-pour-vos-projets) se combinent naturellement avec les gains de performance du mode worker. Pour activer le mode worker avec Symfony, l'intégration passe par le [composant Runtime](https://symfony.com/doc/current/components/runtime.html) :
 
 ```bash
 composer require runtime/frankenphp-symfony
@@ -98,7 +98,7 @@ ENTRYPOINT ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]
 
 La deuxième étape active le mode worker sur un environnement de staging. Cette phase exige un travail d'audit des services applicatifs pour identifier ceux qui conservent un état entre les requêtes. Les ORM, les systèmes de cache, les connexions aux services externes doivent être vérifiés.
 
-La troisième étape est le déploiement en production avec monitoring renforcé. Les images Docker officielles de FrankenPHP supportent les health checks natifs de Caddy, le graceful shutdown pour les rolling updates Kubernetes, et la configuration par variables d'environnement.
+La troisième étape est le déploiement en production avec monitoring renforcé. Pour les équipes qui envisagent une [architecture micro-services ou monolithe modulaire](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire), FrankenPHP simplifie le déploiement dans les deux cas. Les images Docker officielles de FrankenPHP supportent les health checks natifs de Caddy, le graceful shutdown pour les rolling updates Kubernetes, et la configuration par variables d'environnement.
 
 ### Considérations de production
 

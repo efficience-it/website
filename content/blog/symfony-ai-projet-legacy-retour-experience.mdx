@@ -18,7 +18,7 @@ L'application gère des milliers de documents pour des cabinets d'avocats. Uploa
 
 L'idée : utiliser un LLM pour analyser le contenu du document, proposer un classement et pré-remplir les métadonnées. L'opérateur valide ou corrige. On ne remplace personne, on accélère le processus.
 
-Le choix de Symfony AI plutôt qu'un appel direct à l'API OpenAI ou Anthropic s'est imposé pour une raison simple : l'abstraction. On ne voulait pas coupler le code métier à un fournisseur. Aujourd'hui c'est Claude, demain c'est peut-être Mistral ou un modèle on-premise. Symfony AI fournit cette couche d'abstraction nativement.
+Le choix de Symfony AI plutôt qu'un appel direct à l'API OpenAI ou Anthropic s'est imposé pour une raison simple : l'abstraction. On ne voulait pas coupler le code métier à un fournisseur. Aujourd'hui c'est Claude, demain c'est peut-être Mistral ou un modèle on-premise. Symfony AI fournit cette couche d'abstraction nativement. Pour configurer un assistant IA sur un projet Symfony existant, notre guide sur [Claude comme assistant d'architecture](/article/claude-assistant-architecture-symfony-legacy) détaille la mise en place concrète.
 
 ## L'installation : premier mur
 
@@ -259,7 +259,7 @@ Ce n'est pas du test déterministe. C'est du monitoring de qualité. Mais c'est 
 
 ## Ce que j'aurais aimé savoir avant
 
-L'intégration d'IA dans un projet legacy n'est pas un problème d'IA. C'est un problème d'architecture. Si ton code est proprement découplé, ajouter un appel LLM revient à ajouter n'importe quelle dépendance externe. Si ton code est un monolithe couplé, l'IA va amplifier le chaos.
+L'intégration d'IA dans un projet legacy n'est pas un problème d'IA. C'est un problème d'architecture. Si ton code est proprement découplé, ajouter un appel LLM revient à ajouter n'importe quelle dépendance externe. Si ton code est un monolithe couplé, l'IA va amplifier le chaos. C'est d'ailleurs ce que décrit notre article sur [la dette technique et comment l'apprivoiser](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) : plus le code est endetté, plus chaque ajout coûte cher.
 
 Symfony AI est un bon outil. L'abstraction fournisseur fonctionne. Le support du streaming est solide. Mais le composant ne résout pas les vrais problèmes : la gestion des erreurs, le coût, la qualité des prompts, et la cohabitation avec du code qui n'a pas été pensé pour.
 

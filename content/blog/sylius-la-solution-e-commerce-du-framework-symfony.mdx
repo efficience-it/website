@@ -17,7 +17,7 @@ faq:
 
 ## Une plateforme e-commerce née de l'écosystème Symfony
 
-Sylius est une plateforme e-commerce open-source créée en 2011 par Paweł Jędrzejewski, développeur convaincu que les solutions e-commerce de l'époque souffraient d'un défaut structurel : un couplage trop fort entre logique métier, interface et infrastructure. Construite sur Symfony, Sylius hérite de tout ce qui fait la solidité du framework : injection de dépendances, EventDispatcher, système de configuration sémantique et écosystème Doctrine.
+Sylius est une plateforme e-commerce open-source créée en 2011 par Paweł Jędrzejewski, développeur convaincu que les solutions e-commerce de l'époque souffraient d'un défaut structurel : un couplage trop fort entre logique métier, interface et infrastructure. Construite sur Symfony, Sylius hérite de tout ce qui fait la solidité du framework : injection de dépendances, EventDispatcher, système de configuration sémantique et écosystème Doctrine. Pour comprendre en détail [pourquoi choisir Symfony pour vos projets](/article/pourquoi-choisir-symfony-pour-vos-projets), c'est justement cette robustesse architecturale qui fait la différence.
 
 Contrairement à des plateformes monolithiques comme Magento ou PrestaShop, Sylius a été pensé dès l'origine comme un ensemble de composants découplés. Chaque brique (produit, commande, paiement, livraison, promotion) est un composant autonome, utilisable indépendamment. Cette approche, directement inspirée de la philosophie Symfony, offre une granularité de personnalisation que peu de plateformes concurrentes peuvent revendiquer.
 
@@ -45,7 +45,7 @@ Sylius expose plusieurs niveaux de personnalisation, du plus simple au plus inva
 
 Le troisième levier est le système de templates Twig. Sylius utilise un mécanisme de blocs et d'événements de template (SyliusUiBundle) qui permet d'injecter du HTML dans l'administration ou le storefront sans surcharger les templates complets. Cette approche réduit considérablement les conflits lors des mises à jour.
 
-Le système de plugins constitue le dernier niveau. Un plugin Sylius est un bundle Symfony classique, mais qui suit des conventions spécifiques : structure de répertoire normalisée, recette Flex, tests fonctionnels Behat intégrés. L'écosystème compte plusieurs dizaines de plugins maintenus couvrant la facturation, les marketplaces, les abonnements ou le multi-vendeur.
+Le système de plugins constitue le dernier niveau. Un plugin Sylius est un bundle Symfony classique, mais qui suit des conventions spécifiques : structure de répertoire normalisée, recette Flex, tests fonctionnels Behat intégrés. Pour un panorama des packages les plus courants dans l'écosystème, notre article sur les [bundles les plus utilisés dans les projets Symfony](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony) donne un bon aperçu. L'écosystème Sylius compte plusieurs dizaines de plugins maintenus couvrant la facturation, les marketplaces, les abonnements ou le multi-vendeur.
 
 ## API-first : Sylius comme moteur headless
 

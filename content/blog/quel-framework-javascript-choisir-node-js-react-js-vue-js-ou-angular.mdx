@@ -20,7 +20,7 @@ Comprendre ces différences ne se limite pas à comparer des syntaxes. C'est une
 
 Node.js repose sur un modèle d'entrées/sorties non bloquant et événementiel. Le serveur ne reste jamais inactif en attendant une réponse de base de données ou une lecture de fichier : il traite immédiatement la requête suivante et exécute un callback dès que le résultat est disponible. Ce modèle mono-thread avec event loop le rend redoutablement efficace pour les applications à fort taux de connexions simultanées : messagerie instantanée, API temps réel, tableaux de bord collaboratifs.
 
-L'écosystème NPM, avec plusieurs millions de packages, constitue à la fois sa force et un risque. La facilité d'intégration de dépendances accélère le développement, mais impose une discipline rigoureuse dans l'audit des packages, la gestion des versions et la surveillance des vulnérabilités dans l'arbre de dépendances.
+L'écosystème NPM, avec plusieurs millions de packages, constitue à la fois sa force et un risque. La facilité d'intégration de dépendances accélère le développement, mais impose une discipline rigoureuse dans l'audit des packages, la gestion des versions et la surveillance des [vulnérabilités (CVE) dans l'arbre de dépendances](/article/cve-comprendre-les-failles-pour-mieux-se-proteger).
 
 Node.js sert aussi de socle aux meta-frameworks front-end. Next.js, Nuxt et Angular Universal s'appuient tous sur lui pour le rendu côté serveur. Maîtriser Node.js, c'est comprendre la couche d'exécution commune à l'ensemble de l'écosystème JavaScript moderne. Ces frameworks consomment des API backend, et le choix entre [REST et GraphQL](/article/que-vaut-rest-face-a-son-nouveau-challenger-graphql) influence directement la façon dont le front-end interroge le serveur. Pour les projets qui ont besoin d'un backend robuste, le [développement Node.js sur mesure](/developpement-nodejs) permet de tirer pleinement parti de ce runtime pour des applications à fort trafic ou des architectures temps réel.
 
@@ -41,7 +41,7 @@ Next.js a transformé React en plateforme full-stack. Il propose quatre stratég
 
 ### La complexité de la gestion d'état
 
-La gestion d'état dans l'écosystème React a connu plusieurs générations : Redux, MobX, Zustand, Jotai, Recoil. Chaque solution reflète une philosophie différente, store centralisé versus atomes distribués, immutabilité stricte versus proxies réactifs. Le choix impacte directement la testabilité, la performance du re-rendering et la courbe d'apprentissage de l'équipe. Sur un projet d'envergure, une gestion d'état mal conçue devient le premier facteur de dette technique.
+La gestion d'état dans l'écosystème React a connu plusieurs générations : Redux, MobX, Zustand, Jotai, Recoil. Chaque solution reflète une philosophie différente, store centralisé versus atomes distribués, immutabilité stricte versus proxies réactifs. Le choix impacte directement la testabilité, la performance du re-rendering et la courbe d'apprentissage de l'équipe. Sur un projet d'envergure, une gestion d'état mal conçue devient le premier facteur de [dette technique](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur).
 
 ## Vue.js : la progressivité comme philosophie
 

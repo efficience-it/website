@@ -123,7 +123,7 @@ function process(int $value): void
 }
 ```
 
-La condition interne est toujours vraie. PHPStan la détecte et la signale. Ce type d'alerte révèle des branches mortes, des vérifications redondantes ou des incompréhensions du flow de données. Sur un projet mature, corriger ces alertes simplifie le code et réduit la surface cognitive pour les développeurs qui le maintiennent.
+La condition interne est toujours vraie. PHPStan la détecte et la signale. Ce type d'alerte révèle des branches mortes, des vérifications redondantes ou des incompréhensions du flow de données. Cette capacité à détecter le [code mort](/article/code-mort-mission-elimination) est un levier puissant de nettoyage. Sur un projet mature, corriger ces alertes simplifie le code et réduit la surface cognitive pour les développeurs qui le maintiennent.
 
 ## Cohérence des annotations @var
 
@@ -183,7 +183,7 @@ Cette complétude du système de types a des conséquences architecturales direc
 
 PHPStan devient alors une forme de documentation vivante. Contrairement à un commentaire ou un wiki, un type PHPStan est vérifié à chaque exécution de la CI. Il ne peut pas dériver du code réel. Pour un architecte, c'est un levier puissant : les décisions de design (séparation des couches, contrats entre modules, structures de données partagées) sont encodées dans les types et appliquées automatiquement.
 
-Imposer le niveau 10 sur l'ensemble d'un projet revient à dire : chaque interaction entre composants est explicite et vérifiée. C'est un investissement initial significatif, mais le retour se mesure en bugs évités, en onboarding accéléré et en refactorings sécurisés.
+Imposer le niveau 10 sur l'ensemble d'un projet revient à dire : chaque interaction entre composants est explicite et vérifiée. Combiné à des [conventions de codage](/article/coding-conventions) strictes, c'est un investissement initial significatif, mais le retour se mesure en bugs évités, en onboarding accéléré et en refactorings sécurisés.
 
 ## Pour aller plus loin
 

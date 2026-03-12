@@ -72,7 +72,7 @@ opcache.preload=/app/config/preload.php
 opcache.preload_user=www-data
 ```
 
-Le paramètre `validate_timestamps=0` est le levier principal : il supprime les appels stat() sur chaque requête. Combiné au preload Symfony, le gain est mesurable, entre 10 et 30 % de réduction du temps de réponse sur une API typique. Ces paramètres seraient dangereux sur un serveur classique où les fichiers peuvent changer ; sur un conteneur immuable, ils sont parfaitement sûrs.
+Le paramètre `validate_timestamps=0` est le levier principal : il supprime les appels stat() sur chaque requête. Combiné au preload Symfony et à une stratégie de [mise en cache applicative](/article/tout-savoir-sur-la-mise-en-cache-tips), le gain est mesurable, entre 10 et 30 % de réduction du temps de réponse sur une API typique. Ces paramètres seraient dangereux sur un serveur classique où les fichiers peuvent changer ; sur un conteneur immuable, ils sont parfaitement sûrs.
 
 ## Sécurité et durcissement des images
 
@@ -159,7 +159,7 @@ volumes:
   db-data:
 ```
 
-Ce fichier remplace des pages de documentation d'installation. En staging, un fichier `compose.staging.yml` surcharge les variables d'environnement et la configuration réseau sans toucher au fichier de base.
+Ce fichier remplace des pages de documentation d'installation. Pour les stacks qui utilisent [FrankenPHP](/article/concretement-cest-quoi-frankenphp) plutot que PHP-FPM classique, la configuration Docker est encore plus simple puisque le serveur web et le runtime PHP sont embarqués dans un seul conteneur. En staging, un fichier `compose.staging.yml` surcharge les variables d'environnement et la configuration réseau sans toucher au fichier de base.
 
 ## Stratégie d'orchestration et déploiements sans interruption
 

@@ -10,7 +10,7 @@ updatedAt: "2026-01-13"
 
 ## Les fondamentaux de Composer dans un projet Symfony
 
-Composer est le gestionnaire de dépendances de l'écosystème PHP. Son rôle est de résoudre un arbre de dépendances : à partir d'un fichier `composer.json` déclarant les packages nécessaires au projet, il calcule les versions compatibles entre elles, les télécharge et génère un autoloader PSR-4. Symfony s'appuie entièrement sur Composer, que ce soit pour installer le framework lui-même, ajouter des bundles ou configurer les recettes Flex.
+Composer est le gestionnaire de dépendances de l'écosystème PHP. Son rôle est de résoudre un arbre de dépendances : à partir d'un fichier `composer.json` déclarant les packages nécessaires au projet, il calcule les versions compatibles entre elles, les télécharge et génère un autoloader PSR-4. [Symfony](/article/pourquoi-choisir-symfony-pour-vos-projets) s'appuie entièrement sur Composer, que ce soit pour installer le framework lui-même, ajouter des bundles ou configurer les recettes Flex.
 
 Un projet Symfony démarre généralement avec une seule commande :
 
@@ -76,7 +76,7 @@ Un script `ci` qui chaîne linting, analyse statique et tests unitaires offre un
 
 ## Audit de sécurité et platform-check
 
-La commande `composer audit` vérifie les dépendances installées contre la base de données des vulnérabilités connues (PHP Security Advisories). Intégrée dans le pipeline CI, elle bloque automatiquement un déploiement si une CVE affecte l'une des bibliothèques du projet.
+La commande `composer audit` vérifie les dépendances installées contre la base de données des [vulnérabilités connues (CVE)](/article/cve-comprendre-les-failles-pour-mieux-se-proteger). Intégrée dans le pipeline CI, elle bloque automatiquement un déploiement si une CVE affecte l'une des bibliothèques du projet.
 
 La section `config.platform` du `composer.json` permet de simuler un environnement PHP cible :
 

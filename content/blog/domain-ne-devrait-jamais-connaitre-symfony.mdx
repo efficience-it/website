@@ -216,7 +216,7 @@ class OrderValidated
 }
 ```
 
-L'événement domaine est un simple objet immutable avec des données. Un adaptateur dans l'infrastructure le traduit en événement Symfony pour le dispatcher :
+L'événement domaine est un simple objet immutable avec des données. [Symfony Messenger](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) excelle dans ce rôle de dispatcher d'événements domaine en les acheminant vers les bons handlers via le message bus. Un adaptateur dans l'infrastructure le traduit en événement Symfony pour le dispatcher :
 
 ```php
 class SymfonyDomainEventDispatcher implements DomainEventDispatcherInterface
@@ -364,7 +364,7 @@ deptrac:
       - Application
 ```
 
-La règle `Domain: []` est la plus importante : le domaine ne dépend de rien. Aucune autre couche n'est autorisée. Si un développeur ajoute un import Doctrine dans le domaine, Deptrac casse le build.
+La règle `Domain: []` est la plus importante : le domaine ne dépend de rien. Aucune autre couche n'est autorisée. Si un développeur ajoute un import Doctrine dans le domaine, Deptrac casse le build. Combiné avec [PHPStan comme gardien d'architecture](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php), tu vérifies à la fois les dépendances entre couches et la cohérence des types.
 
 Ajoute-le dans ta CI :
 

@@ -22,7 +22,7 @@ Depuis 2022, le PHP-FIG a introduit le PER Coding Style (PHP Evolving Recommenda
 
 ### Autoloading : PSR-0 et PSR-4
 
-Le PSR-0 (aujourd'hui obsolète) a introduit le concept d'autoloading standardisé en PHP. Le PSR-4, qui l'a remplacé, établit la correspondance entre un namespace et un répertoire de base. C'est le standard que Composer utilise nativement : chaque entrée `autoload` dans `composer.json` repose sur PSR-4. Sans cette convention, l'écosystème de packages PHP tel qu'on le connaît n'existerait tout simplement pas.
+Le PSR-0 (aujourd'hui obsolète) a introduit le concept d'autoloading standardisé en PHP. Le PSR-4, qui l'a remplacé, établit la correspondance entre un namespace et un répertoire de base. C'est le standard que Composer utilise nativement : chaque entrée `autoload` dans `composer.json` repose sur PSR-4. Pour maîtriser les subtilités de cet outil, notre guide sur [l'utilisation de Composer dans le développement Symfony](/article/utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques) couvre les commandes essentielles. Sans cette convention, l'écosystème de packages PHP tel qu'on le connaît n'existerait tout simplement pas.
 
 ## Les interfaces d'interopérabilité
 
@@ -54,7 +54,7 @@ En pratique, PSR-11 a rendu possible la création de bibliothèques véritableme
 
 Le PSR-14 définit un modèle d'événements basé sur deux concepts : le `EventDispatcherInterface` qui émet des événements, et le `ListenerProviderInterface` qui résout les listeners associés. Cette séparation est délibérée, elle découple l'émission d'événements de leur enregistrement, ce qui permet des stratégies de résolution variées (attributs PHP, configuration YAML, convention de nommage).
 
-Le PSR-14 a introduit le concept d'événement stoppable via `StoppableEventInterface`, permettant à un listener de court-circuiter la propagation. Ce pattern est particulièrement utile pour les systèmes de validation ou d'autorisation où un rejet doit interrompre la chaîne.
+Le PSR-14 a introduit le concept d'événement stoppable via `StoppableEventInterface`, permettant à un listener de court-circuiter la propagation. Ce pattern est particulièrement utile pour les systèmes de validation ou d'autorisation où un rejet doit interrompre la chaîne. Symfony exploite pleinement ce standard, notamment dans [Messenger qui s'appuie sur les événements pour orchestrer l'architecture hexagonale](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale).
 
 ### PSR-6 et PSR-16 : Cache
 
