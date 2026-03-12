@@ -29,7 +29,7 @@ Quelques conventions éprouvées : utiliser le pluriel (`/products` plutôt que 
 
 ## Verbes HTTP et idempotence
 
-Chaque verbe HTTP porte une sémantique précise qui dépasse le simple CRUD. `GET` récupère une ressource sans effet de bord : il est safe et idempotent. `POST` crée une ressource et n'est pas idempotent : deux appels identiques produisent deux entrées. `PUT` remplace intégralement une ressource (idempotent), tandis que `PATCH` applique une modification partielle. `DELETE` supprime la ressource ciblée et doit être idempotent : supprimer deux fois la même ressource renvoie le même résultat.
+Chaque verbe HTTP porte une sémantique précise qui dépasse le simple CRUD. Respecter ces [conventions de codage](/article/coding-conventions) au niveau de l'API garantit une cohérence que les consommateurs peuvent anticiper. `GET` récupère une ressource sans effet de bord : il est safe et idempotent. `POST` crée une ressource et n'est pas idempotent : deux appels identiques produisent deux entrées. `PUT` remplace intégralement une ressource (idempotent), tandis que `PATCH` applique une modification partielle. `DELETE` supprime la ressource ciblée et doit être idempotent : supprimer deux fois la même ressource renvoie le même résultat.
 
 Cette distinction n'est pas académique. Un reverse proxy ou un CDN peut rejouer automatiquement un `GET` en cas d'échec réseau, mais jamais un `POST`. Un middleware de retry en production s'appuie sur l'idempotence déclarée du verbe pour décider s'il peut relancer une requête sans risque de doublon.
 
@@ -91,7 +91,7 @@ Quelle que soit la méthode choisie, la règle d'or est la compatibilité ascend
 
 L'approche contract-first inverse le workflow habituel : au lieu de générer la spécification depuis le code, on rédige d'abord le fichier OpenAPI, puis on génère le squelette de l'application. Cette méthode force l'équipe à penser l'API comme un produit avant d'écrire la première ligne de code.
 
-Le fichier OpenAPI devient alors un artefact versionné dans le dépôt Git, soumis aux mêmes revues que le code. Des outils de linting comme Spectral vérifient automatiquement les conventions de nommage, la présence de descriptions, la cohérence des codes de statut et l'absence de breaking changes entre deux versions du contrat.
+Le fichier OpenAPI devient alors un artefact versionné dans le dépôt Git, soumis aux mêmes revues que le code. La [documentation automatique via Swagger et Nelmio bundle](/article/swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on) facilite cette approche en générant la spécification depuis les annotations du code. Des outils de linting comme Spectral vérifient automatiquement les conventions de nommage, la présence de descriptions, la cohérence des codes de statut et l'absence de breaking changes entre deux versions du contrat.
 
 En intégrant cette validation dans la CI, chaque pull request qui modifie le contrat est analysée : ajout de champ (non cassant), suppression de champ (cassant, bloqué par défaut), modification de type (cassant). Cette gouvernance automatisée remplace les revues manuelles fastidieuses et garantit la stabilité du contrat sur la durée.
 

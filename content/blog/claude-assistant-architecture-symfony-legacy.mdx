@@ -8,7 +8,7 @@ image: "/images/blog/claude-symfony.svg"
 proficiencyLevel: "Expert"
 ---
 
-Tu ouvres Claude Code sur ton projet Symfony. Tu lui demandes de créer un use case. Il te génère un service avec 15 dépendances, des annotations Doctrine dans le domaine, et un contrôleur de 200 lignes. Exactement ce que tu passes tes journées à corriger en code review.
+Tu ouvres Claude Code sur ton projet Symfony. Tu lui demandes de créer un use case. Il te génère un service avec 15 dépendances, des annotations Doctrine dans le domaine, et un contrôleur de 200 lignes. Exactement ce que tu passes tes journées à corriger en code review. Et sur un projet legacy, cette [dette technique accumulée](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) ne fait que s'aggraver si l'IA la reproduit.
 
 Le problème n'est pas Claude. C'est que Claude ne connaît pas ton architecture. Il génère du code Symfony "standard" parce que c'est ce qu'il a vu le plus souvent. Ton archi hexagonale, tes conventions DDD, tes règles sur les repositories Doctrine : il ne les connaît pas tant que tu ne les lui expliques pas.
 
@@ -89,6 +89,8 @@ L'exemple concret est important. Claude apprend mieux par l'exemple que par la r
 
 Le DDD mal appliqué par un assistant IA donne du code pire que pas de DDD du tout. Des Value Objects partout sans raison, des Aggregates qui n'agrègent rien, des Domain Events qui ne servent à personne.
 
+Si tu as un projet legacy à faire évoluer, un [guide de migration structuré](/article/guide-de-migration-dans-un-projet-symfony) aide à définir les étapes avant même de configurer l'IA.
+
 Sois prescriptif sur ce que tu utilises vraiment :
 
 ```markdown
@@ -153,7 +155,7 @@ Claude va maintenant générer un `InMemoryProductRepository` quand tu lui deman
 
 Claude Code supporte des hooks qui s'exécutent automatiquement après certaines actions. On les utilise pour vérifier que le code généré respecte l'architecture.
 
-Un hook simple avec [Deptrac](https://github.com/qossmic/deptrac) qui vérifie les dépendances entre couches :
+Un hook simple avec [Deptrac](https://github.com/qossmic/deptrac) qui vérifie les dépendances entre couches, en s'appuyant sur le [composant Console de Symfony](https://symfony.com/doc/current/components/console.html) pour l'exécution CLI :
 
 ```json
 {

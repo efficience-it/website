@@ -14,11 +14,11 @@ Symfony Insight est une plateforme d'analyse de code PHP maintenue par SensioLab
 
 L'outil supporte nativement les projets Symfony, mais analyse également les applications Laravel, Drupal, les API REST ou SOAP, et tout projet PHP générique. Il inspecte les fichiers PHP, XML, YAML, les risques HTML et les dépendances déclarées dans composer.lock, avec plus de 100 contrôles qualité répartis en catégories de sévérité.
 
-Chaque violation détectée est accompagnée d'une documentation contextuelle qui explique le problème, son impact et la manière de le corriger. Cette dimension pédagogique accélère la montée en compétence des profils juniors, tout en servant de filet de sécurité pour les développeurs expérimentés contre les régressions involontaires.
+Chaque violation détectée est accompagnée d'une documentation contextuelle qui explique le problème, son impact et la manière de le corriger. Cette dimension pédagogique accélère la montée en compétence des profils juniors, tout en servant de filet de sécurité pour les développeurs expérimentés contre les régressions involontaires. Pour aller plus loin sur ce sujet, notre article sur les [conventions de code](/article/coding-conventions) détaille les règles à respecter pour maintenir un code propre et cohérent.
 
 ### Analyse statique versus analyse dynamique
 
-La plupart des outils de qualité de code se limitent à une lecture du code source sans exécution. Symfony Insight franchit un cap en déployant l'application dans un environnement isolé pour observer son comportement réel au runtime. Cette analyse dynamique révèle des défauts invisibles à l'analyse statique : services mal configurés, routes inaccessibles, injections de dépendances incorrectes, erreurs de sérialisation ou problèmes de configuration du container. C'est un différenciateur fort face à PHPStan ou Psalm, qui ne peuvent raisonner que sur le graphe de types sans exécuter le code.
+La plupart des outils de qualité de code se limitent à une lecture du code source sans exécution. Symfony Insight franchit un cap en déployant l'application dans un environnement isolé pour observer son comportement réel au runtime. Cette analyse dynamique révèle des défauts invisibles à l'analyse statique : services mal configurés, routes inaccessibles, injections de dépendances incorrectes, erreurs de sérialisation ou problèmes de configuration du container. C'est un différenciateur fort face à [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) ou Psalm, qui ne peuvent raisonner que sur le graphe de types sans exécuter le code.
 
 ## Mise en place et configuration
 

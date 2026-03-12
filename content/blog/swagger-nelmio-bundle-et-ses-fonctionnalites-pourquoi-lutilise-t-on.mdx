@@ -18,7 +18,7 @@ NelmioApiDocBundle est le pont entre l'écosystème Symfony et cette spécificat
 
 ## Installation et configuration initiale
 
-L'installation passe par Composer :
+NelmioApiDocBundle fait d'ailleurs partie des [bundles les plus utilisés dans les projets Symfony](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony), et pour cause. L'installation passe par Composer :
 
 ```bash
 composer require nelmio/api-doc-bundle
@@ -78,7 +78,7 @@ class User
 }
 ```
 
-Le bundle exploite également les contraintes de validation Symfony (`Assert\NotBlank`, `Assert\Length`, `Assert\Email`) pour enrichir le schéma avec des règles `required`, `minLength`, `maxLength` et `format`. Résultat : la documentation reflète fidèlement les règles métier sans duplication.
+Le bundle exploite également les contraintes de validation Symfony (`Assert\NotBlank`, `Assert\Length`, `Assert\Email`) pour enrichir le schéma avec des règles `required`, `minLength`, `maxLength` et `format`. Respecter les [conventions de code](/article/coding-conventions) garantit d'ailleurs que ces annotations restent lisibles et cohérentes dans toute la codebase. Résultat : la documentation reflète fidèlement les règles métier sans duplication.
 
 Pour les structures complexes impliquant de l'héritage ou du polymorphisme, les attributs `OA\Discriminator` et `OA\OneOf` permettent de représenter des unions de types. Un endpoint qui retourne soit un `InternalUser` soit un `ExternalPartner` peut le documenter proprement, évitant le piège du schéma fourre-tout.
 

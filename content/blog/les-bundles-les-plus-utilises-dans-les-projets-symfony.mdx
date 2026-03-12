@@ -40,7 +40,7 @@ EasyAdmin génère des interfaces d'administration complètes avec un minimum de
 
 ### NelmioApiDocBundle
 
-NelmioApiDocBundle génère automatiquement une documentation Swagger/OpenAPI à partir des annotations et attributs PHP. Il gère également les en-têtes CORS. En contexte API Platform, il s'intègre nativement. Pour les API REST construites manuellement, il reste la référence pour maintenir une documentation synchronisée avec le code.
+NelmioApiDocBundle génère automatiquement une documentation Swagger/OpenAPI à partir des annotations et attributs PHP. Il gère également les en-têtes CORS. En contexte API Platform, il s'intègre nativement. Pour les API REST construites manuellement, il reste la référence pour maintenir une documentation synchronisée avec le code. Notre article dédié à [Swagger et NelmioApiDocBundle](/article/swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on) détaille ses fonctionnalités en profondeur.
 
 ### LexikJWTAuthenticationBundle
 
@@ -56,7 +56,7 @@ KnpPaginatorBundle simplifie la pagination des résultats Doctrine et d'autres s
 
 ### FakerPHP et les fixtures
 
-FakerPHP génère des données fictives réalistes pour les tests et le seeding de bases de données. Multilingue et extensible, il s'associe généralement à DoctrineFixturesBundle. Pour un lead, l'enjeu est de maintenir des jeux de données de test représentatifs et reproductibles, pas seulement aléatoires.
+FakerPHP génère des données fictives réalistes pour les tests et le seeding de bases de données. Multilingue et extensible, il s'associe généralement à DoctrineFixturesBundle. Pour une mise en place complète, consultez notre guide sur [Alice et Faker dans vos projets Symfony](/article/comprendre-et-utiliser-le-bundle-alice-faker-dans-vos-projets-symfony). Pour un lead, l'enjeu est de maintenir des jeux de données de test représentatifs et reproductibles, pas seulement aléatoires.
 
 ## Critères de sélection d'un bundle
 
@@ -72,7 +72,7 @@ Un bundle qui impose ses propres entités, ses propres contrôleurs et ses propr
 
 ### Bundle vs composant Symfony
 
-Symfony a progressivement extrait de nombreuses fonctionnalités des bundles vers des composants standalone. HttpClient, Mailer, Notifier, Messenger sont des composants, pas des bundles. Avant d'installer un bundle tiers, vérifier si un composant Symfony ne couvre pas déjà le besoin. Un composant first-party offre des garanties de maintenance et de compatibilité qu'aucun bundle tiers ne peut égaler.
+Symfony a progressivement extrait de nombreuses fonctionnalités des bundles vers des composants standalone. HttpClient, Mailer, Notifier, [Messenger](/article/quelles-sont-les-differences-entre-symfony-messenger-php-enqueue-quoi-utiliser) sont des composants, pas des bundles. Avant d'installer un bundle tiers, vérifier si un composant Symfony ne couvre pas déjà le besoin. Un composant first-party offre des garanties de maintenance et de compatibilité qu'aucun bundle tiers ne peut égaler.
 
 ## Stratégie de gestion des dépendances
 
@@ -88,7 +88,7 @@ Un bundle tiers convient pour des problématiques génériques et bien stabilis�
 
 ### Gouvernance dans les grands projets
 
-Dans une organisation avec plusieurs équipes Symfony, la question n'est plus quel bundle utiliser, mais comment standardiser les choix. Définir un catalogue de bundles approuvés, documenter les raisons d'inclusion ou d'exclusion, et réviser ce catalogue à chaque montée de version majeure de Symfony. Cette discipline évite la prolifération de solutions redondantes et garantit que les mises à jour de sécurité sont appliquées uniformément.
+Dans une organisation avec plusieurs équipes Symfony, la question n'est plus quel bundle utiliser, mais comment standardiser les choix. Les [certifications Symfony](/article/les-certifications-symfony-twig-symfony-sylius) peuvent d'ailleurs servir de socle commun pour aligner le niveau de maîtrise des équipes sur l'écosystème. Définir un catalogue de bundles approuvés, documenter les raisons d'inclusion ou d'exclusion, et réviser ce catalogue à chaque montée de version majeure de Symfony. Cette discipline évite la prolifération de solutions redondantes et garantit que les mises à jour de sécurité sont appliquées uniformément.
 
 ### Stratégie de mise à jour et veille
 

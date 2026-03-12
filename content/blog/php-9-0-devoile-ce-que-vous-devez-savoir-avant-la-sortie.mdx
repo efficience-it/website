@@ -22,7 +22,7 @@ L'écriture `$x = false; $x[] = 'value';` transformait silencieusement un boolé
 
 ### Interpolation de chaînes simplifiée
 
-Les syntaxes `"${var}"` et `"${expr()}"` sont supprimées. Seules restent `"$var"` et `"{$var}"`. La concaténation explicite remplace les expressions complexes dans les chaînes. Ce nettoyage réduit la surface d'ambiguïté syntaxique et aligne PHP sur le comportement attendu par les analyseurs statiques.
+Les syntaxes `"${var}"` et `"${expr()}"` sont supprimées. Seules restent `"$var"` et `"{$var}"`. La concaténation explicite remplace les expressions complexes dans les chaînes. Ce nettoyage réduit la surface d'ambiguïté syntaxique et aligne PHP sur le comportement attendu par les analyseurs statiques comme [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php).
 
 ### Avertissements promus en erreurs fatales
 
@@ -77,7 +77,7 @@ L'ordre recommandé est le suivant : exécuter Rector sur le code applicatif, va
 
 ### Gérer les dépendances tierces
 
-Le véritable goulot d'étranglement d'une migration majeure n'est jamais le code applicatif : ce sont les dépendances. Avant de planifier une migration vers PHP 9.0, auditez vos `composer.json` avec `composer outdated` et vérifiez la compatibilité déclarée de chaque package. Les packages qui n'ont pas été mis à jour depuis PHP 8.3 devront être remplacés ou forkés. Symfony et Laravel publieront des versions compatibles PHP 9 ; les bundles communautaires moins maintenus représenteront le risque principal.
+Le véritable goulot d'étranglement d'une migration majeure n'est jamais le code applicatif : ce sont les dépendances. Avant de planifier une migration vers PHP 9.0, auditez vos `composer.json` avec `composer outdated` et vérifiez la compatibilité déclarée de chaque package. Les packages qui n'ont pas été mis à jour depuis PHP 8.3 devront être remplacés ou forkés. Symfony et Laravel publieront des versions compatibles PHP 9 ; les [bundles communautaires](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony) moins maintenus représenteront le risque principal.
 
 ## Performances et concurrence : au-delà du nettoyage
 
@@ -97,13 +97,13 @@ Depuis PHP 7.0, chaque version majeure suit le même schéma : durcissement du t
 
 ### Impact sur l'écosystème des frameworks
 
-Symfony 8.x et Laravel 12.x seront les premières versions à cibler PHP 9.0. Ces frameworks absorbent une part importante des changements du langage dans leurs couches d'abstraction. La migration du framework est généralement transparente pour le code applicatif, à condition que celui-ci respecte les bonnes pratiques : injection de dépendances, typage des arguments et retours, pas de suppression d'erreurs avec `@`. Les projets qui s'écartent de ces conventions paieront un coût de migration proportionnel à leur dette technique.
+Symfony 8.x et Laravel 12.x seront les premières versions à cibler PHP 9.0. Ces frameworks absorbent une part importante des changements du langage dans leurs couches d'abstraction. La migration du framework est généralement transparente pour le code applicatif, à condition que celui-ci respecte les bonnes pratiques : injection de dépendances, typage des arguments et retours, pas de suppression d'erreurs avec `@`. Les projets qui s'écartent de ces conventions paieront un coût de migration proportionnel à leur [dette technique](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur).
 
 ### Préparer les grandes bases de code
 
 Pour un projet de plusieurs centaines de milliers de lignes, la migration vers PHP 9.0 se planifie en trois phases. D'abord, la mise en conformité sur PHP 8.4 avec zéro dépréciation. Ensuite, la mise à jour des dépendances vers des versions compatibles PHP 9. Enfin, le passage effectif au runtime PHP 9 avec une campagne de tests exhaustive. Chaque phase peut être déployée indépendamment, ce qui permet de répartir l'effort sur plusieurs sprints sans bloquer les livraisons de features.
 
-La clé est de ne pas traiter la migration comme un projet ponctuel mais comme un processus continu. Les équipes qui activent `E_DEPRECATED` dès aujourd'hui et qui intègrent Rector dans leur pipeline de CI arriveront à PHP 9.0 sans friction. Les autres devront absorber plusieurs années de dette technique en une seule itération.
+La clé est de ne pas traiter la migration comme un projet ponctuel mais comme un processus continu. Les équipes qui activent `E_DEPRECATED` dès aujourd'hui et qui intègrent Rector dans leur pipeline de CI arriveront à PHP 9.0 sans friction. Les autres devront absorber plusieurs années de dette technique en une seule itération. Pour ceux qui envisagent un [audit de code avant la migration](/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede), un regard extérieur permet souvent d'identifier les points de blocage avant qu'ils ne deviennent critiques.
 
 ## Pour aller plus loin
 

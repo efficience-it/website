@@ -22,7 +22,7 @@ La configuration des champs se fait en PHP pur, dans la méthode `configureField
 
 C'est à partir de la couche de personnalisation qu'EasyAdmin révèle sa puissance. Les mécanismes disponibles couvrent plusieurs niveaux de complexité.
 
-Les **actions CRUD** (index, detail, new, edit, delete) peuvent être surchargées individuellement. On peut ajouter des actions personnalisées au niveau de chaque ligne ou en batch sur une sélection. Chaque action est un simple contrôleur Symfony : on dispose de l'injection de dépendances, du système d'événements et de tout l'écosystème du framework.
+Les **actions CRUD** (index, detail, new, edit, delete) peuvent être surchargées individuellement. En coulisses, chaque action peut exposer ou consommer des données via une [API REST bien structurée](/article/api-rest-les-bonnes-pratiques), ce qui facilite les intégrations avec des outils tiers. On peut ajouter des actions personnalisées au niveau de chaque ligne ou en batch sur une sélection. Chaque action est un simple contrôleur Symfony : on dispose de l'injection de dépendances, du système d'événements et de tout l'écosystème du framework.
 
 Les **templates Twig** du bundle sont entièrement surchargeables. On peut redéfinir le layout global, le rendu d'un champ spécifique, ou la page d'un CRUD particulier. Cette granularité permet d'adapter l'interface sans jamais forker le bundle.
 
@@ -30,7 +30,7 @@ La **gestion des permissions** s'appuie sur le système de sécurité natif de S
 
 ### Considérations de performance
 
-Sur des volumes importants (centaines de milliers d'enregistrements), les listes paginées d'EasyAdmin peuvent souffrir si les requêtes Doctrine sous-jacentes ne sont pas optimisées. La méthode `createIndexQueryBuilder` permet de reprendre la main sur la requête de listing : ajout de jointures, de conditions, de hints Doctrine. On reste dans du DQL standard, ce qui signifie que les stratégies d'optimisation habituelles (index, partial selects, result cache) s'appliquent directement.
+Sur des volumes importants (centaines de milliers d'enregistrements), les listes paginées d'EasyAdmin peuvent souffrir si les requêtes Doctrine sous-jacentes ne sont pas optimisées. Les évolutions apportées par [Doctrine ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) améliorent les performances mais imposent une vigilance sur la compatibilité des requêtes existantes. La méthode `createIndexQueryBuilder` permet de reprendre la main sur la requête de listing : ajout de jointures, de conditions, de hints Doctrine. On reste dans du DQL standard, ce qui signifie que les stratégies d'optimisation habituelles (index, partial selects, result cache) s'appliquent directement.
 
 ## Forest Admin : le back-office en tant que service
 
@@ -56,7 +56,7 @@ EasyAdmin est gratuit, sans limite de fonctionnalités ni d'utilisateurs. Le co�
 
 ### Courbe d'apprentissage
 
-Pour un développeur Symfony confirmé, EasyAdmin ne présente quasiment aucune courbe d'apprentissage : ce sont les mêmes concepts (entités, contrôleurs, services, événements, Twig). Forest Admin demande d'apprendre son modèle de données (collections, fields, segments, Smart Actions) et les conventions de son agent, ce qui représente un investissement initial même pour un développeur senior.
+Pour un développeur Symfony confirmé, EasyAdmin ne présente quasiment aucune courbe d'apprentissage : ce sont les mêmes concepts (entités, contrôleurs, services, événements, Twig). Forest Admin demande d'apprendre son modèle de données (collections, fields, segments, Smart Actions) et les conventions de son agent, ce qui représente un investissement initial même pour un développeur senior. Le choix de l'outil s'inscrit dans une réflexion plus large sur [le framework à adopter pour vos projets](/article/pourquoi-choisir-symfony-pour-vos-projets) et les implications à long terme.
 
 ## La perspective architecte : build vs buy
 

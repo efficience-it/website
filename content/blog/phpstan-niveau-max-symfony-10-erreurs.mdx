@@ -89,7 +89,7 @@ public function __construct(
 ) {}
 ```
 
-C'est la méthode recommandée depuis Symfony 6.1. Elle élimine l'erreur PHPStan et rend ton code plus testable.
+C'est la méthode recommandée depuis Symfony 6.1. Elle élimine l'erreur PHPStan et rend ton code plus testable. Pour en savoir plus sur la configuration du [conteneur de services Symfony](https://symfony.com/doc/current/service_container.html), la documentation officielle détaille toutes les options d'injection.
 
 ## 4. Les formulaires et `getData()` qui retourne `mixed`
 
@@ -280,7 +280,7 @@ $names = array_map(fn (User $user): string => $user->getName(), $users);
 
 ## La stratégie pour monter progressivement
 
-Ne passe pas du niveau 0 au niveau 10 en un commit. Si tu utilises [PHPStan 2.0](/article/phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable), les nouvelles vérifications du niveau 10 sont encore plus nombreuses. Voici une approche qui fonctionne :
+Ne passe pas du niveau 0 au niveau 10 en un commit. Si tu utilises [PHPStan 2.0](/article/phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable), les nouvelles vérifications du niveau 10 sont encore plus nombreuses. Associer PHPStan à des [conventions de codage](/article/coding-conventions) partagées par l'équipe accélère la montée en niveau. Voici une approche qui fonctionne :
 
 ### Utilise la baseline
 

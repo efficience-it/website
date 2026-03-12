@@ -40,7 +40,7 @@ La communication entre services emprunte deux voies. La communication synchrone,
 
 La qualité d'une architecture, quelle qu'elle soit, repose sur la rigueur des frontières entre domaines. Un module ou un service mal délimité génère du couplage temporel, des dépendances circulaires et une charge cognitive croissante. Le Domain-Driven Design fournit les outils conceptuels pour tracer ces frontières : les Bounded Contexts définissent les périmètres de cohérence, et les Context Maps cartographient les relations entre domaines.
 
-Dans un monolithe modulaire, la tentation de court-circuiter une interface pour accéder directement aux entités d'un autre module est permanente. Chaque violation érode la modularité. Les outils d'analyse statique, Deptrac pour PHP, ArchUnit pour Java, automatisent la vérification de ces règles et transforment une convention d'équipe en contrainte technique.
+Dans un monolithe modulaire, la tentation de court-circuiter une interface pour accéder directement aux entités d'un autre module est permanente. Chaque violation érode la modularité. Les outils d'analyse statique, Deptrac pour PHP, ArchUnit pour Java, automatisent la vérification de ces règles et transforment une convention d'équipe en contrainte technique. Dans la même logique, [isoler le domaine de Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony) garantit que la logique métier reste indépendante du framework.
 
 Dans une architecture micro-services, les frontières sont physiques : chaque service est un processus distinct. Mais cette séparation ne dispense pas d'une réflexion approfondie sur le découpage. Un service trop granulaire multiplie les appels réseau et la latence. Un service trop large devient un monolithe déguisé.
 
@@ -60,7 +60,7 @@ Un appel qui traversait trois classes dans un monolithe traverse désormais troi
 
 Le monolithe modulaire convient lorsque l'équipe compte moins de vingt développeurs, que le périmètre métier n'est pas encore stabilisé, ou que le budget infrastructure est limité. Son avantage décisif en phase de démarrage : il tolère les erreurs de découpage. Fusionner deux modules dans un monolithe est une opération de refactoring. Fusionner deux micro-services implique de migrer des bases de données, de supprimer des API et de reconfigurer l'infrastructure.
 
-Le debugging reste direct, un point d'arrêt dans l'IDE suffit pour suivre le flux d'exécution complet. Les tests d'intégration tournent dans un même processus. Le déploiement se fait en une seule opération.
+Le debugging reste direct, un point d'arrêt dans l'IDE suffit pour suivre le flux d'exécution complet. Les tests d'intégration tournent dans un même processus. Le déploiement se fait en une seule opération, d'autant plus simplement si l'on s'appuie sur [Docker en production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) pour garantir la reproductibilité des environnements.
 
 ### Les micro-services à maturité
 

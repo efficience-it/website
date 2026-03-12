@@ -90,7 +90,7 @@ Le dispatch passe par le `MessageBusInterface` :
 $this->bus->dispatch(new GenererRapportMessage(42, 'xlsx'));
 ```
 
-La force de Messenger réside dans sa simplicité conceptuelle. Un POPO comme message, un callable comme handler, un bus comme médiateur. Pas de dépendance vers un protocole de messaging spécifique.
+La force de Messenger réside dans sa simplicité conceptuelle. Un POPO comme message, un callable comme handler, un bus comme médiateur. Pas de dépendance vers un protocole de messaging spécifique. Cette séparation nette entre le métier et l'infrastructure est d'ailleurs au coeur de ce qui fait de [Symfony un choix pertinent pour les projets d'envergure](/article/pourquoi-choisir-symfony-pour-vos-projets).
 
 ## Le pipeline de middlewares, un levier puissant
 
@@ -102,7 +102,7 @@ Les stamps constituent un autre mécanisme puissant. Ce sont des métadonnées a
 
 ## Choisir son transport : un choix d'architecture
 
-Le transport détermine où et comment les messages sont stockés en attente de traitement. C'est un choix d'architecture plus que de code.
+Le transport détermine où et comment les messages sont stockés en attente de traitement. C'est un choix d'architecture plus que de code, au même titre que la décision entre [micro-services et monolithe modulaire](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire).
 
 ### Doctrine : acceptable pour démarrer
 
@@ -215,7 +215,7 @@ php bin/console messenger:consume async --memory-limit=128M --time-limit=3600
 
 ## Messenger comme fondation CQRS
 
-Messenger ne se limite pas à l'async. En déclarant plusieurs bus (command bus, query bus, event bus), il devient la colonne vertébrale d'une architecture CQRS. Les commands modifient l'état, les queries le lisent, les events propagent les effets de bord. Ce pattern découple votre domaine métier de l'infrastructure et facilite la testabilité.
+Messenger ne se limite pas à l'async. En déclarant plusieurs bus (command bus, query bus, event bus), il devient la [colonne vertébrale d'une architecture CQRS](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale). Les commands modifient l'état, les queries le lisent, les events propagent les effets de bord. Ce pattern découple votre domaine métier de l'infrastructure et facilite la testabilité.
 
 Enqueue ne proposait pas cette abstraction. C'était un outil de queuing, pas un bus applicatif. Si votre ambition est de structurer votre architecture autour du messaging, Messenger est le choix naturel et le seul activement maintenu.
 

@@ -19,7 +19,7 @@ Sortie le 3 février 2024, Doctrine ORM 3.0 constitue la première version majeu
 
 Le changement le plus visible concerne le mapping des entités. Les annotations DocBlock (`/** @ORM\Entity */`) ne sont plus supportées. Seuls les attributs PHP 8 (`#[ORM\Entity]`) et les fichiers XML restent disponibles. La configuration YAML, dépréciée depuis ORM 2.x, est également supprimée définitivement.
 
-Ce choix impose PHP 8.1 comme version minimale et aligne Doctrine sur les standards modernes du langage. Pour les projets encore en annotations, cette migration représente le premier chantier à anticiper.
+Ce choix impose PHP 8.1 comme version minimale et aligne Doctrine sur les standards modernes du langage. [Rector peut automatiser cette migration](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) des annotations vers les attributs PHP 8. Pour les projets encore en annotations, cette migration représente le premier chantier à anticiper.
 
 ### Suppression des méthodes dépréciées de l'EntityManager
 
@@ -39,7 +39,7 @@ Le package passe de 400 Ko à 326 Ko, soit une réduction de près de 20 %. La c
 
 Doctrine ORM 3.0 renforce significativement le typage des collections. Les classes `ArrayCollection` et `PersistentCollection` exploitent désormais les generics PHPDoc de manière systématique. Une propriété de collection se déclare avec le type `Collection<int, Comment>`, garantissant au niveau statique que seuls des objets `Comment` intègrent la relation.
 
-Cette évolution transforme la détection d'erreurs. Là où un bug de typage dans une relation `OneToMany` ne se manifestait qu'à l'exécution, PHPStan et Psalm peuvent désormais le signaler dès l'analyse. Pour les équipes qui maintiennent des modèles de domaine complexes avec des dizaines de relations, le gain en fiabilité est substantiel.
+Cette évolution transforme la détection d'erreurs. Là où un bug de typage dans une relation `OneToMany` ne se manifestait qu'à l'exécution, [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) et Psalm peuvent désormais le signaler dès l'analyse. Pour les équipes qui maintiennent des modèles de domaine complexes avec des dizaines de relations, le gain en fiabilité est substantiel.
 
 ### Validation stricte des associations
 

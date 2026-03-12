@@ -22,7 +22,7 @@ Il faut aussi considérer le risque interne. Un poste de développeur compromis,
 
 ## Installation et prise en main
 
-L'installation passe par Composer :
+L'installation passe par [Composer](/article/utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques) :
 
 ```bash
 composer require makinacorpus/db-tools-bundle
@@ -142,7 +142,7 @@ Comment prouver la conformité lors d'un audit ? Le pipeline CI/CD constitue une
 
 Les applications modernes dépassent souvent le périmètre d'une base unique. Microservices avec chacun leur base, réplicas en lecture, bases analytiques alimentées par CDC : l'anonymisation doit couvrir l'ensemble du graphe de données.
 
-DbToolsBundle opère au niveau d'une connexion Doctrine. Dans une architecture multi-bases, chaque connexion dispose de sa propre configuration d'anonymisation. Le point d'attention est la cohérence inter-bases : si un `customer_id` est anonymisé dans la base applicative mais reste en clair dans la base analytique, l'anonymisation est compromise.
+DbToolsBundle opère au niveau d'une connexion Doctrine. Les changements introduits par [Doctrine ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) n'impactent pas le fonctionnement du bundle, qui travaille directement en SQL natif. Dans une architecture multi-bases, chaque connexion dispose de sa propre configuration d'anonymisation. Le point d'attention est la cohérence inter-bases : si un `customer_id` est anonymisé dans la base applicative mais reste en clair dans la base analytique, l'anonymisation est compromise.
 
 La stratégie recommandée consiste à anonymiser au plus tôt dans le flux, idéalement à la source, puis propager les dumps anonymisés vers les environnements aval. Les pipelines de réplication (Debezium, pg_logical) doivent être alimentés depuis l'environnement déjà anonymisé, jamais depuis la production brute.
 
