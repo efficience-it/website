@@ -31,7 +31,6 @@ const allClients = [
   { name: "Sesame IT", image: "/images/clients/sesame-it.webp" },
   { name: "DPDO", image: "/images/clients/dpdo.webp" },
   { name: "Espérer 95", image: "/images/clients/esperer-95.webp" },
-  { name: "Faceel IT", image: "/images/clients/faceel-it.webp" },
   { name: "Hozana", image: "/images/clients/hozana.webp" },
   { name: "Myskillcamp", image: "/images/clients/myskillcamp.webp" },
   { name: "Keyliance", image: "/images/clients/keyliance.webp" },

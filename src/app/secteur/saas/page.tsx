@@ -50,7 +50,6 @@ const expertises = [
 const references = [
   { name: "Assoconnect", image: "/images/clients/assoconnect.webp" },
   { name: "Sesame IT", image: "/images/clients/sesame-it.webp" },
-  { name: "Faceel IT", image: "/images/clients/faceel-it.webp" },
 ];
 
 const faqItems = [
