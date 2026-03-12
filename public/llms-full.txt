@@ -41,6 +41,110 @@ Nous proposons un audit technique gratuit de votre projet Symfony pour identifie
 
 Lien : https://www.itefficience.com/audit-symfony-gratuit
 
+### Agence Symfony Lille
+
+Efficience IT est une agence Symfony basee a Lille, specialisee dans le developpement d'applications web sur mesure. Developpeurs certifies, contributeurs open source, experts en architecture hexagonale et DDD.
+
+Lien : https://www.itefficience.com/agence-symfony-lille
+
+### API sur mesure Symfony
+
+Conception et developpement d'API REST et GraphQL avec Symfony et API Platform. APIs versionnables, documentees automatiquement et securisees pour vos applications web, mobiles et partenaires.
+
+Lien : https://www.itefficience.com/api-sur-mesure-symfony
+
+### API Node.js NestJS
+
+Developpement d'API performantes avec Node.js et NestJS. Architecture modulaire, TypeScript natif, scalabilite horizontale et integration avec l'ecosysteme JavaScript moderne.
+
+Lien : https://www.itefficience.com/api-nodejs-nestjs
+
+### Developpement Node.js
+
+Expertise Node.js pour le developpement d'applications temps reel, APIs haute performance et microservices. Accompagnement sur l'architecture, le deploiement et la scalabilite.
+
+Lien : https://www.itefficience.com/developpement-nodejs
+
+### Audit de code PHP
+
+Audit complet de votre code PHP : qualite, securite, performance, architecture et dette technique. Un rapport detaille avec des recommandations priorisees et un plan d'action concret.
+
+Lien : https://www.itefficience.com/audit-code-php
+
+### Migration Symfony
+
+Migration de vos applications vers les dernieres versions de Symfony. Montee de version progressive, compatibilite ascendante, zero interruption de service.
+
+Lien : https://www.itefficience.com/migration-symfony
+
+### Modernisation d'application PHP
+
+Migration et modernisation de vos applications PHP legacy vers Symfony. Strangler Fig pattern, refactoring progressif, architecture hexagonale.
+
+Lien : https://www.itefficience.com/modernisation-application-php
+
+### Reprise de projet Symfony
+
+Reprise en main de projets Symfony existants : audit, stabilisation, refactoring et mise en place de bonnes pratiques pour repartir sur des bases saines.
+
+Lien : https://www.itefficience.com/reprise-projet-symfony
+
+### Maintenance applicative Symfony (TMA)
+
+Maintenance corrective, evolutive et preventive de vos applications Symfony. Correction de bugs, evolutions fonctionnelles, mises a jour de securite, monitoring et SLA sur mesure.
+
+Lien : https://www.itefficience.com/maintenance-applicative-symfony
+
+### Architecture hexagonale Symfony
+
+Mise en place de l'architecture hexagonale dans vos projets Symfony. Separation du domaine metier, ports et adapters, testabilite et independance vis-a-vis du framework.
+
+Lien : https://www.itefficience.com/architecture-hexagonale-symfony
+
+### Tests automatises PHP
+
+Strategie de tests pour vos applications PHP et Symfony : tests unitaires, d'integration et fonctionnels. PHPUnit, Behat, Pest et integration dans le pipeline CI/CD.
+
+Lien : https://www.itefficience.com/tests-automatises-php
+
+### Formation Symfony entreprise
+
+Formations Symfony sur mesure pour vos equipes de developpement. Du debutant a l'expert, en presentiel ou a distance, adaptees a votre contexte projet.
+
+Lien : https://www.itefficience.com/formation-symfony-entreprise
+
+### GEO et optimisation IA
+
+Optimisation de votre visibilite dans les moteurs d'IA (ChatGPT, Gemini, Perplexity). Donnees structurees, llms.txt, contenu optimise pour le Generative Engine Optimization.
+
+Lien : https://www.itefficience.com/geo-optimisation-ia
+
+## Secteurs d'activite
+
+### E-commerce
+
+Plateformes e-commerce sur mesure avec Symfony et Sylius : catalogue produit, API headless, integration PIM/ERP et scalabilite. References : Decathlon, Carter Cash, Mecatechnic.
+
+Lien : https://www.itefficience.com/secteur/e-commerce
+
+### Industrie
+
+Applications metier pour l'industrie : outils de production, interconnexion SI, workflows complexes avec Symfony Messenger et modernisation d'applications legacy. References : Groupe Atlantic, Mobivia, OEMServices.
+
+Lien : https://www.itefficience.com/secteur/industrie
+
+### SaaS
+
+Applications SaaS robustes avec Symfony : architecture multi-tenant, API REST/GraphQL, scalabilite horizontale, CI/CD et monitoring en production. References : Assoconnect, Sesame IT, Faceel IT.
+
+Lien : https://www.itefficience.com/secteur/saas
+
+### Finance
+
+Applications web securisees pour le secteur financier : conformite, haute disponibilite, integration de systemes bancaires et traitement de donnees sensibles. References : Credit Agricole Auto Bank, Mon Petit Placement, Keyliance.
+
+Lien : https://www.itefficience.com/secteur/finance
+
 ## Expertises techniques
 
 - Symfony (developpeurs certifies)
@@ -62,7 +166,7 @@ Lien : https://www.itefficience.com/audit-symfony-gratuit
 
 ## References
 
-Nous travaillons avec des entreprises de toutes tailles dans divers secteurs : retail, industrie, services, sante.
+Nous travaillons avec des entreprises de toutes tailles dans divers secteurs : e-commerce, industrie, SaaS, finance, services.
 
 Clients : Decathlon, Credit Agricole, Carter Cash, Schneider Electric, Groupe Atlantic, Ministere de la Transition Ecologique.
 

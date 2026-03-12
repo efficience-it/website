@@ -32,7 +32,7 @@
 
 ## References
 
-Nous travaillons avec des entreprises de toutes tailles dans divers secteurs : retail, industrie, services, sante.
+Nous travaillons avec des entreprises de toutes tailles dans divers secteurs : e-commerce, industrie, SaaS, finance, services.
 
 Clients : Decathlon, Credit Agricole, Carter Cash, Schneider Electric, Groupe Atlantic, Ministere de la Transition Ecologique.
 
@@ -55,6 +55,30 @@ Clients : Decathlon, Credit Agricole, Carter Cash, Schneider Electric, Groupe At
 - [Nos references](https://www.itefficience.com/nos-references)
 - [Blog](https://www.itefficience.com/blog)
 - [Contact](https://www.itefficience.com/contact)
+
+## Pages de service
+
+- [Agence Symfony Lille](https://www.itefficience.com/agence-symfony-lille)
+- [API sur mesure Symfony](https://www.itefficience.com/api-sur-mesure-symfony)
+- [API Node.js NestJS](https://www.itefficience.com/api-nodejs-nestjs)
+- [Developpement Node.js](https://www.itefficience.com/developpement-nodejs)
+- [Audit Symfony gratuit](https://www.itefficience.com/audit-symfony-gratuit)
+- [Audit de code PHP](https://www.itefficience.com/audit-code-php)
+- [Migration Symfony](https://www.itefficience.com/migration-symfony)
+- [Modernisation d'application PHP](https://www.itefficience.com/modernisation-application-php)
+- [Reprise de projet Symfony](https://www.itefficience.com/reprise-projet-symfony)
+- [Maintenance applicative Symfony](https://www.itefficience.com/maintenance-applicative-symfony)
+- [Architecture hexagonale Symfony](https://www.itefficience.com/architecture-hexagonale-symfony)
+- [Tests automatises PHP](https://www.itefficience.com/tests-automatises-php)
+- [Formation Symfony entreprise](https://www.itefficience.com/formation-symfony-entreprise)
+- [GEO et optimisation IA](https://www.itefficience.com/geo-optimisation-ia)
+
+## Secteurs d'activite
+
+- [E-commerce](https://www.itefficience.com/secteur/e-commerce)
+- [Industrie](https://www.itefficience.com/secteur/industrie)
+- [SaaS](https://www.itefficience.com/secteur/saas)
+- [Finance](https://www.itefficience.com/secteur/finance)
 
 ## Pour plus d'informations
 
