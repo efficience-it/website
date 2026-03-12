@@ -57,7 +57,7 @@ WORKDIR /app
 USER www-data
 ```
 
-L'image finale ne contient ni Composer, ni les headers de compilation, ni les paquets de développement. Le résultat pèse quelques dizaines de mégaoctets, se transfère rapidement et démarre en millisecondes. Le warmup du cache Symfony au build garantit un premier requête aussi rapide que les suivantes.
+L'image finale ne contient ni Composer, ni les headers de compilation, ni les paquets de développement. Le résultat pèse quelques dizaines de mégaoctets, se transfère rapidement et démarre en millisecondes. Le warmup du cache Symfony au build garantit une première requête aussi rapide que les suivantes.
 
 ### Exploiter OPcache sur des images immuables
 
