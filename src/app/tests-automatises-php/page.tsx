@@ -6,6 +6,7 @@ import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
 import CallToAction from "@/components/sections/CallToAction";
+import StickyMobileCta from "@/components/sections/StickyMobileCta";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
@@ -476,6 +477,7 @@ export default function TestsAutomatisesPhp() {
         </section>
 
         <CallToAction />
+        <StickyMobileCta />
       </main>
     </>
   );

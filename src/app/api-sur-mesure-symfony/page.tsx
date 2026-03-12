@@ -5,6 +5,7 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
+import StickyMobileCta from "@/components/sections/StickyMobileCta";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
@@ -450,6 +451,7 @@ export default function ApiSurMesureSymfony() {
           links={apiRelatedLinks}
           className="bg-light-gray"
         />
+        <StickyMobileCta />
       </main>
     </>
   );

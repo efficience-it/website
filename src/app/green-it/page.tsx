@@ -4,6 +4,7 @@ import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
 import CallToAction from "@/components/sections/CallToAction";
+import StickyMobileCta from "@/components/sections/StickyMobileCta";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
@@ -226,6 +227,7 @@ export default function GreenIt() {
       />
 
       <CallToAction />
+      <StickyMobileCta />
     </main>
     </>
   );

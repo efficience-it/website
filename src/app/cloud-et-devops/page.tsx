@@ -6,6 +6,7 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import CallToAction from "@/components/sections/CallToAction";
+import StickyMobileCta from "@/components/sections/StickyMobileCta";
 import Accordion from "@/components/ui/Accordion";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
@@ -491,6 +492,7 @@ export default function CloudEtDevops() {
       </section>
 
       <CallToAction />
+      <StickyMobileCta />
     </main>
     </>
   );

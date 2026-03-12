@@ -6,6 +6,7 @@ import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
 import CallToAction from "@/components/sections/CallToAction";
+import StickyMobileCta from "@/components/sections/StickyMobileCta";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
@@ -449,6 +450,7 @@ export default function DeveloppementNodejs() {
         <RelatedLinks links={nodejsRelatedLinks} />
 
         <CallToAction />
+        <StickyMobileCta />
       </main>
     </>
   );
