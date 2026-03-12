@@ -6,6 +6,16 @@ import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
 import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/structured-data";
+import RelatedLinks from "@/components/sections/RelatedLinks";
+import type { RelatedLink } from "@/components/sections/RelatedLinks";
+
+const modernisationRelatedLinks: RelatedLink[] = [
+  { title: "La dette technique : faut-il vraiment en avoir peur ?", description: "comprendre et gerer l'accumulation de dette dans vos projets", href: "/article/la-dette-technique-faut-il-vraiment-en-avoir-peur" },
+  { title: "Guide de migration dans un projet Symfony", description: "methodes et bonnes pratiques pour migrer en douceur", href: "/article/guide-de-migration-dans-un-projet-symfony" },
+  { title: "Audit Symfony gratuit", description: "evaluez l'etat technique de votre application en 30 min", href: "/audit-symfony-gratuit" },
+  { title: "Symfony Releases", description: "calendrier de support et versions LTS officielles", href: "https://symfony.com/releases", external: true },
+  { title: "Versions PHP supportees", description: "verifier si votre version PHP est encore maintenue", href: "https://www.php.net/supported-versions.php", external: true },
+];
 
 export const metadata = pageMetadata({
   title:
@@ -428,63 +438,7 @@ export default function ModernisationApplicationPhp() {
           </Container>
         </section>
 
-        <section className="bg-light-gray py-16">
-          <Container>
-            <SectionTitle>Pour aller plus loin</SectionTitle>
-            <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
-              <li>
-                <Link
-                  href="/article/la-dette-technique-faut-il-vraiment-en-avoir-peur"
-                  className="text-primary hover:underline"
-                >
-                  La dette technique : faut-il vraiment en avoir peur ?
-                </Link>{" "}
-                , comprendre et gerer l&apos;accumulation de dette dans vos
-                projets
-              </li>
-              <li>
-                <Link
-                  href="/article/guide-de-migration-dans-un-projet-symfony"
-                  className="text-primary hover:underline"
-                >
-                  Guide de migration dans un projet Symfony
-                </Link>{" "}
-                , methodes et bonnes pratiques pour migrer en douceur
-              </li>
-              <li>
-                <Link
-                  href="/audit-symfony-gratuit"
-                  className="text-primary hover:underline"
-                >
-                  Audit Symfony gratuit
-                </Link>{" "}
-                , evaluez l&apos;etat technique de votre application en 30 min
-              </li>
-              <li>
-                <a
-                  href="https://symfony.com/releases"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline"
-                >
-                  Symfony Releases
-                </a>{" "}
-                , calendrier de support et versions LTS officielles
-              </li>
-              <li>
-                <a
-                  href="https://www.php.net/supported-versions.php"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline"
-                >
-                  Versions PHP supportees
-                </a>{" "}
-                , verifier si votre version PHP est encore maintenue
-              </li>
-            </ul>
-          </Container>
-        </section>
+        <RelatedLinks links={modernisationRelatedLinks} className="bg-light-gray" />
       </main>
     </>
   );

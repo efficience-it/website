@@ -12,6 +12,8 @@ import {
   methodology,
 } from "@/../data/expertise";
 import CallToAction from "@/components/sections/CallToAction";
+import RelatedLinks from "@/components/sections/RelatedLinks";
+import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
@@ -22,6 +24,32 @@ export const metadata = pageMetadata({
 });
 
 const breadcrumb = breadcrumbJsonLd([{ name: "Nos expertises", path: "/notre-expertise" }]);
+
+const expertiseRelatedLinks: RelatedLink[] = [
+  {
+    title: "Les contributions open source",
+    description: "Notre engagement dans la communauté",
+    href: "/article/les-contributions-open-source-un-enjeu-de-taille-pour-les-developpeurs-et-les-projets",
+  },
+  {
+    title: "Symfony, site officiel",
+    description: "Le framework PHP pour les applications web",
+    href: "https://symfony.com/",
+    external: true,
+  },
+  {
+    title: "API Platform",
+    description: "Créer des API modernes en PHP",
+    href: "https://api-platform.com/",
+    external: true,
+  },
+  {
+    title: "Doctrine",
+    description: "ORM et abstraction de base de données pour PHP",
+    href: "https://www.doctrine-project.org/",
+    external: true,
+  },
+];
 
 export default function NotreExpertise() {
   return (
@@ -182,38 +210,7 @@ export default function NotreExpertise() {
           </div>
         </Container>
       </section>
-      {/* Pour aller plus loin */}
-      <section className="py-16 md:py-24">
-        <Container>
-          <SectionTitle>Pour aller plus loin</SectionTitle>
-          <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
-            <li>
-              <Link href="/article/les-contributions-open-source-un-enjeu-de-taille-pour-les-developpeurs-et-les-projets" className="text-primary hover:underline">
-                Les contributions open source
-              </Link>{" "}
-             , notre engagement dans la communauté
-            </li>
-            <li>
-              <a href="https://symfony.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                Symfony, site officiel
-              </a>{" "}
-             , le framework PHP pour les applications web
-            </li>
-            <li>
-              <a href="https://api-platform.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                API Platform
-              </a>{" "}
-             , créer des API modernes en PHP
-            </li>
-            <li>
-              <a href="https://www.doctrine-project.org/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                Doctrine
-              </a>{" "}
-             , ORM et abstraction de base de données pour PHP
-            </li>
-          </ul>
-        </Container>
-      </section>
+      <RelatedLinks links={expertiseRelatedLinks} />
 
       <CallToAction />
     </main>

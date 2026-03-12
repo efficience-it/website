@@ -7,6 +7,15 @@ import TimelineItem from "@/components/cards/TimelineItem";
 import Button from "@/components/ui/Button";
 import CallToAction from "@/components/sections/CallToAction";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
+import RelatedLinks from "@/components/sections/RelatedLinks";
+import type { RelatedLink } from "@/components/sections/RelatedLinks";
+
+const enterpriseRelatedLinks: RelatedLink[] = [
+  { title: "7 bonnes raisons de rejoindre Efficience IT", description: "découvrir notre culture d'entreprise", href: "/article/7-bonnes-raisons-de-rejoindre-efficience-it" },
+  { title: "Symfony, site officiel", description: "le framework au cœur de notre expertise", href: "https://symfony.com/", external: true },
+  { title: "AFUP", description: "Association Française des Utilisateurs de PHP", href: "https://afup.org/", external: true },
+  { title: "AD2N", description: "communauté des entreprises numériques du Nord", href: "https://ad2n.fr/", external: true },
+];
 
 export const metadata = pageMetadata({
   title: "Agence Symfony – Présentation et expertise",
@@ -222,38 +231,7 @@ export default function LEntreprise() {
         </Container>
       </section>
 
-      {/* Pour aller plus loin */}
-      <section className="py-16">
-        <Container>
-          <SectionTitle>Pour aller plus loin</SectionTitle>
-          <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
-            <li>
-              <Link href="/article/7-bonnes-raisons-de-rejoindre-efficience-it" className="text-primary hover:underline">
-                7 bonnes raisons de rejoindre Efficience IT
-              </Link>{" "}
-             , découvrir notre culture d&apos;entreprise
-            </li>
-            <li>
-              <a href="https://symfony.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                Symfony, site officiel
-              </a>{" "}
-             , le framework au cœur de notre expertise
-            </li>
-            <li>
-              <a href="https://afup.org/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                AFUP
-              </a>{" "}
-             , Association Française des Utilisateurs de PHP
-            </li>
-            <li>
-              <a href="https://ad2n.fr/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                AD2N
-              </a>{" "}
-             , communauté des entreprises numériques du Nord
-            </li>
-          </ul>
-        </Container>
-      </section>
+      <RelatedLinks links={enterpriseRelatedLinks} />
 
       <CallToAction />
     </main>

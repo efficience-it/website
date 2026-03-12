@@ -5,6 +5,8 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
+import RelatedLinks from "@/components/sections/RelatedLinks";
+import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
@@ -144,6 +146,14 @@ const service = serviceJsonLd({
     "Audit, stabilisation, documentation et maintenance d'applications Symfony reprises en cours de vie : nous prenons le relais de votre prestataire et assurons la continuite de votre projet.",
   path: "/reprise-projet-symfony",
 });
+
+const repriseRelatedLinks: RelatedLink[] = [
+  { title: "Audit Symfony gratuit", description: "30 minutes pour evaluer l'etat de votre application", href: "/audit-symfony-gratuit" },
+  { title: "La dette technique : faut-il vraiment en avoir peur ?", description: "Comprendre les enjeux avant d'agir", href: "/article/la-dette-technique-faut-il-vraiment-en-avoir-peur" },
+  { title: "Guide de migration dans un projet Symfony", description: "Notre methodologie de montee de version", href: "/article/guide-de-migration-dans-un-projet-symfony" },
+  { title: "Pourquoi nous confier la maintenance de vos applications web", description: "Au-dela de la reprise initiale", href: "/article/decouvrez-les-raisons-de-nous-confier-la-maintenance-de-vos-applications-web" },
+  { title: "Calendrier des versions Symfony", description: "Dates de fin de maintenance officielle", href: "https://symfony.com/releases", external: true },
+];
 
 export default function RepriseProjetSymfony() {
   return (
@@ -467,60 +477,7 @@ export default function RepriseProjetSymfony() {
           </Container>
         </section>
 
-        <section className="bg-light-gray py-16">
-          <Container>
-            <SectionTitle>Pour aller plus loin</SectionTitle>
-            <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
-              <li>
-                <Link
-                  href="/audit-symfony-gratuit"
-                  className="text-primary hover:underline"
-                >
-                  Audit Symfony gratuit
-                </Link>{" "}
-                , 30 minutes pour evaluer l&apos;etat de votre application
-              </li>
-              <li>
-                <Link
-                  href="/article/la-dette-technique-faut-il-vraiment-en-avoir-peur"
-                  className="text-primary hover:underline"
-                >
-                  La dette technique : faut-il vraiment en avoir peur ?
-                </Link>{" "}
-                , comprendre les enjeux avant d&apos;agir
-              </li>
-              <li>
-                <Link
-                  href="/article/guide-de-migration-dans-un-projet-symfony"
-                  className="text-primary hover:underline"
-                >
-                  Guide de migration dans un projet Symfony
-                </Link>{" "}
-                , notre methodologie de montee de version
-              </li>
-              <li>
-                <Link
-                  href="/article/decouvrez-les-raisons-de-nous-confier-la-maintenance-de-vos-applications-web"
-                  className="text-primary hover:underline"
-                >
-                  Pourquoi nous confier la maintenance de vos applications web
-                </Link>{" "}
-                , au-dela de la reprise initiale
-              </li>
-              <li>
-                <a
-                  href="https://symfony.com/releases"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline"
-                >
-                  Calendrier des versions Symfony
-                </a>{" "}
-                , dates de fin de maintenance officielle
-              </li>
-            </ul>
-          </Container>
-        </section>
+        <RelatedLinks links={repriseRelatedLinks} className="bg-light-gray" />
       </main>
     </>
   );

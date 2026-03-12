@@ -6,6 +6,8 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
+import RelatedLinks from "@/components/sections/RelatedLinks";
+import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { BASE_URL } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
@@ -165,6 +167,12 @@ const courseJsonLd = {
 const breadcrumb = breadcrumbJsonLd([
   { name: "Formation Symfony entreprise", path: "/formation-symfony-entreprise" },
 ]);
+
+const formationRelatedLinks: RelatedLink[] = [
+  { title: "Accompagnement et Conseil", description: "Nos autres prestations d'accompagnement technique", href: "/accompagnement-et-conseil" },
+  { title: "Pourquoi choisir Symfony pour vos projets", description: "Les atouts du framework en entreprise", href: "/article/pourquoi-choisir-symfony-pour-vos-projets" },
+  { title: "Documentation officielle Symfony", description: "Reference technique du framework", href: "https://symfony.com/doc/current/index.html", external: true },
+];
 
 export default function FormationSymfonyEntreprise() {
   return (
@@ -354,42 +362,7 @@ export default function FormationSymfonyEntreprise() {
           </Container>
         </section>
 
-        <section className="bg-light-gray py-16 md:py-24">
-          <Container>
-            <SectionTitle>Pour aller plus loin</SectionTitle>
-            <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
-              <li>
-                <Link
-                  href="/accompagnement-et-conseil"
-                  className="text-primary hover:underline"
-                >
-                  Accompagnement et Conseil
-                </Link>
-                {" "}, nos autres prestations d&apos;accompagnement technique
-              </li>
-              <li>
-                <Link
-                  href="/article/pourquoi-choisir-symfony-pour-vos-projets"
-                  className="text-primary hover:underline"
-                >
-                  Pourquoi choisir Symfony pour vos projets
-                </Link>
-                {" "}, les atouts du framework en entreprise
-              </li>
-              <li>
-                <a
-                  href="https://symfony.com/doc/current/index.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline"
-                >
-                  Documentation officielle Symfony
-                </a>
-                {" "}, reference technique du framework
-              </li>
-            </ul>
-          </Container>
-        </section>
+        <RelatedLinks links={formationRelatedLinks} className="bg-light-gray" />
       </main>
     </>
   );
