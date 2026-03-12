@@ -7,6 +7,15 @@ import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
 import CallToAction from "@/components/sections/CallToAction";
 import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/structured-data";
+import RelatedLinks from "@/components/sections/RelatedLinks";
+import type { RelatedLink } from "@/components/sections/RelatedLinks";
+
+const nestjsRelatedLinks: RelatedLink[] = [
+  { title: "REST vs GraphQL : quel protocole choisir pour votre API ?", description: "une comparaison technique pour orienter vos choix d'architecture", href: "/article/que-vaut-rest-face-a-son-nouveau-challenger-graphql" },
+  { title: "Quel framework JavaScript choisir ?", description: "Node.js, React, Vue ou Angular : notre analyse comparative", href: "/article/quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular" },
+  { title: "API sur mesure avec Symfony", description: "notre offre API Platform pour les projets PHP", href: "/developpement-web-sur-mesure" },
+  { title: "Documentation officielle NestJS", description: "la reference technique du framework", href: "https://docs.nestjs.com", external: true },
+];
 
 export const metadata = pageMetadata({
   title: "API performantes avec NestJS et Node.js",
@@ -456,51 +465,7 @@ export default function ApiNodejsNestjs() {
           </Container>
         </section>
 
-        <section className="bg-light-gray py-16 md:py-24">
-          <Container>
-            <SectionTitle>Pour aller plus loin</SectionTitle>
-            <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
-              <li>
-                <Link
-                  href="/article/que-vaut-rest-face-a-son-nouveau-challenger-graphql"
-                  className="text-primary hover:underline"
-                >
-                  REST vs GraphQL : quel protocole choisir pour votre API ?
-                </Link>{" "}
-                , une comparaison technique pour orienter vos choix d&apos;architecture
-              </li>
-              <li>
-                <Link
-                  href="/article/quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular"
-                  className="text-primary hover:underline"
-                >
-                  Quel framework JavaScript choisir ?
-                </Link>{" "}
-                , Node.js, React, Vue ou Angular : notre analyse comparative
-              </li>
-              <li>
-                <Link
-                  href="/developpement-web-sur-mesure"
-                  className="text-primary hover:underline"
-                >
-                  API sur mesure avec Symfony
-                </Link>{" "}
-                , notre offre API Platform pour les projets PHP
-              </li>
-              <li>
-                <a
-                  href="https://docs.nestjs.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline"
-                >
-                  Documentation officielle NestJS
-                </a>{" "}
-                , la reference technique du framework
-              </li>
-            </ul>
-          </Container>
-        </section>
+        <RelatedLinks links={nestjsRelatedLinks} className="bg-light-gray" />
 
         <CallToAction />
       </main>

@@ -5,6 +5,8 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
+import RelatedLinks from "@/components/sections/RelatedLinks";
+import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
@@ -161,6 +163,30 @@ const service = serviceJsonLd({
     "Developpement d'API REST et GraphQL sur mesure avec Symfony et API Platform : authentification OAuth2/JWT, documentation OpenAPI, TDD et monitoring.",
   path: "/api-sur-mesure-symfony",
 });
+
+const apiRelatedLinks: RelatedLink[] = [
+  {
+    title: "Bonnes pratiques API REST",
+    description: "Les standards a respecter pour une API maintenable",
+    href: "/article/api-rest-les-bonnes-pratiques",
+  },
+  {
+    title: "Developpement web sur mesure",
+    description: "Notre expertise PHP et Symfony au service de vos projets",
+    href: "/developpement-web-sur-mesure",
+  },
+  {
+    title: "Audit Symfony gratuit",
+    description: "Evaluez l'etat technique de votre application en 30 minutes",
+    href: "/audit-symfony-gratuit",
+  },
+  {
+    title: "Documentation API Platform",
+    description: "La reference officielle du framework",
+    href: "https://api-platform.com/docs/",
+    external: true,
+  },
+];
 
 export default function ApiSurMesureSymfony() {
   return (
@@ -408,51 +434,10 @@ export default function ApiSurMesureSymfony() {
           </Container>
         </section>
 
-        <section className="bg-light-gray py-16">
-          <Container>
-            <SectionTitle>Pour aller plus loin</SectionTitle>
-            <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
-              <li>
-                <Link
-                  href="/article/api-rest-les-bonnes-pratiques"
-                  className="text-primary hover:underline"
-                >
-                  Bonnes pratiques API REST
-                </Link>{" "}
-                , les standards a respecter pour une API maintenable
-              </li>
-              <li>
-                <Link
-                  href="/developpement-web-sur-mesure"
-                  className="text-primary hover:underline"
-                >
-                  Developpement web sur mesure
-                </Link>{" "}
-                , notre expertise PHP et Symfony au service de vos projets
-              </li>
-              <li>
-                <Link
-                  href="/audit-symfony-gratuit"
-                  className="text-primary hover:underline"
-                >
-                  Audit Symfony gratuit
-                </Link>{" "}
-                , evaluez l&apos;etat technique de votre application en 30 minutes
-              </li>
-              <li>
-                <a
-                  href="https://api-platform.com/docs/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline"
-                >
-                  Documentation API Platform
-                </a>{" "}
-                , la reference officielle du framework
-              </li>
-            </ul>
-          </Container>
-        </section>
+        <RelatedLinks
+          links={apiRelatedLinks}
+          className="bg-light-gray"
+        />
       </main>
     </>
   );

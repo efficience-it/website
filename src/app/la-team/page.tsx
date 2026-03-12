@@ -4,6 +4,8 @@ import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import CallToAction from "@/components/sections/CallToAction";
+import RelatedLinks from "@/components/sections/RelatedLinks";
+import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
@@ -15,6 +17,26 @@ export const metadata = pageMetadata({
 });
 
 const breadcrumb = breadcrumbJsonLd([{ name: "La team", path: "/la-team" }]);
+
+const teamRelatedLinks: RelatedLink[] = [
+  {
+    title: "Le chocoblast",
+    description: "Un premier pas vers la sécurité par le jeu",
+    href: "/article/le-chocoblast-un-premier-pas-vers-la-securite-par-le-jeu",
+  },
+  {
+    title: "AFUP",
+    description: "Association Française des Utilisateurs de PHP",
+    href: "https://afup.org/",
+    external: true,
+  },
+  {
+    title: "Symfony, site officiel",
+    description: "Le framework au cœur de notre expertise",
+    href: "https://symfony.com/",
+    external: true,
+  },
+];
 
 export default function LaTeam() {
   return (
@@ -202,34 +224,7 @@ export default function LaTeam() {
         </Container>
       </section>
 
-      {/* Pour aller plus loin */}
-      <section className="py-16">
-        <Container>
-          <h2 className="text-center font-display text-3xl font-bold text-dark">
-            Pour aller plus loin
-          </h2>
-          <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
-            <li>
-              <Link href="/article/le-chocoblast-un-premier-pas-vers-la-securite-par-le-jeu" className="text-primary hover:underline">
-                Le chocoblast
-              </Link>{" "}
-             , un premier pas vers la sécurité par le jeu
-            </li>
-            <li>
-              <a href="https://afup.org/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                AFUP
-              </a>{" "}
-             , Association Française des Utilisateurs de PHP
-            </li>
-            <li>
-              <a href="https://symfony.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                Symfony, site officiel
-              </a>{" "}
-             , le framework au cœur de notre expertise
-            </li>
-          </ul>
-        </Container>
-      </section>
+      <RelatedLinks links={teamRelatedLinks} />
 
       <CallToAction />
     </main>

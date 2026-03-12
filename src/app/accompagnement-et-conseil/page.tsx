@@ -7,6 +7,8 @@ import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import CallToAction from "@/components/sections/CallToAction";
 import Accordion from "@/components/ui/Accordion";
+import RelatedLinks from "@/components/sections/RelatedLinks";
+import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import TestimonialCard from "@/components/cards/TestimonialCard";
 import { clients } from "@/../data/clients";
 import { testimonials } from "@/../data/testimonials";
@@ -121,6 +123,13 @@ const service = serviceJsonLd({
     "Conseil, coaching, formation et audit technique pour les équipes de développement Symfony et les projets web professionnels.",
   path: "/accompagnement-et-conseil",
 });
+
+const accompagnementRelatedLinks: RelatedLink[] = [
+  { title: "Comment se passe un audit chez Efficience IT", description: "Notre m\u00e9thodologie d'audit d\u00e9taill\u00e9e", href: "/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede" },
+  { title: "Symfony, documentation officielle", description: "R\u00e9f\u00e9rence technique du framework", href: "https://symfony.com/doc/current/index.html", external: true },
+  { title: "Scrum Guide", description: "Le guide officiel de la m\u00e9thodologie Scrum", href: "https://scrumguides.org/", external: true },
+  { title: "Manifeste Agile", description: "Les principes fondateurs de l'agilit\u00e9", href: "https://agilemanifesto.org/", external: true },
+];
 
 export default function AccompagnementEtConseil() {
   return (
@@ -344,38 +353,7 @@ export default function AccompagnementEtConseil() {
         </Container>
       </section>
 
-      {/* Pour aller plus loin */}
-      <section className="py-16 md:py-24">
-        <Container>
-          <SectionTitle>Pour aller plus loin</SectionTitle>
-          <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
-            <li>
-              <Link href="/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede" className="text-primary hover:underline">
-                Comment se passe un audit chez Efficience IT
-              </Link>{" "}
-             , notre méthodologie d&apos;audit détaillée
-            </li>
-            <li>
-              <a href="https://symfony.com/doc/current/index.html" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                Symfony, documentation officielle
-              </a>{" "}
-             , référence technique du framework
-            </li>
-            <li>
-              <a href="https://scrumguides.org/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                Scrum Guide
-              </a>{" "}
-             , le guide officiel de la méthodologie Scrum
-            </li>
-            <li>
-              <a href="https://agilemanifesto.org/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                Manifeste Agile
-              </a>{" "}
-             , les principes fondateurs de l&apos;agilité
-            </li>
-          </ul>
-        </Container>
-      </section>
+      <RelatedLinks links={accompagnementRelatedLinks} />
 
       <section className="py-16">
         <Container>

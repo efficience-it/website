@@ -7,6 +7,8 @@ import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import CallToAction from "@/components/sections/CallToAction";
 import Accordion from "@/components/ui/Accordion";
+import RelatedLinks from "@/components/sections/RelatedLinks";
+import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import TestimonialCard from "@/components/cards/TestimonialCard";
 import { clients } from "@/../data/clients";
 import { testimonials } from "@/../data/testimonials";
@@ -112,6 +114,13 @@ const service = serviceJsonLd({
     "Hébergement cloud, automatisation DevOps, migration d'infrastructure et CI/CD pour les projets web professionnels.",
   path: "/cloud-et-devops",
 });
+
+const cloudRelatedLinks: RelatedLink[] = [
+  { title: "D\u00e9ployer avec GitLab CI, S3 et CloudFront", description: "Automatisation du d\u00e9ploiement", href: "/article/deployer-nuxtjs-avec-gitlab-ci-s3-et-cloudfront" },
+  { title: "Docker, documentation officielle", description: "Conteneurisation des applications", href: "https://docs.docker.com/", external: true },
+  { title: "GitLab CI/CD, documentation", description: "Pipelines d'int\u00e9gration continue", href: "https://docs.gitlab.com/ee/ci/", external: true },
+  { title: "Kubernetes, documentation officielle", description: "Orchestration de conteneurs", href: "https://kubernetes.io/docs/", external: true },
+];
 
 export default function CloudEtDevops() {
   return (
@@ -393,38 +402,7 @@ export default function CloudEtDevops() {
         </Container>
       </section>
 
-      {/* Pour aller plus loin */}
-      <section className="bg-light-gray py-16 md:py-24">
-        <Container>
-          <SectionTitle>Pour aller plus loin</SectionTitle>
-          <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
-            <li>
-              <Link href="/article/deployer-nuxtjs-avec-gitlab-ci-s3-et-cloudfront" className="text-primary hover:underline">
-                Déployer avec GitLab CI, S3 et CloudFront
-              </Link>{" "}
-             , automatisation du déploiement
-            </li>
-            <li>
-              <a href="https://docs.docker.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                Docker, documentation officielle
-              </a>{" "}
-             , conteneurisation des applications
-            </li>
-            <li>
-              <a href="https://docs.gitlab.com/ee/ci/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                GitLab CI/CD, documentation
-              </a>{" "}
-             , pipelines d&apos;intégration continue
-            </li>
-            <li>
-              <a href="https://kubernetes.io/docs/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                Kubernetes, documentation officielle
-              </a>{" "}
-             , orchestration de conteneurs
-            </li>
-          </ul>
-        </Container>
-      </section>
+      <RelatedLinks links={cloudRelatedLinks} className="bg-light-gray" />
 
       <section className="py-16">
         <Container>
