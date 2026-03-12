@@ -56,7 +56,7 @@ export const services = [
     title: "Développement API",
     slug: "/developpement-web-sur-mesure",
     description:
-      "Nous développons et intégrons des APIs pour les connexions avec vos autres outils types ERP, CRM, ou autre apis extérieur, avec des standards comme le REST ou le SOAP au besoin.",
+      "Nous développons et intégrons des APIs pour les connexions avec vos autres outils types ERP, CRM, ou autres APIs extérieures, avec des standards comme le REST ou le SOAP au besoin.",
     items: [
       "Connexions ERP, CRM et outils tiers",
       "Intégration Stripe et services de paiement",
@@ -92,7 +92,7 @@ export const services = [
     title: "Audit",
     slug: "/accompagnement-et-conseil",
     description:
-      "Nous proposons des audits techniques approfondis vous permettant d'identifier les faiblesses de vos API et application web.",
+      "Nous proposons des audits techniques approfondis vous permettant d'identifier les faiblesses de vos API et applications web.",
     items: [
       "Vulnérabilités de sécurité",
       "Conformité aux standards PSR",

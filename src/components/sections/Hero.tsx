@@ -12,7 +12,7 @@ export default function Hero() {
               Agence Symfony à Lille, experte en développement web
             </h1>
             <p className="mt-6 max-w-2xl text-lg text-gray md:text-xl">
-              Votre application Symfony merite mieux. On la stabilise, la
+              Votre application Symfony mérite mieux. On la stabilise, la
               migre et la rend maintenable.
             </p>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">

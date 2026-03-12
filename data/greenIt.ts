@@ -18,7 +18,7 @@ export const greenMetrics = [
     value: "0 %",
     icon: "📄",
     description:
-      "Chez Efficience IT tout est digitalisé, aucun papier n'est utilisé.",
+      "Chez Efficience IT, tout est digitalisé, aucun papier n'est utilisé.",
   },
   {
     label: "Télétravail",

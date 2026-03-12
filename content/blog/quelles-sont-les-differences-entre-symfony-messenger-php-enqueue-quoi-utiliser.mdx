@@ -7,17 +7,17 @@ excerpt: "PHP Enqueue est quasi abandonné depuis 2023. Symfony Messenger s'est 
 image: "/images/blog/messenger-vs-enqueue.webp"
 ---
 
-En 2022, comparer Symfony Messenger et PHP Enqueue avait du sens. Les deux bibliothèques répondaient au meme besoin : traiter des messages de maniere asynchrone dans une application PHP. En 2026, la question ne se pose plus. Enqueue n'a recu aucun commit significatif depuis 2023, ses issues s'accumulent sans réponse, et la compatibilité avec PHP 8.3+ n'est pas garantie. Symfony Messenger, a l'inverse, s'est enrichi a chaque version du framework pour devenir le standard incontesté du messaging asynchrone dans l'écosysteme PHP.
+En 2022, comparer Symfony Messenger et PHP Enqueue avait du sens. Les deux bibliothèques répondaient au même besoin : traiter des messages de manière asynchrone dans une application PHP. En 2026, la question ne se pose plus. Enqueue n'a reçu aucun commit significatif depuis 2023, ses issues s'accumulent sans réponse, et la compatibilité avec PHP 8.3+ n'est pas garantie. Symfony Messenger, à l'inverse, s'est enrichi à chaque version du framework pour devenir le standard incontesté du messaging asynchrone dans l'écosystème PHP.
 
 Cet article fait le point sur cette évolution et rassemble les bonnes pratiques pour exploiter Messenger dans vos projets en 2026.
 
 ## L'ascension de Messenger, le déclin d'Enqueue
 
-Messenger est apparu avec Symfony 4.1 en 2018. A ses débuts, il était minimaliste : un bus, quelques transports, une intégration correcte mais sans plus. Pour une vue d'ensemble des bundles disponibles dans l'écosystème Symfony, notre article sur les [bundles les plus utilisés dans les projets Symfony](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony) situe Messenger dans ce contexte. Enqueue, déja mature, offrait un catalogue de transports bien plus large (Kafka, Google PubSub, Kinesis, MongoDB, Stomp) et un monitoring intégré. Pour les projets polyglottes ou ceux qui avaient besoin d'un transport exotique, Enqueue était le choix logique.
+Messenger est apparu avec Symfony 4.1 en 2018. À ses débuts, il était minimaliste : un bus, quelques transports, une intégration correcte mais sans plus. Pour une vue d'ensemble des bundles disponibles dans l'écosystème Symfony, notre article sur les [bundles les plus utilisés dans les projets Symfony](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony) situe Messenger dans ce contexte. Enqueue, déjà mature, offrait un catalogue de transports bien plus large (Kafka, Google PubSub, Kinesis, MongoDB, Stomp) et un monitoring intégré. Pour les projets polyglottes ou ceux qui avaient besoin d'un transport exotique, Enqueue était le choix logique.
 
-Depuis, Messenger a rattrapé son retard puis creusé l'écart. Chaque version de Symfony a apporté des améliorations : les stamps pour enrichir les messages de métadonnées, le failure transport pour gérer les échecs, le scheduler pour planifier des taches récurrentes, le support natif de transports variés. En parallele, l'écosysteme communautaire a produit des transports tiers pour couvrir les besoins spécifiques.
+Depuis, Messenger a rattrapé son retard puis creusé l'écart. Chaque version de Symfony a apporté des améliorations : les stamps pour enrichir les messages de métadonnées, le failure transport pour gérer les échecs, le scheduler pour planifier des tâches récurrentes, le support natif de transports variés. En parallèle, l'écosystème communautaire a produit des transports tiers pour couvrir les besoins spécifiques.
 
-Enqueue, de son coté, a vu son activité décliner progressivement. Le dernier commit significatif sur le repository principal date de 2023. Les pull requests restent ouvertes, les issues sans réponse. La compatibilité avec les versions récentes de PHP et Symfony n'est plus assurée. Pour un projet démarré en 2026, intégrer Enqueue revient a prendre une dette technique immédiate.
+Enqueue, de son côté, a vu son activité décliner progressivement. Le dernier commit significatif sur le repository principal date de 2023. Les pull requests restent ouvertes, les issues sans réponse. La compatibilité avec les versions récentes de PHP et Symfony n'est plus assurée. Pour un projet démarré en 2026, intégrer Enqueue revient à prendre une dette technique immédiate.
 
 ## Messenger en 2026 : les fondamentaux
 
@@ -94,23 +94,23 @@ La force de Messenger réside dans sa simplicité conceptuelle. Un POPO comme me
 
 ## Le pipeline de middlewares, un levier puissant
 
-Ce qui distingue profondément Messenger des alternatives est son pipeline de middlewares. Chaque message passe par une chaine configurable : validation, transaction Doctrine, logging, ajout de stamps. Ce pipeline est identique en synchrone et en asynchrone, ce qui garantit un comportement cohérent quel que soit le mode d'exécution.
+Ce qui distingue profondément Messenger des alternatives est son pipeline de middlewares. Chaque message passe par une chaîne configurable : validation, transaction Doctrine, logging, ajout de stamps. Ce pipeline est identique en synchrone et en asynchrone, ce qui garantit un comportement cohérent quel que soit le mode d'exécution.
 
 En pratique, vous pouvez injecter un middleware qui wrappe chaque handler dans une transaction Doctrine (`doctrine_transaction`), un autre qui valide le message avant son traitement, un autre qui mesure les temps d'exécution. L'ordre des middlewares est explicite dans la configuration.
 
-Les stamps constituent un autre mécanisme puissant. Ce sont des métadonnées attachées au message via une enveloppe (`Envelope`). Les stamps natifs gerent les délais (`DelayStamp`), le routage (`TransportNamesStamp`), la sérialisation. Vous pouvez créer vos propres stamps pour tracer l'origine d'un message, attacher un identifiant de corrélation ou marquer une priorité.
+Les stamps constituent un autre mécanisme puissant. Ce sont des métadonnées attachées au message via une enveloppe (`Envelope`). Les stamps natifs gèrent les délais (`DelayStamp`), le routage (`TransportNamesStamp`), la sérialisation. Vous pouvez créer vos propres stamps pour tracer l'origine d'un message, attacher un identifiant de corrélation ou marquer une priorité.
 
 ## Choisir son transport : un choix d'architecture
 
-Le transport détermine ou et comment les messages sont stockés en attente de traitement. C'est un choix d'architecture plus que de code.
+Le transport détermine où et comment les messages sont stockés en attente de traitement. C'est un choix d'architecture plus que de code.
 
 ### Doctrine : acceptable pour démarrer
 
-Doctrine comme transport est pratique : pas d'infrastructure supplémentaire. Mais sous charge, les limites apparaissent. La table `messenger_messages` subit des `SELECT ... FOR UPDATE` qui provoquent des locks. Avec MySQL, des deadlocks surviennent réguliérement sous charge (`Deadlock found when trying to get lock; try restarting transaction`). La solution de contournement : lancer des workers avec un `--time-limit` court (60 secondes) et les relancer via crontab pour absorber les crashs. PostgreSQL se comporte mieux grace au `SKIP LOCKED`, mais reste limité face a un broker dédié.
+Doctrine comme transport est pratique : pas d'infrastructure supplémentaire. Mais sous charge, les limites apparaissent. La table `messenger_messages` subit des `SELECT ... FOR UPDATE` qui provoquent des locks. Avec MySQL, des deadlocks surviennent régulièrement sous charge (`Deadlock found when trying to get lock; try restarting transaction`). La solution de contournement : lancer des workers avec un `--time-limit` court (60 secondes) et les relancer via crontab pour absorber les crashs. PostgreSQL se comporte mieux grâce au `SKIP LOCKED`, mais reste limité face à un broker dédié.
 
 ### RabbitMQ : le choix par défaut
 
-RabbitMQ est le transport recommandé pour la plupart des projets. Il gere nativement les dead letter exchanges, le routing complexe, les priorités de messages et la persistance. Il supporte des dizaines de milliers de messages par seconde. En revanche, il nécessite une maintenance ops (clustering, monitoring Erlang, gestion mémoire).
+RabbitMQ est le transport recommandé pour la plupart des projets. Il gère nativement les dead letter exchanges, le routing complexe, les priorités de messages et la persistance. Il supporte des dizaines de milliers de messages par seconde. En revanche, il nécessite une maintenance ops (clustering, monitoring Erlang, gestion mémoire).
 
 ```yaml
 framework:
@@ -129,7 +129,7 @@ framework:
 
 ### Redis Streams : simple et performant
 
-Redis convient aux architectures qui l'utilisent déja pour le cache. Il est simple a opérer et performant. La contrepartie : moins de garanties de durabilité. Un crash peut perdre des messages si la persistance RDB/AOF n'est pas correctement configurée.
+Redis convient aux architectures qui l'utilisent déjà pour le cache. Il est simple à opérer et performant. La contrepartie : moins de garanties de durabilité. Un crash peut perdre des messages si la persistance RDB/AOF n'est pas correctement configurée.
 
 ### Amazon SQS : zéro ops sur AWS
 
@@ -141,7 +141,7 @@ Enqueue était souvent choisi pour son support natif de Kafka. Aujourd'hui, des 
 
 ## Stratégies de retry et gestion des échecs
 
-Messenger propose une stratégie de retry déclarative particulierement bien pensée :
+Messenger propose une stratégie de retry déclarative particulièrement bien pensée :
 
 ```yaml
 framework:
@@ -158,24 +158,24 @@ framework:
             failed: 'doctrine://default?queue_name=failed'
 ```
 
-Apres épuisement des retries, le message atterrit dans le failure transport. On peut l'inspecter et le rejouer :
+Après épuisement des retries, le message atterrit dans le failure transport. On peut l'inspecter et le rejouer :
 
 ```bash
 php bin/console messenger:failed:show
 php bin/console messenger:failed:retry
 ```
 
-Avec Enqueue, la gestion des retries reposait davantage sur les mécanismes natifs du broker (DLX sur RabbitMQ, redrive policy sur SQS). L'approche était fonctionnelle mais plus manuelle et moins intégrée au framework. Le failure transport de Messenger offre un workflow complet directement depuis la console Symfony, sans avoir a manipuler le broker.
+Avec Enqueue, la gestion des retries reposait davantage sur les mécanismes natifs du broker (DLX sur RabbitMQ, redrive policy sur SQS). L'approche était fonctionnelle mais plus manuelle et moins intégrée au framework. Le failure transport de Messenger offre un workflow complet directement depuis la console Symfony, sans avoir à manipuler le broker.
 
-## Sérialisation : le piege des déploiements
+## Sérialisation : le piège des déploiements
 
-Quand un message traverse un transport, il doit etre sérialisé. Messenger utilise par défaut le Serializer de Symfony (JSON ou XML). Le piege apparait lors des déploiements : un message sérialisé avec la version N de votre classe peut etre désérialisé par la version N+1, ou la structure a changé.
+Quand un message traverse un transport, il doit être sérialisé. Messenger utilise par défaut le Serializer de Symfony (JSON ou XML). Le piège apparaît lors des déploiements : un message sérialisé avec la version N de votre classe peut être désérialisé par la version N+1, où la structure a changé.
 
-Regle d'or : ne jamais renommer ou supprimer une propriété de message sans avoir vidé la queue au préalable, ou sans avoir mis en place un mécanisme de versioning. Messenger permet de configurer un serializer custom qui gere la rétrocompatibilité, c'est un investissement qui se rentabilise des le premier incident en production.
+Règle d'or : ne jamais renommer ou supprimer une propriété de message sans avoir vidé la queue au préalable, ou sans avoir mis en place un mécanisme de versioning. Messenger permet de configurer un serializer custom qui gère la rétrocompatibilité, c'est un investissement qui se rentabilise dès le premier incident en production.
 
 ## Le Scheduler : remplacer vos crons
 
-Depuis Symfony 6.3, le composant Scheduler s'integre a Messenger pour planifier des taches récurrentes. Fini le fichier crontab maintenu a la main : chaque tache est un message dispatché sur une schedule déclarative.
+Depuis Symfony 6.3, le composant Scheduler s'intègre à Messenger pour planifier des tâches récurrentes. Fini le fichier crontab maintenu à la main : chaque tâche est un message dispatché sur une schedule déclarative.
 
 ```php
 use Symfony\Component\Scheduler\Attribute\AsSchedule;
@@ -195,13 +195,13 @@ class AppScheduleProvider implements ScheduleProviderInterface
 }
 ```
 
-Les taches bénéficient du meme pipeline de middlewares, du meme système de retry et du meme monitoring que n'importe quel message. C'est une unification élégante qui réduit la surface de maintenance.
+Les tâches bénéficient du même pipeline de middlewares, du même système de retry et du même monitoring que n'importe quel message. C'est une unification élégante qui réduit la surface de maintenance.
 
 ## Idempotence et at-least-once
 
-Messenger fonctionne en **at-least-once** : un message sera traité au moins une fois, potentiellement plus en cas de crash du worker entre le traitement et l'acknowledgement. Aucun système de messaging distribué ne garantit un traitement exactly-once de maniere fiable.
+Messenger fonctionne en **at-least-once** : un message sera traité au moins une fois, potentiellement plus en cas de crash du worker entre le traitement et l'acknowledgement. Aucun système de messaging distribué ne garantit un traitement exactly-once de manière fiable.
 
-Chaque handler doit donc etre **idempotent** : traiter deux fois le meme message ne doit pas corrompre l'état du systeme. Concrétement, cela signifie utiliser des clés d'idempotence, vérifier l'état avant d'agir, et préférer les opérations `UPSERT` aux `INSERT`.
+Chaque handler doit donc être **idempotent** : traiter deux fois le même message ne doit pas corrompre l'état du système. Concrètement, cela signifie utiliser des clés d'idempotence, vérifier l'état avant d'agir, et préférer les opérations `UPSERT` aux `INSERT`.
 
 ## Scaling des workers en production
 
@@ -215,42 +215,42 @@ php bin/console messenger:consume async --memory-limit=128M --time-limit=3600
 
 ## Messenger comme fondation CQRS
 
-Messenger ne se limite pas a l'async. En déclarant plusieurs bus (command bus, query bus, event bus), il devient la colonne vertébrale d'une architecture CQRS. Les commands modifient l'état, les queries le lisent, les events propagent les effets de bord. Ce pattern découple votre domaine métier de l'infrastructure et facilite la testabilité.
+Messenger ne se limite pas à l'async. En déclarant plusieurs bus (command bus, query bus, event bus), il devient la colonne vertébrale d'une architecture CQRS. Les commands modifient l'état, les queries le lisent, les events propagent les effets de bord. Ce pattern découple votre domaine métier de l'infrastructure et facilite la testabilité.
 
 Enqueue ne proposait pas cette abstraction. C'était un outil de queuing, pas un bus applicatif. Si votre ambition est de structurer votre architecture autour du messaging, Messenger est le choix naturel et le seul activement maintenu.
 
 ## Migrer depuis Enqueue
 
-Si vous maintenez un projet qui utilise encore Enqueue, la migration vers Messenger est un investissement raisonnable. Les concepts se transposent : les `Producer` deviennent des appels a `MessageBusInterface::dispatch()`, les `Processor` deviennent des handlers marqués `#[AsMessageHandler]`, les topics et queues se mappent sur des transports Messenger.
+Si vous maintenez un projet qui utilise encore Enqueue, la migration vers Messenger est un investissement raisonnable. Les concepts se transposent : les `Producer` deviennent des appels à `MessageBusInterface::dispatch()`, les `Processor` deviennent des handlers marqués `#[AsMessageHandler]`, les topics et queues se mappent sur des transports Messenger.
 
-Le point d'attention principal est la coexistence pendant la migration. Si vos queues contiennent des messages au format Enqueue, vous devrez soit les vider avant de basculer, soit implémenter un serializer de transition qui comprend les deux formats. Privilégiez une migration progressive transport par transport plutot qu'un big bang. La gestion des dépendances via [Composer](/article/utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques) est aussi un point d'attention : Enqueue et Messenger peuvent coexister temporairement dans le `composer.json` pendant la transition.
+Le point d'attention principal est la coexistence pendant la migration. Si vos queues contiennent des messages au format Enqueue, vous devrez soit les vider avant de basculer, soit implémenter un serializer de transition qui comprend les deux formats. Privilégiez une migration progressive transport par transport plutôt qu'un big bang. La gestion des dépendances via [Composer](/article/utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques) est aussi un point d'attention : Enqueue et Messenger peuvent coexister temporairement dans le `composer.json` pendant la transition.
 
 ## Tableau comparatif Messenger vs Enqueue
 
-| Critere | Symfony Messenger | PHP Enqueue |
+| Critère | Symfony Messenger | PHP Enqueue |
 |---------|-------------------|-------------|
-| Maintenance | Active (chaque version Symfony) | Quasi abandonne depuis 2023 |
-| Integration Symfony | Native (autowiring, DI, Profiler) | Via bridge, moins integre |
+| Maintenance | Active (chaque version Symfony) | Quasi abandonné depuis 2023 |
+| Intégration Symfony | Native (autowiring, DI, Profiler) | Via bridge, moins intégré |
 | Pipeline de middlewares | Oui (validation, transaction, stamps) | Non |
 | Transports natifs | Doctrine, AMQP, Redis, SQS, In-Memory | AMQP, Kafka, Redis, SQS, GPS, MongoDB |
-| Transports communautaires | Kafka, Beanstalkd et autres | Limites (maintenance inactive) |
-| Failure transport | Natif (inspection et replay en CLI) | Via mecanismes du broker |
-| Scheduler | Integre depuis Symfony 6.3 | Non |
+| Transports communautaires | Kafka, Beanstalkd et autres | Limités (maintenance inactive) |
+| Failure transport | Natif (inspection et replay en CLI) | Via mécanismes du broker |
+| Scheduler | Intégré depuis Symfony 6.3 | Non |
 | Multi-bus (CQRS) | Oui (command, query, event) | Non |
 | Serialisation configurable | Oui (serializer custom) | Basique |
-| Compatibilite PHP 8.3+ | Oui | Non garantie |
+| Compatibilité PHP 8.3+ | Oui | Non garantie |
 
 ## Verdict 2026
 
-En 2026, le choix est clair : **Symfony Messenger est le standard**. Il couvre tous les cas d'usage du messaging asynchrone dans l'écosysteme Symfony, il évolue avec chaque version du framework, et sa communauté est massive.
+En 2026, le choix est clair : **Symfony Messenger est le standard**. Il couvre tous les cas d'usage du messaging asynchrone dans l'écosystème Symfony, il évolue avec chaque version du framework, et sa communauté est massive.
 
-Enqueue a rendu de grands services a l'écosysteme PHP. Il a démocratisé le messaging asynchrone et a poussé Messenger a s'améliorer. Mais un projet sans maintenance active depuis trois ans ne peut plus etre recommandé pour de nouveaux développements.
+Enqueue a rendu de grands services à l'écosystème PHP. Il a démocratisé le messaging asynchrone et a poussé Messenger à s'améliorer. Mais un projet sans maintenance active depuis trois ans ne peut plus être recommandé pour de nouveaux développements.
 
-Investissez dans un broker dédié des que le volume dépasse quelques milliers de messages par jour, rendez vos handlers idempotents, exploitez le Scheduler pour vos taches récurrentes, et traitez la sérialisation comme un contrat d'API.
+Investissez dans un broker dédié dès que le volume dépasse quelques milliers de messages par jour, rendez vos handlers idempotents, exploitez le Scheduler pour vos tâches récurrentes, et traitez la sérialisation comme un contrat d'API.
 
 ## Pour aller plus loin
 
-Si vous souhaitez aller plus loin, nous mettons a disposition des développeurs spécialisés sur **Symfony** qui sauront intégrer Messenger dans vos projets. N'hésitez pas a nous contacter, ou a approfondir la [documentation officielle de Messenger](https://symfony.com/doc/current/messenger.html).
+Si vous souhaitez aller plus loin, nous mettons à disposition des développeurs spécialisés sur **Symfony** qui sauront intégrer Messenger dans vos projets. N'hésitez pas à nous contacter, ou à approfondir la [documentation officielle de Messenger](https://symfony.com/doc/current/messenger.html).
 
 - [Symfony Messenger : colonne vertébrale de l'architecture hexagonale](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale), aller plus loin avec Messenger
 - [Quelle architecture choisir : micro-service ou monolithe modulaire ?](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire), choix d'architecture

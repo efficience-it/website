@@ -20,7 +20,7 @@ export const testimonials: Testimonial[] = [
     role: "Directeur Général",
     company: "S.N.I.W",
     quote:
-      "Nous travaillons depuis plusieurs années avec eux. Efficience IT partage nos valeurs et font de leur mieux pour satisfaire clients.",
+      "Nous travaillons depuis plusieurs années avec eux. Efficience IT partage nos valeurs et fait de son mieux pour satisfaire ses clients.",
   },
   {
     name: "Samy Venin",
@@ -34,6 +34,6 @@ export const testimonials: Testimonial[] = [
     role: "Directeur Général",
     company: "Glasseo",
     quote:
-      "Efficience IT a su rapidement comprendre nos problématiques. Compréhension approfondie de Symfony permise API performante et fiable.",
+      "Efficience IT a su rapidement comprendre nos problématiques. Leur compréhension approfondie de Symfony a permis une API performante et fiable.",
   },
 ];

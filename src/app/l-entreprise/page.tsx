@@ -98,7 +98,7 @@ const values = [
   {
     title: "Architecture adaptée",
     description:
-      "Nous mettons en place des Micro Services avec API-Gateway en fonction de vos enjeux et besoins. Nous pouvons également améliorer vos applications ou architectures monolithiques.",
+      "Nous mettons en place des microservices avec API-Gateway en fonction de vos enjeux et besoins. Nous pouvons également améliorer vos applications ou architectures monolithiques.",
   },
   {
     title: "Dernières technologies",
@@ -167,7 +167,7 @@ export default function LEntreprise() {
                 <Link href="/article/pourquoi-choisir-symfony-pour-vos-projets" className="text-primary hover:underline">
                   Symfony
                 </Link>{" "}
-                nous permet de construire des applications robustes, évolutives, personnalisables et sécurisées, dans un délai et un budget maitrisé.
+                nous permet de construire des applications robustes, évolutives, personnalisables et sécurisées, dans un délai et un budget maîtrisés.
               </p>
             </div>
             <div className="flex justify-center">

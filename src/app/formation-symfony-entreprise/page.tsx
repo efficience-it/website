@@ -340,7 +340,7 @@ export default function FormationSymfonyEntreprise() {
                 local.
               </p>
               <p>
-                Le module API Platform est particulierement plebe pour les equipes qui doivent
+                Le module API Platform est particulierement plebiscite par les equipes qui doivent
                 ensuite mettre en pratique leurs acquis sur un vrai projet de{" "}
                 <Link
                   href="/api-sur-mesure-symfony"
