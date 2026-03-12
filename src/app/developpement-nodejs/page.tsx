@@ -7,6 +7,7 @@ import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
 import CallToAction from "@/components/sections/CallToAction";
 import StickyMobileCta from "@/components/sections/StickyMobileCta";
+import FadeIn from "@/components/ui/FadeIn";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
@@ -221,6 +222,7 @@ export default function DeveloppementNodejs() {
           </Container>
         </section>
 
+        <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
             <SectionTitle>Pourquoi choisir Node.js</SectionTitle>
@@ -296,7 +298,9 @@ export default function DeveloppementNodejs() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <SectionTitle>Nos expertises Node.js</SectionTitle>
@@ -336,7 +340,9 @@ export default function DeveloppementNodejs() {
             </p>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
             <SectionTitle>Notre stack technique Node.js</SectionTitle>
@@ -370,7 +376,9 @@ export default function DeveloppementNodejs() {
             </p>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <SectionTitle>Notre approche</SectionTitle>
@@ -403,7 +411,9 @@ export default function DeveloppementNodejs() {
             </p>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
             <div className="mx-auto max-w-3xl rounded-2xl border border-primary/20 bg-primary/5 p-8 md:p-12">
@@ -437,7 +447,9 @@ export default function DeveloppementNodejs() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <SectionTitle>Questions frequentes</SectionTitle>
@@ -446,11 +458,16 @@ export default function DeveloppementNodejs() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <RelatedLinks links={nodejsRelatedLinks} />
+        </FadeIn>
 
+        <FadeIn>
         <CallToAction />
         <StickyMobileCta />
+        </FadeIn>
       </main>
     </>
   );

@@ -7,6 +7,7 @@ import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 import StickyMobileCta from "@/components/sections/StickyMobileCta";
+import FadeIn from "@/components/ui/FadeIn";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 
@@ -278,6 +279,7 @@ export default function ModernisationApplicationPhp() {
           </Container>
         </section>
 
+        <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
             <SectionTitle>
@@ -307,7 +309,9 @@ export default function ModernisationApplicationPhp() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <SectionTitle>Quelles applications sont concernees</SectionTitle>
@@ -328,7 +332,9 @@ export default function ModernisationApplicationPhp() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
             <SectionTitle>Notre methode de modernisation</SectionTitle>
@@ -380,7 +386,9 @@ export default function ModernisationApplicationPhp() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <SectionTitle>Pourquoi migrer vers Symfony</SectionTitle>
@@ -422,7 +430,9 @@ export default function ModernisationApplicationPhp() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="bg-primary py-16 text-center text-white">
           <div className="mx-auto max-w-3xl px-4">
             <h2 className="font-display text-3xl font-bold">
@@ -441,7 +451,9 @@ export default function ModernisationApplicationPhp() {
             </Link>
           </div>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
             <SectionTitle>Questions frequentes</SectionTitle>
@@ -450,9 +462,12 @@ export default function ModernisationApplicationPhp() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <RelatedLinks links={modernisationRelatedLinks} className="bg-light-gray" />
         <StickyMobileCta />
+        </FadeIn>
       </main>
     </>
   );

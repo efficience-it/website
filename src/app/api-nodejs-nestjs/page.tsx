@@ -7,6 +7,7 @@ import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
 import CallToAction from "@/components/sections/CallToAction";
 import StickyMobileCta from "@/components/sections/StickyMobileCta";
+import FadeIn from "@/components/ui/FadeIn";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
@@ -262,6 +263,7 @@ export default function ApiNodejsNestjs() {
           </Container>
         </section>
 
+        <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
             <SectionTitle>Pourquoi NestJS pour vos API</SectionTitle>
@@ -297,7 +299,9 @@ export default function ApiNodejsNestjs() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <SectionTitle>Cas d&apos;usage NestJS</SectionTitle>
@@ -328,7 +332,9 @@ export default function ApiNodejsNestjs() {
             </p>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
             <SectionTitle>Notre stack NestJS</SectionTitle>
@@ -360,7 +366,9 @@ export default function ApiNodejsNestjs() {
             </p>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <SectionTitle>
@@ -412,7 +420,9 @@ export default function ApiNodejsNestjs() {
             </p>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
             <SectionTitle>Notre approche</SectionTitle>
@@ -442,7 +452,9 @@ export default function ApiNodejsNestjs() {
             </p>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="bg-primary py-16 text-center text-white">
           <Container>
             <h2 className="font-display text-3xl font-bold">
@@ -468,7 +480,9 @@ export default function ApiNodejsNestjs() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
             <SectionTitle>Questions frequentes</SectionTitle>
@@ -477,11 +491,16 @@ export default function ApiNodejsNestjs() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <RelatedLinks links={nestjsRelatedLinks} className="bg-light-gray" />
+        </FadeIn>
 
+        <FadeIn>
         <CallToAction />
         <StickyMobileCta />
+        </FadeIn>
       </main>
     </>
   );

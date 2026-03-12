@@ -10,6 +10,7 @@ import {
 import Link from "next/link";
 import type { Metadata } from "next";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
+import FadeIn from "@/components/ui/FadeIn";
 
 const categoryDescriptions: Record<string, string> = {
   Outils:
@@ -88,6 +89,7 @@ export default async function BlogCategoryPage({
         </Container>
       </section>
 
+      <FadeIn>
       <section className="py-16">
         <Container>
           <div className="mb-8 text-center">
@@ -112,6 +114,7 @@ export default async function BlogCategoryPage({
           )}
         </Container>
       </section>
+      </FadeIn>
     </main>
     </>
   );

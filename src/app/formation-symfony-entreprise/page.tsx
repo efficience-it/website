@@ -7,6 +7,7 @@ import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
 import StickyMobileCta from "@/components/sections/StickyMobileCta";
+import FadeIn from "@/components/ui/FadeIn";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { BASE_URL } from "@/lib/metadata";
@@ -227,6 +228,7 @@ export default function FormationSymfonyEntreprise() {
           </Container>
         </section>
 
+        <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
             <SectionTitle>Nos programmes de formation</SectionTitle>
@@ -263,7 +265,9 @@ export default function FormationSymfonyEntreprise() {
             </p>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <SectionTitle>Format et modalites</SectionTitle>
@@ -283,7 +287,9 @@ export default function FormationSymfonyEntreprise() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
             <SectionTitle>Pourquoi se former avec nous</SectionTitle>
@@ -347,7 +353,9 @@ export default function FormationSymfonyEntreprise() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="bg-primary py-16 text-center text-white">
           <div className="mx-auto max-w-3xl px-4">
             <h2 className="font-display text-3xl font-bold">
@@ -365,7 +373,9 @@ export default function FormationSymfonyEntreprise() {
             </Link>
           </div>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
             <SectionTitle>Questions frequentes</SectionTitle>
@@ -374,9 +384,12 @@ export default function FormationSymfonyEntreprise() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <RelatedLinks links={formationRelatedLinks} className="bg-light-gray" />
         <StickyMobileCta />
+        </FadeIn>
       </main>
     </>
   );

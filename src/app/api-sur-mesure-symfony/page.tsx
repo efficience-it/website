@@ -8,6 +8,7 @@ import Accordion from "@/components/ui/Accordion";
 import StickyMobileCta from "@/components/sections/StickyMobileCta";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
+import FadeIn from "@/components/ui/FadeIn";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
@@ -298,6 +299,7 @@ export default function ApiSurMesureSymfony() {
           </Container>
         </section>
 
+        <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
             <SectionTitle>Cas d&apos;usage</SectionTitle>
@@ -318,7 +320,9 @@ export default function ApiSurMesureSymfony() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <SectionTitle>Notre stack technique</SectionTitle>
@@ -350,7 +354,9 @@ export default function ApiSurMesureSymfony() {
             </p>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
             <SectionTitle>Notre approche</SectionTitle>
@@ -376,7 +382,9 @@ export default function ApiSurMesureSymfony() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <SectionTitle>Pourquoi Symfony pour vos API</SectionTitle>
@@ -411,7 +419,9 @@ export default function ApiSurMesureSymfony() {
             </p>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="bg-primary py-16 text-center text-white">
           <div className="mx-auto max-w-3xl px-4">
             <h2 className="font-display text-3xl font-bold">
@@ -437,7 +447,9 @@ export default function ApiSurMesureSymfony() {
             </div>
           </div>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
             <SectionTitle>Questions frequentes</SectionTitle>
@@ -446,12 +458,15 @@ export default function ApiSurMesureSymfony() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <RelatedLinks
           links={apiRelatedLinks}
           className="bg-light-gray"
         />
         <StickyMobileCta />
+        </FadeIn>
       </main>
     </>
   );

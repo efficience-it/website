@@ -8,6 +8,7 @@ import Accordion from "@/components/ui/Accordion";
 import AuditForm from "@/components/sections/AuditForm";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
+import FadeIn from "@/components/ui/FadeIn";
 import { breadcrumbJsonLd, howToJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
@@ -195,6 +196,7 @@ export default function AuditSymfonyGratuit() {
           </Container>
         </section>
 
+        <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
             <SectionTitle>Ce que couvre l&apos;audit</SectionTitle>
@@ -215,7 +217,9 @@ export default function AuditSymfonyGratuit() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
             <SectionTitle>Résultats concrets</SectionTitle>
@@ -302,7 +306,9 @@ export default function AuditSymfonyGratuit() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <SectionTitle>Ce que nos clients en disent</SectionTitle>
@@ -331,7 +337,9 @@ export default function AuditSymfonyGratuit() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <SectionTitle>Comment ça se passe</SectionTitle>
@@ -379,7 +387,9 @@ export default function AuditSymfonyGratuit() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section id="formulaire" className="py-16 md:py-24">
           <Container>
             <SectionTitle>Demander votre audit gratuit</SectionTitle>
@@ -447,7 +457,9 @@ export default function AuditSymfonyGratuit() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
             <SectionTitle>Questions fréquentes</SectionTitle>
@@ -456,11 +468,14 @@ export default function AuditSymfonyGratuit() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <RelatedLinks
           links={auditRelatedLinks}
           className="bg-light-gray"
         />
+        </FadeIn>
       </main>
     </>
   );

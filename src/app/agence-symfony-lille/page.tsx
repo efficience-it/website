@@ -8,6 +8,7 @@ import Button from "@/components/ui/Button";
 import StickyMobileCta from "@/components/sections/StickyMobileCta";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
+import FadeIn from "@/components/ui/FadeIn";
 import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
@@ -189,6 +190,7 @@ export default function AgenceSymfonyLille() {
           </Container>
         </section>
 
+        <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
             <SectionTitle>
@@ -235,7 +237,9 @@ export default function AgenceSymfonyLille() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <SectionTitle>Nos expertises Symfony</SectionTitle>
@@ -306,7 +310,9 @@ export default function AgenceSymfonyLille() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
             <div className="grid items-center gap-12 md:grid-cols-2">
@@ -370,7 +376,9 @@ export default function AgenceSymfonyLille() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <SectionTitle>Comment nous travaillons</SectionTitle>
@@ -424,7 +432,9 @@ export default function AgenceSymfonyLille() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
             <div className="mx-auto max-w-3xl">
@@ -500,7 +510,9 @@ export default function AgenceSymfonyLille() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="bg-primary py-16 text-center text-white">
           <div className="mx-auto max-w-3xl px-4">
             <h2 className="font-display text-3xl font-bold">
@@ -527,9 +539,12 @@ export default function AgenceSymfonyLille() {
             </div>
           </div>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <RelatedLinks links={agenceRelatedLinks} />
         <StickyMobileCta />
+        </FadeIn>
       </main>
     </>
   );

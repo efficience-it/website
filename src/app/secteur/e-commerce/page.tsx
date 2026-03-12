@@ -8,6 +8,7 @@ import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
 import CallToAction from "@/components/sections/CallToAction";
 import StickyMobileCta from "@/components/sections/StickyMobileCta";
+import FadeIn from "@/components/ui/FadeIn";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
@@ -227,6 +228,7 @@ export default function SecteurEcommerce() {
           </Container>
         </section>
 
+        <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
             <SectionTitle>Notre expertise e-commerce</SectionTitle>
@@ -262,7 +264,9 @@ export default function SecteurEcommerce() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <SectionTitle>Pourquoi Symfony pour le e-commerce</SectionTitle>
@@ -302,7 +306,9 @@ export default function SecteurEcommerce() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
             <SectionTitle>Ils nous font confiance</SectionTitle>
@@ -328,7 +334,9 @@ export default function SecteurEcommerce() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="bg-primary py-16 text-center text-white">
           <div className="mx-auto max-w-3xl px-4">
             <h2 className="font-display text-3xl font-bold">
@@ -347,7 +355,9 @@ export default function SecteurEcommerce() {
             </Link>
           </div>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
             <SectionTitle>Questions frequentes</SectionTitle>
@@ -356,11 +366,16 @@ export default function SecteurEcommerce() {
             </div>
           </Container>
         </section>
+        </FadeIn>
 
+        <FadeIn>
         <RelatedLinks links={relatedLinks} />
+        </FadeIn>
 
+        <FadeIn>
         <CallToAction />
         <StickyMobileCta />
+        </FadeIn>
       </main>
     </>
   );

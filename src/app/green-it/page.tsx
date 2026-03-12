@@ -7,6 +7,7 @@ import CallToAction from "@/components/sections/CallToAction";
 import StickyMobileCta from "@/components/sections/StickyMobileCta";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
+import FadeIn from "@/components/ui/FadeIn";
 import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 import {
   greenMetrics,
@@ -124,6 +125,7 @@ export default function GreenIt() {
         </Container>
       </section>
 
+      <FadeIn>
       <section className="py-16">
         <Container>
           <SectionTitle subtitle="Un excellent travail produit d'excellents résultats">
@@ -151,7 +153,9 @@ export default function GreenIt() {
           </p>
         </Container>
       </section>
+      </FadeIn>
 
+      <FadeIn>
       <section className="py-16">
         <Container>
           <div className="grid items-center gap-12 md:grid-cols-2">
@@ -181,7 +185,9 @@ export default function GreenIt() {
           </div>
         </Container>
       </section>
+      </FadeIn>
 
+      <FadeIn>
       <section className="bg-light-gray py-16">
         <Container>
           <SectionTitle>Nos pratiques durables</SectionTitle>
@@ -195,7 +201,9 @@ export default function GreenIt() {
           </ul>
         </Container>
       </section>
+      </FadeIn>
 
+      <FadeIn>
       <section className="py-16">
         <Container className="text-center">
           <SectionTitle>Découvrez nos articles Green IT</SectionTitle>
@@ -220,14 +228,19 @@ export default function GreenIt() {
           </Link>
         </Container>
       </section>
+      </FadeIn>
 
+      <FadeIn>
       <RelatedLinks
         links={greenItRelatedLinks}
         className="bg-light-gray"
       />
+      </FadeIn>
 
+      <FadeIn>
       <CallToAction />
       <StickyMobileCta />
+      </FadeIn>
     </main>
     </>
   );

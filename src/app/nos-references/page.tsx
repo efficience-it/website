@@ -5,6 +5,7 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import Testimonials from "@/components/sections/Testimonials";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
+import FadeIn from "@/components/ui/FadeIn";
 import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
@@ -132,6 +133,7 @@ export default function NosReferences() {
         </Container>
       </section>
 
+      <FadeIn>
       <section className="py-16">
         <Container>
           <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
@@ -154,7 +156,9 @@ export default function NosReferences() {
           </div>
         </Container>
       </section>
+      </FadeIn>
 
+      <FadeIn>
       <section className="py-16">
         <Container>
           <SectionTitle>Quelques-uns de nos clients</SectionTitle>
@@ -176,7 +180,9 @@ export default function NosReferences() {
           </div>
         </Container>
       </section>
+      </FadeIn>
 
+      <FadeIn>
       <section className="bg-light-gray py-16">
         <Container>
           <SectionTitle>Notre engagement open source</SectionTitle>
@@ -196,10 +202,15 @@ export default function NosReferences() {
           </div>
         </Container>
       </section>
+      </FadeIn>
 
+      <FadeIn>
       <RelatedLinks links={referencesRelatedLinks} />
+      </FadeIn>
 
+      <FadeIn>
       <Testimonials />
+      </FadeIn>
     </main>
     </>
   );

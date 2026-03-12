@@ -11,6 +11,7 @@ import Accordion from "@/components/ui/Accordion";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import TestimonialCard from "@/components/cards/TestimonialCard";
+import FadeIn from "@/components/ui/FadeIn";
 import { clients } from "@/../data/clients";
 import { testimonials } from "@/../data/testimonials";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
@@ -197,7 +198,7 @@ export default function CloudEtDevops() {
         </Container>
       </section>
 
-      {/* Hébergement Cloud */}
+      <FadeIn>
       <section className="py-16 md:py-24">
         <Container>
           <SectionTitle>
@@ -253,8 +254,9 @@ export default function CloudEtDevops() {
           </div>
         </Container>
       </section>
+      </FadeIn>
 
-      {/* Automatisation DevOps */}
+      <FadeIn>
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
           <SectionTitle>
@@ -312,8 +314,9 @@ export default function CloudEtDevops() {
           </div>
         </Container>
       </section>
+      </FadeIn>
 
-      {/* Migration d'infrastructure */}
+      <FadeIn>
       <section className="py-16 md:py-24">
         <Container>
           <SectionTitle>
@@ -344,8 +347,9 @@ export default function CloudEtDevops() {
           </div>
         </Container>
       </section>
+      </FadeIn>
 
-      {/* Plateformes */}
+      <FadeIn>
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
           <SectionTitle>Plateformes supportées</SectionTitle>
@@ -370,8 +374,9 @@ export default function CloudEtDevops() {
           </div>
         </Container>
       </section>
+      </FadeIn>
 
-      {/* Pourquoi choisir Efficience IT */}
+      <FadeIn>
       <section className="py-16 md:py-24">
         <Container>
           <SectionTitle>Pourquoi choisir Efficience IT ?</SectionTitle>
@@ -415,9 +420,13 @@ export default function CloudEtDevops() {
           </div>
         </Container>
       </section>
+      </FadeIn>
 
+      <FadeIn>
       <RelatedLinks links={cloudRelatedLinks} className="bg-light-gray" />
+      </FadeIn>
 
+      <FadeIn>
       <section className="py-16">
         <Container>
           <p className="text-center text-sm font-semibold uppercase tracking-wider text-gray-500">Ils nous font confiance</p>
@@ -435,7 +444,9 @@ export default function CloudEtDevops() {
           </div>
         </Container>
       </section>
+      </FadeIn>
 
+      <FadeIn>
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
           <div className="mx-auto max-w-2xl">
@@ -443,7 +454,9 @@ export default function CloudEtDevops() {
           </div>
         </Container>
       </section>
+      </FadeIn>
 
+      <FadeIn>
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
           <SectionTitle>Questions fréquentes</SectionTitle>
@@ -452,7 +465,9 @@ export default function CloudEtDevops() {
           </div>
         </Container>
       </section>
+      </FadeIn>
 
+      <FadeIn>
       <section className="bg-primary py-16 text-center text-white">
         <div className="mx-auto max-w-3xl px-4">
           <h2 className="font-display text-3xl font-bold">Une question sans réponse ?</h2>
@@ -460,7 +475,9 @@ export default function CloudEtDevops() {
           <Link href="/audit-symfony-gratuit" className="mt-8 inline-block rounded-lg bg-white px-8 py-3 font-semibold text-primary transition hover:bg-gray-100">Demander mon audit gratuit</Link>
         </div>
       </section>
+      </FadeIn>
 
+      <FadeIn>
       <section className="py-16 md:py-24">
         <Container>
           <SectionTitle>Nos autres expertises</SectionTitle>
@@ -490,9 +507,12 @@ export default function CloudEtDevops() {
           </div>
         </Container>
       </section>
+      </FadeIn>
 
+      <FadeIn>
       <CallToAction />
       <StickyMobileCta />
+      </FadeIn>
     </main>
     </>
   );

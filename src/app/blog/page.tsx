@@ -3,6 +3,7 @@ import Container from "@/components/ui/Container";
 import BlogCard from "@/components/cards/BlogCard";
 import { getAllPosts, getCategories, getCategorySlug } from "@/lib/blog";
 import Link from "next/link";
+import FadeIn from "@/components/ui/FadeIn";
 import { breadcrumbJsonLd, blogItemListJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
@@ -57,6 +58,7 @@ export default function BlogPage() {
         </Container>
       </section>
 
+      <FadeIn>
       <section className="py-16">
         <Container>
           {categories.length > 0 && (
@@ -92,6 +94,7 @@ export default function BlogPage() {
           )}
         </Container>
       </section>
+      </FadeIn>
     </main>
     </>
   );
