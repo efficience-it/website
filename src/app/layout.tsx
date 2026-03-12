@@ -33,6 +33,27 @@ const organizationJsonLd = {
     addressCountry: "FR",
   },
   email: "contact@itefficience.com",
+  foundingDate: "2018",
+  numberOfEmployees: {
+    "@type": "QuantitativeValue",
+    value: 15,
+  },
+  contactPoint: {
+    "@type": "ContactPoint",
+    email: "contact@itefficience.com",
+    contactType: "customer service",
+    availableLanguage: ["French", "English"],
+  },
+  knowsAbout: [
+    "Symfony",
+    "PHP",
+    "Architecture hexagonale",
+    "Domain-Driven Design",
+    "API Platform",
+    "DevOps",
+    "Docker",
+    "Node.js",
+  ],
   aggregateRating: {
     "@type": "AggregateRating",
     ratingValue: "5",
