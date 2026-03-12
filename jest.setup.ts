@@ -4,7 +4,9 @@ global.IntersectionObserver = class IntersectionObserver {
   readonly root: Element | null = null;
   readonly rootMargin: string = "";
   readonly thresholds: ReadonlyArray<number> = [];
-  constructor(private callback: IntersectionObserverCallback) {
+  private callback: IntersectionObserverCallback;
+  constructor(callback: IntersectionObserverCallback, _options?: IntersectionObserverInit) {
+    this.callback = callback;
     setTimeout(() => {
       this.callback(
         [{ isIntersecting: true } as IntersectionObserverEntry],
