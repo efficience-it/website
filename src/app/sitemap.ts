@@ -110,6 +110,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: `${BASE_URL}/geo-optimisation-ia`,
+      lastModified: "2026-03-12",
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/audit-code-php`,
+      lastModified: "2026-03-12",
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
       url: `${BASE_URL}/contact`,
       lastModified: "2025-09-01",
       changeFrequency: "yearly",
