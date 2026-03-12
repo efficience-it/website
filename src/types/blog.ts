@@ -1,3 +1,5 @@
+export type ProficiencyLevel = "Beginner" | "Intermediate" | "Expert";
+
 export interface BlogPost {
   slug: string;
   title: string;
@@ -7,6 +9,7 @@ export interface BlogPost {
   excerpt: string;
   updatedAt?: string;
   image?: string;
+  proficiencyLevel?: ProficiencyLevel;
   content: string;
   wordCount: number;
 }
