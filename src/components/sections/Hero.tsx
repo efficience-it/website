@@ -12,11 +12,8 @@ export default function Hero() {
               Agence Symfony à Lille, experte en développement web
             </h1>
             <p className="mt-6 max-w-2xl text-lg text-gray md:text-xl">
-              À vos côtés, de la première idée jusqu&apos;à l&apos;application en
-              main.
-            </p>
-            <p className="mt-4 text-gray">
-              Vos objectifs, notre savoir-faire, des résultats mesurables.
+              Votre application Symfony merite mieux. On la stabilise, la
+              migre et la rend maintenable.
             </p>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
               <Button href="/audit-symfony-gratuit" size="lg">
