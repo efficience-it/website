@@ -6,6 +6,7 @@ import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
+import StickyMobileCta from "@/components/sections/StickyMobileCta";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 
@@ -451,6 +452,7 @@ export default function ModernisationApplicationPhp() {
         </section>
 
         <RelatedLinks links={modernisationRelatedLinks} className="bg-light-gray" />
+        <StickyMobileCta />
       </main>
     </>
   );

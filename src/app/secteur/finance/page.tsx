@@ -7,6 +7,7 @@ import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
 import CallToAction from "@/components/sections/CallToAction";
+import StickyMobileCta from "@/components/sections/StickyMobileCta";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
@@ -373,6 +374,7 @@ export default function SecteurFinance() {
         <RelatedLinks links={relatedLinks} />
 
         <CallToAction />
+        <StickyMobileCta />
       </main>
     </>
   );

@@ -5,6 +5,7 @@ import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
+import StickyMobileCta from "@/components/sections/StickyMobileCta";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
@@ -528,6 +529,7 @@ export default function AgenceSymfonyLille() {
         </section>
 
         <RelatedLinks links={agenceRelatedLinks} />
+        <StickyMobileCta />
       </main>
     </>
   );

@@ -3,7 +3,7 @@ import Button from "@/components/ui/Button";
 
 export default function AuditCallToAction() {
   return (
-    <section className="bg-primary py-16 md:py-24">
+    <section data-cta-section className="bg-primary py-16 md:py-24">
       <Container className="text-center">
         <h2 className="font-display text-3xl font-bold text-white md:text-4xl">
           Votre application Symfony a besoin d&apos;un check-up ?
