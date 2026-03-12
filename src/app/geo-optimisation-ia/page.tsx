@@ -6,68 +6,80 @@ import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
 import CallToAction from "@/components/sections/CallToAction";
+import RelatedLinks from "@/components/sections/RelatedLinks";
+import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "GEO : optimisez votre visibilite dans les moteurs IA",
   description:
-    "Generative Engine Optimization (GEO) : rendez votre site visible dans ChatGPT, Perplexity et les AI Overviews de Google. Donnees structurees, llms.txt, optimisation du contenu pour les moteurs IA.",
+    "Votre marque est invisible ou mal representee dans ChatGPT, Perplexity et Google AI Overviews ? Efficience IT audite vos citations IA et optimise votre presence dans les moteurs generatifs.",
   path: "/geo-optimisation-ia",
 });
 
-const techniques = [
+const problems = [
   {
-    title: "Donnees structurees avancees",
-    description:
-      "Nous implementons les schemas FAQPage, HowTo, TechArticle et SpeakableSpecification pour que les moteurs IA comprennent precisement le contenu de vos pages et le citent dans leurs reponses.",
+    before: "Un utilisateur demande a ChatGPT de recommander une agence Symfony a Lille",
+    problem: "ChatGPT cite trois concurrents mais ne mentionne jamais votre entreprise",
+    after: "Votre agence apparait dans la reponse avec un lien vers votre site et une description fidele de vos services",
   },
   {
-    title: "Fichier llms.txt",
-    description:
-      "Nous creons et maintenons un fichier llms.txt a la racine de votre site. Ce fichier standardise indique aux LLM quelles pages indexer, comment les interpreter et quelles informations privilegier.",
+    before: "Un CTO demande a Perplexity les differences entre Sylius et Prestashop",
+    problem: "Perplexity synthetise des sources concurrentes et omet votre article de reference sur le sujet",
+    after: "Votre article est cite comme source, avec un extrait de votre expertise technique",
   },
   {
-    title: "Optimisation pour les AI Overviews",
-    description:
-      "Nous structurons vos contenus pour apparaitre dans les reponses generees par Google SGE et les AI Overviews : reponses directes, listes, tableaux et definitions claires.",
-  },
-  {
-    title: "Contenu cite par les LLM",
-    description:
-      "Nous reformulons et enrichissons vos pages pour maximiser les chances d'etre cites par ChatGPT, Perplexity, Gemini et les autres moteurs conversationnels. Chaque paragraphe est concu pour etre extractible.",
-  },
-  {
-    title: "Audit de visibilite IA",
-    description:
-      "Nous analysons votre presence actuelle dans les reponses des principaux moteurs IA et identifions les opportunites manquees : requetes ou vos concurrents apparaissent et pas vous.",
-  },
-  {
-    title: "Suivi et mesure",
-    description:
-      "Nous mettons en place un suivi des citations de votre marque et de vos pages dans les reponses IA pour mesurer l'impact reel de l'optimisation GEO sur votre visibilite.",
+    before: "Un prospect cherche dans Google AI Overviews comment migrer une application PHP legacy",
+    problem: "L'AI Overview genere une reponse generique sans mentionner votre service de modernisation",
+    after: "Votre page de service apparait dans l'AI Overview comme ressource recommandee",
   },
 ];
 
-const livrables = [
+const approche = [
   {
-    title: "Audit de visibilite IA",
+    num: "1",
+    title: "Audit de citations IA",
     description:
-      "Un rapport complet de votre presence dans les reponses de ChatGPT, Perplexity, Gemini et Google AI Overviews, avec les requetes cles de votre secteur.",
+      "Nous interrogeons ChatGPT, Perplexity, Gemini et Google AI Overviews sur les requetes cles de votre secteur. Vous recevez un rapport qui montre ou vous etes cite, ou vous etes absent, et ou vos concurrents apparaissent a votre place.",
   },
   {
+    num: "2",
     title: "Implementation technique",
     description:
-      "Mise en place des donnees structurees (FAQPage, HowTo, TechArticle, SpeakableSpecification), creation du fichier llms.txt et optimisation du balisage semantique.",
+      "Donnees structurees (FAQPage, HowTo, TechArticle, SpeakableSpecification), creation du fichier llms.txt, balisage semantique. Les fondations techniques qui permettent aux LLM de comprendre et citer correctement vos pages.",
   },
   {
+    num: "3",
     title: "Optimisation du contenu",
     description:
-      "Reformulation et structuration de vos pages cles pour maximiser les citations par les moteurs IA, sans sacrifier le referencement classique.",
+      "Restructuration de vos pages cles pour les rendre extractibles par les IA : reponses directes aux questions, paragraphes autonomes, definitions claires. Sans sacrifier le SEO classique ni la lisibilite humaine.",
   },
   {
-    title: "Tableau de bord de suivi",
+    num: "4",
+    title: "Suivi des resultats",
     description:
-      "Un outil de mesure pour suivre l'evolution de vos citations IA dans le temps et identifier les nouvelles opportunites.",
+      "Mesure de l'evolution de vos citations dans les moteurs IA. Vous voyez concretement sur quelles requetes vous gagnez en visibilite et quelles nouvelles opportunites se presentent.",
+  },
+];
+
+const useCases = [
+  {
+    title: "Pages de service",
+    description:
+      "Vos pages de service sont souvent les premieres victimes de l'IA generative. Un moteur IA synthetise vos concurrents et vous ignore. Nous structurons vos pages pour qu'elles soient selectionnees comme source fiable : donnees structurees Service, contenu oriente probleme/solution, autorite thematique renforcee.",
+    icon: "M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z",
+  },
+  {
+    title: "Documentation technique",
+    description:
+      "Vos articles de blog et guides techniques ont le potentiel d'etre cites comme references par les LLM. Encore faut-il que le contenu soit structure pour l'extraction : balisage TechArticle, passages speakable, reponses directes aux questions que les utilisateurs posent aux IA.",
+    icon: "M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25",
+  },
+  {
+    title: "Visibilite locale",
+    description:
+      "Quand un utilisateur demande a un moteur IA de recommander un prestataire dans votre zone, vous devez apparaitre. Nous optimisons votre schema LocalBusiness, vos pages de contact et vos signaux geographiques pour que les IA vous associent a votre marche local.",
+    icon: "M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z",
   },
 ];
 
@@ -78,14 +90,9 @@ const faqItems = [
       "Le SEO classique optimise votre site pour apparaitre dans les resultats de recherche traditionnels de Google. Le GEO (Generative Engine Optimization) optimise votre contenu pour etre cite dans les reponses generees par les moteurs IA comme ChatGPT, Perplexity ou les AI Overviews de Google. Les deux approches sont complementaires : un bon GEO s'appuie sur les fondamentaux du SEO.",
   },
   {
-    title: "Qu'est-ce qu'un fichier llms.txt et a quoi sert-il ?",
+    title: "Comment savoir si mon site est cite par les moteurs IA ?",
     content:
-      "Le fichier llms.txt est un standard emergent qui permet d'indiquer aux LLM (Large Language Models) comment interpreter votre site. Place a la racine de votre domaine, il fonctionne comme un robots.txt mais pour les moteurs IA : il liste les pages a privilegier, les informations cles a retenir et le contexte de votre activite.",
-  },
-  {
-    title: "Quels types de donnees structurees utilisez-vous pour le GEO ?",
-    content:
-      "Nous implementons principalement les schemas FAQPage (pour les questions-reponses), HowTo (pour les guides etape par etape), TechArticle (pour les contenus techniques) et SpeakableSpecification (pour indiquer les passages les plus pertinents a lire ou citer). Ces schemas aident les moteurs IA a extraire et citer correctement vos contenus.",
+      "C'est justement l'objet de notre audit de citations IA. Nous interrogeons les principaux moteurs (ChatGPT, Perplexity, Gemini, Google AI Overviews) sur les requetes cles de votre secteur et vous livrons un rapport detaille : ou vous etes cite, ou vous etes absent, et ce que font vos concurrents sur ces memes requetes.",
   },
   {
     title: "Est-ce que le GEO remplace le SEO traditionnel ?",
@@ -93,9 +100,14 @@ const faqItems = [
       "Non. Le GEO est un complement du SEO, pas un remplacement. Les moteurs IA s'appuient largement sur les signaux SEO classiques (autorite du domaine, qualite du contenu, balisage semantique) pour selectionner les sources a citer. Une strategie GEO efficace renforce votre SEO existant tout en ouvrant un nouveau canal de visibilite.",
   },
   {
-    title: "Comment mesurez-vous les resultats d'une strategie GEO ?",
+    title: "Quels types de donnees structurees utilisez-vous ?",
     content:
-      "Nous suivons plusieurs indicateurs : le nombre de citations de votre marque et de vos pages dans les reponses des moteurs IA, les requetes sur lesquelles vous apparaissez, le trafic referent depuis les moteurs conversationnels et l'evolution de votre visibilite par rapport a vos concurrents sur les memes requetes.",
+      "Nous implementons les schemas FAQPage (questions-reponses), HowTo (guides etape par etape), TechArticle (contenus techniques), SpeakableSpecification (passages a citer en priorite) et Service (description de vos prestations). Ces schemas aident les moteurs IA a extraire et citer correctement vos contenus.",
+  },
+  {
+    title: "Combien de temps faut-il pour voir des resultats ?",
+    content:
+      "Les premieres ameliorations techniques (donnees structurees, llms.txt) prennent effet des que les crawlers IA repassent sur votre site, generalement en quelques semaines. L'amelioration des citations est progressive et depend du volume de contenu optimise et de l'autorite de votre domaine. Nous mesurons les resultats en continu pour ajuster la strategie.",
   },
 ];
 
@@ -119,9 +131,42 @@ const breadcrumb = breadcrumbJsonLd([
 const service = serviceJsonLd({
   name: "GEO - Generative Engine Optimization",
   description:
-    "Optimisation de votre visibilite dans les moteurs IA : donnees structurees, fichier llms.txt, optimisation du contenu pour ChatGPT, Perplexity et les AI Overviews de Google.",
+    "Audit de citations IA et optimisation de votre visibilite dans les moteurs generatifs : ChatGPT, Perplexity, Gemini et Google AI Overviews.",
   path: "/geo-optimisation-ia",
 });
+
+const relatedLinks: RelatedLink[] = [
+  {
+    title: "GEO et Symfony : visibilite dans les moteurs IA",
+    description:
+      "Les enjeux du referencement IA pour les applications web",
+    href: "/article/geo-rendre-votre-application-symfony-visible-dans-les-moteurs-ia",
+  },
+  {
+    title: "llms.txt : le nouveau levier SEO",
+    description:
+      "Comprendre et implementer le fichier llms.txt",
+    href: "/article/llms-txt-le-nouveau-levier-seo-a-lere-de-lintelligence-artificielle",
+  },
+  {
+    title: "Audit de code PHP",
+    description:
+      "Notre methode d'audit technique, applicable a l'audit GEO",
+    href: "/audit-code-php",
+  },
+  {
+    title: "Schema.org",
+    description: "La reference des donnees structurees pour le web semantique",
+    href: "https://schema.org",
+    external: true,
+  },
+  {
+    title: "llmstxt.org",
+    description: "La specification officielle du fichier llms.txt",
+    href: "https://llmstxt.org",
+    external: true,
+  },
+];
 
 export default function GeoOptimisationIa() {
   return (
@@ -150,21 +195,21 @@ export default function GeoOptimisationIa() {
                   GEO : optimisez votre visibilite dans les moteurs IA
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
-                  ChatGPT, Perplexity, Gemini, Google AI Overviews : vos clients
-                  posent des questions aux moteurs IA et obtiennent des reponses
-                  sans jamais visiter votre site. Si votre contenu n&apos;est pas
-                  optimise pour ces nouveaux moteurs, vous etes invisible.
+                  Vos prospects posent des questions a ChatGPT, Perplexity et
+                  Google AI Overviews. Les reponses citent vos concurrents,
+                  deforment votre offre, ou ignorent completement votre
+                  existence. Pendant ce temps, vous perdez des leads qualifies
+                  sans meme le savoir.
                 </p>
                 <p className="mt-4 max-w-3xl text-lg text-gray">
-                  Le <strong>GEO (Generative Engine Optimization)</strong> est la
-                  discipline qui rend votre site citable par les intelligences
-                  artificielles. Chez Efficience IT, nous appliquons des techniques
-                  concretes pour que vos pages soient selectionnees, citees et
-                  recommandees par les LLM.
+                  Efficience IT audite vos citations dans les moteurs IA et
+                  optimise votre presence pour que votre expertise soit{" "}
+                  <strong>correctement representee, citee et recommandee</strong>{" "}
+                  par les intelligences artificielles.
                 </p>
-                <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                <div className="mt-8">
                   <Button href="/contact">
-                    Parlons de votre visibilite IA
+                    Demander un audit de citations IA
                   </Button>
                 </div>
               </div>
@@ -192,125 +237,134 @@ export default function GeoOptimisationIa() {
 
         <section className="py-16 md:py-24">
           <Container>
-            <SectionTitle>Qu&apos;est-ce que le GEO ?</SectionTitle>
-            <div className="mx-auto mt-8 max-w-3xl space-y-6 text-lg text-gray">
-              <p>
-                Le <strong>Generative Engine Optimization (GEO)</strong> est
-                l&apos;ensemble des techniques qui permettent a un site web d&apos;etre
-                cite, recommande et reference par les moteurs de recherche bases
-                sur l&apos;intelligence artificielle.
-              </p>
-              <p>
-                Contrairement au SEO classique qui vise a positionner vos pages
-                dans une liste de resultats, le GEO vise a faire apparaitre votre
-                contenu directement dans les reponses generees par les IA. Quand
-                un utilisateur demande a ChatGPT ou Perplexity une recommandation,
-                c&apos;est votre expertise qui doit etre citee.
-              </p>
-              <p>
-                Le GEO s&apos;appuie sur trois piliers : les{" "}
-                <strong>donnees structurees</strong> (schemas FAQPage, HowTo,
-                TechArticle, SpeakableSpecification), le{" "}
-                <strong>fichier llms.txt</strong> qui guide les LLM dans
-                l&apos;interpretation de votre site, et l&apos;
-                <strong>optimisation du contenu</strong> pour qu&apos;il soit
-                facilement extractible et citable par les modeles de langage.
-              </p>
-              <p>
-                Nous avons detaille les enjeux du{" "}
-                <Link
-                  href="/article/geo-rendre-votre-application-symfony-visible-dans-les-moteurs-ia"
-                  className="text-primary hover:underline"
+            <SectionTitle>Le probleme : vos concurrents sont cites, pas vous</SectionTitle>
+            <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+              Voici ce qui se passe aujourd&apos;hui quand vos prospects
+              utilisent les moteurs IA, et ce que nous changeons.
+            </p>
+            <div className="mt-10 space-y-8">
+              {problems.map((item) => (
+                <div
+                  key={item.before}
+                  className="mx-auto max-w-4xl overflow-hidden rounded-lg border border-border"
                 >
-                  GEO applique aux applications web
-                </Link>{" "}
-                dans un article dedie.
-              </p>
+                  <div className="grid md:grid-cols-3">
+                    <div className="border-b border-border bg-white p-6 md:border-b-0 md:border-r">
+                      <p className="text-xs font-semibold uppercase tracking-wider text-gray">
+                        La situation
+                      </p>
+                      <p className="mt-2 text-sm text-dark">{item.before}</p>
+                    </div>
+                    <div className="border-b border-border bg-red-50 p-6 md:border-b-0 md:border-r">
+                      <p className="text-xs font-semibold uppercase tracking-wider text-red-600">
+                        Avant
+                      </p>
+                      <p className="mt-2 text-sm text-dark">{item.problem}</p>
+                    </div>
+                    <div className="bg-green-50 p-6">
+                      <p className="text-xs font-semibold uppercase tracking-wider text-green-700">
+                        Apres
+                      </p>
+                      <p className="mt-2 text-sm text-dark">{item.after}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </Container>
         </section>
 
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
-            <SectionTitle>Nos techniques d&apos;optimisation GEO</SectionTitle>
+            <SectionTitle>Trois cas d&apos;usage concrets</SectionTitle>
             <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-              Six leviers concrets que nous activons pour rendre votre site
-              visible dans les reponses des moteurs IA.
+              Le GEO ne se limite pas au blog. Voici les trois types de pages
+              ou l&apos;optimisation a le plus d&apos;impact.
             </p>
-            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {techniques.map((technique) => (
-                <Card key={technique.title}>
-                  <h3 className="font-display text-lg font-bold text-dark">
-                    {technique.title}
+            <div className="mt-10 grid gap-6 md:grid-cols-3">
+              {useCases.map((useCase) => (
+                <Card key={useCase.title}>
+                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="h-6 w-6 text-primary"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d={useCase.icon}
+                      />
+                    </svg>
+                  </div>
+                  <h3 className="mt-4 font-display text-lg font-bold text-dark">
+                    {useCase.title}
                   </h3>
-                  <p className="mt-2 text-gray">{technique.description}</p>
+                  <p className="mt-2 text-gray">{useCase.description}</p>
                 </Card>
               ))}
             </div>
             <p className="mt-10 text-center text-lg text-gray">
-              Le fichier{" "}
+              Nous avons detaille les enjeux du{" "}
+              <Link
+                href="/article/geo-rendre-votre-application-symfony-visible-dans-les-moteurs-ia"
+                className="text-primary hover:underline"
+              >
+                GEO applique aux applications Symfony
+              </Link>{" "}
+              et le role du{" "}
               <Link
                 href="/article/llms-txt-le-nouveau-levier-seo-a-lere-de-lintelligence-artificielle"
                 className="text-primary hover:underline"
               >
-                llms.txt est un levier SEO majeur a l&apos;ere de l&apos;IA
-              </Link>
-              . Nous vous accompagnons dans sa mise en place et son maintien.
+                fichier llms.txt
+              </Link>{" "}
+              dans deux articles dedies.
             </p>
           </Container>
         </section>
 
         <section className="py-16 md:py-24">
           <Container>
-            <SectionTitle>Ce que nous livrons</SectionTitle>
+            <SectionTitle>Notre approche en 4 etapes</SectionTitle>
             <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-              Une prestation structuree, de l&apos;audit initial au suivi des
-              resultats, pour une visibilite mesurable dans les moteurs IA.
+              De l&apos;audit initial au suivi des resultats, une demarche
+              structuree pour une visibilite mesurable.
             </p>
-            <div className="mt-10 grid gap-8 md:grid-cols-2">
-              {livrables.map((livrable, index) => (
-                <div key={livrable.title} className="flex items-start gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-lg font-bold text-white">
-                    {index + 1}
+            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {approche.map((etape) => (
+                <Card key={etape.title}>
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-lg font-bold text-white">
+                    {etape.num}
                   </div>
-                  <div>
-                    <h3 className="font-display font-bold text-dark">
-                      {livrable.title}
-                    </h3>
-                    <p className="mt-1 text-gray">{livrable.description}</p>
-                  </div>
-                </div>
+                  <h3 className="mt-4 font-display text-lg font-bold text-dark">
+                    {etape.title}
+                  </h3>
+                  <p className="mt-2 text-gray">{etape.description}</p>
+                </Card>
               ))}
             </div>
-            <p className="mt-10 text-center text-lg text-gray">
-              L&apos;optimisation GEO s&apos;integre naturellement avec les bonnes
-              pratiques de{" "}
-              <Link
-                href="/article/ameliorer-lexperience-utilisateur-grace-au-manifeste-des-applications-web"
-                className="text-primary hover:underline"
-              >
-                manifeste des applications web
-              </Link>{" "}
-              pour une experience utilisateur coherente sur tous les canaux.
-            </p>
           </Container>
         </section>
 
         <section className="bg-primary py-16 text-center text-white">
           <div className="mx-auto max-w-3xl px-4">
             <h2 className="font-display text-3xl font-bold">
-              Votre site est-il visible dans les moteurs IA ?
+              Decouvrez ou vous etes invisible dans les moteurs IA
             </h2>
             <p className="mt-4 text-lg text-white/90">
-              Echangeons sur votre visibilite dans ChatGPT, Perplexity et les AI
-              Overviews. Nous identifions les opportunites que vous manquez
-              aujourd&apos;hui.
+              Notre audit de citations IA revele les requetes ou vos
+              concurrents apparaissent a votre place. Vous repartez avec un
+              diagnostic clair et un plan d&apos;action priorise.
             </p>
             <Link
               href="/contact"
               className="mt-8 inline-block rounded-lg bg-white px-8 py-3 font-semibold text-primary transition hover:bg-gray-100"
             >
-              Contactez-nous
+              Demander mon audit de citations IA
             </Link>
           </div>
         </section>
@@ -324,62 +378,7 @@ export default function GeoOptimisationIa() {
           </Container>
         </section>
 
-        <section className="bg-light-gray py-16">
-          <Container>
-            <SectionTitle>Pour aller plus loin</SectionTitle>
-            <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
-              <li>
-                <Link
-                  href="/article/llms-txt-le-nouveau-levier-seo-a-lere-de-lintelligence-artificielle"
-                  className="text-primary hover:underline"
-                >
-                  llms.txt : le nouveau levier SEO a l&apos;ere de l&apos;IA
-                </Link>{" "}
-                , comprendre et implementer le fichier llms.txt
-              </li>
-              <li>
-                <Link
-                  href="/article/geo-rendre-votre-application-symfony-visible-dans-les-moteurs-ia"
-                  className="text-primary hover:underline"
-                >
-                  GEO : rendre votre application visible dans les moteurs IA
-                </Link>{" "}
-                , les enjeux du referencement IA pour les applications web
-              </li>
-              <li>
-                <Link
-                  href="/article/ameliorer-lexperience-utilisateur-grace-au-manifeste-des-applications-web"
-                  className="text-primary hover:underline"
-                >
-                  Ameliorer l&apos;experience utilisateur grace au manifeste des applications web
-                </Link>{" "}
-                , un complement naturel a l&apos;optimisation GEO
-              </li>
-              <li>
-                <a
-                  href="https://schema.org"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline"
-                >
-                  Schema.org
-                </a>{" "}
-                , la reference des donnees structurees pour le web semantique
-              </li>
-              <li>
-                <a
-                  href="https://llmstxt.org"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline"
-                >
-                  llmstxt.org
-                </a>{" "}
-                , la specification officielle du fichier llms.txt
-              </li>
-            </ul>
-          </Container>
-        </section>
+        <RelatedLinks links={relatedLinks} />
 
         <CallToAction />
       </main>
