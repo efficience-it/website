@@ -7,6 +7,8 @@ export default function StickyMobileCta() {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
+    if (typeof IntersectionObserver === "undefined") return;
+
     const targets = document.querySelectorAll("[data-cta-section]");
     if (targets.length === 0) return;
 
