@@ -150,6 +150,21 @@ Pour les décisions d'architecture, **ChatGPT** et **Claude** (en conversation) 
 
 Pour déléguer une tache complete (de l'issue au pull request), **Copilot Agent** et **Claude Code** en mode agent sont les deux options. Copilot Agent est plus simple a configurer pour les projets GitHub. Claude Code offre plus de contrôle et de meilleurs résultats sur les projets complexes.
 
+## Tableau comparatif des assistants IA
+
+| Critere | GitHub Copilot | ChatGPT | Claude Code | Cursor |
+|---------|---------------|---------|-------------|--------|
+| Autocompletion | Excellente | Non (chat) | Non (CLI) | Excellente |
+| Mode agent autonome | Oui (Copilot Agent) | Non | Oui | Oui (Composer, Agent) |
+| Acces au filesystem | Via IDE | Non | Oui (natif) | Oui (natif) |
+| Execution locale (tests, lint) | Non | Non | Oui | Oui |
+| Comprehension du codebase | Fichier par fichier | Manuelle (copier-coller) | Exploration complete | Indexation complete |
+| Conventions projet | Via .github/copilot | Non | Via CLAUDE.md | Via .cursor/rules |
+| Multi-modeles | Non (GitHub AI) | Non (OpenAI) | Non (Anthropic) | Oui (Claude, GPT, etc.) |
+| Integration GitHub | Native | Non | Via CLI git | Non |
+| Debugging conversationnel | Basique | Excellent | Bon | Bon |
+| Interface | Plugin IDE | Chat web | CLI terminal | IDE complet |
+
 ## Les criteres de choix pour un CTO
 
 Au-dela des fonctionnalités, plusieurs critères doivent guider le choix pour une équipe.

@@ -72,6 +72,20 @@ GraphQL contourne ce problème par sa nature additive, mais impose en contrepart
 
 En pratique, les équipes expérimentées adoptent un schema-first approach : le schéma est défini, discuté et validé avant toute implémentation, au même titre qu'un contrat OpenAPI pour REST.
 
+## Tableau comparatif REST vs GraphQL
+
+| Critere | REST | GraphQL |
+|---------|------|---------|
+| Modele d'acces | Ressources via endpoints multiples | Requete flexible via endpoint unique |
+| Over/under-fetching | Frequent (structure fixe) | Elimine (le client choisit les champs) |
+| Cache HTTP | Natif (headers standards, CDN) | Complexe (Persisted Queries, cache applicatif) |
+| Versioning | Explicite (v1, v2, v3) | Additif (pas de versioning) |
+| Monitoring | Immediat (un endpoint = une operation) | Necessite une instrumentation dediee |
+| Typage | Via OpenAPI/Swagger | Natif (schema typé) |
+| Courbe d'apprentissage | Faible (verbes HTTP standards) | Moyenne (langage de requete, resolvers) |
+| Ecosysteme | Tres mature | En croissance rapide |
+| Temps reel | Polling ou SSE | Subscriptions natives |
+
 ## Perspectives architecturales : combiner les deux approches
 
 À l'échelle d'un système distribué, la question n'est plus REST ou GraphQL, mais comment les articuler pour tirer parti des forces de chacun.
