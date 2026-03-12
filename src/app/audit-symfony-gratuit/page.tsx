@@ -370,24 +370,68 @@ export default function AuditSymfonyGratuit() {
 
         <section id="formulaire" className="py-16 md:py-24">
           <Container>
-            <div className="mx-auto max-w-2xl">
-              <SectionTitle>Demander votre audit gratuit</SectionTitle>
-              <p className="mx-auto mt-4 mb-10 max-w-xl text-center text-gray">
-                Remplissez ce formulaire et nous vous recontacterons pour
-                planifier votre créneau.
-              </p>
-              <AuditForm />
-              <p className="mt-8 text-center text-gray">
-                Vous n&apos;êtes pas sûr que l&apos;audit soit adapté à votre
-                situation ?{" "}
-                <Link
-                  href="/contact"
-                  className="text-primary hover:underline"
-                >
-                  Contactez-nous pour en discuter
-                </Link>
-                , sans engagement.
-              </p>
+            <SectionTitle>Demander votre audit gratuit</SectionTitle>
+            <div className="mx-auto mt-10 grid max-w-5xl items-start gap-12 lg:grid-cols-5">
+              <div className="lg:col-span-2">
+                <div className="rounded-lg bg-light-gray p-6">
+                  <blockquote className="text-lg italic text-gray">
+                    &laquo;&nbsp;Efficience IT a su rapidement comprendre nos
+                    problematiques. Comprehension approfondie de Symfony permise
+                    API performante et fiable.&nbsp;&raquo;
+                  </blockquote>
+                  <div className="mt-4">
+                    <p className="font-semibold text-dark">Luc Delbreuil</p>
+                    <p className="text-sm text-gray">
+                      Directeur General, Glasseo
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-6 rounded-lg bg-light-gray p-6">
+                  <blockquote className="text-lg italic text-gray">
+                    &laquo;&nbsp;Collaboration avec Efficience IT tres appreciee !
+                    Proximite technique et flexibilite ont produit qualite en
+                    temps record.&nbsp;&raquo;
+                  </blockquote>
+                  <div className="mt-4">
+                    <p className="font-semibold text-dark">Viktor Toldov</p>
+                    <p className="text-sm text-gray">CTO, Lituus</p>
+                  </div>
+                </div>
+              </div>
+              <div className="lg:col-span-3">
+                <AuditForm />
+                <div className="mt-6 flex flex-wrap justify-center gap-6 text-sm text-gray">
+                  <span className="flex items-center gap-1.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="h-4 w-4 text-green-600">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                    Reponse sous 48h
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="h-4 w-4 text-green-600">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                    NDA possible
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="h-4 w-4 text-green-600">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                    0 obligation
+                  </span>
+                </div>
+                <p className="mt-6 text-center text-gray">
+                  Vous n&apos;etes pas sur que l&apos;audit soit adapte a votre
+                  situation ?{" "}
+                  <Link
+                    href="/contact"
+                    className="text-primary hover:underline"
+                  >
+                    Contactez-nous pour en discuter
+                  </Link>
+                  , sans engagement.
+                </p>
+              </div>
             </div>
           </Container>
         </section>
