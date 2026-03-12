@@ -56,7 +56,7 @@ export default function NotreExpertise() {
             </div>
             <div className="flex justify-center">
               <Image
-                src="/images/expertise/tech/techs-symfony.png"
+                src="/images/expertise/tech/techs-symfony.webp"
                 alt="Technologies Symfony"
                 width={500}
                 height={350}
