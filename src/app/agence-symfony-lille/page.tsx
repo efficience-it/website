@@ -5,6 +5,8 @@ import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
+import RelatedLinks from "@/components/sections/RelatedLinks";
+import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
@@ -89,6 +91,13 @@ const localBusinessJsonLd = {
 const breadcrumb = breadcrumbJsonLd([
   { name: "Agence Symfony a Lille", path: "/agence-symfony-lille" },
 ]);
+
+const agenceRelatedLinks: RelatedLink[] = [
+  { title: "Pourquoi choisir Symfony pour vos projets", description: "Les atouts du framework PHP pour les applications exigeantes", href: "/article/pourquoi-choisir-symfony-pour-vos-projets" },
+  { title: "Guide de migration dans un projet Symfony", description: "Notre methodologie pour les mises a jour de version", href: "/article/guide-de-migration-dans-un-projet-symfony" },
+  { title: "Developpement web sur mesure", description: "Notre offre complete de creation d'applications web", href: "/developpement-web-sur-mesure" },
+  { title: "Documentation officielle Symfony", description: "La reference technique du framework", href: "https://symfony.com/doc/current/index.html", external: true },
+];
 
 export default function AgenceSymfonyLille() {
   return (
@@ -506,51 +515,7 @@ export default function AgenceSymfonyLille() {
           </div>
         </section>
 
-        <section className="py-16 md:py-24">
-          <Container>
-            <SectionTitle>Pour aller plus loin</SectionTitle>
-            <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
-              <li>
-                <Link
-                  href="/article/pourquoi-choisir-symfony-pour-vos-projets"
-                  className="text-primary hover:underline"
-                >
-                  Pourquoi choisir Symfony pour vos projets
-                </Link>{" "}
-                , les atouts du framework PHP pour les applications exigeantes
-              </li>
-              <li>
-                <Link
-                  href="/article/guide-de-migration-dans-un-projet-symfony"
-                  className="text-primary hover:underline"
-                >
-                  Guide de migration dans un projet Symfony
-                </Link>{" "}
-                , notre methodologie pour les mises a jour de version
-              </li>
-              <li>
-                <Link
-                  href="/developpement-web-sur-mesure"
-                  className="text-primary hover:underline"
-                >
-                  Developpement web sur mesure
-                </Link>{" "}
-                , notre offre complete de creation d&apos;applications web
-              </li>
-              <li>
-                <a
-                  href="https://symfony.com/doc/current/index.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline"
-                >
-                  Documentation officielle Symfony
-                </a>{" "}
-                , la reference technique du framework
-              </li>
-            </ul>
-          </Container>
-        </section>
+        <RelatedLinks links={agenceRelatedLinks} />
       </main>
     </>
   );

@@ -7,6 +7,15 @@ import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
 import CallToAction from "@/components/sections/CallToAction";
 import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/structured-data";
+import RelatedLinks from "@/components/sections/RelatedLinks";
+import type { RelatedLink } from "@/components/sections/RelatedLinks";
+
+const nodejsRelatedLinks: RelatedLink[] = [
+  { title: "Les bonnes pratiques des APIs REST", description: "pour concevoir des interfaces performantes et maintenables", href: "/article/api-rest-les-bonnes-pratiques" },
+  { title: "Microservices ou monolithe modulaire", description: "choisir la bonne architecture selon votre contexte", href: "/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire" },
+  { title: "Node.js, documentation officielle", description: "la reference du runtime JavaScript cote serveur", href: "https://nodejs.org/", external: true },
+  { title: "NestJS, documentation officielle", description: "le framework Node.js structure pour les applications d'entreprise", href: "https://nestjs.com/", external: true },
+];
 
 export const metadata = pageMetadata({
   title: "Developpement Node.js sur mesure pour vos applications",
@@ -425,53 +434,7 @@ export default function DeveloppementNodejs() {
           </Container>
         </section>
 
-        <section className="py-16 md:py-24">
-          <Container>
-            <SectionTitle>Pour aller plus loin</SectionTitle>
-            <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
-              <li>
-                <Link
-                  href="/article/api-rest-les-bonnes-pratiques"
-                  className="text-primary hover:underline"
-                >
-                  Les bonnes pratiques des APIs REST
-                </Link>
-                , pour concevoir des interfaces performantes et maintenables
-              </li>
-              <li>
-                <Link
-                  href="/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire"
-                  className="text-primary hover:underline"
-                >
-                  Microservices ou monolithe modulaire
-                </Link>
-                , choisir la bonne architecture selon votre contexte
-              </li>
-              <li>
-                <a
-                  href="https://nodejs.org/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline"
-                >
-                  Node.js, documentation officielle
-                </a>
-                , la reference du runtime JavaScript cote serveur
-              </li>
-              <li>
-                <a
-                  href="https://nestjs.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline"
-                >
-                  NestJS, documentation officielle
-                </a>
-                , le framework Node.js structure pour les applications d&apos;entreprise
-              </li>
-            </ul>
-          </Container>
-        </section>
+        <RelatedLinks links={nodejsRelatedLinks} />
 
         <CallToAction />
       </main>

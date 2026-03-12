@@ -11,7 +11,7 @@ import { BASE_URL, SITE_NAME, pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
 import { getAuthorSchema } from "@/data/authors";
 
-const SYMFONY_CATEGORIES = ["Outils", "Formation", "Projet"];
+const TECH_CATEGORIES = ["Outils", "Formation", "Projet", "Green IT"];
 
 function splitContentAfterThirdH2(content: string): [string, string] | null {
   const h2Regex = /^## /gm;
@@ -78,9 +78,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   const url = `${BASE_URL}/article/${slug}`;
 
+  const isTech = TECH_CATEGORIES.includes(post.category);
+
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "BlogPosting",
+    "@type": isTech ? "TechArticle" : "BlogPosting",
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": url,
@@ -108,6 +110,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       "@type": "SpeakableSpecification",
       cssSelector: ["h1", "article > p:first-of-type"],
     },
+    ...(isTech && { proficiencyLevel: post.proficiencyLevel ?? "Intermediate" }),
   };
 
   const breadcrumb = breadcrumbJsonLd([
@@ -198,7 +201,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 }
                 const [firstPart, secondPart] = parts;
                 const isSymfony =
-                  post.category && SYMFONY_CATEGORIES.includes(post.category);
+                  post.category && TECH_CATEGORIES.includes(post.category);
                 return (
                   <>
                     <MarkdownContent content={firstPart} />

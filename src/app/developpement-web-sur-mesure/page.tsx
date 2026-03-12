@@ -7,6 +7,8 @@ import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import CallToAction from "@/components/sections/CallToAction";
 import Accordion from "@/components/ui/Accordion";
+import RelatedLinks from "@/components/sections/RelatedLinks";
+import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import TestimonialCard from "@/components/cards/TestimonialCard";
 import { clients } from "@/../data/clients";
 import { testimonials } from "@/../data/testimonials";
@@ -95,6 +97,13 @@ const service = serviceJsonLd({
     "Conception et développement d'applications web sur mesure avec Symfony, Sylius et les technologies PHP modernes.",
   path: "/developpement-web-sur-mesure",
 });
+
+const devWebRelatedLinks: RelatedLink[] = [
+  { title: "Sylius : la solution e-commerce Symfony", description: "Notre expertise e-commerce open source", href: "/article/sylius-la-solution-e-commerce-du-framework-symfony" },
+  { title: "Symfony, site officiel", description: "Le framework PHP pour les applications web", href: "https://symfony.com/", external: true },
+  { title: "Sylius, site officiel", description: "La plateforme e-commerce bas\u00e9e sur Symfony", href: "https://sylius.com/", external: true },
+  { title: "API Platform", description: "Cr\u00e9er des API modernes en PHP", href: "https://api-platform.com/", external: true },
+];
 
 export default function DeveloppementWeb() {
   return (
@@ -552,38 +561,7 @@ export default function DeveloppementWeb() {
         </Container>
       </section>
 
-      {/* Pour aller plus loin */}
-      <section className="py-16 md:py-24">
-        <Container>
-          <SectionTitle>Pour aller plus loin</SectionTitle>
-          <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
-            <li>
-              <Link href="/article/sylius-la-solution-e-commerce-du-framework-symfony" className="text-primary hover:underline">
-                Sylius : la solution e-commerce Symfony
-              </Link>{" "}
-             , notre expertise e-commerce open source
-            </li>
-            <li>
-              <a href="https://symfony.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                Symfony, site officiel
-              </a>{" "}
-             , le framework PHP pour les applications web
-            </li>
-            <li>
-              <a href="https://sylius.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                Sylius, site officiel
-              </a>{" "}
-             , la plateforme e-commerce basée sur Symfony
-            </li>
-            <li>
-              <a href="https://api-platform.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                API Platform
-              </a>{" "}
-             , créer des API modernes en PHP
-            </li>
-          </ul>
-        </Container>
-      </section>
+      <RelatedLinks links={devWebRelatedLinks} />
 
       <section className="py-16">
         <Container>

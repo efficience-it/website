@@ -4,6 +4,8 @@ import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
 import CallToAction from "@/components/sections/CallToAction";
+import RelatedLinks from "@/components/sections/RelatedLinks";
+import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
 import {
   greenMetrics,
@@ -21,6 +23,32 @@ export const metadata = pageMetadata({
 });
 
 const breadcrumb = breadcrumbJsonLd([{ name: "Green IT", path: "/green-it" }]);
+
+const greenItRelatedLinks: RelatedLink[] = [
+  {
+    title: "Normes RGAA : accessibilité pour tous",
+    description: "Concevoir des sites inclusifs et responsables",
+    href: "/article/normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous",
+  },
+  {
+    title: "GreenIT.fr",
+    description: "Communauté du numérique responsable",
+    href: "https://www.greenit.fr/",
+    external: true,
+  },
+  {
+    title: "Ecosia",
+    description: "Le moteur de recherche qui plante des arbres",
+    href: "https://www.ecosia.org/",
+    external: true,
+  },
+  {
+    title: "W3C, Web Sustainability Guidelines",
+    description: "Référentiel de durabilité web",
+    href: "https://www.w3.org/TR/sustainability-web/",
+    external: true,
+  },
+];
 
 export default function GreenIt() {
   return (
@@ -179,38 +207,10 @@ export default function GreenIt() {
         </Container>
       </section>
 
-      {/* Pour aller plus loin */}
-      <section className="bg-light-gray py-16">
-        <Container>
-          <SectionTitle>Pour aller plus loin</SectionTitle>
-          <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
-            <li>
-              <Link href="/article/normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous" className="text-primary hover:underline">
-                Normes RGAA : accessibilité pour tous
-              </Link>{" "}
-             , concevoir des sites inclusifs et responsables
-            </li>
-            <li>
-              <a href="https://www.greenit.fr/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                GreenIT.fr
-              </a>{" "}
-             , communauté du numérique responsable
-            </li>
-            <li>
-              <a href="https://www.ecosia.org/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                Ecosia
-              </a>{" "}
-             , le moteur de recherche qui plante des arbres
-            </li>
-            <li>
-              <a href="https://www.w3.org/TR/sustainability-web/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                W3C, Web Sustainability Guidelines
-              </a>{" "}
-             , référentiel de durabilité web
-            </li>
-          </ul>
-        </Container>
-      </section>
+      <RelatedLinks
+        links={greenItRelatedLinks}
+        className="bg-light-gray"
+      />
 
       <CallToAction />
     </main>

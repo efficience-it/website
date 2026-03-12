@@ -3,7 +3,7 @@ import Container from "@/components/ui/Container";
 import BlogCard from "@/components/cards/BlogCard";
 import { getAllPosts, getCategories, getCategorySlug } from "@/lib/blog";
 import Link from "next/link";
-import { breadcrumbJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, blogItemListJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "Blog Efficience IT | Symfony, PHP et développement web",
@@ -18,12 +18,17 @@ export default function BlogPage() {
   const categories = getCategories();
 
   const breadcrumb = breadcrumbJsonLd([{ name: "Blog", path: "/blog" }]);
+  const itemList = blogItemListJsonLd(posts);
 
   return (
     <>
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(itemList) }}
     />
     <main>
       <section className="bg-light-gray py-16 md:py-24">

@@ -6,6 +6,8 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import Card from "@/components/ui/Card";
 import Accordion from "@/components/ui/Accordion";
 import AuditForm from "@/components/sections/AuditForm";
+import RelatedLinks from "@/components/sections/RelatedLinks";
+import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd, howToJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
@@ -106,6 +108,25 @@ const howTo = howToJsonLd(
     },
   ],
 );
+
+const auditRelatedLinks: RelatedLink[] = [
+  {
+    title: "Pourquoi choisir Symfony pour vos projets",
+    description: "Comprendre les atouts du framework",
+    href: "/article/pourquoi-choisir-symfony-pour-vos-projets",
+  },
+  {
+    title: "Accompagnement et Conseil",
+    description: "Nos prestations de conseil et formation",
+    href: "/accompagnement-et-conseil",
+  },
+  {
+    title: "Symfony, documentation officielle",
+    description: "Référence technique du framework",
+    href: "https://symfony.com/doc/current/index.html",
+    external: true,
+  },
+];
 
 export default function AuditSymfonyGratuit() {
   return (
@@ -380,42 +401,10 @@ export default function AuditSymfonyGratuit() {
           </Container>
         </section>
 
-        <section className="bg-light-gray py-16">
-          <Container>
-            <SectionTitle>Pour aller plus loin</SectionTitle>
-            <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
-              <li>
-                <Link
-                  href="/article/pourquoi-choisir-symfony-pour-vos-projets"
-                  className="text-primary hover:underline"
-                >
-                  Pourquoi choisir Symfony pour vos projets
-                </Link>{" "}
-                , comprendre les atouts du framework
-              </li>
-              <li>
-                <Link
-                  href="/accompagnement-et-conseil"
-                  className="text-primary hover:underline"
-                >
-                  Accompagnement et Conseil
-                </Link>{" "}
-                , nos prestations de conseil et formation
-              </li>
-              <li>
-                <a
-                  href="https://symfony.com/doc/current/index.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline"
-                >
-                  Symfony, documentation officielle
-                </a>{" "}
-                , référence technique du framework
-              </li>
-            </ul>
-          </Container>
-        </section>
+        <RelatedLinks
+          links={auditRelatedLinks}
+          className="bg-light-gray"
+        />
       </main>
     </>
   );
