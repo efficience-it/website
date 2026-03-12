@@ -7,7 +7,7 @@ import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
-import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "Reprise de projet Symfony, nous prenons le relais",
@@ -147,6 +147,14 @@ const service = serviceJsonLd({
   path: "/reprise-projet-symfony",
 });
 
+const webPage = webPageJsonLd({
+  name: "Reprise de projet Symfony, nous prenons le relais",
+  description: "Votre prestataire Symfony a disparu ou votre application n'est plus maintenue ? Efficience IT prend en charge la reprise de votre projet : audit, stabilisation, montee de version et maintenance continue.",
+  path: "/reprise-projet-symfony",
+  datePublished: "2026-02-01",
+  dateModified: "2026-02-01",
+});
+
 const repriseRelatedLinks: RelatedLink[] = [
   { title: "Audit Symfony gratuit", description: "30 minutes pour evaluer l'etat de votre application", href: "/audit-symfony-gratuit" },
   { title: "La dette technique : faut-il vraiment en avoir peur ?", description: "Comprendre les enjeux avant d'agir", href: "/article/la-dette-technique-faut-il-vraiment-en-avoir-peur" },
@@ -169,6 +177,10 @@ export default function RepriseProjetSymfony() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
       />
       <main>
         <section className="bg-light-gray py-16 md:py-24">

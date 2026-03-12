@@ -5,7 +5,7 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
-import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 
@@ -182,6 +182,14 @@ const service = serviceJsonLd({
   path: "/modernisation-application-php",
 });
 
+const webPage = webPageJsonLd({
+  name: "Modernisation d'application PHP, de la dette technique a la performance",
+  description: "Modernisez votre application PHP obsolete : migration vers Symfony, refactoring progressif, reduction de la dette technique et gain de performance. Audit gratuit.",
+  path: "/modernisation-application-php",
+  datePublished: "2026-02-01",
+  dateModified: "2026-02-01",
+});
+
 export default function ModernisationApplicationPhp() {
   return (
     <>
@@ -196,6 +204,10 @@ export default function ModernisationApplicationPhp() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
       />
       <main>
         <section className="bg-light-gray py-16 md:py-24">

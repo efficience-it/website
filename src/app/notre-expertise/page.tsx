@@ -14,7 +14,7 @@ import {
 import CallToAction from "@/components/sections/CallToAction";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
-import { breadcrumbJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "Expertise Symfony de référence",
@@ -24,6 +24,15 @@ export const metadata = pageMetadata({
 });
 
 const breadcrumb = breadcrumbJsonLd([{ name: "Nos expertises", path: "/notre-expertise" }]);
+
+const webPage = webPageJsonLd({
+  name: "Expertise Symfony de référence",
+  description:
+    "Expertise Symfony de référence : Efficience IT conçoit, développe et maintient des applications web professionnelles, robustes et orientées production.",
+  path: "/notre-expertise",
+  datePublished: "2025-09-01",
+  dateModified: "2026-01-15",
+});
 
 const expertiseRelatedLinks: RelatedLink[] = [
   {
@@ -57,6 +66,10 @@ export default function NotreExpertise() {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
     />
     <main>
       <section className="bg-light-gray py-16 md:py-24">

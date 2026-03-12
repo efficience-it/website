@@ -7,7 +7,7 @@ import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
-import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "API sur mesure avec Symfony et API Platform",
@@ -164,6 +164,14 @@ const service = serviceJsonLd({
   path: "/api-sur-mesure-symfony",
 });
 
+const webPage = webPageJsonLd({
+  name: "API sur mesure avec Symfony et API Platform",
+  description: "Développement API Symfony sur mesure : REST, GraphQL, OAuth2/JWT, OpenAPI. Nous concevons des API robustes et performantes pour vos applications mobiles, SaaS et interconnexions SI.",
+  path: "/api-sur-mesure-symfony",
+  datePublished: "2026-03-11",
+  dateModified: "2026-03-11",
+});
+
 const apiRelatedLinks: RelatedLink[] = [
   {
     title: "Bonnes pratiques API REST",
@@ -202,6 +210,10 @@ export default function ApiSurMesureSymfony() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
       />
       <main>
         <section className="bg-light-gray py-16 md:py-24">

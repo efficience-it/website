@@ -12,7 +12,7 @@ import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import TestimonialCard from "@/components/cards/TestimonialCard";
 import { clients } from "@/../data/clients";
 import { testimonials } from "@/../data/testimonials";
-import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "Cloud & DevOps : infrastructure et automatisation",
@@ -115,6 +115,15 @@ const service = serviceJsonLd({
   path: "/cloud-et-devops",
 });
 
+const webPage = webPageJsonLd({
+  name: "Cloud & DevOps : infrastructure et automatisation",
+  description:
+    "Expertise Cloud et DevOps : Efficience IT accompagne la mise en place d'infrastructures, d'automatisation et de pratiques DevOps adaptées aux projets web.",
+  path: "/cloud-et-devops",
+  datePublished: "2025-09-01",
+  dateModified: "2026-03-10",
+});
+
 const cloudRelatedLinks: RelatedLink[] = [
   { title: "D\u00e9ployer avec GitLab CI, S3 et CloudFront", description: "Automatisation du d\u00e9ploiement", href: "/article/deployer-nuxtjs-avec-gitlab-ci-s3-et-cloudfront" },
   { title: "Docker, documentation officielle", description: "Conteneurisation des applications", href: "https://docs.docker.com/", external: true },
@@ -136,6 +145,10 @@ export default function CloudEtDevops() {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
     />
     <main>
       {/* Hero */}

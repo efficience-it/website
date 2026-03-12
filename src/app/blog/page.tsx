@@ -3,7 +3,7 @@ import Container from "@/components/ui/Container";
 import BlogCard from "@/components/cards/BlogCard";
 import { getAllPosts, getCategories, getCategorySlug } from "@/lib/blog";
 import Link from "next/link";
-import { breadcrumbJsonLd, blogItemListJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, blogItemListJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "Blog Efficience IT | Symfony, PHP et développement web",
@@ -19,6 +19,14 @@ export default function BlogPage() {
 
   const breadcrumb = breadcrumbJsonLd([{ name: "Blog", path: "/blog" }]);
   const itemList = blogItemListJsonLd(posts);
+  const webPage = webPageJsonLd({
+    name: "Blog Efficience IT | Symfony, PHP et développement web",
+    description: "Articles techniques, retours d'expérience et veille autour de Symfony, PHP et du développement d'applications web professionnelles.",
+    path: "/blog",
+    type: "CollectionPage",
+    datePublished: "2025-09-01",
+    dateModified: "2026-03-11",
+  });
 
   return (
     <>
@@ -29,6 +37,10 @@ export default function BlogPage() {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(itemList) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
     />
     <main>
       <section className="bg-light-gray py-16 md:py-24">

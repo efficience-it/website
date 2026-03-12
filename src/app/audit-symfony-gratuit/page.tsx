@@ -8,7 +8,7 @@ import Accordion from "@/components/ui/Accordion";
 import AuditForm from "@/components/sections/AuditForm";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
-import { breadcrumbJsonLd, howToJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, howToJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "Audit Symfony gratuit 30 min",
@@ -109,6 +109,14 @@ const howTo = howToJsonLd(
   ],
 );
 
+const webPage = webPageJsonLd({
+  name: "Audit Symfony gratuit 30 min",
+  description: "Bénéficiez d'un audit technique Symfony gratuit de 30 minutes : architecture, dette technique, sécurité, performance et stratégie de migration. Sans engagement.",
+  path: "/audit-symfony-gratuit",
+  datePublished: "2025-09-01",
+  dateModified: "2026-02-01",
+});
+
 const auditRelatedLinks: RelatedLink[] = [
   {
     title: "Pourquoi choisir Symfony pour vos projets",
@@ -142,6 +150,10 @@ export default function AuditSymfonyGratuit() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
       />
       <main>
         <section className="bg-light-gray py-16 md:py-24">

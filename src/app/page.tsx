@@ -11,6 +11,7 @@ import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
 
 import { pageMetadata } from "@/lib/metadata";
+import { webPageJsonLd } from "@/lib/structured-data";
 import type { Metadata } from "next";
 
 const keyFigures = [
@@ -27,8 +28,22 @@ export const metadata: Metadata = pageMetadata({
   path: "/",
 });
 
+const webPage = webPageJsonLd({
+  name: "Agence Symfony à Lille, experte en développement web",
+  description:
+    "Agence spécialisée Symfony et PHP, Efficience IT conçoit et développe des applications web sur mesure, robustes et adaptées aux enjeux métiers.",
+  path: "/",
+  datePublished: "2025-09-01",
+  dateModified: "2026-03-11",
+});
+
 export default function Home() {
   return (
+    <>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
+    />
     <main>
       <Hero />
       <ExpertiseCards />
@@ -53,5 +68,6 @@ export default function Home() {
       <Testimonials />
       <AuditCallToAction />
     </main>
+    </>
   );
 }

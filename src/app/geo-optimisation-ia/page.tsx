@@ -6,7 +6,7 @@ import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
 import CallToAction from "@/components/sections/CallToAction";
-import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "GEO : optimisez votre visibilite dans les moteurs IA",
@@ -123,6 +123,15 @@ const service = serviceJsonLd({
   path: "/geo-optimisation-ia",
 });
 
+const webPage = webPageJsonLd({
+  name: "GEO : optimisez votre visibilite dans les moteurs IA",
+  description:
+    "Generative Engine Optimization (GEO) : rendez votre site visible dans ChatGPT, Perplexity et les AI Overviews de Google. Donnees structurees, llms.txt, optimisation du contenu pour les moteurs IA.",
+  path: "/geo-optimisation-ia",
+  datePublished: "2026-03-12",
+  dateModified: "2026-03-12",
+});
+
 export default function GeoOptimisationIa() {
   return (
     <>
@@ -137,6 +146,10 @@ export default function GeoOptimisationIa() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
       />
       <main>
         <section className="bg-light-gray py-16 md:py-24">

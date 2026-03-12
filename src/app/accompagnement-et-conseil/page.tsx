@@ -12,7 +12,7 @@ import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import TestimonialCard from "@/components/cards/TestimonialCard";
 import { clients } from "@/../data/clients";
 import { testimonials } from "@/../data/testimonials";
-import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "Conseil, formation et coaching Symfony",
@@ -124,6 +124,15 @@ const service = serviceJsonLd({
   path: "/accompagnement-et-conseil",
 });
 
+const webPage = webPageJsonLd({
+  name: "Conseil, formation et coaching Symfony",
+  description:
+    "Efficience IT accompagne les équipes sur l'organisation, le conseil, le coaching et la formation autour de Symfony et des projets web professionnels.",
+  path: "/accompagnement-et-conseil",
+  datePublished: "2025-09-01",
+  dateModified: "2026-03-10",
+});
+
 const accompagnementRelatedLinks: RelatedLink[] = [
   { title: "Comment se passe un audit chez Efficience IT", description: "Notre m\u00e9thodologie d'audit d\u00e9taill\u00e9e", href: "/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede" },
   { title: "Symfony, documentation officielle", description: "R\u00e9f\u00e9rence technique du framework", href: "https://symfony.com/doc/current/index.html", external: true },
@@ -145,6 +154,10 @@ export default function AccompagnementEtConseil() {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
     />
     <main>
       {/* Hero */}

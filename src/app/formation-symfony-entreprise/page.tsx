@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
-import { breadcrumbJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
 import Card from "@/components/ui/Card";
@@ -168,6 +168,14 @@ const breadcrumb = breadcrumbJsonLd([
   { name: "Formation Symfony entreprise", path: "/formation-symfony-entreprise" },
 ]);
 
+const webPage = webPageJsonLd({
+  name: "Formation Symfony pour les entreprises a Lille et a distance",
+  description: "Formation Symfony sur mesure pour les entreprises a Lille et a distance. Fondamentaux, architecture hexagonale, API Platform, PHPStan. Groupes de 2 a 8 personnes, formateurs praticiens.",
+  path: "/formation-symfony-entreprise",
+  datePublished: "2026-01-13",
+  dateModified: "2026-01-13",
+});
+
 const formationRelatedLinks: RelatedLink[] = [
   { title: "Accompagnement et Conseil", description: "Nos autres prestations d'accompagnement technique", href: "/accompagnement-et-conseil" },
   { title: "Pourquoi choisir Symfony pour vos projets", description: "Les atouts du framework en entreprise", href: "/article/pourquoi-choisir-symfony-pour-vos-projets" },
@@ -188,6 +196,10 @@ export default function FormationSymfonyEntreprise() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
       />
       <main>
         <section className="bg-light-gray py-16 md:py-24">

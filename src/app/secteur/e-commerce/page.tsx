@@ -9,7 +9,7 @@ import Accordion from "@/components/ui/Accordion";
 import CallToAction from "@/components/sections/CallToAction";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
-import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title:
@@ -99,6 +99,15 @@ const service = serviceJsonLd({
   path: "/secteur/e-commerce",
 });
 
+const webPage = webPageJsonLd({
+  name: "Agence e-commerce Symfony et Sylius : developpement sur mesure",
+  description:
+    "Efficience IT developpe des plateformes e-commerce performantes avec Symfony et Sylius : catalogue produit, API headless, integration PIM/ERP et scalabilite.",
+  path: "/secteur/e-commerce",
+  datePublished: "2026-03-12",
+  dateModified: "2026-03-12",
+});
+
 const relatedLinks: RelatedLink[] = [
   {
     title: "Sylius : la solution e-commerce Symfony",
@@ -152,6 +161,10 @@ export default function SecteurEcommerce() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
       />
       <main>
         <section className="bg-light-gray py-16 md:py-24">

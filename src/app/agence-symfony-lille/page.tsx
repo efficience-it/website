@@ -7,7 +7,7 @@ import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
-import { breadcrumbJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "Agence Symfony a Lille, votre partenaire developpement web",
@@ -92,6 +92,14 @@ const breadcrumb = breadcrumbJsonLd([
   { name: "Agence Symfony a Lille", path: "/agence-symfony-lille" },
 ]);
 
+const webPage = webPageJsonLd({
+  name: "Agence Symfony a Lille, votre partenaire developpement web",
+  description: "Efficience IT, agence Symfony a Lille : developpement sur mesure, maintenance, migration et audit. Proximite, reactivite et expertise technique au service de vos projets.",
+  path: "/agence-symfony-lille",
+  datePublished: "2026-03-11",
+  dateModified: "2026-03-11",
+});
+
 const agenceRelatedLinks: RelatedLink[] = [
   { title: "Pourquoi choisir Symfony pour vos projets", description: "Les atouts du framework PHP pour les applications exigeantes", href: "/article/pourquoi-choisir-symfony-pour-vos-projets" },
   { title: "Guide de migration dans un projet Symfony", description: "Notre methodologie pour les mises a jour de version", href: "/article/guide-de-migration-dans-un-projet-symfony" },
@@ -109,6 +117,10 @@ export default function AgenceSymfonyLille() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
       />
       <main>
         <section className="bg-light-gray py-16 md:py-24">

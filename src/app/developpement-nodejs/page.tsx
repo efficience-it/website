@@ -6,7 +6,7 @@ import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
 import CallToAction from "@/components/sections/CallToAction";
-import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 
@@ -128,6 +128,14 @@ const service = serviceJsonLd({
   path: "/developpement-nodejs",
 });
 
+const webPage = webPageJsonLd({
+  name: "Developpement Node.js sur mesure pour vos applications",
+  description: "Agence Node.js specialisee : API REST, GraphQL, microservices, temps reel et BFF. Developpement Node.js avec NestJS, TypeScript et les meilleures pratiques d'architecture.",
+  path: "/developpement-nodejs",
+  datePublished: "2025-09-01",
+  dateModified: "2026-03-11",
+});
+
 export default function DeveloppementNodejs() {
   return (
     <>
@@ -142,6 +150,10 @@ export default function DeveloppementNodejs() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
       />
       <main>
         <section className="bg-light-gray py-16 md:py-24">

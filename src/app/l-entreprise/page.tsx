@@ -6,7 +6,7 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import TimelineItem from "@/components/cards/TimelineItem";
 import Button from "@/components/ui/Button";
 import CallToAction from "@/components/sections/CallToAction";
-import { breadcrumbJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 
@@ -123,12 +123,26 @@ const values = [
 
 const breadcrumb = breadcrumbJsonLd([{ name: "Notre histoire", path: "/l-entreprise" }]);
 
+const webPage = webPageJsonLd({
+  name: "Agence Symfony - Présentation et expertise",
+  description:
+    "Découvrez Efficience IT, agence spécialisée Symfony et PHP. Notre équipe conçoit et développe des applications web sur mesure, robustes et adaptées aux enjeux métiers.",
+  path: "/l-entreprise",
+  type: "AboutPage",
+  datePublished: "2025-09-01",
+  dateModified: "2025-09-01",
+});
+
 export default function LEntreprise() {
   return (
     <>
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
     />
     <main>
       <section className="bg-light-gray py-16 md:py-24">
