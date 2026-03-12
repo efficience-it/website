@@ -6,6 +6,8 @@ import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import MarkdownContent from "@/components/ui/MarkdownContent";
 import ArticleCta from "@/components/sections/ArticleCta";
+import Accordion from "@/components/ui/Accordion";
+import SectionTitle from "@/components/ui/SectionTitle";
 import type { Metadata } from "next";
 import { BASE_URL, SITE_NAME, pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
@@ -128,6 +130,25 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
       />
+      {post.faq && post.faq.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: post.faq.map((item) => ({
+                "@type": "Question",
+                name: item.question,
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: item.answer,
+                },
+              })),
+            }),
+          }}
+        />
+      )}
       <main>
         <article className="py-16">
           <Container className="mx-auto max-w-3xl">
@@ -229,6 +250,19 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               })()}
             </div>
             <ArticleCta category={post.category} slug={slug} />
+            {post.faq && post.faq.length > 0 && (
+              <div className="mt-16">
+                <SectionTitle>Questions frequentes</SectionTitle>
+                <div className="mx-auto mt-8 max-w-2xl">
+                  <Accordion
+                    items={post.faq.map((item) => ({
+                      title: item.question,
+                      content: item.answer,
+                    }))}
+                  />
+                </div>
+              </div>
+            )}
             <div className="mt-12 border-t border-border pt-8">
               <Button href="/blog" variant="outline">
                 &larr; Retour au blog

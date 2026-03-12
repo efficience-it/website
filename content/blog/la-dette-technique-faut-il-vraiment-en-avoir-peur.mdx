@@ -6,6 +6,13 @@ category: "Projet"
 excerpt: "De son terme anglais 'Legacy', la dette technique est une notion fréquemment utilisée en technologie de l'information pour faire référence aux systèmes dépassés."
 image: "/images/blog/dette-technique.webp"
 updatedAt: "2026-01-13"
+faq:
+  - question: "Comment mesurer la dette technique d'un projet ?"
+    answer: "Plusieurs indicateurs permettent de la quantifier : la couverture de tests (PHPUnit), la complexite cyclomatique (PHPStan, SonarQube), le couplage entre modules, le nombre de deprecations non traitees et le temps necessaire pour ajouter une fonctionnalite simple. Un audit de code donne une vision globale et priorisee."
+  - question: "Faut-il rembourser toute la dette technique d'un coup ?"
+    answer: "Non, c'est rarement la bonne approche. Priorisez les zones du code qui changent le plus souvent et celles qui presentent des risques de securite. Remboursez la dette par increments : chaque sprint peut inclure une part de refactoring cible. L'objectif est de reduire la dette progressivement, pas de tout reecrire."
+  - question: "La dette technique est-elle toujours negative ?"
+    answer: "Non. Une dette technique deliberee et maitrisee peut etre strategique, par exemple pour livrer un MVP rapidement et valider un marche. Le probleme survient quand la dette est involontaire (mauvaises pratiques) ou quand elle n'est jamais remboursee. La cle est de la documenter et de planifier son remboursement."
 ---
 
 ## Comprendre la dette technique

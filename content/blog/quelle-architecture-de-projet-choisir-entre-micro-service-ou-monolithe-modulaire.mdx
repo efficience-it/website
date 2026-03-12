@@ -7,6 +7,13 @@ excerpt: "Bien structurer son projet est essentiel. Deux approches architectural
 image: "/images/blog/microservices-monolithe.webp"
 proficiencyLevel: "Expert"
 updatedAt: "2026-01-13"
+faq:
+  - question: "Quand faut-il passer aux micro-services ?"
+    answer: "Les micro-services se justifient quand vous avez des equipes independantes qui doivent deployer a des rythmes differents, des parties de l'application avec des besoins de scalabilite tres differents, ou un domaine metier suffisamment mature pour definir des frontieres claires. Pour la plupart des projets, un monolithe modulaire bien structure est plus adapte."
+  - question: "Un monolithe modulaire est-il scalable ?"
+    answer: "Oui, un monolithe bien concu peut scaler horizontalement en ajoutant des instances derriere un load balancer. Les traitements lourds peuvent etre decharges vers des workers asynchrones (Symfony Messenger). La limite arrive quand differentes parties de l'application ont des besoins de scalabilite radicalement differents."
+  - question: "Comment eviter qu'un monolithe devienne un monolithe couple ?"
+    answer: "La cle est la discipline architecturale : separer le code en modules avec des frontieres explicites, interdire les acces directs entre modules (passer par des interfaces), utiliser des evenements pour la communication inter-modules et verifier l'absence de couplage avec des outils comme Deptrac."
 ---
 
 ## Micro-services ou monolithe modulaire : un choix structurant
