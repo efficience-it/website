@@ -139,6 +139,42 @@ export function blogItemListJsonLd(posts: BlogPost[]) {
   };
 }
 
+type WebPageType = "WebPage" | "CollectionPage" | "ContactPage" | "AboutPage";
+
+interface WebPageProps {
+  name: string;
+  description: string;
+  path: string;
+  type?: WebPageType;
+  datePublished?: string;
+  dateModified?: string;
+}
+
+export function webPageJsonLd({
+  name,
+  description,
+  path,
+  type = "WebPage",
+  datePublished,
+  dateModified,
+}: WebPageProps) {
+  return {
+    "@context": "https://schema.org",
+    "@type": type,
+    name,
+    description,
+    url: `${BASE_URL}${path}`,
+    inLanguage: "fr-FR",
+    isPartOf: {
+      "@type": "WebSite",
+      name: "Efficience IT",
+      url: BASE_URL,
+    },
+    ...(datePublished && { datePublished }),
+    ...(dateModified && { dateModified }),
+  };
+}
+
 interface HowToStep {
   name: string;
   text: string;

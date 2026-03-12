@@ -6,7 +6,7 @@ import Button from "@/components/ui/Button";
 import CallToAction from "@/components/sections/CallToAction";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
-import { breadcrumbJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "L'équipe Efficience IT | Agence web et technique",
@@ -17,6 +17,15 @@ export const metadata = pageMetadata({
 });
 
 const breadcrumb = breadcrumbJsonLd([{ name: "La team", path: "/la-team" }]);
+
+const webPage = webPageJsonLd({
+  name: "L'équipe Efficience IT | Agence web et technique",
+  description:
+    "Découvrez l'équipe d'Efficience IT : développeurs, profils techniques et métiers engagés dans la réalisation de projets web et applicatifs.",
+  path: "/la-team",
+  datePublished: "2025-09-01",
+  dateModified: "2025-09-01",
+});
 
 const teamRelatedLinks: RelatedLink[] = [
   {
@@ -44,6 +53,10 @@ export default function LaTeam() {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
     />
     <main>
       {/* Hero */}

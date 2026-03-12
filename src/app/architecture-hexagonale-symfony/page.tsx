@@ -6,7 +6,7 @@ import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
 import CallToAction from "@/components/sections/CallToAction";
-import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title:
@@ -171,6 +171,15 @@ const service = serviceJsonLd({
   path: "/architecture-hexagonale-symfony",
 });
 
+const webPage = webPageJsonLd({
+  name: "Architecture hexagonale avec Symfony : Domain-Driven Design applique",
+  description:
+    "Structurez vos applications Symfony avec l'architecture hexagonale et le Domain-Driven Design. Principes, avantages, retours d'experience et accompagnement par Efficience IT.",
+  path: "/architecture-hexagonale-symfony",
+  datePublished: "2026-03-12",
+  dateModified: "2026-03-12",
+});
+
 export default function ArchitectureHexagonaleSymfony() {
   return (
     <>
@@ -185,6 +194,10 @@ export default function ArchitectureHexagonaleSymfony() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
       />
       <main>
         <section className="bg-light-gray py-16 md:py-24">

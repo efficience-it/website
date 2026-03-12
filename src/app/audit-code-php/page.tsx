@@ -6,7 +6,7 @@ import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
 import CallToAction from "@/components/sections/CallToAction";
-import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "Audit de code PHP : qualite, securite et performance",
@@ -145,6 +145,15 @@ const service = serviceJsonLd({
   path: "/audit-code-php",
 });
 
+const webPage = webPageJsonLd({
+  name: "Audit de code PHP : qualite, securite et performance",
+  description:
+    "Audit de code PHP complet par des experts : analyse statique PHPStan niveau max, dette technique, securite, performance et couverture de tests. Rapport actionnable sous 48h.",
+  path: "/audit-code-php",
+  datePublished: "2026-03-12",
+  dateModified: "2026-03-12",
+});
+
 export default function AuditCodePhp() {
   return (
     <>
@@ -159,6 +168,10 @@ export default function AuditCodePhp() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
       />
       <main>
         <section className="bg-light-gray py-16 md:py-24">

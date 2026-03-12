@@ -5,7 +5,7 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import Testimonials from "@/components/sections/Testimonials";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
-import { breadcrumbJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "Nos réalisations et contributions open source",
@@ -64,6 +64,16 @@ const techStack = [
 
 const breadcrumb = breadcrumbJsonLd([{ name: "Références", path: "/nos-references" }]);
 
+const webPage = webPageJsonLd({
+  name: "Nos réalisations et contributions open source",
+  description:
+    "Applications web, outils métiers et contributions open source réalisés par Efficience IT dans des contextes variés.",
+  path: "/nos-references",
+  type: "CollectionPage",
+  datePublished: "2025-09-01",
+  dateModified: "2025-09-01",
+});
+
 const referencesRelatedLinks: RelatedLink[] = [
   {
     title: "Doctavis et Efficience IT",
@@ -106,6 +116,10 @@ export default function NosReferences() {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
     />
     <main>
       <section className="bg-light-gray py-8 md:py-12">

@@ -6,7 +6,7 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import CallToAction from "@/components/sections/CallToAction";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
-import { breadcrumbJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 import {
   greenMetrics,
   greenPrinciple,
@@ -23,6 +23,15 @@ export const metadata = pageMetadata({
 });
 
 const breadcrumb = breadcrumbJsonLd([{ name: "Green IT", path: "/green-it" }]);
+
+const webPage = webPageJsonLd({
+  name: "Green IT | Démarche numérique responsable",
+  description:
+    "Efficience IT s'engage dans une démarche Green IT pour réduire l'impact environnemental du numérique, à travers des pratiques techniques et responsables.",
+  path: "/green-it",
+  datePublished: "2025-09-01",
+  dateModified: "2025-09-01",
+});
 
 const greenItRelatedLinks: RelatedLink[] = [
   {
@@ -56,6 +65,10 @@ export default function GreenIt() {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
     />
     <main>
       <section className="bg-light-gray py-16 md:py-24">

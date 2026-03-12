@@ -5,7 +5,7 @@ import Button from "@/components/ui/Button";
 import JobCard from "@/components/cards/JobCard";
 import { jobs, domains, spontaneousEmail } from "@/../data/jobs";
 import Link from "next/link";
-import { breadcrumbJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 
@@ -27,12 +27,25 @@ export const metadata = pageMetadata({
 
 const breadcrumb = breadcrumbJsonLd([{ name: "Jobs", path: "/ta-carriere" }]);
 
+const webPage = webPageJsonLd({
+  name: "On recrute | Efficience IT - Opportunités de carrière",
+  description:
+    "Découvrez les opportunités de carrière chez Efficience IT : développement, business, recrutement et communication au sein d'une agence web spécialisée Symfony.",
+  path: "/ta-carriere",
+  datePublished: "2025-09-01",
+  dateModified: "2025-09-01",
+});
+
 export default function TaCarriere() {
   return (
     <>
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
     />
     <main>
       <section className="bg-light-gray py-16 md:py-24">

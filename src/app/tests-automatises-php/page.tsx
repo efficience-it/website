@@ -6,7 +6,7 @@ import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
 import CallToAction from "@/components/sections/CallToAction";
-import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title:
@@ -114,6 +114,15 @@ const service = serviceJsonLd({
   path: "/tests-automatises-php",
 });
 
+const webPage = webPageJsonLd({
+  name: "Tests automatises PHP et Symfony : securisez chaque livraison",
+  description:
+    "Mettez en place une strategie de tests automatises PHP et Symfony : tests unitaires, integration, fonctionnels et e2e avec PHPUnit, Behat et Cypress. Pipeline CI/CD inclus.",
+  path: "/tests-automatises-php",
+  datePublished: "2026-03-12",
+  dateModified: "2026-03-12",
+});
+
 export default function TestsAutomatisesPhp() {
   return (
     <>
@@ -128,6 +137,10 @@ export default function TestsAutomatisesPhp() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
       />
       <main>
         <section className="bg-light-gray py-16 md:py-24">

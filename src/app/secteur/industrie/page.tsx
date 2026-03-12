@@ -9,7 +9,7 @@ import Accordion from "@/components/ui/Accordion";
 import CallToAction from "@/components/sections/CallToAction";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
-import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title:
@@ -99,6 +99,15 @@ const service = serviceJsonLd({
   path: "/secteur/industrie",
 });
 
+const webPage = webPageJsonLd({
+  name: "Applications metier pour l'industrie : outils sur mesure avec Symfony",
+  description:
+    "Efficience IT developpe des applications metier pour l'industrie : outils de production, interconnexion SI, workflows complexes et modernisation d'applications legacy.",
+  path: "/secteur/industrie",
+  datePublished: "2026-03-12",
+  dateModified: "2026-03-12",
+});
+
 const relatedLinks: RelatedLink[] = [
   {
     title: "Symfony Messenger en archi hexagonale",
@@ -152,6 +161,10 @@ export default function SecteurIndustrie() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
       />
       <main>
         <section className="bg-light-gray py-16 md:py-24">

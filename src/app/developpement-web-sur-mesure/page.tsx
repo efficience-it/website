@@ -12,7 +12,7 @@ import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import TestimonialCard from "@/components/cards/TestimonialCard";
 import { clients } from "@/../data/clients";
 import { testimonials } from "@/../data/testimonials";
-import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "Développement web sur mesure | Expertise Symfony – Efficience IT",
@@ -98,6 +98,15 @@ const service = serviceJsonLd({
   path: "/developpement-web-sur-mesure",
 });
 
+const webPage = webPageJsonLd({
+  name: "Développement web sur mesure | Expertise Symfony",
+  description:
+    "Expertise en développement web sur mesure : Efficience IT accompagne des projets applicatifs, notamment basés sur Symfony, de la conception à la mise en oeuvre.",
+  path: "/developpement-web-sur-mesure",
+  datePublished: "2025-09-01",
+  dateModified: "2026-03-10",
+});
+
 const devWebRelatedLinks: RelatedLink[] = [
   { title: "Sylius : la solution e-commerce Symfony", description: "Notre expertise e-commerce open source", href: "/article/sylius-la-solution-e-commerce-du-framework-symfony" },
   { title: "Symfony, site officiel", description: "Le framework PHP pour les applications web", href: "https://symfony.com/", external: true },
@@ -119,6 +128,10 @@ export default function DeveloppementWeb() {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
     />
     <main>
       {/* Hero */}

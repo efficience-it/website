@@ -9,7 +9,7 @@ import Accordion from "@/components/ui/Accordion";
 import CallToAction from "@/components/sections/CallToAction";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
-import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title:
@@ -99,6 +99,15 @@ const service = serviceJsonLd({
   path: "/secteur/finance",
 });
 
+const webPage = webPageJsonLd({
+  name: "Applications web pour la finance et la banque : securite et conformite avec Symfony",
+  description:
+    "Efficience IT developpe des applications web securisees pour le secteur financier : banque, fintech, assurance. Conformite, haute disponibilite et traitement de donnees sensibles.",
+  path: "/secteur/finance",
+  datePublished: "2026-03-12",
+  dateModified: "2026-03-12",
+});
+
 const relatedLinks: RelatedLink[] = [
   {
     title: "CVE : comprendre les failles de securite",
@@ -152,6 +161,10 @@ export default function SecteurFinance() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
       />
       <main>
         <section className="bg-light-gray py-16 md:py-24">
