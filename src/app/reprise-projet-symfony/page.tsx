@@ -12,9 +12,9 @@ import FadeIn from "@/components/ui/FadeIn";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title: "Reprise de projet Symfony, nous prenons le relais",
+  title: "Reprise de projet Symfony : changement de prestataire, nous prenons le relais",
   description:
-    "Votre prestataire Symfony a disparu ou votre application n'est plus maintenue ? Efficience IT prend en charge la reprise de votre projet : audit, stabilisation, montee de version et maintenance continue.",
+    "Changement de prestataire Symfony ? Projet abandonne ou mal maintenu ? Efficience IT reprend votre projet existant : audit du code herite, stabilisation, documentation et maintenance continue.",
   path: "/reprise-projet-symfony",
 });
 
@@ -150,8 +150,8 @@ const service = serviceJsonLd({
 });
 
 const webPage = webPageJsonLd({
-  name: "Reprise de projet Symfony, nous prenons le relais",
-  description: "Votre prestataire Symfony a disparu ou votre application n'est plus maintenue ? Efficience IT prend en charge la reprise de votre projet : audit, stabilisation, montee de version et maintenance continue.",
+  name: "Reprise de projet Symfony : changement de prestataire, nous prenons le relais",
+  description: "Changement de prestataire Symfony ? Projet abandonne ou mal maintenu ? Efficience IT reprend votre projet existant : audit du code herite, stabilisation, documentation et maintenance continue.",
   path: "/reprise-projet-symfony",
   datePublished: "2026-02-01",
   dateModified: "2026-02-01",
@@ -193,7 +193,7 @@ export default function RepriseProjetSymfony() {
                   Reprise de projet
                 </p>
                 <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                  Reprise de projet Symfony, nous prenons le relais
+                  Reprise de projet Symfony : changement de prestataire, nous prenons le relais
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
                   Votre prestataire a disparu ? Votre application Symfony n&apos;est plus maintenue ?

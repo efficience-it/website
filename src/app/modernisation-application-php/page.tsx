@@ -21,9 +21,9 @@ const modernisationRelatedLinks: RelatedLink[] = [
 
 export const metadata = pageMetadata({
   title:
-    "Modernisation d'application PHP, de la dette technique a la performance",
+    "Modernisation d'application PHP : reduire la dette technique et remettre aux normes",
   description:
-    "Modernisez votre application PHP obsolete : migration vers Symfony, refactoring progressif, reduction de la dette technique et gain de performance. Audit gratuit.",
+    "Modernisez votre application PHP obsolete : reduction de la dette technique, refactoring progressif, mise aux normes PHP 8 et migration vers Symfony. PHP natif, CodeIgniter, Zend ou Laravel.",
   path: "/modernisation-application-php",
 });
 
@@ -185,8 +185,8 @@ const service = serviceJsonLd({
 });
 
 const webPage = webPageJsonLd({
-  name: "Modernisation d'application PHP, de la dette technique a la performance",
-  description: "Modernisez votre application PHP obsolete : migration vers Symfony, refactoring progressif, reduction de la dette technique et gain de performance. Audit gratuit.",
+  name: "Modernisation d'application PHP : reduire la dette technique et remettre aux normes",
+  description: "Modernisez votre application PHP obsolete : reduction de la dette technique, refactoring progressif, mise aux normes PHP 8 et migration vers Symfony. PHP natif, CodeIgniter, Zend ou Laravel.",
   path: "/modernisation-application-php",
   datePublished: "2026-02-01",
   dateModified: "2026-02-01",
@@ -220,8 +220,7 @@ export default function ModernisationApplicationPhp() {
                   Migration PHP - Modernisation applicative
                 </p>
                 <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                  Modernisation d&apos;application PHP, de la dette technique a
-                  la performance
+                  Modernisation d&apos;application PHP : reduire la dette technique et remettre aux normes
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
                   Votre application PHP vieillit ? Il est temps de la

@@ -12,9 +12,9 @@ import FadeIn from "@/components/ui/FadeIn";
 import { breadcrumbJsonLd, howToJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title: "Audit Symfony gratuit 30 min",
+  title: "Diagnostic Symfony gratuit de 30 minutes : premier etat des lieux",
   description:
-    "Bénéficiez d'un audit technique Symfony gratuit de 30 minutes : architecture, dette technique, sécurité, performance et stratégie de migration. Sans engagement.",
+    "Diagnostic gratuit de 30 minutes pour votre application Symfony : premier etat des lieux technique, identification des points critiques et pistes d'amelioration. Sans engagement.",
   path: "/audit-symfony-gratuit",
 });
 
@@ -88,7 +88,7 @@ const faqJsonLd = {
 };
 
 const breadcrumb = breadcrumbJsonLd([
-  { name: "Audit Symfony gratuit", path: "/audit-symfony-gratuit" },
+  { name: "Diagnostic Symfony gratuit", path: "/audit-symfony-gratuit" },
 ]);
 
 const howTo = howToJsonLd(
@@ -111,8 +111,8 @@ const howTo = howToJsonLd(
 );
 
 const webPage = webPageJsonLd({
-  name: "Audit Symfony gratuit 30 min",
-  description: "Bénéficiez d'un audit technique Symfony gratuit de 30 minutes : architecture, dette technique, sécurité, performance et stratégie de migration. Sans engagement.",
+  name: "Diagnostic Symfony gratuit de 30 minutes : premier etat des lieux",
+  description: "Diagnostic gratuit de 30 minutes pour votre application Symfony : premier etat des lieux technique, identification des points critiques et pistes d'amelioration. Sans engagement.",
   path: "/audit-symfony-gratuit",
   datePublished: "2025-09-01",
   dateModified: "2026-02-01",
@@ -165,7 +165,7 @@ export default function AuditSymfonyGratuit() {
                   Gratuit et sans engagement
                 </p>
                 <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                  Audit Symfony gratuit 30 min
+                  Diagnostic Symfony gratuit de 30 minutes : premier etat des lieux
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
                   Votre application Symfony a plus de 3 ans ? Vous accumulez de
@@ -176,13 +176,13 @@ export default function AuditSymfonyGratuit() {
                   <strong>audit technique gratuit de 30 minutes</strong> pour
                   identifier les points critiques de votre application et vous
                   donner des pistes d&apos;amelioration concretes.
-                  Pour un diagnostic exhaustif avec analyse PHPStan niveau max,
-                  revue manuelle et rapport complet sous 48h, decouvrez notre{" "}
+                  Pour un audit technique complet avec analyse PHPStan niveau max,
+                  revue manuelle et rapport detaille sous 48h, decouvrez notre{" "}
                   <Link
                     href="/audit-code-php"
                     className="text-primary hover:underline"
                   >
-                    audit de code PHP approfondi
+                    prestation d&apos;audit approfondi
                   </Link>
                   .
                 </p>
