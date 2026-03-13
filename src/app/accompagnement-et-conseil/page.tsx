@@ -241,7 +241,11 @@ export default function AccompagnementEtConseil() {
           </SectionTitle>
           <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
             Dans un environnement en constante évolution, les entreprises font
-            face à de nombreux défis technologiques et organisationnels :
+            face à de nombreux défis technologiques et organisationnels. Nous aidons aussi vos équipes à{" "}
+            <Link href="/article/comment-former-vos-equipes-a-la-securite-informatique-en-toute-simplicite" className="text-primary hover:underline">
+              se former à la sécurité informatique
+            </Link>{" "}
+            pour réduire les risques au quotidien :
           </p>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {challenges.map((c) => (
@@ -273,7 +277,11 @@ export default function AccompagnementEtConseil() {
                 Nous vous aidons à structurer votre transition numérique avec
                 une approche sur mesure. Grâce à notre expertise en agilité et
                 nouvelles technologies, nous identifions les leviers
-                d&apos;optimisation et définissons une roadmap claire. Que ce
+                d&apos;optimisation et définissons une roadmap claire. La{" "}
+                <Link href="/article/les-certifications-symfony-twig-symfony-sylius" className="text-primary hover:underline">
+                  certification de vos équipes sur Symfony
+                </Link>{" "}
+                peut faire partie de cette démarche. Que ce
                 soit pour améliorer votre efficacité interne, fluidifier vos
                 process ou innover avec de nouvelles solutions, nous sommes à
                 vos côtés à chaque étape.

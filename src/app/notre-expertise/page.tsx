@@ -83,7 +83,12 @@ export default function NotreExpertise() {
                 Des passionnés à vos côtés, exigeants, curieux et toujours à
                 jour. Nous vous accompagnons avec rigueur, en restant à
                 l&apos;écoute des évolutions technologiques pour vous proposer
-                les solutions les plus adaptées.
+                les solutions les plus adaptées. Nous avons prouvé cette
+                exigence en livrant le{" "}
+                <Link href="/article/doctavis-et-efficience-it-une-course-contre-la-montre-pour-sortir-un-mvp" className="text-primary hover:underline">
+                  MVP Doctavis en un temps record
+                </Link>
+                .
               </p>
               <p className="mt-6 text-lg font-semibold text-dark">
                 Un projet à construire ensemble ?
@@ -158,9 +163,16 @@ export default function NotreExpertise() {
         <Container>
           <SectionTitle>Toutes nos expertises</SectionTitle>
           <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-            Chaque service repond a un besoin precis. Explorez nos pages
-            dediees pour comprendre comment nous intervenons sur votre
-            problematique.
+            Chaque service repond a un besoin precis. Des{" "}
+            <Link href="/article/quels-sont-les-avantages-dun-progiciel-pour-votre-entreprise" className="text-primary hover:underline">
+              progiciels sur mesure
+            </Link>{" "}
+            aux{" "}
+            <Link href="/article/sylius-la-solution-e-commerce-du-framework-symfony" className="text-primary hover:underline">
+              plateformes e-commerce Sylius
+            </Link>
+            , explorez nos pages dediees pour comprendre comment nous
+            intervenons sur votre problematique.
           </p>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <Card>

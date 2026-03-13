@@ -159,6 +159,10 @@ export default function DeveloppementWeb() {
               </p>
               <p className="mt-4 max-w-3xl text-lg text-gray">
                 Que vous ayez besoin de <strong>développement front-end</strong>{" "}
+                avec les évolutions de{" "}
+                <Link href="/article/twig-4-ce-que-lon-pourrait-attendre" className="text-primary hover:underline">
+                  Twig 4
+                </Link>{" "}
                 ou <strong>back-end</strong> sur mesure, notre expertise en{" "}
                 <strong>technologies web avancées</strong> vous assure des
                 résultats à la hauteur de vos ambitions.
@@ -252,7 +256,11 @@ export default function DeveloppementWeb() {
                     qu&apos;il s&apos;agisse de sites vitrines, e-commerce
                     (Sylius, Symfony) ou d&apos;applications complexes,
                     garantissant une expérience utilisateur fluide et une
-                    sécurité optimale.
+                    sécurité optimale. Notre maîtrise des{" "}
+                    <Link href="/article/les-bundles-les-plus-utilises-dans-les-projets-symfony" className="text-primary hover:underline">
+                      bundles Symfony incontournables
+                    </Link>{" "}
+                    nous permet d&apos;accélérer le développement sans compromettre la qualité.
                   </p>
                 </div>
               </div>
@@ -422,7 +430,15 @@ export default function DeveloppementWeb() {
               <p className="mt-2 text-gray">
                 Audit, planification et migration vers des solutions modernes
                 (Symfony, Cloud, etc.), avec une attention particulière à la
-                sécurité et aux performances. Commencez par un{" "}
+                sécurité et aux performances. Le passage à{" "}
+                <Link href="/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees" className="text-primary hover:underline">
+                  Doctrine ORM 3.0
+                </Link>{" "}
+                et l&apos;adoption de{" "}
+                <Link href="/article/concretement-cest-quoi-frankenphp" className="text-primary hover:underline">
+                  FrankenPHP
+                </Link>{" "}
+                font partie des évolutions que nous accompagnons. Commencez par un{" "}
                 <Link href="/audit-symfony-gratuit" className="text-primary hover:underline">
                   audit Symfony gratuit
                 </Link>{" "}
