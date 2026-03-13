@@ -11,9 +11,9 @@ import FadeIn from "@/components/ui/FadeIn";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title: "Audit de code PHP : qualite, securite et performance",
+  title: "Audit technique approfondi de code PHP : rapport detaille et plan d'action",
   description:
-    "Audit de code PHP complet par des experts : analyse statique PHPStan niveau max, dette technique, securite, performance et couverture de tests. Rapport actionnable sous 48h.",
+    "Audit technique approfondi de votre code PHP : analyse statique PHPStan niveau max, revue manuelle par un developpeur senior, rapport detaille avec plan d'action priorise. Livraison sous 48h.",
   path: "/audit-code-php",
 });
 
@@ -137,20 +137,20 @@ const faqJsonLd = {
 };
 
 const breadcrumb = breadcrumbJsonLd([
-  { name: "Audit de code PHP", path: "/audit-code-php" },
+  { name: "Audit technique approfondi de code PHP", path: "/audit-code-php" },
 ]);
 
 const service = serviceJsonLd({
-  name: "Audit de code PHP",
+  name: "Audit technique approfondi de code PHP",
   description:
-    "Audit de code PHP complet : analyse statique PHPStan niveau max, dette technique, securite, performance et couverture de tests. Rapport actionnable avec recommandations priorisees.",
+    "Audit technique approfondi de votre code PHP : analyse statique PHPStan niveau max, revue manuelle, rapport detaille avec plan d'action priorise et recommandations concretement actionnables.",
   path: "/audit-code-php",
 });
 
 const webPage = webPageJsonLd({
-  name: "Audit de code PHP : qualite, securite et performance",
+  name: "Audit technique approfondi de code PHP : rapport detaille et plan d'action",
   description:
-    "Audit de code PHP complet par des experts : analyse statique PHPStan niveau max, dette technique, securite, performance et couverture de tests. Rapport actionnable sous 48h.",
+    "Audit technique approfondi de votre code PHP : analyse statique PHPStan niveau max, revue manuelle par un developpeur senior, rapport detaille avec plan d'action priorise. Livraison sous 48h.",
   path: "/audit-code-php",
   datePublished: "2026-03-12",
   dateModified: "2026-03-12",
@@ -181,10 +181,10 @@ export default function AuditCodePhp() {
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">
-                  Audit de code
+                  Audit technique approfondi
                 </p>
                 <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                  Audit de code PHP : qualite, securite et performance
+                  Audit technique approfondi de code PHP : rapport detaille et plan d&apos;action
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
                   Votre application PHP grossit, les bugs se multiplient et
@@ -209,7 +209,7 @@ export default function AuditCodePhp() {
                 </p>
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                   <Button href="/audit-symfony-gratuit">
-                    Demander un audit gratuit
+                    Commencer par un diagnostic gratuit
                   </Button>
                   <Button href="/contact" variant="outline">
                     Contactez-nous
