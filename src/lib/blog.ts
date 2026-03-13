@@ -75,7 +75,7 @@ export const categorySlugMap: Record<string, string> = {
   DevOps: "devops",
   Formation: "formation",
   "Green IT": "green-it",
-  "Intelligence artificielle": "intelligence-artificielle",
+  IA: "ia",
   JavaScript: "javascript",
   Projet: "projet",
   Symfony: "symfony",
