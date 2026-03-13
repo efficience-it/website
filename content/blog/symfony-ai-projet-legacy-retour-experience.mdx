@@ -259,11 +259,11 @@ Ce n'est pas du test déterministe. C'est du monitoring de qualité. Mais c'est 
 
 ## Ce que j'aurais aimé savoir avant
 
-L'intégration d'IA dans un projet legacy n'est pas un problème d'IA. C'est un problème d'architecture. Si ton code est proprement découplé, ajouter un appel LLM revient à ajouter n'importe quelle dépendance externe. Si ton code est un monolithe couplé, l'IA va amplifier le chaos. C'est d'ailleurs ce que décrit notre article sur [la dette technique et comment l'apprivoiser](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) : plus le code est endetté, plus chaque ajout coûte cher.
+L'intégration d'IA dans un projet legacy n'est pas un problème d'IA. C'est un problème d'architecture. Si ton code est proprement découplé, ajouter un appel LLM revient à ajouter n'importe quelle dépendance externe. Si ton code est un monolithe couplé, l'IA va amplifier le chaos. C'est d'ailleurs ce que décrit notre article sur [la dette technique et comment l'apprivoiser](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) : plus le code est endetté, plus chaque ajout coûte cher. Un accompagnement en [modernisation d'application PHP](/modernisation-application-php) permet de traiter cette dette avant d'y greffer de l'IA.
 
 Symfony AI est un bon outil. L'abstraction fournisseur fonctionne. Le support du streaming est solide. Mais le composant ne résout pas les vrais problèmes : la gestion des erreurs, le coût, la qualité des prompts, et la cohabitation avec du code qui n'a pas été pensé pour.
 
-Le conseil le plus utile que je peux donner : traite l'IA comme une dépendance faillible et coûteuse. Mets-la derrière une interface. Prévois le fallback. Monitore le coût. Et surtout, ne laisse jamais un appel LLM devenir un point de défaillance unique dans ton application.
+Le conseil le plus utile que je peux donner : traite l'IA comme une dépendance faillible et coûteuse. Mets-la derrière une interface. Prévois le fallback. Monitore le coût. Et surtout, ne laisse jamais un appel LLM devenir un point de défaillance unique dans ton application. Ce retour d'expérience illustre concrètement ce que couvre notre [expertise en intelligence artificielle](/expertise-ia) sur les projets en production.
 
 ## Pour aller plus loin
 

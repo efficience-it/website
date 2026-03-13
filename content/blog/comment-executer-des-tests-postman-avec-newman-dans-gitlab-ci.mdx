@@ -103,7 +103,7 @@ Les tests Postman/Newman sont des tests d'intégration de bout en bout. Ils trav
 
 Le contract testing (avec des outils comme Pact ou Spectral pour la validation OpenAPI) occupe une place complémentaire. Il vérifie que le format des échanges entre services respecte un contrat défini, sans nécessiter que les services soient déployés. C'est plus rapide, plus stable, mais cela ne valide pas le comportement métier.
 
-Une architecture de test d'API équilibrée combine les trois niveaux. Les tests unitaires du code applicatif forment la base large de la pyramide. Les tests de contrat vérifient la compatibilité des interfaces entre services. Les tests Newman valident les scénarios fonctionnels critiques sur un environnement déployé, en nombre restreint mais bien ciblé.
+Une architecture de test d'API équilibrée combine les trois niveaux. Les tests unitaires du code applicatif forment la base large de la pyramide. Les tests de contrat vérifient la compatibilité des interfaces entre services. Les tests Newman valident les scénarios fonctionnels critiques sur un environnement déployé, en nombre restreint mais bien ciblé. Notre offre de [tests automatisés PHP](/tests-automatises-php) aide les équipes à structurer cette pyramide de tests sur leurs projets Symfony.
 
 Quand la suite Postman dépasse une centaine de requêtes, que la maintenance des collections devient un frein, ou que le besoin de tests de performance se fait sentir, il est temps d'envisager des outils dédiés : k6 pour la charge, Playwright pour les flux end-to-end impliquant une UI, ou un framework de test d'API programmatique (Jest + supertest, PyTest + requests) qui offre les capacités de refactoring et de composition qu'un outil graphique ne permet pas.
 
