@@ -72,10 +72,14 @@ export function getPostBySlug(slug: string): BlogPost | undefined {
 
 export const categorySlugMap: Record<string, string> = {
   Agence: "agence",
+  DevOps: "devops",
   Formation: "formation",
   "Green IT": "green-it",
-  Outils: "outils",
+  "Intelligence artificielle": "intelligence-artificielle",
+  JavaScript: "javascript",
   Projet: "projet",
+  Symfony: "symfony",
+  "Securite": "securite",
 };
 
 const slugToCategoryMap: Record<string, string> = Object.fromEntries(
