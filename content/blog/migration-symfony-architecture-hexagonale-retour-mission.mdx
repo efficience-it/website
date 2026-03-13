@@ -10,7 +10,7 @@ proficiencyLevel: "Expert"
 
 Le client nous appelle un mardi. Son application Symfony gère 40 000 commandes par mois. Le code a six ans. Trois équipes bossent dessus en parallèle. Les déploiements prennent deux heures parce que personne n'ose toucher au code sans régression. La dette technique est devenue un risque business.
 
-La demande : rendre l'application maintenable sans tout réécrire. On a proposé une migration progressive vers une architecture hexagonale. Pas un big bang. Pas un projet de six mois en salle blanche. Une migration chirurgicale, feature par feature, en continuant à livrer.
+La demande : rendre l'application maintenable sans tout réécrire. Ce type de projet est au coeur de notre offre de [migration Symfony](/migration-symfony). On a proposé une migration progressive vers une architecture hexagonale. Pas un big bang. Pas un projet de six mois en salle blanche. Une migration chirurgicale, feature par feature, en continuant à livrer.
 
 Voici comment ça s'est passé.
 
@@ -264,7 +264,7 @@ On investirait plus tôt dans un ADR (Architecture Decision Record) partagé. Ch
 
 Et on poserait [PHPStan au niveau max](/article/phpstan-niveau-max-symfony-10-erreurs) dès le début de la migration. L'analyse statique attrape les violations d'architecture en temps réel. Un use case qui importe une classe Doctrine, c'est une erreur PHPStan avant même d'être une erreur de design.
 
-L'archi hexagonale n'est pas une fin en soi. C'est un outil pour rendre le code métier indépendant de l'infrastructure. Sur un projet Symfony de cette taille, c'est la différence entre une application qu'on subit et une application qu'on maîtrise.
+L'archi hexagonale n'est pas une fin en soi. C'est un outil pour rendre le code métier indépendant de l'infrastructure. Sur un projet Symfony de cette taille, c'est la différence entre une application qu'on subit et une application qu'on maîtrise. Notre offre d'[architecture hexagonale Symfony](/architecture-hexagonale-symfony) accompagne les équipes dans ce type de transformation.
 
 ## Pour aller plus loin
 
