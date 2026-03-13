@@ -366,6 +366,25 @@ export default function MigrationSymfony() {
                 </Link>{" "}
                 pour les projets en PHP natif, CodeIgniter ou Zend.
               </p>
+              <p>
+                Si vous heritez d&apos;un projet Symfony abandonne par un ancien
+                prestataire, notre service de{" "}
+                <Link
+                  href="/reprise-projet-symfony"
+                  className="text-primary hover:underline"
+                >
+                  reprise de projet Symfony
+                </Link>{" "}
+                couvre l&apos;audit, la stabilisation et la montee de version.
+                Une fois le projet stabilise, nous assurons la{" "}
+                <Link
+                  href="/maintenance-applicative-symfony"
+                  className="text-primary hover:underline"
+                >
+                  maintenance applicative Symfony
+                </Link>{" "}
+                dans la duree.
+              </p>
             </div>
           </Container>
         </section>

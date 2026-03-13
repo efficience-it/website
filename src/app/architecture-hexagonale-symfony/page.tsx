@@ -375,6 +375,16 @@ export default function ArchitectureHexagonaleSymfony() {
               est une question que nous abordons systematiquement. L&apos;architecture
               hexagonale s&apos;applique aux deux approches, mais le monolithe
               modulaire reste souvent le meilleur point de depart.
+              Pour evaluer la qualite architecturale de votre projet existant,
+              notre{" "}
+              <Link
+                href="/audit-code-php"
+                className="text-primary hover:underline"
+              >
+                audit de code PHP
+              </Link>{" "}
+              mesure le couplage, la separation des couches et le respect des
+              principes SOLID.
             </p>
           </Container>
         </section>

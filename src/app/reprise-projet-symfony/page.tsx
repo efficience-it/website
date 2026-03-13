@@ -454,6 +454,26 @@ export default function RepriseProjetSymfony() {
                   modernisation d&apos;application PHP
                 </Link>
                 , qui suit la meme logique de migration progressive.
+                Si votre application doit monter de version Symfony, notre
+                service de{" "}
+                <Link
+                  href="/migration-symfony"
+                  className="text-primary hover:underline"
+                >
+                  migration Symfony
+                </Link>{" "}
+                prend le relais une fois le projet stabilise.
+              </p>
+              <p>
+                Apres la reprise initiale, nous pouvons assurer la{" "}
+                <Link
+                  href="/maintenance-applicative-symfony"
+                  className="text-primary hover:underline"
+                >
+                  maintenance applicative Symfony
+                </Link>{" "}
+                dans la duree : correction de bugs, evolutions fonctionnelles
+                et mises a jour de securite.
               </p>
               <p>
                 Nous intervenons principalement depuis Lille et la region
