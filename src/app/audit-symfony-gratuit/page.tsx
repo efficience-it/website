@@ -175,7 +175,16 @@ export default function AuditSymfonyGratuit() {
                   Nous vous proposons un{" "}
                   <strong>audit technique gratuit de 30 minutes</strong> pour
                   identifier les points critiques de votre application et vous
-                  donner des pistes d&apos;amélioration concrètes.
+                  donner des pistes d&apos;amelioration concretes.
+                  Pour un diagnostic exhaustif avec analyse PHPStan niveau max,
+                  revue manuelle et rapport complet sous 48h, decouvrez notre{" "}
+                  <Link
+                    href="/audit-code-php"
+                    className="text-primary hover:underline"
+                  >
+                    audit de code PHP approfondi
+                  </Link>
+                  .
                 </p>
                 <p className="mt-6 text-lg font-semibold text-dark">
                   Un appel visio de 30 min, un compte-rendu écrit sous 48h.

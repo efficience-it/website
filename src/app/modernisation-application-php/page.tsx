@@ -427,6 +427,35 @@ export default function ModernisationApplicationPhp() {
                 </Link>
                 .
               </p>
+              <p>
+                Si votre application est deja sous Symfony mais sur une version
+                obsolete, notre service de{" "}
+                <Link
+                  href="/migration-symfony"
+                  className="text-primary hover:underline"
+                >
+                  migration Symfony
+                </Link>{" "}
+                vous accompagne dans la montee de version par paliers.
+                Vous heritez d&apos;un projet abandonne ?
+                Notre offre de{" "}
+                <Link
+                  href="/reprise-projet-symfony"
+                  className="text-primary hover:underline"
+                >
+                  reprise de projet Symfony
+                </Link>{" "}
+                couvre l&apos;audit, la stabilisation et la remise en route.
+                Et pour assurer la perennite apres modernisation, nous proposons
+                une{" "}
+                <Link
+                  href="/maintenance-applicative-symfony"
+                  className="text-primary hover:underline"
+                >
+                  maintenance applicative Symfony
+                </Link>{" "}
+                continue.
+              </p>
             </div>
           </Container>
         </section>

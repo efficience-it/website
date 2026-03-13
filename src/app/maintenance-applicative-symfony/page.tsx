@@ -267,6 +267,22 @@ export default function MaintenanceApplicativeSymfony() {
               </Link>{" "}
               s&apos;accumule quand la maintenance preventive est negligee. Notre approche
               vise a la reduire progressivement, sprint apres sprint.
+              Quand une montee de version majeure est necessaire, notre service de{" "}
+              <Link
+                href="/migration-symfony"
+                className="text-primary hover:underline"
+              >
+                migration Symfony
+              </Link>{" "}
+              prend le relais avec une approche par paliers.
+              Pour les applications PHP legacy a{" "}
+              <Link
+                href="/modernisation-application-php"
+                className="text-primary hover:underline"
+              >
+                moderniser
+              </Link>
+              , nous combinons refactoring progressif et mise en place de tests.
             </p>
           </Container>
         </section>

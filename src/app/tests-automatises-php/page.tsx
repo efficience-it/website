@@ -250,6 +250,14 @@ export default function TestsAutomatisesPhp() {
               </Link>{" "}
               complete cette pyramide en detectant les erreurs de type et les
               incohereances avant meme l&apos;execution des tests.
+              Pour une vision globale de la sante de votre code, notre{" "}
+              <Link
+                href="/audit-code-php"
+                className="text-primary hover:underline"
+              >
+                audit de code PHP
+              </Link>{" "}
+              couvre six axes complementaires dont la couverture de tests.
             </p>
           </Container>
         </section>

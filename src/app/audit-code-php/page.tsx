@@ -337,6 +337,33 @@ export default function AuditCodePhp() {
                 </Link>{" "}
                 dans vos dependances pour garantir que votre application ne
                 repose pas sur des librairies vulnerables.
+                L&apos;audit inclut aussi une evaluation de votre couverture de{" "}
+                <Link
+                  href="/tests-automatises-php"
+                  className="text-primary hover:underline"
+                >
+                  tests automatises
+                </Link>{" "}
+                et de la conformite de votre code aux principes d&apos;
+                <Link
+                  href="/architecture-hexagonale-symfony"
+                  className="text-primary hover:underline"
+                >
+                  architecture hexagonale
+                </Link>
+                .
+              </p>
+              <p>
+                Pour un premier diagnostic rapide et gratuit, commencez par
+                notre{" "}
+                <Link
+                  href="/audit-symfony-gratuit"
+                  className="text-primary hover:underline"
+                >
+                  audit Symfony gratuit de 30 minutes
+                </Link>
+                . Si un diagnostic approfondi est necessaire, nous enchainons
+                avec l&apos;audit complet.
               </p>
               <p>
                 Le respect des{" "}
