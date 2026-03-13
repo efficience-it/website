@@ -101,6 +101,30 @@ export const services = [
     ],
   },
   {
+    title: "E-commerce Sylius",
+    slug: "/ecommerce-sylius",
+    description:
+      "Nous developpons des boutiques e-commerce sur mesure avec Sylius, la plateforme open source basee sur Symfony.",
+    items: [
+      "Boutique e-commerce sur mesure",
+      "Marketplace multi-vendeurs",
+      "Commerce B2B",
+      "Migration Prestashop / Magento",
+    ],
+  },
+  {
+    title: "Hebergement Symfony",
+    slug: "/hebergement-symfony",
+    description:
+      "Nous hebergeons et deployons vos applications Symfony sur le cloud avec CI/CD, monitoring et haute disponibilite.",
+    items: [
+      "Hebergement cloud AWS, GCP, Azure",
+      "Pipelines CI/CD automatises",
+      "Monitoring et alerting",
+      "Haute disponibilite et scalabilite",
+    ],
+  },
+  {
     title: "Audit",
     slug: "/accompagnement-et-conseil",
     description:
