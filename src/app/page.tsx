@@ -10,6 +10,7 @@ import Testimonials from "@/components/sections/Testimonials";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
 import FadeIn from "@/components/ui/FadeIn";
+import AnimatedCounter from "@/components/ui/AnimatedCounter";
 
 import { pageMetadata } from "@/lib/metadata";
 import { webPageJsonLd, reviewsJsonLd } from "@/lib/structured-data";
@@ -19,10 +20,10 @@ import type { Metadata } from "next";
 const reviews = reviewsJsonLd(testimonials);
 
 const keyFigures = [
-  { value: "10+", label: "Années d'expérience" },
-  { value: "150+", label: "Projets livrés" },
-  { value: "40+", label: "Clients accompagnés" },
-  { value: "500+", label: "Contributions open source" },
+  { value: 10, suffix: "+", label: "Années d'expérience" },
+  { value: 150, suffix: "+", label: "Projets livrés" },
+  { value: 40, suffix: "+", label: "Clients accompagnés" },
+  { value: 500, suffix: "+", label: "Contributions open source" },
 ];
 
 export const metadata: Metadata = pageMetadata({
@@ -73,7 +74,9 @@ export default function Home() {
             <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
               {keyFigures.map((figure) => (
                 <div key={figure.label} className="text-center">
-                  <p className="font-display text-4xl font-bold text-primary">{figure.value}</p>
+                  <p className="font-display text-4xl font-bold text-primary">
+                    <AnimatedCounter value={figure.value} suffix={figure.suffix} />
+                  </p>
                   <p className="mt-2 text-gray">{figure.label}</p>
                 </div>
               ))}
