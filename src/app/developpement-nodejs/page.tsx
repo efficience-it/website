@@ -173,7 +173,11 @@ export default function DeveloppementNodejs() {
                   <strong>Node.js</strong>. Efficience IT concoit des{" "}
                   <strong>APIs REST et GraphQL</strong>, des backends temps reel
                   et des architectures microservices avec les memes exigences
-                  qualite que nos projets Symfony.
+                  qualite que nos projets Symfony. Decouvrez notre comparatif des{" "}
+                  <Link href="/article/express-fastify-hono-quel-framework-nodejs-choisir" className="text-primary hover:underline">
+                    frameworks Node.js Express, Fastify et Hono
+                  </Link>{" "}
+                  pour comprendre nos choix techniques.
                 </p>
                 <p className="mt-4 max-w-3xl text-lg text-gray">
                   TypeScript, NestJS, tests automatises, CI/CD : nous apportons
@@ -228,7 +232,11 @@ export default function DeveloppementNodejs() {
             <SectionTitle>Pourquoi choisir Node.js</SectionTitle>
             <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
               Node.js s&apos;impose dans des cas d&apos;usage precis ou il surpasse les
-              alternatives traditionnelles.
+              alternatives traditionnelles. Le choix du{" "}
+              <Link href="/article/quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular" className="text-primary hover:underline">
+                bon framework JavaScript
+              </Link>{" "}
+              conditionne la reussite de votre projet.
             </p>
             <div className="mt-10 grid gap-8 md:grid-cols-2">
               <div className="flex items-start gap-4">
@@ -319,7 +327,14 @@ export default function DeveloppementNodejs() {
               ))}
             </div>
             <p className="mx-auto mt-8 max-w-3xl text-center text-gray">
-              Nos APIs Node.js respectent les{" "}
+              Pour les projets qui impliquent a la fois REST et GraphQL, notre analyse de{" "}
+              <Link
+                href="/article/que-vaut-rest-face-a-son-nouveau-challenger-graphql"
+                className="text-primary hover:underline"
+              >
+                REST face a GraphQL
+              </Link>{" "}
+              aide a choisir la bonne approche. Nos APIs Node.js respectent les{" "}
               <Link
                 href="/article/api-rest-les-bonnes-pratiques"
                 className="text-primary hover:underline"
