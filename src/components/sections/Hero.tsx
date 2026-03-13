@@ -1,10 +1,22 @@
+"use client";
+
 import Image from "next/image";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
+import RotatingKeywords from "@/components/ui/RotatingKeywords";
+
+const keywords = [
+  "Migration",
+  "Performance",
+  "Maintenance",
+  "Architecture",
+  "API",
+  "Sécurité",
+];
 
 export default function Hero() {
   return (
-    <section className="bg-light-gray py-20 md:py-32">
+    <section className="bg-gradient-to-br from-light-gray via-white to-primary/5 py-20 md:py-32">
       <Container>
         <div className="grid items-center gap-12 md:grid-cols-2">
           <div>
@@ -15,6 +27,10 @@ export default function Hero() {
               Votre application Symfony mérite mieux. On la stabilise, la
               migre et la rend maintenable.
             </p>
+            <div className="mt-4 flex items-center gap-2 text-lg font-medium text-dark">
+              <span className="inline-block h-2 w-2 rounded-full bg-primary" />
+              <RotatingKeywords keywords={keywords} />
+            </div>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
               <Button href="/audit-symfony-gratuit" size="lg">
                 Demander mon audit gratuit
