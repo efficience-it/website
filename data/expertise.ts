@@ -89,6 +89,18 @@ export const services = [
     ],
   },
   {
+    title: "Expertise IA",
+    slug: "/expertise-ia",
+    description:
+      "Nous integrons l'intelligence artificielle dans vos projets Symfony : LLM, RAG sur vos donnees Doctrine, assistants IA pour le developpement et optimisation GEO.",
+    items: [
+      "Integration de LLM (GPT, Claude, Mistral)",
+      "RAG sur vos donnees Doctrine",
+      "Developpement assiste par IA",
+      "GEO et visibilite dans les moteurs IA",
+    ],
+  },
+  {
     title: "Audit",
     slug: "/accompagnement-et-conseil",
     description:
