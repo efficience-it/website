@@ -9,7 +9,7 @@ export default function Footer() {
   return (
     <footer className="bg-dark text-white">
       <Container className="py-12">
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-5">
           {/* Logo + description */}
           <div>
             <Image
@@ -33,6 +33,25 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2">
               {footerNav.expertises.links.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-gray-300 transition-colors hover:text-white"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Secteurs */}
+          <div>
+            <h3 className="mb-4 font-display text-sm font-semibold uppercase tracking-wider">
+              {footerNav.secteurs.title}
+            </h3>
+            <ul className="space-y-2">
+              {footerNav.secteurs.links.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}

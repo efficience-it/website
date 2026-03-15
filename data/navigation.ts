@@ -52,6 +52,15 @@ export const footerNav = {
       { label: "Nos articles", href: "/blog" },
     ],
   },
+  secteurs: {
+    title: "Secteurs",
+    links: [
+      { label: "E-commerce", href: "/secteur/e-commerce" },
+      { label: "Finance", href: "/secteur/finance" },
+      { label: "Industrie", href: "/secteur/industrie" },
+      { label: "SaaS", href: "/secteur/saas" },
+    ],
+  },
   agence: {
     title: "L'agence",
     links: [
