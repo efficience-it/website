@@ -92,19 +92,19 @@ export const services = [
     title: "Expertise IA",
     slug: "/expertise-ia",
     description:
-      "Nous integrons l'intelligence artificielle dans vos projets Symfony : LLM, RAG sur vos donnees Doctrine, assistants IA pour le developpement et optimisation GEO.",
+      "Nous intégrons l'intelligence artificielle dans vos projets Symfony : LLM, RAG sur vos données Doctrine, assistants IA pour le développement et optimisation GEO.",
     items: [
-      "Integration de LLM (GPT, Claude, Mistral)",
-      "RAG sur vos donnees Doctrine",
-      "Developpement assiste par IA",
-      "GEO et visibilite dans les moteurs IA",
+      "Intégration de LLM (GPT, Claude, Mistral)",
+      "RAG sur vos données Doctrine",
+      "Développement assisté par IA",
+      "GEO et visibilité dans les moteurs IA",
     ],
   },
   {
     title: "E-commerce Sylius",
     slug: "/ecommerce-sylius",
     description:
-      "Nous developpons des boutiques e-commerce sur mesure avec Sylius, la plateforme open source basee sur Symfony.",
+      "Nous développons des boutiques e-commerce sur mesure avec Sylius, la plateforme open source basée sur Symfony.",
     items: [
       "Boutique e-commerce sur mesure",
       "Marketplace multi-vendeurs",
@@ -113,15 +113,15 @@ export const services = [
     ],
   },
   {
-    title: "Hebergement Symfony",
+    title: "Hébergement Symfony",
     slug: "/hebergement-symfony",
     description:
-      "Nous hebergeons et deployons vos applications Symfony sur le cloud avec CI/CD, monitoring et haute disponibilite.",
+      "Nous hébergeons et déployons vos applications Symfony sur le cloud avec CI/CD, monitoring et haute disponibilité.",
     items: [
-      "Hebergement cloud AWS, GCP, Azure",
-      "Pipelines CI/CD automatises",
+      "Hébergement cloud AWS, GCP, Azure",
+      "Pipelines CI/CD automatisés",
       "Monitoring et alerting",
-      "Haute disponibilite et scalabilite",
+      "Haute disponibilité et scalabilité",
     ],
   },
   {

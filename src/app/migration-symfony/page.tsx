@@ -12,9 +12,9 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured
 
 export const metadata = pageMetadata({
   title:
-    "Migration Symfony : montez de version en toute securite",
+    "Migration Symfony : montez de version en toute sécurité",
   description:
-    "Migration Symfony 4, 5, 6 vers Symfony 7 : montee de version progressive, sans interruption de service. Expertise certifiee, architecture hexagonale et outillage Rector.",
+    "Migration Symfony 4, 5, 6 vers Symfony 7 : montée de version progressive, sans interruption de service. Expertise certifiée, architecture hexagonale et outillage Rector.",
   path: "/migration-symfony",
 });
 
@@ -23,76 +23,76 @@ const versions = [
     from: "Symfony 4.x",
     to: "Symfony 5.4 LTS puis 6.4 LTS",
     description:
-      "Migration en deux paliers via les versions LTS. Suppression des deprecations, mise a jour des bundles tiers et adaptation aux changements de configuration.",
+      "Migration en deux paliers via les versions LTS. Suppression des dépréciations, mise à jour des bundles tiers et adaptation aux changements de configuration.",
   },
   {
     from: "Symfony 5.x",
     to: "Symfony 6.4 LTS",
     description:
-      "Passage direct vers la derniere LTS. Resolution des deprecations introduites en 5.x, migration des annotations vers les attributs PHP 8.",
+      "Passage direct vers la dernière LTS. Résolution des dépréciations introduites en 5.x, migration des annotations vers les attributs PHP 8.",
   },
   {
     from: "Symfony 6.x",
     to: "Symfony 7.x",
     description:
-      "Montee vers la version majeure actuelle. Traitement des deprecations 6.x, adoption des nouvelles fonctionnalites et optimisation des performances.",
+      "Montée vers la version majeure actuelle. Traitement des dépréciations 6.x, adoption des nouvelles fonctionnalités et optimisation des performances.",
   },
   {
     from: "Symfony 3.x",
     to: "Symfony 5.4 LTS (puis 6.4/7.x)",
     description:
-      "Migration longue distance avec paliers intermediaires. Chaque etape est validee en production avant de passer a la suivante.",
+      "Migration longue distance avec paliers intermédiaires. Chaque étape est validée en production avant de passer à la suivante.",
   },
 ];
 
 const etapes = [
   {
     num: "1",
-    title: "Audit des deprecations",
+    title: "Audit des dépréciations",
     description:
-      "Nous analysons votre base de code avec les outils Symfony (deprecation logs, PHPStan) et Rector pour dresser l'inventaire complet des points de migration. Vous obtenez une cartographie precise du travail a realiser.",
+      "Nous analysons votre base de code avec les outils Symfony (deprecation logs, PHPStan) et Rector pour dresser l'inventaire complet des points de migration. Vous obtenez une cartographie précise du travail à réaliser.",
   },
   {
     num: "2",
     title: "Couverture de tests",
     description:
-      "Avant toute modification, nous renforcons la suite de tests sur les zones critiques. Cette filet de securite garantit que chaque etape de migration n'introduit aucune regression fonctionnelle.",
+      "Avant toute modification, nous renforçons la suite de tests sur les zones critiques. Ce filet de sécurité garantit que chaque étape de migration n'introduit aucune régression fonctionnelle.",
   },
   {
     num: "3",
     title: "Migration par paliers",
     description:
-      "Nous progressons version par version en suivant le chemin de migration officiel Symfony. Chaque palier est deploye en production, valide par vos equipes, avant de passer au suivant.",
+      "Nous progressons version par version en suivant le chemin de migration officiel Symfony. Chaque palier est déployé en production, validé par vos équipes, avant de passer au suivant.",
   },
   {
     num: "4",
-    title: "Refactoring automatise avec Rector",
+    title: "Refactoring automatisé avec Rector",
     description:
-      "Rector transforme automatiquement une grande partie du code : annotations vers attributs, signatures de methodes, appels deprecies. Nous validons chaque transformation manuellement.",
+      "Rector transforme automatiquement une grande partie du code : annotations vers attributs, signatures de méthodes, appels dépréciés. Nous validons chaque transformation manuellement.",
   },
   {
     num: "5",
-    title: "Validation et deploiement",
+    title: "Validation et déploiement",
     description:
-      "Tests complets, revue de code, verification des performances. La nouvelle version est deployee progressivement avec possibilite de rollback a chaque etape.",
+      "Tests complets, revue de code, vérification des performances. La nouvelle version est déployée progressivement avec possibilité de rollback à chaque étape.",
   },
 ];
 
 const pourquoi = [
   {
-    title: "Expertise Symfony certifiee",
+    title: "Expertise Symfony certifiée",
     description:
-      "Nos developpeurs sont certifies Symfony et maitrisent chaque version du framework depuis Symfony 2. Nous connaissons les pieges specifiques de chaque montee de version.",
+      "Nos développeurs sont certifiés Symfony et maitrisent chaque version du framework depuis Symfony 2. Nous connaissons les pièges spécifiques de chaque montée de version.",
   },
   {
-    title: "Experience en architecture hexagonale",
+    title: "Expérience en architecture hexagonale",
     description:
-      "Nous avons mene des migrations vers une architecture hexagonale sur des projets Symfony en production. Cette approche isole le metier du framework et facilite les futures montees de version.",
+      "Nous avons mené des migrations vers une architecture hexagonale sur des projets Symfony en production. Cette approche isole le métier du framework et facilite les futures montées de version.",
   },
   {
-    title: "Zero interruption de service",
+    title: "Zéro interruption de service",
     description:
-      "Notre methode par paliers garantit que votre application reste en production a chaque etape. Pas de Big Bang, pas de gel des fonctionnalites pendant la migration.",
+      "Notre méthode par paliers garantit que votre application reste en production à chaque étape. Pas de Big Bang, pas de gel des fonctionnalités pendant la migration.",
   },
 ];
 
@@ -100,27 +100,27 @@ const faqItems = [
   {
     title: "Combien de temps dure une migration Symfony ?",
     content:
-      "La duree depend de la version de depart, de la taille du projet et de la couverture de tests existante. Une migration d'une version majeure (ex. 5 vers 6) prend generalement 4 a 8 semaines. Pour un saut de deux versions majeures, comptez 2 a 4 mois avec les paliers intermediaires.",
+      "La durée dépend de la version de départ, de la taille du projet et de la couverture de tests existante. Une migration d'une version majeure (ex. 5 vers 6) prend généralement 4 à 8 semaines. Pour un saut de deux versions majeures, comptez 2 à 4 mois avec les paliers intermédiaires.",
   },
   {
-    title: "Faut-il migrer vers chaque version intermediaire ?",
+    title: "Faut-il migrer vers chaque version intermédiaire ?",
     content:
-      "Oui. Symfony impose de passer par chaque version majeure dans l'ordre (4 vers 5, puis 5 vers 6, puis 6 vers 7). C'est la seule facon de traiter les deprecations progressivement et de garantir une migration sans regression. Nous utilisons les versions LTS comme points de stabilisation.",
+      "Oui. Symfony impose de passer par chaque version majeure dans l'ordre (4 vers 5, puis 5 vers 6, puis 6 vers 7). C'est la seule façon de traiter les dépréciations progressivement et de garantir une migration sans régression. Nous utilisons les versions LTS comme points de stabilisation.",
   },
   {
-    title: "Quelle est la difference avec la modernisation d'application PHP ?",
+    title: "Quelle est la différence avec la modernisation d'application PHP ?",
     content:
-      "La migration Symfony concerne les applications deja construites sur Symfony qui doivent monter de version. La modernisation PHP s'adresse aux applications en PHP natif, CodeIgniter ou Zend qui doivent etre rearchitecturees, parfois vers Symfony. Si votre application n'est pas sous Symfony, consultez notre page modernisation d'application PHP.",
+      "La migration Symfony concerne les applications déjà construites sur Symfony qui doivent monter de version. La modernisation PHP s'adresse aux applications en PHP natif, CodeIgniter ou Zend qui doivent être réarchitecturées, parfois vers Symfony. Si votre application n'est pas sous Symfony, consultez notre page modernisation d'application PHP.",
   },
   {
     title: "Peut-on migrer sans suite de tests existante ?",
     content:
-      "Oui, mais nous commencons par ecrire les tests critiques avant de toucher au code. Sans tests, une migration est un pari. Nous ajoutons une couverture suffisante sur les parcours metier essentiels pour securiser chaque etape.",
+      "Oui, mais nous commençons par écrire les tests critiques avant de toucher au code. Sans tests, une migration est un pari. Nous ajoutons une couverture suffisante sur les parcours métier essentiels pour sécuriser chaque étape.",
   },
   {
     title: "Rector peut-il tout faire automatiquement ?",
     content:
-      "Rector automatise environ 60 a 80 % des transformations de code (annotations vers attributs, signatures de methodes, appels deprecies). Le reste necessite une intervention manuelle : logique metier specifique, bundles tiers non compatibles, configuration personnalisee. Nous utilisons Rector comme accelerateur, pas comme solution unique.",
+      "Rector automatise environ 60 à 80 % des transformations de code (annotations vers attributs, signatures de méthodes, appels dépréciés). Le reste nécessite une intervention manuelle : logique métier spécifique, bundles tiers non compatibles, configuration personnalisée. Nous utilisons Rector comme accélérateur, pas comme solution unique.",
   },
 ];
 
@@ -144,14 +144,14 @@ const breadcrumb = breadcrumbJsonLd([
 const service = serviceJsonLd({
   name: "Migration Symfony",
   description:
-    "Migration Symfony 4, 5, 6 vers Symfony 7 : montee de version progressive par paliers, sans interruption de service. Audit des deprecations, refactoring Rector et validation continue.",
+    "Migration Symfony 4, 5, 6 vers Symfony 7 : montée de version progressive par paliers, sans interruption de service. Audit des dépréciations, refactoring Rector et validation continue.",
   path: "/migration-symfony",
 });
 
 const webPage = webPageJsonLd({
-  name: "Migration Symfony : montez de version en toute securite",
+  name: "Migration Symfony : montez de version en toute sécurité",
   description:
-    "Migration Symfony 4, 5, 6 vers Symfony 7 : montee de version progressive, sans interruption de service. Expertise certifiee, architecture hexagonale et outillage Rector.",
+    "Migration Symfony 4, 5, 6 vers Symfony 7 : montée de version progressive, sans interruption de service. Expertise certifiée, architecture hexagonale et outillage Rector.",
   path: "/migration-symfony",
   datePublished: "2026-03-12",
   dateModified: "2026-03-12",
@@ -185,18 +185,18 @@ export default function MigrationSymfony() {
                   Migration Symfony
                 </p>
                 <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                  Migration Symfony : montez de version en toute securite
+                  Migration Symfony : montez de version en toute sécurité
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
                   Votre application tourne sur Symfony 4, 5 ou 6 ? Chaque
-                  version non maintenue est une faille de securite ouverte et un
-                  frein a l&apos;evolution de votre produit.
+                  version non maintenue est une faille de sécurité ouverte et un
+                  frein à l&apos;évolution de votre produit.
                 </p>
                 <p className="mt-4 max-w-3xl text-lg text-gray">
                   Efficience IT vous accompagne dans la{" "}
-                  <strong>montee de version progressive</strong> de votre
+                  <strong>montée de version progressive</strong> de votre
                   application Symfony. Nous migrons par paliers, sans
-                  interruption de service, en validant chaque etape en
+                  interruption de service, en validant chaque étape en
                   production.
                 </p>
                 <p className="mt-6 text-lg font-semibold text-dark">
@@ -236,10 +236,10 @@ export default function MigrationSymfony() {
         <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
-            <SectionTitle>Versions supportees et chemins de migration</SectionTitle>
+            <SectionTitle>Versions supportées et chemins de migration</SectionTitle>
             <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
               Nous intervenons sur toutes les versions de Symfony encore
-              deployees en production. Chaque migration suit le{" "}
+              déployées en production. Chaque migration suit le{" "}
               <a
                 href="https://symfony.com/releases"
                 target="_blank"
@@ -248,7 +248,7 @@ export default function MigrationSymfony() {
               >
                 calendrier officiel des versions Symfony
               </a>{" "}
-              et passe par les paliers LTS recommandes.
+              et passe par les paliers LTS recommandés.
             </p>
             <div className="mt-10 grid gap-6 sm:grid-cols-2">
               {versions.map((version) => (
@@ -267,7 +267,7 @@ export default function MigrationSymfony() {
               ))}
             </div>
             <p className="mt-10 text-center text-lg text-gray">
-              Pour un apercu detaille de notre demarche, consultez notre{" "}
+              Pour un aperçu détaillé de notre démarche, consultez notre{" "}
               <Link
                 href="/article/guide-de-migration-dans-un-projet-symfony"
                 className="text-primary hover:underline"
@@ -283,9 +283,9 @@ export default function MigrationSymfony() {
         <FadeIn>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
-            <SectionTitle>Notre methodologie de migration</SectionTitle>
+            <SectionTitle>Notre méthodologie de migration</SectionTitle>
             <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-              Une approche en cinq etapes pour monter de version sans risque et
+              Une approche en cinq étapes pour monter de version sans risque et
               sans interruption de service.
             </p>
             <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -302,14 +302,14 @@ export default function MigrationSymfony() {
               ))}
             </div>
             <p className="mt-10 text-center text-lg text-gray">
-              L&apos;etape 4 s&apos;appuie largement sur{" "}
+              L&apos;étape 4 s&apos;appuie largement sur{" "}
               <Link
                 href="/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony"
                 className="text-primary hover:underline"
               >
-                Rector et ses capacites de transformation automatique
+                Rector et ses capacités de transformation automatique
               </Link>{" "}
-              pour accelerer le travail tout en gardant le controle sur chaque
+              pour accélérer le travail tout en gardant le contrôle sur chaque
               modification.
             </p>
           </Container>
@@ -332,16 +332,16 @@ export default function MigrationSymfony() {
             </div>
             <div className="mt-10 space-y-4 text-center text-lg text-gray">
               <p>
-                Notre experience de{" "}
+                Notre expérience de{" "}
                 <Link
                   href="/article/migration-symfony-architecture-hexagonale-retour-mission"
                   className="text-primary hover:underline"
                 >
                   migration Symfony vers une architecture hexagonale
                 </Link>{" "}
-                nous a appris a decoupler le code metier du framework, ce qui
-                rend chaque future montee de version plus rapide et moins
-                risquee.
+                nous a appris à découpler le code métier du framework, ce qui
+                rend chaque future montée de version plus rapide et moins
+                risquée.
               </p>
               <p>
                 La{" "}
@@ -351,12 +351,12 @@ export default function MigrationSymfony() {
                 >
                   dette technique
                 </Link>{" "}
-                s&apos;accumule a chaque version non mise a jour. Reporter une
+                s&apos;accumule à chaque version non mise à jour. Reporter une
                 migration ne fait qu&apos;augmenter le volume de travail et les
-                risques de securite.
+                risques de sécurité.
               </p>
               <p>
-                Votre application n&apos;est pas sous Symfony ? Decouvrez notre
+                Votre application n&apos;est pas sous Symfony ? Découvrez notre
                 offre de{" "}
                 <Link
                   href="/modernisation-application-php"
@@ -367,7 +367,7 @@ export default function MigrationSymfony() {
                 pour les projets en PHP natif, CodeIgniter ou Zend.
               </p>
               <p>
-                Si vous heritez d&apos;un projet Symfony abandonne par un ancien
+                Si vous héritez d&apos;un projet Symfony abandonné par un ancien
                 prestataire, notre service de{" "}
                 <Link
                   href="/reprise-projet-symfony"
@@ -375,15 +375,15 @@ export default function MigrationSymfony() {
                 >
                   reprise de projet Symfony
                 </Link>{" "}
-                couvre l&apos;audit, la stabilisation et la montee de version.
-                Une fois le projet stabilise, nous assurons la{" "}
+                couvre l&apos;audit, la stabilisation et la montée de version.
+                Une fois le projet stabilisé, nous assurons la{" "}
                 <Link
                   href="/maintenance-applicative-symfony"
                   className="text-primary hover:underline"
                 >
                   maintenance applicative Symfony
                 </Link>{" "}
-                dans la duree.
+                dans la durée.
               </p>
             </div>
           </Container>
@@ -398,8 +398,8 @@ export default function MigrationSymfony() {
             </h2>
             <p className="mt-4 text-lg text-white/90">
               Commencez par un audit de 30 minutes, gratuit et sans engagement.
-              Nous evaluons l&apos;effort de migration et vous proposons un plan
-              par etapes.
+              Nous évaluons l&apos;effort de migration et vous proposons un plan
+              par étapes.
             </p>
             <Link
               href="/audit-symfony-gratuit"
@@ -414,7 +414,7 @@ export default function MigrationSymfony() {
         <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
-            <SectionTitle>Questions frequentes</SectionTitle>
+            <SectionTitle>Questions fréquentes</SectionTitle>
             <div className="mx-auto max-w-2xl">
               <Accordion items={faqItems} />
             </div>
@@ -434,7 +434,7 @@ export default function MigrationSymfony() {
                 >
                   Audit Symfony gratuit
                 </Link>{" "}
-                , 30 minutes pour evaluer votre effort de migration
+                , 30 minutes pour évaluer votre effort de migration
               </li>
               <li>
                 <Link
@@ -443,7 +443,7 @@ export default function MigrationSymfony() {
                 >
                   Guide de migration dans un projet Symfony
                 </Link>{" "}
-                , notre methodologie detaillee pas a pas
+                , notre méthodologie détaillée pas à pas
               </li>
               <li>
                 <Link
@@ -452,14 +452,14 @@ export default function MigrationSymfony() {
                 >
                   Migration Symfony et architecture hexagonale : retour de mission
                 </Link>{" "}
-                , un cas concret de migration avancee
+                , un cas concret de migration avancée
               </li>
               <li>
                 <Link
                   href="/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony"
                   className="text-primary hover:underline"
                 >
-                  Rector : maitrisez l&apos;evolution de votre code Symfony
+                  Rector : maitrisez l&apos;évolution de votre code Symfony
                 </Link>{" "}
                 , l&apos;outil indispensable pour automatiser les migrations
               </li>

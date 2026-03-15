@@ -7,12 +7,12 @@ excerpt: "Pourquoi Docker est indispensable en production : déploiement fiable,
 image: "/images/blog/pexels-tech.webp"
 updatedAt: "2026-01-13"
 faq:
-  - question: "Pourquoi utiliser Docker en production plutot qu'un serveur classique ?"
-    answer: "Docker garantit que l'application tourne dans le meme environnement en dev, en recette et en production. Plus de problemes de versions PHP differentes ou de dependances manquantes. Le deploiement devient reproductible : une image Docker testee en staging est identique a celle deployee en production."
+  - question: "Pourquoi utiliser Docker en production plutôt qu'un serveur classique ?"
+    answer: "Docker garantit que l'application tourne dans le même environnement en dev, en recette et en production. Plus de problèmes de versions PHP différentes ou de dépendances manquantes. Le déploiement devient reproductible : une image Docker testée en staging est identique à celle déployée en production."
   - question: "Docker ralentit-il les performances d'une application web ?"
-    answer: "Non, l'overhead de Docker est negligeable (moins de 2% sur le CPU). Docker utilise les cgroups et namespaces du noyau Linux, pas de la virtualisation. Les performances reseau et disque sont quasi identiques a celles d'un serveur bare metal, surtout avec les volumes natifs."
+    answer: "Non, l'overhead de Docker est négligeable (moins de 2% sur le CPU). Docker utilise les cgroups et namespaces du noyau Linux, pas de la virtualisation. Les performances réseau et disque sont quasi identiques à celles d'un serveur bare metal, surtout avec les volumes natifs."
   - question: "Faut-il utiliser Docker Compose ou Kubernetes en production ?"
-    answer: "Docker Compose convient aux applications simples avec quelques conteneurs sur un seul serveur. Kubernetes est necessaire quand vous avez besoin de scalabilite horizontale, de rolling updates sans downtime et de gestion multi-serveurs. Pour la plupart des projets Symfony, Docker Compose avec un reverse proxy Traefik suffit."
+    answer: "Docker Compose convient aux applications simples avec quelques conteneurs sur un seul serveur. Kubernetes est nécessaire quand vous avez besoin de scalabilité horizontale, de rolling updates sans downtime et de gestion multi-serveurs. Pour la plupart des projets Symfony, Docker Compose avec un reverse proxy Traefik suffit."
 ---
 
 Mettre une application en production a toujours été un exercice à haut risque. Mais les exigences actuelles, performance, sécurité, scalabilité, time-to-market, ont rendu les approches artisanales tout simplement intenables. Docker s'est imposé comme le standard industriel de la production web, au même titre que Git ou les pipelines CI/CD. Ce n'est plus un choix technologique : c'est un prérequis.
@@ -160,7 +160,7 @@ volumes:
   db-data:
 ```
 
-Ce fichier remplace des pages de documentation d'installation. Pour les stacks qui utilisent [FrankenPHP](/article/concretement-cest-quoi-frankenphp) plutot que PHP-FPM classique, la configuration Docker est encore plus simple puisque le serveur web et le runtime PHP sont embarqués dans un seul conteneur. En staging, un fichier `compose.staging.yml` surcharge les variables d'environnement et la configuration réseau sans toucher au fichier de base.
+Ce fichier remplace des pages de documentation d'installation. Pour les stacks qui utilisent [FrankenPHP](/article/concretement-cest-quoi-frankenphp) plutôt que PHP-FPM classique, la configuration Docker est encore plus simple puisque le serveur web et le runtime PHP sont embarqués dans un seul conteneur. En staging, un fichier `compose.staging.yml` surcharge les variables d'environnement et la configuration réseau sans toucher au fichier de base.
 
 ## Stratégie d'orchestration et déploiements sans interruption
 

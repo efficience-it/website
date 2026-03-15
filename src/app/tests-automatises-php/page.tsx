@@ -12,9 +12,9 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured
 
 export const metadata = pageMetadata({
   title:
-    "Tests automatises PHP et Symfony : securisez chaque livraison",
+    "Tests automatisés PHP et Symfony : sécurisez chaque livraison",
   description:
-    "Mettez en place une strategie de tests automatises PHP et Symfony : tests unitaires, integration, fonctionnels et e2e avec PHPUnit, Behat et Cypress. Pipeline CI/CD inclus.",
+    "Mettez en place une stratégie de tests automatisés PHP et Symfony : tests unitaires, intégration, fonctionnels et e2e avec PHPUnit, Behat et Cypress. Pipeline CI/CD inclus.",
   path: "/tests-automatises-php",
 });
 
@@ -22,17 +22,17 @@ const typesDeTests = [
   {
     title: "Tests unitaires",
     description:
-      "Verification isolee de chaque classe et methode. Ils s'executent en quelques secondes et garantissent que la logique metier fonctionne independamment du reste de l'application.",
+      "Vérification isolée de chaque classe et méthode. Ils s'exécutent en quelques secondes et garantissent que la logique métier fonctionne indépendamment du reste de l'application.",
   },
   {
-    title: "Tests d'integration",
+    title: "Tests d'intégration",
     description:
-      "Validation de l'interaction entre plusieurs composants : services Symfony, repositories Doctrine, file de messages. Ils detectent les problemes de configuration et de cablage.",
+      "Validation de l'interaction entre plusieurs composants : services Symfony, repositories Doctrine, file de messages. Ils détectent les problèmes de configuration et de câblage.",
   },
   {
     title: "Tests fonctionnels",
     description:
-      "Simulation de requetes HTTP completes a travers le Kernel Symfony. Ils verifient que vos controllers, middlewares et reponses fonctionnent correctement de bout en bout.",
+      "Simulation de requêtes HTTP complètes à travers le Kernel Symfony. Ils vérifient que vos controllers, middlewares et réponses fonctionnent correctement de bout en bout.",
   },
   {
     title: "Tests end-to-end (e2e)",
@@ -45,50 +45,50 @@ const outils = [
   {
     title: "PHPUnit",
     description:
-      "Le framework de reference pour les tests unitaires et d'integration PHP. Nous l'utilisons pour couvrir la logique metier, les services Symfony et les repositories Doctrine.",
+      "Le framework de référence pour les tests unitaires et d'intégration PHP. Nous l'utilisons pour couvrir la logique métier, les services Symfony et les repositories Doctrine.",
   },
   {
     title: "Behat",
     description:
-      "Framework BDD (Behavior-Driven Development) qui permet d'ecrire des scenarios de test en langage naturel. Ideal pour impliquer les equipes metier dans la definition des comportements attendus.",
+      "Framework BDD (Behavior-Driven Development) qui permet d'écrire des scénarios de test en langage naturel. Idéal pour impliquer les équipes métier dans la définition des comportements attendus.",
   },
   {
     title: "Cypress",
     description:
-      "Outil de test e2e moderne qui pilote un vrai navigateur. Nous l'utilisons pour valider les parcours utilisateur critiques et detecter les regressions visuelles.",
+      "Outil de test e2e moderne qui pilote un vrai navigateur. Nous l'utilisons pour valider les parcours utilisateur critiques et détecter les régressions visuelles.",
   },
   {
     title: "PHPStan",
     description:
-      "Analyse statique du code PHP qui detecte les erreurs avant meme l'execution. Combine aux tests, il constitue un filet de securite supplementaire contre les bugs en production.",
+      "Analyse statique du code PHP qui détecte les erreurs avant même l'exécution. Combiné aux tests, il constitue un filet de sécurité supplémentaire contre les bugs en production.",
   },
 ];
 
 const faqItems = [
   {
-    title: "Par ou commencer quand un projet PHP n'a aucun test ?",
+    title: "Par où commencer quand un projet PHP n'a aucun test ?",
     content:
-      "Nous commencons toujours par un audit de la base de code pour identifier les zones les plus critiques. Ensuite, nous mettons en place PHPUnit et ecrivons les premiers tests sur la logique metier la plus sensible. L'objectif est d'obtenir un filet de securite minimal en quelques jours, puis d'augmenter progressivement la couverture.",
+      "Nous commençons toujours par un audit de la base de code pour identifier les zones les plus critiques. Ensuite, nous mettons en place PHPUnit et écrivons les premiers tests sur la logique métier la plus sensible. L'objectif est d'obtenir un filet de sécurité minimal en quelques jours, puis d'augmenter progressivement la couverture.",
   },
   {
     title: "Quelle couverture de tests viser ?",
     content:
-      "Viser 100 % de couverture est rarement pertinent. Nous recommandons de cibler 80 % sur la logique metier et les services critiques, tout en acceptant une couverture plus faible sur le code d'infrastructure. L'important est de couvrir ce qui casse le plus souvent et ce qui a le plus de valeur metier.",
+      "Viser 100 % de couverture est rarement pertinent. Nous recommandons de cibler 80 % sur la logique métier et les services critiques, tout en acceptant une couverture plus faible sur le code d'infrastructure. L'important est de couvrir ce qui casse le plus souvent et ce qui a le plus de valeur métier.",
   },
   {
-    title: "Les tests ralentissent-ils le developpement ?",
+    title: "Les tests ralentissent-ils le développement ?",
     content:
-      "A court terme, ecrire des tests prend du temps. Mais des le premier mois, le gain est net : moins de bugs en production, moins de regressions, des refactorings serains. Sur un projet de 6 mois ou plus, les tests font gagner du temps plutot qu'en perdre.",
+      "À court terme, écrire des tests prend du temps. Mais dès le premier mois, le gain est net : moins de bugs en production, moins de régressions, des refactorings sereins. Sur un projet de 6 mois ou plus, les tests font gagner du temps plutôt qu'en perdre.",
   },
   {
-    title: "Comment integrer les tests dans un pipeline CI/CD existant ?",
+    title: "Comment intégrer les tests dans un pipeline CI/CD existant ?",
     content:
-      "Nous configurons votre pipeline GitLab CI, GitHub Actions ou Jenkins pour executer automatiquement la suite de tests a chaque push. Les tests unitaires tournent en premier (rapides), suivis des tests d'integration et fonctionnels. Le deploiement est bloque si un test echoue.",
+      "Nous configurons votre pipeline GitLab CI, GitHub Actions ou Jenkins pour exécuter automatiquement la suite de tests à chaque push. Les tests unitaires tournent en premier (rapides), suivis des tests d'intégration et fonctionnels. Le déploiement est bloqué si un test échoue.",
   },
   {
     title: "Faut-il utiliser PHPUnit ou Behat ?",
     content:
-      "Les deux sont complementaires. PHPUnit est incontournable pour les tests unitaires et d'integration. Behat est pertinent quand vous avez besoin d'impliquer des profils non techniques dans la definition des comportements attendus. Nous recommandons PHPUnit comme socle, avec Behat en complement sur les parcours metier complexes.",
+      "Les deux sont complémentaires. PHPUnit est incontournable pour les tests unitaires et d'intégration. Behat est pertinent quand vous avez besoin d'impliquer des profils non techniques dans la définition des comportements attendus. Nous recommandons PHPUnit comme socle, avec Behat en complément sur les parcours métier complexes.",
   },
 ];
 
@@ -106,20 +106,20 @@ const faqJsonLd = {
 };
 
 const breadcrumb = breadcrumbJsonLd([
-  { name: "Tests automatises PHP", path: "/tests-automatises-php" },
+  { name: "Tests automatisés PHP", path: "/tests-automatises-php" },
 ]);
 
 const service = serviceJsonLd({
-  name: "Tests automatises PHP et Symfony",
+  name: "Tests automatisés PHP et Symfony",
   description:
-    "Mise en place de strategies de tests automatises pour applications PHP et Symfony : tests unitaires, integration, fonctionnels et e2e, avec integration CI/CD pour securiser chaque livraison.",
+    "Mise en place de stratégies de tests automatisés pour applications PHP et Symfony : tests unitaires, intégration, fonctionnels et e2e, avec intégration CI/CD pour sécuriser chaque livraison.",
   path: "/tests-automatises-php",
 });
 
 const webPage = webPageJsonLd({
-  name: "Tests automatises PHP et Symfony : securisez chaque livraison",
+  name: "Tests automatisés PHP et Symfony : sécurisez chaque livraison",
   description:
-    "Mettez en place une strategie de tests automatises PHP et Symfony : tests unitaires, integration, fonctionnels et e2e avec PHPUnit, Behat et Cypress. Pipeline CI/CD inclus.",
+    "Mettez en place une stratégie de tests automatisés PHP et Symfony : tests unitaires, intégration, fonctionnels et e2e avec PHPUnit, Behat et Cypress. Pipeline CI/CD inclus.",
   path: "/tests-automatises-php",
   datePublished: "2026-03-12",
   dateModified: "2026-03-12",
@@ -150,22 +150,22 @@ export default function TestsAutomatisesPhp() {
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">
-                  Qualite logicielle
+                  Qualité logicielle
                 </p>
                 <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                  Tests automatises PHP et Symfony : securisez chaque livraison
+                  Tests automatisés PHP et Symfony : sécurisez chaque livraison
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
                   Chaque mise en production vous stresse ? Les regressions
-                  s&apos;accumulent sprint apres sprint ? Vos developpeurs
+                  s&apos;accumulent sprint après sprint ? Vos développeurs
                   n&apos;osent plus toucher au code existant ?
                 </p>
                 <p className="mt-4 max-w-3xl text-lg text-gray">
-                  Efficience IT met en place une strategie de{" "}
-                  <strong>tests automatises</strong> adaptee a votre projet PHP
+                  Efficience IT met en place une stratégie de{" "}
+                  <strong>tests automatisés</strong> adaptée à votre projet PHP
                   et Symfony. Tests unitaires, d&apos;integration, fonctionnels
-                  et e2e : nous construisons le filet de securite qui vous
-                  permet de livrer en confiance, a chaque fois.
+                  et e2e : nous construisons le filet de sécurité qui vous
+                  permet de livrer en confiance, à chaque fois.
                 </p>
                 <p className="mt-6 text-lg font-semibold text-dark">
                   Un premier audit de 30 minutes, gratuit et sans engagement.
@@ -206,9 +206,9 @@ export default function TestsAutomatisesPhp() {
           <Container>
             <SectionTitle>Les quatre niveaux de tests</SectionTitle>
             <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-              Une strategie de tests efficace combine plusieurs niveaux
-              complementaires. Chacun joue un role precis dans la detection des
-              anomalies, du plus rapide au plus realiste.
+              Une stratégie de tests efficace combine plusieurs niveaux
+              complémentaires. Chacun joue un rôle précis dans la détection des
+              anomalies, du plus rapide au plus réaliste.
             </p>
             <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-2">
               {typesDeTests.map((type) => (
@@ -248,16 +248,16 @@ export default function TestsAutomatisesPhp() {
               >
                 PHPStan
               </Link>{" "}
-              complete cette pyramide en detectant les erreurs de type et les
-              incohereances avant meme l&apos;execution des tests.
-              Pour une vision globale de la sante de votre code, notre{" "}
+              complète cette pyramide en détectant les erreurs de type et les
+              incohérences avant même l&apos;exécution des tests.
+              Pour une vision globale de la santé de votre code, notre{" "}
               <Link
                 href="/audit-code-php"
                 className="text-primary hover:underline"
               >
                 audit de code PHP
               </Link>{" "}
-              couvre six axes complementaires dont la couverture de tests.
+              couvre six axes complémentaires dont la couverture de tests.
             </p>
           </Container>
         </section>
@@ -268,8 +268,8 @@ export default function TestsAutomatisesPhp() {
           <Container>
             <SectionTitle>Les outils que nous utilisons</SectionTitle>
             <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-              Nous selectionnons les outils les plus adaptes a votre contexte
-              technique. Voici ceux que nous deployons le plus frequemment sur
+              Nous sélectionnons les outils les plus adaptés à votre contexte
+              technique. Voici ceux que nous déployons le plus fréquemment sur
               les projets PHP et Symfony.
             </p>
             <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-2">
@@ -297,7 +297,7 @@ export default function TestsAutomatisesPhp() {
               >
                 code mort
               </Link>{" "}
-              sont des prerequis essentiels pour que vos tests restent
+              sont des prérequis essentiels pour que vos tests restent
               maintenables dans le temps.
             </p>
           </Container>
@@ -307,12 +307,12 @@ export default function TestsAutomatisesPhp() {
         <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
-            <SectionTitle>Integration CI/CD</SectionTitle>
+            <SectionTitle>Intégration CI/CD</SectionTitle>
             <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-              Des tests automatises ne servent a rien s&apos;ils ne sont pas
-              executes systematiquement. Nous integrons votre suite de tests
-              dans un pipeline d&apos;integration continue pour que chaque
-              commit soit valide automatiquement.
+              Des tests automatisés ne servent à rien s&apos;ils ne sont pas
+              exécutés systématiquement. Nous intégrons votre suite de tests
+              dans un pipeline d&apos;intégration continue pour que chaque
+              commit soit validé automatiquement.
             </p>
             <div className="mt-10 grid gap-8 md:grid-cols-2">
               <div className="space-y-6">
@@ -320,10 +320,10 @@ export default function TestsAutomatisesPhp() {
                   <span className="mt-1 shrink-0 text-primary">&#10003;</span>
                   <div>
                     <h3 className="font-display font-bold text-dark">
-                      Execution automatique a chaque push
+                      Exécution automatique à chaque push
                     </h3>
                     <p className="mt-1 text-gray">
-                      Les tests se lancent des qu&apos;un developpeur pousse du
+                      Les tests se lancent dès qu&apos;un développeur pousse du
                       code. Aucune intervention manuelle, aucun oubli possible.
                       Le pipeline GitLab CI ou GitHub Actions fait le travail.
                     </p>
@@ -333,11 +333,11 @@ export default function TestsAutomatisesPhp() {
                   <span className="mt-1 shrink-0 text-primary">&#10003;</span>
                   <div>
                     <h3 className="font-display font-bold text-dark">
-                      Blocage du deploiement en cas d&apos;echec
+                      Blocage du déploiement en cas d&apos;échec
                     </h3>
                     <p className="mt-1 text-gray">
-                      Si un test echoue, le deploiement est automatiquement
-                      bloque. Impossible de mettre en production du code qui
+                      Si un test échoue, le déploiement est automatiquement
+                      bloqué. Impossible de mettre en production du code qui
                       casse un comportement existant.
                     </p>
                   </div>
@@ -349,9 +349,9 @@ export default function TestsAutomatisesPhp() {
                       Rapports de couverture
                     </h3>
                     <p className="mt-1 text-gray">
-                      Chaque build genere un rapport de couverture visible
+                      Chaque build génère un rapport de couverture visible
                       directement dans votre merge request. Vous suivez
-                      l&apos;evolution de la couverture au fil du temps.
+                      l&apos;évolution de la couverture au fil du temps.
                     </p>
                   </div>
                 </div>
@@ -361,12 +361,12 @@ export default function TestsAutomatisesPhp() {
                   <span className="mt-1 shrink-0 text-primary">&#10003;</span>
                   <div>
                     <h3 className="font-display font-bold text-dark">
-                      Parallelisation des suites de tests
+                      Parallélisation des suites de tests
                     </h3>
                     <p className="mt-1 text-gray">
-                      Nous configurons l&apos;execution parallele pour reduire
-                      le temps de feedback. Les tests unitaires, d&apos;integration
-                      et e2e tournent simultanement sur des jobs separes.
+                      Nous configurons l&apos;exécution parallèle pour réduire
+                      le temps de feedback. Les tests unitaires, d&apos;intégration
+                      et e2e tournent simultanément sur des jobs séparés.
                     </p>
                   </div>
                 </div>
@@ -377,15 +377,15 @@ export default function TestsAutomatisesPhp() {
                       Tests Postman dans le pipeline
                     </h3>
                     <p className="mt-1 text-gray">
-                      Pour les API, nous integrons vos collections{" "}
+                      Pour les API, nous intégrons vos collections{" "}
                       <Link
                         href="/article/comment-executer-des-tests-postman-avec-newman-dans-gitlab-ci"
                         className="text-primary hover:underline"
                       >
                         Postman via Newman dans GitLab CI
                       </Link>{" "}
-                      afin de valider automatiquement chaque endpoint a chaque
-                      deploiement.
+                      afin de valider automatiquement chaque endpoint à chaque
+                      déploiement.
                     </p>
                   </div>
                 </div>
@@ -393,11 +393,11 @@ export default function TestsAutomatisesPhp() {
                   <span className="mt-1 shrink-0 text-primary">&#10003;</span>
                   <div>
                     <h3 className="font-display font-bold text-dark">
-                      Analyse statique integree
+                      Analyse statique intégrée
                     </h3>
                     <p className="mt-1 text-gray">
                       PHPStan et les outils de lint sont executes dans le meme
-                      pipeline. Le code est verifie a la fois sur son
+                      pipeline. Le code est vérifié à la fois sur son
                       comportement et sur sa structure.
                     </p>
                   </div>
@@ -412,11 +412,11 @@ export default function TestsAutomatisesPhp() {
         <section className="bg-primary py-16 text-center text-white">
           <div className="mx-auto max-w-3xl px-4">
             <h2 className="font-display text-3xl font-bold">
-              Votre projet PHP merite un filet de securite
+              Votre projet PHP mérite un filet de sécurité
             </h2>
             <p className="mt-4 text-lg text-white/90">
               Commencez par un audit de 30 minutes, gratuit et sans engagement.
-              Nous evaluons l&apos;etat de vos tests et vous proposons un plan
+              Nous évaluons l&apos;état de vos tests et vous proposons un plan
               d&apos;action concret.
             </p>
             <Link
@@ -432,7 +432,7 @@ export default function TestsAutomatisesPhp() {
         <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
-            <SectionTitle>Questions frequentes</SectionTitle>
+            <SectionTitle>Questions fréquentes</SectionTitle>
             <div className="mx-auto max-w-2xl">
               <Accordion items={faqItems} />
             </div>
@@ -452,23 +452,23 @@ export default function TestsAutomatisesPhp() {
                 >
                   Audit Symfony gratuit
                 </Link>{" "}
-                , 30 minutes pour evaluer l&apos;etat de votre application
+                , 30 minutes pour évaluer l&apos;état de votre application
               </li>
               <li>
                 <Link
                   href="/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php"
                   className="text-primary hover:underline"
                 >
-                  Comment PHPStan peut vous aider a ameliorer la qualite de votre code PHP
+                  Comment PHPStan peut vous aider à améliorer la qualité de votre code PHP
                 </Link>{" "}
-                , analyse statique pour completer vos tests
+                , analyse statique pour compléter vos tests
               </li>
               <li>
                 <Link
                   href="/article/comment-executer-des-tests-postman-avec-newman-dans-gitlab-ci"
                   className="text-primary hover:underline"
                 >
-                  Executer des tests Postman avec Newman dans GitLab CI
+                  Exécuter des tests Postman avec Newman dans GitLab CI
                 </Link>{" "}
                 , automatiser les tests d&apos;API dans votre pipeline
               </li>
@@ -490,7 +490,7 @@ export default function TestsAutomatisesPhp() {
                 >
                   Documentation officielle PHPUnit
                 </a>{" "}
-                , reference pour la configuration et l&apos;ecriture de tests
+                , référence pour la configuration et l&apos;écriture de tests
               </li>
             </ul>
           </Container>
