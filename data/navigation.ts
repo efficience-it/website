@@ -28,15 +28,6 @@ export const mainNav: NavItem[] = [
       { label: "Jobs", href: "/ta-carriere" },
     ],
   },
-  {
-    label: "Secteurs",
-    items: [
-      { label: "E-commerce", href: "/secteur/e-commerce" },
-      { label: "Finance", href: "/secteur/finance" },
-      { label: "Industrie", href: "/secteur/industrie" },
-      { label: "SaaS", href: "/secteur/saas" },
-    ],
-  },
   { label: "Green IT", href: "/green-it" },
   { label: "Références", href: "/nos-references" },
   { label: "Blog", href: "/blog" },
