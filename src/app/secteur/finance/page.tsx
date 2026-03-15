@@ -43,7 +43,7 @@ const expertises = [
   {
     title: "Integration de systemes financiers",
     description:
-      "Connexion aux systemes bancaires (SWIFT, SEPA), passerelles de paiement, outils de scoring et de compliance. Des connecteurs robustes avec gestion des erreurs, retry automatique et reconciliation des transactions.",
+      "Connexion aux systemes bancaires (SWIFT, SEPA), passerelles de paiement, outils de scoring et de compliance via des API sur mesure. Des connecteurs robustes avec gestion des erreurs, retry automatique et reconciliation des transactions.",
     icon: "M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5",
   },
 ];
@@ -142,6 +142,12 @@ const relatedLinks: RelatedLink[] = [
     href: "/tests-automatises-php",
   },
   {
+    title: "API sur mesure Symfony",
+    description:
+      "Connecter vos systemes financiers via des API robustes et securisees",
+    href: "/api-sur-mesure-symfony",
+  },
+  {
     title: "OWASP Top 10",
     description: "Les 10 risques de securite les plus critiques pour les applications web",
     href: "https://owasp.org/www-project-top-ten/",
@@ -197,7 +203,15 @@ export default function SecteurFinance() {
                     architecture hexagonale
                   </Link>
                   , garantit une gestion rigoureuse des acces et une separation
-                  claire entre logique metier et infrastructure.
+                  claire entre logique metier et infrastructure. Notre offre de{" "}
+                  <Link
+                    href="/maintenance-applicative-symfony"
+                    className="text-primary hover:underline"
+                  >
+                    maintenance applicative
+                  </Link>{" "}
+                  assure ensuite la continuite de service et les mises a jour de
+                  securite.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   <Button href="/contact">

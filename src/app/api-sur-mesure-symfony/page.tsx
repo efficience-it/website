@@ -42,7 +42,7 @@ const useCases = [
   {
     title: "API e-commerce",
     description:
-      "Synchronisez stocks, commandes et clients entre votre boutique, votre ERP et vos places de marché via des webhooks fiables et des endpoints atomiques.",
+      "Synchronisez stocks, commandes et clients entre votre boutique, votre ERP et vos places de marché via des webhooks fiables et des endpoints atomiques. Idéal pour les projets Sylius en headless commerce.",
   },
 ];
 
@@ -181,14 +181,19 @@ const apiRelatedLinks: RelatedLink[] = [
     href: "/article/api-rest-les-bonnes-pratiques",
   },
   {
+    title: "REST vs GraphQL : que choisir ?",
+    description: "Comparatif des deux paradigmes pour vos API",
+    href: "/article/que-vaut-rest-face-a-son-nouveau-challenger-graphql",
+  },
+  {
+    title: "E-commerce Sylius",
+    description: "API headless pour votre boutique en ligne avec Sylius",
+    href: "/ecommerce-sylius",
+  },
+  {
     title: "Développement web sur mesure",
     description: "Notre expertise PHP et Symfony au service de vos projets",
     href: "/developpement-web-sur-mesure",
-  },
-  {
-    title: "Audit Symfony gratuit",
-    description: "Évaluez l'état technique de votre application en 30 minutes",
-    href: "/audit-symfony-gratuit",
   },
   {
     title: "Documentation API Platform",

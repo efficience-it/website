@@ -231,6 +231,15 @@ export default function GeoOptimisationIa() {
                 l&apos;interpretation de votre site, et l&apos;
                 <strong>optimisation du contenu</strong> pour qu&apos;il soit
                 facilement extractible et citable par les modeles de langage.
+                Cette approche fait partie de notre{" "}
+                <Link
+                  href="/expertise-ia"
+                  className="text-primary hover:underline"
+                >
+                  expertise IA
+                </Link>
+                , qui couvre aussi bien l&apos;integration de LLM dans vos
+                applications que leur optimisation pour le referencement.
               </p>
               <p>
                 Nous avons detaille les enjeux du{" "}

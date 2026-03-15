@@ -142,6 +142,12 @@ const relatedLinks: RelatedLink[] = [
     href: "/article/guide-de-migration-dans-un-projet-symfony",
   },
   {
+    title: "Hebergement Symfony",
+    description:
+      "Infrastructure fiable pour vos applications industrielles critiques",
+    href: "/hebergement-symfony",
+  },
+  {
     title: "Symfony Messenger, doc officielle",
     description: "Le composant de messaging asynchrone de Symfony",
     href: "https://symfony.com/doc/current/messenger.html",
@@ -183,6 +189,14 @@ export default function SecteurIndustrie() {
                   Vos outils de production sont vieillissants, vos donnees sont
                   cloisonnees entre plusieurs systemes, et vos equipes perdent du
                   temps sur des taches manuelles que le SI devrait automatiser.
+                  Un{" "}
+                  <Link
+                    href="/article/quels-sont-les-avantages-dun-progiciel-pour-votre-entreprise"
+                    className="text-primary hover:underline"
+                  >
+                    progiciel sur mesure
+                  </Link>{" "}
+                  peut transformer cette situation.
                 </p>
                 <p className="mt-4 max-w-3xl text-lg text-gray">
                   Efficience IT concoit des{" "}
@@ -287,7 +301,15 @@ export default function SecteurIndustrie() {
                   tester exhaustivement
                 </Link>{" "}
                 chaque regle metier independamment des systemes tiers (ERP, MES,
-                SCADA). Les echanges de donnees passent par{" "}
+                SCADA). En complement, notre{" "}
+                <Link
+                  href="/maintenance-applicative-symfony"
+                  className="text-primary hover:underline"
+                >
+                  maintenance applicative
+                </Link>{" "}
+                garantit la perennite de vos outils en production. Les echanges
+                de donnees passent par{" "}
                 <Link
                   href="/article/symfony-messenger-colonne-vertebrale-archi-hexagonale"
                   className="text-primary hover:underline"

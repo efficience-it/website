@@ -141,6 +141,12 @@ const relatedLinks: RelatedLink[] = [
     href: "/article/doctavis-et-efficience-it-une-course-contre-la-montre-pour-sortir-un-mvp",
   },
   {
+    title: "Maintenance applicative Symfony",
+    description:
+      "Assurez la perennite de votre SaaS apres le lancement",
+    href: "/maintenance-applicative-symfony",
+  },
+  {
     title: "API Platform, doc officielle",
     description: "Framework pour creer des API REST et GraphQL en PHP",
     href: "https://api-platform.com/docs/",
@@ -192,8 +198,23 @@ export default function SecteurSaas() {
                   >
                     architecture hexagonale
                   </Link>{" "}
-                  qui separe votre logique metier de l&apos;infrastructure, pour un
-                  produit maintenable et evolutif sur le long terme.
+                  qui separe votre logique metier de l&apos;infrastructure,
+                  des{" "}
+                  <Link
+                    href="/api-sur-mesure-symfony"
+                    className="text-primary hover:underline"
+                  >
+                    API sur mesure
+                  </Link>{" "}
+                  pour vos integrations, et un{" "}
+                  <Link
+                    href="/hebergement-symfony"
+                    className="text-primary hover:underline"
+                  >
+                    hebergement Symfony
+                  </Link>{" "}
+                  concu pour scaler. Le tout pour un produit maintenable et
+                  evolutif sur le long terme.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   <Button href="/contact">
@@ -289,8 +310,16 @@ export default function SecteurSaas() {
                 montees de version.
               </p>
               <p>
-                Pour les traitements lourds (generation de rapports, envoi de
-                notifications, synchronisation de donnees), nous utilisons{" "}
+                Notre{" "}
+                <Link
+                  href="/tests-automatises-php"
+                  className="text-primary hover:underline"
+                >
+                  approche par tests automatises
+                </Link>{" "}
+                securise chaque deploiement. Pour les traitements lourds
+                (generation de rapports, envoi de notifications,
+                synchronisation de donnees), nous utilisons{" "}
                 <Link
                   href="/article/quelles-sont-les-differences-entre-symfony-messenger-php-enqueue-quoi-utiliser"
                   className="text-primary hover:underline"

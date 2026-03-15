@@ -15,9 +15,9 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured
 
 export const metadata = pageMetadata({
   title:
-    "Agence e-commerce Symfony et Sylius : developpement sur mesure",
+    "Agence e-commerce Symfony et Sylius : développement sur mesure",
   description:
-    "Efficience IT developpe des plateformes e-commerce performantes avec Symfony et Sylius : catalogue produit, API headless, integration PIM/ERP et scalabilite.",
+    "Efficience IT développe des plateformes e-commerce performantes avec Symfony et Sylius : catalogue produit, API headless, intégration PIM/ERP et scalabilité.",
   path: "/secteur/e-commerce",
 });
 
@@ -25,25 +25,25 @@ const expertises = [
   {
     title: "Sylius sur mesure",
     description:
-      "Sylius est la plateforme e-commerce open source batie sur Symfony. Nous l'adaptons a vos besoins metier : catalogue complexe, promotions, multi-devises, gestion de stock avancee. Un socle robuste que l'on personnalise sans le denaturer.",
+      "Sylius est la plateforme e-commerce open source bâtie sur Symfony. Nous l'adaptons à vos besoins métier : catalogue complexe, promotions, multi-devises, gestion de stock avancée. Un socle robuste que l'on personnalise sans le dénaturer.",
     icon: "M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z",
   },
   {
     title: "API headless commerce",
     description:
-      "Decouplage front/back avec API Platform pour alimenter un front React, Next.js ou une application mobile. Vous gardez toute la puissance de Symfony cote metier, avec la liberte de choisir votre stack front.",
+      "Découplage front/back avec API Platform pour alimenter un front React, Next.js ou une application mobile. Vous gardez toute la puissance de Symfony côté métier, avec la liberté de choisir votre stack front.",
     icon: "M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5",
   },
   {
-    title: "Integration PIM/ERP",
+    title: "Intégration PIM/ERP",
     description:
-      "Connexion de votre plateforme e-commerce a votre PIM (Akeneo, Pimcore), votre ERP (SAP, Sage, Cegid) et vos outils logistiques. Des flux bidirectionnels fiables grace a Symfony Messenger et des connecteurs sur mesure.",
+      "Connexion de votre plateforme e-commerce à votre PIM (Akeneo, Pimcore), votre ERP (SAP, Sage, Cegid) et vos outils logistiques. Des flux bidirectionnels fiables grâce à Symfony Messenger et des connecteurs sur mesure.",
     icon: "M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5",
   },
   {
-    title: "Performance et scalabilite",
+    title: "Performance et scalabilité",
     description:
-      "Cache HTTP, CDN, optimisation des requetes Doctrine, files d'attente asynchrones pour les imports catalogue. Votre plateforme encaisse les pics de trafic sans broncher, meme pendant les soldes.",
+      "Cache HTTP, CDN, optimisation des requêtes Doctrine, files d'attente asynchrones pour les imports catalogue. Votre plateforme encaisse les pics de trafic sans broncher, même pendant les soldes.",
     icon: "M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z",
   },
 ];
@@ -56,24 +56,24 @@ const references = [
 
 const faqItems = [
   {
-    title: "Pourquoi choisir Sylius plutot que Prestashop ou Magento ?",
+    title: "Pourquoi choisir Sylius plutôt que Prestashop ou Magento ?",
     content:
-      "Sylius est construit sur Symfony, ce qui permet une personnalisation illimitee sans les contraintes d'un CMS e-commerce classique. Contrairement a Prestashop ou Magento, chaque composant est remplacable et testable. C'est le choix ideal pour les projets e-commerce avec des regles metier complexes.",
+      "Sylius est construit sur Symfony, ce qui permet une personnalisation illimitée sans les contraintes d'un CMS e-commerce classique. Contrairement à Prestashop ou Magento, chaque composant est remplaçable et testable. C'est le choix idéal pour les projets e-commerce avec des règles métier complexes.",
   },
   {
     title: "Pouvez-vous reprendre un projet e-commerce existant ?",
     content:
-      "Oui. Nous realisons un audit technique pour evaluer l'etat du code, de l'architecture et des performances. Que ce soit un Sylius, un Symfony custom ou meme une migration depuis Prestashop, nous definissons un plan d'action pour reprendre le projet en main.",
+      "Oui. Nous réalisons un audit technique pour évaluer l'état du code, de l'architecture et des performances. Que ce soit un Sylius, un Symfony custom ou même une migration depuis Prestashop, nous définissons un plan d'action pour reprendre le projet en main.",
   },
   {
-    title: "Comment gerez-vous les pics de charge (soldes, Black Friday) ?",
+    title: "Comment gérez-vous les pics de charge (soldes, Black Friday) ?",
     content:
-      "Nous concevons l'architecture pour supporter les montees en charge : cache multi-niveaux (Varnish, Redis), traitements asynchrones avec Messenger, auto-scaling de l'infrastructure. Les imports catalogue et les envois d'emails sont decharges en file d'attente pour ne pas impacter les performances du site.",
+      "Nous concevons l'architecture pour supporter les montées en charge : cache multi-niveaux (Varnish, Redis), traitements asynchrones avec Messenger, auto-scaling de l'infrastructure. Les imports catalogue et les envois d'emails sont déchargés en file d'attente pour ne pas impacter les performances du site.",
   },
   {
     title: "Proposez-vous du headless commerce ?",
     content:
-      "Oui, c'est meme une de nos specialites. API Platform permet d'exposer l'ensemble du catalogue, du panier et du checkout en API REST ou GraphQL. Votre front peut etre un Next.js, un Nuxt.js ou une application mobile, tout en beneficiant de la robustesse de Symfony cote back.",
+      "Oui, c'est même une de nos spécialités. API Platform permet d'exposer l'ensemble du catalogue, du panier et du checkout en API REST ou GraphQL. Votre front peut être un Next.js, un Nuxt.js ou une application mobile, tout en bénéficiant de la robustesse de Symfony côté back.",
   },
 ];
 
@@ -95,16 +95,16 @@ const breadcrumb = breadcrumbJsonLd([
 ]);
 
 const service = serviceJsonLd({
-  name: "Developpement e-commerce Symfony et Sylius",
+  name: "Développement e-commerce Symfony et Sylius",
   description:
-    "Conception et developpement de plateformes e-commerce sur mesure avec Symfony et Sylius : catalogue produit, API headless, integration PIM/ERP et scalabilite.",
+    "Conception et développement de plateformes e-commerce sur mesure avec Symfony et Sylius : catalogue produit, API headless, intégration PIM/ERP et scalabilité.",
   path: "/secteur/e-commerce",
 });
 
 const webPage = webPageJsonLd({
-  name: "Agence e-commerce Symfony et Sylius : developpement sur mesure",
+  name: "Agence e-commerce Symfony et Sylius : développement sur mesure",
   description:
-    "Efficience IT developpe des plateformes e-commerce performantes avec Symfony et Sylius : catalogue produit, API headless, integration PIM/ERP et scalabilite.",
+    "Efficience IT développe des plateformes e-commerce performantes avec Symfony et Sylius : catalogue produit, API headless, intégration PIM/ERP et scalabilité.",
   path: "/secteur/e-commerce",
   datePublished: "2026-03-12",
   dateModified: "2026-03-12",
@@ -114,13 +114,13 @@ const relatedLinks: RelatedLink[] = [
   {
     title: "Sylius : la solution e-commerce Symfony",
     description:
-      "Decouvrez pourquoi Sylius est le choix ideal pour un e-commerce sur mesure",
+      "Découvrez pourquoi Sylius est le choix idéal pour un e-commerce sur mesure",
     href: "/article/sylius-la-solution-e-commerce-du-framework-symfony",
   },
   {
-    title: "Monofony : le guide pour les debutants",
+    title: "Monofony : le guide pour les débutants",
     description:
-      "Demarrer un projet Symfony avec le socle e-commerce Sylius",
+      "Démarrer un projet Symfony avec le socle e-commerce Sylius",
     href: "/article/monofony-le-guide-ultime-pour-les-debutants",
   },
   {
@@ -130,20 +130,20 @@ const relatedLinks: RelatedLink[] = [
     href: "/article/api-rest-les-bonnes-pratiques",
   },
   {
-    title: "Nos references clients",
+    title: "Développement e-commerce Sylius",
     description:
-      "Les entreprises qui nous font confiance",
-    href: "/nos-references",
+      "Notre offre dédiée au développement de boutiques Sylius sur mesure",
+    href: "/ecommerce-sylius",
   },
   {
     title: "Sylius, site officiel",
-    description: "Plateforme e-commerce open source basee sur Symfony",
+    description: "Plateforme e-commerce open source basée sur Symfony",
     href: "https://sylius.com/",
     external: true,
   },
   {
     title: "API Platform",
-    description: "Framework pour creer des API modernes en PHP",
+    description: "Framework pour créer des API modernes en PHP",
     href: "https://api-platform.com/",
     external: true,
   },
@@ -177,25 +177,25 @@ export default function SecteurEcommerce() {
                   Secteur e-commerce
                 </p>
                 <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                  Agence e-commerce Symfony et Sylius : developpement sur mesure
+                  Agence e-commerce Symfony et Sylius : développement sur mesure
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
-                  Votre catalogue compte des milliers de references, vos regles
+                  Votre catalogue compte des milliers de références, vos règles
                   de promotions sont complexes, et votre SI doit communiquer avec
                   votre PIM, votre ERP et votre logistique. Les solutions
                   e-commerce standards ne suffisent plus.
                 </p>
                 <p className="mt-4 max-w-3xl text-lg text-gray">
-                  Efficience IT concoit des{" "}
+                  Efficience IT conçoit des{" "}
                   <strong>plateformes e-commerce sur mesure</strong> avec{" "}
                   <Link
-                    href="/article/sylius-la-solution-e-commerce-du-framework-symfony"
+                    href="/ecommerce-sylius"
                     className="text-primary hover:underline"
                   >
                     Sylius
                   </Link>{" "}
-                  et Symfony. Un socle open source solide, personnalise pour
-                  repondre a vos enjeux metier specifiques.
+                  et Symfony. Un socle open source solide, personnalisé pour
+                  répondre à vos enjeux métier spécifiques.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   <Button href="/audit-symfony-gratuit">
@@ -233,8 +233,8 @@ export default function SecteurEcommerce() {
           <Container>
             <SectionTitle>Notre expertise e-commerce</SectionTitle>
             <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-              Du catalogue produit au checkout, en passant par les integrations
-              tierces, nous maitrisons toute la chaine de valeur e-commerce.
+              Du catalogue produit au checkout, en passant par les intégrations
+              tierces, nous maîtrisons toute la chaîne de valeur e-commerce.
             </p>
             <div className="mt-10 grid gap-6 sm:grid-cols-2">
               {expertises.map((item) => (
@@ -272,36 +272,46 @@ export default function SecteurEcommerce() {
             <SectionTitle>Pourquoi Symfony pour le e-commerce</SectionTitle>
             <div className="mx-auto mt-8 max-w-3xl space-y-6 text-lg text-gray">
               <p>
-                Les CMS e-commerce generiques (Prestashop, Magento, Shopify)
+                Les CMS e-commerce génériques (Prestashop, Magento, Shopify)
                 fonctionnent bien pour des boutiques standards. Mais quand vos
-                regles metier sortent du cadre, vous passez plus de temps a
-                contourner le framework qu&apos;a developper votre produit.
+                règles métier sortent du cadre, vous passez plus de temps à
+                contourner le framework qu&apos;à développer votre produit.
               </p>
               <p>
-                Avec{" "}
+                Avec Sylius et Symfony, chaque composant est découplé et
+                remplaçable. Notre{" "}
                 <Link
-                  href="/article/les-certifications-symfony-twig-symfony-sylius"
+                  href="/api-sur-mesure-symfony"
                   className="text-primary hover:underline"
                 >
-                  Sylius et Symfony
-                </Link>
-                , chaque composant est decoupled et remplacable. Vous avez un
-                systeme de promotions complexe ? On le code sur mesure. Un
-                catalogue avec des variantes en cascade ? On modele le domaine
-                exactement comme votre metier le requiert.
+                  expertise API sur mesure
+                </Link>{" "}
+                permet de découpler le front du back pour des architectures
+                headless performantes. Vous avez un
+                système de promotions complexe ? On le code sur mesure. Un
+                catalogue avec des variantes en cascade ? On modèle le domaine
+                exactement comme votre métier le requiert.
               </p>
               <p>
-                Notre equipe est{" "}
+                Notre équipe est{" "}
                 <Link
                   href="/agence-symfony-lille"
                   className="text-primary hover:underline"
                 >
-                  specialisee Symfony
+                  spécialisée Symfony
                 </Link>{" "}
-                et certifiee. Nous contribuons activement a l&apos;ecosysteme
-                open source et maitrisons les composants Symfony en profondeur :
-                Messenger pour les traitements asynchrones, Workflow pour les
-                machines a etats, Security pour la gestion des droits.
+                et certifiée. Nous maîtrisons les composants Symfony en
+                profondeur : Messenger pour les traitements asynchrones,
+                Workflow pour les machines à états, Security pour la gestion
+                des droits. Et grâce à notre offre d&apos;
+                <Link
+                  href="/hebergement-symfony"
+                  className="text-primary hover:underline"
+                >
+                  hébergement Symfony
+                </Link>
+                , votre plateforme tient la charge même pendant les pics de
+                trafic.
               </p>
             </div>
           </Container>
@@ -340,12 +350,12 @@ export default function SecteurEcommerce() {
         <section className="bg-primary py-16 text-center text-white">
           <div className="mx-auto max-w-3xl px-4">
             <h2 className="font-display text-3xl font-bold">
-              Votre projet e-commerce merite une expertise Symfony
+              Votre projet e-commerce mérite une expertise Symfony
             </h2>
             <p className="mt-4 text-lg text-white/90">
               Discutons de votre projet lors d&apos;un audit gratuit de 30
               minutes. Nous analysons votre besoin et vous proposons une
-              architecture adaptee.
+              architecture adaptée.
             </p>
             <Link
               href="/audit-symfony-gratuit"
@@ -360,7 +370,7 @@ export default function SecteurEcommerce() {
         <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
-            <SectionTitle>Questions frequentes</SectionTitle>
+            <SectionTitle>Questions fréquentes</SectionTitle>
             <div className="mx-auto max-w-2xl">
               <Accordion items={faqItems} />
             </div>
