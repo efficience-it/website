@@ -391,15 +391,6 @@ export default function GeoOptimisationIa() {
                 , un complement naturel a l&apos;optimisation GEO
               </li>
               <li>
-                <Link
-                  href="/expertise-ia"
-                  className="text-primary hover:underline"
-                >
-                  Notre expertise IA
-                </Link>{" "}
-                , integration de LLM, RAG et agents IA dans vos applications
-              </li>
-              <li>
                 <a
                   href="https://schema.org"
                   target="_blank"
