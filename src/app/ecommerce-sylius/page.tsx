@@ -16,13 +16,13 @@ export const metadata = pageMetadata({
   title:
     "Développement e-commerce Sylius : votre boutique Symfony sur mesure",
   description:
-    "Efficience IT développe votre boutique e-commerce avec Sylius, la plateforme open source basée sur Symfony. Solution sur mesure, performante et évolutive.",
+    "Efficience IT développe votre boutique e-commerce avec Sylius, la plateforme open source basée sur Symfony. Solution adaptée à vos besoins, performante et évolutive.",
   path: "/ecommerce-sylius",
 });
 
 const useCases = [
   {
-    title: "Boutique e-commerce sur mesure",
+    title: "Boutique e-commerce personnalisée",
     description:
       "Créez une boutique en ligne parfaitement adaptée à vos processus métiers, votre catalogue et vos contraintes spécifiques grâce à la flexibilité de Sylius.",
   },
@@ -44,7 +44,7 @@ const useCases = [
   {
     title: "Headless commerce",
     description:
-      "Utilisez Sylius comme backend e-commerce couplé à un front React, Vue ou Next.js pour des expériences utilisateur sur mesure et performantes.",
+      "Utilisez Sylius comme backend e-commerce couplé à un front React, Vue ou Next.js pour des expériences utilisateur personnalisées et performantes.",
   },
 ];
 
@@ -120,7 +120,7 @@ const breadcrumb = breadcrumbJsonLd([
 const service = serviceJsonLd({
   name: "Développement e-commerce Sylius",
   description:
-    "Développement de boutiques e-commerce sur mesure avec Sylius, la plateforme open source basée sur Symfony.",
+    "Développement de boutiques e-commerce avec Sylius, la plateforme open source basée sur Symfony.",
   path: "/ecommerce-sylius",
 });
 
@@ -324,8 +324,8 @@ export default function EcommerceSylius() {
                   </h2>
                   <p className="mt-4 text-lg text-gray">
                     Notre équipe prend en charge l&apos;ensemble du projet :
-                    cadrage fonctionnel, développement des fonctionnalités sur
-                    mesure, intégration avec vos outils (ERP, CRM, logistique),
+                    cadrage fonctionnel, développement des fonctionnalités
+                    dédiées, intégration avec vos outils (ERP, CRM, logistique),
                     mise en place des tests automatisés et{" "}
                     <Link
                       href="/hebergement-symfony"

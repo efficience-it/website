@@ -172,7 +172,7 @@ export default function AccompagnementEtConseil() {
               </h1>
               <p className="mt-6 max-w-3xl text-lg text-gray">
                 Chez Efficience IT, nous croyons fermement que chaque projet
-                mérite un accompagnement sur mesure. Notre{" "}
+                mérite un accompagnement personnalisé. Notre{" "}
                 <strong>expertise</strong> en <strong>agilité</strong> et en{" "}
                 <strong>transformation</strong> numérique nous permet de vous
                 proposer des <strong>solutions</strong> adaptées à vos{" "}
@@ -237,7 +237,7 @@ export default function AccompagnementEtConseil() {
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
           <SectionTitle>
-            Des solutions IT sur mesure pour accompagner votre croissance
+            Des solutions IT adaptées pour accompagner votre croissance
           </SectionTitle>
           <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
             Dans un environnement en constante évolution, les entreprises font
@@ -275,7 +275,7 @@ export default function AccompagnementEtConseil() {
               </h2>
               <p className="mt-4 text-lg text-gray">
                 Nous vous aidons à structurer votre transition numérique avec
-                une approche sur mesure. Grâce à notre expertise en agilité et
+                une approche pensée pour vos enjeux. Grâce à notre expertise en agilité et
                 nouvelles technologies, nous identifions les leviers
                 d&apos;optimisation et définissons une roadmap claire. La{" "}
                 <Link href="/article/les-certifications-symfony-twig-symfony-sylius" className="text-primary hover:underline">
@@ -331,7 +331,7 @@ export default function AccompagnementEtConseil() {
 
             <div>
               <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
-                Déploiement de solutions sur mesure
+                Déploiement de solutions dédiées
               </h2>
               <p className="mt-4 text-lg text-gray">
                 Nous concevons et intégrons des outils adaptés à vos besoins, en
