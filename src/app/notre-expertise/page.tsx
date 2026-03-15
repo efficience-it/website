@@ -14,18 +14,18 @@ import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 import TechnologiesGrid from "@/components/sections/TechnologiesGrid";
 
 export const metadata = pageMetadata({
-  title: "Expertise Symfony de référence",
+  title: "Votre projet Symfony entre de bonnes mains",
   description:
-    "Expertise Symfony de référence : Efficience IT conçoit, développe et maintient des applications web professionnelles, robustes et orientées production.",
+    "Votre projet Symfony entre de bonnes mains : Efficience IT conçoit, développe et maintient des applications web professionnelles, robustes et orientées production.",
   path: "/notre-expertise",
 });
 
 const breadcrumb = breadcrumbJsonLd([{ name: "Nos expertises", path: "/notre-expertise" }]);
 
 const webPage = webPageJsonLd({
-  name: "Expertise Symfony de référence",
+  name: "Votre projet Symfony entre de bonnes mains",
   description:
-    "Expertise Symfony de référence : Efficience IT conçoit, développe et maintient des applications web professionnelles, robustes et orientées production.",
+    "Votre projet Symfony entre de bonnes mains : Efficience IT conçoit, développe et maintient des applications web professionnelles, robustes et orientées production.",
   path: "/notre-expertise",
   datePublished: "2025-09-01",
   dateModified: "2026-01-15",
@@ -77,7 +77,7 @@ export default function NotreExpertise() {
                 Collaborez avec des experts engagés
               </p>
               <h1 className="mt-4 font-display text-4xl font-bold text-dark md:text-5xl">
-                Expertise Symfony de référence
+                Votre projet Symfony entre de bonnes mains
               </h1>
               <p className="mt-6 max-w-3xl text-lg text-gray">
                 Des passionnés à vos côtés, exigeants, curieux et toujours à

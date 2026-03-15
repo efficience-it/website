@@ -12,7 +12,7 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured
 
 export const metadata = pageMetadata({
   title:
-    "Architecture hexagonale avec Symfony : Domain-Driven Design appliqué",
+    "Séparez votre métier du framework avec l'architecture hexagonale",
   description:
     "Structurez vos applications Symfony avec l'architecture hexagonale et le Domain-Driven Design. Principes, avantages, retours d'experience et accompagnement par Efficience IT.",
   path: "/architecture-hexagonale-symfony",
@@ -167,14 +167,14 @@ const breadcrumb = breadcrumbJsonLd([
 ]);
 
 const service = serviceJsonLd({
-  name: "Architecture hexagonale avec Symfony",
+  name: "Séparez votre métier du framework avec l'architecture hexagonale",
   description:
     "Conception et migration d'applications Symfony vers l'architecture hexagonale et le Domain-Driven Design : domaine isolé, ports et adaptateurs, testabilité et évolutivité.",
   path: "/architecture-hexagonale-symfony",
 });
 
 const webPage = webPageJsonLd({
-  name: "Architecture hexagonale avec Symfony : Domain-Driven Design appliqué",
+  name: "Séparez votre métier du framework avec l'architecture hexagonale",
   description:
     "Structurez vos applications Symfony avec l'architecture hexagonale et le Domain-Driven Design. Principes, avantages, retours d'experience et accompagnement par Efficience IT.",
   path: "/architecture-hexagonale-symfony",
@@ -210,8 +210,8 @@ export default function ArchitectureHexagonaleSymfony() {
                   Architecture hexagonale PHP / DDD Symfony
                 </p>
                 <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                  Architecture hexagonale avec Symfony : Domain-Driven Design
-                  appliqué
+                  Séparez votre métier du framework avec l&apos;architecture
+                  hexagonale
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
                   Votre application Symfony mélange règles métier, controllers et

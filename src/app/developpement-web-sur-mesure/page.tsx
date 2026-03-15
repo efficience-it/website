@@ -17,7 +17,7 @@ import { testimonials } from "@/../data/testimonials";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title: "Développement web sur mesure | Expertise Symfony – Efficience IT",
+  title: "Une application web qui résout vos problèmes métier | Efficience IT",
   description:
     "Expertise en développement web sur mesure : Efficience IT accompagne des projets applicatifs, notamment basés sur Symfony, de la conception à la mise en œuvre.",
   path: "/developpement-web-sur-mesure",
@@ -94,14 +94,14 @@ const breadcrumb = breadcrumbJsonLd([
 ]);
 
 const service = serviceJsonLd({
-  name: "Développement web sur mesure",
+  name: "Une application web qui résout vos problèmes métier",
   description:
     "Conception et développement d'applications web sur mesure avec Symfony, Sylius et les technologies PHP modernes.",
   path: "/developpement-web-sur-mesure",
 });
 
 const webPage = webPageJsonLd({
-  name: "Développement web sur mesure | Expertise Symfony",
+  name: "Une application web qui résout vos problèmes métier",
   description:
     "Expertise en développement web sur mesure : Efficience IT accompagne des projets applicatifs, notamment basés sur Symfony, de la conception à la mise en oeuvre.",
   path: "/developpement-web-sur-mesure",
@@ -142,7 +142,7 @@ export default function DeveloppementWeb() {
           <div className="grid items-center gap-12 md:grid-cols-2">
             <div>
               <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
-                Développement web sur mesure
+                Une application web qui résout vos problèmes métier
               </h1>
               <p className="mt-6 max-w-3xl text-lg text-gray">
                 Efficience IT vous accompagne dans votre{" "}

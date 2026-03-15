@@ -11,7 +11,7 @@ import FadeIn from "@/components/ui/FadeIn";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title: "Maintenance applicative Symfony (TMA) : corrective, évolutive, préventive",
+  title: "Votre application Symfony maintenue, sécurisée et à jour",
   description:
     "Efficience IT assure la maintenance applicative de vos projets Symfony : correction de bugs, évolutions fonctionnelles, mises à jour de sécurité, monitoring et SLA sur mesure.",
   path: "/maintenance-applicative-symfony",
@@ -141,7 +141,7 @@ const service = serviceJsonLd({
 });
 
 const webPage = webPageJsonLd({
-  name: "Maintenance applicative Symfony (TMA) : corrective, évolutive, préventive",
+  name: "Votre application Symfony maintenue, sécurisée et à jour",
   description:
     "Efficience IT assure la maintenance applicative de vos projets Symfony : correction de bugs, évolutions fonctionnelles, mises à jour de sécurité, monitoring et SLA sur mesure.",
   path: "/maintenance-applicative-symfony",
@@ -177,7 +177,7 @@ export default function MaintenanceApplicativeSymfony() {
                   TMA Symfony
                 </p>
                 <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                  Maintenance applicative Symfony (TMA) : corrective, évolutive, préventive
+                  Votre application Symfony maintenue, sécurisée et à jour
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
                   Votre application Symfony tourne en production et vous avez besoin

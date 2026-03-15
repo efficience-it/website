@@ -14,7 +14,7 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured
 
 export const metadata = pageMetadata({
   title:
-    "Hébergement Symfony : infrastructure cloud pour vos applications",
+    "Hébergement Symfony : votre application rapide et disponible 24/7",
   description:
     "Efficience IT héberge et déploie vos applications Symfony sur le cloud (AWS, GCP, Azure). CI/CD, monitoring, haute disponibilité et sécurité.",
   path: "/hebergement-symfony",
@@ -125,7 +125,7 @@ const service = serviceJsonLd({
 });
 
 const webPage = webPageJsonLd({
-  name: "Hébergement Symfony : infrastructure cloud pour vos applications",
+  name: "Hébergement Symfony : votre application rapide et disponible 24/7",
   description:
     "Efficience IT héberge et déploie vos applications Symfony sur le cloud. CI/CD, monitoring, haute disponibilité et sécurité.",
   path: "/hebergement-symfony",
@@ -182,8 +182,8 @@ export default function HebergementSymfony() {
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
-                  Hébergement Symfony : infrastructure cloud pour vos
-                  applications
+                  Hébergement Symfony : votre application rapide et disponible
+                  24/7
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
                   Vos applications <strong>Symfony</strong> méritent une

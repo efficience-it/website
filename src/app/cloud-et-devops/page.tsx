@@ -17,7 +17,7 @@ import { testimonials } from "@/../data/testimonials";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title: "Cloud & DevOps : infrastructure et automatisation",
+  title: "Déployez plus vite, avec une infrastructure qui tient la charge",
   description:
     "Expertise Cloud et DevOps : Efficience IT accompagne la mise en place d'infrastructures, d'automatisation et de pratiques DevOps adaptées aux projets web.",
   path: "/cloud-et-devops",
@@ -118,7 +118,7 @@ const service = serviceJsonLd({
 });
 
 const webPage = webPageJsonLd({
-  name: "Cloud & DevOps : infrastructure et automatisation",
+  name: "Déployez plus vite, avec une infrastructure qui tient la charge",
   description:
     "Expertise Cloud et DevOps : Efficience IT accompagne la mise en place d'infrastructures, d'automatisation et de pratiques DevOps adaptées aux projets web.",
   path: "/cloud-et-devops",
@@ -159,7 +159,7 @@ export default function CloudEtDevops() {
           <div className="grid items-center gap-12 md:grid-cols-2">
             <div>
               <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
-                Cloud & DevOps : infrastructure et automatisation
+                Déployez plus vite, avec une infrastructure qui tient la charge
               </h1>
               <p className="mt-6 max-w-3xl text-lg text-gray">
                 Chez Efficience IT, nous accompagnons les PME et grandes

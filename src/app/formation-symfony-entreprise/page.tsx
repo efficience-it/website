@@ -13,7 +13,7 @@ import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { BASE_URL } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
-  title: "Formation Symfony pour les entreprises à Lille et à distance",
+  title: "Formez vos équipes à Symfony avec des praticiens",
   description:
     "Formation Symfony sur mesure pour les entreprises à Lille et à distance. Fondamentaux, architecture hexagonale, API Platform, PHPStan. Groupes de 2 à 8 personnes, formateurs praticiens.",
   path: "/formation-symfony-entreprise",
@@ -171,7 +171,7 @@ const breadcrumb = breadcrumbJsonLd([
 ]);
 
 const webPage = webPageJsonLd({
-  name: "Formation Symfony pour les entreprises à Lille et à distance",
+  name: "Formez vos équipes à Symfony avec des praticiens",
   description: "Formation Symfony sur mesure pour les entreprises à Lille et à distance. Fondamentaux, architecture hexagonale, API Platform, PHPStan. Groupes de 2 à 8 personnes, formateurs praticiens.",
   path: "/formation-symfony-entreprise",
   datePublished: "2026-01-13",
@@ -211,7 +211,7 @@ export default function FormationSymfonyEntreprise() {
                 Formation Symfony entreprise - Lille et à distance
               </p>
               <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                Formation Symfony pour les entreprises à Lille et à distance
+                Formez vos équipes à Symfony avec des praticiens
               </h1>
               <p className="mt-6 text-lg text-gray">
                 Montez en compétences sur Symfony avec des formations adaptées à votre équipe.
