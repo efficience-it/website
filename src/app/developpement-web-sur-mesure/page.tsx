@@ -102,8 +102,7 @@ const service = serviceJsonLd({
 
 const webPage = webPageJsonLd({
   name: "Développement web sur mesure | Expertise Symfony",
-  description:
-    "Efficience IT accompagne vos projets de développement web, notamment basés sur Symfony, de la conception à la mise en oeuvre.",
+  description: "Efficience IT accompagne des projets applicatifs, notamment basés sur Symfony, de la conception à la mise en œuvre.",
   path: "/developpement-web-sur-mesure",
   datePublished: "2025-09-01",
   dateModified: "2026-03-10",
