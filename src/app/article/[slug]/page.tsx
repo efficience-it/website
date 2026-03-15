@@ -1,13 +1,15 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { getAllPosts, getPostBySlug, getCategorySlug } from "@/lib/blog";
+import { getAllPosts, getPostBySlug, getCategorySlug, getPostsByCategory, extractHeadings } from "@/lib/blog";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import MarkdownContent from "@/components/ui/MarkdownContent";
 import ArticleCta from "@/components/sections/ArticleCta";
 import Accordion from "@/components/ui/Accordion";
 import SectionTitle from "@/components/ui/SectionTitle";
+import BlogCard from "@/components/cards/BlogCard";
+import TableOfContents from "@/components/ui/TableOfContents";
 import type { Metadata } from "next";
 import { BASE_URL, SITE_NAME, pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
@@ -82,6 +84,14 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const url = `${BASE_URL}/article/${slug}`;
 
   const isTech = TECH_CATEGORIES.includes(post.category);
+
+  const headings = extractHeadings(post.content);
+
+  const relatedPosts = post.category
+    ? getPostsByCategory(post.category)
+        .filter((p) => p.slug !== slug)
+        .slice(0, 3)
+    : [];
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -216,40 +226,48 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               </div>
             </header>
             <FadeIn>
-            <div className="mx-auto max-w-3xl">
-              {(() => {
-                const parts = splitContentAfterThirdH2(post.content);
-                if (!parts) {
-                  return <MarkdownContent content={post.content} />;
-                }
-                const [firstPart, secondPart] = parts;
-                const isSymfony =
-                  post.category && TECH_CATEGORIES.includes(post.category);
-                return (
-                  <>
-                    <MarkdownContent content={firstPart} />
-                    <div className="my-8 rounded-lg bg-primary/5 p-6 text-center">
-                      <p className="font-display text-lg font-semibold text-dark">
-                        {isSymfony
-                          ? "Besoin d'un regard expert sur votre code Symfony ?"
-                          : "Besoin d'accompagnement sur votre projet ?"}
-                      </p>
-                      <Button
-                        href={
-                          isSymfony ? "/audit-symfony-gratuit" : "/contact"
-                        }
-                        className="mt-3"
-                        variant="outline"
-                      >
-                        {isSymfony
-                          ? "Demander un audit gratuit"
-                          : "Parlons-en"}
-                      </Button>
-                    </div>
-                    <MarkdownContent content={secondPart} />
-                  </>
-                );
-              })()}
+            <div className="relative mx-auto max-w-3xl xl:grid xl:max-w-none xl:grid-cols-[1fr_220px] xl:gap-10">
+              <div className="max-w-3xl">
+                <div className="xl:hidden">
+                  <TableOfContents headings={headings} />
+                </div>
+                {(() => {
+                  const parts = splitContentAfterThirdH2(post.content);
+                  if (!parts) {
+                    return <MarkdownContent content={post.content} />;
+                  }
+                  const [firstPart, secondPart] = parts;
+                  const isSymfony =
+                    post.category && TECH_CATEGORIES.includes(post.category);
+                  return (
+                    <>
+                      <MarkdownContent content={firstPart} />
+                      <div className="my-8 rounded-lg bg-primary/5 p-6 text-center">
+                        <p className="font-display text-lg font-semibold text-dark">
+                          {isSymfony
+                            ? "Besoin d'un regard expert sur votre code Symfony ?"
+                            : "Besoin d'accompagnement sur votre projet ?"}
+                        </p>
+                        <Button
+                          href={
+                            isSymfony ? "/audit-symfony-gratuit" : "/contact"
+                          }
+                          className="mt-3"
+                          variant="outline"
+                        >
+                          {isSymfony
+                            ? "Demander un audit gratuit"
+                            : "Parlons-en"}
+                        </Button>
+                      </div>
+                      <MarkdownContent content={secondPart} />
+                    </>
+                  );
+                })()}
+              </div>
+              <div className="hidden xl:block">
+                <TableOfContents headings={headings} />
+              </div>
             </div>
             </FadeIn>
             <FadeIn>
@@ -266,6 +284,18 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                       content: item.answer,
                     }))}
                   />
+                </div>
+              </div>
+              </FadeIn>
+            )}
+            {relatedPosts.length > 0 && (
+              <FadeIn>
+              <div className="mt-16">
+                <SectionTitle>Articles connexes</SectionTitle>
+                <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  {relatedPosts.map((relatedPost) => (
+                    <BlogCard key={relatedPost.slug} post={relatedPost} />
+                  ))}
                 </div>
               </div>
               </FadeIn>

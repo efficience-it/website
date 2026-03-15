@@ -4,7 +4,9 @@ import Container from "@/components/ui/Container";
 import BlogCard from "@/components/cards/BlogCard";
 import {
   categorySlugMap,
+  getCategories,
   getCategoryBySlug,
+  getCategorySlug,
   getPostsByCategory,
 } from "@/lib/blog";
 import Link from "next/link";
@@ -64,6 +66,7 @@ export default async function BlogCategoryPage({
   }
 
   const posts = getPostsByCategory(categoryName);
+  const categories = getCategories();
 
   const breadcrumb = breadcrumbJsonLd([
     { name: "Blog", path: "/blog" },
@@ -92,13 +95,26 @@ export default async function BlogCategoryPage({
       <FadeIn>
       <section className="py-16">
         <Container>
-          <div className="mb-8 text-center">
+          <div className="mb-8 flex flex-wrap justify-center gap-2">
             <Link
               href="/blog"
-              className="text-sm font-medium text-primary hover:text-primary-dark"
+              className="rounded-full bg-light-gray px-4 py-1.5 text-sm font-medium text-dark hover:bg-primary hover:text-white transition-colors"
             >
-              &larr; Tous les articles
+              Tous
             </Link>
+            {categories.map((cat) => (
+              <Link
+                key={cat}
+                href={`/blog/${getCategorySlug(cat)}`}
+                className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
+                  cat === categoryName
+                    ? "bg-primary text-white"
+                    : "bg-light-gray text-dark hover:bg-primary hover:text-white"
+                }`}
+              >
+                {cat}
+              </Link>
+            ))}
           </div>
 
           {posts.length > 0 ? (

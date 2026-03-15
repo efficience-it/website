@@ -21,6 +21,15 @@ function extractText(node: React.ReactNode): string {
   return "";
 }
 
+function generateId(text: string): string {
+  return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
 export default function MarkdownContent({ content }: MarkdownContentProps) {
   return (
     <div className="prose prose-lg max-w-none prose-headings:font-display prose-headings:text-dark prose-a:text-primary">
@@ -36,6 +45,16 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
               );
             }
             return <Link href={href || ""}>{children}</Link>;
+          },
+          h2({ children }) {
+            const text = extractText(children);
+            const id = generateId(text);
+            return <h2 id={id}>{children}</h2>;
+          },
+          h3({ children }) {
+            const text = extractText(children);
+            const id = generateId(text);
+            return <h3 id={id}>{children}</h3>;
           },
           pre({ children }) {
             const text = extractText(children);
