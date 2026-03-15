@@ -31,19 +31,21 @@ export default function DropdownNav({ item }: DropdownNavProps) {
         </span>
       </button>
 
-      {open && (
-        <div className="absolute left-0 top-full z-50 min-w-[240px] rounded-md bg-white py-2 shadow-lg">
-          {item.items.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="block px-4 py-2 text-sm text-dark transition-colors hover:bg-light-gray hover:text-primary"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-      )}
+      <div
+        className={`absolute left-0 top-full z-50 min-w-[240px] rounded-md bg-white py-2 shadow-lg transition-all duration-150 ${
+          open ? "visible opacity-100 translate-y-0" : "invisible opacity-0 -translate-y-1"
+        }`}
+      >
+        {item.items.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className="block px-4 py-2 text-sm text-dark transition-colors hover:bg-light-gray hover:text-primary"
+          >
+            {link.label}
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }

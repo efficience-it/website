@@ -6,9 +6,10 @@ import { JSX } from "react";
 interface BlogCardProps {
   post: BlogPost;
   headingLevel?: number;
+  priorityImage?: boolean;
 }
 
-export default function BlogCard({ post, headingLevel = 3 }: BlogCardProps) {
+export default function BlogCard({ post, headingLevel = 3, priorityImage = false }: BlogCardProps) {
   const Tag = `h${headingLevel}` as keyof JSX.IntrinsicElements;
 
   return (
@@ -21,6 +22,7 @@ export default function BlogCard({ post, headingLevel = 3 }: BlogCardProps) {
             width={400}
             height={220}
             className="h-48 w-full object-cover"
+            {...(priorityImage && { priority: true })}
           />
         </Link>
       )}
