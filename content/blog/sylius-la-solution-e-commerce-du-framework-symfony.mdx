@@ -10,7 +10,7 @@ faq:
   - question: "Sylius est-il gratuit et open source ?"
     answer: "Oui, Sylius est entierement open source sous licence MIT. Le code est disponible sur GitHub et vous pouvez l'utiliser librement pour des projets commerciaux. Sylius propose aussi une offre Sylius Plus avec des fonctionnalites avancees (marketplace, multi-store) sous licence commerciale."
   - question: "Quelles sont les differences entre Sylius et Prestashop ?"
-    answer: "Sylius est construit sur Symfony et offre une architecture decouplees par composants, une API REST/GraphQL native et une testabilite complete. Prestashop est un CMS e-commerce plus accessible pour les debutants mais moins flexible pour les projets avec des regles metier complexes. Sylius est prefere quand la personnalisation prime sur la rapidite de mise en place."
+    answer: "Sylius est construit sur Symfony et offre une architecture decouplees par composants, une API REST native via API Platform et une testabilite complete. Prestashop est un CMS e-commerce plus accessible pour les debutants mais moins flexible pour les projets avec des regles metier complexes. Sylius est prefere quand la personnalisation prime sur la rapidite de mise en place."
   - question: "Peut-on utiliser Sylius pour du headless commerce ?"
     answer: "Oui, Sylius expose nativement une API complete via API Platform. Vous pouvez utiliser un front React, Next.js, Vue.js ou une application mobile tout en beneficiant du back-office Sylius pour la gestion du catalogue, des commandes et des promotions."
 ---
@@ -49,11 +49,11 @@ Le système de plugins constitue le dernier niveau. Un plugin Sylius est un bund
 
 ## API-first : Sylius comme moteur headless
 
-Depuis la version 1.10, Sylius intègre nativement API Platform pour exposer une API REST et GraphQL complète. Ce choix positionne Sylius comme un moteur de commerce headless de premier plan dans l'écosystème PHP. L'API couvre l'intégralité du parcours d'achat : navigation catalogue, gestion du panier, checkout, paiement et suivi de commande.
+Depuis la version 1.10, Sylius intègre nativement API Platform pour exposer une API REST complète. Ce choix positionne Sylius comme un moteur de commerce headless de premier plan dans l'écosystème PHP. L'API couvre l'intégralité du parcours d'achat : navigation catalogue, gestion du panier, checkout, paiement et suivi de commande.
 
 Pour un lead technique, cette approche ouvre des architectures découplées où le front-end est un SPA React ou Vue, une application mobile, ou même un canal conversationnel. Le back-office Sylius continue de servir les équipes métier, tandis que l'expérience client est entièrement personnalisée côté front.
 
-L'intégration API Platform apporte aussi la documentation OpenAPI automatique, la pagination, le filtrage, la validation et la sérialisation configurable par groupes. Les développeurs familiers d'API Platform retrouvent leurs repères : data providers, data persisters, extensions Doctrine et processeurs d'état.
+L'intégration API Platform apporte aussi la documentation OpenAPI automatique, la pagination, le filtrage, la validation et la sérialisation configurable par groupes. Les développeurs familiers d'API Platform retrouvent leurs repères : state providers, state processors et extensions Doctrine.
 
 ## Sylius face à l'écosystème : positionnement stratégique
 
@@ -75,7 +75,7 @@ L'analyse du coût total de possession (TCO) est déterminante pour un architect
 
 Le développement initial est plus élevé qu'avec une solution SaaS, mais inférieur à un projet Magento équivalent. La maintenance bénéficie du cycle de releases Symfony : les mises à jour mineures sont rétrocompatibles, et les outils de migration (Rector, Flex) automatisent une partie du travail. Pour les équipes qui veulent bénéficier de l'architecture Sylius sans la couche e-commerce complète, [Monofony](/article/monofony-le-guide-ultime-pour-les-debutants) propose un socle minimaliste construit sur les mêmes fondations. L'infrastructure est standard (PHP, MySQL/PostgreSQL, Redis, Elasticsearch) et se conteneurise sans friction.
 
-Sur le plan de la pérennité, Sylius est soutenu par la société Sylius (ex-BitBag) et une communauté active. Le projet suit le calendrier de releases Symfony, ce qui garantit un support long terme aligné sur le framework. La [certification Sylius](/article/les-certifications-symfony-twig-symfony-sylius), distincte de la certification Symfony, permet de valider les compétences des équipes.
+Sur le plan de la pérennité, Sylius est soutenu par la société Sylius (anciennement Lakion) et une communauté active. Le projet suit le calendrier de releases Symfony, ce qui garantit un support long terme aligné sur le framework. La [certification Sylius](/article/les-certifications-symfony-twig-symfony-sylius), distincte de la certification Symfony, permet de valider les compétences des équipes.
 
 ## Conclusion
 
