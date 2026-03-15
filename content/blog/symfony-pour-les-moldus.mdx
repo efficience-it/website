@@ -39,7 +39,7 @@ Ce mécanisme est la clé de l'extensibilité de Symfony. Les bundles tiers l'ut
 
 ### Le système d'événements
 
-Le composant EventDispatcher implémente le pattern Mediator. Des listeners et des subscribers se branchent sur des événements émis par le kernel ou par le code métier. Le cycle de vie d'une requête HTTP traverse une dizaine d'événements (kernel.request, kernel.controller, kernel.response, kernel.terminate) sur lesquels il est possible d'intervenir.
+Le composant EventDispatcher implémente le pattern Observer. Des listeners et des subscribers se branchent sur des événements émis par le kernel ou par le code métier. Le cycle de vie d'une requête HTTP traverse une dizaine d'événements (kernel.request, kernel.controller, kernel.response, kernel.terminate) sur lesquels il est possible d'intervenir.
 
 Cette architecture événementielle permet de découpler les préoccupations transverses (logging, sécurité, cache, transformation de réponse) du code applicatif. Un développeur confirmé comprend vite l'intérêt : ajouter un comportement global à l'application sans modifier une seule ligne de code existant.
 

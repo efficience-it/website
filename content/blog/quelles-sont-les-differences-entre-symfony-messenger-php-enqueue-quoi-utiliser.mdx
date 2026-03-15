@@ -169,7 +169,7 @@ Avec Enqueue, la gestion des retries reposait davantage sur les mécanismes nati
 
 ## Sérialisation : le piège des déploiements
 
-Quand un message traverse un transport, il doit être sérialisé. Messenger utilise par défaut le Serializer de Symfony (JSON ou XML). Le piège apparaît lors des déploiements : un message sérialisé avec la version N de votre classe peut être désérialisé par la version N+1, où la structure a changé.
+Quand un message traverse un transport, il doit être sérialisé. Messenger utilise par défaut le PhpSerializer, qui repose sur la sérialisation PHP native (`serialize()`/`unserialize()`). Le Symfony Serializer (JSON ou XML) peut être configuré explicitement comme alternative. Le piège apparaît lors des déploiements : un message sérialisé avec la version N de votre classe peut être désérialisé par la version N+1, où la structure a changé.
 
 Règle d'or : ne jamais renommer ou supprimer une propriété de message sans avoir vidé la queue au préalable, ou sans avoir mis en place un mécanisme de versioning. Messenger permet de configurer un serializer custom qui gère la rétrocompatibilité, c'est un investissement qui se rentabilise dès le premier incident en production.
 

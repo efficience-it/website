@@ -334,20 +334,17 @@ foreach ($chunks as $index => $chunk) {
 Une indexation initiale c'est bien. Un index qui se met à jour tout seul, c'est mieux. On utilise les événements Doctrine :
 
 ```php
-class EmbeddingIndexerSubscriber implements EventSubscriberInterface
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
+use Doctrine\ORM\Events;
+
+#[AsDoctrineListener(event: Events::postPersist)]
+#[AsDoctrineListener(event: Events::postUpdate)]
+#[AsDoctrineListener(event: Events::postRemove)]
+class EmbeddingIndexerListener
 {
     public function __construct(
         private MessageBusInterface $bus,
     ) {}
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            Events::postPersist => 'onEntityChange',
-            Events::postUpdate => 'onEntityChange',
-            Events::postRemove => 'onEntityRemove',
-        ];
-    }
 
     public function onEntityChange(PostPersistEventArgs|PostUpdateEventArgs $args): void
     {

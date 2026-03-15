@@ -34,10 +34,12 @@ App\Entity\User:
         firstName: '<firstName()>'
         lastName: '<lastName()>'
         email: '<email()>'
-        password: '<bcrypt("password123")>'
+        password: '$2y$13$fixedHashForFixtures'
         roles: ['ROLE_USER']
         createdAt: '<dateTimeBetween("-1 year", "now")>'
 ```
+
+Le mot de passe est ici un hash bcrypt pré-calculé. Alice ne fournit pas de formatter natif pour hasher les mots de passe. En pratique, utilisez un processor Alice qui injecte le `UserPasswordHasherInterface` de Symfony pour hasher dynamiquement les mots de passe au moment du chargement des fixtures.
 
 La notation `{1..20}` génère vingt instances. Les expressions entre chevrons appellent les méthodes FakerPHP. Cette approche déclarative réduit considérablement le bruit dans le code et rend les fixtures accessibles même aux profils non-techniques qui auraient besoin de comprendre la structure des données.
 

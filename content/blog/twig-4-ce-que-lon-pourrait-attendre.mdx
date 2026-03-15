@@ -35,7 +35,7 @@ Cette approche s'inspire de ce que fait Askama dans l'écosystème Rust, où les
 
 ### Fonctions fléchées et filtres composables
 
-Twig 4 pourrait apporter un support natif des fonctions fléchées, une fonctionnalité attendue par les frameworks qui s'appuient sur Twig (Laravel via un bridge, Craft CMS, Drupal) :
+Les fonctions fléchées existent déjà en Twig 3 (depuis la version 3.0) avec les filtres `|filter` et `|map`. Twig 4 pourrait étendre leur usage et améliorer leur expressivité, notamment pour la composition de filtres :
 
 ```twig
 {% set filtered = users|filter(u => u.active) %}
@@ -60,7 +60,7 @@ Pour un template qui initialise une dizaine de variables, la différence de lisi
 
 ### Opérateur de coalescence
 
-La gestion des valeurs par défaut est aujourd'hui inutilement verbeuse. L'opérateur de coalescence `??` simplifierait considérablement les cas courants :
+L'opérateur de coalescence `??` existe depuis Twig 3.14. Twig 4 pourrait l'étendre avec des comportements supplémentaires ou une intégration plus profonde dans le moteur :
 
 ```twig
 {{ user.nickname ?? user.firstName ?? 'Anonyme' }}

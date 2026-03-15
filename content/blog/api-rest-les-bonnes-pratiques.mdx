@@ -39,7 +39,7 @@ Les codes de statut forment le vocabulaire de votre API. Un `201 Created` après
 
 Les erreurs méritent autant d'attention. Un `400 Bad Request` signale une requête malformée, un `422 Unprocessable Entity` indique que la syntaxe est correcte mais que les données violent une règle métier. Un `409 Conflict` alerte sur un conflit d'état (modification concurrente, doublon de clé unique). Trop d'API renvoient un `500` générique là où un code précis permettrait au client de réagir automatiquement.
 
-La RFC 7807 (Problem Details for HTTP APIs) standardise le format des réponses d'erreur avec un objet JSON contenant `type`, `title`, `status` et `detail`. API Platform l'implémente nativement, ce qui offre aux consommateurs un format prédictible pour parser et afficher les erreurs.
+La RFC 9457 (Problem Details for HTTP APIs) standardise le format des réponses d'erreur avec un objet JSON contenant `type`, `title`, `status` et `detail`. API Platform l'implémente nativement, ce qui offre aux consommateurs un format prédictible pour parser et afficher les erreurs.
 
 ## Stateless, cache et négociation de contenu
 

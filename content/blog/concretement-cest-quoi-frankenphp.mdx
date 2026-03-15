@@ -91,7 +91,7 @@ La migration recommandée suit une progression prudente. La première étape con
 ```dockerfile
 FROM dunglas/frankenphp:latest
 
-COPY . /app/public
+COPY . /app
 
 ENTRYPOINT ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]
 ```

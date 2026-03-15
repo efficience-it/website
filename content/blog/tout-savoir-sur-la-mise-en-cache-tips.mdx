@@ -38,10 +38,10 @@ L'en-tête `Cache-Control`, introduit par HTTP 1.1, offre un contrôle précis s
 
 - **max-age** : durée de fraîcheur en secondes
 - **s-maxage** : durée applicable uniquement aux caches partagés (proxy, CDN)
-- **public** : autorise la mise en cache des réponses authentifiées
+- **public** : autorise le stockage par les caches partagés (proxy, CDN), même lorsque la requête contient un en-tête Authorization
 - **no-cache** : oblige la revalidation auprès du serveur avant chaque utilisation
 - **no-store** : interdit tout stockage de la réponse
-- **must-revalidate** : impose le respect strict des durées de fraîcheur
+- **must-revalidate** : interdit au cache de servir une réponse périmée sans revalidation préalable auprès du serveur d'origine
 - **immutable** : signale que la ressource ne changera jamais durant sa durée de vie
 
 L'ancien en-tête `Expires`, basé sur une date absolue au format HTTP, souffre d'un défaut structurel : il exige la synchronisation des horloges entre client et serveur. `Cache-Control`, fondé sur des durées relatives, lui est systématiquement préféré.

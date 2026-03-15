@@ -45,7 +45,7 @@ Lors de la création de la distribution, rattachez-la au bucket S3, forcez la re
 
 ### Utilisateur IAM gitlab-runner
 
-Le principe du moindre privilège s'applique ici. Créez un utilisateur IAM dédié avec uniquement deux permissions : `AmazonS3FullAccess` pour la synchronisation des fichiers et `CloudFrontInvalidation` pour la purge du cache. Générez une clé d'accès programmatique qui alimentera les variables `AWS_ACCESS_KEY_ID` et `AWS_SECRET_ACCESS_KEY` dans GitLab.
+Le principe du moindre privilège s'applique ici. Créez un utilisateur IAM dédié avec uniquement deux permissions : `AmazonS3FullAccess` pour la synchronisation des fichiers et une politique IAM personnalisée avec l'action `cloudfront:CreateInvalidation` pour la purge du cache. Générez une clé d'accès programmatique qui alimentera les variables `AWS_ACCESS_KEY_ID` et `AWS_SECRET_ACCESS_KEY` dans GitLab.
 
 Un point de vigilance pour les environnements de production : préférez des politiques IAM restreintes au bucket spécifique plutôt que `AmazonS3FullAccess`, qui donne accès à tous les buckets du compte.
 
