@@ -289,8 +289,14 @@ export default function EcommerceSylius() {
                   </h2>
                   <p className="mt-4 text-lg text-gray">
                     Sylius repose sur les composants Symfony : Doctrine pour la
-                    persistance, Twig pour le rendu, API Platform pour les API
-                    REST. Cette base solide permet aux développeurs Symfony de se
+                    persistance, Twig pour le rendu,{" "}
+                    <Link
+                      href="/api-sur-mesure-symfony"
+                      className="text-primary hover:underline"
+                    >
+                      API Platform pour les API REST
+                    </Link>
+                    . Cette base solide permet aux développeurs Symfony de se
                     sentir immédiatement productifs. Les bundles Symfony
                     s&apos;intègrent nativement, et les bonnes pratiques du
                     framework (injection de dépendances, event system, services)
@@ -320,8 +326,14 @@ export default function EcommerceSylius() {
                     Notre équipe prend en charge l&apos;ensemble du projet :
                     cadrage fonctionnel, développement des fonctionnalités sur
                     mesure, intégration avec vos outils (ERP, CRM, logistique),
-                    mise en place des tests automatisés et déploiement en
-                    production. Nous concevons des{" "}
+                    mise en place des tests automatisés et{" "}
+                    <Link
+                      href="/hebergement-symfony"
+                      className="text-primary hover:underline"
+                    >
+                      déploiement en production
+                    </Link>
+                    . Nous concevons des{" "}
                     <Link
                       href="/developpement-web-sur-mesure"
                       className="text-primary hover:underline"
