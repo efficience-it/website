@@ -8,7 +8,7 @@ export default function AuditCallToAction() {
         <h2 className="font-display text-3xl font-bold text-white md:text-4xl">
           Votre application Symfony a besoin d&apos;un check-up ?
         </h2>
-        <p className="mx-auto mt-4 max-w-2xl text-lg text-blue-100">
+        <p className="mx-auto mt-4 max-w-2xl text-lg text-white/90">
           Profitez d&apos;un audit technique gratuit de 30 minutes :
           architecture, dette technique, performance et stratégie de migration.
           Sans engagement.

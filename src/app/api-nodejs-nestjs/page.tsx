@@ -460,7 +460,7 @@ export default function ApiNodejsNestjs() {
             <h2 className="font-display text-3xl font-bold">
               Un projet d&apos;API NestJS en tête ?
             </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-lg text-blue-100">
+            <p className="mx-auto mt-4 max-w-2xl text-lg text-white/90">
               Décrivez votre besoin. Nous analysons votre contexte et vous proposons
               une architecture adaptée, avec une estimation claire.
             </p>
