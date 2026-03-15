@@ -27,7 +27,7 @@ const useCases = [
   {
     title: "API SaaS",
     description:
-      "Construisez le coeur technique de votre produit SaaS avec une API évoluant au rythme de vos fonctionnalités, documentée automatiquement via OpenAPI.",
+      "Construisez le cœur technique de votre produit SaaS avec une API évoluant au rythme de vos fonctionnalités, documentée automatiquement via OpenAPI.",
   },
   {
     title: "Interconnexion de systèmes d'information",
