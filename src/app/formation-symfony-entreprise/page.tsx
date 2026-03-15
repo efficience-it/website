@@ -15,7 +15,7 @@ import { BASE_URL } from "@/lib/metadata";
 export const metadata = pageMetadata({
   title: "Formation Symfony pour les entreprises à Lille et à distance",
   description:
-    "Formation Symfony sur mesure pour les entreprises à Lille et à distance. Fondamentaux, architecture hexagonale, API Platform, PHPStan. Groupes de 2 à 8 personnes, formateurs praticiens.",
+    "Formation Symfony adaptée aux entreprises, à Lille et à distance. Fondamentaux, architecture hexagonale, API Platform, PHPStan. Groupes de 2 à 8 personnes, formateurs praticiens.",
   path: "/formation-symfony-entreprise",
 });
 
@@ -107,7 +107,7 @@ const faqItems = [
   {
     title: "Peut-on personnaliser le contenu de la formation ?",
     content:
-      "Oui. Nous construisons chaque programme sur mesure après un échange avec vous. Si votre équipe travaille sur une API Platform en production, on peut consacrer plus de temps à ce sujet et moins à d'autres modules.",
+      "Oui. Nous construisons chaque programme en fonction de vos besoins après un échange avec vous. Si votre équipe travaille sur une API Platform en production, on peut consacrer plus de temps à ce sujet et moins à d'autres modules.",
   },
   {
     title: "Les formations sont-elles certifiantes ?",
@@ -134,7 +134,7 @@ const courseJsonLd = {
   "@type": "Course",
   name: "Formation Symfony pour les entreprises",
   description:
-    "Formation Symfony sur mesure pour les équipes de développement : fondamentaux, architecture hexagonale, API Platform, PHPStan. Présentiel à Lille ou à distance.",
+    "Formation Symfony adaptée aux équipes de développement : fondamentaux, architecture hexagonale, API Platform, PHPStan. Présentiel à Lille ou à distance.",
   url: `${BASE_URL}/formation-symfony-entreprise`,
   provider: {
     "@type": "Organization",
@@ -172,7 +172,7 @@ const breadcrumb = breadcrumbJsonLd([
 
 const webPage = webPageJsonLd({
   name: "Formation Symfony pour les entreprises à Lille et à distance",
-  description: "Formation Symfony sur mesure pour les entreprises à Lille et à distance. Fondamentaux, architecture hexagonale, API Platform, PHPStan. Groupes de 2 à 8 personnes, formateurs praticiens.",
+  description: "Formation Symfony adaptée aux entreprises, à Lille et à distance. Fondamentaux, architecture hexagonale, API Platform, PHPStan. Groupes de 2 à 8 personnes, formateurs praticiens.",
   path: "/formation-symfony-entreprise",
   datePublished: "2026-01-13",
   dateModified: "2026-01-13",
@@ -215,7 +215,7 @@ export default function FormationSymfonyEntreprise() {
               </h1>
               <p className="mt-6 text-lg text-gray">
                 Montez en compétences sur Symfony avec des formations adaptées à votre équipe.
-                Programmes sur mesure, formateurs praticiens, groupes réduits pour un apprentissage
+                Programmes adaptés à votre équipe, formateurs praticiens, groupes réduits pour un apprentissage
                 efficace.
               </p>
               <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">

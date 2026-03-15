@@ -20,7 +20,7 @@ export const metadata = pageMetadata({
 
 const expertises = [
   {
-    title: "Développement Symfony sur mesure",
+    title: "Développement Symfony dédié",
     description:
       "Conception et réalisation d'applications web métier avec Symfony : architecture propre, code maintenable, livraisons itératives.",
   },
@@ -55,7 +55,7 @@ const localBusinessJsonLd = {
   logo: `${BASE_URL}/images/logo/logo-bleu.webp`,
   image: `${BASE_URL}/images/logo/logo-bleu.webp`,
   description:
-    "Agence Symfony à Lille, Efficience IT développe des applications web sur mesure, assure la maintenance et accompagne la migration de vos projets PHP.",
+    "Agence Symfony à Lille, Efficience IT développe des applications web adaptées à vos besoins, assure la maintenance et accompagne la migration de vos projets PHP.",
   email: "contact@itefficience.com",
   address: {
     "@type": "PostalAddress",

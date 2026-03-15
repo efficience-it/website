@@ -19,14 +19,14 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured
 export const metadata = pageMetadata({
   title: "Développement web sur mesure | Expertise Symfony – Efficience IT",
   description:
-    "Expertise en développement web sur mesure : Efficience IT accompagne des projets applicatifs, notamment basés sur Symfony, de la conception à la mise en œuvre.",
+    "Efficience IT accompagne vos projets de développement web, notamment basés sur Symfony, de la conception à la mise en oeuvre.",
   path: "/developpement-web-sur-mesure",
   absoluteTitle: true,
 });
 
 const advantages = [
   {
-    title: "Approche sur mesure",
+    title: "Approche personnalisée",
     description:
       "Nous analysons vos besoins spécifiques pour proposer des solutions adaptées à vos objectifs.",
   },
@@ -96,14 +96,14 @@ const breadcrumb = breadcrumbJsonLd([
 const service = serviceJsonLd({
   name: "Développement web sur mesure",
   description:
-    "Conception et développement d'applications web sur mesure avec Symfony, Sylius et les technologies PHP modernes.",
+    "Conception et développement d'applications web avec Symfony, Sylius et les technologies PHP modernes.",
   path: "/developpement-web-sur-mesure",
 });
 
 const webPage = webPageJsonLd({
   name: "Développement web sur mesure | Expertise Symfony",
   description:
-    "Expertise en développement web sur mesure : Efficience IT accompagne des projets applicatifs, notamment basés sur Symfony, de la conception à la mise en oeuvre.",
+    "Efficience IT accompagne vos projets de développement web, notamment basés sur Symfony, de la conception à la mise en oeuvre.",
   path: "/developpement-web-sur-mesure",
   datePublished: "2025-09-01",
   dateModified: "2026-03-10",
@@ -146,7 +146,7 @@ export default function DeveloppementWeb() {
               </h1>
               <p className="mt-6 max-w-3xl text-lg text-gray">
                 Efficience IT vous accompagne dans votre{" "}
-                <strong>développement web sur mesure</strong>, en créant des{" "}
+                <strong>développement web</strong>, en créant des{" "}
                 <strong>sites internet personnalisés</strong> et des solutions
                 parfaitement adaptées à vos besoins uniques. Spécialisés dans la{" "}
                 <strong>conception de sites web selon votre besoin</strong>,
@@ -163,7 +163,7 @@ export default function DeveloppementWeb() {
                 <Link href="/article/twig-4-ce-que-lon-pourrait-attendre" className="text-primary hover:underline">
                   Twig 4
                 </Link>{" "}
-                ou <strong>back-end</strong> sur mesure, notre expertise en{" "}
+                ou <strong>back-end</strong> adapté à vos besoins, notre expertise en{" "}
                 <strong>technologies web avancées</strong> vous assure des
                 résultats à la hauteur de vos ambitions.
               </p>
@@ -198,7 +198,7 @@ export default function DeveloppementWeb() {
       <section className="py-16 md:py-24">
         <Container>
           <SectionTitle>
-            Solutions IT sur mesure pour les PME et grandes entreprises
+            Solutions IT adaptées aux PME et grandes entreprises
           </SectionTitle>
           <div className="mx-auto mt-4 max-w-3xl space-y-4 text-center text-lg text-gray">
             <h3 className="font-display text-2xl font-bold text-dark">
@@ -216,7 +216,7 @@ export default function DeveloppementWeb() {
             <p>
               Chez Efficience IT, nous comprenons que chaque entreprise a des
               besoins uniques. C&apos;est pourquoi nous concevons des solutions
-              IT sur mesure, adaptées à vos objectifs stratégiques, pour vous
+              IT pensées pour vos objectifs stratégiques, pour vous
               permettre d&apos;atteindre vos ambitions tout en vous démarquant
               dans votre secteur.
             </p>
@@ -233,7 +233,7 @@ export default function DeveloppementWeb() {
             {/* Applications web */}
             <div>
               <h3 className="font-display text-2xl font-bold text-dark">
-                Développement web sur mesure : créez une plateforme à la hauteur
+                Développement web personnalisé : créez une plateforme à la hauteur
                 de vos ambitions
               </h3>
               <div className="mt-4 grid gap-8 md:grid-cols-5">
@@ -288,7 +288,7 @@ export default function DeveloppementWeb() {
                     Nos engagements
                   </p>
                   <p className="mt-2 text-gray">
-                    Nous créons des sites e-commerce sur mesure, avec un design
+                    Nous créons des sites e-commerce taillés pour vos objectifs, avec un design
                     responsive et des fonctionnalités avancées. Intégration des
                     paiements sécurisés, gestion simplifiée et accompagnement
                     stratégique garantissant un site performant et aligné sur
@@ -339,7 +339,7 @@ export default function DeveloppementWeb() {
           <div className="mt-10 grid gap-8 md:grid-cols-2">
             <Card>
               <h3 className="font-display text-lg font-bold text-dark">
-                CRM sur mesure : réinventez votre gestion client
+                CRM dédié : réinventez votre gestion client
               </h3>
               <p className="mt-2 text-sm font-semibold uppercase text-primary">
                 Vos besoins
@@ -359,7 +359,7 @@ export default function DeveloppementWeb() {
             </Card>
             <Card>
               <h3 className="font-display text-lg font-bold text-dark">
-                ERP sur mesure : pilotez votre entreprise avec précision
+                ERP personnalisé : pilotez votre entreprise avec précision
               </h3>
               <p className="mt-2 text-sm font-semibold uppercase text-primary">
                 Vos défis
@@ -404,7 +404,7 @@ export default function DeveloppementWeb() {
                 Nos compétences
               </p>
               <p className="mt-2 text-gray">
-                Création d&apos;API sur mesure, adaptées à vos exigences
+                Création d&apos;API dédiées, adaptées à vos exigences
                 techniques et métiers pour fluidifier vos échanges de données.
                 Nous respectons les{" "}
                 <Link href="/article/api-rest-les-bonnes-pratiques" className="text-primary hover:underline">
@@ -521,7 +521,7 @@ export default function DeveloppementWeb() {
             </h2>
             <p className="mt-4 text-lg text-gray max-w-4xl mx-auto">
               Vous souhaitez moderniser votre infrastructure, développer un site
-              web sur mesure ou optimiser vos processus métiers avec des outils
+              web adapté à vos besoins ou optimiser vos processus métiers avec des outils
               performants ?{" "}
               <Link
                 href="/contact"
