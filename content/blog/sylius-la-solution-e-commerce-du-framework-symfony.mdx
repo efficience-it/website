@@ -8,11 +8,11 @@ image: "/images/blog/sylius-ecommerce.webp"
 updatedAt: "2026-01-13"
 faq:
   - question: "Sylius est-il gratuit et open source ?"
-    answer: "Oui, Sylius est entierement open source sous licence MIT. Le code est disponible sur GitHub et vous pouvez l'utiliser librement pour des projets commerciaux. Sylius propose aussi une offre Sylius Plus avec des fonctionnalites avancees (marketplace, multi-store) sous licence commerciale."
-  - question: "Quelles sont les differences entre Sylius et Prestashop ?"
-    answer: "Sylius est construit sur Symfony et offre une architecture decouplees par composants, une API REST native via API Platform et une testabilite complete. Prestashop est un CMS e-commerce plus accessible pour les debutants mais moins flexible pour les projets avec des regles metier complexes. Sylius est prefere quand la personnalisation prime sur la rapidite de mise en place."
+    answer: "Oui, Sylius est entièrement open source sous licence MIT. Le code est disponible sur GitHub et vous pouvez l'utiliser librement pour des projets commerciaux. Sylius propose aussi une offre Sylius Plus avec des fonctionnalités avancées (marketplace, multi-store) sous licence commerciale."
+  - question: "Quelles sont les différences entre Sylius et Prestashop ?"
+    answer: "Sylius est construit sur Symfony et offre une architecture découplée par composants, une API REST native via API Platform et une testabilité complète. Prestashop est un CMS e-commerce plus accessible pour les débutants mais moins flexible pour les projets avec des règles métier complexes. Sylius est préféré quand la personnalisation prime sur la rapidité de mise en place."
   - question: "Peut-on utiliser Sylius pour du headless commerce ?"
-    answer: "Oui, Sylius expose nativement une API complete via API Platform. Vous pouvez utiliser un front React, Next.js, Vue.js ou une application mobile tout en beneficiant du back-office Sylius pour la gestion du catalogue, des commandes et des promotions."
+    answer: "Oui, Sylius expose nativement une API complète via API Platform. Vous pouvez utiliser un front React, Next.js, Vue.js ou une application mobile tout en bénéficiant du back-office Sylius pour la gestion du catalogue, des commandes et des promotions."
 ---
 
 ## Une plateforme e-commerce née de l'écosystème Symfony
@@ -31,7 +31,7 @@ Côté paiement, Sylius s'appuie sur Payum, une abstraction qui unifie l'intégr
 
 Le moteur de promotions mérite une attention particulière : il fonctionne sur un modèle de règles et d'actions composables. Une promotion peut cibler un segment de clients, un seuil de panier ou une période donnée, puis appliquer un pourcentage, un montant fixe ou une unité gratuite. Ce système est extensible sans toucher au code source.
 
-## Le Resource System : le coeur de la personnalisation
+## Le Resource System : le cœur de la personnalisation
 
 Pour un développeur senior, le point d'entrée de la maîtrise de Sylius est son Resource System. Chaque entité métier (Product, Order, Customer) est déclarée comme une ressource Sylius, ce qui génère automatiquement un CRUD complet : contrôleur, formulaire, routes et grilles d'administration. La configuration se fait en YAML, sans écrire une ligne de PHP.
 

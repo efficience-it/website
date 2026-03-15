@@ -12,41 +12,41 @@ import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 
 const modernisationRelatedLinks: RelatedLink[] = [
-  { title: "La dette technique : faut-il vraiment en avoir peur ?", description: "comprendre et gerer l'accumulation de dette dans vos projets", href: "/article/la-dette-technique-faut-il-vraiment-en-avoir-peur" },
-  { title: "Guide de migration dans un projet Symfony", description: "methodes et bonnes pratiques pour migrer en douceur", href: "/article/guide-de-migration-dans-un-projet-symfony" },
-  { title: "Audit Symfony gratuit", description: "evaluez l'etat technique de votre application en 30 min", href: "/audit-symfony-gratuit" },
+  { title: "La dette technique : faut-il vraiment en avoir peur ?", description: "comprendre et gérer l'accumulation de dette dans vos projets", href: "/article/la-dette-technique-faut-il-vraiment-en-avoir-peur" },
+  { title: "Guide de migration dans un projet Symfony", description: "méthodes et bonnes pratiques pour migrer en douceur", href: "/article/guide-de-migration-dans-un-projet-symfony" },
+  { title: "Audit Symfony gratuit", description: "évaluez l'état technique de votre application en 30 min", href: "/audit-symfony-gratuit" },
   { title: "Symfony Releases", description: "calendrier de support et versions LTS officielles", href: "https://symfony.com/releases", external: true },
-  { title: "Versions PHP supportees", description: "verifier si votre version PHP est encore maintenue", href: "https://www.php.net/supported-versions.php", external: true },
+  { title: "Versions PHP supportées", description: "vérifier si votre version PHP est encore maintenue", href: "https://www.php.net/supported-versions.php", external: true },
 ];
 
 export const metadata = pageMetadata({
   title:
-    "Modernisation d'application PHP : reduire la dette technique et remettre aux normes",
+    "Modernisation d'application PHP : réduire la dette technique et remettre aux normes",
   description:
-    "Modernisez votre application PHP obsolete : reduction de la dette technique, refactoring progressif, mise aux normes PHP 8 et migration vers Symfony. PHP natif, CodeIgniter, Zend ou Laravel.",
+    "Modernisez votre application PHP obsolète : réduction de la dette technique, refactoring progressif, mise aux normes PHP 8 et migration vers Symfony. PHP natif, CodeIgniter, Zend ou Laravel.",
   path: "/modernisation-application-php",
 });
 
 const risks = [
   {
-    title: "Failles de securite",
+    title: "Failles de sécurité",
     description:
-      "Une version PHP en fin de vie ne recoit plus de correctifs de securite. Chaque jour sans mise a jour augmente l'exposition aux attaques.",
+      "Une version PHP en fin de vie ne reçoit plus de correctifs de sécurité. Chaque jour sans mise à jour augmente l'exposition aux attaques.",
   },
   {
-    title: "Performance degradee",
+    title: "Performance dégradée",
     description:
-      "Les anciennes versions de PHP et les architectures non optimisees entrainent des temps de reponse eleves et une mauvaise experience utilisateur.",
+      "Les anciennes versions de PHP et les architectures non optimisées entrainent des temps de réponse élevés et une mauvaise expérience utilisateur.",
   },
   {
-    title: "Difficulte de recrutement",
+    title: "Difficulté de recrutement",
     description:
-      "Les developpeurs refusent de travailler sur du PHP natif ou des frameworks abandonnes. Recruter et fideliser une equipe sur un projet legacy devient un defi permanent.",
+      "Les développeurs refusent de travailler sur du PHP natif ou des frameworks abandonnés. Recruter et fidéliser une équipe sur un projet legacy devient un défi permanent.",
   },
   {
     title: "Maintenance de plus en plus lourde",
     description:
-      "La dette technique s'accumule : chaque nouvelle fonctionnalite prend plus de temps, chaque bug corrige en cree deux autres.",
+      "La dette technique s'accumule : chaque nouvelle fonctionnalité prend plus de temps, chaque bug corrigé en crée deux autres.",
   },
 ];
 
@@ -54,32 +54,32 @@ const targets = [
   {
     title: "PHP natif (sans framework)",
     description:
-      "Applications ecrites en PHP pur, sans structure claire, avec du code spaghetti difficile a maintenir et a faire evoluer.",
+      "Applications écrites en PHP pur, sans structure claire, avec du code spaghetti difficile à maintenir et à faire évoluer.",
   },
   {
     title: "CodeIgniter et CakePHP",
     description:
-      "Frameworks populaires dans les annees 2010, aujourd'hui largement depasses en termes d'ecosysteme et de support communautaire.",
+      "Frameworks populaires dans les années 2010, aujourd'hui largement dépassés en termes d'écosystème et de support communautaire.",
   },
   {
     title: "Zend Framework / Laminas",
     description:
-      "Nombreuses applications d'entreprise tournent encore sur Zend 1 ou 2, avec des dependances incompatibles avec les versions recentes de PHP.",
+      "Nombreuses applications d'entreprise tournent encore sur Zend 1 ou 2, avec des dépendances incompatibles avec les versions récentes de PHP.",
   },
   {
     title: "Symfony 2, 3 ou 4",
     description:
-      "Ces versions sont en fin de vie (EOL). La migration vers Symfony 6 ou 7 est indispensable pour beneficier du support LTS et des nouvelles fonctionnalites.",
+      "Ces versions sont en fin de vie (EOL). La migration vers Symfony 6 ou 7 est indispensable pour bénéficier du support LTS et des nouvelles fonctionnalités.",
   },
   {
     title: "Laravel ancien",
     description:
-      "Les versions 5 et 6 de Laravel ne sont plus maintenues. Une modernisation permet de profiter des gains de performance des versions recentes.",
+      "Les versions 5 et 6 de Laravel ne sont plus maintenues. Une modernisation permet de profiter des gains de performance des versions récentes.",
   },
   {
     title: "Applications internes sur mesure",
     description:
-      "Outils metier developpes en interne il y a 10 ou 15 ans, sans tests, sans documentation, avec un seul developpeur qui en connait encore le fonctionnement.",
+      "Outils métier développés en interne il y a 10 ou 15 ans, sans tests, sans documentation, avec un seul développeur qui en connait encore le fonctionnement.",
   },
 ];
 
@@ -88,72 +88,72 @@ const steps = [
     num: "1",
     title: "Audit technique",
     description:
-      "Nous analysons votre base de code : architecture, couverture de tests, niveau de dette technique avec PHPStan, dependances obsoletes et risques de securite.",
+      "Nous analysons votre base de code : architecture, couverture de tests, niveau de dette technique avec PHPStan, dépendances obsolètes et risques de sécurité.",
   },
   {
     num: "2",
     title: "Plan de migration",
     description:
-      "Nous etablissons une feuille de route priorisee : quoi migrer en premier, comment decouper le chantier en etapes livrables, et dans quel ordre les traiter.",
+      "Nous établissons une feuille de route priorisée : quoi migrer en premier, comment découper le chantier en étapes livrables, et dans quel ordre les traiter.",
   },
   {
     num: "3",
     title: "Refactoring progressif",
     description:
-      "Nous modernisons le code par etapes, sans jamais bloquer votre activite. Chaque module est refactore, documente et couvert par des tests automatises.",
+      "Nous modernisons le code par étapes, sans jamais bloquer votre activité. Chaque module est refactoré, documenté et couvert par des tests automatisés.",
   },
   {
     num: "4",
-    title: "Tests et qualite",
+    title: "Tests et qualité",
     description:
-      "Chaque etape est validee par des tests unitaires, d'integration et fonctionnels. Nous mettons en place PHPStan au niveau maximal pour garantir la qualite du code.",
+      "Chaque étape est validée par des tests unitaires, d'intégration et fonctionnels. Nous mettons en place PHPStan au niveau maximal pour garantir la qualité du code.",
   },
   {
     num: "5",
-    title: "Deploiement continu",
+    title: "Déploiement continu",
     description:
-      "Nous configurons une pipeline CI/CD pour automatiser les tests et les deploiements. Votre equipe gagne en confiance et en velocite de livraison.",
+      "Nous configurons une pipeline CI/CD pour automatiser les tests et les déploiements. Votre équipe gagne en confiance et en vélocité de livraison.",
   },
 ];
 
 const symfonyReasons = [
   {
-    title: "Ecosysteme mature",
+    title: "Écosystème mature",
     description:
-      "Symfony dispose de composants reutilisables adoptes par des milliers de projets PHP dans le monde, dont Laravel lui-meme.",
+      "Symfony dispose de composants réutilisables adoptés par des milliers de projets PHP dans le monde, dont Laravel lui-même.",
   },
   {
     title: "Support LTS garanti",
     description:
-      "Les versions Long Term Support de Symfony beneficient de 3 ans de maintenance et de correctifs de securite. Vous savez sur quoi vous appuyez.",
+      "Les versions Long Term Support de Symfony bénéficient de 3 ans de maintenance et de correctifs de sécurité. Vous savez sur quoi vous appuyez.",
   },
   {
-    title: "Communaute et recrutement",
+    title: "Communauté et recrutement",
     description:
-      "Symfony est le framework PHP le plus demande en France. Recruter des developpeurs Symfony est beaucoup plus simple qu'un framework exotique.",
+      "Symfony est le framework PHP le plus demandé en France. Recruter des développeurs Symfony est beaucoup plus simple qu'un framework exotique.",
   },
   {
     title: "Performance native",
     description:
-      "Symfony 7 avec PHP 8.3 offre des performances incomparables par rapport a du PHP natif ou des versions obsoletes. Le gain est souvent de 5 a 10x.",
+      "Symfony 7 avec PHP 8.3 offre des performances incomparables par rapport à du PHP natif ou des versions obsolètes. Le gain est souvent de 5 à 10x.",
   },
 ];
 
 const faqItems = [
   {
-    title: "Faut-il tout reecrire ou peut-on migrer progressivement ?",
+    title: "Faut-il tout réécrire ou peut-on migrer progressivement ?",
     content:
-      "La réécriture complete est rarement la bonne strategie. Nous privilegions une approche de migration progressive par modules : on identifie les parties les plus critiques ou les plus problematiques, on les migre en priorite, et on continue par etapes. Cela permet de maintenir l'application en production pendant toute la duree du chantier.",
+      "La réécriture complète est rarement la bonne stratégie. Nous privilégions une approche de migration progressive par modules : on identifie les parties les plus critiques ou les plus problématiques, on les migre en priorité, et on continue par étapes. Cela permet de maintenir l'application en production pendant toute la durée du chantier.",
   },
   {
-    title: "Mon application continuera-t-elle a fonctionner pendant la migration ?",
+    title: "Mon application continuera-t-elle à fonctionner pendant la migration ?",
     content:
-      "Oui. Notre approche de refactoring progressif garantit que votre application reste en production a chaque etape. Nous ne livrons du code migre que lorsqu'il est couvert par des tests et valide. Il n'y a pas de periode d'arret prolongee.",
+      "Oui. Notre approche de refactoring progressif garantit que votre application reste en production à chaque étape. Nous ne livrons du code migré que lorsqu'il est couvert par des tests et validé. Il n'y a pas de période d'arrêt prolongée.",
   },
   {
     title: "Quelle version de Symfony ciblez-vous pour la migration ?",
     content:
-      "Nous ciblons en priorite Symfony 6.4 LTS (maintenu jusqu'en 2027) ou Symfony 7.2 selon le contexte. Le choix depend de votre besoin de stabilite, des contraintes de votre equipe et de la compatibilite de vos dependances. Nous vous conseillons sur la meilleure strategie lors de l'audit.",
+      "Nous ciblons en priorité Symfony 6.4 LTS (maintenu jusqu'en 2027) ou Symfony 7.2 selon le contexte. Le choix dépend de votre besoin de stabilité, des contraintes de votre équipe et de la compatibilité de vos dépendances. Nous vous conseillons sur la meilleure stratégie lors de l'audit.",
   },
 ];
 
@@ -180,13 +180,13 @@ const breadcrumb = breadcrumbJsonLd([
 const service = serviceJsonLd({
   name: "Modernisation d'application PHP",
   description:
-    "Migration et modernisation d'applications PHP obsoletes vers Symfony : audit technique, refactoring progressif, mise en place de tests et deploiement continu.",
+    "Migration et modernisation d'applications PHP obsolètes vers Symfony : audit technique, refactoring progressif, mise en place de tests et déploiement continu.",
   path: "/modernisation-application-php",
 });
 
 const webPage = webPageJsonLd({
-  name: "Modernisation d'application PHP : reduire la dette technique et remettre aux normes",
-  description: "Modernisez votre application PHP obsolete : reduction de la dette technique, refactoring progressif, mise aux normes PHP 8 et migration vers Symfony. PHP natif, CodeIgniter, Zend ou Laravel.",
+  name: "Modernisation d'application PHP : réduire la dette technique et remettre aux normes",
+  description: "Modernisez votre application PHP obsolète : réduction de la dette technique, refactoring progressif, mise aux normes PHP 8 et migration vers Symfony. PHP natif, CodeIgniter, Zend ou Laravel.",
   path: "/modernisation-application-php",
   datePublished: "2026-02-01",
   dateModified: "2026-02-01",
@@ -220,19 +220,19 @@ export default function ModernisationApplicationPhp() {
                   Migration PHP - Modernisation applicative
                 </p>
                 <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                  Modernisation d&apos;application PHP : reduire la dette technique et remettre aux normes
+                  Modernisation d&apos;application PHP : réduire la dette technique et remettre aux normes
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
                   Votre application PHP vieillit ? Il est temps de la
                   moderniser. PHP natif, CodeIgniter, Zend ou Symfony
-                  obsolete : nous transformons votre base de code en une
-                  application moderne, securisee et maintenable.
+                  obsolète : nous transformons votre base de code en une
+                  application moderne, sécurisée et maintenable.
                 </p>
                 <p className="mt-4 max-w-3xl text-lg text-gray">
                   Notre approche de{" "}
                   <strong>refactoring progressif</strong> vous permet de
-                  migrer sans interruption de service, etape par etape, avec
-                  des resultats mesurables a chaque sprint.
+                  migrer sans interruption de service, étape par étape, avec
+                  des résultats mesurables à chaque sprint.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   <Button href="/audit-symfony-gratuit">
@@ -250,7 +250,7 @@ export default function ModernisationApplicationPhp() {
                       10x
                     </p>
                     <p className="mt-2 text-gray">
-                      gain de performance moyen apres migration vers Symfony
+                      gain de performance moyen après migration vers Symfony
                       avec PHP 8
                     </p>
                   </div>
@@ -259,8 +259,8 @@ export default function ModernisationApplicationPhp() {
                       -60%
                     </p>
                     <p className="mt-2 text-gray">
-                      de bugs en production apres mise en place de tests
-                      automatises et PHPStan
+                      de bugs en production après mise en place de tests
+                      automatisés et PHPStan
                     </p>
                   </div>
                   <div className="mt-6 border-t pt-6 text-center">
@@ -268,8 +268,8 @@ export default function ModernisationApplicationPhp() {
                       0
                     </p>
                     <p className="mt-2 text-gray">
-                      arret de service : migration progressive sans bloquer
-                      votre activite
+                      arrêt de service : migration progressive sans bloquer
+                      votre activité
                     </p>
                   </div>
                 </div>
@@ -282,19 +282,19 @@ export default function ModernisationApplicationPhp() {
         <section className="py-16 md:py-24">
           <Container>
             <SectionTitle>
-              Les risques d&apos;une application PHP obsolete
+              Les risques d&apos;une application PHP obsolète
             </SectionTitle>
             <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-              Repousser la modernisation n&apos;est pas une economie : c&apos;est
-              un pari risque. La{" "}
+              Repousser la modernisation n&apos;est pas une économie : c&apos;est
+              un pari risqué. La{" "}
               <Link
                 href="/article/la-dette-technique-faut-il-vraiment-en-avoir-peur"
                 className="text-primary hover:underline"
               >
                 dette technique
               </Link>{" "}
-              s&apos;accumule et finit par paralyser vos capacites
-              d&apos;evolution.
+              s&apos;accumule et finit par paralyser vos capacités
+              d&apos;évolution.
             </p>
             <div className="mt-10 grid gap-6 sm:grid-cols-2">
               {risks.map((risk) => (
@@ -313,10 +313,10 @@ export default function ModernisationApplicationPhp() {
         <FadeIn>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
-            <SectionTitle>Quelles applications sont concernees</SectionTitle>
+            <SectionTitle>Quelles applications sont concernées</SectionTitle>
             <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-              Si votre application tombe dans l&apos;une de ces categories, une
-              modernisation est probablement urgente ou incontournable a court
+              Si votre application tombe dans l&apos;une de ces catégories, une
+              modernisation est probablement urgente ou incontournable à court
               terme.
             </p>
             <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -336,11 +336,11 @@ export default function ModernisationApplicationPhp() {
         <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
-            <SectionTitle>Notre methode de modernisation</SectionTitle>
+            <SectionTitle>Notre méthode de modernisation</SectionTitle>
             <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-              Nous suivons un processus eprouve, adapte a chaque projet. Pas de
-              réécriture totale risquee : une progression maitrisee, avec des
-              livrables a chaque etape.
+              Nous suivons un processus éprouvé, adapté à chaque projet. Pas de
+              réécriture totale risquée : une progression maitrisée, avec des
+              livrables à chaque étape.
             </p>
             <div className="mt-12 space-y-8">
               {steps.map((step) => (
@@ -363,15 +363,15 @@ export default function ModernisationApplicationPhp() {
             </div>
             <div className="mt-12 rounded-xl bg-light-gray p-8">
               <p className="text-lg text-gray">
-                Notre outil de reference pour mesurer la qualite du code est{" "}
+                Notre outil de référence pour mesurer la qualité du code est{" "}
                 <Link
                   href="/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php"
                   className="text-primary hover:underline"
                 >
                   PHPStan
                 </Link>
-                . Nous l&apos;utilisons systematiquement pour objectiver
-                l&apos;etat de la base de code avant et apres chaque etape de
+                . Nous l&apos;utilisons systématiquement pour objectiver
+                l&apos;état de la base de code avant et après chaque étape de
                 migration. Combiner PHPStan avec{" "}
                 <Link
                   href="/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony"
@@ -379,7 +379,7 @@ export default function ModernisationApplicationPhp() {
                 >
                   Rector
                 </Link>{" "}
-                permet d&apos;automatiser une grande partie des mises a jour de
+                permet d&apos;automatiser une grande partie des mises à jour de
                 syntaxe PHP.
               </p>
             </div>
@@ -394,7 +394,7 @@ export default function ModernisationApplicationPhp() {
             <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
               Symfony est le choix le plus pertinent pour moderniser une
               application PHP d&apos;entreprise. Voici pourquoi nous le
-              recommandons systematiquement.
+              recommandons systématiquement.
             </p>
             <div className="mt-10 grid gap-6 sm:grid-cols-2">
               {symfonyReasons.map((reason) => (
@@ -427,16 +427,16 @@ export default function ModernisationApplicationPhp() {
                 .
               </p>
               <p>
-                Si votre application est deja sous Symfony mais sur une version
-                obsolete, notre service de{" "}
+                Si votre application est déjà sous Symfony mais sur une version
+                obsolète, notre service de{" "}
                 <Link
                   href="/migration-symfony"
                   className="text-primary hover:underline"
                 >
                   migration Symfony
                 </Link>{" "}
-                vous accompagne dans la montee de version par paliers.
-                Vous heritez d&apos;un projet abandonne ?
+                vous accompagne dans la montée de version par paliers.
+                Vous héritez d&apos;un projet abandonné ?
                 Notre offre de{" "}
                 <Link
                   href="/reprise-projet-symfony"
@@ -445,7 +445,7 @@ export default function ModernisationApplicationPhp() {
                   reprise de projet Symfony
                 </Link>{" "}
                 couvre l&apos;audit, la stabilisation et la remise en route.
-                Et pour assurer la perennite apres modernisation, nous proposons
+                Et pour assurer la pérennité après modernisation, nous proposons
                 une{" "}
                 <Link
                   href="/maintenance-applicative-symfony"
@@ -464,12 +464,12 @@ export default function ModernisationApplicationPhp() {
         <section className="bg-primary py-16 text-center text-white">
           <div className="mx-auto max-w-3xl px-4">
             <h2 className="font-display text-3xl font-bold">
-              Pret a moderniser votre application PHP ?
+              Prêt à moderniser votre application PHP ?
             </h2>
             <p className="mt-4 text-lg text-white/90">
               Commencez par un audit technique gratuit de 30 minutes. Nous
               analysons votre base de code et vous donnons une feuille de route
-              concrete, sans engagement.
+              concrète, sans engagement.
             </p>
             <Link
               href="/audit-symfony-gratuit"
@@ -484,7 +484,7 @@ export default function ModernisationApplicationPhp() {
         <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
-            <SectionTitle>Questions frequentes</SectionTitle>
+            <SectionTitle>Questions fréquentes</SectionTitle>
             <div className="mx-auto max-w-2xl">
               <Accordion items={faqItems} />
             </div>

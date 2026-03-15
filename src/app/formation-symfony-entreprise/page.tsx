@@ -13,9 +13,9 @@ import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { BASE_URL } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
-  title: "Formation Symfony pour les entreprises a Lille et a distance",
+  title: "Formation Symfony pour les entreprises à Lille et à distance",
   description:
-    "Formation Symfony sur mesure pour les entreprises a Lille et a distance. Fondamentaux, architecture hexagonale, API Platform, PHPStan. Groupes de 2 a 8 personnes, formateurs praticiens.",
+    "Formation Symfony sur mesure pour les entreprises à Lille et à distance. Fondamentaux, architecture hexagonale, API Platform, PHPStan. Groupes de 2 à 8 personnes, formateurs praticiens.",
   path: "/formation-symfony-entreprise",
 });
 
@@ -23,60 +23,60 @@ const programs = [
   {
     title: "Symfony fondamentaux",
     description:
-      "Routing, controllers, Doctrine ORM, Twig, securite et formulaires. La base solide pour developper sereinement avec Symfony.",
+      "Routing, controllers, Doctrine ORM, Twig, sécurité et formulaires. La base solide pour développer sereinement avec Symfony.",
     duration: "2 jours",
   },
   {
-    title: "Symfony avance",
+    title: "Symfony avancé",
     description:
-      "Messenger, events, services avances, performance, tests fonctionnels et bonnes pratiques en production.",
+      "Messenger, events, services avancés, performance, tests fonctionnels et bonnes pratiques en production.",
     duration: "2 jours",
   },
   {
     title: "Architecture hexagonale avec Symfony",
     description:
-      "Separation du domaine metier de l'infrastructure, ports et adaptateurs, structuration d'un projet pour le long terme.",
+      "Séparation du domaine métier de l'infrastructure, ports et adaptateurs, structuration d'un projet pour le long terme.",
     duration: "2 jours",
   },
   {
     title: "Qualite de code PHP avec PHPStan",
     description:
-      "Analyse statique du code, elimination des erreurs de type, configuration PHPStan niveau 8 et integration en CI.",
+      "Analyse statique du code, élimination des erreurs de type, configuration PHPStan niveau 8 et intégration en CI.",
     duration: "1 jour",
   },
   {
     title: "API Platform",
     description:
-      "Conception d'API REST et GraphQL avec API Platform, serialisation, securite, personnalisation des endpoints.",
+      "Conception d'API REST et GraphQL avec API Platform, sérialisation, sécurité, personnalisation des endpoints.",
     duration: "2 jours",
   },
 ];
 
 const formats = [
   {
-    title: "Sur site a Lille ou dans vos locaux",
+    title: "Sur site à Lille ou dans vos locaux",
     description:
-      "Nous nous deplacons chez vous en region lilloise ou partout en France. Le formateur est dans la salle avec votre equipe.",
+      "Nous nous déplaçons chez vous en région lilloise ou partout en France. Le formateur est dans la salle avec votre équipe.",
   },
   {
-    title: "A distance en visio",
+    title: "À distance en visio",
     description:
-      "Formation 100 % en ligne via visioconference, avec partage d'ecran et exercices pratiques. Meme qualite qu'en presentiel.",
+      "Formation 100 % en ligne via visioconférence, avec partage d'écran et exercices pratiques. Même qualité qu'en présentiel.",
   },
   {
-    title: "Duree flexible : 1 a 5 jours",
+    title: "Durée flexible : 1 à 5 jours",
     description:
-      "Chaque programme est module selon vos besoins. Une journee de sensibilisation ou un parcours complet sur une semaine.",
+      "Chaque programme est modulé selon vos besoins. Une journée de sensibilisation ou un parcours complet sur une semaine.",
   },
   {
-    title: "Groupes de 2 a 8 personnes",
+    title: "Groupes de 2 à 8 personnes",
     description:
-      "Petit format garantit pour que chaque participant pose ses questions et travaille sur des cas concrets lies a votre projet.",
+      "Petit format garanti pour que chaque participant pose ses questions et travaille sur des cas concrets liés à votre projet.",
   },
   {
     title: "Support post-formation",
     description:
-      "Apres la formation, vos developpeurs peuvent nous solliciter par email pendant 30 jours pour toute question de mise en pratique.",
+      "Après la formation, vos développeurs peuvent nous solliciter par email pendant 30 jours pour toute question de mise en pratique.",
   },
 ];
 
@@ -84,17 +84,17 @@ const reasons = [
   {
     title: "Formateurs qui codent au quotidien",
     description:
-      "Nos formateurs interviennent sur des projets Symfony en production chaque semaine. Ils transmettent des pratiques reelles, pas des exemples academiques.",
+      "Nos formateurs interviennent sur des projets Symfony en production chaque semaine. Ils transmettent des pratiques réelles, pas des exemples académiques.",
   },
   {
     title: "Cas pratiques sur du vrai code",
     description:
-      "Les exercices sont elabores a partir de situations rencontrees sur de vrais projets : dette technique, migration, API, tests. Votre equipe repart avec des solutions applicables immediatement.",
+      "Les exercices sont élaborés à partir de situations rencontrées sur de vrais projets : dette technique, migration, API, tests. Votre équipe repart avec des solutions applicables immédiatement.",
   },
   {
-    title: "Adaptation au niveau de l'equipe",
+    title: "Adaptation au niveau de l'équipe",
     description:
-      "Avant chaque formation, nous echangeons avec vous pour calibrer le contenu. Pas de generalites inutiles : on va droit au but en fonction du niveau et des projets de vos developpeurs.",
+      "Avant chaque formation, nous échangeons avec vous pour calibrer le contenu. Pas de généralités inutiles : on va droit au but en fonction du niveau et des projets de vos développeurs.",
   },
 ];
 
@@ -102,17 +102,17 @@ const faqItems = [
   {
     title: "Faut-il un niveau minimum pour suivre une formation Symfony ?",
     content:
-      "Le programme Symfony fondamentaux s'adresse a des developpeurs PHP connaissant les bases orientees objet. Pour les formations avancees, une experience de 6 mois minimum sur Symfony est recommandee. Nous evaluons le niveau de votre equipe avant chaque session pour adapter le contenu.",
+      "Le programme Symfony fondamentaux s'adresse à des développeurs PHP connaissant les bases orientées objet. Pour les formations avancées, une expérience de 6 mois minimum sur Symfony est recommandée. Nous évaluons le niveau de votre équipe avant chaque session pour adapter le contenu.",
   },
   {
     title: "Peut-on personnaliser le contenu de la formation ?",
     content:
-      "Oui. Nous construisons chaque programme sur mesure apres un echange avec vous. Si votre equipe travaille sur une API Platform en production, on peut consacrer plus de temps a ce sujet et moins a d'autres modules.",
+      "Oui. Nous construisons chaque programme sur mesure après un échange avec vous. Si votre équipe travaille sur une API Platform en production, on peut consacrer plus de temps à ce sujet et moins à d'autres modules.",
   },
   {
     title: "Les formations sont-elles certifiantes ?",
     content:
-      "Nous delivrons une attestation de formation a chaque participant. Pour une certification officielle Symfony, nous recommandons le passage de l'examen Symfony Certification disponible sur le site de SensioLabs. Nos formations constituent une excellente preparation.",
+      "Nous délivrons une attestation de formation à chaque participant. Pour une certification officielle Symfony, nous recommandons le passage de l'examen Symfony Certification disponible sur le site de SensioLabs. Nos formations constituent une excellente préparation.",
   },
 ];
 
@@ -134,7 +134,7 @@ const courseJsonLd = {
   "@type": "Course",
   name: "Formation Symfony pour les entreprises",
   description:
-    "Formation Symfony sur mesure pour les equipes de developpement : fondamentaux, architecture hexagonale, API Platform, PHPStan. Presentiel a Lille ou a distance.",
+    "Formation Symfony sur mesure pour les équipes de développement : fondamentaux, architecture hexagonale, API Platform, PHPStan. Présentiel à Lille ou à distance.",
   url: `${BASE_URL}/formation-symfony-entreprise`,
   provider: {
     "@type": "Organization",
@@ -171,8 +171,8 @@ const breadcrumb = breadcrumbJsonLd([
 ]);
 
 const webPage = webPageJsonLd({
-  name: "Formation Symfony pour les entreprises a Lille et a distance",
-  description: "Formation Symfony sur mesure pour les entreprises a Lille et a distance. Fondamentaux, architecture hexagonale, API Platform, PHPStan. Groupes de 2 a 8 personnes, formateurs praticiens.",
+  name: "Formation Symfony pour les entreprises à Lille et à distance",
+  description: "Formation Symfony sur mesure pour les entreprises à Lille et à distance. Fondamentaux, architecture hexagonale, API Platform, PHPStan. Groupes de 2 à 8 personnes, formateurs praticiens.",
   path: "/formation-symfony-entreprise",
   datePublished: "2026-01-13",
   dateModified: "2026-01-13",
@@ -181,7 +181,7 @@ const webPage = webPageJsonLd({
 const formationRelatedLinks: RelatedLink[] = [
   { title: "Accompagnement et Conseil", description: "Nos autres prestations d'accompagnement technique", href: "/accompagnement-et-conseil" },
   { title: "Pourquoi choisir Symfony pour vos projets", description: "Les atouts du framework en entreprise", href: "/article/pourquoi-choisir-symfony-pour-vos-projets" },
-  { title: "Documentation officielle Symfony", description: "Reference technique du framework", href: "https://symfony.com/doc/current/index.html", external: true },
+  { title: "Documentation officielle Symfony", description: "Référence technique du framework", href: "https://symfony.com/doc/current/index.html", external: true },
 ];
 
 export default function FormationSymfonyEntreprise() {
@@ -208,14 +208,14 @@ export default function FormationSymfonyEntreprise() {
           <Container>
             <div className="mx-auto max-w-3xl text-center">
               <p className="text-sm font-semibold uppercase tracking-wider text-primary">
-                Formation Symfony entreprise - Lille et a distance
+                Formation Symfony entreprise - Lille et à distance
               </p>
               <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                Formation Symfony pour les entreprises a Lille et a distance
+                Formation Symfony pour les entreprises à Lille et à distance
               </h1>
               <p className="mt-6 text-lg text-gray">
-                Montez en competences sur Symfony avec des formations adaptees a votre equipe.
-                Programmes sur mesure, formateurs praticiens, groupes reduits pour un apprentissage
+                Montez en compétences sur Symfony avec des formations adaptées à votre équipe.
+                Programmes sur mesure, formateurs praticiens, groupes réduits pour un apprentissage
                 efficace.
               </p>
               <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
@@ -233,8 +233,8 @@ export default function FormationSymfonyEntreprise() {
           <Container>
             <SectionTitle>Nos programmes de formation</SectionTitle>
             <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-              Chaque programme est construit autour des besoins reels des equipes de
-              developpement Symfony en entreprise. Du debutant au profil senior, nous couvrons
+              Chaque programme est construit autour des besoins réels des équipes de
+              développement Symfony en entreprise. Du débutant au profil senior, nous couvrons
               tous les niveaux.
             </p>
             <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -253,13 +253,13 @@ export default function FormationSymfonyEntreprise() {
               ))}
             </div>
             <p className="mx-auto mt-8 max-w-2xl text-center text-gray">
-              Tous les programmes peuvent etre combines et adaptes. Pour aller plus loin sur
+              Tous les programmes peuvent être combinés et adaptés. Pour aller plus loin sur
               l&apos;analyse statique,{" "}
               <Link
                 href="/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php"
                 className="text-primary hover:underline"
               >
-                decouvrez comment PHPStan peut ameliorer la qualite de votre code PHP
+                découvrez comment PHPStan peut améliorer la qualité de votre code PHP
               </Link>
               .
             </p>
@@ -270,10 +270,10 @@ export default function FormationSymfonyEntreprise() {
         <FadeIn>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
-            <SectionTitle>Format et modalites</SectionTitle>
+            <SectionTitle>Format et modalités</SectionTitle>
             <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-              Nous nous adaptons a votre organisation : presentiel dans vos locaux, a distance,
-              ou dans nos bureaux a Lille.
+              Nous nous adaptons à votre organisation : présentiel dans vos locaux, à distance,
+              ou dans nos bureaux à Lille.
             </p>
             <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {formats.map((format) => (
@@ -305,8 +305,8 @@ export default function FormationSymfonyEntreprise() {
             </div>
             <div className="mx-auto mt-10 max-w-3xl space-y-4 text-lg text-gray">
               <p>
-                Nos formateurs contribuent activement a des projets Symfony en production. Si
-                votre equipe doit structurer son code autour d&apos;une{" "}
+                Nos formateurs contribuent activement à des projets Symfony en production. Si
+                votre équipe doit structurer son code autour d&apos;une{" "}
                 <Link
                   href="/article/migration-symfony-architecture-hexagonale-retour-mission"
                   className="text-primary hover:underline"
@@ -314,39 +314,39 @@ export default function FormationSymfonyEntreprise() {
                   architecture hexagonale
                 </Link>
                 , c&apos;est un sujet que nous traitons de bout en bout, avec des retours
-                d&apos;experience concrets.
+                d&apos;expérience concrets.
               </p>
               <p>
-                Pour les equipes qui souhaitent consolider les bases du framework avant une
-                formation avancee, notre article sur{" "}
+                Pour les équipes qui souhaitent consolider les bases du framework avant une
+                formation avancée, notre article sur{" "}
                 <Link
                   href="/article/les-6-etapes-pour-monter-en-competences-sur-symfony"
                   className="text-primary hover:underline"
                 >
-                  les 6 etapes pour monter en competences sur Symfony
+                  les 6 étapes pour monter en compétences sur Symfony
                 </Link>{" "}
-                constitue une bonne preparation.
+                constitue une bonne préparation.
               </p>
               <p>
-                Les formations en presentiel sont dispensees depuis nos bureaux lillois ou chez
-                vous en region Hauts-de-France. Notre{" "}
+                Les formations en présentiel sont dispensées depuis nos bureaux lillois ou chez
+                vous en région Hauts-de-France. Notre{" "}
                 <Link
                   href="/agence-symfony-lille"
                   className="text-primary hover:underline"
                 >
-                  agence Symfony a Lille
+                  agence Symfony à Lille
                 </Link>{" "}
-                vous garantit une proximite reelle avec un formateur qui connait votre ecosysteme
+                vous garantit une proximité réelle avec un formateur qui connaît votre écosystème
                 local.
               </p>
               <p>
-                Le module API Platform est particulierement plebiscite par les equipes qui doivent
+                Le module API Platform est particulièrement plébiscité par les équipes qui doivent
                 ensuite mettre en pratique leurs acquis sur un vrai projet de{" "}
                 <Link
                   href="/api-sur-mesure-symfony"
                   className="text-primary hover:underline"
                 >
-                  developpement d&apos;API avec Symfony
+                  développement d&apos;API avec Symfony
                 </Link>
                 .
               </p>
@@ -359,11 +359,11 @@ export default function FormationSymfonyEntreprise() {
         <section className="bg-primary py-16 text-center text-white">
           <div className="mx-auto max-w-3xl px-4">
             <h2 className="font-display text-3xl font-bold">
-              Pret a former votre equipe Symfony ?
+              Prêt à former votre équipe Symfony ?
             </h2>
             <p className="mt-4 text-lg text-white/90">
-              Contactez-nous pour construire le programme adapte a votre equipe et a vos
-              objectifs. Nous repondons sous 48h.
+              Contactez-nous pour construire le programme adapté à votre équipe et à vos
+              objectifs. Nous répondons sous 48h.
             </p>
             <Link
               href="/contact"
@@ -378,7 +378,7 @@ export default function FormationSymfonyEntreprise() {
         <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
-            <SectionTitle>Questions frequentes</SectionTitle>
+            <SectionTitle>Questions fréquentes</SectionTitle>
             <div className="mx-auto max-w-2xl">
               <Accordion items={faqItems} />
             </div>

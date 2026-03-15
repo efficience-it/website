@@ -14,37 +14,37 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured
 
 export const metadata = pageMetadata({
   title:
-    "Hebergement Symfony : infrastructure cloud pour vos applications",
+    "Hébergement Symfony : infrastructure cloud pour vos applications",
   description:
-    "Efficience IT heberge et deploie vos applications Symfony sur le cloud (AWS, GCP, Azure). CI/CD, monitoring, haute disponibilite et securite.",
+    "Efficience IT héberge et déploie vos applications Symfony sur le cloud (AWS, GCP, Azure). CI/CD, monitoring, haute disponibilité et sécurité.",
   path: "/hebergement-symfony",
 });
 
 const useCases = [
   {
-    title: "Hebergement cloud AWS, GCP et Azure",
+    title: "Hébergement cloud AWS, GCP et Azure",
     description:
-      "Deploiement de vos applications Symfony sur les principales plateformes cloud avec une architecture adaptee a votre trafic et vos contraintes.",
+      "Déploiement de vos applications Symfony sur les principales plateformes cloud avec une architecture adaptée à votre trafic et vos contraintes.",
   },
   {
     title: "Pipelines CI/CD",
     description:
-      "Mise en place de pipelines d'integration et de deploiement continu avec GitLab CI, GitHub Actions ou CircleCI pour des livraisons fiables et automatisees.",
+      "Mise en place de pipelines d'intégration et de déploiement continu avec GitLab CI, GitHub Actions ou CircleCI pour des livraisons fiables et automatisées.",
   },
   {
     title: "Monitoring et alerting",
     description:
-      "Supervision de vos applications avec Grafana, Prometheus et des alertes en temps reel pour anticiper les incidents avant qu'ils n'impactent vos utilisateurs.",
+      "Supervision de vos applications avec Grafana, Prometheus et des alertes en temps réel pour anticiper les incidents avant qu'ils n'impactent vos utilisateurs.",
   },
   {
     title: "Migration d'infrastructure",
     description:
-      "Migration de vos serveurs classiques vers une infrastructure cloud conteneurisee avec Docker et orchestree avec Kubernetes.",
+      "Migration de vos serveurs classiques vers une infrastructure cloud conteneurisée avec Docker et orchestrée avec Kubernetes.",
   },
   {
-    title: "Haute disponibilite et scalabilite",
+    title: "Haute disponibilité et scalabilité",
     description:
-      "Architectures redondantes, load balancing et auto-scaling pour garantir la disponibilite de vos applications meme lors de pics de trafic.",
+      "Architectures redondantes, load balancing et auto-scaling pour garantir la disponibilité de vos applications même lors de pics de trafic.",
   },
 ];
 
@@ -52,22 +52,22 @@ const advantages = [
   {
     title: "Multi-cloud",
     description:
-      "Nous travaillons avec AWS, Google Cloud, Azure et OVH. Vous choisissez le cloud adapte a vos contraintes techniques et reglementaires.",
+      "Nous travaillons avec AWS, Google Cloud, Azure et OVH. Vous choisissez le cloud adapté à vos contraintes techniques et réglementaires.",
   },
   {
-    title: "Automatisation complete",
+    title: "Automatisation complète",
     description:
-      "Infrastructure as Code avec Terraform ou Ansible, pipelines CI/CD et deploiements zero-downtime pour eliminer les interventions manuelles.",
+      "Infrastructure as Code avec Terraform ou Ansible, pipelines CI/CD et déploiements zero-downtime pour éliminer les interventions manuelles.",
   },
   {
-    title: "Securite renforcee",
+    title: "Sécurité renforcée",
     description:
-      "Certificats SSL, pare-feu applicatif, mises a jour automatiques et audits de securite reguliers pour proteger vos donnees.",
+      "Certificats SSL, pare-feu applicatif, mises à jour automatiques et audits de sécurité réguliers pour protéger vos données.",
   },
   {
-    title: "Performance optimisee",
+    title: "Performance optimisée",
     description:
-      "Cache applicatif (Varnish, Redis), CDN, optimisation des requetes et configuration fine de PHP-FPM pour des temps de reponse minimaux.",
+      "Cache applicatif (Varnish, Redis), CDN, optimisation des requêtes et configuration fine de PHP-FPM pour des temps de réponse minimaux.",
   },
 ];
 
@@ -75,27 +75,27 @@ const faqItems = [
   {
     title: "Quel cloud recommandez-vous pour une application Symfony ?",
     content:
-      "Cela depend de votre contexte. AWS offre la plus grande richesse de services, GCP excelle sur le data et Kubernetes, Azure s'integre bien dans les ecosystemes Microsoft. Nous vous aidons a choisir lors de l'audit initial.",
+      "Cela dépend de votre contexte. AWS offre la plus grande richesse de services, GCP excelle sur le data et Kubernetes, Azure s'intègre bien dans les écosystèmes Microsoft. Nous vous aidons à choisir lors de l'audit initial.",
   },
   {
-    title: "Gerez-vous aussi l'hebergement apres la mise en production ?",
+    title: "Gérez-vous aussi l'hébergement après la mise en production ?",
     content:
-      "Oui. Nous proposons des contrats de maintenance incluant le monitoring, les mises a jour de securite, les sauvegardes et l'intervention en cas d'incident.",
+      "Oui. Nous proposons des contrats de maintenance incluant le monitoring, les mises à jour de sécurité, les sauvegardes et l'intervention en cas d'incident.",
   },
   {
-    title: "Comment fonctionne le deploiement continu ?",
+    title: "Comment fonctionne le déploiement continu ?",
     content:
-      "Chaque push sur la branche principale declenche un pipeline automatise : tests, analyse statique, build et deploiement. En cas d'echec, le deploiement est annule automatiquement (rollback).",
+      "Chaque push sur la branche principale déclenche un pipeline automatisé : tests, analyse statique, build et déploiement. En cas d'échec, le déploiement est annulé automatiquement (rollback).",
   },
   {
     title: "Pouvez-vous migrer notre infrastructure existante ?",
     content:
-      "Oui. Nous auditons votre infrastructure actuelle, definissons un plan de migration et executons la bascule avec un minimum de downtime. La migration inclut la conteneurisation avec Docker si necessaire.",
+      "Oui. Nous auditons votre infrastructure actuelle, définissons un plan de migration et exécutons la bascule avec un minimum de downtime. La migration inclut la conteneurisation avec Docker si nécessaire.",
   },
   {
-    title: "Proposez-vous des hebergements conformes HDS ou RGPD ?",
+    title: "Proposez-vous des hébergements conformes HDS ou RGPD ?",
     content:
-      "Oui. Nous pouvons deployer sur des clouds certifies HDS (hebergement de donnees de sante) et configurer des infrastructures conformes au RGPD avec des donnees hebergees en France ou en Europe.",
+      "Oui. Nous pouvons déployer sur des clouds certifiés HDS (hébergement de données de santé) et configurer des infrastructures conformes au RGPD avec des données hébergées en France ou en Europe.",
   },
 ];
 
@@ -114,20 +114,20 @@ const faqJsonLd = {
 
 const breadcrumb = breadcrumbJsonLd([
   { name: "Nos expertises", path: "/notre-expertise" },
-  { name: "Hebergement Symfony", path: "/hebergement-symfony" },
+  { name: "Hébergement Symfony", path: "/hebergement-symfony" },
 ]);
 
 const service = serviceJsonLd({
-  name: "Hebergement Symfony",
+  name: "Hébergement Symfony",
   description:
-    "Hebergement cloud, deploiement CI/CD et monitoring pour les applications Symfony.",
+    "Hébergement cloud, déploiement CI/CD et monitoring pour les applications Symfony.",
   path: "/hebergement-symfony",
 });
 
 const webPage = webPageJsonLd({
-  name: "Hebergement Symfony : infrastructure cloud pour vos applications",
+  name: "Hébergement Symfony : infrastructure cloud pour vos applications",
   description:
-    "Efficience IT heberge et deploie vos applications Symfony sur le cloud. CI/CD, monitoring, haute disponibilite et securite.",
+    "Efficience IT héberge et déploie vos applications Symfony sur le cloud. CI/CD, monitoring, haute disponibilité et sécurité.",
   path: "/hebergement-symfony",
   datePublished: "2026-03-13",
   dateModified: "2026-03-13",
@@ -136,11 +136,11 @@ const webPage = webPageJsonLd({
 const relatedLinks: RelatedLink[] = [
   {
     title: "Pourquoi Docker est indispensable en production aujourd'hui",
-    description: "Les avantages de la conteneurisation pour vos deploiements",
+    description: "Les avantages de la conteneurisation pour vos déploiements",
     href: "/article/pourquoi-docker-est-indispensable-en-production-aujourdhui",
   },
   {
-    title: "Deployer Nuxt.js avec GitLab CI, S3 et CloudFront",
+    title: "Déployer Nuxt.js avec GitLab CI, S3 et CloudFront",
     description: "Un exemple concret de pipeline CI/CD cloud",
     href: "/article/deployer-nuxtjs-avec-gitlab-ci-s3-et-cloudfront",
   },
@@ -182,28 +182,28 @@ export default function HebergementSymfony() {
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
-                  Hebergement Symfony : infrastructure cloud pour vos
+                  Hébergement Symfony : infrastructure cloud pour vos
                   applications
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
-                  Vos applications <strong>Symfony</strong> meritent une
-                  infrastructure a la hauteur. Chez Efficience IT, nous
-                  concevons et gerons des environnements{" "}
-                  <strong>cloud</strong> performants, securises et automatises
+                  Vos applications <strong>Symfony</strong> méritent une
+                  infrastructure à la hauteur. Chez Efficience IT, nous
+                  concevons et gérons des environnements{" "}
+                  <strong>cloud</strong> performants, sécurisés et automatisés
                   pour vos projets en production.
                 </p>
                 <p className="mt-4 max-w-3xl text-lg text-gray">
                   De la mise en place de pipelines{" "}
-                  <strong>CI/CD</strong> au monitoring en temps reel, notre
-                  equipe{" "}
+                  <strong>CI/CD</strong> au monitoring en temps réel, notre
+                  équipe{" "}
                   <Link
                     href="/cloud-et-devops"
                     className="text-primary hover:underline"
                   >
                     Cloud et DevOps
                   </Link>{" "}
-                  prend en charge l&apos;ensemble de votre chaine de
-                  deploiement.
+                  prend en charge l&apos;ensemble de votre chaîne de
+                  déploiement.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   <Button href="/contact">Discuter de votre projet</Button>
@@ -225,12 +225,12 @@ export default function HebergementSymfony() {
           <section className="py-16 md:py-24">
             <Container>
               <SectionTitle>
-                Nos services d&apos;hebergement et deploiement Symfony
+                Nos services d&apos;hébergement et déploiement Symfony
               </SectionTitle>
               <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-                Du simple hebergement cloud a l&apos;orchestration
-                multi-services, nous adaptons l&apos;infrastructure a la
-                complexite de votre projet.
+                Du simple hébergement cloud à l&apos;orchestration
+                multi-services, nous adaptons l&apos;infrastructure à la
+                complexité de votre projet.
               </p>
               <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {useCases.map((uc) => (
@@ -252,49 +252,49 @@ export default function HebergementSymfony() {
               <div className="space-y-16">
                 <div>
                   <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
-                    L&apos;hebergement cloud pour Symfony : bien plus qu&apos;un
+                    L&apos;hébergement cloud pour Symfony : bien plus qu&apos;un
                     serveur
                   </h2>
                   <p className="mt-4 text-lg text-gray">
-                    Heberger une application Symfony ne se limite pas a louer un
+                    Héberger une application Symfony ne se limite pas à louer un
                     serveur. Il faut configurer PHP-FPM, optimiser le cache
-                    (OPcache, Varnish, Redis), gerer les certificats SSL et
+                    (OPcache, Varnish, Redis), gérer les certificats SSL et
                     mettre en place des sauvegardes automatiques. Nous concevons
-                    des architectures cloud sur AWS, GCP ou Azure, adaptees au
+                    des architectures cloud sur AWS, GCP ou Azure, adaptées au
                     trafic et aux exigences de chaque projet.
                   </p>
                   <p className="mt-4 text-lg text-gray">
-                    Nos equipes maitrisent{" "}
+                    Nos équipes maîtrisent{" "}
                     <Link
                       href="/article/pourquoi-docker-est-indispensable-en-production-aujourdhui"
                       className="text-primary hover:underline"
                     >
                       la conteneurisation avec Docker
                     </Link>{" "}
-                    pour garantir la reproductibilite des environnements, du
-                    developpement a la production.
+                    pour garantir la reproductibilité des environnements, du
+                    développement à la production.
                   </p>
                 </div>
 
                 <div>
                   <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
-                    CI/CD : des deploiements automatises et fiables
+                    CI/CD : des déploiements automatisés et fiables
                   </h2>
                   <p className="mt-4 text-lg text-gray">
                     Chaque modification de code passe par un pipeline
-                    automatise : execution des tests, analyse statique, build et
-                    deploiement. Nous configurons des workflows GitLab CI,
-                    GitHub Actions ou CircleCI adaptes a votre projet Symfony.
-                    Le deploiement se fait en zero-downtime, avec rollback
-                    automatique en cas de probleme.
+                    automatisé : exécution des tests, analyse statique, build et
+                    déploiement. Nous configurons des workflows GitLab CI,
+                    GitHub Actions ou CircleCI adaptés à votre projet Symfony.
+                    Le déploiement se fait en zero-downtime, avec rollback
+                    automatique en cas de problème.
                   </p>
                   <p className="mt-4 text-lg text-gray">
-                    Decouvrez un exemple concret avec notre article sur{" "}
+                    Découvrez un exemple concret avec notre article sur{" "}
                     <Link
                       href="/article/deployer-nuxtjs-avec-gitlab-ci-s3-et-cloudfront"
                       className="text-primary hover:underline"
                     >
-                      le deploiement automatise avec GitLab CI, S3 et
+                      le déploiement automatisé avec GitLab CI, S3 et
                       CloudFront
                     </Link>
                     .
@@ -303,15 +303,15 @@ export default function HebergementSymfony() {
 
                 <div>
                   <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
-                    Monitoring et observabilite : anticiper plutot que subir
+                    Monitoring et observabilité : anticiper plutôt que subir
                   </h2>
                   <p className="mt-4 text-lg text-gray">
-                    Une application en production doit etre surveillee en
+                    Une application en production doit être surveillée en
                     permanence. Nous mettons en place des dashboards Grafana,
-                    des metriques Prometheus et des alertes (Slack, email, SMS)
-                    pour detecter les anomalies avant qu&apos;elles
-                    n&apos;impactent vos utilisateurs. Logs centralises, APM et
-                    health checks completent le dispositif. Notre expertise{" "}
+                    des métriques Prometheus et des alertes (Slack, email, SMS)
+                    pour détecter les anomalies avant qu&apos;elles
+                    n&apos;impactent vos utilisateurs. Logs centralisés, APM et
+                    health checks complètent le dispositif. Notre expertise{" "}
                     <Link
                       href="/cloud-et-devops"
                       className="text-primary hover:underline"
@@ -330,7 +330,7 @@ export default function HebergementSymfony() {
           <section className="py-16 md:py-24">
             <Container>
               <SectionTitle>
-                Pourquoi confier votre hebergement a Efficience IT ?
+                Pourquoi confier votre hébergement à Efficience IT ?
               </SectionTitle>
               <div className="mt-8 grid gap-6 md:grid-cols-2">
                 {advantages.map((a) => (
@@ -353,7 +353,7 @@ export default function HebergementSymfony() {
         <FadeIn>
           <section className="py-16 md:py-24">
             <Container>
-              <SectionTitle>Questions frequentes</SectionTitle>
+              <SectionTitle>Questions fréquentes</SectionTitle>
               <div className="mx-auto max-w-2xl">
                 <Accordion items={faqItems} />
               </div>
@@ -369,8 +369,8 @@ export default function HebergementSymfony() {
                 Symfony ?
               </h2>
               <p className="mt-4 text-lg text-white/90">
-                Reservez un appel de 30 minutes avec notre equipe pour auditer
-                votre infrastructure actuelle et definir un plan d&apos;action.
+                Réservez un appel de 30 minutes avec notre équipe pour auditer
+                votre infrastructure actuelle et définir un plan d&apos;action.
               </p>
               <Link
                 href="/audit-symfony-gratuit"

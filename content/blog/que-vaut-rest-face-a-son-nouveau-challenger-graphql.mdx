@@ -74,17 +74,17 @@ En pratique, les équipes expérimentées adoptent un schema-first approach : le
 
 ## Tableau comparatif REST vs GraphQL
 
-| Critere | REST | GraphQL |
+| Critère | REST | GraphQL |
 |---------|------|---------|
-| Modele d'acces | Ressources via endpoints multiples | Requete flexible via endpoint unique |
-| Over/under-fetching | Frequent (structure fixe) | Elimine (le client choisit les champs) |
+| Modèle d'accès | Ressources via endpoints multiples | Requête flexible via endpoint unique |
+| Over/under-fetching | Fréquent (structure fixe) | Éliminé (le client choisit les champs) |
 | Cache HTTP | Natif (headers standards, CDN) | Complexe (Persisted Queries, cache applicatif) |
 | Versioning | Explicite (v1, v2, v3) | Additif (pas de versioning) |
-| Monitoring | Immediat (un endpoint = une operation) | Necessite une instrumentation dediee |
+| Monitoring | Immédiat (un endpoint = une opération) | Nécessite une instrumentation dédiée |
 | Typage | Via OpenAPI/Swagger | Natif (schema typé) |
-| Courbe d'apprentissage | Faible (verbes HTTP standards) | Moyenne (langage de requete, resolvers) |
-| Ecosysteme | Tres mature | En croissance rapide |
-| Temps reel | Polling ou SSE | Subscriptions natives |
+| Courbe d'apprentissage | Faible (verbes HTTP standards) | Moyenne (langage de requête, resolvers) |
+| Écosystème | Très mature | En croissance rapide |
+| Temps réel | Polling ou SSE | Subscriptions natives |
 
 ## Perspectives architecturales : combiner les deux approches
 

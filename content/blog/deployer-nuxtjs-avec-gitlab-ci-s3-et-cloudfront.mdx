@@ -170,7 +170,7 @@ deploy_s3_branch:
        - aws s3 sync dist s3://dev.exemple.com --delete --cache-control "max-age=31536000" --expires 2030-01-01T00:00:00Z
        - aws cloudfront create-invalidation  --distribution-id ${AWS_CLOUDFRONT_INVALIDATION_ID_DEV} --paths "/*"
    environment:
-       name: developement
+       name: development
        url: https://dev.exemple.com
 
 deploy_s3_dev:
@@ -184,7 +184,7 @@ deploy_s3_dev:
        - aws s3 sync dist s3://dev.exemple.com --delete --cache-control "max-age=31536000" --expires 2030-01-01T00:00:00Z
        - aws cloudfront create-invalidation  --distribution-id ${AWS_CLOUDFRONT_INVALIDATION_ID_DEV} --paths "/*"
    environment:
-       name: developement
+       name: development
        url: https://dev.exemple.com
 
 deploy_s3_prod:

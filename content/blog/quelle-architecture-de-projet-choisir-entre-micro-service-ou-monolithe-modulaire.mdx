@@ -9,11 +9,11 @@ proficiencyLevel: "Expert"
 updatedAt: "2026-01-13"
 faq:
   - question: "Quand faut-il passer aux micro-services ?"
-    answer: "Les micro-services se justifient quand vous avez des equipes independantes qui doivent deployer a des rythmes differents, des parties de l'application avec des besoins de scalabilite tres differents, ou un domaine metier suffisamment mature pour definir des frontieres claires. Pour la plupart des projets, un monolithe modulaire bien structure est plus adapte."
+    answer: "Les micro-services se justifient quand vous avez des équipes indépendantes qui doivent déployer à des rythmes différents, des parties de l'application avec des besoins de scalabilité très différents, ou un domaine métier suffisamment mature pour définir des frontières claires. Pour la plupart des projets, un monolithe modulaire bien structuré est plus adapté."
   - question: "Un monolithe modulaire est-il scalable ?"
-    answer: "Oui, un monolithe bien concu peut scaler horizontalement en ajoutant des instances derriere un load balancer. Les traitements lourds peuvent etre decharges vers des workers asynchrones (Symfony Messenger). La limite arrive quand differentes parties de l'application ont des besoins de scalabilite radicalement differents."
-  - question: "Comment eviter qu'un monolithe devienne un monolithe couple ?"
-    answer: "La cle est la discipline architecturale : separer le code en modules avec des frontieres explicites, interdire les acces directs entre modules (passer par des interfaces), utiliser des evenements pour la communication inter-modules et verifier l'absence de couplage avec des outils comme Deptrac."
+    answer: "Oui, un monolithe bien conçu peut scaler horizontalement en ajoutant des instances derrière un load balancer. Les traitements lourds peuvent être déchargés vers des workers asynchrones (Symfony Messenger). La limite arrive quand différentes parties de l'application ont des besoins de scalabilité radicalement différents."
+  - question: "Comment éviter qu'un monolithe devienne un monolithe couplé ?"
+    answer: "La clé est la discipline architecturale : séparer le code en modules avec des frontières explicites, interdire les accès directs entre modules (passer par des interfaces), utiliser des événements pour la communication inter-modules et vérifier l'absence de couplage avec des outils comme Deptrac."
 ---
 
 ## Micro-services ou monolithe modulaire : un choix structurant
@@ -68,18 +68,18 @@ Les micro-services se justifient lorsque plusieurs équipes indépendantes trava
 
 ## Tableau comparatif monolithe modulaire vs micro-services
 
-| Critere | Monolithe modulaire | Micro-services |
+| Critère | Monolithe modulaire | Micro-services |
 |---------|---------------------|----------------|
-| Deploiement | Unique, simple | Independant par service |
-| Scalabilite | Horizontale (instances) | Fine (par service) |
-| Coherence des donnees | Transactions ACID natives | Eventuelle (Sagas) |
-| Debugging | Direct (breakpoints IDE) | Distribue (tracing, logs centralises) |
-| Cout infrastructure | Faible | Eleve (Kubernetes, brokers, observabilite) |
-| Autonomie des equipes | Moderee | Forte |
-| Tolerance aux erreurs de decoupage | Refactoring interne | Migration de bases, APIs, infra |
-| Complexite operationnelle | Faible | Elevee |
-| Onboarding developpeurs | Rapide | Plus long (patterns distribues) |
-| Equipe ideale | Jusqu'a ~20 developpeurs | Au-dela de 20, equipes autonomes |
+| Déploiement | Unique, simple | Indépendant par service |
+| Scalabilité | Horizontale (instances) | Fine (par service) |
+| Cohérence des données | Transactions ACID natives | Éventuelle (Sagas) |
+| Debugging | Direct (breakpoints IDE) | Distribué (tracing, logs centralisés) |
+| Coût infrastructure | Faible | Élevé (Kubernetes, brokers, observabilité) |
+| Autonomie des équipes | Modérée | Forte |
+| Tolérance aux erreurs de découpage | Refactoring interne | Migration de bases, APIs, infra |
+| Complexité opérationnelle | Faible | Élevée |
+| Onboarding développeurs | Rapide | Plus long (patterns distribués) |
+| Équipe idéale | Jusqu'à ~20 développeurs | Au-delà de 20, équipes autonomes |
 
 ## Stratégies de transition et vision architecturale
 

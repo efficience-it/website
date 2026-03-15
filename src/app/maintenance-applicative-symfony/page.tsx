@@ -11,9 +11,9 @@ import FadeIn from "@/components/ui/FadeIn";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title: "Maintenance applicative Symfony (TMA) : corrective, evolutive, preventive",
+  title: "Maintenance applicative Symfony (TMA) : corrective, évolutive, préventive",
   description:
-    "Efficience IT assure la maintenance applicative de vos projets Symfony : correction de bugs, evolutions fonctionnelles, mises a jour de securite, monitoring et SLA sur mesure.",
+    "Efficience IT assure la maintenance applicative de vos projets Symfony : correction de bugs, évolutions fonctionnelles, mises à jour de sécurité, monitoring et SLA sur mesure.",
   path: "/maintenance-applicative-symfony",
 });
 
@@ -21,19 +21,19 @@ const typesMaintenances = [
   {
     title: "Maintenance corrective",
     description:
-      "Correction des bugs, des regressions et des anomalies en production. Nous intervenons selon des niveaux de severite definis dans le SLA : critique (4h), majeur (24h), mineur (72h).",
+      "Correction des bugs, des régressions et des anomalies en production. Nous intervenons selon des niveaux de sévérité définis dans le SLA : critique (4h), majeur (24h), mineur (72h).",
     icon: "M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z",
   },
   {
-    title: "Maintenance evolutive",
+    title: "Maintenance évolutive",
     description:
-      "Nouvelles fonctionnalites, ameliorations de l'existant, integration de services tiers. Nous travaillons par sprints courts pour livrer de la valeur regulierement sans destabiliser l'application.",
+      "Nouvelles fonctionnalités, améliorations de l'existant, intégration de services tiers. Nous travaillons par sprints courts pour livrer de la valeur régulièrement sans déstabiliser l'application.",
     icon: "M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z",
   },
   {
-    title: "Maintenance preventive",
+    title: "Maintenance préventive",
     description:
-      "Mises a jour de securite Symfony et des dependances Composer, montees de version PHP, refactoring cible pour reduire la dette technique avant qu'elle ne devienne bloquante.",
+      "Mises à jour de sécurité Symfony et des dépendances Composer, montées de version PHP, refactoring ciblé pour réduire la dette technique avant qu'elle ne devienne bloquante.",
     icon: "M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z",
   },
 ];
@@ -42,22 +42,22 @@ const slaItems = [
   {
     title: "Monitoring proactif",
     description:
-      "Surveillance en continu de votre application : disponibilite, temps de reponse, erreurs applicatives. Nous detectons les problemes avant vos utilisateurs.",
+      "Surveillance en continu de votre application : disponibilité, temps de réponse, erreurs applicatives. Nous détectons les problèmes avant vos utilisateurs.",
   },
   {
-    title: "Temps de reaction garanti",
+    title: "Temps de réaction garanti",
     description:
-      "Un SLA adapte a vos enjeux metier. Pour les incidents critiques, nous intervenons en moins de 4 heures, week-end compris si necessaire.",
+      "Un SLA adapté à vos enjeux métier. Pour les incidents critiques, nous intervenons en moins de 4 heures, week-end compris si nécessaire.",
   },
   {
     title: "Rapports mensuels",
     description:
-      "Un suivi transparent : bugs corriges, mises a jour effectuees, etat de sante de l'application, recommandations d'amelioration. Vous savez exactement ou vous en etes.",
+      "Un suivi transparent : bugs corrigés, mises à jour effectuées, état de santé de l'application, recommandations d'amélioration. Vous savez exactement où vous en êtes.",
   },
   {
-    title: "Interlocuteur dedie",
+    title: "Interlocuteur dédié",
     description:
-      "Un developpeur referent qui connait votre application et votre metier. Pas de turnover, pas de perte de contexte a chaque demande.",
+      "Un développeur référent qui connait votre application et votre métier. Pas de turnover, pas de perte de contexte à chaque demande.",
   },
 ];
 
@@ -66,13 +66,13 @@ const approche = [
     num: "1",
     title: "Audit de l'existant",
     description:
-      "Analyse de l'architecture, de la qualite du code, des dependances et de l'infrastructure. Nous identifions les risques et priorisons les actions.",
+      "Analyse de l'architecture, de la qualité du code, des dépendances et de l'infrastructure. Nous identifions les risques et priorisons les actions.",
   },
   {
     num: "2",
     title: "Plan de maintenance",
     description:
-      "Definition du perimetre, des niveaux de SLA, des frequences de mise a jour et du volume d'evolutions mensuelles. Un cadre clair pour les deux parties.",
+      "Définition du périmètre, des niveaux de SLA, des fréquences de mise à jour et du volume d'évolutions mensuelles. Un cadre clair pour les deux parties.",
   },
   {
     num: "3",
@@ -84,35 +84,35 @@ const approche = [
     num: "4",
     title: "Suivi continu",
     description:
-      "Sprints de maintenance reguliers, mises a jour de securite, corrections et evolutions. Un point mensuel pour ajuster les priorites selon vos besoins.",
+      "Sprints de maintenance réguliers, mises à jour de sécurité, corrections et évolutions. Un point mensuel pour ajuster les priorités selon vos besoins.",
   },
 ];
 
 const faqItems = [
   {
-    title: "Quelle est la difference entre TMA et support technique ?",
+    title: "Quelle est la différence entre TMA et support technique ?",
     content:
-      "Le support technique intervient ponctuellement sur des incidents. La TMA (Tierce Maintenance Applicative) est un engagement continu qui couvre la correction de bugs, les evolutions fonctionnelles, les mises a jour de securite et le monitoring. C'est un accompagnement global de votre application dans la duree.",
+      "Le support technique intervient ponctuellement sur des incidents. La TMA (Tierce Maintenance Applicative) est un engagement continu qui couvre la correction de bugs, les évolutions fonctionnelles, les mises à jour de sécurité et le monitoring. C'est un accompagnement global de votre application dans la durée.",
   },
   {
-    title: "Pouvez-vous maintenir une application que vous n'avez pas developpee ?",
+    title: "Pouvez-vous maintenir une application que vous n'avez pas développée ?",
     content:
-      "Oui, c'est meme une situation frequente. Nous commencons par un audit pour comprendre l'architecture, la qualite du code et les zones de risque. En quelques semaines, notre equipe maitrise le projet suffisamment pour intervenir efficacement.",
+      "Oui, c'est même une situation fréquente. Nous commençons par un audit pour comprendre l'architecture, la qualité du code et les zones de risque. En quelques semaines, notre équipe maitrise le projet suffisamment pour intervenir efficacement.",
   },
   {
     title: "Quelle version minimale de Symfony prenez-vous en charge ?",
     content:
-      "Nous intervenons sur Symfony 3.4 et toutes les versions suivantes. Pour les applications sur des versions en fin de vie, nous proposons un plan de migration progressive vers une version LTS maintenue, en parallele de la maintenance courante.",
+      "Nous intervenons sur Symfony 3.4 et toutes les versions suivantes. Pour les applications sur des versions en fin de vie, nous proposons un plan de migration progressive vers une version LTS maintenue, en parallèle de la maintenance courante.",
   },
   {
-    title: "Comment sont gerees les urgences en production ?",
+    title: "Comment sont gérées les urgences en production ?",
     content:
-      "Chaque contrat definit des niveaux de severite avec des temps de reaction garantis. Pour un incident critique (application inaccessible, perte de donnees), nous intervenons dans les 4 heures. Un canal de communication dedie permet de nous alerter immediatement.",
+      "Chaque contrat définit des niveaux de sévérité avec des temps de réaction garantis. Pour un incident critique (application inaccessible, perte de données), nous intervenons dans les 4 heures. Un canal de communication dédié permet de nous alerter immédiatement.",
   },
   {
-    title: "La maintenance inclut-elle les montees de version Symfony ?",
+    title: "La maintenance inclut-elle les montées de version Symfony ?",
     content:
-      "Les correctifs de securite sur votre version actuelle sont inclus dans la maintenance preventive. Les montees de version majeures (par exemple Symfony 5 vers 6) sont traitees comme des projets dedies avec un chiffrage et un planning specifiques.",
+      "Les correctifs de sécurité sur votre version actuelle sont inclus dans la maintenance préventive. Les montées de version majeures (par exemple Symfony 5 vers 6) sont traitées comme des projets dédiés avec un chiffrage et un planning spécifiques.",
   },
 ];
 
@@ -136,14 +136,14 @@ const breadcrumb = breadcrumbJsonLd([
 const service = serviceJsonLd({
   name: "Maintenance applicative Symfony (TMA)",
   description:
-    "Maintenance corrective, evolutive et preventive de vos applications Symfony : correction de bugs, evolutions fonctionnelles, mises a jour de securite, monitoring et SLA sur mesure.",
+    "Maintenance corrective, évolutive et préventive de vos applications Symfony : correction de bugs, évolutions fonctionnelles, mises à jour de sécurité, monitoring et SLA sur mesure.",
   path: "/maintenance-applicative-symfony",
 });
 
 const webPage = webPageJsonLd({
-  name: "Maintenance applicative Symfony (TMA) : corrective, evolutive, preventive",
+  name: "Maintenance applicative Symfony (TMA) : corrective, évolutive, préventive",
   description:
-    "Efficience IT assure la maintenance applicative de vos projets Symfony : correction de bugs, evolutions fonctionnelles, mises a jour de securite, monitoring et SLA sur mesure.",
+    "Efficience IT assure la maintenance applicative de vos projets Symfony : correction de bugs, évolutions fonctionnelles, mises à jour de sécurité, monitoring et SLA sur mesure.",
   path: "/maintenance-applicative-symfony",
   datePublished: "2026-03-12",
   dateModified: "2026-03-12",
@@ -177,18 +177,18 @@ export default function MaintenanceApplicativeSymfony() {
                   TMA Symfony
                 </p>
                 <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                  Maintenance applicative Symfony (TMA) : corrective, evolutive, preventive
+                  Maintenance applicative Symfony (TMA) : corrective, évolutive, préventive
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
                   Votre application Symfony tourne en production et vous avez besoin
-                  d&apos;une equipe fiable pour la maintenir, la faire evoluer et la
-                  securiser dans la duree.
+                  d&apos;une équipe fiable pour la maintenir, la faire évoluer et la
+                  sécuriser dans la durée.
                 </p>
                 <p className="mt-4 max-w-3xl text-lg text-gray">
                   Efficience IT prend en charge la{" "}
                   <strong>maintenance applicative</strong> de vos projets Symfony :
-                  correction de bugs, evolutions fonctionnelles, mises a jour de securite
-                  et monitoring. Un interlocuteur dedie, des SLA clairs, et une equipe
+                  correction de bugs, évolutions fonctionnelles, mises à jour de sécurité
+                  et monitoring. Un interlocuteur dédié, des SLA clairs, et une équipe
                   qui connait votre code.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -227,9 +227,9 @@ export default function MaintenanceApplicativeSymfony() {
           <Container>
             <SectionTitle>Trois types de maintenance pour couvrir tous vos besoins</SectionTitle>
             <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-              La maintenance applicative ne se limite pas a corriger des bugs.
-              Elle englobe tout ce qui permet a votre application de rester fiable,
-              securisee et alignee avec vos besoins metier.
+              La maintenance applicative ne se limite pas à corriger des bugs.
+              Elle englobe tout ce qui permet à votre application de rester fiable,
+              sécurisée et alignée avec vos besoins métier.
             </p>
             <div className="mt-10 grid gap-6 md:grid-cols-3">
               {typesMaintenances.map((type) => (
@@ -265,9 +265,9 @@ export default function MaintenanceApplicativeSymfony() {
               >
                 dette technique
               </Link>{" "}
-              s&apos;accumule quand la maintenance preventive est negligee. Notre approche
-              vise a la reduire progressivement, sprint apres sprint.
-              Quand une montee de version majeure est necessaire, notre service de{" "}
+              s&apos;accumule quand la maintenance préventive est négligée. Notre approche
+              vise à la réduire progressivement, sprint après sprint.
+              Quand une montée de version majeure est nécessaire, notre service de{" "}
               <Link
                 href="/migration-symfony"
                 className="text-primary hover:underline"
@@ -275,7 +275,7 @@ export default function MaintenanceApplicativeSymfony() {
                 migration Symfony
               </Link>{" "}
               prend le relais avec une approche par paliers.
-              Pour les applications PHP legacy a{" "}
+              Pour les applications PHP legacy à{" "}
               <Link
                 href="/modernisation-application-php"
                 className="text-primary hover:underline"
@@ -293,7 +293,7 @@ export default function MaintenanceApplicativeSymfony() {
           <Container>
             <SectionTitle>SLA et monitoring : un cadre clair</SectionTitle>
             <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-              Chaque contrat de maintenance definit des engagements precis.
+              Chaque contrat de maintenance définit des engagements précis.
               Vous savez exactement ce que vous obtenez et comment nous intervenons.
             </p>
             <div className="mt-10 grid gap-6 sm:grid-cols-2">
@@ -315,7 +315,7 @@ export default function MaintenanceApplicativeSymfony() {
           <Container>
             <SectionTitle>Notre approche</SectionTitle>
             <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-              Un processus structure pour prendre en charge votre application
+              Un processus structuré pour prendre en charge votre application
               sans rupture de service.
             </p>
             <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -353,7 +353,7 @@ export default function MaintenanceApplicativeSymfony() {
               >
                 Symfony Insight
               </Link>{" "}
-              pour mesurer et ameliorer en continu la qualite de votre code.
+              pour mesurer et améliorer en continu la qualité de votre code.
             </p>
           </Container>
         </section>
@@ -363,12 +363,12 @@ export default function MaintenanceApplicativeSymfony() {
         <section className="bg-primary py-16 text-center text-white">
           <div className="mx-auto max-w-3xl px-4">
             <h2 className="font-display text-3xl font-bold">
-              Votre application Symfony merite une maintenance serieuse
+              Votre application Symfony mérite une maintenance sérieuse
             </h2>
             <p className="mt-4 text-lg text-white/90">
-              Commencez par un audit gratuit de 30 minutes. Nous evaluons
-              l&apos;etat de votre application et vous proposons un plan de
-              maintenance adapte.
+              Commencez par un audit gratuit de 30 minutes. Nous évaluons
+              l&apos;état de votre application et vous proposons un plan de
+              maintenance adapté.
             </p>
             <Link
               href="/audit-symfony-gratuit"
@@ -383,7 +383,7 @@ export default function MaintenanceApplicativeSymfony() {
         <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
-            <SectionTitle>Questions frequentes</SectionTitle>
+            <SectionTitle>Questions fréquentes</SectionTitle>
             <div className="mx-auto max-w-2xl">
               <Accordion items={faqItems} />
             </div>
@@ -403,7 +403,7 @@ export default function MaintenanceApplicativeSymfony() {
                 >
                   Reprise de projet Symfony
                 </Link>{" "}
-                , quand le projet necessite d&apos;abord un sauvetage avant la maintenance
+                , quand le projet nécessite d&apos;abord un sauvetage avant la maintenance
               </li>
               <li>
                 <Link
@@ -412,7 +412,7 @@ export default function MaintenanceApplicativeSymfony() {
                 >
                   Guide de migration dans un projet Symfony
                 </Link>{" "}
-                , notre methodologie pour monter de version en toute securite
+                , notre méthodologie pour monter de version en toute sécurité
               </li>
               <li>
                 <Link
@@ -428,9 +428,9 @@ export default function MaintenanceApplicativeSymfony() {
                   href="/article/cve-comprendre-les-failles-pour-mieux-se-proteger"
                   className="text-primary hover:underline"
                 >
-                  CVE : comprendre les failles pour mieux se proteger
+                  CVE : comprendre les failles pour mieux se protéger
                 </Link>{" "}
-                , pourquoi les mises a jour de securite sont essentielles
+                , pourquoi les mises à jour de sécurité sont essentielles
               </li>
               <li>
                 <a

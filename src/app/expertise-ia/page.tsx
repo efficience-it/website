@@ -18,37 +18,37 @@ import { testimonials } from "@/../data/testimonials";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title: "Expertise IA : integrez l'intelligence artificielle dans vos projets Symfony",
+  title: "Expertise IA : intégrez l'intelligence artificielle dans vos projets Symfony",
   description:
-    "Efficience IT vous accompagne dans l'integration de l'IA dans vos projets Symfony : LLM, RAG, assistants IA, GEO et modernisation d'applications legacy grace a l'intelligence artificielle.",
+    "Efficience IT vous accompagne dans l'intégration de l'IA dans vos projets Symfony : LLM, RAG, assistants IA, GEO et modernisation d'applications legacy grâce à l'intelligence artificielle.",
   path: "/expertise-ia",
 });
 
 const useCases = [
   {
-    title: "Integration de LLM dans Symfony",
+    title: "Intégration de LLM dans Symfony",
     description:
-      "Connectez vos applications Symfony a des modeles de langage (GPT, Claude, Mistral) via des APIs ou des bundles dedies pour enrichir vos fonctionnalites metier.",
+      "Connectez vos applications Symfony à des modèles de langage (GPT, Claude, Mistral) via des APIs ou des bundles dédiés pour enrichir vos fonctionnalités métier.",
   },
   {
-    title: "RAG sur vos donnees Doctrine",
+    title: "RAG sur vos données Doctrine",
     description:
-      "Indexez vos entites Doctrine dans une base vectorielle et interrogez vos donnees metier en langage naturel grace au Retrieval-Augmented Generation.",
+      "Indexez vos entités Doctrine dans une base vectorielle et interrogez vos données métier en langage naturel grâce au Retrieval-Augmented Generation.",
   },
   {
-    title: "Developpement assiste par IA",
+    title: "Développement assisté par IA",
     description:
-      "Accelerez vos cycles de developpement Symfony en integrant des assistants IA dans le workflow de vos equipes : generation de code, revue automatisee, refactoring guide.",
+      "Accélérez vos cycles de développement Symfony en intégrant des assistants IA dans le workflow de vos équipes : génération de code, revue automatisée, refactoring guidé.",
   },
   {
-    title: "GEO et visibilite IA",
+    title: "GEO et visibilité IA",
     description:
-      "Rendez vos applications Symfony visibles dans ChatGPT, Perplexity et les AI Overviews de Google grace au Generative Engine Optimization.",
+      "Rendez vos applications Symfony visibles dans ChatGPT, Perplexity et les AI Overviews de Google grâce au Generative Engine Optimization.",
   },
   {
     title: "Modernisation legacy avec l'IA",
     description:
-      "Utilisez l'intelligence artificielle pour accelerer la modernisation de vos applications PHP legacy : analyse de code, migration assistee, documentation automatique.",
+      "Utilisez l'intelligence artificielle pour accélérer la modernisation de vos applications PHP legacy : analyse de code, migration assistée, documentation automatique.",
   },
 ];
 
@@ -56,50 +56,50 @@ const advantages = [
   {
     title: "Double expertise Symfony + IA",
     description:
-      "Nous maitrisons a la fois le framework Symfony et les technologies d'intelligence artificielle. Cette combinaison rare garantit des integrations propres, performantes et maintenables.",
+      "Nous maîtrisons à la fois le framework Symfony et les technologies d'intelligence artificielle. Cette combinaison rare garantit des intégrations propres, performantes et maintenables.",
   },
   {
-    title: "Retours d'experience concrets",
+    title: "Retours d'expérience concrets",
     description:
-      "Nous avons deja integre des LLM, mis en place du RAG et deploye des strategies GEO sur des projets Symfony en production. Nos recommandations s'appuient sur du vecu, pas de la theorie.",
+      "Nous avons déjà intégré des LLM, mis en place du RAG et déployé des stratégies GEO sur des projets Symfony en production. Nos recommandations s'appuient sur du vécu, pas de la théorie.",
   },
   {
     title: "Approche pragmatique",
     description:
-      "Pas de buzz ni de promesses irrealistes. Nous identifions les cas d'usage ou l'IA apporte une vraie valeur ajoutee et nous vous aidons a les mettre en oeuvre de maniere progressive.",
+      "Pas de buzz ni de promesses irréalistes. Nous identifions les cas d'usage où l'IA apporte une vraie valeur ajoutée et nous vous aidons à les mettre en oeuvre de manière progressive.",
   },
   {
     title: "Veille technologique permanente",
     description:
-      "L'ecosysteme IA evolue vite. Nous testons en continu les nouveaux modeles, outils et frameworks pour vous recommander les solutions les plus adaptees a votre contexte.",
+      "L'écosystème IA évolue vite. Nous testons en continu les nouveaux modèles, outils et frameworks pour vous recommander les solutions les plus adaptées à votre contexte.",
   },
 ];
 
 const faqItems = [
   {
-    title: "Faut-il refondre son application Symfony pour integrer de l'IA ?",
+    title: "Faut-il refondre son application Symfony pour intégrer de l'IA ?",
     content:
-      "Non. L'integration d'un LLM ou d'un systeme RAG se fait via des APIs externes ou des bundles Symfony dedies. Votre application existante reste intacte, on ajoute une couche d'intelligence par-dessus. La complexite depend du cas d'usage, mais on commence toujours par un MVP minimal.",
+      "Non. L'intégration d'un LLM ou d'un système RAG se fait via des APIs externes ou des bundles Symfony dédiés. Votre application existante reste intacte, on ajoute une couche d'intelligence par-dessus. La complexité dépend du cas d'usage, mais on commence toujours par un MVP minimal.",
   },
   {
-    title: "Quels modeles d'IA recommandez-vous pour un projet Symfony ?",
+    title: "Quels modèles d'IA recommandez-vous pour un projet Symfony ?",
     content:
-      "Ca depend du cas d'usage. Pour du traitement de texte ou de la generation, Claude et GPT sont les plus polyvalents. Pour du RAG sur des donnees techniques, Mistral offre un bon rapport cout/performance. Pour de l'embarque ou du temps reel, des modeles plus legers comme Gemma peuvent convenir. Nous vous aidons a choisir.",
+      "Ça dépend du cas d'usage. Pour du traitement de texte ou de la génération, Claude et GPT sont les plus polyvalents. Pour du RAG sur des données techniques, Mistral offre un bon rapport coût/performance. Pour de l'embarqué ou du temps réel, des modèles plus légers comme Gemma peuvent convenir. Nous vous aidons à choisir.",
   },
   {
-    title: "Qu'est-ce que le RAG et comment ca fonctionne avec Doctrine ?",
+    title: "Qu'est-ce que le RAG et comment ça fonctionne avec Doctrine ?",
     content:
-      "Le RAG (Retrieval-Augmented Generation) consiste a indexer vos donnees metier dans une base vectorielle, puis a les injecter dans le contexte d'un LLM pour generer des reponses precises. Avec Doctrine, on peut indexer vos entites automatiquement et interroger vos donnees en langage naturel.",
+      "Le RAG (Retrieval-Augmented Generation) consiste à indexer vos données métier dans une base vectorielle, puis à les injecter dans le contexte d'un LLM pour générer des réponses précises. Avec Doctrine, on peut indexer vos entités automatiquement et interroger vos données en langage naturel.",
   },
   {
-    title: "Comment l'IA peut-elle accelerer le developpement Symfony ?",
+    title: "Comment l'IA peut-elle accélérer le développement Symfony ?",
     content:
-      "Les assistants IA comme Claude Code, GitHub Copilot ou Cursor permettent de generer du code, d'automatiser les revues, de refactorer du legacy et de rediger des tests. Bien configures, ils reduisent significativement les temps de developpement sans sacrifier la qualite.",
+      "Les assistants IA comme Claude Code, GitHub Copilot ou Cursor permettent de générer du code, d'automatiser les revues, de refactorer du legacy et de rédiger des tests. Bien configurés, ils réduisent significativement les temps de développement sans sacrifier la qualité.",
   },
   {
-    title: "Quelle est la difference entre le SEO classique et le GEO ?",
+    title: "Quelle est la différence entre le SEO classique et le GEO ?",
     content:
-      "Le SEO optimise votre site pour les resultats de recherche traditionnels. Le GEO (Generative Engine Optimization) optimise votre contenu pour etre cite dans les reponses generees par les moteurs IA comme ChatGPT ou Perplexity. Les deux approches sont complementaires et nous les combinons pour maximiser votre visibilite.",
+      "Le SEO optimise votre site pour les résultats de recherche traditionnels. Le GEO (Generative Engine Optimization) optimise votre contenu pour être cité dans les réponses générées par les moteurs IA comme ChatGPT ou Perplexity. Les deux approches sont complémentaires et nous les combinons pour maximiser votre visibilité.",
   },
 ];
 
@@ -124,23 +124,23 @@ const breadcrumb = breadcrumbJsonLd([
 const service = serviceJsonLd({
   name: "Expertise IA - Intelligence artificielle et Symfony",
   description:
-    "Integration de l'IA dans vos projets Symfony : LLM, RAG, assistants IA, GEO et modernisation d'applications legacy grace a l'intelligence artificielle.",
+    "Intégration de l'IA dans vos projets Symfony : LLM, RAG, assistants IA, GEO et modernisation d'applications legacy grâce à l'intelligence artificielle.",
   path: "/expertise-ia",
 });
 
 const webPage = webPageJsonLd({
-  name: "Expertise IA : integrez l'intelligence artificielle dans vos projets Symfony",
+  name: "Expertise IA : intégrez l'intelligence artificielle dans vos projets Symfony",
   description:
-    "Efficience IT vous accompagne dans l'integration de l'IA dans vos projets Symfony : LLM, RAG, assistants IA, GEO et modernisation d'applications legacy.",
+    "Efficience IT vous accompagne dans l'intégration de l'IA dans vos projets Symfony : LLM, RAG, assistants IA, GEO et modernisation d'applications legacy.",
   path: "/expertise-ia",
   datePublished: "2026-03-13",
   dateModified: "2026-03-13",
 });
 
 const expertiseIaRelatedLinks: RelatedLink[] = [
-  { title: "RAG Symfony : indexer sa base metier avec l'IA", description: "Construire un pipeline RAG sur vos entites Doctrine", href: "/article/rag-symfony-ai-doctrine-indexer-base-metier" },
-  { title: "Quel assistant IA choisir pour coder ?", description: "Comparatif des assistants IA pour le developpement", href: "/article/quel-assistant-ia-choisir-pour-coder" },
-  { title: "GEO : rendre votre application visible dans les moteurs IA", description: "Les enjeux du referencement IA pour Symfony", href: "/article/geo-rendre-votre-application-symfony-visible-dans-les-moteurs-ia" },
+  { title: "RAG Symfony : indexer sa base métier avec l'IA", description: "Construire un pipeline RAG sur vos entités Doctrine", href: "/article/rag-symfony-ai-doctrine-indexer-base-metier" },
+  { title: "Quel assistant IA choisir pour coder ?", description: "Comparatif des assistants IA pour le développement", href: "/article/quel-assistant-ia-choisir-pour-coder" },
+  { title: "GEO : rendre votre application visible dans les moteurs IA", description: "Les enjeux du référencement IA pour Symfony", href: "/article/geo-rendre-votre-application-symfony-visible-dans-les-moteurs-ia" },
   { title: "Symfony AI documentation", description: "La documentation officielle de Symfony sur l'IA", href: "https://symfony.com/doc/current/ai.html", external: true },
   { title: "Anthropic API documentation", description: "La documentation officielle de l'API Claude", href: "https://docs.anthropic.com/", external: true },
 ];
@@ -174,22 +174,22 @@ export default function ExpertiseIa() {
                 Intelligence artificielle
               </p>
               <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                Expertise IA : integrez l&apos;intelligence artificielle dans vos projets Symfony
+                Expertise IA : intégrez l&apos;intelligence artificielle dans vos projets Symfony
               </h1>
               <p className="mt-6 max-w-3xl text-lg text-gray">
-                L&apos;intelligence artificielle transforme la maniere de concevoir, developper et
-                deployer des applications web. Chez Efficience IT, nous combinons notre{" "}
-                <strong>expertise Symfony</strong> avec les dernieres avancees en{" "}
-                <strong>IA generative</strong> pour integrer des fonctionnalites intelligentes
-                dans vos projets, sans repartir de zero.
+                L&apos;intelligence artificielle transforme la manière de concevoir, développer et
+                déployer des applications web. Chez Efficience IT, nous combinons notre{" "}
+                <strong>expertise Symfony</strong> avec les dernières avancées en{" "}
+                <strong>IA générative</strong> pour intégrer des fonctionnalités intelligentes
+                dans vos projets, sans repartir de zéro.
               </p>
               <p className="mt-4 max-w-3xl text-lg text-gray">
-                De l&apos;integration de <strong>LLM</strong> au{" "}
-                <strong>RAG sur vos donnees Doctrine</strong>, en passant par le{" "}
-                <strong>developpement assiste par IA</strong> et l&apos;optimisation de votre{" "}
+                De l&apos;intégration de <strong>LLM</strong> au{" "}
+                <strong>RAG sur vos données Doctrine</strong>, en passant par le{" "}
+                <strong>développement assisté par IA</strong> et l&apos;optimisation de votre{" "}
                 <Link href="/geo-optimisation-ia" className="text-primary hover:underline">
-                  visibilite dans les moteurs IA (GEO)
-                </Link>, nous vous accompagnons a chaque etape.
+                  visibilité dans les moteurs IA (GEO)
+                </Link>, nous vous accompagnons à chaque étape.
               </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                 <Button href="/contact">
@@ -227,8 +227,8 @@ export default function ExpertiseIa() {
         <Container>
           <SectionTitle>Cas d&apos;usage : l&apos;IA au service de vos projets Symfony</SectionTitle>
           <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-            Cinq domaines concrets ou l&apos;intelligence artificielle apporte une valeur
-            mesurable a vos applications Symfony.
+            Cinq domaines concrets où l&apos;intelligence artificielle apporte une valeur
+            mesurable à vos applications Symfony.
           </p>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {useCases.map((c) => (
@@ -250,7 +250,7 @@ export default function ExpertiseIa() {
           <div className="space-y-16">
             <div>
               <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
-                Integrer l&apos;IA dans une application Symfony
+                Intégrer l&apos;IA dans une application Symfony
               </h2>
               <p className="mt-4 text-lg text-gray">
                 Symfony s&apos;interface naturellement avec les APIs des principaux fournisseurs
@@ -258,89 +258,89 @@ export default function ExpertiseIa() {
                 qui isolent la couche IA du reste de votre application, en respectant les principes
                 de l&apos;
                 <Link href="/article/symfony-ai-projet-legacy-retour-experience" className="text-primary hover:underline">
-                  integration IA dans un projet Symfony existant
+                  intégration IA dans un projet Symfony existant
                 </Link>.
               </p>
               <p className="mt-4 text-lg text-gray">
-                Le cas d&apos;usage le plus demande est le{" "}
+                Le cas d&apos;usage le plus demandé est le{" "}
                 <Link href="/article/rag-symfony-ai-doctrine-indexer-base-metier" className="text-primary hover:underline">
-                  RAG (Retrieval-Augmented Generation) sur des donnees Doctrine
+                  RAG (Retrieval-Augmented Generation) sur des données Doctrine
                 </Link>.
-                Le principe : indexer vos entites metier dans une base vectorielle (pgvector,
-                Qdrant, Pinecone), puis utiliser un LLM pour interroger ces donnees en langage
-                naturel. Vos utilisateurs posent des questions, l&apos;IA repond en s&apos;appuyant
-                sur vos propres donnees.
+                Le principe : indexer vos entités métier dans une base vectorielle (pgvector,
+                Qdrant, Pinecone), puis utiliser un LLM pour interroger ces données en langage
+                naturel. Vos utilisateurs posent des questions, l&apos;IA répond en s&apos;appuyant
+                sur vos propres données.
               </p>
               <p className="mt-4 text-lg text-gray">
-                Nous mettons en place le pipeline complet : extraction des donnees Doctrine,
-                generation des embeddings, stockage vectoriel, orchestration des requetes et
-                generation des reponses. Le tout integre dans votre application Symfony existante,
+                Nous mettons en place le pipeline complet : extraction des données Doctrine,
+                génération des embeddings, stockage vectoriel, orchestration des requêtes et
+                génération des réponses. Le tout intégré dans votre application Symfony existante,
                 sans rupture architecturale.
               </p>
             </div>
 
             <div>
               <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
-                Accelerer le developpement avec les assistants IA
+                Accélérer le développement avec les assistants IA
               </h2>
               <p className="mt-4 text-lg text-gray">
-                Les assistants IA transforment le quotidien des developpeurs Symfony. Nous aidons
-                vos equipes a{" "}
+                Les assistants IA transforment le quotidien des développeurs Symfony. Nous aidons
+                vos équipes à{" "}
                 <Link href="/article/quel-assistant-ia-choisir-pour-coder" className="text-primary hover:underline">
                   choisir et configurer les bons assistants IA
                 </Link>{" "}
-                pour leur contexte : generation de code, revue automatisee, refactoring guide,
-                redaction de tests.
+                pour leur contexte : génération de code, revue automatisée, refactoring guidé,
+                rédaction de tests.
               </p>
               <p className="mt-4 text-lg text-gray">
                 <Link href="/article/claude-assistant-architecture-symfony-legacy" className="text-primary hover:underline">
                   Claude comme assistant d&apos;architecture
                 </Link>{" "}
-                est particulierement efficace sur les projets Symfony legacy : il comprend le
-                contexte metier, suggere des refactorings coherents et aide a documenter le code
-                existant. Combine avec des outils comme Cursor ou GitHub Copilot, il accelere
-                significativement les cycles de developpement.
+                est particulièrement efficace sur les projets Symfony legacy : il comprend le
+                contexte métier, suggère des refactorings cohérents et aide à documenter le code
+                existant. Combiné avec des outils comme Cursor ou GitHub Copilot, il accélère
+                significativement les cycles de développement.
               </p>
               <p className="mt-4 text-lg text-gray">
-                Notre retour d&apos;experience montre qu&apos;une equipe bien outillee en assistants
-                IA gagne entre 20 et 40 % de productivite sur les taches repetitives, tout en
-                ameliorant la qualite du code produit. Nous partageons nos apprentissages dans notre
+                Notre retour d&apos;expérience montre qu&apos;une équipe bien outillée en assistants
+                IA gagne entre 20 et 40 % de productivité sur les tâches répétitives, tout en
+                améliorant la qualité du code produit. Nous partageons nos apprentissages dans notre
                 article sur les{" "}
                 <Link href="/article/forces-et-faiblesses-des-ia-generatives-les-plus-utilisees" className="text-primary hover:underline">
-                  forces et faiblesses des IA generatives
+                  forces et faiblesses des IA génératives
                 </Link>.
               </p>
             </div>
 
             <div>
               <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
-                Optimiser votre visibilite dans les moteurs IA (GEO)
+                Optimiser votre visibilité dans les moteurs IA (GEO)
               </h2>
               <p className="mt-4 text-lg text-gray">
                 Le <strong>GEO (Generative Engine Optimization)</strong> est le nouveau levier de
-                visibilite pour les applications web. Vos clients posent des questions a ChatGPT,
-                Perplexity ou Google AI Overviews : si votre contenu n&apos;est pas optimise, vous
-                etes invisible dans ces reponses.
+                visibilité pour les applications web. Vos clients posent des questions à ChatGPT,
+                Perplexity ou Google AI Overviews : si votre contenu n&apos;est pas optimisé, vous
+                êtes invisible dans ces réponses.
               </p>
               <p className="mt-4 text-lg text-gray">
-                Nous avons detaille les enjeux du{" "}
+                Nous avons détaillé les enjeux du{" "}
                 <Link href="/article/geo-rendre-votre-application-symfony-visible-dans-les-moteurs-ia" className="text-primary hover:underline">
-                  GEO applique aux applications Symfony
+                  GEO appliqué aux applications Symfony
                 </Link>{" "}
                 et nous proposons une{" "}
                 <Link href="/geo-optimisation-ia" className="text-primary hover:underline">
-                  offre dediee d&apos;optimisation GEO
+                  offre dédiée d&apos;optimisation GEO
                 </Link>{" "}
-                incluant les donnees structurees, le fichier{" "}
+                incluant les données structurées, le fichier{" "}
                 <Link href="/article/llms-txt-le-nouveau-levier-seo-a-lere-de-lintelligence-artificielle" className="text-primary hover:underline">
                   llms.txt
                 </Link>{" "}
                 et l&apos;optimisation du contenu pour les moteurs IA.
               </p>
               <p className="mt-4 text-lg text-gray">
-                Le GEO est complementaire du SEO classique. Il s&apos;appuie sur les memes
-                fondamentaux (qualite du contenu, balisage semantique, autorite du domaine) tout
-                en ajoutant une couche d&apos;optimisation specifique pour les modeles de langage.
+                Le GEO est complémentaire du SEO classique. Il s&apos;appuie sur les mêmes
+                fondamentaux (qualité du contenu, balisage sémantique, autorité du domaine) tout
+                en ajoutant une couche d&apos;optimisation spécifique pour les modèles de langage.
               </p>
             </div>
           </div>
@@ -403,7 +403,7 @@ export default function ExpertiseIa() {
       <FadeIn>
       <section className="py-16 md:py-24">
         <Container>
-          <SectionTitle>Questions frequentes</SectionTitle>
+          <SectionTitle>Questions fréquentes</SectionTitle>
           <div className="mx-auto max-w-2xl">
             <Accordion items={faqItems} />
           </div>
@@ -414,8 +414,8 @@ export default function ExpertiseIa() {
       <FadeIn>
       <section className="bg-primary py-16 text-center text-white">
         <div className="mx-auto max-w-3xl px-4">
-          <h2 className="font-display text-3xl font-bold">Pret a integrer l&apos;IA dans vos projets ?</h2>
-          <p className="mt-4 text-lg text-white/90">Echangeons sur vos cas d&apos;usage et identifions ensemble les opportunites IA les plus pertinentes pour votre contexte.</p>
+          <h2 className="font-display text-3xl font-bold">Prêt à intégrer l&apos;IA dans vos projets ?</h2>
+          <p className="mt-4 text-lg text-white/90">Échangeons sur vos cas d&apos;usage et identifions ensemble les opportunités IA les plus pertinentes pour votre contexte.</p>
           <Link href="/contact" className="mt-8 inline-block rounded-lg bg-white px-8 py-3 font-semibold text-primary transition hover:bg-gray-100">Contactez-nous</Link>
         </div>
       </section>
@@ -429,11 +429,11 @@ export default function ExpertiseIa() {
             <Link href="/developpement-web-sur-mesure" className="group">
               <Card>
                 <h3 className="font-display text-lg font-bold text-dark group-hover:text-primary">
-                  Developpement web sur mesure
+                  Développement web sur mesure
                 </h3>
                 <p className="mt-2 text-gray">
-                  Applications Symfony, sites e-commerce Sylius et integrations
-                  CRM/ERP adaptees a vos processus metiers.
+                  Applications Symfony, sites e-commerce Sylius et intégrations
+                  CRM/ERP adaptées à vos processus métiers.
                 </p>
               </Card>
             </Link>
@@ -443,8 +443,8 @@ export default function ExpertiseIa() {
                   Cloud & DevOps
                 </h3>
                 <p className="mt-2 text-gray">
-                  Hebergement cloud, automatisation CI/CD et migration
-                  d&apos;infrastructure pour des deploiements fiables et
+                  Hébergement cloud, automatisation CI/CD et migration
+                  d&apos;infrastructure pour des déploiements fiables et
                   performants.
                 </p>
               </Card>
@@ -456,7 +456,7 @@ export default function ExpertiseIa() {
                 </h3>
                 <p className="mt-2 text-gray">
                   Coaching technique, formation Symfony et audit de code pour
-                  accompagner vos equipes dans leur montee en competences.
+                  accompagner vos équipes dans leur montée en compétences.
                 </p>
               </Card>
             </Link>
@@ -467,7 +467,7 @@ export default function ExpertiseIa() {
                 </h3>
                 <p className="mt-2 text-gray">
                   Rendez votre site visible dans ChatGPT, Perplexity et les AI
-                  Overviews de Google grace au Generative Engine Optimization.
+                  Overviews de Google grâce au Generative Engine Optimization.
                 </p>
               </Card>
             </Link>

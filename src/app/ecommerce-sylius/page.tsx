@@ -14,9 +14,9 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured
 
 export const metadata = pageMetadata({
   title:
-    "Developpement e-commerce Sylius : votre boutique Symfony sur mesure",
+    "Développement e-commerce Sylius : votre boutique Symfony sur mesure",
   description:
-    "Efficience IT developpe votre boutique e-commerce avec Sylius, la plateforme open source basee sur Symfony. Solution sur mesure, performante et evolutive.",
+    "Efficience IT développe votre boutique e-commerce avec Sylius, la plateforme open source basée sur Symfony. Solution sur mesure, performante et évolutive.",
   path: "/ecommerce-sylius",
 });
 
@@ -24,27 +24,27 @@ const useCases = [
   {
     title: "Boutique e-commerce sur mesure",
     description:
-      "Creez une boutique en ligne parfaitement adaptee a vos processus metiers, votre catalogue et vos contraintes specifiques grace a la flexibilite de Sylius.",
+      "Créez une boutique en ligne parfaitement adaptée à vos processus métiers, votre catalogue et vos contraintes spécifiques grâce à la flexibilité de Sylius.",
   },
   {
     title: "Marketplace multi-vendeurs",
     description:
-      "Lancez une marketplace avec gestion multi-vendeurs, commissions et tableaux de bord dedies, en tirant parti de l'architecture modulaire de Sylius.",
+      "Lancez une marketplace avec gestion multi-vendeurs, commissions et tableaux de bord dédiés, en tirant parti de l'architecture modulaire de Sylius.",
   },
   {
     title: "Commerce B2B",
     description:
-      "Gerez des catalogues personnalises, des grilles tarifaires par client et des workflows de commande complexes adaptes au B2B.",
+      "Gérez des catalogues personnalisés, des grilles tarifaires par client et des workflows de commande complexes adaptés au B2B.",
   },
   {
     title: "Migration depuis Prestashop ou Magento",
     description:
-      "Migrez votre boutique existante vers Sylius pour beneficier d'une base de code moderne, maintenable et basee sur Symfony.",
+      "Migrez votre boutique existante vers Sylius pour bénéficier d'une base de code moderne, maintenable et basée sur Symfony.",
   },
   {
     title: "Headless commerce",
     description:
-      "Utilisez Sylius comme backend e-commerce couple a un front React, Vue ou Next.js pour des experiences utilisateur sur mesure et performantes.",
+      "Utilisez Sylius comme backend e-commerce couplé à un front React, Vue ou Next.js pour des expériences utilisateur sur mesure et performantes.",
   },
 ];
 
@@ -52,50 +52,50 @@ const advantages = [
   {
     title: "100 % open source",
     description:
-      "Pas de licence proprietaire ni de vendor lock-in. Vous restez maitre de votre code et de votre plateforme.",
+      "Pas de licence propriétaire ni de vendor lock-in. Vous restez maître de votre code et de votre plateforme.",
   },
   {
-    title: "Ecosysteme Symfony",
+    title: "Écosystème Symfony",
     description:
-      "Sylius repose sur Symfony : beneficiez de toute la puissance du framework, de ses bundles et de sa communaute.",
+      "Sylius repose sur Symfony : bénéficiez de toute la puissance du framework, de ses bundles et de sa communauté.",
   },
   {
     title: "Testable nativement",
     description:
-      "Sylius est livre avec une couverture de tests exemplaire. Vos evolutions sont securisees par des tests automatises.",
+      "Sylius est livré avec une couverture de tests exemplaire. Vos évolutions sont sécurisées par des tests automatisés.",
   },
   {
     title: "Scalable et performant",
     description:
-      "L'architecture de Sylius permet de gerer des catalogues volumineux et un trafic eleve sans compromettre les performances.",
+      "L'architecture de Sylius permet de gérer des catalogues volumineux et un trafic élevé sans compromettre les performances.",
   },
 ];
 
 const faqItems = [
   {
-    title: "Quelle est la difference entre Sylius et Prestashop ?",
+    title: "Quelle est la différence entre Sylius et Prestashop ?",
     content:
-      "Sylius est base sur Symfony et offre une architecture moderne, testable et extensible. Prestashop est un CMS e-commerce plus rigide, avec un code legacy qui rend les evolutions complexes. Sylius convient mieux aux projets sur mesure et aux equipes techniques.",
+      "Sylius est basé sur Symfony et offre une architecture moderne, testable et extensible. Prestashop est un CMS e-commerce plus rigide, avec un code legacy qui rend les évolutions complexes. Sylius convient mieux aux projets sur mesure et aux équipes techniques.",
   },
   {
     title: "Sylius convient-il pour un petit catalogue ?",
     content:
-      "Oui. Avec Monofony, il est possible d'utiliser les composants Sylius sans la couche e-commerce complete, ce qui permet de demarrer leger et d'evoluer progressivement.",
+      "Oui. Avec Monofony, il est possible d'utiliser les composants Sylius sans la couche e-commerce complète, ce qui permet de démarrer léger et d'évoluer progressivement.",
   },
   {
-    title: "Peut-on integrer Sylius avec un ERP ou un CRM existant ?",
+    title: "Peut-on intégrer Sylius avec un ERP ou un CRM existant ?",
     content:
-      "Absolument. Grace a API Platform integre dans Sylius et l'ecosysteme Symfony, les integrations avec des ERP, CRM ou outils tiers se font via des API REST ou des connecteurs dedies.",
+      "Absolument. Grâce à API Platform intégré dans Sylius et l'écosystème Symfony, les intégrations avec des ERP, CRM ou outils tiers se font via des API REST ou des connecteurs dédiés.",
   },
   {
-    title: "Combien coute un projet e-commerce Sylius ?",
+    title: "Combien coûte un projet e-commerce Sylius ?",
     content:
-      "Le cout depend de la complexite du projet : catalogue, integrations, design sur mesure. Nous proposons un audit gratuit de 30 minutes pour evaluer vos besoins et vous fournir une estimation realiste.",
+      "Le coût dépend de la complexité du projet : catalogue, intégrations, design sur mesure. Nous proposons un audit gratuit de 30 minutes pour évaluer vos besoins et vous fournir une estimation réaliste.",
   },
   {
     title: "Sylius supporte-t-il le multi-langue et le multi-devise ?",
     content:
-      "Oui, nativement. Sylius gere le multi-langue, le multi-devise et le multi-canal sans plugins supplementaires, ce qui en fait une solution ideale pour le commerce international.",
+      "Oui, nativement. Sylius gère le multi-langue, le multi-devise et le multi-canal sans plugins supplémentaires, ce qui en fait une solution idéale pour le commerce international.",
   },
 ];
 
@@ -118,16 +118,16 @@ const breadcrumb = breadcrumbJsonLd([
 ]);
 
 const service = serviceJsonLd({
-  name: "Developpement e-commerce Sylius",
+  name: "Développement e-commerce Sylius",
   description:
-    "Developpement de boutiques e-commerce sur mesure avec Sylius, la plateforme open source basee sur Symfony.",
+    "Développement de boutiques e-commerce sur mesure avec Sylius, la plateforme open source basée sur Symfony.",
   path: "/ecommerce-sylius",
 });
 
 const webPage = webPageJsonLd({
-  name: "Developpement e-commerce Sylius : votre boutique Symfony sur mesure",
+  name: "Développement e-commerce Sylius : votre boutique Symfony sur mesure",
   description:
-    "Efficience IT developpe votre boutique e-commerce avec Sylius, la plateforme open source basee sur Symfony.",
+    "Efficience IT développe votre boutique e-commerce avec Sylius, la plateforme open source basée sur Symfony.",
   path: "/ecommerce-sylius",
   datePublished: "2026-03-13",
   dateModified: "2026-03-13",
@@ -136,12 +136,12 @@ const webPage = webPageJsonLd({
 const relatedLinks: RelatedLink[] = [
   {
     title: "Sylius : la solution e-commerce du framework Symfony",
-    description: "Decouvrez pourquoi Sylius est le choix naturel pour le e-commerce Symfony",
+    description: "Découvrez pourquoi Sylius est le choix naturel pour le e-commerce Symfony",
     href: "/article/sylius-la-solution-e-commerce-du-framework-symfony",
   },
   {
-    title: "Monofony : le guide ultime pour les debutants",
-    description: "Utilisez les composants Sylius sans la couche e-commerce complete",
+    title: "Monofony : le guide ultime pour les débutants",
+    description: "Utilisez les composants Sylius sans la couche e-commerce complète",
     href: "/article/monofony-le-guide-ultime-pour-les-debutants",
   },
   {
@@ -151,7 +151,7 @@ const relatedLinks: RelatedLink[] = [
   },
   {
     title: "Sylius, documentation officielle",
-    description: "La reference technique de la plateforme e-commerce Symfony",
+    description: "La référence technique de la plateforme e-commerce Symfony",
     href: "https://sylius.com/",
     external: true,
   },
@@ -182,14 +182,14 @@ export default function EcommerceSylius() {
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
-                  Developpement e-commerce Sylius : votre boutique Symfony sur
+                  Développement e-commerce Sylius : votre boutique Symfony sur
                   mesure
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
                   <strong>Sylius</strong> est la plateforme e-commerce open
                   source construite sur <strong>Symfony</strong>. Elle offre une
-                  flexibilite totale pour creer des boutiques en ligne adaptees
-                  a vos processus metiers, sans les contraintes des CMS
+                  flexibilité totale pour créer des boutiques en ligne adaptées
+                  à vos processus métiers, sans les contraintes des CMS
                   traditionnels.
                 </p>
                 <p className="mt-4 max-w-3xl text-lg text-gray">
@@ -201,8 +201,8 @@ export default function EcommerceSylius() {
                     solutions e-commerce sur mesure
                   </Link>{" "}
                   avec Sylius pour des projets B2C, B2B et marketplace. Notre
-                  expertise Symfony garantit un code maintenable, teste et
-                  evolutif.
+                  expertise Symfony garantit un code maintenable, testé et
+                  évolutif.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   <Button href="/contact">Discuter de votre projet</Button>
@@ -227,9 +227,9 @@ export default function EcommerceSylius() {
                 Des solutions e-commerce Sylius pour chaque besoin
               </SectionTitle>
               <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-                Que vous lanciez votre premiere boutique ou que vous migriez
-                depuis une plateforme existante, Sylius s&apos;adapte a votre
-                contexte. Decouvrez nos cas d&apos;usage les plus frequents.
+                Que vous lanciez votre première boutique ou que vous migriez
+                depuis une plateforme existante, Sylius s&apos;adapte à votre
+                contexte. Découvrez nos cas d&apos;usage les plus fréquents.
               </p>
               <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {useCases.map((uc) => (
@@ -257,14 +257,14 @@ export default function EcommerceSylius() {
                     Contrairement aux solutions monolithiques comme Prestashop ou
                     Magento, Sylius adopte une architecture moderne et modulaire.
                     Chaque composant (catalogue, panier, promotions, paiements)
-                    est independant et personnalisable. Cette approche permet de
+                    est indépendant et personnalisable. Cette approche permet de
                     construire exactement ce dont vous avez besoin, sans code
-                    superflu. Decouvrez en detail{" "}
+                    superflu. Découvrez en détail{" "}
                     <Link
                       href="/article/sylius-la-solution-e-commerce-du-framework-symfony"
                       className="text-primary hover:underline"
                     >
-                      pourquoi Sylius est la solution e-commerce de reference
+                      pourquoi Sylius est la solution e-commerce de référence
                       pour Symfony
                     </Link>
                     .
@@ -275,11 +275,11 @@ export default function EcommerceSylius() {
                       href="/secteur/e-commerce"
                       className="text-primary hover:underline"
                     >
-                      specialistes du secteur e-commerce
+                      spécialistes du secteur e-commerce
                     </Link>
                     , nous accompagnons nos clients sur tout le cycle de vie de
-                    leur plateforme : conception, developpement, tests,
-                    deploiement et maintenance.
+                    leur plateforme : conception, développement, tests,
+                    déploiement et maintenance.
                   </p>
                 </div>
 
@@ -290,11 +290,11 @@ export default function EcommerceSylius() {
                   <p className="mt-4 text-lg text-gray">
                     Sylius repose sur les composants Symfony : Doctrine pour la
                     persistance, Twig pour le rendu, API Platform pour les API
-                    REST. Cette base solide permet aux developpeurs Symfony de se
-                    sentir immediatement productifs. Les bundles Symfony
-                    s&apos;integrent nativement, et les bonnes pratiques du
-                    framework (injection de dependances, event system, services)
-                    sont respectees.
+                    REST. Cette base solide permet aux développeurs Symfony de se
+                    sentir immédiatement productifs. Les bundles Symfony
+                    s&apos;intègrent nativement, et les bonnes pratiques du
+                    framework (injection de dépendances, event system, services)
+                    sont respectées.
                   </p>
                   <p className="mt-4 text-lg text-gray">
                     Pour les projets qui n&apos;ont pas besoin de toute la
@@ -304,9 +304,9 @@ export default function EcommerceSylius() {
                       className="text-primary hover:underline"
                     >
                       Monofony, le starter kit Sylius pour les applications
-                      metier
+                      métier
                     </Link>
-                    . Cette approche vous permet de beneficier des composants
+                    . Cette approche vous permet de bénéficier des composants
                     Sylius (grille, ressources, gestion des utilisateurs) sans
                     la partie boutique.
                   </p>
@@ -314,13 +314,13 @@ export default function EcommerceSylius() {
 
                 <div>
                   <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
-                    De la boutique au deploiement : un accompagnement complet
+                    De la boutique au déploiement : un accompagnement complet
                   </h2>
                   <p className="mt-4 text-lg text-gray">
-                    Notre equipe prend en charge l&apos;ensemble du projet :
-                    cadrage fonctionnel, developpement des fonctionnalites sur
-                    mesure, integration avec vos outils (ERP, CRM, logistique),
-                    mise en place des tests automatises et deploiement en
+                    Notre équipe prend en charge l&apos;ensemble du projet :
+                    cadrage fonctionnel, développement des fonctionnalités sur
+                    mesure, intégration avec vos outils (ERP, CRM, logistique),
+                    mise en place des tests automatisés et déploiement en
                     production. Nous concevons des{" "}
                     <Link
                       href="/developpement-web-sur-mesure"
@@ -328,7 +328,7 @@ export default function EcommerceSylius() {
                     >
                       applications web sur mesure
                     </Link>{" "}
-                    qui repondent precisement a vos enjeux business.
+                    qui répondent précisément à vos enjeux business.
                   </p>
                 </div>
               </div>
@@ -363,7 +363,7 @@ export default function EcommerceSylius() {
         <FadeIn>
           <section className="py-16 md:py-24">
             <Container>
-              <SectionTitle>Questions frequentes</SectionTitle>
+              <SectionTitle>Questions fréquentes</SectionTitle>
               <div className="mx-auto max-w-2xl">
                 <Accordion items={faqItems} />
               </div>
@@ -375,11 +375,11 @@ export default function EcommerceSylius() {
           <section className="bg-primary py-16 text-center text-white">
             <div className="mx-auto max-w-3xl px-4">
               <h2 className="font-display text-3xl font-bold">
-                Pret a lancer votre projet e-commerce Sylius ?
+                Prêt à lancer votre projet e-commerce Sylius ?
               </h2>
               <p className="mt-4 text-lg text-white/90">
-                Reservez un appel de 30 minutes avec notre equipe pour evaluer
-                vos besoins et definir la meilleure approche.
+                Réservez un appel de 30 minutes avec notre équipe pour évaluer
+                vos besoins et définir la meilleure approche.
               </p>
               <Link
                 href="/audit-symfony-gratuit"

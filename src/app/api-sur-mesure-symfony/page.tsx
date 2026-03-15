@@ -27,22 +27,22 @@ const useCases = [
   {
     title: "API SaaS",
     description:
-      "Construisez le coeur technique de votre produit SaaS avec une API evoluant au rythme de vos fonctionnalites, documentee automatiquement via OpenAPI.",
+      "Construisez le coeur technique de votre produit SaaS avec une API évoluant au rythme de vos fonctionnalités, documentée automatiquement via OpenAPI.",
   },
   {
-    title: "Interconnexion de systemes d'information",
+    title: "Interconnexion de systèmes d'information",
     description:
-      "Faites communiquer vos outils internes (ERP, CRM, WMS) sans couplage fort, grâce à des contrats d'interface clairs et des mecanismes de retry robustes.",
+      "Faites communiquer vos outils internes (ERP, CRM, WMS) sans couplage fort, grâce à des contrats d'interface clairs et des mécanismes de retry robustes.",
   },
   {
     title: "API partenaires et B2B",
     description:
-      "Ouvrez votre plateforme a vos partenaires avec une API versionnee, documentee et protegee par OAuth2. Chaque partenaire dispose de ses propres acces et perimetre de droits.",
+      "Ouvrez votre plateforme à vos partenaires avec une API versionnée, documentée et protégée par OAuth2. Chaque partenaire dispose de ses propres accès et périmètre de droits.",
   },
   {
     title: "API e-commerce",
     description:
-      "Synchronisez stocks, commandes et clients entre votre boutique, votre ERP et vos places de marche via des webhooks fiables et des endpoints atomiques.",
+      "Synchronisez stocks, commandes et clients entre votre boutique, votre ERP et vos places de marché via des webhooks fiables et des endpoints atomiques.",
   },
 ];
 
@@ -50,54 +50,54 @@ const stackItems = [
   {
     title: "Symfony et API Platform",
     description:
-      "API Platform s'appuie sur Symfony pour generer automatiquement des endpoints REST et GraphQL a partir de vos entites Doctrine. Moins de code repetitif, plus de temps pour la logique metier.",
+      "API Platform s'appuie sur Symfony pour générer automatiquement des endpoints REST et GraphQL à partir de vos entités Doctrine. Moins de code répétitif, plus de temps pour la logique métier.",
   },
   {
     title: "REST et GraphQL",
     description:
-      "Nous choisissons le paradigme adapte a votre besoin : REST pour la simplicite et l'interoperabilite, GraphQL quand les clients ont besoin de requetes flexibles sur des schemas riches.",
+      "Nous choisissons le paradigme adapté à votre besoin : REST pour la simplicité et l'interopérabilité, GraphQL quand les clients ont besoin de requêtes flexibles sur des schemas riches.",
   },
   {
     title: "OpenAPI / Swagger",
     description:
-      "La documentation interactive est generee automatiquement et reste toujours synchronisee avec le code. Vos equipes front-end et vos partenaires ont un contrat fiable des le premier sprint.",
+      "La documentation interactive est générée automatiquement et reste toujours synchronisée avec le code. Vos équipes front-end et vos partenaires ont un contrat fiable dès le premier sprint.",
   },
   {
     title: "Authentification OAuth2 et JWT",
     description:
-      "Nous implementons les standards de securite modernes : OAuth2 pour les flux tiers, JWT pour les tokens legers, refresh token rotation pour eviter les sessions exposees.",
+      "Nous implémentons les standards de sécurité modernes : OAuth2 pour les flux tiers, JWT pour les tokens légers, refresh token rotation pour éviter les sessions exposées.",
   },
   {
-    title: "Versioning et compatibilite",
+    title: "Versioning et compatibilité",
     description:
-      "Chaque evolution de l'API suit une strategie de versioning explicite. Les clients existants continuent de fonctionner pendant la periode de deprecation, avec des avertissements dans les headers.",
+      "Chaque évolution de l'API suit une stratégie de versioning explicite. Les clients existants continuent de fonctionner pendant la période de deprecation, avec des avertissements dans les headers.",
   },
 ];
 
 const approachSteps = [
   {
     step: "1",
-    title: "Specification du contrat d'interface",
+    title: "Spécification du contrat d'interface",
     description:
-      "Avant d'ecrire une ligne de code, nous formalisons les endpoints, les schemas de donnees et les regles de securite. Ce contrat sert de reference a toutes les equipes impliquees.",
+      "Avant d'écrire une ligne de code, nous formalisons les endpoints, les schemas de données et les règles de sécurité. Ce contrat sert de référence à toutes les équipes impliquées.",
   },
   {
     step: "2",
-    title: "Developpement oriente tests (TDD)",
+    title: "Développement orienté tests (TDD)",
     description:
-      "Chaque endpoint est couvert par des tests fonctionnels automatises. PHPUnit et les fixtures Doctrine garantissent que les regressions sont detectees immediatement.",
+      "Chaque endpoint est couvert par des tests fonctionnels automatisés. PHPUnit et les fixtures Doctrine garantissent que les régressions sont détectées immédiatement.",
   },
   {
     step: "3",
-    title: "Documentation auto-generee",
+    title: "Documentation auto-générée",
     description:
-      "La documentation OpenAPI est generee en continu. Vos clients et partenaires ont acces a un environnement Swagger UI pour tester les endpoints en conditions reelles.",
+      "La documentation OpenAPI est générée en continu. Vos clients et partenaires ont accès à un environnement Swagger UI pour tester les endpoints en conditions réelles.",
   },
   {
     step: "4",
     title: "Monitoring et alertes",
     description:
-      "Nous instrumentons l'API avec des metriques de latence, de taux d'erreur et d'utilisation par endpoint. Les anomalies declenchent des alertes avant que vos utilisateurs ne les remarquent.",
+      "Nous instrumentons l'API avec des métriques de latence, de taux d'erreur et d'utilisation par endpoint. Les anomalies déclenchent des alertes avant que vos utilisateurs ne les remarquent.",
   },
 ];
 
@@ -105,40 +105,40 @@ const symfonyReasons = [
   {
     title: "Performance native",
     description:
-      "Symfony est l'un des frameworks PHP les plus rapides. Combine avec l'OpCache PHP 8.x et un cache HTTP bien configure, vos API atteignent des temps de reponse inferieurs a 50 ms sous charge.",
+      "Symfony est l'un des frameworks PHP les plus rapides. Combiné avec l'OpCache PHP 8.x et un cache HTTP bien configuré, vos API atteignent des temps de réponse inférieurs à 50 ms sous charge.",
   },
   {
-    title: "Securite par defaut",
+    title: "Sécurité par défaut",
     description:
-      "Le composant Security de Symfony gere les voters, les firewalls et les acces par role. Couple au composant HttpClient pour les appels sortants, vous beneficiez d'une posture de securite robuste.",
+      "Le composant Security de Symfony gère les voters, les firewalls et les accès par rôle. Couplé au composant HttpClient pour les appels sortants, vous bénéficiez d'une posture de sécurité robuste.",
   },
   {
-    title: "Ecosysteme API Platform",
+    title: "Écosystème API Platform",
     description:
-      "API Platform est le standard de facto pour les API PHP. Il genere automatiquement la documentation, les filtres, la pagination et la serialisation, tout en restant totalement extensible.",
+      "API Platform est le standard de facto pour les API PHP. Il génère automatiquement la documentation, les filtres, la pagination et la sérialisation, tout en restant totalement extensible.",
   },
   {
-    title: "Support LTS et evolutivite",
+    title: "Support LTS et évolutivité",
     description:
-      "Symfony publie une version Long Term Support tous les deux ans. Vos API beneficient de correctifs de securite pendant 3 ans, vous laissant le temps de planifier sereinement les migrations.",
+      "Symfony publie une version Long Term Support tous les deux ans. Vos API bénéficient de correctifs de sécurité pendant 3 ans, vous laissant le temps de planifier sereinement les migrations.",
   },
 ];
 
 const faqItems = [
   {
-    title: "Quelle est la difference entre REST et GraphQL avec API Platform ?",
+    title: "Quelle est la différence entre REST et GraphQL avec API Platform ?",
     content:
-      "REST est ideal pour des interfaces stables avec des schemas connus a l'avance, notamment pour les integrateurs partenaires. GraphQL convient mieux aux clients qui ont besoin de flexibilite dans la selection des champs, comme une application mobile avec plusieurs vues differentes. API Platform supporte les deux : nous choisissons selon votre contexte.",
+      "REST est idéal pour des interfaces stables avec des schemas connus à l'avance, notamment pour les intégrateurs partenaires. GraphQL convient mieux aux clients qui ont besoin de flexibilité dans la sélection des champs, comme une application mobile avec plusieurs vues différentes. API Platform supporte les deux : nous choisissons selon votre contexte.",
   },
   {
-    title: "Comment securisez-vous les API que vous developpez ?",
+    title: "Comment sécurisez-vous les API que vous développez ?",
     content:
-      "Nous mettons en place OAuth2 ou JWT selon le type d'integration, des firewalls Symfony pour controler l'acces par role, des rate limiters pour prevenir les abus, et HTTPS systematiquement. Chaque deploiement inclut un audit des headers de securite (CORS, CSP, HSTS).",
+      "Nous mettons en place OAuth2 ou JWT selon le type d'intégration, des firewalls Symfony pour contrôler l'accès par rôle, des rate limiters pour prévenir les abus, et HTTPS systématiquement. Chaque déploiement inclut un audit des headers de sécurité (CORS, CSP, HSTS).",
   },
   {
-    title: "Peut-on reprendre une API existante developpee par une autre equipe ?",
+    title: "Peut-on reprendre une API existante développée par une autre équipe ?",
     content:
-      "Oui. Nous commençons par un audit technique pour evaluer la qualite du code, la couverture de tests et la dette accumulee. Selon les resultats, nous proposons un refactoring progressif ou une rearchitecture partielle, toujours en preservant la compatibilite avec les clients existants.",
+      "Oui. Nous commençons par un audit technique pour évaluer la qualité du code, la couverture de tests et la dette accumulée. Selon les résultats, nous proposons un refactoring progressif ou une rearchitecture partielle, toujours en préservant la compatibilité avec les clients existants.",
   },
 ];
 
@@ -162,7 +162,7 @@ const breadcrumb = breadcrumbJsonLd([
 const service = serviceJsonLd({
   name: "API sur mesure avec Symfony et API Platform",
   description:
-    "Developpement d'API REST et GraphQL sur mesure avec Symfony et API Platform : authentification OAuth2/JWT, documentation OpenAPI, TDD et monitoring.",
+    "Développement d'API REST et GraphQL sur mesure avec Symfony et API Platform : authentification OAuth2/JWT, documentation OpenAPI, TDD et monitoring.",
   path: "/api-sur-mesure-symfony",
 });
 
@@ -177,22 +177,22 @@ const webPage = webPageJsonLd({
 const apiRelatedLinks: RelatedLink[] = [
   {
     title: "Bonnes pratiques API REST",
-    description: "Les standards a respecter pour une API maintenable",
+    description: "Les standards à respecter pour une API maintenable",
     href: "/article/api-rest-les-bonnes-pratiques",
   },
   {
-    title: "Developpement web sur mesure",
+    title: "Développement web sur mesure",
     description: "Notre expertise PHP et Symfony au service de vos projets",
     href: "/developpement-web-sur-mesure",
   },
   {
     title: "Audit Symfony gratuit",
-    description: "Evaluez l'etat technique de votre application en 30 minutes",
+    description: "Évaluez l'état technique de votre application en 30 minutes",
     href: "/audit-symfony-gratuit",
   },
   {
     title: "Documentation API Platform",
-    description: "La reference officielle du framework",
+    description: "La référence officielle du framework",
     href: "https://api-platform.com/docs/",
     external: true,
   },
@@ -223,24 +223,24 @@ export default function ApiSurMesureSymfony() {
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">
-                  Developpement API Symfony
+                  Développement API Symfony
                 </p>
                 <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
                   API sur mesure avec Symfony et API Platform
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
-                  Connectez vos systemes avec des API robustes et performantes.
+                  Connectez vos systèmes avec des API robustes et performantes.
                   Que ce soit pour alimenter une application mobile, ouvrir
-                  votre plateforme a des partenaires B2B ou synchroniser vos
+                  votre plateforme à des partenaires B2B ou synchroniser vos
                   outils internes, nous concevons des{" "}
-                  <strong>API Symfony sur mesure</strong> adaptees a vos
-                  contraintes techniques et metier. Ce service fait partie de
+                  <strong>API Symfony sur mesure</strong> adaptées à vos
+                  contraintes techniques et métier. Ce service fait partie de
                   l&apos;offre globale de notre{" "}
                   <Link
                     href="/agence-symfony-lille"
                     className="text-primary hover:underline"
                   >
-                    agence Symfony a Lille
+                    agence Symfony à Lille
                   </Link>
                   .
                 </p>
@@ -255,8 +255,8 @@ export default function ApiSurMesureSymfony() {
                     API Platform
                   </a>
                   , le standard de facto pour le{" "}
-                  <strong>developpement API PHP</strong>, qui genere
-                  automatiquement la documentation OpenAPI et accelere la
+                  <strong>développement API PHP</strong>, qui génère
+                  automatiquement la documentation OpenAPI et accélère la
                   livraison des premiers endpoints.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -275,7 +275,7 @@ export default function ApiSurMesureSymfony() {
                 <ul className="space-y-3 text-gray">
                   <li className="flex items-start gap-2">
                     <span className="mt-1 text-primary">&#10003;</span>
-                    <span>API REST ou GraphQL documentee via OpenAPI/Swagger</span>
+                    <span>API REST ou GraphQL documentée via OpenAPI/Swagger</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="mt-1 text-primary">&#10003;</span>
@@ -283,15 +283,15 @@ export default function ApiSurMesureSymfony() {
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="mt-1 text-primary">&#10003;</span>
-                    <span>Tests fonctionnels automatises sur chaque endpoint</span>
+                    <span>Tests fonctionnels automatisés sur chaque endpoint</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="mt-1 text-primary">&#10003;</span>
-                    <span>Versioning et deprecation planifiee</span>
+                    <span>Versioning et deprecation planifiée</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="mt-1 text-primary">&#10003;</span>
-                    <span>Monitoring et alertes sur les metriques cles</span>
+                    <span>Monitoring et alertes sur les métriques clés</span>
                   </li>
                 </ul>
               </div>
@@ -304,7 +304,7 @@ export default function ApiSurMesureSymfony() {
           <Container>
             <SectionTitle>Cas d&apos;usage</SectionTitle>
             <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-              Nous intervenons sur des projets d&apos;API tres differents. Voici
+              Nous intervenons sur des projets d&apos;API très différents. Voici
               les contextes dans lesquels notre expertise{" "}
               <strong>API Symfony</strong> apporte le plus de valeur.
             </p>
@@ -327,9 +327,9 @@ export default function ApiSurMesureSymfony() {
           <Container>
             <SectionTitle>Notre stack technique</SectionTitle>
             <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-              Nous ne reinventons pas la roue : nous utilisons les outils
-              eprouves par la communaute PHP et les enrichissons avec nos
-              pratiques d&apos;ingenierie.
+              Nous ne réinventons pas la roue : nous utilisons les outils
+              éprouvés par la communauté PHP et les enrichissons avec nos
+              pratiques d&apos;ingénierie.
             </p>
             <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {stackItems.map((item) => (
@@ -349,7 +349,7 @@ export default function ApiSurMesureSymfony() {
               >
                 bonnes pratiques API REST
               </Link>{" "}
-              documentees dans notre blog pour garantir des interfaces
+              documentées dans notre blog pour garantir des interfaces
               maintenables sur le long terme.
             </p>
           </Container>
@@ -361,9 +361,9 @@ export default function ApiSurMesureSymfony() {
           <Container>
             <SectionTitle>Notre approche</SectionTitle>
             <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-              Un projet d&apos;API reussi commence bien avant le premier commit.
-              Notre methodologie garantit que chaque livraison est stable,
-              documentee et prete pour la production.
+              Un projet d&apos;API réussi commence bien avant le premier commit.
+              Notre méthodologie garantit que chaque livraison est stable,
+              documentée et prête pour la production.
             </p>
             <div className="mt-10 grid gap-6 sm:grid-cols-2">
               {approachSteps.map((item) => (
@@ -415,7 +415,7 @@ export default function ApiSurMesureSymfony() {
               >
                 Symfony
               </a>{" "}
-              reste la reference pour les composants utilises.
+              reste la référence pour les composants utilisés.
             </p>
           </Container>
         </section>
@@ -429,7 +429,7 @@ export default function ApiSurMesureSymfony() {
             </h2>
             <p className="mt-4 text-lg text-white/90">
               Commencez par un audit gratuit de 30 minutes pour cadrer votre
-              besoin et evaluer la faisabilite technique.
+              besoin et évaluer la faisabilité technique.
             </p>
             <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
               <Link
@@ -452,7 +452,7 @@ export default function ApiSurMesureSymfony() {
         <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
-            <SectionTitle>Questions frequentes</SectionTitle>
+            <SectionTitle>Questions fréquentes</SectionTitle>
             <div className="mx-auto max-w-2xl">
               <Accordion items={faqItems} />
             </div>
