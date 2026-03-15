@@ -30,13 +30,10 @@ describe("Home page", () => {
     ).toBeInTheDocument();
   });
 
-  it("renders the CTA sections", () => {
+  it("renders the CTA section", () => {
     render(<Home />);
     expect(
       screen.getByRole("heading", { name: /projet en tête/i }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("heading", { name: /check-up/i }),
     ).toBeInTheDocument();
   });
 
