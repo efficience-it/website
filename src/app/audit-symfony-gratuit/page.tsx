@@ -12,9 +12,9 @@ import FadeIn from "@/components/ui/FadeIn";
 import { breadcrumbJsonLd, howToJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title: "Diagnostic Symfony gratuit de 30 minutes : premier etat des lieux",
+  title: "Diagnostic Symfony gratuit de 30 minutes : premier état des lieux",
   description:
-    "Diagnostic gratuit de 30 minutes pour votre application Symfony : premier etat des lieux technique, identification des points critiques et pistes d'amelioration. Sans engagement.",
+    "Diagnostic gratuit de 30 minutes pour votre application Symfony : premier état des lieux technique, identification des points critiques et pistes d'amélioration. Sans engagement.",
   path: "/audit-symfony-gratuit",
 });
 
@@ -68,9 +68,9 @@ const faqItems = [
       "Absolument. Si vous partagez un accès en lecture à votre repository, nous nous engageons à ne pas copier, diffuser ni réutiliser votre code. Nous pouvons signer un accord de confidentialité (NDA) si nécessaire.",
   },
   {
-    title: "Que se passe-t-il apres l'audit ?",
+    title: "Que se passe-t-il après l'audit ?",
     content:
-      "Vous êtes libre de mettre en oeuvre les recommandations par vous-même ou avec l'équipe de votre choix. Si vous souhaitez être accompagné, nous pouvons vous proposer une prestation adaptée, mais rien ne vous y oblige.",
+      "Vous êtes libre de mettre en œuvre les recommandations par vous-même ou avec l'équipe de votre choix. Si vous souhaitez être accompagné, nous pouvons vous proposer une prestation adaptée, mais rien ne vous y oblige.",
   },
 ];
 
@@ -111,8 +111,8 @@ const howTo = howToJsonLd(
 );
 
 const webPage = webPageJsonLd({
-  name: "Diagnostic Symfony gratuit de 30 minutes : premier etat des lieux",
-  description: "Diagnostic gratuit de 30 minutes pour votre application Symfony : premier etat des lieux technique, identification des points critiques et pistes d'amelioration. Sans engagement.",
+  name: "Diagnostic Symfony gratuit de 30 minutes : premier état des lieux",
+  description: "Diagnostic gratuit de 30 minutes pour votre application Symfony : premier état des lieux technique, identification des points critiques et pistes d'amélioration. Sans engagement.",
   path: "/audit-symfony-gratuit",
   datePublished: "2025-09-01",
   dateModified: "2026-02-01",
@@ -165,7 +165,7 @@ export default function AuditSymfonyGratuit() {
                   Gratuit et sans engagement
                 </p>
                 <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                  Diagnostic Symfony gratuit de 30 minutes : premier etat des lieux
+                  Diagnostic Symfony gratuit de 30 minutes : premier état des lieux
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
                   Votre application Symfony a plus de 3 ans ? Vous accumulez de
@@ -175,9 +175,9 @@ export default function AuditSymfonyGratuit() {
                   Nous vous proposons un{" "}
                   <strong>audit technique gratuit de 30 minutes</strong> pour
                   identifier les points critiques de votre application et vous
-                  donner des pistes d&apos;amelioration concretes.
+                  donner des pistes d&apos;amélioration concrètes.
                   Pour un audit technique complet avec analyse PHPStan niveau max,
-                  revue manuelle et rapport detaille sous 48h, decouvrez notre{" "}
+                  revue manuelle et rapport détaillé sous 48h, découvrez notre{" "}
                   <Link
                     href="/audit-code-php"
                     className="text-primary hover:underline"
@@ -407,20 +407,20 @@ export default function AuditSymfonyGratuit() {
                 <div className="rounded-lg bg-light-gray p-6">
                   <blockquote className="text-lg italic text-gray">
                     &laquo;&nbsp;Efficience IT a su rapidement comprendre nos
-                    problematiques. Comprehension approfondie de Symfony permise
+                    problématiques. Compréhension approfondie de Symfony permise
                     API performante et fiable.&nbsp;&raquo;
                   </blockquote>
                   <div className="mt-4">
                     <p className="font-semibold text-dark">Luc Delbreuil</p>
                     <p className="text-sm text-gray">
-                      Directeur General, Glasseo
+                      Directeur Général, Glasseo
                     </p>
                   </div>
                 </div>
                 <div className="mt-6 rounded-lg bg-light-gray p-6">
                   <blockquote className="text-lg italic text-gray">
-                    &laquo;&nbsp;Collaboration avec Efficience IT tres appreciee !
-                    Proximite technique et flexibilite ont produit qualite en
+                    &laquo;&nbsp;Collaboration avec Efficience IT très appréciée !
+                    Proximité technique et flexibilité ont produit qualité en
                     temps record.&nbsp;&raquo;
                   </blockquote>
                   <div className="mt-4">
@@ -436,7 +436,7 @@ export default function AuditSymfonyGratuit() {
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="h-4 w-4 text-green-600">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                     </svg>
-                    Reponse sous 48h
+                    Réponse sous 48h
                   </span>
                   <span className="flex items-center gap-1.5">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="h-4 w-4 text-green-600">

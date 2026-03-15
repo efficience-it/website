@@ -163,7 +163,7 @@ export default function NotreExpertise() {
         <Container>
           <SectionTitle>Toutes nos expertises</SectionTitle>
           <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-            Chaque service repond a un besoin precis. Des{" "}
+            Chaque service répond à un besoin précis. Des{" "}
             <Link href="/article/quels-sont-les-avantages-dun-progiciel-pour-votre-entreprise" className="text-primary hover:underline">
               progiciels sur mesure
             </Link>{" "}
@@ -171,32 +171,32 @@ export default function NotreExpertise() {
             <Link href="/article/sylius-la-solution-e-commerce-du-framework-symfony" className="text-primary hover:underline">
               plateformes e-commerce Sylius
             </Link>
-            , explorez nos pages dediees pour comprendre comment nous
-            intervenons sur votre problematique.
+            , explorez nos pages dédiées pour comprendre comment nous
+            intervenons sur votre problématique.
           </p>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <Card>
-              <h3 className="font-display text-lg font-bold text-dark">Maintenance et evolution</h3>
+              <h3 className="font-display text-lg font-bold text-dark">Maintenance et évolution</h3>
               <ul className="mt-3 space-y-2 text-gray">
-                <li><Link href="/migration-symfony" className="text-primary hover:underline">Migration Symfony</Link> : montee de version par paliers</li>
+                <li><Link href="/migration-symfony" className="text-primary hover:underline">Migration Symfony</Link> : montée de version par paliers</li>
                 <li><Link href="/modernisation-application-php" className="text-primary hover:underline">Modernisation d&apos;application PHP</Link> : du legacy vers Symfony</li>
                 <li><Link href="/reprise-projet-symfony" className="text-primary hover:underline">Reprise de projet Symfony</Link> : nous prenons le relais</li>
-                <li><Link href="/maintenance-applicative-symfony" className="text-primary hover:underline">Maintenance applicative Symfony</Link> : TMA corrective, evolutive, preventive</li>
+                <li><Link href="/maintenance-applicative-symfony" className="text-primary hover:underline">Maintenance applicative Symfony</Link> : TMA corrective, évolutive, préventive</li>
               </ul>
             </Card>
             <Card>
-              <h3 className="font-display text-lg font-bold text-dark">Qualite et architecture</h3>
+              <h3 className="font-display text-lg font-bold text-dark">Qualité et architecture</h3>
               <ul className="mt-3 space-y-2 text-gray">
                 <li><Link href="/audit-code-php" className="text-primary hover:underline">Audit de code PHP</Link> : diagnostic complet sous 48h</li>
-                <li><Link href="/audit-symfony-gratuit" className="text-primary hover:underline">Audit Symfony gratuit</Link> : 30 min pour evaluer votre application</li>
-                <li><Link href="/tests-automatises-php" className="text-primary hover:underline">Tests automatises PHP</Link> : securisez chaque livraison</li>
-                <li><Link href="/architecture-hexagonale-symfony" className="text-primary hover:underline">Architecture hexagonale Symfony</Link> : DDD applique</li>
+                <li><Link href="/audit-symfony-gratuit" className="text-primary hover:underline">Audit Symfony gratuit</Link> : 30 min pour évaluer votre application</li>
+                <li><Link href="/tests-automatises-php" className="text-primary hover:underline">Tests automatisés PHP</Link> : sécurisez chaque livraison</li>
+                <li><Link href="/architecture-hexagonale-symfony" className="text-primary hover:underline">Architecture hexagonale Symfony</Link> : DDD appliqué</li>
               </ul>
             </Card>
             <Card>
-              <h3 className="font-display text-lg font-bold text-dark">Developpement et API</h3>
+              <h3 className="font-display text-lg font-bold text-dark">Développement et API</h3>
               <ul className="mt-3 space-y-2 text-gray">
-                <li><Link href="/developpement-web-sur-mesure" className="text-primary hover:underline">Developpement web sur mesure</Link></li>
+                <li><Link href="/developpement-web-sur-mesure" className="text-primary hover:underline">Développement web sur mesure</Link></li>
                 <li><Link href="/api-sur-mesure-symfony" className="text-primary hover:underline">API sur mesure Symfony</Link></li>
                 <li><Link href="/cloud-et-devops" className="text-primary hover:underline">Cloud et DevOps</Link></li>
                 <li><Link href="/formation-symfony-entreprise" className="text-primary hover:underline">Formation Symfony entreprise</Link></li>
@@ -206,11 +206,11 @@ export default function NotreExpertise() {
               <h3 className="font-display text-lg font-bold text-dark">Intelligence artificielle</h3>
               <ul className="mt-3 space-y-2 text-gray">
                 <li><Link href="/expertise-ia" className="text-primary hover:underline">Expertise IA</Link> : LLM, RAG et assistants IA</li>
-                <li><Link href="/geo-optimisation-ia" className="text-primary hover:underline">GEO et optimisation IA</Link> : visibilite dans les moteurs IA</li>
+                <li><Link href="/geo-optimisation-ia" className="text-primary hover:underline">GEO et optimisation IA</Link> : visibilité dans les moteurs IA</li>
               </ul>
             </Card>
             <Card>
-              <h3 className="font-display text-lg font-bold text-dark">Secteurs d&apos;activite</h3>
+              <h3 className="font-display text-lg font-bold text-dark">Secteurs d&apos;activité</h3>
               <ul className="mt-3 space-y-2 text-gray">
                 <li><Link href="/secteur/e-commerce" className="text-primary hover:underline">E-commerce</Link></li>
                 <li><Link href="/secteur/industrie" className="text-primary hover:underline">Industrie</Link></li>
@@ -219,9 +219,9 @@ export default function NotreExpertise() {
               </ul>
             </Card>
             <Card>
-              <h3 className="font-display text-lg font-bold text-dark">Proximite</h3>
+              <h3 className="font-display text-lg font-bold text-dark">Proximité</h3>
               <ul className="mt-3 space-y-2 text-gray">
-                <li><Link href="/agence-symfony-lille" className="text-primary hover:underline">Agence Symfony a Lille</Link> : notre ancrage regional</li>
+                <li><Link href="/agence-symfony-lille" className="text-primary hover:underline">Agence Symfony à Lille</Link> : notre ancrage régional</li>
                 <li><Link href="/accompagnement-et-conseil" className="text-primary hover:underline">Accompagnement et conseil</Link></li>
               </ul>
             </Card>
@@ -233,7 +233,7 @@ export default function NotreExpertise() {
       <FadeIn>
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
-          <SectionTitle subtitle="Ce framework est notre coeur de metier. Choisir Symfony, c'est faire le pari de la performance, de la flexibilite et de la perennite pour vos outils digitaux. Voici pourquoi nous le preconisons :">
+          <SectionTitle subtitle="Ce framework est notre cœur de métier. Choisir Symfony, c'est faire le pari de la performance, de la flexibilité et de la pérennité pour vos outils digitaux. Voici pourquoi nous le préconisons :">
             Pourquoi Symfony ?
           </SectionTitle>
           <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
