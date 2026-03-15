@@ -54,6 +54,10 @@ Clone/reproduction de https://www.itefficience.com en Next.js.
 - Les pages `/domain/*` ne sont pas dans le sitemap (volontaire)
 - Le sitemap du live contient des pages hors périmètre (checkout, login, etc.) — on ne les reproduit pas, c'est voulu
 
+## Prompts d'audit (.docs/reference/)
+
+Le dossier `.docs/reference/` contient des prompts d'audit réutilisables : SEO, marketing, design, orthographe, accessibilité, performance, copywriting, concurrence, conversion. Quand l'utilisateur donne un retour, une contrainte ou une correction sur l'un de ces sujets, proposer de l'inscrire dans le prompt correspondant pour que les futurs audits en tiennent compte.
+
 ## Hors périmètre
 
 Ces fonctionnalités du site original ne seront pas reproduites :
