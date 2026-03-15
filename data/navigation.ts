@@ -28,6 +28,15 @@ export const mainNav: NavItem[] = [
       { label: "Jobs", href: "/ta-carriere" },
     ],
   },
+  {
+    label: "Secteurs",
+    items: [
+      { label: "E-commerce", href: "/secteur/e-commerce" },
+      { label: "Finance", href: "/secteur/finance" },
+      { label: "Industrie", href: "/secteur/industrie" },
+      { label: "SaaS", href: "/secteur/saas" },
+    ],
+  },
   { label: "Green IT", href: "/green-it" },
   { label: "Références", href: "/nos-references" },
   { label: "Blog", href: "/blog" },
@@ -50,6 +59,15 @@ export const footerNav = {
       { label: "E-commerce Sylius", href: "/ecommerce-sylius" },
       { label: "Hébergement Symfony", href: "/hebergement-symfony" },
       { label: "Nos articles", href: "/blog" },
+    ],
+  },
+  secteurs: {
+    title: "Secteurs",
+    links: [
+      { label: "E-commerce", href: "/secteur/e-commerce" },
+      { label: "Finance", href: "/secteur/finance" },
+      { label: "Industrie", href: "/secteur/industrie" },
+      { label: "SaaS", href: "/secteur/saas" },
     ],
   },
   agence: {
