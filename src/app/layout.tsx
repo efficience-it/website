@@ -118,8 +118,13 @@ export default function RootLayout({
             gtag('config', '${GA_MEASUREMENT_ID}');
           `}
         </Script>
+        <a href="#main-content" className="skip-to-content">
+          Aller au contenu
+        </a>
         <Header />
-        {children}
+        <div id="main-content">
+          {children}
+        </div>
         <Footer />
       </body>
     </html>

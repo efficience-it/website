@@ -73,7 +73,7 @@ export default function BlogPage() {
                 <Link
                   key={cat}
                   href={`/blog/${getCategorySlug(cat)}`}
-                  className="rounded-full bg-light-gray px-4 py-2 text-sm font-medium text-dark hover:bg-primary/10 hover:text-primary"
+                  className="rounded-full bg-light-gray px-4 py-2 text-sm font-medium text-dark hover:bg-primary hover:text-white transition-colors"
                 >
                   {cat}
                 </Link>

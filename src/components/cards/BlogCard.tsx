@@ -12,7 +12,7 @@ export default function BlogCard({ post, headingLevel = 3 }: BlogCardProps) {
   const Tag = `h${headingLevel}` as keyof JSX.IntrinsicElements;
 
   return (
-    <article className="overflow-hidden rounded-lg bg-white shadow-md transition-shadow hover:shadow-lg">
+    <article className="overflow-hidden rounded-lg border-t-2 border-transparent bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-lg">
       {post.image && (
         <Link href={`/article/${post.slug}`}>
           <Image

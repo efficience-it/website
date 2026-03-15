@@ -103,3 +103,32 @@ export function getCategories(): string[] {
 export function getPostsByCategory(category: string): BlogPost[] {
   return getAllPosts().filter((p) => p.category === category);
 }
+
+export interface HeadingItem {
+  id: string;
+  text: string;
+  level: number;
+}
+
+export function extractHeadings(content: string): HeadingItem[] {
+  const headingRegex = /^(#{2})\s+(.+)$/gm;
+  const headings: HeadingItem[] = [];
+  let match: RegExpExecArray | null;
+
+  while ((match = headingRegex.exec(content)) !== null) {
+    const text = match[2].trim();
+    const id = text
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
+    headings.push({
+      id,
+      text,
+      level: match[1].length,
+    });
+  }
+
+  return headings;
+}

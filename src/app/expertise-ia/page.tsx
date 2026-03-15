@@ -12,6 +12,7 @@ import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import TestimonialCard from "@/components/cards/TestimonialCard";
 import FadeIn from "@/components/ui/FadeIn";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 import { clients } from "@/../data/clients";
 import { testimonials } from "@/../data/testimonials";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
@@ -166,6 +167,7 @@ export default function ExpertiseIa() {
     <main>
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
+          <Breadcrumb items={[{ label: "Nos expertises", href: "/notre-expertise" }, { label: "Expertise IA" }]} />
           <div className="grid items-center gap-12 md:grid-cols-2">
             <div>
               <p className="text-sm font-semibold uppercase tracking-wider text-primary">
