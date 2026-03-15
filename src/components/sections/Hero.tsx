@@ -40,7 +40,7 @@ export default function Hero() {
               </Button>
             </div>
           </div>
-          <div className="flex justify-center">
+          <div className="hidden md:flex justify-center">
             <Image
               src="/images/illustrations/source-code.svg"
               alt="Développement web"

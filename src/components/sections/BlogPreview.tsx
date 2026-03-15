@@ -13,8 +13,8 @@ export default function BlogPreview() {
         <SectionTitle subtitle="Nos derniers articles">Blog</SectionTitle>
         {posts.length > 0 ? (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {posts.map((post) => (
-              <BlogCard key={post.slug} post={post} />
+            {posts.map((post, index) => (
+              <BlogCard key={post.slug} post={post} priorityImage={index < 2} />
             ))}
           </div>
         ) : (

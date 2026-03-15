@@ -13,14 +13,22 @@ export default function CallToAction() {
           entreprise ou un site internet complexe ? Efficience IT saura vous
           accompagner au mieux sur vos projets !
         </p>
-        <Button
-          href="/contact"
-          variant="outline-white"
-          size="lg"
-          className="mt-8"
-        >
-          Contactez-nous
-        </Button>
+        <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <Button
+            href="/audit-symfony-gratuit"
+            variant="outline-white"
+            size="lg"
+          >
+            Audit gratuit 30 min
+          </Button>
+          <Button
+            href="/contact"
+            variant="outline-white"
+            size="lg"
+          >
+            Contactez-nous
+          </Button>
+        </div>
       </Container>
     </section>
   );
