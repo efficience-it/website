@@ -82,7 +82,7 @@ const pourquoi = [
   {
     title: "Expertise Symfony certifiée",
     description:
-      "Nos développeurs sont certifiés Symfony et maitrisent chaque version du framework depuis Symfony 2. Nous connaissons les pièges spécifiques de chaque montée de version.",
+      "Nos développeurs sont certifiés Symfony et maîtrisent chaque version du framework depuis Symfony 2. Nous connaissons les pièges spécifiques de chaque montée de version.",
   },
   {
     title: "Expérience en architecture hexagonale",
@@ -459,7 +459,7 @@ export default function MigrationSymfony() {
                   href="/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony"
                   className="text-primary hover:underline"
                 >
-                  Rector : maitrisez l&apos;évolution de votre code Symfony
+                  Rector : maîtrisez l&apos;évolution de votre code Symfony
                 </Link>{" "}
                 , l&apos;outil indispensable pour automatiser les migrations
               </li>

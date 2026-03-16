@@ -227,7 +227,7 @@ Le choix de la région primaire impacte aussi le coût des transferts de donnée
 
 À l'échelle, la création manuelle de buckets et de distributions via la console devient un frein. Terraform permet de décrire l'ensemble de l'infrastructure (S3, CloudFront, IAM, Route 53, ACM) dans des fichiers versionnés. Chaque environnement devient reproductible, auditable et destructible en une commande. Le state Terraform, stocké lui-même dans un bucket S3 dédié, constitue la source de vérité de l'infrastructure.
 
-Cette approche transforme radicalement le workflow : créer un nouvel environnement de preview par merge request ne nécessite plus d'intervention manuelle dans la console AWS, mais un simple `terraform apply` paramétré par le nom de la branche. Ce type d'automatisation fait partie de notre offre [Cloud et DevOps](/cloud-et-devops) pour industrialiser les pipelines de déploiement.
+Cette approche transforme radicalement le workflow : créer un nouvel environnement de preview par merge request ne nécessite plus d'intervention manuelle dans la console AWS, mais un simple `terraform apply` paramétré par le nom de la branche. Ce type d'automatisation fait partie de notre offre [Cloud et DevOps](/cloud-et-devops) pour industrialiser les pipelines de déploiement. Pour les applications Symfony, notre offre d'[hébergement Symfony](/hebergement-symfony) intègre ces bonnes pratiques de déploiement automatisé dès la mise en place de l'infrastructure.
 
 ### Optimisation des coûts
 

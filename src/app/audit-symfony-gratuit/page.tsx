@@ -452,7 +452,7 @@ export default function AuditSymfonyGratuit() {
                   </span>
                 </div>
                 <p className="mt-6 text-center text-gray">
-                  Vous n&apos;etes pas sur que l&apos;audit soit adapte a votre
+                  Vous n&apos;êtes pas sûr que l&apos;audit soit adapté à votre
                   situation ?{" "}
                   <Link
                     href="/contact"

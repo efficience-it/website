@@ -439,7 +439,7 @@ export default function DeveloppementNodejs() {
                 Efficience IT est avant tout une agence Symfony. Nous avons
                 appliqué les mêmes principes d&apos;architecture à nos projets
                 Node.js : séparation des couches, injection de dépendances,
-                tests systematiques, revue de code rigoureuse.
+                tests systématiques, revue de code rigoureuse.
               </p>
               <p className="mt-4 text-lg text-gray">
                 Le résultat : des projets Node.js avec la rigueur d&apos;un

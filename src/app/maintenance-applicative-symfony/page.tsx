@@ -57,7 +57,7 @@ const slaItems = [
   {
     title: "Interlocuteur dédié",
     description:
-      "Un développeur référent qui connait votre application et votre métier. Pas de turnover, pas de perte de contexte à chaque demande.",
+      "Un développeur référent qui connaît votre application et votre métier. Pas de turnover, pas de perte de contexte à chaque demande.",
   },
 ];
 
@@ -97,7 +97,7 @@ const faqItems = [
   {
     title: "Pouvez-vous maintenir une application que vous n'avez pas développée ?",
     content:
-      "Oui, c'est même une situation fréquente. Nous commençons par un audit pour comprendre l'architecture, la qualité du code et les zones de risque. En quelques semaines, notre équipe maitrise le projet suffisamment pour intervenir efficacement.",
+      "Oui, c'est même une situation fréquente. Nous commençons par un audit pour comprendre l'architecture, la qualité du code et les zones de risque. En quelques semaines, notre équipe maîtrise le projet suffisamment pour intervenir efficacement.",
   },
   {
     title: "Quelle version minimale de Symfony prenez-vous en charge ?",
@@ -189,7 +189,7 @@ export default function MaintenanceApplicativeSymfony() {
                   <strong>maintenance applicative</strong> de vos projets Symfony :
                   correction de bugs, évolutions fonctionnelles, mises à jour de sécurité
                   et monitoring. Un interlocuteur dédié, des SLA clairs, et une équipe
-                  qui connait votre code.
+                  qui connaît votre code.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   <Button href="/audit-symfony-gratuit">
