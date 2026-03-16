@@ -10,7 +10,7 @@ proficiencyLevel: "Expert"
 
 Tu ouvres Claude Code sur ton projet Symfony. Tu lui demandes de créer un use case. Il te génère un service avec 15 dépendances, des annotations Doctrine dans le domaine, et un contrôleur de 200 lignes. Exactement ce que tu passes tes journées à corriger en code review. Et sur un projet legacy, cette [dette technique accumulée](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) ne fait que s'aggraver si l'IA la reproduit.
 
-Le problème n'est pas Claude. C'est que Claude ne connaît pas ton architecture. Il génère du code Symfony "standard" parce que c'est ce qu'il a vu le plus souvent. Ton archi hexagonale, tes conventions DDD, tes règles sur les repositories Doctrine : il ne les connaît pas tant que tu ne les lui expliques pas.
+Le problème n'est pas Claude. C'est que Claude ne connaît pas ton architecture. Il génère du code Symfony "standard" parce que c'est ce qu'il a vu le plus souvent. Quand il s'agit de [reprise de projet Symfony](/reprise-projet-symfony), ce décalage entre le code généré et l'architecture existante est encore plus problématique. Ton archi hexagonale, tes conventions DDD, tes règles sur les repositories Doctrine : il ne les connaît pas tant que tu ne les lui expliques pas.
 
 La solution s'appelle `CLAUDE.md`. Un fichier à la racine de ton projet que Claude Code lit automatiquement à chaque session. C'est ton onboarding permanent. Et bien configuré, il transforme Claude en assistant qui respecte ton archi dès la première ligne de code.
 

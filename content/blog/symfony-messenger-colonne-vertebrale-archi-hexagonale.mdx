@@ -219,7 +219,7 @@ final readonly class UpdateSalesStatistics
 }
 ```
 
-Par défaut, les events devraient être **asynchrones**. C'est le cas d'usage naturel : la validation de la commande n'a pas besoin d'attendre que l'email soit envoyé. Configure le routing dans `messenger.yaml` :
+Par défaut, les events devraient être **asynchrones**. C'est le cas d'usage naturel, et c'est exactement ce qui rend Messenger indispensable pour les [applications industrielles](/secteur/industrie) qui orchestrent des workflows complexes entre plusieurs systèmes : la validation de la commande n'a pas besoin d'attendre que l'email soit envoyé. Configure le routing dans `messenger.yaml` :
 
 ```yaml
 framework:

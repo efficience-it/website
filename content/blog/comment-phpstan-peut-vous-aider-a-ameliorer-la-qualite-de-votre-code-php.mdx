@@ -87,7 +87,7 @@ function findUser(int $id): User
 
 Si `find()` retourne `User|null`, PHPStan détecte l'incohérence. En production, c'est un crash sur le premier appel avec un ID invalide.
 
-PHPStan excelle aussi à repérer le [code mort dans vos projets](/article/code-mort-mission-elimination), ces branches jamais atteintes qui alourdissent la base de code.
+PHPStan excelle aussi à repérer le [code mort dans vos projets](/article/code-mort-mission-elimination), ces branches jamais atteintes qui alourdissent la base de code. Coupler PHPStan avec des [tests automatises](/tests-automatises-php) garantit une couverture maximale des erreurs, tant structurelles que comportementales.
 
 Une condition dupliquée, signe de copier-coller :
 
