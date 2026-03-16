@@ -14,7 +14,7 @@ export const metadata = pageMetadata({
   title:
     "Architecture hexagonale avec Symfony : Domain-Driven Design appliqué",
   description:
-    "Structurez vos applications Symfony avec l'architecture hexagonale et le Domain-Driven Design. Principes, avantages, retours d'experience et accompagnement par Efficience IT.",
+    "Structurez vos applications Symfony avec l'architecture hexagonale et le Domain-Driven Design. Principes, avantages, retours d'expérience et accompagnement par Efficience IT.",
   path: "/architecture-hexagonale-symfony",
 });
 
@@ -176,7 +176,7 @@ const service = serviceJsonLd({
 const webPage = webPageJsonLd({
   name: "Architecture hexagonale avec Symfony : Domain-Driven Design appliqué",
   description:
-    "Structurez vos applications Symfony avec l'architecture hexagonale et le Domain-Driven Design. Principes, avantages, retours d'experience et accompagnement par Efficience IT.",
+    "Structurez vos applications Symfony avec l'architecture hexagonale et le Domain-Driven Design. Principes, avantages, retours d'expérience et accompagnement par Efficience IT.",
   path: "/architecture-hexagonale-symfony",
   datePublished: "2026-03-12",
   dateModified: "2026-03-12",
@@ -287,7 +287,7 @@ export default function ArchitectureHexagonaleSymfony() {
             </div>
             <p className="mt-10 text-center text-lg text-gray">
               Pour approfondir ces principes, consultez notre retour
-              d&apos;experience sur la{" "}
+              d&apos;expérience sur la{" "}
               <Link
                 href="/article/migration-symfony-architecture-hexagonale-retour-mission"
                 className="text-primary hover:underline"

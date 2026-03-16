@@ -197,12 +197,12 @@ export default function RepriseProjetSymfony() {
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
                   Votre prestataire a disparu ? Votre application Symfony n&apos;est plus maintenue ?
-                  Vous héritez d&apos;un code que personne ne maitrise vraiment ?
+                  Vous héritez d&apos;un code que personne ne maîtrise vraiment ?
                 </p>
                 <p className="mt-4 max-w-3xl text-lg text-gray">
-                  Efficience IT reprend les projets Symfony en difficulte. Nous
+                  Efficience IT reprend les projets Symfony en difficulté. Nous
                   commençons par un{" "}
-                  <strong>audit technique honnete</strong>, puis nous
+                  <strong>audit technique honnête</strong>, puis nous
                   stabilisons, documentons et faisons évoluer votre application
                   pour qu&apos;elle redevienne un actif fiable plutôt qu&apos;un boulet.
                 </p>

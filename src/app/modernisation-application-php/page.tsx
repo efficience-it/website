@@ -36,7 +36,7 @@ const risks = [
   {
     title: "Performance dégradée",
     description:
-      "Les anciennes versions de PHP et les architectures non optimisées entrainent des temps de réponse élevés et une mauvaise expérience utilisateur.",
+      "Les anciennes versions de PHP et les architectures non optimisées entraînent des temps de réponse élevés et une mauvaise expérience utilisateur.",
   },
   {
     title: "Difficulté de recrutement",
@@ -79,7 +79,7 @@ const targets = [
   {
     title: "Applications internes sur mesure",
     description:
-      "Outils métier développés en interne il y a 10 ou 15 ans, sans tests, sans documentation, avec un seul développeur qui en connait encore le fonctionnement.",
+      "Outils métier développés en interne il y a 10 ou 15 ans, sans tests, sans documentation, avec un seul développeur qui en connaît encore le fonctionnement.",
   },
 ];
 
@@ -339,7 +339,7 @@ export default function ModernisationApplicationPhp() {
             <SectionTitle>Notre méthode de modernisation</SectionTitle>
             <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
               Nous suivons un processus éprouvé, adapté à chaque projet. Pas de
-              réécriture totale risquée : une progression maitrisée, avec des
+              réécriture totale risquée : une progression maîtrisée, avec des
               livrables à chaque étape.
             </p>
             <div className="mt-12 space-y-8">

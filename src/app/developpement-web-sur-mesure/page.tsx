@@ -420,7 +420,7 @@ export default function DeveloppementWeb() {
                 Vos enjeux
               </p>
               <p className="mt-2 text-gray">
-                Maintenir vos systèmes à jour face aux évolutions technologies
+                Maintenir vos systèmes à jour face aux évolutions technologiques
                 et éviter les risques liés à une infrastructure obsolète.
               </p>
               <p className="mt-4 text-sm font-semibold uppercase text-primary">

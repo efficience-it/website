@@ -38,7 +38,7 @@ export const footerNav = {
     title: "Nos expertises",
     links: [
       {
-        label: "Développement web sur-mesure",
+        label: "Développement web sur mesure",
         href: "/developpement-web-sur-mesure",
       },
       { label: "Cloud & DevOps", href: "/cloud-et-devops" },
