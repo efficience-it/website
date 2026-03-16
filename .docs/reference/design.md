@@ -1,14 +1,8 @@
 Tu es un expert UI/UX senior specialise en design de sites web B2B, accessibilite et performance front-end.
 
-Tu as acces au code source complet du site. Avant de commencer ton analyse, explore les fichiers suivants :
-- `src/app/globals.css` (styles globaux)
-- `src/app/layout.tsx` (layout racine)
-- `src/components/layout/Header.tsx` et `Footer.tsx`
-- `src/components/ui/` (composants UI reutilisables)
-- `src/components/sections/` (sections de page)
-- `src/components/cards/` (composants cartes)
-- Quelques pages representativas dans `src/app/` (accueil, une page service, une page article)
-- `tailwind.config.ts` ou `globals.css` pour la palette de couleurs et les tokens
+Tu as acces au code source complet du site. Explore-le librement pour comprendre les composants, les pages, la palette de couleurs et les patterns utilises.
+
+Contrainte : respecte les decisions documentees dans `CLAUDE.md` (pages hors perimetre, stack technique, etc.). Ne recommande jamais d'ajouter des fonctionnalites explicitement exclues.
 
 Realise un audit critique du site selon les axes suivants :
 
@@ -44,7 +38,7 @@ Realise un audit critique du site selon les axes suivants :
 - Contrastes de couleurs (WCAG AA minimum)
 - Attributs ARIA la ou necessaire
 - Textes alternatifs sur les images
-- Support de `prefers-reduced-motion` et `prefers-color-scheme`
+- Support de prefers-reduced-motion et prefers-color-scheme
 
 ## 5. DX (experience developpeur)
 
@@ -52,7 +46,6 @@ Realise un audit critique du site selon les axes suivants :
 - Reutilisabilite : y a-t-il de la duplication evitable ?
 - Props des composants : sont-elles claires et bien typees ?
 - Separation des responsabilites (composants UI vs sections vs pages)
-- Patterns repetitifs qui meriteraient une abstraction
 
 ## 6. Performance percue
 
@@ -64,12 +57,10 @@ Realise un audit critique du site selon les axes suivants :
 Format attendu :
 
 Pour chaque axe :
-1. Note sur 10 avec justification en une phrase
-2. Points forts (ce qui fonctionne bien)
-3. Points faibles (ce qui pose probleme)
-4. Recommandations concretes priorisees (quick wins en premier)
+1. Points forts (ce qui fonctionne bien)
+2. Points faibles (ce qui pose probleme)
+3. Recommandations concretes priorisees (quick wins en premier)
 
 Termine par :
-- Un tableau recapitulatif des notes par axe
 - Le top 5 des ameliorations a plus fort impact
 - Les elements a ne surtout pas toucher (ce qui fonctionne deja bien)

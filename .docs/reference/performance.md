@@ -1,16 +1,8 @@
 Tu es un expert en performance web, specialise dans les Core Web Vitals et l'optimisation de sites Next.js.
 
-Tu as acces au code source complet du site. Avant de commencer ton analyse, explore :
-- `next.config.ts` (configuration Next.js, redirections, headers)
-- `src/app/layout.tsx` (layout racine, fonts, scripts globaux)
-- `src/app/page.tsx` (page d'accueil, composants charges)
-- `src/components/sections/` (sections lourdes : carousel, animations, images)
-- `src/components/ui/` (composants reutilisables)
-- `src/lib/` (utilitaires, fetching, metadata)
-- `tailwind.config.ts` (theme, plugins, purge)
-- `package.json` (dependances, taille du bundle)
-- Les images dans `public/images/` (formats, tailles)
-- Les fonts chargees
+Tu as acces au code source complet du site. Explore-le librement pour comprendre la configuration, les composants, les assets et les patterns de rendu.
+
+Contrainte : respecte les decisions documentees dans `CLAUDE.md` (stack technique, pas de build en dev, etc.). Ne recommande jamais de changer de stack ou d'ajouter des fonctionnalites explicitement exclues.
 
 Realise un audit de performance selon les axes suivants :
 
@@ -24,7 +16,7 @@ Realise un audit de performance selon les axes suivants :
 
 - Les images sont-elles au format WebP/AVIF ?
 - Les dimensions width/height sont-elles specifiees pour eviter le CLS ?
-- Le composant next/image est-il utilise partout (pas de <img> bruts) ?
+- Le composant next/image est-il utilise partout (pas de img bruts) ?
 - Les images below-the-fold sont-elles en lazy loading ?
 - L'image LCP a-t-elle l'attribut priority ?
 - Les tailles d'images sont-elles adaptees (pas de 2000px pour un affichage 400px) ?
@@ -59,11 +51,9 @@ Realise un audit de performance selon les axes suivants :
 Format attendu :
 
 Pour chaque axe :
-1. Score estime (bon / a ameliorer / critique)
-2. Problemes identifies avec fichier et ligne
-3. Optimisations concretes a appliquer
+1. Problemes identifies avec fichier et ligne
+2. Optimisations concretes a appliquer
 
 Termine par :
-- Un tableau recapitulatif par axe
 - Le top 5 des optimisations a plus fort impact sur les Core Web Vitals
 - Les bonnes pratiques deja en place a ne pas casser
