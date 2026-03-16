@@ -1,0 +1,59 @@
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
+
+const CONTENT_DIR = path.join(process.cwd(), "content/blog");
+
+const VALID_CATEGORIES = [
+  "Symfony",
+  "Formation",
+  "Projet",
+  "IA",
+  "DevOps",
+  "Agence",
+  "JavaScript",
+  "Green IT",
+  "Securite",
+];
+
+function getBlogFiles(): string[] {
+  return fs
+    .readdirSync(CONTENT_DIR)
+    .filter((f) => f.endsWith(".mdx"));
+}
+
+describe("Blog front matter", () => {
+  const files = getBlogFiles();
+
+  it.each(files)("%s has required front matter fields", (file) => {
+    const content = fs.readFileSync(path.join(CONTENT_DIR, file), "utf-8");
+    const { data } = matter(content);
+
+    expect(data.title).toBeDefined();
+    expect(data.date).toBeDefined();
+    expect(data.category).toBeDefined();
+    expect(data.excerpt).toBeDefined();
+    expect(data.image).toBeDefined();
+  });
+
+  it.each(files)("%s has a valid category", (file) => {
+    const content = fs.readFileSync(path.join(CONTENT_DIR, file), "utf-8");
+    const { data } = matter(content);
+
+    expect(VALID_CATEGORIES).toContain(data.category);
+  });
+
+  it.each(files)("%s has a date in YYYY-MM-DD format", (file) => {
+    const content = fs.readFileSync(path.join(CONTENT_DIR, file), "utf-8");
+    const { data } = matter(content);
+
+    expect(String(data.date)).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+  });
+
+  it.each(files)("%s has a non-empty title", (file) => {
+    const content = fs.readFileSync(path.join(CONTENT_DIR, file), "utf-8");
+    const { data } = matter(content);
+
+    expect(data.title.trim().length).toBeGreaterThan(0);
+  });
+});
