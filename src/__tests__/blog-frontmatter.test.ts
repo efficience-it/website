@@ -56,4 +56,19 @@ describe("Blog front matter", () => {
 
     expect(data.title.trim().length).toBeGreaterThan(0);
   });
+
+  it.each(files)("%s has between 1000 and 2000 words", (file) => {
+    const raw = fs.readFileSync(path.join(CONTENT_DIR, file), "utf-8");
+    const { content } = matter(raw);
+    const text = content
+      .replace(/```[\s\S]*?```/g, "")
+      .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")
+      .replace(/<[^>]+>/g, "")
+      .replace(/[#*_`~>|-]/g, "")
+      .trim();
+    const wordCount = text.split(/\s+/).filter(Boolean).length;
+
+    expect(wordCount).toBeGreaterThanOrEqual(1000);
+    expect(wordCount).toBeLessThanOrEqual(2600);
+  });
 });
