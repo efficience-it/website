@@ -12,7 +12,7 @@ Soyons honnêtes : écrire une commande Symfony, c'est toujours le même rituel.
 
 Depuis Symfony 7.3, ce rituel est terminé. Les **commandes invocables** permettent d'écrire une commande console en une seule méthode `__invoke()`, avec des attributs PHP natifs pour déclarer les arguments, les options et même les questions interactives. Plus besoin d'étendre `Command`. Plus besoin de `configure()`. Les types PHP font le travail.
 
-C'est probablement la plus grosse refonte DX de la Console depuis sa création — et pourtant, presque personne n'en parle.
+C'est probablement la plus grosse refonte DX de la Console depuis sa création, et pourtant, presque personne n'en parle.
 
 ## Le problème : trois méthodes pour une seule commande
 
@@ -208,7 +208,7 @@ La méthode marquée `#[Interact]` est appelée automatiquement avant `__invoke(
 
 ## `#[MapInput]` : regroupez vos inputs dans un DTO
 
-Pour les commandes avec beaucoup de paramètres, `#[MapInput]` permet de les regrouper dans un objet dédié — exactement comme `#[MapRequestPayload]` le fait pour les contrôleurs HTTP.
+Pour les commandes avec beaucoup de paramètres, `#[MapInput]` permet de les regrouper dans un objet dédié, exactement comme `#[MapRequestPayload]` le fait pour les contrôleurs HTTP.
 
 ```php
 class UserInput
@@ -336,13 +336,13 @@ Si vous êtes en train de [migrer votre projet vers Symfony 7.4](/article/guide-
 
 Les commandes invocables ne sont pas un cas isolé. Elles s'inscrivent dans un mouvement plus large : Symfony migre progressivement vers des **attributs PHP natifs** comme interface principale de configuration. On le voit avec `#[MapRequestPayload]` et `#[MapQueryString]` dans les contrôleurs, avec `#[AsMessage]` dans Messenger, avec `#[IsGranted]` en Security. La Console était le dernier bastion du "configure tout dans une méthode dédiée". Ce n'est plus le cas.
 
-Si vous avez un projet Symfony en production, cette tendance est un signal clair. Les futures fonctionnalités de Symfony seront conçues "attributs first". Adopter cette syntaxe dès maintenant, c'est s'assurer que votre codebase reste idiomatique et prête pour les évolutions à venir. Et si vos commandes actuelles ressemblent encore à du Symfony 3, c'est peut-être le moment de faire le point. Le composant Console a aussi été retravaillé en profondeur dans [JsonStreamer](/article/migrer-du-serializer-vers-json-streamer-le-guide-honnete) et dans [Messenger](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) — la modernisation se fait composant par composant.
+Si vous avez un projet Symfony en production, cette tendance est un signal clair. Les futures fonctionnalités de Symfony seront conçues "attributs first". Adopter cette syntaxe dès maintenant, c'est s'assurer que votre codebase reste idiomatique et prête pour les évolutions à venir. Et si vos commandes actuelles ressemblent encore à du Symfony 3, c'est peut-être le moment de faire le point. Le composant Console a aussi été retravaillé en profondeur dans [JsonStreamer](/article/migrer-du-serializer-vers-json-streamer-le-guide-honnete) et dans [Messenger](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale). La modernisation se fait composant par composant.
 
 ## Pour aller plus loin
 
-- [Migrer du Serializer vers JsonStreamer : le guide honnête](/article/migrer-du-serializer-vers-json-streamer-le-guide-honnete) — une autre refonte majeure de Symfony 7.3+
-- [Symfony Messenger comme colonne vertébrale d'une archi hexagonale](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) — combinez commandes invocables et Messenger pour vos workers
-- [Pourquoi ton Domain ne devrait jamais connaître Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony) — les DTOs `#[MapInput]` s'inscrivent dans cette philosophie
-- [Les certifications Symfony, Twig & Sylius](/article/les-certifications-symfony-twig-symfony-sylius) — la Console fait partie de l'examen
-- [Documentation officielle — Console Commands](https://symfony.com/doc/current/console.html) — la référence Symfony
-- [PR originale — Invokable commands](https://github.com/symfony/symfony/pull/61748) — la PR de Kevin Bond qui a lancé le mouvement
+- [Migrer du Serializer vers JsonStreamer : le guide honnête](/article/migrer-du-serializer-vers-json-streamer-le-guide-honnete) : une autre refonte majeure de Symfony 7.3+
+- [Symfony Messenger comme colonne vertébrale d'une archi hexagonale](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) : combinez commandes invocables et Messenger pour vos workers
+- [Pourquoi ton Domain ne devrait jamais connaître Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony) : les DTOs `#[MapInput]` s'inscrivent dans cette philosophie
+- [Les certifications Symfony, Twig & Sylius](/article/les-certifications-symfony-twig-symfony-sylius) : la Console fait partie de l'examen
+- [Documentation officielle : Console Commands](https://symfony.com/doc/current/console.html) : la référence Symfony
+- [PR originale : Invokable commands](https://github.com/symfony/symfony/pull/61748) : la PR de Kevin Bond qui a lancé le mouvement
