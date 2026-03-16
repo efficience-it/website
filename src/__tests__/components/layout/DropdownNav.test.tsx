@@ -3,17 +3,21 @@ import DropdownNav from "@/components/layout/DropdownNav";
 import { NavDropdown } from "@/types/navigation";
 
 jest.mock("next/link", () => {
-  const React = require("react");
-  return React.forwardRef(
-    (
+  const React = jest.requireActual("react");
+  const MockLink = React.forwardRef(
+    function MockLink(
       props: React.AnchorHTMLAttributes<HTMLAnchorElement>,
       ref: React.Ref<HTMLAnchorElement>,
-    ) => (
-      <a ref={ref} {...props}>
-        {props.children}
-      </a>
-    ),
+    ) {
+      return (
+        <a ref={ref} {...props}>
+          {props.children}
+        </a>
+      );
+    },
   );
+  MockLink.displayName = "MockLink";
+  return MockLink;
 });
 
 const item: NavDropdown = {

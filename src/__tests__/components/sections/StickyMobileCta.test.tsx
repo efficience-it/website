@@ -1,7 +1,10 @@
 import { render, screen, act } from "@testing-library/react";
 
 jest.mock("next/link", () => {
-  return ({ href, children, ...props }: any) => <a href={href} {...props}>{children}</a>;
+  function MockLink({ href, children, ...props }: { href: string; children: React.ReactNode; [key: string]: unknown }) {
+    return <a href={href} {...props}>{children}</a>;
+  }
+  return MockLink;
 });
 
 import StickyMobileCta from "@/components/sections/StickyMobileCta";
@@ -13,7 +16,7 @@ beforeEach(() => {
   intersectionCallbacks = [];
   mockDisconnect.mockClear();
   document.querySelectorAll("[data-cta-section]").forEach((el) => el.remove());
-  (global as any).IntersectionObserver = jest.fn((cb: IntersectionObserverCallback) => {
+  (global as unknown as Record<string, unknown>).IntersectionObserver = jest.fn((cb: IntersectionObserverCallback) => {
     intersectionCallbacks.push(cb);
     return { observe: jest.fn(), unobserve: jest.fn(), disconnect: mockDisconnect };
   });
@@ -48,8 +51,8 @@ describe("StickyMobileCta", () => {
 
     act(() => {
       getLastCallback()(
-        [{ isIntersecting: true }] as any,
-        {} as any,
+        [{ isIntersecting: true }] as unknown as IntersectionObserverEntry[],
+        {} as unknown as IntersectionObserver,
       );
     });
 
@@ -66,11 +69,11 @@ describe("StickyMobileCta", () => {
     const cb = getLastCallback();
 
     act(() => {
-      cb([{ isIntersecting: true }] as any, {} as any);
+      cb([{ isIntersecting: true }] as unknown as IntersectionObserverEntry[], {} as unknown as IntersectionObserver);
     });
 
     act(() => {
-      cb([{ isIntersecting: false }] as any, {} as any);
+      cb([{ isIntersecting: false }] as unknown as IntersectionObserverEntry[], {} as unknown as IntersectionObserver);
     });
 
     const container = screen.getByRole("link").parentElement;
@@ -78,9 +81,10 @@ describe("StickyMobileCta", () => {
   });
 
   it("does not create component observer when no targets exist", () => {
-    const constructorCalls = (global as any).IntersectionObserver.mock.calls.length;
+    const mockIO = (global as unknown as Record<string, unknown>).IntersectionObserver as jest.Mock;
+    const constructorCalls = mockIO.mock.calls.length;
     render(<StickyMobileCta />);
-    const newCalls = (global as any).IntersectionObserver.mock.calls.length - constructorCalls;
+    const newCalls = mockIO.mock.calls.length - constructorCalls;
     expect(newCalls).toBeLessThanOrEqual(1);
   });
 
@@ -95,12 +99,12 @@ describe("StickyMobileCta", () => {
   });
 
   it("does nothing when IntersectionObserver is undefined", () => {
-    const saved = (global as any).IntersectionObserver;
-    (global as any).IntersectionObserver = undefined;
+    const saved = (global as unknown as Record<string, unknown>).IntersectionObserver;
+    (global as unknown as Record<string, unknown>).IntersectionObserver = undefined;
 
     const { container } = render(<StickyMobileCta />);
     expect(container.querySelector("a")).toHaveAttribute("href", "/audit-symfony-gratuit");
 
-    (global as any).IntersectionObserver = saved;
+    (global as unknown as Record<string, unknown>).IntersectionObserver = saved;
   });
 });

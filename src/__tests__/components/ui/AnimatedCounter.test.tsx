@@ -11,7 +11,7 @@ beforeEach(() => {
   mockObserve.mockClear();
   mockUnobserve.mockClear();
   mockDisconnect.mockClear();
-  (global as any).IntersectionObserver = jest.fn((cb) => {
+  (global as unknown as Record<string, unknown>).IntersectionObserver = jest.fn((cb) => {
     intersectionCallback = cb;
     return { observe: mockObserve, unobserve: mockUnobserve, disconnect: mockDisconnect };
   });
@@ -53,8 +53,8 @@ describe("AnimatedCounter", () => {
 
     act(() => {
       intersectionCallback(
-        [{ isIntersecting: true }] as any,
-        {} as any,
+        [{ isIntersecting: true }] as unknown as IntersectionObserverEntry[],
+        {} as unknown as IntersectionObserver,
       );
     });
 
@@ -67,8 +67,8 @@ describe("AnimatedCounter", () => {
 
     act(() => {
       intersectionCallback(
-        [{ isIntersecting: false }] as any,
-        {} as any,
+        [{ isIntersecting: false }] as unknown as IntersectionObserverEntry[],
+        {} as unknown as IntersectionObserver,
       );
     });
 
@@ -84,13 +84,13 @@ describe("AnimatedCounter", () => {
     render(<AnimatedCounter value={50} duration={2000} />);
 
     act(() => {
-      intersectionCallback([{ isIntersecting: true }] as any, {} as any);
+      intersectionCallback([{ isIntersecting: true }] as unknown as IntersectionObserverEntry[], {} as unknown as IntersectionObserver);
     });
 
     rafSpy.mockClear();
 
     act(() => {
-      intersectionCallback([{ isIntersecting: true }] as any, {} as any);
+      intersectionCallback([{ isIntersecting: true }] as unknown as IntersectionObserverEntry[], {} as unknown as IntersectionObserver);
     });
 
     expect(rafSpy).not.toHaveBeenCalled();
@@ -106,7 +106,7 @@ describe("AnimatedCounter", () => {
     const { container } = render(<AnimatedCounter value={100} duration={2000} />);
 
     act(() => {
-      intersectionCallback([{ isIntersecting: true }] as any, {} as any);
+      intersectionCallback([{ isIntersecting: true }] as unknown as IntersectionObserverEntry[], {} as unknown as IntersectionObserver);
     });
 
     const startTime = performance.now();
@@ -129,9 +129,9 @@ describe("AnimatedCounter", () => {
   it("returns false from server snapshot", () => {
     const origUseSyncExternalStore = jest.requireActual("react").useSyncExternalStore;
     let capturedServerSnapshot: (() => boolean) | undefined;
-    const react = require("react");
+    const react = jest.requireActual("react") as Record<string, unknown>;
     const original = react.useSyncExternalStore;
-    react.useSyncExternalStore = (subscribe: any, getSnapshot: any, getServerSnapshot: any) => {
+    react.useSyncExternalStore = (subscribe: () => void, getSnapshot: () => boolean, getServerSnapshot?: () => boolean) => {
       if (getServerSnapshot && !capturedServerSnapshot) {
         capturedServerSnapshot = getServerSnapshot;
       }
