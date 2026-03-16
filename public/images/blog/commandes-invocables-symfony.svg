@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <g opacity="0.06">
+    <text x="60" y="100" font-family="monospace" font-size="13" fill="#94a3b8">class CreateUserCommand extends Command</text>
+    <text x="60" y="125" font-family="monospace" font-size="13" fill="#94a3b8">{</text>
+    <text x="60" y="150" font-family="monospace" font-size="13" fill="#f87171">    protected function configure(): void</text>
+    <text x="60" y="175" font-family="monospace" font-size="13" fill="#f87171">    protected function execute(): int</text>
+    <text x="60" y="200" font-family="monospace" font-size="13" fill="#94a3b8">}</text>
+    <text x="700" y="430" font-family="monospace" font-size="13" fill="#4ade80">#[AsCommand('app:create-user')]</text>
+    <text x="700" y="455" font-family="monospace" font-size="13" fill="#4ade80">function __invoke(</text>
+    <text x="700" y="480" font-family="monospace" font-size="13" fill="#4ade80">    #[Argument] string $name,</text>
+    <text x="700" y="505" font-family="monospace" font-size="13" fill="#4ade80">    #[Option] bool $admin = false,</text>
+    <text x="700" y="530" font-family="monospace" font-size="13" fill="#4ade80">): int</text>
+  </g>
+  <line x1="500" y1="130" x2="580" y2="200" stroke="#f87171" stroke-width="2" opacity="0.1"/>
+  <line x1="500" y1="200" x2="580" y2="130" stroke="#f87171" stroke-width="2" opacity="0.1"/>
+  <circle cx="1050" cy="150" r="80" fill="#4ade80" opacity="0.04"/>
+  <circle cx="150" cy="500" r="60" fill="#a78bfa" opacity="0.04"/>
+  <text x="600" y="240" text-anchor="middle" font-family="system-ui,sans-serif" font-size="22" font-weight="600" fill="#94a3b8" letter-spacing="4">SYMFONY 7.3+</text>
+  <text x="600" y="310" text-anchor="middle" font-family="system-ui,sans-serif" font-size="48" font-weight="800" fill="#f8fafc">Commandes</text>
+  <text x="600" y="375" text-anchor="middle" font-family="system-ui,sans-serif" font-size="48" font-weight="800" fill="#4ade80">invocables</text>
+  <rect x="440" y="405" width="320" height="3" rx="1.5" fill="#4ade80" opacity="0.5"/>
+  <text x="600" y="450" text-anchor="middle" font-family="system-ui,sans-serif" font-size="18" fill="#64748b">Fini le boilerplate, place aux attributs</text>
+  <text x="600" y="570" text-anchor="middle" font-family="system-ui,sans-serif" font-size="16" fill="#475569" letter-spacing="2">EFFICIENCE IT</text>
+</svg>
