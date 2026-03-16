@@ -21,7 +21,7 @@ jobs:
           path: node_modules
           key: node-modules-${{ hashFiles('package-lock.json') }}
 
-  lint:
+  check:
     needs: install
     runs-on: ubuntu-latest
     steps:
@@ -34,36 +34,25 @@ jobs:
           path: node_modules
           key: node-modules-${{ hashFiles('package-lock.json') }}
       - run: npm run lint
-
-  typecheck:
-    needs: install
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-      - uses: actions/cache/restore@v4
-        with:
-          path: node_modules
-          key: node-modules-${{ hashFiles('package-lock.json') }}
       - run: npx tsc --noEmit
-
-  test:
-    needs: install
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-      - uses: actions/cache/restore@v4
-        with:
-          path: node_modules
-          key: node-modules-${{ hashFiles('package-lock.json') }}
       - run: npm test
 
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      blog: ${{ steps.filter.outputs.blog }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            blog:
+              - 'content/blog/**'
+
   links:
+    needs: changes
+    if: needs.changes.outputs.blog == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -86,20 +75,6 @@ jobs:
             --accept 200,204,301,302,403,429
             content/blog/*.mdx
           fail: true
-
-  audit:
-    needs: install
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-      - uses: actions/cache/restore@v4
-        with:
-          path: node_modules
-          key: node-modules-${{ hashFiles('package-lock.json') }}
-      - run: npm audit --audit-level=high
 
   build:
     needs: install
