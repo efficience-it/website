@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
