@@ -1,62 +1,92 @@
 ---
 title: "PHP 9.0 : nouveautés, changements majeurs et impacts à venir"
 date: "2025-05-06"
-updatedAt: "2026-03-01"
-author: "Louis-Arnaud Catoire"
+updatedAt: "2026-03-16"
+author: "Florian Chenot"
 category: "Projet"
-excerpt: "PHP 9.0 introduit des changements majeurs : typage plus strict, suppression des fonctionnalités obsolètes et améliorations de sécurité. Ce qu'il faut savoir."
+excerpt: "PHP 9.0 supprimera toutes les dépréciations accumulées depuis PHP 8.1. Typage plus strict, fin des comportements implicites, suppressions massives : ce qu'il faut savoir pour préparer vos projets."
 image: "/images/blog/php-9.webp"
 ---
 
-PHP 9.0 marque une rupture assumée avec l'héritage permissif du langage. Chaque version majeure depuis PHP 7 a resserré les contraintes de typage, durci la gestion d'erreurs et nettoyé l'API standard. Cette évolution s'inscrit dans la continuité des [PSRs, ces standards de l'écosystème PHP](/article/qu-est-ce-que-les-psrs-et-a-quoi-servent-ils) qui ont progressivement homogénéisé les pratiques de développement. La version 9 pousse cette logique à son terme : les comportements implicites tolérés depuis des années deviennent des erreurs, les fonctions ambiguës sont scindées ou supprimées, et le modèle d'exécution s'ouvre à la concurrence. Ce tour d'horizon couvre les changements concrets, les stratégies de migration et les implications architecturales pour les projets de grande envergure.
+PHP 9.0 n'a pas encore de date de sortie officielle. La prochaine version sera PHP 8.6, prévue fin 2026. Mais PHP 9 se dessine déjà clairement : chaque version 8.x accumule des dépréciations qui seront transformées en erreurs ou supprimées dans la prochaine version majeure. L'approche est la même depuis PHP 7 : durcissement progressif du typage, promotion des warnings en erreurs, nettoyage de l'API standard. Cette évolution s'inscrit dans la continuité des [PSRs, ces standards de l'écosystème PHP](/article/qu-est-ce-que-les-psrs-et-a-quoi-servent-ils) qui ont progressivement homogénéisé les pratiques de développement.
 
-## Ce qui casse : les suppressions et durcissements à connaître
+En attendant PHP 9, l'écosystème ne reste pas immobile. PHP 8.5 (novembre 2025) a introduit le pipe operator (`|>`), et PHP 8.6 apportera le partial function application, qui permet de créer des références à des fonctions avec certains paramètres pré-remplis. Ces ajouts syntaxiques préparent le terrain pour un langage de plus en plus expressif.
 
-### Opérateurs ++ et -- sur les types non-entiers
+Cet article recense les changements confirmés (dépréciations votées et acceptées) et les tendances probables. Il sera mis à jour au fur et à mesure des votes RFC.
 
-PHP autorisait l'incrémentation de chaînes (`'a9'++`), de `null` ou de `false` via une coercion implicite vers un entier. Ce mécanisme produisait des résultats incohérents et difficilement débuggables. PHP 9.0 lève une `TypeError` dans tous ces cas. La fonction `str_increment()`, introduite en PHP 8.3, couvre le cas légitime de l'incrémentation alphabétique.
+## Ce qui sera supprimé : les dépréciations confirmées
 
-### Fin de la promotion implicite de false en tableau
+Les [dépréciations votées en PHP 8.5](https://wiki.php.net/rfc/deprecations_php_8_5) seront supprimées en PHP 9.0, comme celles votées en PHP 8.4 avant elles. Voici les plus impactantes pour les projets Symfony et PHP en général.
 
-L'écriture `$x = false; $x[] = 'value';` transformait silencieusement un booléen en tableau. PHP 9.0 interdit cette coercion et exige une initialisation explicite. Ce changement élimine une source classique de bugs dans les fonctions qui retournent `false` en cas d'échec et dont le résultat est ensuite utilisé comme tableau sans vérification.
+### `__sleep()` et `__wakeup()` remplacés par `__serialize()` / `__unserialize()`
+
+Les méthodes magiques `__sleep()` et `__wakeup()` sont dépréciées en PHP 8.5. En PHP 9, elles deviendront des erreurs ou seront ignorées. Le remplacement par `__serialize()` et `__unserialize()`, disponible depuis PHP 7.4, offre un modèle plus prévisible et compatible avec l'héritage d'objets. Les projets qui utilisent encore l'ancienne interface `Serializable` devront migrer les deux : l'interface et les méthodes magiques.
+
+### Les backticks (`` ` ``) supprimés
+
+L'opérateur backtick, alias de `shell_exec()`, est déprécié en PHP 8.5 et sera supprimé en PHP 9. La syntaxe prêtait à confusion avec les template strings d'autres langages. Utilisez `shell_exec()` explicitement.
+
+### `null` comme clé de tableau
+
+L'utilisation de `null` comme offset de tableau (`$array[null]`) est dépréciée en PHP 8.5. En PHP 9, ce sera une erreur. La conversion implicite de `null` en chaîne vide `""` était un piège classique. Initialisez vos clés explicitement.
+
+### Opérateurs `++` et `--` sur les types non-entiers
+
+PHP autorisait l'incrémentation de chaînes (`'a9'++`), de `null` ou de `false` via une coercion implicite. PHP 9.0 lèvera une `TypeError` dans tous ces cas. La fonction `str_increment()`, introduite en PHP 8.3, couvre le cas légitime de l'incrémentation alphabétique.
+
+### Fin de la promotion implicite de `false` en tableau
+
+L'écriture `$x = false; $x[] = 'value';` transformait silencieusement un booléen en tableau. PHP 9.0 interdit cette coercion et exige une initialisation explicite.
+
+### Propriétés dynamiques interdites
+
+Les propriétés dynamiques, dépréciées en PHP 8.2, provoqueront une erreur fatale en PHP 9.0. Les classes qui en dépendent devront utiliser `#[AllowDynamicProperties]` ou migrer vers des propriétés déclarées.
+
+### Warnings susceptibles d'être promus en erreurs
+
+L'accès à une propriété sur `null`, l'utilisation d'un indice inexistant, la lecture d'une variable non définie : ces situations génèrent un warning depuis PHP 8.0. La tendance de chaque version majeure est de promouvoir ces warnings en erreurs fatales. Il est probable que PHP 9.0 franchisse ce pas pour plusieurs d'entre eux, même si aucune RFC spécifique n'a encore été votée sur ce point. Traiter ces warnings comme des erreurs dès aujourd'hui (via PHPStan ou un error handler strict) est la meilleure préparation.
+
+## Nettoyage de l'API standard
+
+### Fonctions no-op supprimées
+
+Depuis la conversion des ressources en objets (PHP 8.0-8.4), plusieurs fonctions sont devenues des no-op : `curl_close()`, `curl_share_close()`, `xml_parser_free()`, `finfo_close()`, `imagedestroy()`. Elles sont dépréciées en PHP 8.5 et seront supprimées en PHP 9. Retirez ces appels de votre code, les objets sont nettoyés automatiquement.
+
+### Casts non-canoniques supprimés
+
+Les formes `(integer)`, `(boolean)`, `(double)` et `(binary)` sont dépréciées en PHP 8.5. Utilisez `(int)`, `(bool)`, `(float)` et `(string)`. Ce changement aligne les casts sur les noms de types utilisés dans les signatures et les annotations [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php).
 
 ### Interpolation de chaînes simplifiée
 
-Les syntaxes `"${var}"` et `"${expr()}"` sont supprimées. Seules restent `"$var"` et `"{$var}"`. La concaténation explicite remplace les expressions complexes dans les chaînes. Ce nettoyage réduit la surface d'ambiguïté syntaxique et aligne PHP sur le comportement attendu par les analyseurs statiques comme [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php).
+Les syntaxes `"${var}"` et `"${expr()}"` sont supprimées. Seules restent `"$var"` et `"{$var}"`. La concaténation explicite remplace les expressions complexes. Ce nettoyage réduit la surface d'ambiguïté syntaxique et aligne PHP sur le comportement attendu par les analyseurs statiques.
 
-### Avertissements promus en erreurs fatales
+### `$http_response_header` supprimée
 
-L'accès à une propriété sur `null`, l'utilisation d'un indice inexistant, la lecture d'une variable non définie : ces situations généraient un warning en PHP 8.x et permettaient au script de continuer dans un état potentiellement corrompu. PHP 9.0 les transforme en erreurs fatales. L'exécution s'arrête immédiatement, ce qui force la correction en amont plutôt que la gestion défensive en aval.
+La variable prédéfinie `$http_response_header`, remplie implicitement par les fonctions de flux HTTP, est dépréciée en PHP 8.5. Utilisez `stream_get_meta_data()` ou une bibliothèque HTTP dédiée.
 
-## Renforcement de la sécurité et de la cohérence
+### Reflection : méthodes no-op et ambiguës
 
-### unserialize() lève une exception dédiée
+`Reflection*::setAccessible()` (no-op depuis PHP 8.1), `ReflectionClass::getConstant()` pour les constantes inexistantes (retournait `false` de manière ambiguë) et `ReflectionProperty::getDefaultValue()` pour les propriétés sans défaut (retournait `null` de manière ambiguë) sont dépréciées. Utilisez `hasConstant()` et `hasDefaultValue()` pour vérifier l'existence avant d'accéder aux valeurs.
 
-La fonction `unserialize()` renvoyait `false` ou générait un warning en cas de données corrompues. PHP 9.0 introduit `UnserializationFailedException`, une exception dédiée qui permet un traitement structuré via `try/catch` :
+## Renforcement de la sécurité
 
-```php
-try {
-    $data = unserialize($input);
-} catch (UnserializationFailedException $e) {
-    log($e->getMessage());
-}
-```
+### `unserialize()` et la gestion d'erreurs
 
-Ce changement est critique pour tout code qui désérialise des données provenant de sources externes (sessions, caches distribués, messages de queue). La surface d'attaque liée à la désérialisation non contrôlée diminue significativement.
+La fonction `unserialize()` renvoie actuellement `false` ou génère un warning en cas de données corrompues. Une RFC propose d'introduire une exception dédiée en PHP 9.0 pour permettre un traitement structuré via `try/catch`. Ce changement n'est pas encore voté, mais la direction est claire : les fonctions qui échouent silencieusement devront lever des exceptions. Si vous désérialisez des données provenant de sources externes (sessions, caches distribués, messages de queue), préparez-vous à encapsuler ces appels dans un `try/catch`.
 
-### Fonctions standard scindées pour lever l'ambiguïté
+### Directives INI de sécurité durcies
 
-Des fonctions comme `array_keys()` changent de comportement selon leurs arguments. PHP 9.0 introduit des variantes explicites (par exemple `array_keys_filter()`) pour séparer les responsabilités. Ce pattern de scission est préférable à la surcharge sémantique : chaque fonction fait une seule chose, et les signatures deviennent auto-documentées.
+`register_argc_argv` sera forcé à `Off` pour les SAPIs non-CLI en PHP 9, éliminant un vecteur de pollution de variables. `disable_classes`, fondamentalement cassée (use-after-free, instabilité du moteur), est déjà supprimée en PHP 8.5.
 
-### Suppression définitive des dépréciations 8.x
+### Nouvelle licence pour PHP 9
 
-L'interface `Serializable`, les fonctions redondantes et les extensions non maintenues sont supprimées. Tout ce qui a été marqué `@deprecated` entre PHP 8.1 et 8.4 disparaît. Les méthodes magiques `__serialize()` et `__unserialize()` remplacent l'interface historique avec un modèle plus prévisible et compatible avec l'héritage d'objets.
+Une [RFC propose de relicenser PHP](https://wiki.php.net/rfc) sous BSD-3-Clause à partir de PHP 9.0, remplaçant la licence PHP historique. Ce changement n'a pas d'impact technique sur votre code, mais il simplifie la compatibilité juridique avec les autres projets open source et modernise la gouvernance du langage.
 
 ## Stratégie de migration : de l'audit au déploiement
 
 ### Détecter les incompatibilités avant qu'elles ne cassent
 
-La première étape consiste à activer `E_DEPRECATED` sur tous les environnements, y compris la CI. Sur un projet Symfony ou Laravel, cela implique de configurer le handler d'erreurs pour convertir les dépréciations en exceptions dans les tests :
+La première étape consiste à activer `E_DEPRECATED` sur tous les environnements, y compris la CI. Sur un projet Symfony, configurez le handler d'erreurs pour convertir les dépréciations en exceptions dans les tests :
 
 ```php
 set_error_handler(function (int $errno, string $errstr) {
@@ -67,43 +97,47 @@ set_error_handler(function (int $errno, string $errstr) {
 });
 ```
 
-Cette approche transforme chaque dépréciation en un test rouge, ce qui rend l'avancement de la migration mesurable et traçable dans la CI.
+Cette approche transforme chaque dépréciation en un test rouge, ce qui rend l'avancement de la migration mesurable.
 
 ### Rector comme levier d'automatisation
 
-[Rector permet de maîtriser l'évolution de votre code Symfony](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) et couvre une part significative des transformations requises pour PHP 9.0 : remplacement de `Serializable` par `__serialize()`/`__unserialize()`, correction des interpolations de chaînes, ajout des initialisations explicites de tableaux. Sur un projet de plus de 100 000 lignes, l'approche manuelle n'est pas viable. Rector permet de traiter le code applicatif et les tests en une passe, en générant un diff reviewable.
+[Rector permet de maîtriser l'évolution de votre code Symfony](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) et couvre une part significative des transformations requises : remplacement de `__sleep()`/`__wakeup()` par `__serialize()`/`__unserialize()`, correction des interpolations de chaînes, ajout des initialisations explicites de tableaux, remplacement des casts non-canoniques. Sur un projet de plus de 100 000 lignes, l'approche manuelle n'est pas viable.
 
-L'ordre recommandé est le suivant : exécuter Rector sur le code applicatif, valider la suite de tests, puis exécuter Rector sur les tests eux-mêmes. Cette séquence évite de corriger simultanément le code et les assertions qui le validaient.
+L'ordre recommandé : exécuter Rector sur le code applicatif, valider la suite de tests, puis exécuter Rector sur les tests eux-mêmes.
 
 ### Gérer les dépendances tierces
 
-Le véritable goulot d'étranglement d'une migration majeure n'est jamais le code applicatif : ce sont les dépendances. Avant de planifier une migration vers PHP 9.0, auditez vos `composer.json` avec `composer outdated` et vérifiez la compatibilité déclarée de chaque package. Les packages qui n'ont pas été mis à jour depuis PHP 8.3 devront être remplacés ou forkés. Symfony et Laravel publieront des versions compatibles PHP 9 ; les [bundles communautaires](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony) moins maintenus représenteront le risque principal.
+Le véritable goulot d'étranglement d'une migration majeure n'est jamais le code applicatif : ce sont les dépendances. Auditez vos `composer.json` avec `composer outdated` et vérifiez la compatibilité déclarée de chaque package. Les packages qui n'ont pas été mis à jour depuis PHP 8.4 devront être remplacés ou forkés. Symfony et Laravel publieront des versions compatibles PHP 9 ; les [bundles communautaires](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony) moins maintenus représenteront le risque principal.
 
-## Performances et concurrence : au-delà du nettoyage
+## Ce qui reste incertain
 
-### JIT et optimisations du moteur
+### Performances et JIT
 
-Le compilateur JIT, introduit en PHP 8.0 et amélioré en 8.1, recevra des optimisations supplémentaires. Les gains les plus significatifs concernent les traitements CPU-bound : calculs mathématiques, manipulations de structures de données volumineuses, transformations d'images. Pour les applications web classiques dominées par les I/O, l'impact restera marginal, mais la tendance est claire : PHP cherche à être compétitif sur des charges de travail historiquement réservées à d'autres langages.
+Le compilateur JIT continuera d'être amélioré, mais les gains pour les applications web classiques (dominées par les I/O) resteront marginaux. Les bénéfices concernent surtout les traitements CPU-bound : calculs, manipulations de structures volumineuses, transformations d'images.
 
-### Fibers et concurrence asynchrone
+### Concurrence et Fibers
 
-PHP 9.0 pourrait renforcer l'intégration des fibers pour faciliter l'écriture de code concurrent. Les fibers, introduites en PHP 8.1, fournissent la primitive de base pour la suspension et la reprise de contextes d'exécution. Les frameworks comme ReactPHP et Swoole s'appuient déjà dessus. Une meilleure intégration au niveau du langage ouvrirait la voie à des patterns de concurrence structurée sans dépendance à des extensions tierces. Les cas d'usage concernés : appels API parallèles, websockets, traitement de streams en temps réel.
+PHP 9.0 pourrait renforcer l'intégration des Fibers (introduites en PHP 8.1) pour faciliter l'écriture de code concurrent. Les frameworks comme ReactPHP et Swoole s'appuient déjà dessus. Mais aucune RFC concrète n'a été votée à ce stade. C'est une tendance, pas une certitude.
+
+### Pattern matching
+
+Une RFC de pattern matching est en discussion. Si elle est acceptée, ce serait l'ajout syntaxique le plus significatif depuis le match expression de PHP 8.0. Mais la complexité de la proposition rend son inclusion dans PHP 9.0 incertaine.
 
 ## Vision architecturale : ce que PHP 9 signifie pour les grands projets
 
-### La trajectoire du langage est désormais prévisible
+### La trajectoire du langage est prévisible
 
-Depuis PHP 7.0, chaque version majeure suit le même schéma : durcissement du typage, promotion des warnings en erreurs, suppression des dépréciations accumulées. Cette prévisibilité est un atout stratégique. Un architecte peut désormais planifier les migrations sur un horizon de trois à cinq ans avec une confiance raisonnable sur la nature des changements à venir. PHP 10 poursuivra cette trajectoire : les dépréciations introduites en 9.x seront supprimées, et le système de types continuera de se rapprocher d'un modèle statique.
+Depuis PHP 7.0, chaque version majeure suit le même schéma : durcissement du typage, promotion des warnings en erreurs, suppression des dépréciations accumulées. Cette prévisibilité est un atout stratégique. Un architecte peut planifier les migrations sur un horizon de trois à cinq ans.
 
 ### Impact sur l'écosystème des frameworks
 
-Symfony 8.x et Laravel 12.x seront les premières versions à cibler PHP 9.0. Ces frameworks absorbent une part importante des changements du langage dans leurs couches d'abstraction. La migration du framework est généralement transparente pour le code applicatif, à condition que celui-ci respecte les bonnes pratiques : injection de dépendances, typage des arguments et retours, pas de suppression d'erreurs avec `@`. Les projets qui s'écartent de ces conventions paieront un coût de migration proportionnel à leur [dette technique](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur).
+Symfony et Laravel publieront des versions compatibles PHP 9. Ces frameworks absorbent une part importante des changements du langage dans leurs couches d'abstraction. La migration du framework est généralement transparente pour le code applicatif, à condition que celui-ci respecte les bonnes pratiques : injection de dépendances, typage des arguments et retours, pas de suppression d'erreurs avec `@`. Les projets qui s'écartent de ces conventions paieront un coût de migration proportionnel à leur [dette technique](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur).
 
 ### Préparer les grandes bases de code
 
-Pour un projet de plusieurs centaines de milliers de lignes, la migration vers PHP 9.0 se planifie en trois phases. D'abord, la mise en conformité sur PHP 8.4 avec zéro dépréciation. Ensuite, la mise à jour des dépendances vers des versions compatibles PHP 9. Enfin, le passage effectif au runtime PHP 9 avec une campagne de tests exhaustive. Chaque phase peut être déployée indépendamment, ce qui permet de répartir l'effort sur plusieurs sprints sans bloquer les livraisons de features.
+Pour un projet de plusieurs centaines de milliers de lignes, la migration vers PHP 9.0 se planifie en trois phases. D'abord, la mise en conformité sur PHP 8.5 ou 8.6 avec zéro dépréciation. Ensuite, la mise à jour des dépendances vers des versions compatibles PHP 9. Enfin, le passage effectif au runtime PHP 9 avec une campagne de tests exhaustive.
 
-La clé est de ne pas traiter la migration comme un projet ponctuel mais comme un processus continu. Les équipes qui activent `E_DEPRECATED` dès aujourd'hui et qui intègrent Rector dans leur pipeline de CI arriveront à PHP 9.0 sans friction. Les autres devront absorber plusieurs années de dette technique en une seule itération. Pour ceux qui envisagent un [audit de code avant la migration](/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede), un regard extérieur permet souvent d'identifier les points de blocage avant qu'ils ne deviennent critiques.
+La clé est de ne pas traiter la migration comme un projet ponctuel mais comme un processus continu. Les équipes qui activent `E_DEPRECATED` dès aujourd'hui et qui intègrent Rector dans leur pipeline de CI arriveront à PHP 9.0 sans friction. Pour ceux qui envisagent un [audit de code avant la migration](/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede), un regard extérieur permet souvent d'identifier les points de blocage avant qu'ils ne deviennent critiques.
 
 ## Pour aller plus loin
 
@@ -111,3 +145,4 @@ La clé est de ne pas traiter la migration comme un projet ponctuel mais comme u
 - [PHP.net](https://www.php.net/), Site officiel du langage PHP et documentation des versions
 - [PHP RFC](https://wiki.php.net/rfc), Les propositions d'évolution du langage PHP
 - [The PHP Foundation](https://thephp.foundation/), L'organisation qui finance le développement de PHP
+- [Dépréciations PHP 8.5](https://wiki.php.net/rfc/deprecations_php_8_5), Liste complète des dépréciations votées pour PHP 8.5
