@@ -46,7 +46,7 @@ Cette compétence ne s'acquiert pas dans un cours magistral. Elle se développe 
 
 ### SAST et DAST dans la chaîne de build
 
-L'analyse statique (SAST) et dynamique (DAST) ne remplace pas la revue humaine, mais elle la complète en attrapant les patterns mécaniquement détectables. Semgrep, SonarQube, [PHPStan avec des règles de sécurité personnalisées](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php), ou Snyk Code s'intègrent directement dans la CI. L'enjeu n'est pas d'activer l'outil, c'est de le configurer avec des règles pertinentes pour votre stack, de traiter les faux positifs pour éviter la fatigue d'alerte, et de définir des seuils bloquants qui empêchent le merge en cas de vulnérabilité critique.
+L'analyse statique (SAST) et dynamique (DAST) ne remplace pas la revue humaine, mais elle la complète en attrapant les patterns mécaniquement détectables. Semgrep, SonarQube, [PHPStan avec des règles de sécurité personnalisées](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php), ou Snyk Code s'intègrent directement dans la CI. L'enjeu n'est pas d'activer l'outil, c'est de le configurer avec des règles pertinentes pour votre stack, de traiter les faux positifs pour éviter la fatigue d'alerte, et de définir des seuils bloquants qui empêchent le merge en cas de vulnérabilité critique. Les [entreprises du secteur financier](/secteur/finance) sont soumises à des obligations de conformité qui rendent ces seuils non négociables.
 
 Côté DAST, des outils comme OWASP ZAP ou Nuclei permettent de scanner les environnements de staging en continu. L'intégration dans la pipeline CI/CD transforme ces scans ponctuels en filet de sécurité permanent.
 
