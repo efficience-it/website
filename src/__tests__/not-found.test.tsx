@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import NotFound from "@/app/not-found";
+import NotFound, { metadata } from "@/app/not-found";
 
 describe("Not found page", () => {
   it("renders 404 heading", () => {
@@ -12,5 +12,11 @@ describe("Not found page", () => {
     expect(
       screen.getByRole("link", { name: /accueil/i }),
     ).toHaveAttribute("href", "/");
+  });
+
+  it("exports metadata with noindex", () => {
+    expect(metadata).toBeDefined();
+    expect(metadata.title).toBeTruthy();
+    expect(metadata.robots).toEqual({ index: false });
   });
 });

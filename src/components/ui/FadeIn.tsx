@@ -34,9 +34,7 @@ export default function FadeIn({ children, className = "", delay = 0 }: FadeInPr
   useEffect(() => {
     if (prefersReducedMotion) return;
 
-    const el = ref.current;
-    if (!el) return;
-
+    const el = ref.current!;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {

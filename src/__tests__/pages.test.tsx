@@ -1,17 +1,17 @@
 import { render, screen } from "@testing-library/react";
 
-import NotreExpertise from "@/app/notre-expertise/page";
-import DeveloppementWeb from "@/app/developpement-web-sur-mesure/page";
-import CloudEtDevops from "@/app/cloud-et-devops/page";
-import AccompagnementEtConseil from "@/app/accompagnement-et-conseil/page";
-import LEntreprise from "@/app/l-entreprise/page";
-import LaTeam from "@/app/la-team/page";
-import TaCarriere from "@/app/ta-carriere/page";
-import GreenIt from "@/app/green-it/page";
-import NosReferences from "@/app/nos-references/page";
-import BlogPage from "@/app/blog/page";
-import Contact from "@/app/contact/page";
-import MentionsLegales from "@/app/mentions-legales/page";
+import NotreExpertise, { metadata as notreExpertiseMetadata } from "@/app/notre-expertise/page";
+import DeveloppementWeb, { metadata as developpementWebMetadata } from "@/app/developpement-web-sur-mesure/page";
+import CloudEtDevops, { metadata as cloudEtDevopsMetadata } from "@/app/cloud-et-devops/page";
+import AccompagnementEtConseil, { metadata as accompagnementEtConseilMetadata } from "@/app/accompagnement-et-conseil/page";
+import LEntreprise, { metadata as lEntrepriseMetadata } from "@/app/l-entreprise/page";
+import LaTeam, { metadata as laTeamMetadata } from "@/app/la-team/page";
+import TaCarriere, { metadata as taCarriereMetadata } from "@/app/ta-carriere/page";
+import GreenIt, { metadata as greenItMetadata } from "@/app/green-it/page";
+import NosReferences, { metadata as nosReferencesMetadata } from "@/app/nos-references/page";
+import BlogPage, { metadata as blogMetadata } from "@/app/blog/page";
+import Contact, { metadata as contactMetadata } from "@/app/contact/page";
+import MentionsLegales, { metadata as mentionsLegalesMetadata } from "@/app/mentions-legales/page";
 
 describe("Service pages", () => {
   it("renders Notre expertise", () => {
@@ -76,5 +76,88 @@ describe("Blog & other pages", () => {
   it("renders Mentions légales", () => {
     render(<MentionsLegales />);
     expect(screen.getByRole("heading", { name: /mentions légales/i })).toBeInTheDocument();
+  });
+});
+
+describe("Page metadata exports", () => {
+  it("exports metadata for Notre expertise", () => {
+    expect(notreExpertiseMetadata).toBeDefined();
+    expect(notreExpertiseMetadata.description).toBeTruthy();
+  });
+
+  it("exports metadata for Développement web sur mesure", () => {
+    expect(developpementWebMetadata).toBeDefined();
+    expect(developpementWebMetadata.description).toBeTruthy();
+  });
+
+  it("exports metadata for Cloud & DevOps", () => {
+    expect(cloudEtDevopsMetadata).toBeDefined();
+    expect(cloudEtDevopsMetadata.description).toBeTruthy();
+  });
+
+  it("exports metadata for Accompagnement et Conseil", () => {
+    expect(accompagnementEtConseilMetadata).toBeDefined();
+    expect(accompagnementEtConseilMetadata.description).toBeTruthy();
+  });
+
+  it("exports metadata for L'entreprise", () => {
+    expect(lEntrepriseMetadata).toBeDefined();
+    expect(lEntrepriseMetadata.description).toBeTruthy();
+  });
+
+  it("exports metadata for La team", () => {
+    expect(laTeamMetadata).toBeDefined();
+    expect(laTeamMetadata.description).toBeTruthy();
+  });
+
+  it("exports metadata for Ta carrière", () => {
+    expect(taCarriereMetadata).toBeDefined();
+    expect(taCarriereMetadata.description).toBeTruthy();
+  });
+
+  it("exports metadata for Green IT", () => {
+    expect(greenItMetadata).toBeDefined();
+    expect(greenItMetadata.description).toBeTruthy();
+  });
+
+  it("exports metadata for Nos références", () => {
+    expect(nosReferencesMetadata).toBeDefined();
+    expect(nosReferencesMetadata.description).toBeTruthy();
+  });
+
+  it("exports metadata for Blog", () => {
+    expect(blogMetadata).toBeDefined();
+    expect(blogMetadata.description).toBeTruthy();
+  });
+
+  it("exports metadata for Contact", () => {
+    expect(contactMetadata).toBeDefined();
+    expect(contactMetadata.description).toBeTruthy();
+  });
+
+  it("exports metadata for Mentions légales", () => {
+    expect(mentionsLegalesMetadata).toBeDefined();
+    expect(mentionsLegalesMetadata.description).toBeTruthy();
+  });
+});
+
+jest.mock("@/../data/jobs", () => ({
+  ...jest.requireActual("@/../data/jobs"),
+  get jobs() {
+    return mockJobs ?? jest.requireActual("@/../data/jobs").jobs;
+  },
+}));
+
+let mockJobs: Array<{ title: string; contract: string; location: string; domain: string; url: string }> | null = null;
+
+describe("Ta carrière with jobs", () => {
+  afterEach(() => {
+    mockJobs = null;
+  });
+
+  it("renders job cards when jobs exist", () => {
+    mockJobs = [{ title: "Dev Symfony", contract: "CDI", location: "Lille", domain: "dev", url: "/job/dev" }];
+    render(<TaCarriere />);
+    expect(screen.getByText("Dev Symfony")).toBeInTheDocument();
   });
 });

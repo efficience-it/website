@@ -28,9 +28,7 @@ export default function Testimonials() {
     ).matches;
     if (prefersReducedMotion) return;
     timerRef.current = setInterval(next, INTERVAL);
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
+    return () => clearInterval(timerRef.current!);
   }, [isPaused, next]);
 
   return (

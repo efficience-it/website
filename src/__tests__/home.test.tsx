@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import Home from "@/app/page";
+import Home, { metadata } from "@/app/page";
 
 describe("Home page", () => {
   it("renders the hero heading", () => {
@@ -42,5 +42,10 @@ describe("Home page", () => {
     expect(
       screen.getByRole("heading", { name: /témoignages/i }),
     ).toBeInTheDocument();
+  });
+
+  it("exports metadata", () => {
+    expect(metadata).toBeDefined();
+    expect(metadata.description).toBeTruthy();
   });
 });

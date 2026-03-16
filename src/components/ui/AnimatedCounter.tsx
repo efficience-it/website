@@ -35,9 +35,7 @@ export default function AnimatedCounter({
   useEffect(() => {
     if (prefersReducedMotion) return;
 
-    const el = ref.current;
-    if (!el) return;
-
+    const el = ref.current!;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !hasAnimated.current) {
