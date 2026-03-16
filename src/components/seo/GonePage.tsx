@@ -6,7 +6,7 @@ export default function GonePage() {
     <main className="py-24">
       <Container className="text-center">
         <h1 className="font-display text-4xl font-bold text-dark">
-          410 — Page supprimée
+          410 - Page supprimée
         </h1>
         <p className="mx-auto mt-6 max-w-xl text-lg text-gray">
           Cette page a été définitivement retirée. Le contenu n&apos;est plus
