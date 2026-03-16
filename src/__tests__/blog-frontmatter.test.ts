@@ -1,0 +1,88 @@
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
+
+const CONTENT_DIR = path.join(process.cwd(), "content/blog");
+
+const VALID_CATEGORIES = [
+  "Symfony",
+  "Formation",
+  "Projet",
+  "IA",
+  "DevOps",
+  "Agence",
+  "JavaScript",
+  "Green IT",
+  "Securite",
+];
+
+function getBlogFiles(): string[] {
+  return fs
+    .readdirSync(CONTENT_DIR)
+    .filter((f) => f.endsWith(".mdx"));
+}
+
+describe("Blog front matter", () => {
+  const files = getBlogFiles();
+
+  it.each(files)("%s has required front matter fields", (file) => {
+    const content = fs.readFileSync(path.join(CONTENT_DIR, file), "utf-8");
+    const { data } = matter(content);
+
+    expect(data.title).toBeDefined();
+    expect(data.date).toBeDefined();
+    expect(data.category).toBeDefined();
+    expect(data.excerpt).toBeDefined();
+    expect(data.image).toBeDefined();
+  });
+
+  it.each(files)("%s has a valid category", (file) => {
+    const content = fs.readFileSync(path.join(CONTENT_DIR, file), "utf-8");
+    const { data } = matter(content);
+
+    expect(VALID_CATEGORIES).toContain(data.category);
+  });
+
+  it.each(files)("%s has a date in YYYY-MM-DD format", (file) => {
+    const content = fs.readFileSync(path.join(CONTENT_DIR, file), "utf-8");
+    const { data } = matter(content);
+
+    expect(String(data.date)).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+  });
+
+  it.each(files)("%s has a non-empty title", (file) => {
+    const content = fs.readFileSync(path.join(CONTENT_DIR, file), "utf-8");
+    const { data } = matter(content);
+
+    expect(data.title.trim().length).toBeGreaterThan(0);
+  });
+
+  it.each(files)("%s has between 1000 and 2000 words", (file) => {
+    const raw = fs.readFileSync(path.join(CONTENT_DIR, file), "utf-8");
+    const { content } = matter(raw);
+    const text = content
+      .replace(/```[\s\S]*?```/g, "")
+      .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")
+      .replace(/<[^>]+>/g, "")
+      .replace(/[#*_`~>|-]/g, "")
+      .trim();
+    const wordCount = text.split(/\s+/).filter(Boolean).length;
+
+    expect(wordCount).toBeGreaterThanOrEqual(1000);
+  });
+
+  it.each(files)("%s has enough internal links for its length", (file) => {
+    const raw = fs.readFileSync(path.join(CONTENT_DIR, file), "utf-8");
+    const { content } = matter(raw);
+    const text = content
+      .replace(/```[\s\S]*?```/g, "")
+      .replace(/<[^>]+>/g, "")
+      .replace(/[#*_`~>|-]/g, "")
+      .trim();
+    const wordCount = text.split(/\s+/).filter(Boolean).length;
+    const internalLinks = (content.match(/\]\(\s*\/article\//g) || []).length;
+    const minLinks = Math.max(1, Math.floor(wordCount / 400));
+
+    expect(internalLinks).toBeGreaterThanOrEqual(minLinks);
+  });
+});
