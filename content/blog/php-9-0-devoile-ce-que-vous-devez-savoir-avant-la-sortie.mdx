@@ -32,7 +32,7 @@ L'utilisation de `null` comme offset de tableau (`$array[null]`) est déprécié
 
 ### Opérateurs `++` et `--` sur les types non-entiers
 
-PHP autorisait l'incrémentation de chaînes (`'a9'++`), de `null` ou de `false` via une coercion implicite. PHP 9.0 lèvera une `TypeError` dans tous ces cas. La fonction `str_increment()`, introduite en PHP 8.3, couvre le cas légitime de l'incrémentation alphabétique.
+PHP autorisait l'incrémentation de chaînes (`'a9'++`), de `null` ou de `false` via une coercion implicite. Ces comportements sont dépréciés depuis PHP 8.3 et deviendront des `TypeError` en PHP 9.0. La fonction `str_increment()`, introduite en PHP 8.3, couvre le cas légitime de l'incrémentation alphabétique.
 
 ### Fin de la promotion implicite de `false` en tableau
 
@@ -58,7 +58,7 @@ Les formes `(integer)`, `(boolean)`, `(double)` et `(binary)` sont dépréciées
 
 ### Interpolation de chaînes simplifiée
 
-Les syntaxes `"${var}"` et `"${expr()}"` sont supprimées. Seules restent `"$var"` et `"{$var}"`. La concaténation explicite remplace les expressions complexes. Ce nettoyage réduit la surface d'ambiguïté syntaxique et aligne PHP sur le comportement attendu par les analyseurs statiques.
+Les syntaxes `"${var}"` et `"${expr()}"`, dépréciées depuis PHP 8.2, seront supprimées en PHP 9. Seules resteront `"$var"` et `"{$var}"`. La concaténation explicite remplace les expressions complexes. Ce nettoyage réduit la surface d'ambiguïté syntaxique et aligne PHP sur le comportement attendu par les analyseurs statiques.
 
 ### `$http_response_header` supprimée
 
@@ -80,7 +80,7 @@ La fonction `unserialize()` renvoie actuellement `false` ou génère un warning 
 
 ### Nouvelle licence pour PHP 9
 
-Une [RFC propose de relicenser PHP](https://wiki.php.net/rfc) sous BSD-3-Clause à partir de PHP 9.0, remplaçant la licence PHP historique. Ce changement n'a pas d'impact technique sur votre code, mais il simplifie la compatibilité juridique avec les autres projets open source et modernise la gouvernance du langage.
+Une RFC propose de relicenser PHP sous BSD-3-Clause à partir de PHP 9.0, remplaçant la licence PHP historique. Ce changement n'a pas d'impact technique sur votre code, mais il simplifie la compatibilité juridique avec les autres projets open source et modernise la gouvernance du langage.
 
 ## Stratégie de migration : de l'audit au déploiement
 
