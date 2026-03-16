@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-type ButtonVariant = "primary" | "outline" | "outline-white" | "ghost";
+type ButtonVariant = "primary" | "outline" | "outline-white" | "white" | "ghost";
 type ButtonSize = "sm" | "md" | "lg";
 
 interface ButtonProps {
@@ -17,6 +17,7 @@ const variantStyles: Record<ButtonVariant, string> = {
   primary: "bg-primary text-white hover:bg-primary-dark",
   outline: "border-2 border-primary text-primary hover:bg-primary hover:text-white",
   "outline-white": "border-2 border-white text-white hover:bg-white hover:text-primary",
+  white: "bg-white text-primary hover:bg-gray-100",
   ghost: "text-primary hover:bg-primary/10",
 };
 
