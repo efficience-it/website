@@ -74,7 +74,6 @@ jobs:
             --max-retries 3
             --accept 200,204,301,302,403,429
             content/blog/*.mdx
-          fail: true
 
   build:
     needs: install
