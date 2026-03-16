@@ -98,6 +98,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: `${BASE_URL}/modernisation-applicative`,
+      lastModified: "2026-03-16",
+      changeFrequency: "monthly",
+      priority: 0.85,
+    },
+    {
       url: `${BASE_URL}/modernisation-application-php`,
       lastModified: "2026-02-01",
       changeFrequency: "monthly",

@@ -8,10 +8,12 @@ import Accordion from "@/components/ui/Accordion";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 import StickyMobileCta from "@/components/sections/StickyMobileCta";
 import FadeIn from "@/components/ui/FadeIn";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 
 const modernisationRelatedLinks: RelatedLink[] = [
+  { title: "Modernisation applicative", description: "le parcours complet du diagnostic à la maintenance", href: "/modernisation-applicative" },
   { title: "La dette technique : faut-il vraiment en avoir peur ?", description: "comprendre et gérer l'accumulation de dette dans vos projets", href: "/article/la-dette-technique-faut-il-vraiment-en-avoir-peur" },
   { title: "Guide de migration dans un projet Symfony", description: "méthodes et bonnes pratiques pour migrer en douceur", href: "/article/guide-de-migration-dans-un-projet-symfony" },
   { title: "Audit Symfony gratuit", description: "évaluez l'état technique de votre application en 30 min", href: "/audit-symfony-gratuit" },
@@ -171,6 +173,7 @@ const faqJsonLd = {
 };
 
 const breadcrumb = breadcrumbJsonLd([
+  { name: "Modernisation applicative", path: "/modernisation-applicative" },
   {
     name: "Modernisation d'application PHP",
     path: "/modernisation-application-php",
@@ -214,6 +217,7 @@ export default function ModernisationApplicationPhp() {
       <main>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
+            <Breadcrumb items={[{ label: "Modernisation applicative", href: "/modernisation-applicative" }, { label: "Modernisation PHP" }]} />
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">

@@ -7,7 +7,10 @@ import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
 import CallToAction from "@/components/sections/CallToAction";
 import StickyMobileCta from "@/components/sections/StickyMobileCta";
+import RelatedLinks from "@/components/sections/RelatedLinks";
+import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import FadeIn from "@/components/ui/FadeIn";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
@@ -138,6 +141,7 @@ const faqJsonLd = {
 };
 
 const breadcrumb = breadcrumbJsonLd([
+  { name: "Modernisation applicative", path: "/modernisation-applicative" },
   { name: "Migration Symfony", path: "/migration-symfony" },
 ]);
 
@@ -156,6 +160,15 @@ const webPage = webPageJsonLd({
   datePublished: "2026-03-12",
   dateModified: "2026-03-12",
 });
+
+const migrationRelatedLinks: RelatedLink[] = [
+  { title: "Modernisation applicative", description: "situer la migration dans le parcours global de modernisation", href: "/modernisation-applicative" },
+  { title: "Audit Symfony gratuit", description: "30 minutes pour évaluer votre effort de migration", href: "/audit-symfony-gratuit" },
+  { title: "Guide de migration dans un projet Symfony", description: "notre méthodologie détaillée pas à pas", href: "/article/guide-de-migration-dans-un-projet-symfony" },
+  { title: "Migration Symfony et architecture hexagonale : retour de mission", description: "un cas concret de migration avancée", href: "/article/migration-symfony-architecture-hexagonale-retour-mission" },
+  { title: "Rector : maîtrisez l'évolution de votre code Symfony", description: "l'outil indispensable pour automatiser les migrations", href: "/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony" },
+  { title: "Calendrier des versions Symfony", description: "dates de fin de maintenance officielle", href: "https://symfony.com/releases", external: true },
+];
 
 export default function MigrationSymfony() {
   return (
@@ -179,6 +192,7 @@ export default function MigrationSymfony() {
       <main>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
+            <Breadcrumb items={[{ label: "Modernisation applicative", href: "/modernisation-applicative" }, { label: "Migration Symfony" }]} />
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">
@@ -423,60 +437,7 @@ export default function MigrationSymfony() {
         </FadeIn>
 
         <FadeIn>
-        <section className="bg-light-gray py-16">
-          <Container>
-            <SectionTitle>Pour aller plus loin</SectionTitle>
-            <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
-              <li>
-                <Link
-                  href="/audit-symfony-gratuit"
-                  className="text-primary hover:underline"
-                >
-                  Audit Symfony gratuit
-                </Link>{" "}
-                , 30 minutes pour évaluer votre effort de migration
-              </li>
-              <li>
-                <Link
-                  href="/article/guide-de-migration-dans-un-projet-symfony"
-                  className="text-primary hover:underline"
-                >
-                  Guide de migration dans un projet Symfony
-                </Link>{" "}
-                , notre méthodologie détaillée pas à pas
-              </li>
-              <li>
-                <Link
-                  href="/article/migration-symfony-architecture-hexagonale-retour-mission"
-                  className="text-primary hover:underline"
-                >
-                  Migration Symfony et architecture hexagonale : retour de mission
-                </Link>{" "}
-                , un cas concret de migration avancée
-              </li>
-              <li>
-                <Link
-                  href="/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony"
-                  className="text-primary hover:underline"
-                >
-                  Rector : maîtrisez l&apos;évolution de votre code Symfony
-                </Link>{" "}
-                , l&apos;outil indispensable pour automatiser les migrations
-              </li>
-              <li>
-                <a
-                  href="https://symfony.com/releases"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline"
-                >
-                  Calendrier des versions Symfony
-                </a>{" "}
-                , dates de fin de maintenance officielle
-              </li>
-            </ul>
-          </Container>
-        </section>
+        <RelatedLinks links={migrationRelatedLinks} className="bg-light-gray" />
         </FadeIn>
 
         <FadeIn>

@@ -5,18 +5,10 @@ export const mainNav: NavItem[] = [
     label: "Services",
     items: [
       { label: "Nos expertises", href: "/notre-expertise" },
-      {
-        label: "Développement web sur mesure",
-        href: "/developpement-web-sur-mesure",
-      },
+      { label: "Modernisation applicative", href: "/modernisation-applicative" },
+      { label: "Développement web sur mesure", href: "/developpement-web-sur-mesure" },
       { label: "Cloud & DevOps", href: "/cloud-et-devops" },
-      {
-        label: "Accompagnement et Conseil",
-        href: "/accompagnement-et-conseil",
-      },
       { label: "Expertise IA", href: "/expertise-ia" },
-      { label: "E-commerce Sylius", href: "/ecommerce-sylius" },
-      { label: "Hébergement Symfony", href: "/hebergement-symfony" },
       { label: "Audit Symfony gratuit", href: "/audit-symfony-gratuit" },
     ],
   },
@@ -37,18 +29,11 @@ export const footerNav = {
   expertises: {
     title: "Nos expertises",
     links: [
-      {
-        label: "Développement web sur mesure",
-        href: "/developpement-web-sur-mesure",
-      },
+      { label: "Modernisation applicative", href: "/modernisation-applicative" },
+      { label: "Développement web sur mesure", href: "/developpement-web-sur-mesure" },
       { label: "Cloud & DevOps", href: "/cloud-et-devops" },
-      {
-        label: "Accompagnement et Conseil",
-        href: "/accompagnement-et-conseil",
-      },
+      { label: "Accompagnement et Conseil", href: "/accompagnement-et-conseil" },
       { label: "Expertise IA", href: "/expertise-ia" },
-      { label: "E-commerce Sylius", href: "/ecommerce-sylius" },
-      { label: "Hébergement Symfony", href: "/hebergement-symfony" },
       { label: "Nos articles", href: "/blog" },
     ],
   },

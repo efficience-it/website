@@ -9,6 +9,7 @@ import StickyMobileCta from "@/components/sections/StickyMobileCta";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import FadeIn from "@/components/ui/FadeIn";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
@@ -225,6 +226,7 @@ export default function ApiSurMesureSymfony() {
       <main>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
+            <Breadcrumb items={[{ label: "API sur mesure Symfony" }]} />
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">

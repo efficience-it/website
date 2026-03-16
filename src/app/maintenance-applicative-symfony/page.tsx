@@ -7,7 +7,10 @@ import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
 import CallToAction from "@/components/sections/CallToAction";
 import StickyMobileCta from "@/components/sections/StickyMobileCta";
+import RelatedLinks from "@/components/sections/RelatedLinks";
+import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import FadeIn from "@/components/ui/FadeIn";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
@@ -130,6 +133,7 @@ const faqJsonLd = {
 };
 
 const breadcrumb = breadcrumbJsonLd([
+  { name: "Modernisation applicative", path: "/modernisation-applicative" },
   { name: "Maintenance applicative Symfony", path: "/maintenance-applicative-symfony" },
 ]);
 
@@ -148,6 +152,15 @@ const webPage = webPageJsonLd({
   datePublished: "2026-03-12",
   dateModified: "2026-03-12",
 });
+
+const maintenanceRelatedLinks: RelatedLink[] = [
+  { title: "Modernisation applicative", description: "dernière étape du parcours : pérenniser après la modernisation", href: "/modernisation-applicative" },
+  { title: "Reprise de projet Symfony", description: "quand le projet nécessite d'abord un sauvetage avant la maintenance", href: "/reprise-projet-symfony" },
+  { title: "Guide de migration dans un projet Symfony", description: "notre méthodologie pour monter de version en toute sécurité", href: "/article/guide-de-migration-dans-un-projet-symfony" },
+  { title: "Pourquoi nous confier la maintenance de vos applications web", description: "notre vision de la maintenance applicative", href: "/article/decouvrez-les-raisons-de-nous-confier-la-maintenance-de-vos-applications-web" },
+  { title: "CVE : comprendre les failles pour mieux se protéger", description: "pourquoi les mises à jour de sécurité sont essentielles", href: "/article/cve-comprendre-les-failles-pour-mieux-se-proteger" },
+  { title: "Calendrier des versions Symfony", description: "dates de fin de maintenance officielle", href: "https://symfony.com/releases", external: true },
+];
 
 export default function MaintenanceApplicativeSymfony() {
   return (
@@ -171,6 +184,7 @@ export default function MaintenanceApplicativeSymfony() {
       <main>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
+            <Breadcrumb items={[{ label: "Modernisation applicative", href: "/modernisation-applicative" }, { label: "Maintenance applicative" }]} />
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">
@@ -392,60 +406,7 @@ export default function MaintenanceApplicativeSymfony() {
         </FadeIn>
 
         <FadeIn>
-        <section className="bg-light-gray py-16">
-          <Container>
-            <SectionTitle>Pour aller plus loin</SectionTitle>
-            <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
-              <li>
-                <Link
-                  href="/reprise-projet-symfony"
-                  className="text-primary hover:underline"
-                >
-                  Reprise de projet Symfony
-                </Link>{" "}
-                , quand le projet nécessite d&apos;abord un sauvetage avant la maintenance
-              </li>
-              <li>
-                <Link
-                  href="/article/guide-de-migration-dans-un-projet-symfony"
-                  className="text-primary hover:underline"
-                >
-                  Guide de migration dans un projet Symfony
-                </Link>{" "}
-                , notre méthodologie pour monter de version en toute sécurité
-              </li>
-              <li>
-                <Link
-                  href="/article/decouvrez-les-raisons-de-nous-confier-la-maintenance-de-vos-applications-web"
-                  className="text-primary hover:underline"
-                >
-                  Pourquoi nous confier la maintenance de vos applications web
-                </Link>{" "}
-                , notre vision de la maintenance applicative
-              </li>
-              <li>
-                <Link
-                  href="/article/cve-comprendre-les-failles-pour-mieux-se-proteger"
-                  className="text-primary hover:underline"
-                >
-                  CVE : comprendre les failles pour mieux se protéger
-                </Link>{" "}
-                , pourquoi les mises à jour de sécurité sont essentielles
-              </li>
-              <li>
-                <a
-                  href="https://symfony.com/releases"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline"
-                >
-                  Calendrier des versions Symfony
-                </a>{" "}
-                , dates de fin de maintenance officielle
-              </li>
-            </ul>
-          </Container>
-        </section>
+        <RelatedLinks links={maintenanceRelatedLinks} className="bg-light-gray" />
         </FadeIn>
 
         <FadeIn>

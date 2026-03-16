@@ -176,7 +176,7 @@ export default function NotreExpertise() {
           </p>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <Card>
-              <h3 className="font-display text-lg font-bold text-dark">Maintenance et évolution</h3>
+              <h3 className="font-display text-lg font-bold text-dark"><Link href="/modernisation-applicative" className="text-primary hover:underline">Modernisation applicative</Link></h3>
               <ul className="mt-3 space-y-2 text-gray">
                 <li><Link href="/migration-symfony" className="text-primary hover:underline">Migration Symfony</Link> : montée de version par paliers</li>
                 <li><Link href="/modernisation-application-php" className="text-primary hover:underline">Modernisation d&apos;application PHP</Link> : du legacy vers Symfony</li>

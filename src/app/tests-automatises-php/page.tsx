@@ -7,7 +7,10 @@ import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
 import CallToAction from "@/components/sections/CallToAction";
 import StickyMobileCta from "@/components/sections/StickyMobileCta";
+import RelatedLinks from "@/components/sections/RelatedLinks";
+import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import FadeIn from "@/components/ui/FadeIn";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
@@ -106,6 +109,7 @@ const faqJsonLd = {
 };
 
 const breadcrumb = breadcrumbJsonLd([
+  { name: "Modernisation applicative", path: "/modernisation-applicative" },
   { name: "Tests automatisés PHP", path: "/tests-automatises-php" },
 ]);
 
@@ -124,6 +128,15 @@ const webPage = webPageJsonLd({
   datePublished: "2026-03-12",
   dateModified: "2026-03-12",
 });
+
+const testsRelatedLinks: RelatedLink[] = [
+  { title: "Modernisation applicative", description: "sécuriser le refactoring dans un parcours de modernisation", href: "/modernisation-applicative" },
+  { title: "Audit Symfony gratuit", description: "30 minutes pour évaluer l'état de votre application", href: "/audit-symfony-gratuit" },
+  { title: "Comment PHPStan peut vous aider à améliorer la qualité de votre code PHP", description: "analyse statique pour compléter vos tests", href: "/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php" },
+  { title: "Exécuter des tests Postman avec Newman dans GitLab CI", description: "automatiser les tests d'API dans votre pipeline", href: "/article/comment-executer-des-tests-postman-avec-newman-dans-gitlab-ci" },
+  { title: "Conventions de code", description: "un socle indispensable pour des tests maintenables", href: "/article/coding-conventions" },
+  { title: "Documentation officielle PHPUnit", description: "référence pour la configuration et l'écriture de tests", href: "https://docs.phpunit.de/", external: true },
+];
 
 export default function TestsAutomatisesPhp() {
   return (
@@ -147,6 +160,7 @@ export default function TestsAutomatisesPhp() {
       <main>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
+            <Breadcrumb items={[{ label: "Modernisation applicative", href: "/modernisation-applicative" }, { label: "Tests automatisés PHP" }]} />
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">
@@ -441,60 +455,7 @@ export default function TestsAutomatisesPhp() {
         </FadeIn>
 
         <FadeIn>
-        <section className="bg-light-gray py-16">
-          <Container>
-            <SectionTitle>Pour aller plus loin</SectionTitle>
-            <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
-              <li>
-                <Link
-                  href="/audit-symfony-gratuit"
-                  className="text-primary hover:underline"
-                >
-                  Audit Symfony gratuit
-                </Link>{" "}
-                , 30 minutes pour évaluer l&apos;état de votre application
-              </li>
-              <li>
-                <Link
-                  href="/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php"
-                  className="text-primary hover:underline"
-                >
-                  Comment PHPStan peut vous aider à améliorer la qualité de votre code PHP
-                </Link>{" "}
-                , analyse statique pour compléter vos tests
-              </li>
-              <li>
-                <Link
-                  href="/article/comment-executer-des-tests-postman-avec-newman-dans-gitlab-ci"
-                  className="text-primary hover:underline"
-                >
-                  Exécuter des tests Postman avec Newman dans GitLab CI
-                </Link>{" "}
-                , automatiser les tests d&apos;API dans votre pipeline
-              </li>
-              <li>
-                <Link
-                  href="/article/coding-conventions"
-                  className="text-primary hover:underline"
-                >
-                  Conventions de code
-                </Link>{" "}
-                , un socle indispensable pour des tests maintenables
-              </li>
-              <li>
-                <a
-                  href="https://docs.phpunit.de/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline"
-                >
-                  Documentation officielle PHPUnit
-                </a>{" "}
-                , référence pour la configuration et l&apos;écriture de tests
-              </li>
-            </ul>
-          </Container>
-        </section>
+        <RelatedLinks links={testsRelatedLinks} className="bg-light-gray" />
         </FadeIn>
 
         <FadeIn>

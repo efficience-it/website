@@ -7,6 +7,8 @@ import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
 import CallToAction from "@/components/sections/CallToAction";
 import StickyMobileCta from "@/components/sections/StickyMobileCta";
+import RelatedLinks from "@/components/sections/RelatedLinks";
+import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
@@ -138,6 +140,7 @@ const faqJsonLd = {
 };
 
 const breadcrumb = breadcrumbJsonLd([
+  { name: "Modernisation applicative", path: "/modernisation-applicative" },
   { name: "Audit technique approfondi de code PHP", path: "/audit-code-php" },
 ]);
 
@@ -156,6 +159,15 @@ const webPage = webPageJsonLd({
   datePublished: "2026-03-12",
   dateModified: "2026-03-12",
 });
+
+const auditRelatedLinks: RelatedLink[] = [
+  { title: "Modernisation applicative", description: "première étape du parcours de modernisation", href: "/modernisation-applicative" },
+  { title: "Audit Symfony gratuit", description: "30 minutes pour évaluer l'état de votre application", href: "/audit-symfony-gratuit" },
+  { title: "PHPStan 2.0 : niveau 10 et nouvelles fonctionnalités", description: "les nouveautés de la dernière version majeure", href: "/article/phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable" },
+  { title: "PHPStan niveau max sous Symfony : les 10 erreurs les plus courantes", description: "les problèmes que nous trouvons le plus souvent", href: "/article/phpstan-niveau-max-symfony-10-erreurs" },
+  { title: "Modernisation d'application PHP", description: "pour aller au-delà de l'audit et moderniser votre code", href: "/modernisation-application-php" },
+  { title: "Documentation officielle PHPStan", description: "guide de démarrage et référence des niveaux d'analyse", href: "https://phpstan.org/user-guide/getting-started", external: true },
+];
 
 export default function AuditCodePhp() {
   return (
@@ -179,7 +191,7 @@ export default function AuditCodePhp() {
       <main>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
-            <Breadcrumb items={[{ label: "Audit technique de code PHP" }]} />
+            <Breadcrumb items={[{ label: "Modernisation applicative", href: "/modernisation-applicative" }, { label: "Audit technique de code PHP" }]} />
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">
@@ -427,60 +439,7 @@ export default function AuditCodePhp() {
         </FadeIn>
 
         <FadeIn>
-        <section className="bg-light-gray py-16">
-          <Container>
-            <SectionTitle>Pour aller plus loin</SectionTitle>
-            <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
-              <li>
-                <Link
-                  href="/audit-symfony-gratuit"
-                  className="text-primary hover:underline"
-                >
-                  Audit Symfony gratuit
-                </Link>{" "}
-                , 30 minutes pour évaluer l&apos;état de votre application
-              </li>
-              <li>
-                <Link
-                  href="/article/phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable"
-                  className="text-primary hover:underline"
-                >
-                  PHPStan 2.0 : niveau 10 et nouvelles fonctionnalités
-                </Link>{" "}
-                , les nouveautés de la dernière version majeure
-              </li>
-              <li>
-                <Link
-                  href="/article/phpstan-niveau-max-symfony-10-erreurs"
-                  className="text-primary hover:underline"
-                >
-                  PHPStan niveau max sous Symfony : les 10 erreurs les plus courantes
-                </Link>{" "}
-                , les problèmes que nous trouvons le plus souvent
-              </li>
-              <li>
-                <Link
-                  href="/modernisation-application-php"
-                  className="text-primary hover:underline"
-                >
-                  Modernisation d&apos;application PHP
-                </Link>{" "}
-                , pour aller au-delà de l&apos;audit et moderniser votre code
-              </li>
-              <li>
-                <a
-                  href="https://phpstan.org/user-guide/getting-started"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline"
-                >
-                  Documentation officielle PHPStan
-                </a>{" "}
-                , guide de démarrage et référence des niveaux d&apos;analyse
-              </li>
-            </ul>
-          </Container>
-        </section>
+        <RelatedLinks links={auditRelatedLinks} className="bg-light-gray" />
         </FadeIn>
 
         <FadeIn>

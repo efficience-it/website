@@ -7,7 +7,10 @@ import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
 import CallToAction from "@/components/sections/CallToAction";
 import StickyMobileCta from "@/components/sections/StickyMobileCta";
+import RelatedLinks from "@/components/sections/RelatedLinks";
+import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import FadeIn from "@/components/ui/FadeIn";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
@@ -160,6 +163,7 @@ const faqJsonLd = {
 };
 
 const breadcrumb = breadcrumbJsonLd([
+  { name: "Modernisation applicative", path: "/modernisation-applicative" },
   {
     name: "Architecture hexagonale avec Symfony",
     path: "/architecture-hexagonale-symfony",
@@ -181,6 +185,15 @@ const webPage = webPageJsonLd({
   datePublished: "2026-03-12",
   dateModified: "2026-03-12",
 });
+
+const architectureRelatedLinks: RelatedLink[] = [
+  { title: "Modernisation applicative", description: "intégrer l'architecture hexagonale dans un parcours de modernisation", href: "/modernisation-applicative" },
+  { title: "Audit Symfony gratuit", description: "30 minutes pour évaluer votre architecture actuelle", href: "/audit-symfony-gratuit" },
+  { title: "Votre domaine ne devrait jamais connaître Symfony", description: "le principe fondateur de l'architecture hexagonale", href: "/article/domain-ne-devrait-jamais-connaitre-symfony" },
+  { title: "Migration vers l'architecture hexagonale : retour de mission", description: "un cas concret de migration en production", href: "/article/migration-symfony-architecture-hexagonale-retour-mission" },
+  { title: "Symfony Messenger, colonne vertébrale de l'archi hexagonale", description: "le rôle de Messenger dans cette architecture", href: "/article/symfony-messenger-colonne-vertebrale-archi-hexagonale" },
+  { title: "Documentation officielle Symfony", description: "référence technique du framework", href: "https://symfony.com/doc/current/the-fast-track/en/index.html", external: true },
+];
 
 export default function ArchitectureHexagonaleSymfony() {
   return (
@@ -204,6 +217,7 @@ export default function ArchitectureHexagonaleSymfony() {
       <main>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
+            <Breadcrumb items={[{ label: "Modernisation applicative", href: "/modernisation-applicative" }, { label: "Architecture hexagonale" }]} />
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">
@@ -448,62 +462,7 @@ export default function ArchitectureHexagonaleSymfony() {
         </FadeIn>
 
         <FadeIn>
-        <section className="bg-light-gray py-16">
-          <Container>
-            <SectionTitle>Pour aller plus loin</SectionTitle>
-            <ul className="mx-auto mt-8 max-w-3xl space-y-3 text-lg">
-              <li>
-                <Link
-                  href="/audit-symfony-gratuit"
-                  className="text-primary hover:underline"
-                >
-                  Audit Symfony gratuit
-                </Link>{" "}
-                , 30 minutes pour évaluer votre architecture actuelle
-              </li>
-              <li>
-                <Link
-                  href="/article/domain-ne-devrait-jamais-connaitre-symfony"
-                  className="text-primary hover:underline"
-                >
-                  Votre domaine ne devrait jamais connaître Symfony
-                </Link>{" "}
-                , le principe fondateur de l&apos;architecture hexagonale
-              </li>
-              <li>
-                <Link
-                  href="/article/migration-symfony-architecture-hexagonale-retour-mission"
-                  className="text-primary hover:underline"
-                >
-                  Migration vers l&apos;architecture hexagonale : retour de
-                  mission
-                </Link>{" "}
-                , un cas concret de migration en production
-              </li>
-              <li>
-                <Link
-                  href="/article/symfony-messenger-colonne-vertebrale-archi-hexagonale"
-                  className="text-primary hover:underline"
-                >
-                  Symfony Messenger, colonne vertébrale de l&apos;archi
-                  hexagonale
-                </Link>{" "}
-                , le rôle de Messenger dans cette architecture
-              </li>
-              <li>
-                <a
-                  href="https://symfony.com/doc/current/the-fast-track/en/index.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline"
-                >
-                  Documentation officielle Symfony
-                </a>{" "}
-                , référence technique du framework
-              </li>
-            </ul>
-          </Container>
-        </section>
+        <RelatedLinks links={architectureRelatedLinks} className="bg-light-gray" />
         </FadeIn>
 
         <FadeIn>
