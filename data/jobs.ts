@@ -38,12 +38,6 @@ export const domains: Domain[] = [
   },
 ];
 
-export const jobCategories = [
-  "Développement",
-  "Business",
-  "Communication",
-];
-
 export const jobs: Job[] = [];
 
 export function getJobsByDomain(domainSlug: string): Job[] {

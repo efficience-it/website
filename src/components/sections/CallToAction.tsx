@@ -16,7 +16,7 @@ export default function CallToAction() {
         <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Button
             href="/audit-symfony-gratuit"
-            variant="outline-white"
+            variant="white"
             size="lg"
           >
             Audit gratuit 30 min
