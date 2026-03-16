@@ -12,6 +12,7 @@ const config: Config = {
     "^@/(.*)$": "<rootDir>/src/$1",
   },
   testPathIgnorePatterns: ["/node_modules/", "/.claude/"],
+  coverageReporters: ["json-summary", "text"],
 };
 
 export default createJestConfig(config);
