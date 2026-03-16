@@ -1,6 +1,16 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+
+function getReducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function subscribeReducedMotion(callback: () => void) {
+  const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
+  mql.addEventListener("change", callback);
+  return () => mql.removeEventListener("change", callback);
+}
 
 interface AnimatedCounterProps {
   value: number;
@@ -13,11 +23,18 @@ export default function AnimatedCounter({
   suffix = "",
   duration = 2000,
 }: AnimatedCounterProps) {
-  const [count, setCount] = useState(0);
+  const prefersReducedMotion = useSyncExternalStore(
+    subscribeReducedMotion,
+    getReducedMotion,
+    () => false,
+  );
+  const [count, setCount] = useState(prefersReducedMotion ? value : 0);
   const ref = useRef<HTMLSpanElement>(null);
   const hasAnimated = useRef(false);
 
   useEffect(() => {
+    if (prefersReducedMotion) return;
+
     const el = ref.current;
     if (!el) return;
 
@@ -48,7 +65,7 @@ export default function AnimatedCounter({
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, [value, duration]);
+  }, [value, duration, prefersReducedMotion]);
 
   return (
     <span ref={ref}>

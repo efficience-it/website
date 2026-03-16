@@ -23,6 +23,10 @@ export default function Testimonials() {
 
   useEffect(() => {
     if (isPaused) return;
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (prefersReducedMotion) return;
     timerRef.current = setInterval(next, INTERVAL);
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
