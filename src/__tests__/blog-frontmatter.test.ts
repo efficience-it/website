@@ -3,6 +3,7 @@ import path from "path";
 import matter from "gray-matter";
 
 const CONTENT_DIR = path.join(process.cwd(), "content/blog");
+const PUBLIC_DIR = path.join(process.cwd(), "public");
 
 const VALID_CATEGORIES = [
   "Symfony",
@@ -41,6 +42,14 @@ describe("Blog front matter", () => {
     const { data } = matter(content);
 
     expect(VALID_CATEGORIES).toContain(data.category);
+  });
+
+  it.each(files)("%s has an image file that exists", (file) => {
+    const content = fs.readFileSync(path.join(CONTENT_DIR, file), "utf-8");
+    const { data } = matter(content);
+
+    const imagePath = path.join(PUBLIC_DIR, data.image);
+    expect(fs.existsSync(imagePath)).toBe(true);
   });
 
   it.each(files)("%s has a date in YYYY-MM-DD format", (file) => {
