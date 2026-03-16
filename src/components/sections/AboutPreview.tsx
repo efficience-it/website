@@ -44,7 +44,7 @@ export default function AboutPreview() {
               alt="L'équipe Efficience IT"
               width={500}
               height={350}
-              sizes="(max-width: 768px) 100vw, 500px"
+              sizes="(max-width: 768px) 100vw, 380px"
               className="w-full rounded-lg"
             />
           </div>
