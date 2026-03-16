@@ -174,7 +174,7 @@ Le piège classique est d'adopter Kubernetes trop tôt. Une application Symfony 
 
 Un déploiement sans interruption repose sur trois mécanismes : les health checks, les rolling updates et le graceful shutdown. Le health check vérifie que le conteneur est prêt à recevoir du trafic avant que l'orchestrateur ne bascule les requêtes. Le rolling update remplace les conteneurs un par un, garantissant qu'il y a toujours des instances opérationnelles. Le graceful shutdown laisse aux requêtes en cours le temps de se terminer avant l'arrêt du conteneur.
 
-La densité serveur est un autre levier architectural. Un serveur avec 8 Go de RAM peut héberger trois applications Symfony conteneurisées, chacune limitée à 2 Go, avec une réserve pour le système. Sans Docker, les conflits entre versions de PHP, les extensions partagées et les fichiers de configuration globaux rendraient cette cohabitation risquée.
+La densité serveur est un autre levier architectural. Un serveur avec 8 Go de RAM peut héberger trois applications Symfony conteneurisées, chacune limitée à 2 Go, avec une réserve pour le système. Notre offre d'[hébergement Symfony](/hebergement-symfony) s'appuie sur cette conteneurisation pour garantir isolation et performance à chaque application. Sans Docker, les conflits entre versions de PHP, les extensions partagées et les fichiers de configuration globaux rendraient cette cohabitation risquée.
 
 ### Quand Docker n'est pas la réponse
 

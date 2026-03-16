@@ -94,7 +94,7 @@ Ces deux directives de `Cache-Control` offrent un mécanisme de résilience indi
 
 ## Monitoring et observabilité du cache
 
-Un cache non observé est un cache potentiellement contre-productif. Le taux de hit (proportion de requêtes servies par le cache) est la métrique fondamentale : en dessous de 80 %, la configuration mérite investigation. Les métriques à surveiller incluent également le taux d'éviction, la latence P99, le temps de régénération des entrées et le ratio de réponses stale servies.
+Un cache non observé est un cache potentiellement contre-productif. Le taux de hit (proportion de requêtes servies par le cache) est la métrique fondamentale : en dessous de 80 %, la configuration mérite investigation. La qualité de l'[hébergement Symfony](/hebergement-symfony) joue un rôle direct sur ces performances : un serveur correctement dimensionné avec Varnish ou Redis préconfiguré maximise le taux de hit sans effort supplémentaire côté applicatif. Les métriques à surveiller incluent également le taux d'éviction, la latence P99, le temps de régénération des entrées et le ratio de réponses stale servies.
 
 Varnish expose ses statistiques via `varnishstat`, et les CDN fournissent des tableaux de bord détaillés. L'ajout de l'en-tête `X-Cache` (HIT, MISS, STALE) dans les réponses permet de diagnostiquer le comportement du cache directement depuis les outils de développement du navigateur. En production, l'intégration de ces métriques dans un outil de monitoring comme Prometheus ou Datadog permet de détecter les régressions de performance et d'anticiper les problèmes de capacité.
 
