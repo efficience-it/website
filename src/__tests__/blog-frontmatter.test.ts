@@ -70,4 +70,19 @@ describe("Blog front matter", () => {
 
     expect(wordCount).toBeGreaterThanOrEqual(1000);
   });
+
+  it.each(files)("%s has enough internal links for its length", (file) => {
+    const raw = fs.readFileSync(path.join(CONTENT_DIR, file), "utf-8");
+    const { content } = matter(raw);
+    const text = content
+      .replace(/```[\s\S]*?```/g, "")
+      .replace(/<[^>]+>/g, "")
+      .replace(/[#*_`~>|-]/g, "")
+      .trim();
+    const wordCount = text.split(/\s+/).filter(Boolean).length;
+    const internalLinks = (content.match(/\]\(\s*\/article\//g) || []).length;
+    const minLinks = Math.max(1, Math.floor(wordCount / 400));
+
+    expect(internalLinks).toBeGreaterThanOrEqual(minLinks);
+  });
 });
