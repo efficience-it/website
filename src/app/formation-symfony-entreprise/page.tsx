@@ -8,6 +8,7 @@ import Button from "@/components/ui/Button";
 import Accordion from "@/components/ui/Accordion";
 import StickyMobileCta from "@/components/sections/StickyMobileCta";
 import FadeIn from "@/components/ui/FadeIn";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { BASE_URL } from "@/lib/metadata";
@@ -206,6 +207,7 @@ export default function FormationSymfonyEntreprise() {
       <main>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
+            <Breadcrumb items={[{ label: "Formation Symfony" }]} />
             <div className="mx-auto max-w-3xl text-center">
               <p className="text-sm font-semibold uppercase tracking-wider text-primary">
                 Formation Symfony entreprise - Lille et à distance

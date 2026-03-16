@@ -33,6 +33,19 @@ const expertises = [
     cta: "Découvrir notre offre Cloud & DevOps",
   },
   {
+    title: "Modernisation applicative",
+    intro:
+      "Votre application PHP vieillit ? Nous la remettons à niveau progressivement, sans interruption de service.",
+    items: [
+      "Audit technique et diagnostic de dette",
+      "Refactoring progressif et migration Symfony",
+      "Tests automatisés et architecture hexagonale",
+      "Maintenance applicative continue",
+    ],
+    href: "/modernisation-applicative",
+    cta: "Découvrir notre parcours de modernisation",
+  },
+  {
     title: "Accompagnement et Conseil",
     intro:
       "Un regard extérieur, des méthodes solides, et un vrai partenaire pour avancer dans la bonne direction.",
@@ -53,7 +66,7 @@ export default function ExpertiseCards() {
         <SectionTitle subtitle="Ce que nous faisons de mieux">
           Nos expertises
         </SectionTitle>
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {expertises.map((item) => (
             <Card key={item.title}>
               <h3 className="font-display text-xl font-bold text-dark">

@@ -9,6 +9,7 @@ import AuditForm from "@/components/sections/AuditForm";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import FadeIn from "@/components/ui/FadeIn";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, howToJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
@@ -120,6 +121,11 @@ const webPage = webPageJsonLd({
 
 const auditRelatedLinks: RelatedLink[] = [
   {
+    title: "Modernisation applicative",
+    description: "le parcours complet après le diagnostic",
+    href: "/modernisation-applicative",
+  },
+  {
     title: "Pourquoi choisir Symfony pour vos projets",
     description: "Comprendre les atouts du framework",
     href: "/article/pourquoi-choisir-symfony-pour-vos-projets",
@@ -159,6 +165,7 @@ export default function AuditSymfonyGratuit() {
       <main>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
+            <Breadcrumb items={[{ label: "Audit Symfony gratuit" }]} />
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">

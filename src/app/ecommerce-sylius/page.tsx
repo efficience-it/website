@@ -10,6 +10,7 @@ import Accordion from "@/components/ui/Accordion";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import FadeIn from "@/components/ui/FadeIn";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
@@ -179,6 +180,7 @@ export default function EcommerceSylius() {
       <main>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
+            <Breadcrumb items={[{ label: "E-commerce Sylius" }]} />
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">

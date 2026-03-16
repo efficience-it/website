@@ -9,6 +9,7 @@ import StickyMobileCta from "@/components/sections/StickyMobileCta";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import FadeIn from "@/components/ui/FadeIn";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
@@ -139,6 +140,7 @@ const faqJsonLd = {
 };
 
 const breadcrumb = breadcrumbJsonLd([
+  { name: "Modernisation applicative", path: "/modernisation-applicative" },
   { name: "Reprise de projet Symfony", path: "/reprise-projet-symfony" },
 ]);
 
@@ -158,6 +160,7 @@ const webPage = webPageJsonLd({
 });
 
 const repriseRelatedLinks: RelatedLink[] = [
+  { title: "Modernisation applicative", description: "de la stabilisation à la pérennisation de votre application", href: "/modernisation-applicative" },
   { title: "Audit Symfony gratuit", description: "30 minutes pour évaluer l'état de votre application", href: "/audit-symfony-gratuit" },
   { title: "La dette technique : faut-il vraiment en avoir peur ?", description: "Comprendre les enjeux avant d'agir", href: "/article/la-dette-technique-faut-il-vraiment-en-avoir-peur" },
   { title: "Guide de migration dans un projet Symfony", description: "Notre méthodologie de montée de version", href: "/article/guide-de-migration-dans-un-projet-symfony" },
@@ -187,6 +190,7 @@ export default function RepriseProjetSymfony() {
       <main>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
+            <Breadcrumb items={[{ label: "Modernisation applicative", href: "/modernisation-applicative" }, { label: "Reprise de projet Symfony" }]} />
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">
