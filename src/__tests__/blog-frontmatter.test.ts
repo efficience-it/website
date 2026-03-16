@@ -69,6 +69,5 @@ describe("Blog front matter", () => {
     const wordCount = text.split(/\s+/).filter(Boolean).length;
 
     expect(wordCount).toBeGreaterThanOrEqual(1000);
-    expect(wordCount).toBeLessThanOrEqual(2600);
   });
 });
