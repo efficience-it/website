@@ -39,7 +39,7 @@ const programs = [
     duration: "2 jours",
   },
   {
-    title: "Qualite de code PHP avec PHPStan",
+    title: "Qualité de code PHP avec PHPStan",
     description:
       "Analyse statique du code, élimination des erreurs de type, configuration PHPStan niveau 8 et intégration en CI.",
     duration: "1 jour",

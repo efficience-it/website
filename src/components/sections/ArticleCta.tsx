@@ -54,20 +54,20 @@ function getCtaConfig(category?: string, slug?: string): CtaConfig {
 
   if (REPRISE_SLUGS.includes(s)) {
     return {
-      heading: "Vous faites face a un projet legacy ou une migration PHP ?",
+      heading: "Vous faites face à un projet legacy ou une migration PHP ?",
       description:
-        "Notre offre de reprise de projet Symfony vous permet de reprendre le controle rapidement, avec un audit honnete et une stabilisation progressive.",
-      buttonLabel: "Decouvrir notre offre de reprise",
+        "Notre offre de reprise de projet Symfony vous permet de reprendre le contrôle rapidement, avec un audit honnête et une stabilisation progressive.",
+      buttonLabel: "Découvrir notre offre de reprise",
       href: "/reprise-projet-symfony",
     };
   }
 
   if (MIGRATION_SLUGS.includes(s)) {
     return {
-      heading: "Vous faites face a un projet legacy ou une migration PHP ?",
+      heading: "Vous faites face à un projet legacy ou une migration PHP ?",
       description:
-        "Notre offre de modernisation d'application PHP accompagne la migration de votre base de code vers Symfony, etape par etape et sans interruption de service.",
-      buttonLabel: "Decouvrir notre offre de modernisation",
+        "Notre offre de modernisation d'application PHP accompagne la migration de votre base de code vers Symfony, étape par étape et sans interruption de service.",
+      buttonLabel: "Découvrir notre offre de modernisation",
       href: "/modernisation-application-php",
     };
   }

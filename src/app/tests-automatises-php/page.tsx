@@ -37,7 +37,7 @@ const typesDeTests = [
   {
     title: "Tests end-to-end (e2e)",
     description:
-      "Execution dans un navigateur reel pour valider les parcours utilisateur critiques : inscription, paiement, tableau de bord. Ils reproduisent le comportement exact de vos utilisateurs.",
+      "Exécution dans un navigateur réel pour valider les parcours utilisateur critiques : inscription, paiement, tableau de bord. Ils reproduisent le comportement exact de vos utilisateurs.",
   },
 ];
 
@@ -156,14 +156,14 @@ export default function TestsAutomatisesPhp() {
                   Tests automatisés PHP et Symfony : sécurisez chaque livraison
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
-                  Chaque mise en production vous stresse ? Les regressions
+                  Chaque mise en production vous stresse ? Les régressions
                   s&apos;accumulent sprint après sprint ? Vos développeurs
                   n&apos;osent plus toucher au code existant ?
                 </p>
                 <p className="mt-4 max-w-3xl text-lg text-gray">
                   Efficience IT met en place une stratégie de{" "}
                   <strong>tests automatisés</strong> adaptée à votre projet PHP
-                  et Symfony. Tests unitaires, d&apos;integration, fonctionnels
+                  et Symfony. Tests unitaires, d&apos;intégration, fonctionnels
                   et e2e : nous construisons le filet de sécurité qui vous
                   permet de livrer en confiance, à chaque fois.
                 </p>
@@ -396,7 +396,7 @@ export default function TestsAutomatisesPhp() {
                       Analyse statique intégrée
                     </h3>
                     <p className="mt-1 text-gray">
-                      PHPStan et les outils de lint sont executes dans le meme
+                      PHPStan et les outils de lint sont exécutés dans le même
                       pipeline. Le code est vérifié à la fois sur son
                       comportement et sur sa structure.
                     </p>
