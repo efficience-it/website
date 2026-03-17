@@ -182,6 +182,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: `${BASE_URL}/secteur`,
+      lastModified: "2026-03-17",
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
       url: `${BASE_URL}/secteur/e-commerce`,
       lastModified: "2026-03-12",
       changeFrequency: "monthly",
