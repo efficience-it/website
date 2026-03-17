@@ -26,7 +26,7 @@ Node.js sert aussi de socle aux meta-frameworks front-end. Next.js, Nuxt et Angu
 
 ## React : flexibilité maximale, responsabilité maximale
 
-React se définit comme une bibliothèque, pas un framework. Cette distinction n'est pas cosmétique : React ne fournit ni routeur, ni gestion d'état, ni client HTTP. L'équipe de développement compose sa propre stack en assemblant des bibliothèques tierces. Cette liberté séduit les développeurs expérimentés, mais elle exige des choix architecturaux explicites dès le démarrage du projet.
+[React](/developpement-react) se définit comme une bibliothèque, pas un framework. Cette distinction n'est pas cosmétique : React ne fournit ni routeur, ni gestion d'état, ni client HTTP. L'équipe de développement compose sa propre stack en assemblant des bibliothèques tierces. Cette liberté séduit les développeurs expérimentés, mais elle exige des choix architecturaux explicites dès le démarrage du projet.
 
 Le modèle de composants et le Virtual DOM restent le socle technique. React compare l'arbre virtuel avec le DOM réel et ne met à jour que les nœuds modifiés. Ce mécanisme de réconciliation garantit des performances élevées sur les interfaces complexes comportant de nombreuses mises à jour fréquentes.
 
@@ -45,7 +45,7 @@ La gestion d'état dans l'écosystème React a connu plusieurs générations : R
 
 ## Vue.js : la progressivité comme philosophie
 
-Vue.js adopte une approche progressivement adoptable. On peut l'intégrer dans une page existante via un simple tag script, puis monter en puissance vers une SPA complète avec routeur, store et rendu serveur via Nuxt. Pour aller plus loin sur les applications web modernes, notre article sur l'[amélioration de l'expérience utilisateur avec le manifeste des applications web](/article/ameliorer-lexperience-utilisateur-grace-au-manifeste-des-applications-web) couvre la transformation de ces SPA en PWA installables. Cette progressivité n'est pas un compromis : c'est une décision architecturale qui réduit le coût d'entrée sans sacrifier les capacités avancées.
+[Vue.js](/developpement-vuejs) adopte une approche progressivement adoptable. On peut l'intégrer dans une page existante via un simple tag script, puis monter en puissance vers une SPA complète avec routeur, store et rendu serveur via Nuxt. Pour aller plus loin sur les applications web modernes, notre article sur l'[amélioration de l'expérience utilisateur avec le manifeste des applications web](/article/ameliorer-lexperience-utilisateur-grace-au-manifeste-des-applications-web) couvre la transformation de ces SPA en PWA installables. Cette progressivité n'est pas un compromis : c'est une décision architecturale qui réduit le coût d'entrée sans sacrifier les capacités avancées.
 
 Le système de réactivité de Vue 3, basé sur les Proxies JavaScript, offre un tracking granulaire des dépendances. Contrairement au modèle de réconciliation de React qui compare des arbres entiers, Vue sait précisément quels composants doivent être mis à jour lorsqu'une donnée change. Sur les interfaces avec de nombreux composants, cette granularité se traduit par des performances de re-rendering supérieures sans optimisation manuelle.
 

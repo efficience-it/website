@@ -13,25 +13,15 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 
-const frontendRelatedLinks: RelatedLink[] = [
+const vuejsRelatedLinks: RelatedLink[] = [
   {
-    title: "Développement React",
-    description: "Applications React et TypeScript sur mesure : SPA, dashboards, SSR avec Next.js",
-    href: "/developpement-react",
-  },
-  {
-    title: "Développement Vue.js",
-    description: "Interfaces réactives et progressives avec Vue.js et Nuxt",
-    href: "/developpement-vuejs",
-  },
-  {
-    title: "Développement TypeScript",
-    description: "Typage statique et applications maintenables sur la durée",
-    href: "/developpement-typescript",
+    title: "Développement frontend",
+    description: "Notre expertise React, Vue.js et TypeScript pour vos interfaces",
+    href: "/developpement-frontend",
   },
   {
     title: "API sur mesure Symfony",
-    description: "Les APIs backend qui alimentent vos interfaces frontend",
+    description: "Les APIs backend qui alimentent vos interfaces Vue.js",
     href: "/api-sur-mesure-symfony",
   },
   {
@@ -40,73 +30,72 @@ const frontendRelatedLinks: RelatedLink[] = [
     href: "/article/quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular",
   },
   {
-    title: "React, documentation officielle",
-    description: "La référence pour le développement d'interfaces React",
-    href: "https://react.dev/",
+    title: "Déployer Nuxt.js avec GitLab CI",
+    description: "Pipeline CI/CD pour vos applications Nuxt avec S3 et CloudFront",
+    href: "/article/deployer-nuxtjs-avec-gitlab-ci-s3-et-cloudfront",
+  },
+  {
+    title: "Vue.js, documentation officielle",
+    description: "Le framework JavaScript progressif pour construire des interfaces",
+    href: "https://vuejs.org/",
     external: true,
   },
 ];
 
 export const metadata = pageMetadata({
-  title: "Développement frontend React, Vue.js et TypeScript sur mesure",
+  title: "Développement Vue.js sur mesure : interfaces réactives et progressives",
   description:
-    "Efficience IT conçoit des interfaces frontend performantes avec React, Vue.js, Next.js et TypeScript. Applications sur mesure connectées à vos APIs Symfony ou Node.js.",
-  path: "/developpement-frontend",
+    "Efficience IT développe des applications Vue.js et Nuxt sur mesure. Interfaces légères, intégration Symfony native et montée en charge progressive.",
+  path: "/developpement-vuejs",
 });
 
 const expertises = [
   {
-    title: "Applications React",
+    title: "Applications Vue.js réactives",
     description:
-      "Interfaces réactives avec React et TypeScript : Single Page Applications, dashboards métier, backoffices complexes. Nous utilisons les hooks, le Server Side Rendering avec Next.js et les state managers adaptés à chaque contexte.",
+      "Interfaces fluides et performantes avec Vue.js 3 et la Composition API. Single Page Applications, dashboards métier, backoffices : nous exploitons la réactivité fine de Vue.js pour créer des expériences utilisateur rapides et maintenables.",
   },
   {
-    title: "Applications Vue.js",
+    title: "SSR avec Nuxt",
     description:
-      "Interfaces légères et progressives avec Vue.js et Nuxt. Vue.js excelle pour les projets qui demandent une courbe d'apprentissage rapide et une intégration fluide avec un backend Symfony existant.",
+      "Nuxt 3 apporte le Server Side Rendering, la génération statique et le rendu hybride à vos applications Vue.js. Idéal pour les projets avec des enjeux SEO ou de performance au premier chargement, sans sacrifier l'interactivité côté client.",
   },
   {
-    title: "TypeScript systématique",
+    title: "Intégration Symfony",
     description:
-      "Chaque projet frontend est développé en TypeScript. Le typage statique élimine des catégories entières de bugs, accélère le refactoring et rend le code lisible des mois après son écriture.",
+      "Vue.js s'intègre naturellement avec Symfony via Webpack Encore ou Vite. Nous connectons vos interfaces Vue.js à des APIs Symfony ou API Platform, avec une gestion propre de l'authentification, de la sérialisation et du cache.",
   },
   {
-    title: "Intégration API et temps réel",
+    title: "Migration progressive",
     description:
-      "Connexion de vos interfaces à des APIs REST ou GraphQL, gestion du cache côté client, synchronisation temps réel avec WebSockets ou Server-Sent Events pour les applications collaboratives.",
+      "Vue.js excelle dans les migrations progressives. Vous pouvez intégrer Vue.js composant par composant dans une application Twig existante, sans réécrire tout le frontend d'un coup. C'est l'approche la moins risquée pour moderniser une interface.",
   },
 ];
 
 const stack = [
-  { name: "React", description: "Interfaces complexes et réactives" },
-  { name: "Next.js", description: "SSR, SSG et React Server Components" },
-  { name: "Vue.js", description: "Interfaces légères et progressives" },
-  { name: "Nuxt", description: "SSR et génération statique avec Vue.js" },
+  { name: "Vue.js 3", description: "Composition API et réactivité fine" },
+  { name: "Nuxt 3", description: "SSR, SSG et rendu hybride" },
   { name: "TypeScript", description: "Typage statique sur chaque projet" },
+  { name: "Pinia", description: "State management léger et typé" },
   { name: "Tailwind CSS", description: "Design system et styling performant" },
   { name: "Vitest / Cypress", description: "Tests unitaires et end-to-end" },
 ];
 
 const faqItems = [
   {
-    title: "React ou Vue.js : comment choisir ?",
+    title: "Pourquoi choisir Vue.js plutôt qu'un autre framework ?",
     content:
-      "React convient aux applications complexes avec beaucoup d'états partagés, des interfaces dynamiques et une équipe habituée à l'écosystème JavaScript. Vue.js est idéal pour les projets qui nécessitent une intégration progressive dans une application existante, ou quand l'équipe backend veut monter rapidement sur le frontend. Dans les deux cas, nous développons en TypeScript.",
+      "Vue.js se distingue par sa courbe d'apprentissage rapide, sa documentation exemplaire et sa capacité à s'intégrer progressivement dans un projet existant. Contrairement à React qui impose son écosystème, Vue.js fournit un cadre complet dès l'installation : routing, state management, build tooling. C'est le choix naturel quand votre équipe backend Symfony veut monter rapidement sur le frontend.",
   },
   {
-    title: "Pouvez-vous connecter un frontend React à une API Symfony ?",
+    title: "Vue.js peut-il se connecter à une API Symfony ?",
     content:
-      "C'est même notre spécialité. En tant qu'agence Symfony, nous maîtrisons les deux côtés de la stack. Nous concevons des APIs Symfony ou API Platform optimisées pour la consommation frontend : pagination, filtres, serialization groupée, authentification JWT ou session. Le frontend et le backend sont conçus ensemble, pas en silo.",
+      "C'est l'un des cas d'usage les plus courants. Vue.js consomme des APIs REST ou GraphQL exposées par Symfony ou API Platform. Nous concevons les deux côtés de la stack ensemble : sérialisation, pagination, filtres, authentification JWT ou session. Symfony Webpack Encore et Vite permettent aussi d'intégrer Vue.js directement dans vos templates Twig.",
   },
   {
-    title: "Faites-vous du Server Side Rendering (SSR) ?",
+    title: "Peut-on migrer une application jQuery ou Twig vers Vue.js ?",
     content:
-      "Oui. Avec Next.js (React) ou Nuxt (Vue.js), nous mettons en place le SSR pour les applications qui ont des enjeux SEO ou de performance au premier chargement. Le SSR améliore le Time to First Contentful Paint et permet aux moteurs de recherche d'indexer le contenu sans exécuter JavaScript.",
-  },
-  {
-    title: "Reprenez-vous des projets frontend existants ?",
-    content:
-      "Oui. Nous réalisons un audit du code frontend existant : architecture des composants, gestion d'état, couverture de tests, performances (bundle size, rendering). Nous proposons ensuite un plan de refactoring ou de migration vers une stack plus maintenable.",
+      "Oui, et c'est précisément la force de Vue.js. Vous pouvez monter un composant Vue.js sur une portion de page Twig existante, puis étendre progressivement la couverture. Pas de big bang, pas de réécriture complète. Nous accompagnons cette migration composant par composant, en maintenant la stabilité de l'application à chaque étape.",
   },
 ];
 
@@ -126,25 +115,26 @@ const faqJsonLd = {
 const breadcrumb = breadcrumbJsonLd([
   { name: "Nos expertises", path: "/notre-expertise" },
   { name: "Développement frontend", path: "/developpement-frontend" },
+  { name: "Développement Vue.js", path: "/developpement-vuejs" },
 ]);
 
 const service = serviceJsonLd({
-  name: "Développement frontend React, Vue.js et TypeScript",
+  name: "Développement Vue.js sur mesure",
   description:
-    "Conception et développement d'interfaces frontend sur mesure avec React, Vue.js, Next.js et TypeScript. Applications connectées à vos APIs Symfony ou Node.js.",
-  path: "/developpement-frontend",
+    "Conception et développement d'applications Vue.js et Nuxt sur mesure. Interfaces légères, intégration Symfony native et montée en charge progressive.",
+  path: "/developpement-vuejs",
 });
 
 const webPage = webPageJsonLd({
-  name: "Développement frontend React, Vue.js et TypeScript sur mesure",
+  name: "Développement Vue.js sur mesure : interfaces réactives et progressives",
   description:
-    "Efficience IT conçoit des interfaces frontend performantes avec React, Vue.js, Next.js et TypeScript. Applications sur mesure connectées à vos APIs Symfony ou Node.js.",
-  path: "/developpement-frontend",
+    "Efficience IT développe des applications Vue.js et Nuxt sur mesure. Interfaces légères, intégration Symfony native et montée en charge progressive.",
+  path: "/developpement-vuejs",
   datePublished: "2026-03-17",
   dateModified: "2026-03-17",
 });
 
-export default function DeveloppementFrontend() {
+export default function DeveloppementVuejs() {
   return (
     <>
       <script
@@ -166,40 +156,38 @@ export default function DeveloppementFrontend() {
       <main>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
-            <Breadcrumb items={[{ label: "Développement frontend" }]} />
+            <Breadcrumb
+              items={[
+                { label: "Nos expertises", href: "/notre-expertise" },
+                { label: "Développement frontend", href: "/developpement-frontend" },
+                { label: "Développement Vue.js" },
+              ]}
+            />
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">
-                  Développement frontend sur mesure
+                  Développement Vue.js sur mesure
                 </p>
                 <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                  Développement frontend React, Vue.js et TypeScript sur mesure
+                  Développement Vue.js sur mesure : interfaces réactives et progressives
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
-                  Votre backend est solide, mais votre interface ne suit pas.
-                  Efficience IT conçoit des{" "}
-                  <strong>frontends performants et maintenables</strong> avec
-                  React, Vue.js et TypeScript, connectés à vos{" "}
+                  Vue.js est le framework JavaScript le plus naturel pour les
+                  équipes Symfony. Efficience IT conçoit des{" "}
+                  <strong>applications Vue.js performantes et maintenables</strong>,
+                  connectées à vos{" "}
                   <Link
                     href="/api-sur-mesure-symfony"
                     className="text-primary hover:underline"
                   >
                     APIs Symfony
                   </Link>{" "}
-                  ou{" "}
-                  <Link
-                    href="/developpement-nodejs"
-                    className="text-primary hover:underline"
-                  >
-                    Node.js
-                  </Link>
-                  .
+                  existantes ou à construire.
                 </p>
                 <p className="mt-4 max-w-3xl text-lg text-gray">
-                  Dashboards métier, backoffices, applications temps réel,
-                  interfaces e-commerce : chaque projet a ses contraintes, et
-                  nous choisissons la stack frontend la plus adaptée à votre
-                  contexte.
+                  Interfaces réactives, rendu serveur avec Nuxt, migration
+                  progressive depuis Twig : nous adaptons la stack Vue.js à
+                  votre contexte technique et à vos objectifs métier.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   <Button href="/contact">Discuter de votre projet</Button>
@@ -233,10 +221,17 @@ export default function DeveloppementFrontend() {
         <FadeIn>
           <section className="py-16 md:py-24">
             <Container>
-              <SectionTitle>Nos expertises frontend</SectionTitle>
+              <SectionTitle>Nos expertises Vue.js</SectionTitle>
               <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-                Quatre domaines où notre expertise frontend apporte une valeur
-                immédiate à vos projets.
+                Quatre domaines où notre expertise Vue.js apporte une valeur
+                concrète à vos projets{" "}
+                <Link
+                  href="/developpement-frontend"
+                  className="text-primary hover:underline"
+                >
+                  frontend
+                </Link>
+                .
               </p>
               <div className="mt-10 grid gap-6 sm:grid-cols-2">
                 {expertises.map((expertise) => (
@@ -249,14 +244,14 @@ export default function DeveloppementFrontend() {
                 ))}
               </div>
               <p className="mx-auto mt-8 max-w-3xl text-center text-gray">
-                Pour bien choisir entre les frameworks, notre{" "}
+                Pour comparer Vue.js avec React et Angular, consultez notre{" "}
                 <Link
                   href="/article/quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular"
                   className="text-primary hover:underline"
                 >
-                  comparatif des frameworks JavaScript
-                </Link>{" "}
-                détaille les forces et faiblesses de chaque option.
+                  guide comparatif des frameworks JavaScript
+                </Link>
+                .
               </p>
             </Container>
           </section>
@@ -265,12 +260,12 @@ export default function DeveloppementFrontend() {
         <FadeIn>
           <section className="bg-light-gray py-16 md:py-24">
             <Container>
-              <SectionTitle>Notre stack frontend</SectionTitle>
+              <SectionTitle>Notre stack Vue.js</SectionTitle>
               <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-                Des outils matures, adoptés par l&apos;industrie et soutenus par
-                des communautés actives.
+                Des outils matures et bien intégrés, choisis pour leur
+                fiabilité en production.
               </p>
-              <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {stack.map((item) => (
                   <Card key={item.name}>
                     <p className="font-display text-base font-bold text-primary">
@@ -289,33 +284,35 @@ export default function DeveloppementFrontend() {
             <Container>
               <div className="mx-auto max-w-3xl rounded-2xl border border-primary/20 bg-primary/5 p-8 md:p-12">
                 <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
-                  Frontend et backend conçus ensemble
+                  Vue.js et Symfony : intégration naturelle
                 </h2>
                 <p className="mt-4 text-lg text-gray">
-                  Chez Efficience IT, le frontend n&apos;est pas un projet
-                  séparé confié à une autre équipe. Nos développeurs maîtrisent
-                  les deux côtés de la stack : ils conçoivent les APIs et les
-                  interfaces qui les consomment. Cette approche full stack
-                  élimine les allers-retours entre équipes, réduit les bugs
-                  d&apos;intégration et accélère les livraisons.
+                  Vue.js a été conçu pour s&apos;intégrer progressivement dans
+                  une application existante. Avec Symfony, cette intégration est
+                  encore plus fluide : Webpack Encore et Vite supportent Vue.js
+                  nativement, et la Composition API se marie parfaitement avec
+                  les APIs exposées par{" "}
+                  <Link
+                    href="/api-sur-mesure-symfony"
+                    className="text-primary hover:underline"
+                  >
+                    API Platform
+                  </Link>
+                  .
                 </p>
                 <p className="mt-4 text-lg text-gray">
-                  Que votre backend soit en{" "}
+                  Que vous partiez d&apos;une application Twig monolithique ou
+                  d&apos;un{" "}
                   <Link
                     href="/developpement-web-sur-mesure"
                     className="text-primary hover:underline"
                   >
-                    Symfony
-                  </Link>
-                  ,{" "}
-                  <Link
-                    href="/developpement-nodejs"
-                    className="text-primary hover:underline"
-                  >
-                    Node.js
+                    projet web sur mesure
                   </Link>{" "}
-                  ou un mix des deux, nous concevons le frontend pour qu&apos;il
-                  s&apos;intègre parfaitement à votre architecture existante.
+                  en architecture découplée, Vue.js s&apos;adapte à votre
+                  rythme. Pas de réécriture complète, pas de changement
+                  d&apos;infrastructure : vous ajoutez de la réactivité là où
+                  elle apporte le plus de valeur.
                 </p>
               </div>
             </Container>
@@ -334,7 +331,7 @@ export default function DeveloppementFrontend() {
         </FadeIn>
 
         <FadeIn>
-          <RelatedLinks links={frontendRelatedLinks} />
+          <RelatedLinks links={vuejsRelatedLinks} />
         </FadeIn>
 
         <FadeIn>

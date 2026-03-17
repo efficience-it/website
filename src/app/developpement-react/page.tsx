@@ -13,31 +13,31 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 
-const frontendRelatedLinks: RelatedLink[] = [
+const reactRelatedLinks: RelatedLink[] = [
   {
-    title: "Développement React",
-    description: "Applications React et TypeScript sur mesure : SPA, dashboards, SSR avec Next.js",
-    href: "/developpement-react",
-  },
-  {
-    title: "Développement Vue.js",
-    description: "Interfaces réactives et progressives avec Vue.js et Nuxt",
-    href: "/developpement-vuejs",
-  },
-  {
-    title: "Développement TypeScript",
-    description: "Typage statique et applications maintenables sur la durée",
-    href: "/developpement-typescript",
+    title: "Développement frontend",
+    description: "Notre expertise frontend complète : React, Vue.js, TypeScript",
+    href: "/developpement-frontend",
   },
   {
     title: "API sur mesure Symfony",
-    description: "Les APIs backend qui alimentent vos interfaces frontend",
+    description: "Les APIs backend qui alimentent vos interfaces React",
     href: "/api-sur-mesure-symfony",
+  },
+  {
+    title: "Développement Node.js",
+    description: "Backend JavaScript et BFF pour vos applications React",
+    href: "/developpement-nodejs",
   },
   {
     title: "Quel framework JavaScript choisir",
     description: "Comparatif Node.js, React, Vue.js et Angular pour votre projet",
     href: "/article/quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular",
+  },
+  {
+    title: "Les bonnes pratiques des APIs REST",
+    description: "Concevoir des APIs propres pour alimenter vos frontends React",
+    href: "/article/api-rest-les-bonnes-pratiques",
   },
   {
     title: "React, documentation officielle",
@@ -48,65 +48,60 @@ const frontendRelatedLinks: RelatedLink[] = [
 ];
 
 export const metadata = pageMetadata({
-  title: "Développement frontend React, Vue.js et TypeScript sur mesure",
+  title: "Développement React sur mesure : applications performantes et maintenables",
   description:
-    "Efficience IT conçoit des interfaces frontend performantes avec React, Vue.js, Next.js et TypeScript. Applications sur mesure connectées à vos APIs Symfony ou Node.js.",
-  path: "/developpement-frontend",
+    "Efficience IT développe des applications React et TypeScript sur mesure : SPA, dashboards, backoffices. Connectées à vos APIs Symfony ou Node.js.",
+  path: "/developpement-react",
 });
 
 const expertises = [
   {
-    title: "Applications React",
+    title: "SPA et dashboards",
     description:
-      "Interfaces réactives avec React et TypeScript : Single Page Applications, dashboards métier, backoffices complexes. Nous utilisons les hooks, le Server Side Rendering avec Next.js et les state managers adaptés à chaque contexte.",
+      "Single Page Applications, dashboards métier, backoffices complexes : nous concevons des interfaces React qui gèrent des milliers d'interactions sans ralentir. State management, lazy loading, code splitting : chaque optimisation est pensée pour votre cas d'usage.",
   },
   {
-    title: "Applications Vue.js",
+    title: "Server Side Rendering avec Next.js",
     description:
-      "Interfaces légères et progressives avec Vue.js et Nuxt. Vue.js excelle pour les projets qui demandent une courbe d'apprentissage rapide et une intégration fluide avec un backend Symfony existant.",
+      "Next.js combine la puissance de React avec le rendu serveur. SEO, performance au premier chargement, React Server Components : nous déployons le SSR quand votre projet l'exige, sans complexité inutile.",
   },
   {
-    title: "TypeScript systématique",
+    title: "Intégration API Symfony",
     description:
-      "Chaque projet frontend est développé en TypeScript. Le typage statique élimine des catégories entières de bugs, accélère le refactoring et rend le code lisible des mois après son écriture.",
+      "Nos développeurs maîtrisent React et Symfony. Nous concevons les APIs et les interfaces qui les consomment : authentification JWT, pagination, cache côté client, gestion d'erreurs. Zéro friction entre frontend et backend.",
   },
   {
-    title: "Intégration API et temps réel",
+    title: "Design systems et composants",
     description:
-      "Connexion de vos interfaces à des APIs REST ou GraphQL, gestion du cache côté client, synchronisation temps réel avec WebSockets ou Server-Sent Events pour les applications collaboratives.",
+      "Bibliothèques de composants réutilisables, documentées avec Storybook, testées unitairement. Un design system React accélère le développement et garantit la cohérence visuelle sur l'ensemble de votre application.",
   },
 ];
 
 const stack = [
-  { name: "React", description: "Interfaces complexes et réactives" },
-  { name: "Next.js", description: "SSR, SSG et React Server Components" },
-  { name: "Vue.js", description: "Interfaces légères et progressives" },
-  { name: "Nuxt", description: "SSR et génération statique avec Vue.js" },
+  { name: "React 19", description: "Server Components et hooks avancés" },
+  { name: "Next.js", description: "SSR, SSG et App Router" },
   { name: "TypeScript", description: "Typage statique sur chaque projet" },
   { name: "Tailwind CSS", description: "Design system et styling performant" },
+  { name: "React Query / TanStack", description: "Cache et synchronisation serveur" },
   { name: "Vitest / Cypress", description: "Tests unitaires et end-to-end" },
+  { name: "Storybook", description: "Documentation et test visuel des composants" },
 ];
 
 const faqItems = [
   {
-    title: "React ou Vue.js : comment choisir ?",
+    title: "Pourquoi choisir React plutôt qu'un autre framework frontend ?",
     content:
-      "React convient aux applications complexes avec beaucoup d'états partagés, des interfaces dynamiques et une équipe habituée à l'écosystème JavaScript. Vue.js est idéal pour les projets qui nécessitent une intégration progressive dans une application existante, ou quand l'équipe backend veut monter rapidement sur le frontend. Dans les deux cas, nous développons en TypeScript.",
+      "React domine l'écosystème frontend par la taille de sa communauté, la richesse de son écosystème et sa flexibilité. Il convient particulièrement aux applications complexes avec beaucoup d'états partagés : dashboards, backoffices, applications temps réel. Avec Next.js, il couvre aussi les besoins SEO et performance au premier chargement. Pour les projets plus simples, Vue.js peut être un meilleur choix. Notre comparatif des frameworks JavaScript détaille les critères de décision.",
   },
   {
-    title: "Pouvez-vous connecter un frontend React à une API Symfony ?",
+    title: "Comment connectez-vous React à une API Symfony existante ?",
     content:
-      "C'est même notre spécialité. En tant qu'agence Symfony, nous maîtrisons les deux côtés de la stack. Nous concevons des APIs Symfony ou API Platform optimisées pour la consommation frontend : pagination, filtres, serialization groupée, authentification JWT ou session. Le frontend et le backend sont conçus ensemble, pas en silo.",
+      "Nous concevons la couche d'intégration entre React et Symfony : appels API typés avec TypeScript, gestion du cache avec React Query, authentification JWT ou session, gestion optimiste des mutations. En tant qu'agence Symfony, nous intervenons aussi côté backend pour adapter les endpoints aux besoins du frontend. Le résultat : une intégration fluide, sans allers-retours inutiles entre équipes.",
   },
   {
-    title: "Faites-vous du Server Side Rendering (SSR) ?",
+    title: "Reprenez-vous des projets React existants ?",
     content:
-      "Oui. Avec Next.js (React) ou Nuxt (Vue.js), nous mettons en place le SSR pour les applications qui ont des enjeux SEO ou de performance au premier chargement. Le SSR améliore le Time to First Contentful Paint et permet aux moteurs de recherche d'indexer le contenu sans exécuter JavaScript.",
-  },
-  {
-    title: "Reprenez-vous des projets frontend existants ?",
-    content:
-      "Oui. Nous réalisons un audit du code frontend existant : architecture des composants, gestion d'état, couverture de tests, performances (bundle size, rendering). Nous proposons ensuite un plan de refactoring ou de migration vers une stack plus maintenable.",
+      "Oui. Nous auditons le code React existant : architecture des composants, gestion d'état, couverture de tests, performances (bundle size, rendering, waterfalls réseau). Nous proposons ensuite un plan de refactoring progressif : migration vers TypeScript, modernisation des hooks, mise en place de tests, optimisation du bundle.",
   },
 ];
 
@@ -126,25 +121,26 @@ const faqJsonLd = {
 const breadcrumb = breadcrumbJsonLd([
   { name: "Nos expertises", path: "/notre-expertise" },
   { name: "Développement frontend", path: "/developpement-frontend" },
+  { name: "Développement React", path: "/developpement-react" },
 ]);
 
 const service = serviceJsonLd({
-  name: "Développement frontend React, Vue.js et TypeScript",
+  name: "Développement React sur mesure",
   description:
-    "Conception et développement d'interfaces frontend sur mesure avec React, Vue.js, Next.js et TypeScript. Applications connectées à vos APIs Symfony ou Node.js.",
-  path: "/developpement-frontend",
+    "Conception et développement d'applications React et TypeScript sur mesure : SPA, dashboards, backoffices. Connectées à vos APIs Symfony ou Node.js.",
+  path: "/developpement-react",
 });
 
 const webPage = webPageJsonLd({
-  name: "Développement frontend React, Vue.js et TypeScript sur mesure",
+  name: "Développement React sur mesure : applications performantes et maintenables",
   description:
-    "Efficience IT conçoit des interfaces frontend performantes avec React, Vue.js, Next.js et TypeScript. Applications sur mesure connectées à vos APIs Symfony ou Node.js.",
-  path: "/developpement-frontend",
+    "Efficience IT développe des applications React et TypeScript sur mesure : SPA, dashboards, backoffices. Connectées à vos APIs Symfony ou Node.js.",
+  path: "/developpement-react",
   datePublished: "2026-03-17",
   dateModified: "2026-03-17",
 });
 
-export default function DeveloppementFrontend() {
+export default function DeveloppementReact() {
   return (
     <>
       <script
@@ -166,20 +162,25 @@ export default function DeveloppementFrontend() {
       <main>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
-            <Breadcrumb items={[{ label: "Développement frontend" }]} />
+            <Breadcrumb
+              items={[
+                { label: "Développement frontend", href: "/developpement-frontend" },
+                { label: "Développement React" },
+              ]}
+            />
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">
-                  Développement frontend sur mesure
+                  Développement React sur mesure
                 </p>
                 <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                  Développement frontend React, Vue.js et TypeScript sur mesure
+                  Développement React sur mesure : applications performantes et maintenables
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
-                  Votre backend est solide, mais votre interface ne suit pas.
-                  Efficience IT conçoit des{" "}
-                  <strong>frontends performants et maintenables</strong> avec
-                  React, Vue.js et TypeScript, connectés à vos{" "}
+                  Vous avez besoin d&apos;une interface riche, réactive et
+                  maintenable. Efficience IT conçoit des{" "}
+                  <strong>applications React sur mesure</strong> en TypeScript,
+                  connectées à vos{" "}
                   <Link
                     href="/api-sur-mesure-symfony"
                     className="text-primary hover:underline"
@@ -196,10 +197,16 @@ export default function DeveloppementFrontend() {
                   .
                 </p>
                 <p className="mt-4 max-w-3xl text-lg text-gray">
-                  Dashboards métier, backoffices, applications temps réel,
-                  interfaces e-commerce : chaque projet a ses contraintes, et
-                  nous choisissons la stack frontend la plus adaptée à votre
-                  contexte.
+                  SPA, dashboards métier, backoffices, interfaces temps réel :
+                  chaque{" "}
+                  <Link
+                    href="/developpement-web-sur-mesure"
+                    className="text-primary hover:underline"
+                  >
+                    projet web sur mesure
+                  </Link>{" "}
+                  a ses contraintes, et React est souvent la réponse la plus
+                  robuste pour les interfaces complexes.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   <Button href="/contact">Discuter de votre projet</Button>
@@ -233,9 +240,9 @@ export default function DeveloppementFrontend() {
         <FadeIn>
           <section className="py-16 md:py-24">
             <Container>
-              <SectionTitle>Nos expertises frontend</SectionTitle>
+              <SectionTitle>Nos expertises React</SectionTitle>
               <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-                Quatre domaines où notre expertise frontend apporte une valeur
+                Quatre domaines où notre expertise React apporte une valeur
                 immédiate à vos projets.
               </p>
               <div className="mt-10 grid gap-6 sm:grid-cols-2">
@@ -249,14 +256,21 @@ export default function DeveloppementFrontend() {
                 ))}
               </div>
               <p className="mx-auto mt-8 max-w-3xl text-center text-gray">
-                Pour bien choisir entre les frameworks, notre{" "}
+                Pour comparer React avec les autres options, consultez notre{" "}
                 <Link
                   href="/article/quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular"
                   className="text-primary hover:underline"
                 >
-                  comparatif des frameworks JavaScript
+                  guide comparatif des frameworks JavaScript
                 </Link>{" "}
-                détaille les forces et faiblesses de chaque option.
+                ou découvrez notre{" "}
+                <Link
+                  href="/developpement-frontend"
+                  className="text-primary hover:underline"
+                >
+                  expertise frontend complète
+                </Link>
+                .
               </p>
             </Container>
           </section>
@@ -265,7 +279,7 @@ export default function DeveloppementFrontend() {
         <FadeIn>
           <section className="bg-light-gray py-16 md:py-24">
             <Container>
-              <SectionTitle>Notre stack frontend</SectionTitle>
+              <SectionTitle>Notre stack React</SectionTitle>
               <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
                 Des outils matures, adoptés par l&apos;industrie et soutenus par
                 des communautés actives.
@@ -289,33 +303,35 @@ export default function DeveloppementFrontend() {
             <Container>
               <div className="mx-auto max-w-3xl rounded-2xl border border-primary/20 bg-primary/5 p-8 md:p-12">
                 <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
-                  Frontend et backend conçus ensemble
+                  React connecté à Symfony
                 </h2>
                 <p className="mt-4 text-lg text-gray">
-                  Chez Efficience IT, le frontend n&apos;est pas un projet
-                  séparé confié à une autre équipe. Nos développeurs maîtrisent
-                  les deux côtés de la stack : ils conçoivent les APIs et les
-                  interfaces qui les consomment. Cette approche full stack
-                  élimine les allers-retours entre équipes, réduit les bugs
+                  La majorité de nos projets React s&apos;appuient sur un
+                  backend{" "}
+                  <Link
+                    href="/api-sur-mesure-symfony"
+                    className="text-primary hover:underline"
+                  >
+                    API Symfony
+                  </Link>
+                  . Nos développeurs maîtrisent les deux côtés de la stack :
+                  ils conçoivent les endpoints et les interfaces qui les
+                  consomment. Cette approche{" "}
+                  <strong>frontend React + backend PHP</strong> élimine les
+                  allers-retours entre équipes, réduit les bugs
                   d&apos;intégration et accélère les livraisons.
                 </p>
                 <p className="mt-4 text-lg text-gray">
-                  Que votre backend soit en{" "}
+                  Authentification JWT, pagination typée, serialization
+                  optimisée, cache HTTP : l&apos;intégration React-Symfony est
+                  notre quotidien. Découvrez comment nous concevons les{" "}
                   <Link
-                    href="/developpement-web-sur-mesure"
+                    href="/article/api-rest-les-bonnes-pratiques"
                     className="text-primary hover:underline"
                   >
-                    Symfony
-                  </Link>
-                  ,{" "}
-                  <Link
-                    href="/developpement-nodejs"
-                    className="text-primary hover:underline"
-                  >
-                    Node.js
+                    APIs REST selon les bonnes pratiques
                   </Link>{" "}
-                  ou un mix des deux, nous concevons le frontend pour qu&apos;il
-                  s&apos;intègre parfaitement à votre architecture existante.
+                  pour alimenter vos interfaces.
                 </p>
               </div>
             </Container>
@@ -334,7 +350,7 @@ export default function DeveloppementFrontend() {
         </FadeIn>
 
         <FadeIn>
-          <RelatedLinks links={frontendRelatedLinks} />
+          <RelatedLinks links={reactRelatedLinks} />
         </FadeIn>
 
         <FadeIn>

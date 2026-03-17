@@ -12,7 +12,7 @@ Déployer un site statique généré par Nuxt.js sur une infrastructure AWS ne s
 
 ## Le socle AWS : S3 et CloudFront
 
-Le principe est limpide. S3 stocke les fichiers statiques (HTML, CSS, JS, images). CloudFront les distribue via un réseau de points de présence répartis mondialement. Avant de choisir Nuxt.js, il peut être utile de [comparer les frameworks JavaScript disponibles](/article/quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular) pour s'assurer que cette infrastructure de déploiement correspond bien au bon outil. Un utilisateur IAM dédié permet à GitLab CI d'interagir avec ces services de manière programmatique.
+Le principe est limpide. S3 stocke les fichiers statiques (HTML, CSS, JS, images). CloudFront les distribue via un réseau de points de présence répartis mondialement. Avant de choisir Nuxt.js, il peut être utile de [comparer les frameworks JavaScript disponibles](/article/quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular) pour s'assurer que cette infrastructure de déploiement correspond bien au bon outil. Notre offre de [développement Vue.js](/developpement-vuejs) couvre Nuxt et le SSR. Un utilisateur IAM dédié permet à GitLab CI d'interagir avec ces services de manière programmatique.
 
 ### Configuration du bucket S3
 
