@@ -9,6 +9,8 @@ import CallToAction from "@/components/sections/CallToAction";
 import StickyMobileCta from "@/components/sections/StickyMobileCta";
 import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
+import RelatedLinks from "@/components/sections/RelatedLinks";
+import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
@@ -134,6 +136,45 @@ const webPage = webPageJsonLd({
   datePublished: "2026-03-12",
   dateModified: "2026-03-12",
 });
+
+const geoRelatedLinks: RelatedLink[] = [
+  {
+    title: "Expertise IA",
+    description:
+      "Notre offre globale d'accompagnement sur l'intelligence artificielle",
+    href: "/expertise-ia",
+  },
+  {
+    title: "API sur mesure Symfony",
+    description:
+      "Exposer vos donnees metier via des API structurees pour les moteurs IA",
+    href: "/api-sur-mesure-symfony",
+  },
+  {
+    title: "GEO : rendre Symfony visible dans les moteurs IA",
+    description:
+      "Guide technique pour indexer votre application Symfony par les LLM",
+    href: "/article/geo-rendre-votre-application-symfony-visible-dans-les-moteurs-ia",
+  },
+  {
+    title: "llms.txt : le nouveau levier SEO",
+    description:
+      "Comment le fichier llms.txt ameliore la visibilite dans les IA generatives",
+    href: "/article/llms-txt-le-nouveau-levier-seo-a-lere-de-lintelligence-artificielle",
+  },
+  {
+    title: "RAG avec Symfony et Doctrine",
+    description:
+      "Indexer votre base metier pour alimenter un assistant IA",
+    href: "/article/rag-symfony-ai-doctrine-indexer-base-metier",
+  },
+  {
+    title: "Generative Engine Optimization",
+    description: "Le concept GEO explique par Search Engine Land",
+    href: "https://searchengineland.com/generative-engine-optimization-geo-393880",
+    external: true,
+  },
+];
 
 export default function GeoOptimisationIa() {
   return (
@@ -417,6 +458,10 @@ export default function GeoOptimisationIa() {
             </ul>
           </Container>
         </section>
+        </FadeIn>
+
+        <FadeIn>
+        <RelatedLinks links={geoRelatedLinks} />
         </FadeIn>
 
         <FadeIn>

@@ -17,7 +17,7 @@ PHP fait tourner environ 77 % des sites web dans le monde. Symfony s'est imposé
 
 ## L'architecture par composants
 
-Ce qui distingue Symfony de la plupart des frameworks, c'est qu'il n'est pas monolithique. Il se décompose en une soixantaine de composants indépendants : HttpFoundation, Routing, Security, Console, Mailer, Messenger, Serializer, et bien d'autres. Chaque composant résout un problème technique précis et peut être utilisé seul, en dehors du framework complet.
+Ce qui distingue Symfony de la plupart des frameworks, c'est qu'il n'est pas monolithique. Il se décompose en une soixantaine de composants indépendants : HttpFoundation, Routing, Security, Console, Mailer, [Messenger](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale), Serializer, et bien d'autres. Chaque composant résout un problème technique précis et peut être utilisé seul, en dehors du framework complet.
 
 Cette granularité n'est pas anecdotique. Elle signifie que des projets comme Laravel, Drupal ou PrestaShop intègrent des composants Symfony dans leurs propres fondations. Le composant HttpFoundation, par exemple, est devenu un standard de facto pour la gestion des requêtes et réponses HTTP en PHP.
 
@@ -29,7 +29,7 @@ Concrètement, Flex interagit avec un serveur de recettes qui associe chaque pac
 
 ## Le conteneur d'injection de dépendances
 
-Le conteneur de services est le coeur du framework. Toute classe PHP déclarée comme service est automatiquement instanciée, configurée et injectée là où elle est requise. Le mécanisme repose sur l'autowiring : Symfony analyse les type-hints des constructeurs pour résoudre les dépendances sans configuration explicite.
+Le conteneur de services est le coeur du framework. Toute classe PHP declaree comme service est automatiquement instanciee, configuree et injectee la ou elle est requise. Ce mecanisme d'injection est au coeur de la philosophie de decouplage de Symfony, un principe pousse a l'extreme dans [l'architecture hexagonale ou le domaine ne connait pas le framework](/article/domain-ne-devrait-jamais-connaitre-symfony). Le mécanisme repose sur l'autowiring : Symfony analyse les type-hints des constructeurs pour résoudre les dépendances sans configuration explicite.
 
 ### Les compiler passes
 
@@ -45,7 +45,7 @@ Cette architecture événementielle permet de découpler les préoccupations tra
 
 ## Symfony Runtime : l'abstraction de l'exécution
 
-Le composant Runtime, introduit dans Symfony 5.3, est une évolution architecturale fondamentale souvent sous-estimée. Il découple l'application de son environnement d'exécution. Le même code peut tourner derrière Apache/mod_php, PHP-FPM, un serveur Swoole, ou même en mode CLI, sans modification.
+Le composant Runtime, introduit dans Symfony 5.3, est une évolution architecturale fondamentale souvent sous-estimée. Il découple l'application de son environnement d'exécution. Le meme code peut tourner derriere Apache/mod_php, PHP-FPM, un serveur Swoole, [FrankenPHP](/article/concretement-cest-quoi-frankenphp) ou meme en mode CLI, sans modification.
 
 Runtime abstrait le point d'entrée de l'application : la résolution de l'objet Request, la production de la Response et l'envoi au client sont délégués à un resolver configurable. Pour des équipes qui explorent des runtimes non bloquants ou des architectures serverless, c'est un levier stratégique.
 
@@ -59,7 +59,7 @@ Le composant Security lui-même a été entièrement repensé dans Symfony 5.3 a
 
 C'est ici que la perspective architecturale change. Symfony n'est pas simplement un framework pour construire des applications web. C'est une plateforme logicielle sur laquelle des écosystèmes entiers se construisent.
 
-**API Platform**, bâti sur Symfony, permet de créer des API REST et GraphQL conformes aux standards (JSON-LD, Hydra, OpenAPI) en quelques minutes. **Sylius** est une plateforme e-commerce complète construite sur Symfony. **EasyAdmin** et **Sonata** fournissent des interfaces d'administration générées à partir des entités Doctrine. Chacun de ces projets repose sur les abstractions de Symfony et bénéficie de sa stabilité.
+**API Platform**, bâti sur Symfony, permet de créer des API REST et GraphQL conformes aux standards (JSON-LD, Hydra, OpenAPI) en quelques minutes. **[Sylius](/article/sylius-la-solution-e-commerce-du-framework-symfony)** est une plateforme e-commerce complete construite sur Symfony. **EasyAdmin** et **Sonata** fournissent des interfaces d'administration générées à partir des entités Doctrine. Chacun de ces projets repose sur les abstractions de Symfony et bénéficie de sa stabilité.
 
 ### La gouvernance de l'écosystème
 

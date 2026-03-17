@@ -40,6 +40,7 @@ export const footerNav = {
   secteurs: {
     title: "Secteurs",
     links: [
+      { label: "Nos secteurs", href: "/secteur" },
       { label: "E-commerce", href: "/secteur/e-commerce" },
       { label: "Finance", href: "/secteur/finance" },
       { label: "Industrie", href: "/secteur/industrie" },

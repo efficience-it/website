@@ -18,7 +18,7 @@ faq:
 
 ## Comprendre le cycle de release Symfony
 
-Symfony suit un calendrier de publication prévisible qui structure toute stratégie de migration. Les versions mineures sortent deux fois par an, en mai et en novembre. Les versions majeures arrivent environ tous les deux ans. Chaque version mineure bénéficie de huit mois de corrections de bugs et de quatorze mois de correctifs de sécurité. Les versions LTS prolongent ce support à trois ans de corrections et quatre ans de sécurité.
+Symfony suit un calendrier de publication prévisible qui structure toute stratégie de migration. Les versions mineures sortent deux fois par an, en mai et en novembre. Cette regularite s'inscrit dans la meme logique que les [PSRs qui structurent l'ecosysteme PHP](/article/qu-est-ce-que-les-psrs-et-a-quoi-servent-ils) : des standards previsibles qui facilitent la planification. Les versions majeures arrivent environ tous les deux ans. Chaque version mineure bénéficie de huit mois de corrections de bugs et de quatorze mois de correctifs de sécurité. Les versions LTS prolongent ce support à trois ans de corrections et quatre ans de sécurité.
 
 Cette régularité a une conséquence directe : le coût d'une migration est proportionnel au temps écoulé depuis la dernière mise à jour. Un projet maintenu à jour sur chaque mineure absorbe des changements incrémentaux. Un projet figé sur Symfony 4.4 depuis 2019 affronte l'accumulation de trois versions majeures d'un coup.
 
@@ -34,7 +34,7 @@ Le Profiler de Symfony expose un panneau dédié aux dépréciations. Exécuter 
 
 ### Évaluer la couverture existante
 
-Avant de toucher à `composer.json`, mesurez votre couverture de tests. Non pas le pourcentage global qui rassure à tort, mais la couverture sur les chemins critiques : authentification, paiement, workflows métier, intégrations tierces. Un projet avec 70 % de couverture globale mais 0 % sur le contrôleur de paiement est un projet à risque.
+Avant de toucher à `composer.json`, mesurez votre couverture de tests. Notre service de [tests automatises PHP](/tests-automatises-php) aide a structurer cette demarche. Non pas le pourcentage global qui rassure a tort, mais la couverture sur les chemins critiques : authentification, paiement, workflows métier, intégrations tierces. Un projet avec 70 % de couverture globale mais 0 % sur le contrôleur de paiement est un projet à risque.
 
 PHPUnit avec l'option `--coverage-html` génère un rapport exploitable. Identifiez les zones non couvertes qui touchent à des services utilisant des API Symfony susceptibles de changer. Concentrez l'effort de test sur ces zones avant de démarrer la migration.
 
@@ -72,7 +72,7 @@ Montez d'abord sur la dernière mineure de votre branche majeure actuelle. Si vo
 
 Une fois toutes les dépréciations éliminées en 5.4, le passage à 6.0 ne devrait introduire que des changements liés aux éléments dépréciés effectivement supprimés. Ajustez les contraintes dans `composer.json`, exécutez `composer update` et résolvez les conflits de dépendances un par un. Composer produit des messages d'erreur explicites qui guident la résolution.
 
-Vérifiez la version minimale de PHP requise. Symfony 6.0 exige PHP 8.0, Symfony 7.0 exige PHP 8.2. Un saut de version majeure Symfony implique souvent un saut de version PHP en parallèle, avec ses propres implications.
+Verifiez la version minimale de PHP requise. Symfony 6.0 exige PHP 8.0, Symfony 7.0 exige PHP 8.2. Un saut de version majeure Symfony implique souvent un saut de version PHP en parallele, avec ses propres implications. Anticipez les [changements prevus pour PHP 9.0](/article/php-9-0-devoile-ce-que-vous-devez-savoir-avant-la-sortie) si vous planifiez a moyen terme.
 
 ### Phase 3 : validation et montée en version continue
 
@@ -82,7 +82,7 @@ Exécutez la suite de tests complète. Organisez une recette avec les utilisateu
 
 ### Le Strangler Fig appliqué à Symfony
 
-Pour les projets massifs où un big bang est trop risqué, le pattern Strangler Fig offre une alternative. Le principe : faire cohabiter l'ancien et le nouveau derrière un reverse proxy ou un load balancer, puis migrer route par route.
+Pour les projets massifs où un big bang est trop risqué, le pattern Strangler Fig offre une alternative. C'est l'approche detaillee dans notre [retour de mission sur la migration vers l'architecture hexagonale](/article/migration-symfony-architecture-hexagonale-retour-mission). Le principe : faire cohabiter l'ancien et le nouveau derrière un reverse proxy ou un load balancer, puis migrer route par route.
 
 Concrètement, vous déployez une nouvelle instance Symfony 7 à côté de l'application Symfony 4 existante. Le proxy route `/api/v2/*` vers la nouvelle instance, tout le reste vers l'ancienne. Chaque endpoint migré bascule progressivement. L'ancienne application rétrécit jusqu'à disparaître.
 
@@ -108,7 +108,7 @@ Un projet avec une dette technique modérée, une bonne couverture de tests et u
 
 ### Conduire le changement dans l'organisation
 
-Les migrations majeures ne sont pas que techniques. Un saut de Symfony 4 à Symfony 7 implique de former l'équipe aux attributs PHP 8, au système de configuration modernisé, aux nouvelles pratiques de sécurité. Prévoyez des sessions de montée en compétence avant le démarrage, pas pendant.
+Les migrations majeures ne sont pas que techniques. Un saut de Symfony 4 à Symfony 7 implique de former l'équipe aux attributs PHP 8, au système de configuration modernisé, aux nouvelles pratiques de sécurité. Prevoyez des sessions de montee en competence avant le demarrage, pas pendant. Notre [formation Symfony en entreprise](/formation-symfony-entreprise) couvre ces sujets.
 
 Communiquez un calendrier réaliste aux parties prenantes. Une migration majeure sur un projet de taille moyenne prend entre deux et six semaines selon la dette accumulée. Intégrez une marge pour les imprévus, en particulier sur les bundles tiers dont la compatibilité n'est pas garantie le jour J.
 

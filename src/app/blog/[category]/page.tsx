@@ -19,6 +19,7 @@ const categoryDescriptions: Record<string, string> = {
     "Symfony, PHP, Docker, CI/CD : nos guides pratiques sur les outils que nous utilisons au quotidien en mission.",
   Formation:
     "Montée en compétences, certifications et événements tech : ressources pour progresser sur Symfony et l'écosystème PHP.",
+  PHP: "L'ecosysteme PHP : evolution du langage, standards PSR, outils d'analyse statique et runtime.",
   Projet:
     "Retours de mission, architecture logicielle et bonnes pratiques pour mener à bien vos projets web.",
   Agence:

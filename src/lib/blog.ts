@@ -77,6 +77,7 @@ export const categorySlugMap: Record<string, string> = {
   "Green IT": "green-it",
   IA: "ia",
   JavaScript: "javascript",
+  PHP: "php",
   Projet: "projet",
   Symfony: "symfony",
   "Securite": "securite",
