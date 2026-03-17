@@ -24,7 +24,7 @@ export const metadata = pageMetadata({
   title:
     "Modernisation applicative : du diagnostic à la migration",
   description:
-    "Modernisez vos applications PHP et Symfony en suivant un parcours structuré : audit technique, refactoring progressif, migration architecturale et maintien en conditions opérationnelles.",
+    "Parcours complet de modernisation applicative : diagnostic, audit de dette technique, refactoring progressif, migration architecturale et maintien en conditions opérationnelles.",
   path: "/modernisation-applicative",
 });
 
@@ -35,7 +35,7 @@ const breadcrumb = breadcrumbJsonLd([
 const webPage = webPageJsonLd({
   name: "Modernisation applicative : du diagnostic à la migration",
   description:
-    "Modernisez vos applications PHP et Symfony en suivant un parcours structuré : audit technique, refactoring progressif, migration architecturale et maintien en conditions opérationnelles.",
+    "Parcours complet de modernisation applicative : diagnostic, audit de dette technique, refactoring progressif, migration architecturale et maintien en conditions opérationnelles.",
   path: "/modernisation-applicative",
   datePublished: "2026-03-16",
   dateModified: "2026-03-16",
