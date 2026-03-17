@@ -5,7 +5,7 @@ describe("Home page", () => {
   it("renders the hero heading", () => {
     render(<Home />);
     expect(
-      screen.getByRole("heading", { name: /agence symfony/i }),
+      screen.getByRole("heading", { name: /agence php et symfony/i }),
     ).toBeInTheDocument();
   });
 

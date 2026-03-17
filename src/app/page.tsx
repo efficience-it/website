@@ -26,14 +26,14 @@ const keyFigures = [
 ];
 
 export const metadata: Metadata = pageMetadata({
-  title: "Agence Symfony à Lille, experte en développement web",
+  title: "Agence PHP et Symfony, experte en développement web",
   description:
     "Agence spécialisée Symfony et PHP, Efficience IT conçoit et développe des applications web robustes, pensées pour vos enjeux métiers.",
   path: "/",
 });
 
 const webPage = webPageJsonLd({
-  name: "Agence Symfony à Lille, experte en développement web",
+  name: "Agence PHP et Symfony, experte en développement web",
   description:
     "Agence spécialisée Symfony et PHP, Efficience IT conçoit et développe des applications web robustes, pensées pour vos enjeux métiers.",
   path: "/",

@@ -18,7 +18,7 @@ import { testimonials } from "@/../data/testimonials";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title: "Conseil, formation et coaching Symfony",
+  title: "Conseil et coaching technique Symfony pour vos équipes",
   description:
     "Efficience IT accompagne les équipes sur l'organisation, le conseil, le coaching et la formation autour de Symfony et des projets web professionnels.",
   path: "/accompagnement-et-conseil",
@@ -170,7 +170,7 @@ export default function AccompagnementEtConseil() {
           <div className="grid items-center gap-12 md:grid-cols-2">
             <div>
               <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
-                Conseil, formation et coaching Symfony
+                Conseil et coaching technique Symfony pour vos équipes
               </h1>
               <p className="mt-6 max-w-3xl text-lg text-gray">
                 Chez Efficience IT, nous croyons fermement que chaque projet

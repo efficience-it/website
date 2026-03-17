@@ -31,7 +31,7 @@ describe("Service pages", () => {
 
   it("renders Accompagnement et Conseil", () => {
     render(<AccompagnementEtConseil />);
-    expect(screen.getByRole("heading", { name: /conseil.*formation.*coaching symfony/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /conseil et coaching technique symfony/i })).toBeInTheDocument();
   });
 });
 
