@@ -16,7 +16,7 @@ import FadeIn from "@/components/ui/FadeIn";
 
 const categoryDescriptions: Record<string, string> = {
   Architecture:
-    "Patterns et decisions techniques : architecture hexagonale, microservices, DDD, CQRS et conception d'applications maintenables.",
+    "Patterns et décisions techniques : architecture hexagonale, microservices, DDD, CQRS et conception d'applications maintenables.",
   Outils:
     "Symfony, PHP, Docker, CI/CD : nos guides pratiques sur les outils que nous utilisons au quotidien en mission.",
   Formation:
