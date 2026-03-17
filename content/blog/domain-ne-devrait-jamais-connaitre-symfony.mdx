@@ -45,7 +45,7 @@ class Order
 }
 ```
 
-Cette classe dépend de trois composants Symfony/Doctrine. Si tu veux tester `calculateTotal()`, tu dois charger l'ORM. Si tu veux réutiliser cette logique dans un contexte non-Symfony (une commande CLI, un worker, un autre projet), tu traînes tout le framework avec toi.
+Cette classe dépend de trois composants Symfony/Doctrine. Certes, les attributs PHP sont des métadonnées inertes : tu peux instancier cette classe et tester `calculateTotal()` sans que Doctrine soit chargé. Mais la dépendance existe dans le code. Tes `use` pointent vers `vendor/`, ton domaine ne compile plus sans ces paquets, et chaque montée de version Doctrine ou Symfony peut casser tes modèles métier. Si tu veux réutiliser cette logique dans un contexte non-Symfony (une commande CLI, un worker, un autre projet), tu traînes tout le framework avec toi.
 
 Le principe fondamental de l'architecture hexagonale tient en une phrase : le domaine est au centre, et il ne dépend de rien.
 
