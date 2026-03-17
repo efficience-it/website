@@ -36,7 +36,7 @@ Le code mort peut contenir des vulnérabilités qui ne sont pas immédiatement a
 
 ### Performance réduite
 
-Bien que le code mort ne soit pas exécuté, il peut encore avoir un impact sur les performances. Par exemple, des classes ou des méthodes non utilisées peuvent être chargées en mémoire, augmentant ainsi l'empreinte mémoire de l'application. De plus, des outils de build et de déploiement peuvent prendre plus de temps à traiter une base de code plus volumineuse.
+Le code mort n'a généralement pas d'impact direct sur les performances à l'exécution : grâce à l'autoloading PSR-4, les classes non utilisées ne sont jamais chargées en mémoire. En revanche, il alourdit les outils de développement : l'analyse statique, les tests, les pipelines CI/CD et les outils de build traitent une base de code plus volumineuse que nécessaire, ce qui rallonge les temps d'exécution de ces processus.
 
 ### Coûts de maintenance
 

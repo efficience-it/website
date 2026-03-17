@@ -11,7 +11,7 @@ updatedAt: "2026-01-13"
 
 ## Doctrine ORM 3.0 : ce qui change concrètement pour vos projets PHP
 
-Sortie le 3 février 2024, Doctrine ORM 3.0 constitue la première version majeure depuis plus d'une décennie. Loin d'un simple incrément de version, cette release restructure en profondeur l'architecture interne de la bibliothèque de persistance la plus utilisée de l'écosystème PHP. Pour les équipes qui s'appuient sur Symfony ou sur Doctrine en standalone, comprendre la portée de ces changements est indispensable pour planifier sereinement la migration.
+Sortie en janvier 2025, Doctrine ORM 3.0 constitue la première version majeure depuis plus d'une décennie. Loin d'un simple incrément de version, cette release restructure en profondeur l'architecture interne de la bibliothèque de persistance la plus utilisée de l'écosystème PHP. Pour les équipes qui s'appuient sur Symfony ou sur Doctrine en standalone, comprendre la portée de ces changements est indispensable pour planifier sereinement la migration.
 
 ## Les changements immédiats pour les développeurs
 
@@ -19,7 +19,7 @@ Sortie le 3 février 2024, Doctrine ORM 3.0 constitue la première version majeu
 
 Le changement le plus visible concerne le mapping des entités. Les annotations DocBlock (`/** @ORM\Entity */`) ne sont plus supportées. Seuls les attributs PHP 8 (`#[ORM\Entity]`) et les fichiers XML restent disponibles. La configuration YAML, dépréciée depuis ORM 2.x, est également supprimée définitivement.
 
-Ce choix impose PHP 8.1 comme version minimale et aligne Doctrine sur les standards modernes du langage. [Rector peut automatiser cette migration](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) des annotations vers les attributs PHP 8. Pour les projets encore en annotations, cette migration représente le premier chantier à anticiper.
+Ce choix impose PHP 8.2 comme version minimale et aligne Doctrine sur les standards modernes du langage. [Rector peut automatiser cette migration](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) des annotations vers les attributs PHP 8. Pour les projets encore en annotations, cette migration représente le premier chantier à anticiper.
 
 ### Suppression des méthodes dépréciées de l'EntityManager
 
@@ -51,7 +51,7 @@ Cette rigueur élimine une catégorie entière de bugs qui se manifestaient par 
 
 Le mécanisme de proxies, essentiel au lazy loading, repose désormais sur les lazy ghost objects (via `symfony/var-exporter`). Ce nouveau mécanisme remplace l'ancien système basé sur l'héritage de classes et réduit la surface de configuration tout en améliorant la gestion mémoire lors du chargement d'entités.
 
-La pré-génération des proxies reste disponible et recommandée en production. Le nouveau système simplifie le code généré, mais la commande `orm:generate-proxies` est toujours supportée.
+Les lazy ghost objects rendent la pré-génération des proxies obsolète. La commande `orm:generate-proxies` a été supprimée dans ORM 3.0, car le nouveau mécanisme ne nécessite plus de fichiers de proxies générés à l'avance.
 
 ### Stratégies de génération d'identifiants
 
@@ -73,7 +73,7 @@ Pour les architectes, cela signifie que la migration vers ORM 3.0 ne peut pas ê
 
 La réduction de 20 % de la taille du package n'est pas anecdotique dans un contexte de déploiement à grande échelle. Moins de fichiers à charger, c'est un autoloading plus rapide et une empreinte OPcache réduite. La suppression des objets partiels et la simplification du système d'événements, avec le retrait d'événements comme `onClear`, réduisent les chemins d'exécution internes. Sur des applications à fort trafic manipulant des graphes d'entités complexes, ces optimisations se traduisent par une diminution mesurable de la latence par requête.
 
-Le nouveau système de proxies contribue également à cette amélioration. La génération à la volée évite les I/O disque liées au chargement de fichiers de proxies pré-générés, et le code produit est plus léger.
+Le nouveau système de proxies contribue également à cette amélioration. Les lazy ghost objects fonctionnent sans fichiers de proxies générés sur le disque, ce qui supprime les I/O associées et simplifie le déploiement en production.
 
 ### Quand migrer et comment séquencer la transition
 

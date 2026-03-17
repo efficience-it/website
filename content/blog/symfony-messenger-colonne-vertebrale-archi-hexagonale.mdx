@@ -230,7 +230,7 @@ framework:
 
 ## Commands et queries sont des objets domaine
 
-C'est un point crucial que beaucoup ratent. Tes commands et queries ne doivent **jamais** dépendre de Symfony. Pas de `#[AsMessage]`, pas d'interface `MessageInterface`. Ce sont des objets du domaine, des DTOs purs.
+C'est un point crucial que beaucoup ratent. Tes commands et queries ne doivent **jamais** dépendre de Symfony. Messenger n'impose ni attribut, ni interface sur les messages. Ce sont des objets du domaine, des DTOs purs.
 
 Pourquoi ? Parce que dans une architecture hexagonale, le domaine est au centre. Il ne dépend de rien. C'est l'infrastructure (ici Symfony Messenger) qui s'adapte au domaine, pas l'inverse.
 

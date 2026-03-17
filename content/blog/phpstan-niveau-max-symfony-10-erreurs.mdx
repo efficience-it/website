@@ -102,14 +102,7 @@ $dto->getEmail(); // Cannot call method getEmail() on mixed
 
 ### La correction
 
-Cast le retour après vérification :
-
-```php
-$dto = $form->getData();
-assert($dto instanceof ContactDTO);
-```
-
-Ou mieux, utilise `@var` localement :
+Utilise `@var` localement pour indiquer le type à PHPStan :
 
 ```php
 /** @var ContactDTO $dto */
