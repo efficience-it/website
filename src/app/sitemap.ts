@@ -86,6 +86,36 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: `${BASE_URL}/developpement-php`,
+      lastModified: "2026-03-17",
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/developpement-react`,
+      lastModified: "2026-03-17",
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/developpement-vuejs`,
+      lastModified: "2026-03-17",
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/developpement-typescript`,
+      lastModified: "2026-03-17",
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/agence-symfony-france`,
+      lastModified: "2026-03-17",
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
       url: `${BASE_URL}/audit-symfony-gratuit`,
       lastModified: "2026-02-01",
       changeFrequency: "monthly",

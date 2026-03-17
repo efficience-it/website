@@ -196,8 +196,9 @@ export default function NotreExpertise() {
             <Card>
               <h3 className="font-display text-lg font-bold text-dark">Développement et API</h3>
               <ul className="mt-3 space-y-2 text-gray">
+                <li><Link href="/developpement-php" className="text-primary hover:underline">Développement PHP</Link> : applications sur mesure avec PHP 8 et Symfony</li>
                 <li><Link href="/developpement-web-sur-mesure" className="text-primary hover:underline">Développement web sur mesure</Link></li>
-                <li><Link href="/developpement-frontend" className="text-primary hover:underline">Développement frontend</Link> : React, Vue.js, TypeScript</li>
+                <li><Link href="/developpement-frontend" className="text-primary hover:underline">Développement frontend</Link> : <Link href="/developpement-react" className="text-primary hover:underline">React</Link>, <Link href="/developpement-vuejs" className="text-primary hover:underline">Vue.js</Link>, <Link href="/developpement-typescript" className="text-primary hover:underline">TypeScript</Link></li>
                 <li><Link href="/api-sur-mesure-symfony" className="text-primary hover:underline">API sur mesure Symfony</Link></li>
                 <li><Link href="/cloud-et-devops" className="text-primary hover:underline">Cloud et DevOps</Link></li>
                 <li><Link href="/formation-symfony-entreprise" className="text-primary hover:underline">Formation Symfony entreprise</Link></li>
@@ -223,6 +224,7 @@ export default function NotreExpertise() {
               <h3 className="font-display text-lg font-bold text-dark">Proximité</h3>
               <ul className="mt-3 space-y-2 text-gray">
                 <li><Link href="/agence-symfony-lille" className="text-primary hover:underline">Agence Symfony à Lille</Link> : notre ancrage régional</li>
+                <li><Link href="/agence-symfony-france" className="text-primary hover:underline">Prestataire Symfony en France</Link></li>
                 <li><Link href="/accompagnement-et-conseil" className="text-primary hover:underline">Accompagnement et conseil</Link></li>
               </ul>
             </Card>
