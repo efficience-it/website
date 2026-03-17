@@ -74,7 +74,7 @@ $rectorConfig->sets([
 ]);
 ```
 
-La règle `ANNOTATIONS_TO_ATTRIBUTES` est particulièrement stratégique lors du passage à Symfony 6.x. Elle transforme les annotations en attributs PHP 8 sur les routes, les entités Doctrine (`@Entity`, `@Column`, `@OneToMany`) et les contraintes de validation (`@Assert\NotBlank`, `@Assert\Email`) :
+La règle `ANNOTATIONS_TO_ATTRIBUTES` est particulièrement stratégique lors du passage à Symfony 6.x, dont le [guide officiel de mise à jour](https://symfony.com/doc/current/setup/upgrade_major.html) détaille les changements attendus. Elle transforme les annotations en attributs PHP 8 sur les routes, les entités Doctrine (`@Entity`, `@Column`, `@OneToMany`) et les contraintes de validation (`@Assert\NotBlank`, `@Assert\Email`) :
 
 ```php
 #[Route('/users', name: 'user_list', methods: ['GET'])]

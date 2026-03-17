@@ -10,7 +10,7 @@ updatedAt: "2026-01-13"
 
 ## Ce que Symfony Insight apporte à un projet PHP
 
-Symfony Insight est une plateforme d'analyse de code PHP maintenue par SensioLabs, la société derrière Symfony. Contrairement aux linters classiques qui se contentent de vérifier la syntaxe ou le respect de conventions, cet outil combine analyse statique et analyse dynamique pour produire un diagnostic couvrant la sécurité, la performance, la maintenabilité et la robustesse architecturale d'un projet.
+Symfony Insight est une plateforme d'analyse de code PHP maintenue par SensioLabs, la société derrière Symfony. Contrairement aux linters classiques qui se contentent de vérifier la syntaxe ou le respect de conventions, cet outil combine analyse statique et analyse dynamique pour produire un diagnostic couvrant la sécurité, la performance, la maintenabilité et la robustesse architecturale d'un projet. Pour les entreprises qui souhaitent aller plus loin, un [audit de code PHP](/audit-code-php) approfondi complète efficacement les constats automatisés de l'outil.
 
 L'outil supporte nativement les projets Symfony, mais analyse également les applications Laravel, Drupal, les API REST ou SOAP, et tout projet PHP générique. Il inspecte les fichiers PHP, XML, YAML, les risques HTML et les dépendances déclarées dans composer.lock, avec plus de 100 contrôles qualité répartis en catégories de sévérité.
 
@@ -66,7 +66,7 @@ La combinaison la plus efficace pour un projet Symfony consiste à utiliser PHPS
 
 L'analyse Symfony Insight peut être déclenchée comme étape d'un pipeline GitLab CI ou GitHub Actions. En configurant le pipeline pour bloquer le merge lorsqu'une nouvelle violation est introduite, on garantit que la qualité du code ne se dégrade jamais. Le feedback arrive directement dans la pull request, dans l'environnement de travail habituel du développeur, sans rupture de flux.
 
-Cette intégration transforme Symfony Insight d'un outil d'audit ponctuel en un gardien permanent de la qualité. Combinée à PHPStan et PHPUnit dans le même pipeline, elle constitue une chaîne de vérification qui couvre le spectre complet : types, comportement runtime et couverture fonctionnelle.
+Cette intégration transforme Symfony Insight d'un outil d'audit ponctuel en un gardien permanent de la qualité. Combinée à PHPStan et PHPUnit dans le même pipeline, elle constitue une chaîne de vérification qui couvre le spectre complet : types, comportement runtime et couverture fonctionnelle. La mise en place de [tests automatisés](/tests-automatises-php) rigoureux reste le complément indispensable pour garantir que les corrections de violations n'introduisent pas de régressions.
 
 ## Gouvernance qualité et culture d'amélioration continue
 
