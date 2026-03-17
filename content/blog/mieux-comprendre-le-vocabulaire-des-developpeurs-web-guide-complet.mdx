@@ -30,9 +30,9 @@ On parle ici du développement qui se base sur la logique métier, la gestion de
 Ici les fondamentaux sont :
 
 - La **base de données** est conçue et gérée par les développeurs, ainsi que les opérations de lecture et d'écriture de celles-ci.
-- Les développeurs sont aussi à l'origine des interfaces de programmation d'applications, aussi appelées **API**. Elles permettent la communication entre le front-end et le back-end, entraînant ainsi l'échange de données et des interactions avec d'autres systèmes.
+- Les développeurs sont aussi à l'origine des interfaces de programmation d'applications, aussi appelées **API**. Pour bien les concevoir, il est utile de connaître les [bonnes pratiques des API REST](/article/api-rest-les-bonnes-pratiques). Elles permettent la communication entre le front-end et le back-end, entraînant ainsi l'échange de données et des interactions avec d'autres systèmes.
 - Ils sont également là pour traiter les **requêtes des utilisateurs**, en effectuant des calculs et des opérations complexes à nos yeux, ils renvoient les **réponses appropriées**.
-- La **sécurité** du site web est entre leurs mains, cela passe par la gestion de l'authentification des utilisateurs, des sessions et la protection contre les potentielles vulnérabilités.
+- La **sécurité** du site web est entre leurs mains, cela passe par la gestion de l'authentification des utilisateurs, des sessions et la protection contre les potentielles [vulnérabilités de sécurité (CVE)](/article/cve-comprendre-les-failles-pour-mieux-se-proteger).
 - Les développeurs **déploient** le projet d'application sur des serveurs, configurent son infrastructure et s'occupent de la **gestion des performances**.
 
 ### Le développement front-end
@@ -72,11 +72,11 @@ Le framework représente ici un entrepôt de pièces détachées, dans lequel un
 
 ### Un framework
 
-C'est une infrastructure logicielle qui fournit des outils à la base d'un logiciel ou d'une application. Un framework, ou en français une structure logicielle, rassemble des bibliothèques, des composants et des modèles de conception. Ceux-ci permettent aux développeurs de créer plus facilement et efficacement des applications, basées sur une structure préétablie. Notez bien qu'un framework n'est pas une application autonome, mais plutôt une base sur laquelle un développeur peut construire son projet, en utilisant les fonctionnalités proposées et la possibilité d'en ajouter d'autres. Un framework est bien souvent associé à un langage de programmation, par exemple PHP pour Symfony.
+C'est une infrastructure logicielle qui fournit des outils à la base d'un logiciel ou d'une application. Un framework, ou en français une structure logicielle, rassemble des bibliothèques, des composants et des modèles de conception. Ceux-ci permettent aux développeurs de créer plus facilement et efficacement des applications, basées sur une structure préétablie. Notez bien qu'un framework n'est pas une application autonome, mais plutôt une base sur laquelle un développeur peut construire son projet, en utilisant les fonctionnalités proposées et la possibilité d'en ajouter d'autres. Un framework est bien souvent associé à un langage de programmation, par exemple PHP pour Symfony. Pour comprendre [pourquoi choisir Symfony pour vos projets](/article/pourquoi-choisir-symfony-pour-vos-projets), c'est l'un des frameworks les plus structurants de l'écosystème PHP.
 
 ### Un IDE
 
-De son vrai nom, environnement de développement intégré, cette forme d'application permet aux développeurs de générer du code et de programmer grâce aux nombreuses fonctionnalités proposées. Chaque développeur peut organiser son workflow, alias son espace de travail, grâce à un IDE.
+De son vrai nom, environnement de développement intégré, cette forme d'application permet aux développeurs de générer du code et de programmer et de programmer grâce aux nombreuses fonctionnalités proposées. Chaque développeur peut organiser son workflow, alias son espace de travail, grâce à un IDE. Notre comparatif [PhpStorm, VS Code, Cursor ou Sublime Text](/article/phpstorm-vscode-sublimetext-netbeans-quel-editeur-de-code-choisir) détaille les forces de chaque outil.
 
 ### Un langage de programmation
 
@@ -112,7 +112,7 @@ Merge, ou "fusionner" en français, est un terme régulièrement utilisé en rel
 
 ### Les tests
 
-Les tests sont essentiels dans le domaine du développement web, ils font référence aux processus de vérification et de validation du bon fonctionnement d'un projet.
+Les tests sont essentiels dans le domaine du développement web. Une stratégie de [tests automatisés en PHP](/tests-automatises-php) bien pensée garantit la fiabilité de chaque livraison. Ils font référence aux processus de vérification et de validation du bon fonctionnement d'un projet.
 
 Il existe plusieurs types de tests, en voici les principaux :
 
@@ -133,7 +133,7 @@ Ce système permet de stocker temporairement des données fréquemment utilisée
 
 ### La mise en production
 
-Le terme production se rapporte à l'environnement dans lequel une application est mise à disposition des utilisateurs finaux. En d'autres termes, c'est le serveur public. Cette phase de production est la dernière étape du cycle de développement, elle représente l'état dans lequel l'application est prête à l'emploi dans un environnement réel. Cette étape regroupe donc le travail de l'équipe de développement et de l'équipe d'exploitation, qui est chargée de la maintenir à niveau, on appelle ça le **DevOps**, combinaison des mots Développement et Opération.
+Le terme production se rapporte à l'environnement dans lequel une application est mise à disposition des utilisateurs finaux. En d'autres termes, c'est le serveur public. Cette phase de production est la dernière étape du cycle de développement, elle représente l'état dans lequel l'application est prête à l'emploi dans un environnement réel. Cette étape regroupe donc le travail de l'équipe de développement et de l'équipe d'exploitation, qui est chargée de la maintenir à niveau, on appelle ça le **DevOps**, combinaison des mots Développement et Opération. Les pratiques [Cloud et DevOps](/cloud-et-devops) modernes automatisent largement cette mise en production.
 
 ### Le petit + technique
 

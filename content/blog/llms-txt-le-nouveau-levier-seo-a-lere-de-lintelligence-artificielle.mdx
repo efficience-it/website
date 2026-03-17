@@ -30,7 +30,7 @@ Le fichier commence par un titre H1 (le nom du site ou de l'organisation), suivi
 
 La spécification prévoit une section `## Optional` pour les contenus secondaires. Cette distinction est fonctionnelle : les LLM ayant une fenêtre de contexte limitée, les contenus hors `Optional` sont traités en priorité. Un fichier complémentaire, `llms-full.txt`, peut contenir le texte intégral de toutes les pages référencées, concaténé en un seul document Markdown, utile pour les modèles capables de traiter de longs contextes.
 
-Point important : les ressources liées doivent pointer vers des versions Markdown (`.md`) des pages, débarrassées de tout HTML. Ce n'est pas un détail cosmétique. Un LLM traite du Markdown avec une précision nettement supérieure à celle d'un HTML parsé à la volée.
+Point important : les ressources liées doivent pointer vers des versions Markdown (`.md`) des pages, débarrassées de tout HTML. Ce n'est pas un détail cosmétique. Un LLM traite du Markdown avec une précision nettement supérieure à celle d'un HTML parsé à la volée. Pour [choisir le bon assistant IA pour coder](/article/quel-assistant-ia-choisir-pour-coder), cette distinction entre formats structurés et non structurés est aussi déterminante.
 
 ## Implémentation technique : Symfony et Next.js
 
@@ -50,7 +50,7 @@ En Next.js, une Route Handler dans `app/llms.txt/route.ts` offre la même capaci
 
 ### Considérations de cache
 
-Un point souvent négligé : le `llms.txt` dynamique doit être mis en cache de manière appropriée. Un `Cache-Control` trop agressif empêche les IA de voir les mises à jour. Aucun cache du tout expose le serveur à des requêtes répétées par des crawlers IA de plus en plus fréquents. Un `max-age` de quelques heures à une journée constitue un bon compromis.
+Un point souvent négligé : le `llms.txt` dynamique doit être mis en cache de manière appropriée. Un `Cache-Control` trop agressif empêche les IA de voir les mises à jour, un problème que l'on retrouve aussi dans les [stratégies de mise en cache classiques](/article/tout-savoir-sur-la-mise-en-cache-tips). Aucun cache du tout expose le serveur à des requêtes répétées par des crawlers IA de plus en plus fréquents. Un `max-age` de quelques heures à une journée constitue un bon compromis.
 
 ## Stratégie de curation : ce que vous incluez compte autant que ce que vous excluez
 
@@ -58,7 +58,7 @@ Rédiger un `llms.txt` efficace relève davantage de l'éditorial que de la tech
 
 ### Ce qui mérite d'y figurer
 
-Les services et offres principaux, les expertises techniques documentées, les études de cas significatives, les articles de blog à forte valeur informationnelle, les FAQ techniques. Chaque entrée doit être décrite comme vous l'expliqueriez à un pair lors d'une revue d'architecture : factuel, précis, sans superlatif.
+Les services et offres principaux, les expertises techniques documentées, les études de cas significatives, les articles de blog à forte valeur informationnelle, les FAQ techniques. L'exercice de curation rejoint la réflexion sur le [choix d'un bon outil de documentation technique](/article/quel-outil-choisir-pour-votre-documentation-technique). Chaque entrée doit être décrite comme vous l'expliqueriez à un pair lors d'une revue d'architecture : factuel, précis, sans superlatif.
 
 ### Ce qui n'a rien à y faire
 

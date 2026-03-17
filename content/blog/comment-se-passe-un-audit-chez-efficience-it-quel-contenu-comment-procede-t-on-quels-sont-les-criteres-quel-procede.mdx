@@ -30,7 +30,7 @@ Nous évaluons aussi la présence et la pertinence des tests. Un projet sans tes
 
 ### Relecture manuelle ciblée
 
-Au-delà de l'outillage, une relecture manuelle identifie ce qu'aucun outil ne détecte : des classes aux responsabilités excessives, des dépendances circulaires entre modules, du code mort qui alourdit le projet, ou des abstractions mal placées qui complexifient la maintenance sans apporter de valeur.
+Au-delà de l'outillage, une relecture manuelle identifie ce qu'aucun outil ne détecte : des classes aux responsabilités excessives, des dépendances circulaires entre modules, du [code mort qui alourdit le projet](/article/code-mort-mission-elimination), ou des abstractions mal placées qui complexifient la maintenance sans apporter de valeur.
 
 ## Sécurité : du OWASP Top 10 à l'analyse des dépendances
 
@@ -74,7 +74,7 @@ L'accessibilité est évaluée selon les standards WCAG et le RGAA en France. No
 
 ## L'audit comme évaluation architecturale
 
-Pour les projets matures, l'audit dépasse l'analyse fichier par fichier et devient une évaluation architecturale. Nous examinons la cohérence globale des choix techniques : le découpage en couches est-il respecté ? Les bounded contexts sont-ils clairement définis ? Les flux de données entre composants sont-ils prévisibles et traçables ?
+Pour les projets matures, l'audit dépasse l'analyse fichier par fichier et devient une évaluation architecturale. Nous examinons la cohérence globale des choix techniques : le découpage en couches respecte-t-il les principes d'une [architecture hexagonale](/architecture-hexagonale-symfony) ? Les bounded contexts sont-ils clairement définis ? Les flux de données entre composants sont-ils prévisibles et traçables ?
 
 ### Quantifier la dette technique
 
@@ -94,7 +94,7 @@ Mais l'essentiel réside dans la transformation du diagnostic en plan d'action. 
 
 Si les problèmes sont ciblés, un plan de correction à court terme suffit : mise à jour des dépendances vulnérables, correction des failles critiques, optimisation des requêtes les plus lentes. Ces interventions apportent des bénéfices immédiats et mesurables.
 
-Si l'audit révèle une dette technique structurelle, nous proposons un accompagnement sur le moyen terme via une **Tierce Maintenance Applicative** (TMA). Cette approche permet de traiter progressivement les problèmes par lots priorisés, sans interrompre le fonctionnement du site.
+Si l'audit révèle une [dette technique structurelle](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur), nous proposons un accompagnement sur le moyen terme via une **Tierce Maintenance Applicative** (TMA). Cette approche permet de traiter progressivement les problèmes par lots priorisés, sans interrompre le fonctionnement du site.
 
 Dans les cas les plus avancés, l'audit peut recommander une refonte partielle de certains composants. Nous préconisons alors une approche progressive, module par module, avec des critères de succès mesurables à chaque étape. La feuille de route qui en résulte articule les corrections immédiates, les chantiers à moyen terme et la vision architecturale cible, en donnant à chaque partie prenante, développeurs comme décideurs, les éléments nécessaires pour arbitrer.
 

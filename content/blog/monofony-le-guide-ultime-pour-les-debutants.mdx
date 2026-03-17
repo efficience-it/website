@@ -24,7 +24,7 @@ Le back-office repose sur le système de grids de Sylius. Les listes sont filtra
 
 ### Une API via API Platform
 
-L'intégration d'API Platform fournit des endpoints REST et GraphQL générés à partir de vos déclarations de ressources. La documentation Swagger est accessible dès le départ. Pour les architectures découplées (front SPA, application mobile), le socle est prêt.
+L'intégration d'API Platform fournit des endpoints REST et GraphQL générés à partir de vos déclarations de ressources. La [documentation Swagger via Nelmio bundle](/article/swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on) est accessible dès le départ. Pour les architectures découplées (front SPA, application mobile), le socle est prêt.
 
 ### La gestion des utilisateurs
 
@@ -32,7 +32,7 @@ Deux types d'utilisateurs sont préconfigurés : administrateurs (accès back-of
 
 ### Un système de fixtures structuré
 
-Monofony reprend le système de fixtures de Sylius, qui permet de définir des scénarios de données réalistes en YAML. C'est un atout sous-estimé : des fixtures bien construites accélèrent les développements, fiabilisent les tests fonctionnels et facilitent l'onboarding de nouveaux développeurs.
+Monofony reprend le système de fixtures de Sylius, comparable au [bundle Alice Faker](/article/comprendre-et-utiliser-le-bundle-alice-faker-dans-vos-projets-symfony), qui permet de définir des scénarios de données réalistes en YAML. C'est un atout sous-estimé : des fixtures bien construites accélèrent les développements, fiabilisent les tests fonctionnels et facilitent l'onboarding de nouveaux développeurs.
 
 ## Le système de ressources en profondeur
 
@@ -94,7 +94,7 @@ Si votre projet est une API pure sans back-office, Monofony apporte une complexi
 
 L'un des atouts méconnus de Monofony est la possibilité d'extraire progressivement des composants Sylius dans un projet existant. Plutôt que de migrer un projet Symfony vers Monofony d'un bloc, vous pouvez commencer par intégrer SyliusResourceBundle seul pour bénéficier du système de ressources, puis ajouter SyliusGridBundle pour le back-office.
 
-Cette approche incrémentale réduit les risques et permet de valider chaque étape avant de poursuivre. C'est une stratégie particulièrement pertinente pour les projets legacy qui souhaitent moderniser leur couche d'administration sans réécriture complète.
+Cette approche incrémentale réduit les risques et permet de valider chaque étape avant de poursuivre. C'est une stratégie particulièrement pertinente pour les projets legacy qui souhaitent [moderniser leur application PHP](/modernisation-application-php) sans réécriture complète.
 
 ## Maintenance à long terme et montée de version
 

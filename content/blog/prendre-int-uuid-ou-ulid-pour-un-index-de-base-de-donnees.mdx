@@ -19,7 +19,7 @@ L'auto-incrémentation garantit des insertions séquentielles. Chaque nouvelle l
 
 Les limites apparaissent quand le projet grandit. Un INT non signé plafonne à 4,3 milliards de lignes, et [arriver au max des ID INT](/article/arrives-au-max-des-id-int-2147483647) oblige à migrer vers BIGINT, une opération qui verrouille la table pendant de longues minutes sur une table volumineuse. L'identifiant séquentiel expose aussi le volume de données : un `GET /api/users/42` révèle qu'il y a au moins 42 utilisateurs, et un attaquant peut énumérer les ressources par simple incrémentation.
 
-Le point le plus structurant concerne l'architecture : l'identifiant ne peut être généré qu'au moment de l'insertion, par le SGBD. Impossible de créer un identifiant côté applicatif avant le flush, ce qui pose problème dans les architectures événementielles où un agrégat doit connaître son identité dès sa construction.
+Le point le plus structurant concerne l'architecture : l'identifiant ne peut être généré qu'au moment de l'insertion, par le SGBD. C'est une contrainte que l'on retrouve lors d'une [migration vers l'architecture hexagonale](/article/migration-symfony-architecture-hexagonale-retour-mission), ou l'identité de l'agrégat doit exister dès sa construction. Impossible de créer un identifiant côté applicatif avant le flush, ce qui pose problème dans les architectures événementielles où un agrégat doit connaître son identité dès sa construction.
 
 ### INT dans Doctrine
 
@@ -107,7 +107,7 @@ L'auto-incrémentation ne fonctionne plus sans coordination. Les solutions histo
 
 Dans un contexte de sharding, l'identifiant influence directement la stratégie de répartition. Un INT auto-incrémenté global nécessite un coordinateur central (Snowflake ID chez Twitter, ou un service dédié). Un ULID ou UUIDv7, généré localement, permet à chaque noeud d'écrire indépendamment. L'horodatage intégré offre en prime un critère naturel de partitionnement temporel.
 
-Pour les architectures CQRS/Event Sourcing, l'identifiant doit exister avant la persistance. L'agrégat reçoit son identité dès sa création, et les événements le référencent immédiatement. Seuls les identifiants générés côté applicatif (UUID, ULID) rendent ce pattern possible sans contorsion.
+Pour les architectures CQRS/Event Sourcing, souvent implémentées avec [Symfony Messenger](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale), l'identifiant doit exister avant la persistance. L'agrégat reçoit son identité dès sa création, et les événements le référencent immédiatement. Seuls les identifiants générés côté applicatif (UUID, ULID) rendent ce pattern possible sans contorsion.
 
 ## Migrer un système existant
 
@@ -135,7 +135,7 @@ public function getId(): ?Ulid {
 
 ### Pièges de migration à anticiper
 
-Sur des tables dépassant le million de lignes, chaque `ALTER TABLE` peut verrouiller la table. MySQL 8 supporte les DDL instantanés pour l'ajout de colonnes, mais pas pour la suppression ou le renommage. Des outils comme `pt-online-schema-change` ou `gh-ost` permettent des migrations sans verrouillage.
+Sur des tables dépassant le million de lignes, chaque `ALTER TABLE` peut verrouiller la table. MySQL 8 supporte les DDL instantanés pour l'ajout de colonnes, mais pas pour la suppression ou le renommage. Des outils comme `pt-online-schema-change` ou `gh-ost` permettent des migrations sans verrouillage. Pour automatiser les transformations de code associées, [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) peut accompagner le changement de type d'identifiant dans les entités Doctrine.
 
 Les références externes constituent l'angle mort classique : files de messages en cours de traitement, caches Redis, identifiants stockés dans des systèmes tiers, URLs bookmarkées par les utilisateurs. Prévoyez une période de double-résolution où l'ancien INT et le nouveau ULID coexistent et restent résolvables.
 

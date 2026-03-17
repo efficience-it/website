@@ -43,7 +43,7 @@ La RFC 9457 (Problem Details for HTTP APIs) standardise le format des réponses 
 
 ## Stateless, cache et négociation de contenu
 
-Le caractère stateless de REST signifie que chaque requête transporte l'intégralité de son contexte d'authentification et de ses paramètres. Le serveur ne maintient aucune session entre deux appels. Cette contrainte rend l'API horizontalement scalable : n'importe quelle instance peut traiter n'importe quelle requête.
+Le caractère stateless de REST signifie que chaque requête transporte l'intégralité de son contexte d'authentification et de ses paramètres. Cette contrainte a un impact direct sur les [stratégies de mise en cache](/article/tout-savoir-sur-la-mise-en-cache-tips) applicables. Le serveur ne maintient aucune session entre deux appels. Cette contrainte rend l'API horizontalement scalable : n'importe quelle instance peut traiter n'importe quelle requête.
 
 Le cache HTTP est un levier de performance souvent sous-exploité. Les headers `Cache-Control`, `ETag` et `Last-Modified` permettent au client (ou à un proxy intermédiaire) de stocker les réponses et de ne recharger que les données modifiées. Un `GET /products/42` avec un `ETag` valide recevra un `304 Not Modified` sans corps de réponse, réduisant la bande passante et la charge serveur.
 
@@ -75,7 +75,7 @@ Moins répandue, elle utilise le header HTTP `Range` pour demander un sous-ensem
 
 Une API exposée sans limitation de débit est une API vulnérable. Le rate limiting protège contre les abus, les boucles infinies côté client et les pics de charge imprévus.
 
-Les headers standardisés `RateLimit-Limit`, `RateLimit-Remaining` et `RateLimit-Reset` (draft IETF) informent le consommateur de son quota en temps réel. Lorsque le quota est dépassé, un `429 Too Many Requests` avec un header `Retry-After` indique quand le client peut relancer.
+Les headers standardisés `RateLimit-Limit`, `RateLimit-Remaining` et `RateLimit-Reset` (draft IETF) informent le consommateur de son quota en temps réel. La protection de l'API passe aussi par une bonne compréhension des [failles CVE](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) qui peuvent affecter les dépendances utilisées. Lorsque le quota est dépassé, un `429 Too Many Requests` avec un header `Retry-After` indique quand le client peut relancer.
 
 Les stratégies de rate limiting varient selon le contexte : fenêtre fixe (100 requêtes par minute), fenêtre glissante (lissage des pics), ou token bucket (autorisation de rafales courtes). En production, ces contrôles se positionnent au niveau du reverse proxy (Nginx, Traefik) ou de l'API gateway plutôt que dans le code applicatif.
 
@@ -99,7 +99,7 @@ En intégrant cette validation dans la CI, chaque pull request qui modifie le co
 
 À l'échelle d'un système distribué, l'API gateway devient le point d'entrée unique des consommateurs. Elle centralise l'authentification (validation JWT, OAuth2 introspection), le rate limiting, la transformation de requêtes et le routage vers les services backend.
 
-Le pattern Backend for Frontend (BFF) consiste à déployer une gateway spécialisée par type de client. L'application mobile reçoit des payloads optimisés et agrégés, tandis que le backoffice web accède à des endpoints plus granulaires. Chaque BFF adapte les réponses sans polluer l'API interne avec des préoccupations de présentation.
+Le pattern Backend for Frontend (BFF) consiste à déployer une gateway spécialisée par type de client. Le choix entre [micro-service et monolithe modulaire](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) influence directement la manière dont cette gateway est implémentée. L'application mobile reçoit des payloads optimisés et agrégés, tandis que le backoffice web accède à des endpoints plus granulaires. Chaque BFF adapte les réponses sans polluer l'API interne avec des préoccupations de présentation.
 
 Le pattern gateway aggregation résout le problème du "chattiness" : plutôt que de laisser le client mobile enchaîner cinq appels REST pour composer un écran, la gateway orchestre ces appels en parallèle côté serveur et retourne une réponse unique. La latence perçue chute, la consommation réseau aussi.
 

@@ -18,7 +18,7 @@ Voici comment ça s'est passé.
 
 Première semaine : on audite. Le constat est classique mais sévère. Les contrôleurs font 400 lignes. Les entités Doctrine contiennent de la logique métier, des appels à des services, parfois même des requêtes HTTP. Les repositories mélangent lecture et écriture. Les services dépendent directement de l'ORM, du mailer, du filesystem.
 
-Le pire : les tests. Il y en a, mais ils sont tous en intégration. Chaque test démarre une base de données, seed des fixtures, et vérifie le résultat via l'ORM. Un `phpunit` complet prend 45 minutes. Les développeurs ne les lancent plus en local.
+Le pire : les tests. Il y en a, mais ils sont tous en intégration. Chaque test démarre une base de données, seed des fixtures, et vérifie le résultat via l'ORM. Un `phpunit` complet prend 45 minutes. Les développeurs ne les lancent plus en local. Un bon socle de [tests automatisés](/tests-automatises-php) aurait évité cette dérive.
 
 Le couplage n'est pas qu'un problème d'architecture. C'est un problème de vélocité. Chaque nouvelle feature demande de comprendre les effets de bord sur trois couches. Chaque refactoring est un risque.
 
@@ -89,7 +89,7 @@ final class DoctrineProductRepository implements ProductRepositoryInterface
 }
 ```
 
-Un mapper fait la conversion entre l'entité Doctrine et le modèle domaine. C'est du code ennuyeux à écrire mais il isole complètement le domaine de l'ORM.
+Un mapper fait la conversion entre l'entité Doctrine et le modèle domaine. C'est du code ennuyeux à écrire mais il isole complètement le domaine de l'ORM. Ce type de mapping est d'autant plus important avec les évolutions apportées par [Doctrine ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees).
 
 ## Étape 2 : les use cases comme point d'entrée
 
@@ -166,7 +166,7 @@ Le contrôleur ne contient aucune logique. Il traduit une requête HTTP en appel
 
 L'ancienne application utilisait massivement les lifecycle callbacks Doctrine : `prePersist`, `postUpdate`, `preRemove`. Ces callbacks contenaient de la logique métier. Un `postUpdate` sur `Order` envoyait un email. Un `prePersist` sur `Invoice` calculait le numéro de facture.
 
-Migrer ces callbacks vers le domaine est le chantier le plus sous-estimé. On a dû remplacer chaque callback par un événement domaine explicite, dispatché manuellement après l'action métier :
+Migrer ces callbacks vers le domaine est le chantier le plus sous-estimé. On a dû remplacer chaque callback par un événement domaine explicite, dispatché via [Symfony Messenger](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) après l'action métier :
 
 ```php
 final class ValidateOrder

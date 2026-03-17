@@ -10,7 +10,7 @@ updatedAt: "2026-01-13"
 
 ## Comprendre Rector et l'AST
 
-Rector est un outil de refactoring automatique pour PHP. Là où un développeur modifie du code manuellement, renommer une méthode, ajouter un type hint, remplacer une annotation par un attribut, Rector effectue ces transformations de manière programmatique sur l'ensemble d'une base de code.
+Rector est un outil de refactoring automatique pour PHP, essentiel dans toute démarche de [modernisation applicative](/modernisation-applicative). Là où un développeur modifie du code manuellement, renommer une méthode, ajouter un type hint, remplacer une annotation par un attribut, Rector effectue ces transformations de manière programmatique sur l'ensemble d'une base de code.
 
 Le mécanisme repose sur l'AST (Abstract Syntax Tree). Plutôt que de manipuler du texte brut avec des expressions régulières, Rector utilise `nikic/php-parser` pour convertir chaque fichier PHP en arbre syntaxique. Chaque élément du code, classe, méthode, affectation, condition, devient un noeud typé dans cet arbre. Une affectation `$x = 1;` produit un noeud `Assign` contenant un noeud `Variable` et un noeud `LNumber`. Un double `!!$var` se traduit par deux noeuds `BooleanNot` imbriqués.
 
@@ -61,7 +61,7 @@ Le choix et l'ordonnancement des rule sets déterminent la qualité d'une migrat
 - `SetList::CODE_QUALITY` simplifie les conditions, élimine les redondances, améliore la lisibilité.
 - `SetList::CODING_STYLE` uniformise le style : ternaires, early returns, conventions d'écriture.
 - `SetList::TYPE_DECLARATION` ajoute les type hints manquants sur les paramètres, retours et propriétés.
-- `SetList::NAMING` renomme variables et méthodes selon les conventions PSR.
+- `SetList::NAMING` renomme variables et méthodes selon les [conventions PSR](/article/qu-est-ce-que-les-psrs-et-a-quoi-servent-ils).
 
 Pour Symfony, des sets dédiés couvrent chaque version majeure et les transformations structurelles :
 
@@ -164,7 +164,7 @@ Pour une équipe qui maintient des dizaines de règles internes, structurer ces 
 
 Derrière l'API simplifiée d'`AbstractRector` se cache la mécanique complète de `nikic/php-parser`. Les Node Visitors permettent d'intervenir à différents moments de la traversée (`beforeTraverse`, `enterNode`, `leaveNode`, `afterTraverse`). Rector orchestre ces visitors dans un ordre déterministe, résout les dépendances entre règles et gère les cas où une transformation invalide le contexte d'une autre.
 
-Comprendre ce niveau de détail devient nécessaire quand une règle doit effectuer des transformations multi-noeuds : déplacer une méthode d'une classe vers un trait, extraire un service à partir d'un code procédural, ou restructurer une hiérarchie d'héritage. Ces opérations requièrent de manipuler des noeuds `ClassLike`, `ClassMethod` et `Stmt` en coordination, en s'assurant que les imports (`use` statements) et les références croisées restent cohérents.
+Pour les développeurs souhaitant approfondir ces concepts, les [évolutions de PHP 9.0](/article/php-9-0-devoile-ce-que-vous-devez-savoir-avant-la-sortie) ajouteront de nouvelles opportunités de refactoring automatisé. Comprendre ce niveau de détail devient nécessaire quand une règle doit effectuer des transformations multi-noeuds : déplacer une méthode d'une classe vers un trait, extraire un service à partir d'un code procédural, ou restructurer une hiérarchie d'héritage. Ces opérations requièrent de manipuler des noeuds `ClassLike`, `ClassMethod` et `Stmt` en coordination, en s'assurant que les imports (`use` statements) et les références croisées restent cohérents.
 
 ## Rector comme outil de gouvernance technique
 

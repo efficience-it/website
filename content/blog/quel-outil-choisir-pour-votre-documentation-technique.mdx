@@ -18,7 +18,7 @@ Cet article propose une lecture progressive. On commence par un panorama des out
 
 ### Docusaurus
 
-Maintenu par Meta, Docusaurus est un générateur de sites statiques basé sur React, taillé pour la documentation. Il gère nativement le versioning, le multilingue et l'intégration avec Algolia DocSearch. Sa configuration en JavaScript ou TypeScript le rend familier pour les équipes front-end. C'est un choix solide pour les projets qui veulent un résultat professionnel sans investissement excessif en personnalisation.
+Maintenu par Meta, Docusaurus est un générateur de sites statiques basé sur React, taillé pour la documentation. Il gère nativement le versioning, le multilingue et l'intégration avec Algolia DocSearch. Sa configuration en JavaScript ou TypeScript le rend familier pour les équipes front-end, notamment celles qui travaillent avec les [frameworks JavaScript comme React ou Vue.js](/article/quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular). C'est un choix solide pour les projets qui veulent un résultat professionnel sans investissement excessif en personnalisation.
 
 ### MkDocs et Material for MkDocs
 
@@ -44,7 +44,7 @@ VuePress, porté par l'écosystème Vue.js, offre une personnalisation poussée 
 
 L'approche docs-as-code consiste à appliquer les pratiques du développement logiciel à la documentation : fichiers en texte brut versionnés dans Git, relecture par pull request, déploiement automatisé. Ce n'est pas qu'une question d'outillage, c'est un changement de culture. La documentation vit dans le même dépôt que le code (ou dans un dépôt dédié avec les mêmes standards), elle suit le même workflow de contribution, elle est soumise aux mêmes exigences de qualité. Pour les projets [Symfony](/article/pourquoi-choisir-symfony-pour-vos-projets), ce dépôt s'intègre naturellement au pipeline CI/CD du projet.
 
-L'avantage principal est la réduction de la friction. Un développeur qui corrige un bug peut mettre à jour la documentation dans la même pull request, sans changer de contexte ni d'outil. Les relecteurs voient le diff de la doc en même temps que le diff du code. Le déploiement est atomique.
+L'avantage principal est la réduction de la friction. Un développeur qui corrige un bug peut mettre à jour la documentation dans la même pull request, sans changer de contexte ni d'outil. Cette discipline rejoint les bonnes pratiques de [conventions de codage](/article/coding-conventions) qui unifient le style au sein de l'équipe. Les relecteurs voient le diff de la doc en même temps que le diff du code. Le déploiement est atomique.
 
 ### Stratégies de versioning
 
@@ -76,7 +76,7 @@ La question du monorepo documentaire versus des dépôts distribués se pose aus
 
 ### Mesurer l'efficacité documentaire
 
-Ce qui ne se mesure pas ne s'améliore pas. Plusieurs indicateurs permettent d'évaluer la santé d'une documentation : le taux de pages jamais consultées (contenu mort), le ratio entre tickets support et pages de documentation existantes sur le même sujet (signe d'une doc inefficace ou introuvable), le temps moyen entre la sortie d'une feature et la publication de sa documentation (fraîcheur), le nombre de contributeurs uniques par trimestre (signe de l'appropriation par les équipes).
+Ce qui ne se mesure pas ne s'améliore pas. Plusieurs indicateurs permettent d'évaluer la santé d'une documentation : le taux de pages jamais consultées (contenu mort), le ratio entre tickets support et pages de documentation existantes sur le même sujet (signe d'une doc inefficace ou introuvable, une forme de [dette technique](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) documentaire), le temps moyen entre la sortie d'une feature et la publication de sa documentation (fraîcheur), le nombre de contributeurs uniques par trimestre (signe de l'appropriation par les équipes).
 
 Ces métriques ne remplacent pas le feedback qualitatif. Un bouton "cette page vous a-t-elle été utile ?" en bas de chaque page, couplé à un champ libre, fournit des signaux précieux pour prioriser les réécritures.
 

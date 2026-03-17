@@ -81,9 +81,9 @@ Le fichier `.editorconfig` complète ce dispositif en normalisant les paramètre
 
 ## Analyse statique : des conventions qui vont au-delà du style
 
-PHPStan et Psalm ne vérifient pas le formatage : ils analysent la sémantique du code. Types incorrects, appels à des méthodes inexistantes, variables potentiellement nulles, branches mortes. À des niveaux élevés (PHPStan niveau 8, 9 ou 10), ils imposent une rigueur de typage comparable à celle des langages compilés.
+[PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) et Psalm ne vérifient pas le formatage : ils analysent la sémantique du code. Types incorrects, appels à des méthodes inexistantes, variables potentiellement nulles, branches mortes. À des niveaux élevés (PHPStan niveau 8, 9 ou 10), ils imposent une rigueur de typage comparable à celle des langages compilés.
 
-L'analyse statique est une forme de convention avancée. Elle établit un contrat sur la qualité structurelle du code, pas seulement sur son apparence. Associée à une [strategie de tests](/tests-automatises-php) robuste, elle forme un filet de sécurité complet. Monter progressivement le niveau de PHPStan sur un projet existant est une stratégie d'amélioration continue plus efficace que la plupart des refactorings manuels.
+L'analyse statique est une forme de convention avancée. Elle établit un contrat sur la qualité structurelle du code, pas seulement sur son apparence. Associée à une [strategie de tests](/tests-automatises-php) robuste, elle forme un filet de sécurité complet. Monter progressivement [PHPStan au niveau max sur un projet Symfony](/article/phpstan-niveau-max-symfony-10-erreurs) est une stratégie d'amélioration continue plus efficace que la plupart des refactorings manuels.
 
 ### SonarQube et les métriques de qualité
 
@@ -93,7 +93,7 @@ SonarQube ajoute une dimension supplémentaire : la mesure dans le temps. Comple
 
 Les principes SOLID transcendent le style pour atteindre l'architecture. **Responsabilité unique** : chaque classe a une seule raison de changer. **Ouvert/Fermé** : extension par ajout, pas par modification. **Substitution de Liskov** : les sous-types respectent le contrat du parent. **Ségrégation des interfaces** : pas de dépendance sur des méthodes inutilisées. **Inversion des dépendances** : dépendre des abstractions, pas des implémentations.
 
-Ces principes ne sont pas des règles de style. Ce sont des conventions architecturales. Dans un projet Symfony, ils se traduisent concrètement : la logique métier vit dans des services dédiés (pas dans les contrôleurs), les dépendances sont injectées via le conteneur (pas instanciées manuellement), les interfaces définissent les contrats entre couches.
+Ces principes ne sont pas des règles de style. Ce sont des conventions architecturales. Dans un projet Symfony, ils se traduisent concrètement : la logique métier vit dans des services dédiés (pas dans les contrôleurs), les dépendances sont injectées via le conteneur (pas instanciées manuellement), les interfaces définissent les contrats entre couches. C'est le fondement d'une [architecture hexagonale bien structurée](/article/migration-symfony-architecture-hexagonale-retour-mission).
 
 ## Scaler les conventions sur plusieurs équipes
 
@@ -107,7 +107,7 @@ Les ADR formalisent les décisions techniques et leur contexte. Pour les convent
 
 La stratégie qui fonctionne à l'échelle est hiérarchique : un package de configuration partagé (un preset PHP-CS-Fixer interne, une baseline PHPStan commune) définit le socle. Chaque équipe peut ajouter des règles spécifiques à son domaine, mais ne peut pas désactiver les règles du socle. Ce modèle préserve la cohérence globale tout en laissant une marge d'adaptation locale.
 
-Les design patterns jouent un rôle similaire à cette échelle. Singleton, Factory, Observer, Adapter, Composite : ils constituent un vocabulaire partagé entre équipes. Dire "on utilise un pattern Strategy ici" est immédiatement compréhensible par tout développeur de l'organisation, indépendamment de son équipe d'origine.
+Les design patterns jouent un rôle similaire à cette échelle. Singleton, Factory, Observer, Adapter, Composite : ils constituent un [vocabulaire partagé](/article/mieux-comprendre-le-vocabulaire-des-developpeurs-web-guide-complet) entre équipes. Dire "on utilise un pattern Strategy ici" est immédiatement compréhensible par tout développeur de l'organisation, indépendamment de son équipe d'origine.
 
 ## Vers des conventions vivantes
 
