@@ -242,7 +242,7 @@ Les conditional return types (`@return ($flag is true ? Foo : Bar)`) et les asse
 
 Au-delà de l'outil, adopter PHPStan au niveau max transforme la façon de concevoir du code. L'obligation de satisfaire l'analyseur pousse vers des designs plus explicites : moins de `mixed`, moins de magie, des contrats clairs entre les couches. Le code devient sa propre documentation. Pour découvrir les erreurs concrètes les plus fréquentes à ce niveau, l'article sur [les 10 erreurs PHPStan niveau max sur un projet Symfony](/article/phpstan-niveau-max-symfony-10-erreurs) fournit des exemples et des corrections directement applicables.
 
-Un architecte qui configure PHPStan avec des règles custom, des generics et un niveau 9 ne cherche pas à satisfaire un outil. Il encode les invariants de son système dans un vérificateur automatique qui tourne à chaque commit. C'est de la gouvernance technique exécutable. Notre service d'[audit de code PHP](/audit-code-php) s'appuie sur ce type d'outillage pour identifier les failles structurelles d'un projet.
+Un architecte qui configure PHPStan avec des règles custom, des generics et un niveau 9 ne cherche pas à satisfaire un outil. Il encode les invariants de son système dans un vérificateur automatique qui tourne à chaque commit. C'est de la gouvernance technique exécutable. Notre service d'[audit de code PHP](/audit-code-php) s'appuie sur ce type d'outillage pour identifier les failles structurelles d'un projet, première étape d'un parcours de [modernisation applicative](/modernisation-applicative).
 
 ## Pour aller plus loin
 
