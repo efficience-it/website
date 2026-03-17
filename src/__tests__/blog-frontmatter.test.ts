@@ -94,4 +94,22 @@ describe("Blog front matter", () => {
 
     expect(internalLinks).toBeGreaterThanOrEqual(minLinks);
   });
+
+  const LEGACY_LONG_SLUGS = [
+    "comment-produire-la-documentation-sur-votre-projet-symfony-avec-lapproche-diataxis.mdx",
+    "comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede.mdx",
+    "decouvrez-les-raisons-de-nous-confier-la-maintenance-de-vos-applications-web.mdx",
+    "les-contributions-open-source-un-enjeu-de-taille-pour-les-developpeurs-et-les-projets.mdx",
+    "quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire.mdx",
+    "quelles-sont-les-differences-entre-symfony-messenger-php-enqueue-quoi-utiliser.mdx",
+    "quels-evenements-suivre-dans-le-monde-de-symfony-php-quelles-differences-entre-eux.mdx",
+  ];
+
+  const newFiles = files.filter((f) => !LEGACY_LONG_SLUGS.includes(f));
+
+  it.each(newFiles)("%s has a slug of 75 characters or less", (file) => {
+    const slug = file.replace(/\.mdx$/, "");
+
+    expect(slug.length).toBeLessThanOrEqual(75);
+  });
 });
