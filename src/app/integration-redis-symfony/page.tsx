@@ -64,7 +64,7 @@ const expertises = [
   {
     title: "Invalidation et stratégies de cache",
     description:
-      "Le cache sans stratégie d'invalidation crée plus de problèmes qu'il n'en résout. Nous définissons des TTL adaptés, des tags d'invalidation avec Symfony Cache et des patterns de cache-aside pour garantir la fraicheur des données servies à vos utilisateurs.",
+      "Le cache sans stratégie d'invalidation crée plus de problèmes qu'il n'en résout. Nous définissons des TTL adaptés, des tags d'invalidation avec Symfony Cache et des patterns de cache-aside pour garantir la fraîcheur des données servies à vos utilisateurs.",
   },
 ];
 

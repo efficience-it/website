@@ -285,7 +285,7 @@ export default function SecuriteApplicationSymfony() {
                   La sécurité, un investissement pas une option
                 </h2>
                 <p className="mt-4 text-lg text-gray">
-                  Une faille exploitée coute infiniment plus cher qu&apos;un audit
+                  Une faille exploitée coûte infiniment plus cher qu&apos;un audit
                   préventif. Les attaques par injection, les vols de sessions et les
                   fuites de données personnelles sont des risques réels pour toute
                   application exposée sur Internet.

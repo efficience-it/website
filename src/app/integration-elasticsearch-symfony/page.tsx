@@ -64,7 +64,7 @@ const expertises = [
   {
     title: "Suggestions et autocomplétion",
     description:
-      "Suggestions de recherche, correction orthographique et autocomplétion en temps réel. Nous configurons les suggest queries Elasticsearch pour guider vos utilisateurs vers les résultats pertinents avant meme qu'ils aient fini de taper.",
+      "Suggestions de recherche, correction orthographique et autocomplétion en temps réel. Nous configurons les suggest queries Elasticsearch pour guider vos utilisateurs vers les résultats pertinents avant même qu'ils aient fini de taper.",
   },
 ];
 
@@ -77,9 +77,9 @@ const stack = [
 
 const faqItems = [
   {
-    title: "Pourquoi utiliser Elasticsearch plutot que la recherche SQL ?",
+    title: "Pourquoi utiliser Elasticsearch plutôt que la recherche SQL ?",
     content:
-      "SQL LIKE et FULLTEXT INDEX ont des limites : pas de pertinence par scoring, pas d'analyse linguistique, performances dégradées sur les gros volumes. Elasticsearch est concu pour la recherche : index inversé, analyseurs linguistiques, scoring BM25 et agrégations en temps réel. Pour une recherche utilisateur de qualité, Elasticsearch est le standard.",
+      "SQL LIKE et FULLTEXT INDEX ont des limites : pas de pertinence par scoring, pas d'analyse linguistique, performances dégradées sur les gros volumes. Elasticsearch est conçu pour la recherche : index inversé, analyseurs linguistiques, scoring BM25 et agrégations en temps réel. Pour une recherche utilisateur de qualité, Elasticsearch est le standard.",
   },
   {
     title: "Comment Elasticsearch s'intègre-t-il avec Symfony ?",
@@ -289,8 +289,15 @@ export default function IntegrationElasticsearchSymfony() {
                   </Link>{" "}
                   avec une indexation asynchrone via Symfony Messenger. L&apos;index
                   reste synchronisé avec votre base de données sans impacter les
-                  performances de l&apos;application. Kibana permet de monitorer
-                  les requêtes et d&apos;optimiser le scoring en continu.
+                  performances de l&apos;application. Le monitoring via Kibana,
+                  intégré à votre infrastructure{" "}
+                  <Link
+                    href="/cloud-et-devops"
+                    className="text-primary hover:underline"
+                  >
+                    Cloud et DevOps
+                  </Link>
+                  , permet d&apos;optimiser le scoring en continu.
                 </p>
               </div>
             </Container>
