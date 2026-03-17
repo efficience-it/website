@@ -147,7 +147,7 @@ const geoRelatedLinks: RelatedLink[] = [
   {
     title: "API sur mesure Symfony",
     description:
-      "Exposer vos donnees metier via des API structurees pour les moteurs IA",
+      "Exposer vos données métier via des API structurées pour les moteurs IA",
     href: "/api-sur-mesure-symfony",
   },
   {
@@ -159,18 +159,18 @@ const geoRelatedLinks: RelatedLink[] = [
   {
     title: "llms.txt : le nouveau levier SEO",
     description:
-      "Comment le fichier llms.txt ameliore la visibilite dans les IA generatives",
+      "Comment le fichier llms.txt améliore la visibilité dans les IA génératives",
     href: "/article/llms-txt-le-nouveau-levier-seo-a-lere-de-lintelligence-artificielle",
   },
   {
     title: "RAG avec Symfony et Doctrine",
     description:
-      "Indexer votre base metier pour alimenter un assistant IA",
+      "Indexer votre base métier pour alimenter un assistant IA",
     href: "/article/rag-symfony-ai-doctrine-indexer-base-metier",
   },
   {
     title: "Generative Engine Optimization",
-    description: "Le concept GEO explique par Search Engine Land",
+    description: "Le concept GEO expliqué par Search Engine Land",
     href: "https://searchengineland.com/generative-engine-optimization-geo-393880",
     external: true,
   },
