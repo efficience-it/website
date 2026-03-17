@@ -38,7 +38,7 @@ L'EventDispatcher est le deuxième pilier architectural de Symfony. Il permet de
 
 Un développeur intermédiaire écoute les événements du kernel. Un senior définit ses propres événements métier. Créer un `OrderValidatedEvent` ou un `UserOnboardingCompletedEvent` transforme l'architecture d'une application. Chaque module peut réagir de manière indépendante, sans que le code appelant ne connaisse ses écouteurs.
 
-Ce pattern ouvre la porte au Messenger, le composant de messagerie asynchrone de Symfony. Passer d'un EventDispatcher synchrone à un bus de messages asynchrone via RabbitMQ ou Doctrine transport, c'est franchir un palier architectural. C'est aussi l'occasion de penser en termes de contrats (l'événement comme interface publique) plutôt qu'en termes d'implémentation.
+Ce pattern ouvre la porte au [Messenger](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale), le composant de messagerie asynchrone de Symfony. Passer d'un EventDispatcher synchrone à un bus de messages asynchrone via RabbitMQ ou Doctrine transport, c'est franchir un palier architectural. C'est aussi l'occasion de penser en termes de contrats (l'événement comme interface publique) plutôt qu'en termes d'implémentation.
 
 ## Optimiser les performances avec méthode
 
@@ -74,7 +74,7 @@ Le dernier palier est celui de l'architecte qui pense au-delà du framework. Sym
 
 Un architecte Symfony conçoit des bounded contexts découplés, choisit entre monolithe modulaire et microservices en connaissance de cause, définit des contrats d'API internes via des interfaces et des événements. Il sait quand Symfony est la bonne réponse et quand un de ses composants suffit, utilisé seul en dehors du full-stack framework.
 
-Cette vision passe par la maîtrise de patterns avancés : CQRS avec le Messenger, event sourcing, hexagonal architecture où Symfony ne vit que dans la couche infrastructure. Les composants Symfony sont conçus pour cette modularité. Les exploiter pleinement, c'est s'affranchir du framework tout en s'appuyant sur lui.
+Cette vision passe par la maîtrise de patterns avancés : CQRS avec le Messenger, event sourcing, [architecture hexagonale](/article/migration-symfony-architecture-hexagonale-retour-mission) où Symfony ne vit que dans la couche infrastructure. Les composants Symfony sont conçus pour cette modularité. Les exploiter pleinement, c'est s'affranchir du framework tout en s'appuyant sur lui.
 
 ### Transmettre et structurer la montée en compétences
 
