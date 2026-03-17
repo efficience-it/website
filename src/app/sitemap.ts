@@ -80,6 +80,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: `${BASE_URL}/developpement-frontend`,
+      lastModified: "2026-03-17",
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
       url: `${BASE_URL}/audit-symfony-gratuit`,
       lastModified: "2026-02-01",
       changeFrequency: "monthly",

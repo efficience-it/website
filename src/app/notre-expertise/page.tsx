@@ -197,6 +197,7 @@ export default function NotreExpertise() {
               <h3 className="font-display text-lg font-bold text-dark">Développement et API</h3>
               <ul className="mt-3 space-y-2 text-gray">
                 <li><Link href="/developpement-web-sur-mesure" className="text-primary hover:underline">Développement web sur mesure</Link></li>
+                <li><Link href="/developpement-frontend" className="text-primary hover:underline">Développement frontend</Link> : React, Vue.js, TypeScript</li>
                 <li><Link href="/api-sur-mesure-symfony" className="text-primary hover:underline">API sur mesure Symfony</Link></li>
                 <li><Link href="/cloud-et-devops" className="text-primary hover:underline">Cloud et DevOps</Link></li>
                 <li><Link href="/formation-symfony-entreprise" className="text-primary hover:underline">Formation Symfony entreprise</Link></li>
