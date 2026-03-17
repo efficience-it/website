@@ -15,6 +15,8 @@ import { breadcrumbJsonLd } from "@/lib/structured-data";
 import FadeIn from "@/components/ui/FadeIn";
 
 const categoryDescriptions: Record<string, string> = {
+  Architecture:
+    "Patterns et décisions techniques : architecture hexagonale, microservices, DDD, CQRS et conception d'applications maintenables.",
   Outils:
     "Symfony, PHP, Docker, CI/CD : nos guides pratiques sur les outils que nous utilisons au quotidien en mission.",
   Formation:
@@ -26,6 +28,8 @@ const categoryDescriptions: Record<string, string> = {
     "Vie d'agence, recrutement et organisation : les coulisses d'Efficience IT.",
   "Green IT":
     "Éco-conception web, sobriété numérique et bonnes pratiques pour réduire l'impact environnemental de vos applications.",
+  "Qualité de code":
+    "Analyse statique, tests, conventions et outils pour produire un code PHP fiable et maintenable.",
 };
 
 interface BlogCategoryPageProps {

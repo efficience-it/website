@@ -12,9 +12,11 @@ const VALID_CATEGORIES = [
   "IA",
   "DevOps",
   "Agence",
+  "Architecture",
   "JavaScript",
   "PHP",
   "Green IT",
+  "Qualité de code",
   "Securite",
 ];
 
