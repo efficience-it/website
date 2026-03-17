@@ -72,6 +72,7 @@ export function getPostBySlug(slug: string): BlogPost | undefined {
 
 export const categorySlugMap: Record<string, string> = {
   Agence: "agence",
+  Architecture: "architecture",
   DevOps: "devops",
   Formation: "formation",
   "Green IT": "green-it",
@@ -79,6 +80,7 @@ export const categorySlugMap: Record<string, string> = {
   JavaScript: "javascript",
   PHP: "php",
   Projet: "projet",
+  "Qualité de code": "qualite-de-code",
   Symfony: "symfony",
   "Securite": "securite",
 };
