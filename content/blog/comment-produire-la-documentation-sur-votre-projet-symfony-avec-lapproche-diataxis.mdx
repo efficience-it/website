@@ -33,7 +33,7 @@ Sur un projet Symfony, le tutoriel correspond au parcours d'onboarding d'un nouv
 
 Un tutoriel Symfony efficace suit une progression concrète : installer le projet, lancer les conteneurs Docker, créer une entité, écrire un test fonctionnel, observer le résultat. Chaque étape produit un résultat visible. Le développeur qui termine le tutoriel comprend la structure du projet, les conventions de l'équipe et le workflow de développement.
 
-Le piège classique : transformer le tutoriel en encyclopédie. Si votre tutoriel d'onboarding dépasse trente minutes, il contient probablement des explications ou de la référence qui appartiennent à d'autres quadrants.
+Le piège classique : transformer le tutoriel en encyclopédie. Si votre tutoriel d'onboarding dépasse trente minutes, il contient probablement des explications ou de la référence qui appartiennent à d'autres quadrants. Le [parcours en 6 étapes pour monter en compétences sur Symfony](/article/les-6-etapes-pour-monter-en-competences-sur-symfony) illustre cette approche progressive.
 
 ### Guides pratiques : répondre aux problèmes récurrents
 
@@ -55,7 +55,7 @@ La règle cardinale de la référence : elle doit être exacte. Une référence 
 
 Les explications sont le quadrant le plus négligé et pourtant le plus précieux pour les développeurs seniors. Elles répondent à la question "pourquoi" : pourquoi le projet utilise Messenger plutôt qu'un système de queue maison, pourquoi l'authentification passe par un custom authenticator plutôt que par le form_login intégré, pourquoi le découpage en bounded contexts suit tel périmètre.
 
-Ce quadrant accueille les ADR (Architecture Decision Records), les analyses de compromis, les retours d'expérience post-incident. Il documente le raisonnement derrière le code, information qui disparaît dès que les développeurs originaux quittent le projet.
+Ce quadrant accueille les ADR (Architecture Decision Records), les analyses de compromis, les retours d'expérience post-incident. Il documente le raisonnement derrière le code, information qui disparaît dès que les développeurs originaux quittent le projet. Le choix entre [monolithe modulaire et micro-services](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) est un exemple typique de décision d'architecture qui mérite une explication dédiée.
 
 ## Outillage et intégration dans le workflow
 
@@ -65,7 +65,7 @@ Stocker la documentation dans le même dépôt que le code (approche docs-as-cod
 
 Les générateurs de sites statiques comme Docusaurus ou MkDocs structurent naturellement la navigation en sections qui correspondent aux quadrants Diataxis. Un répertoire `docs/tutorials/`, `docs/how-to/`, `docs/reference/`, `docs/explanation/` rend la taxonomie explicite pour les contributeurs.
 
-L'intégration dans la CI va au-delà de la vérification orthographique. Vérifier que les exemples de code compilent, que les liens internes ne sont pas cassés, que la référence générée est à jour : ces contrôles automatisés réduisent la dette documentaire avant qu'elle ne s'accumule.
+L'intégration dans la CI, au même titre que [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) pour le code, va au-delà de la vérification orthographique. Vérifier que les exemples de code compilent, que les liens internes ne sont pas cassés, que la référence générée est à jour : ces contrôles automatisés réduisent la dette documentaire avant qu'elle ne s'accumule.
 
 ## La documentation comme artefact d'architecture
 

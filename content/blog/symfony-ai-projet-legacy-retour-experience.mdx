@@ -33,7 +33,7 @@ composer require symfony/ai
 # Your requirements could not be resolved to an installable set of packages.
 ```
 
-On a dû mettre à jour cinq composants Symfony avant de pouvoir installer le paquet. Sur un projet legacy en production, chaque mise à jour de dépendance est un risque. On a fait ça en une PR séparée, testée en staging pendant une semaine, avant même de toucher à l'IA.
+On a dû mettre à jour cinq composants Symfony avant de pouvoir installer le paquet. La gestion fine des dépendances via [Composer](/article/utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques) est cruciale dans ce type de situation. Sur un projet legacy en production, chaque mise à jour de dépendance est un risque. On a fait ça en une PR séparée, testée en staging pendant une semaine, avant même de toucher à l'IA.
 
 ### La config du transport HTTP
 
@@ -143,7 +143,7 @@ Les différences clés : contraindre les catégories possibles, demander un scor
 
 ### Versionner les prompts
 
-On a créé un système de registre de prompts. Chaque prompt est un fichier Twig dans `templates/prompts/`, versionné avec le code :
+On a créé un système de registre de prompts, en s'appuyant sur le moteur de templates Twig dont les [évolutions attendues dans Twig 4](/article/twig-4-ce-que-lon-pourrait-attendre) pourraient simplifier encore ce type d'usage. Chaque prompt est un fichier Twig dans `templates/prompts/`, versionné avec le code :
 
 ```
 templates/

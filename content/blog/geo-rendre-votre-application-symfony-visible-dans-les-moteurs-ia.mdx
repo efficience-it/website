@@ -36,7 +36,7 @@ Ces piliers sont interdépendants. La structure sans fraîcheur produit des donn
 
 ### JSON-LD et schema.org via API Platform
 
-API Platform génère nativement des contextes JSON-LD conformes à schema.org. Chaque ressource exposée devient un nœud de connaissance directement consommable par les modèles de langage, sans transformation supplémentaire. Pour tirer le meilleur parti de ces endpoints, il est essentiel de respecter les [bonnes pratiques des API REST](/article/api-rest-les-bonnes-pratiques) dans la conception de vos ressources.
+API Platform génère nativement des contextes JSON-LD conformes à schema.org. Chaque ressource exposée devient un nœud de connaissance directement consommable par les modèles de langage, sans transformation supplémentaire. La [documentation officielle du Serializer Symfony](https://symfony.com/doc/current/serializer.html) détaille les options de sérialisation JSON-LD disponibles. Pour tirer le meilleur parti de ces endpoints, il est essentiel de respecter les [bonnes pratiques des API REST](/article/api-rest-les-bonnes-pratiques) dans la conception de vos ressources.
 
 Les types les plus stratégiques pour le GEO sont `Article` (avec auteur, date, image, résumé), `Product` (avec prix, stock, avis), `Service` (avec zone géographique et description) et `LocalBusiness` (avec coordonnées et horaires). Chaque entité Symfony peut être sérialisée en JSON-LD via le composant Serializer et quelques lignes de configuration.
 

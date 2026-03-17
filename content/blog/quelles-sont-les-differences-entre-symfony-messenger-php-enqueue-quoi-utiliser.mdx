@@ -23,7 +23,7 @@ Enqueue, de son côté, a vu son activité décliner progressivement. Le dernier
 
 Pour ceux qui découvrent Messenger ou qui veulent consolider leurs bases, voici le fonctionnement central du composant.
 
-L'installation tient en une commande :
+L'installation tient en une commande, gérée via [Composer](/article/utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques) :
 
 ```bash
 composer require symfony/messenger
@@ -207,7 +207,7 @@ Chaque handler doit donc être **idempotent** : traiter deux fois le même messa
 
 Pour absorber un pic de charge, on ajoute des workers. Avec Doctrine comme transport, multiplier les workers provoque des contentions. Avec RabbitMQ ou SQS, le scaling horizontal est linéaire : chaque worker supplémentaire consomme sa part de messages sans conflit.
 
-Supervisez vos workers avec `supervisor` ou `systemd`. Configurez un `--memory-limit` et un `--time-limit` pour forcer le recyclage régulier des processus et éviter les fuites mémoire :
+Supervisez vos workers avec `supervisor` ou `systemd`, idéalement dans des conteneurs [Docker](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui). Configurez un `--memory-limit` et un `--time-limit` pour forcer le recyclage régulier des processus et éviter les fuites mémoire :
 
 ```bash
 php bin/console messenger:consume async --memory-limit=128M --time-limit=3600

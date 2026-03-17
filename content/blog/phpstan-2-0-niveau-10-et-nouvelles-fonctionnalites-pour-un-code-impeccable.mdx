@@ -73,7 +73,7 @@ La mise à jour se lance classiquement :
 composer require --dev phpstan/phpstan:^2.0
 ```
 
-Les extensions tierces (phpstan-symfony, phpstan-doctrine, phpstan-phpunit) doivent être mises à jour vers leurs versions compatibles 2.0. Vérifiez chaque extension avant de lancer la migration : une extension incompatible provoque des erreurs silencieuses ou des faux négatifs.
+Les extensions tierces (phpstan-symfony, phpstan-doctrine, phpstan-phpunit) doivent être mises à jour vers leurs versions compatibles 2.0. La [documentation officielle de PHPStan pour Symfony](https://symfony.com/doc/current/the-fast-track/en/19-testing.html) recense les intégrations disponibles. Vérifiez chaque extension avant de lancer la migration : une extension incompatible provoque des erreurs silencieuses ou des faux négatifs.
 
 ### Redistribution des règles par niveau
 
@@ -173,7 +173,7 @@ Cette fonction est pure : même entrée, même sortie, aucune modification d'ét
 
 ## Performance : mémoire et temps d'analyse
 
-PHPStan 2.0 réduit la consommation mémoire de 50 à 70 % grâce à une refonte des structures AST internes et à l'élimination des références circulaires qui freinaient le ramasse-miettes. L'analyse de PrestaShop 8.0 passe de 9 à 3 minutes. Le cache a été refondu : fichiers plus compacts, chargement plus rapide, répertoire de cache réduit de plusieurs centaines de mégaoctets à quelques dizaines. En CI, la restauration et la génération du cache sont sensiblement plus rapides.
+Ces gains de performance sont d'autant plus appréciables lors d'un [audit de code PHP](/audit-code-php) sur de gros projets. PHPStan 2.0 réduit la consommation mémoire de 50 à 70 % grâce à une refonte des structures AST internes et à l'élimination des références circulaires qui freinaient le ramasse-miettes. L'analyse de PrestaShop 8.0 passe de 9 à 3 minutes. Le cache a été refondu : fichiers plus compacts, chargement plus rapide, répertoire de cache réduit de plusieurs centaines de mégaoctets à quelques dizaines. En CI, la restauration et la génération du cache sont sensiblement plus rapides.
 
 ## Le système de types comme outil d'architecture
 

@@ -121,7 +121,7 @@ Le composant requiert PHP 8.4 minimum (`"php": ">=8.4"` dans son `composer.json`
 php -v | head -1
 ```
 
-Si la sortie affiche PHP 8.2 ou 8.3 : stop. Rien d'autre à lire ici, planifie d'abord ta montée de version PHP. Si tu es en 8.4+, on continue.
+Si la sortie affiche PHP 8.2 ou 8.3 : stop. Rien d'autre à lire ici, planifie d'abord ta montée de version PHP. Notre article sur [PHP 9.0 et les changements à anticiper](/article/php-9-0-devoile-ce-que-vous-devez-savoir-avant-la-sortie) peut t'aider à planifier cette trajectoire. Si tu es en 8.4+, on continue.
 
 ### Audit de tes objets sérialisés
 
@@ -175,7 +175,7 @@ Avant de migrer un endpoint, vérifie quelles fonctionnalités du Serializer il 
 | DateTime | Via ValueTransformer |
 | Circular reference handler | Non applicable (pas de référence circulaire en DTO) |
 
-Si ton endpoint utilise des groupes ou du contexte dynamique, la migration demande du refactoring structurel, pas juste un changement d'appel.
+Si ton endpoint utilise des groupes ou du contexte dynamique, la migration demande du refactoring structurel, pas juste un changement d'appel. Un outil comme [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) peut automatiser une partie de ces transformations.
 
 ## Ce que tu perds, soyons honnêtes
 
@@ -231,7 +231,7 @@ flowchart TD
 
 ### Coexistence dans le même projet
 
-Les deux composants s'injectent indépendamment. Tu peux utiliser le Serializer sur 90% de tes endpoints et JsonStreamer sur les 10% qui en ont besoin :
+Les deux composants s'injectent indépendamment grâce au [conteneur de services Symfony](https://symfony.com/doc/current/service_container.html). Tu peux utiliser le Serializer sur 90% de tes endpoints et JsonStreamer sur les 10% qui en ont besoin :
 
 ```yaml
 # config/services.yaml

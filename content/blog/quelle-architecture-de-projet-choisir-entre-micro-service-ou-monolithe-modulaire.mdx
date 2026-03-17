@@ -32,7 +32,7 @@ Dans un projet Symfony, cette approche se matérialise par un répertoire par mo
 
 L'architecture micro-services distribue l'application en services autonomes, chacun responsable d'un domaine métier précis et déployable indépendamment. Chaque service possède sa propre base de données et communique avec les autres via le réseau. Cette autonomie permet à des équipes distinctes de développer, tester et déployer leurs services sans coordination étroite.
 
-La communication entre services emprunte deux voies. La communication synchrone, HTTP REST ou gRPC, convient aux requêtes nécessitant une réponse immédiate : le service commandes interroge le service catalogue pour vérifier une disponibilité. La communication asynchrone, via un broker comme RabbitMQ ou Kafka, découple les services dans le temps : une commande validée publie un événement, et le service notifications envoie un email sans bloquer le processus principal.
+La communication entre services emprunte deux voies, et les [bonnes pratiques des API REST](/article/api-rest-les-bonnes-pratiques) s'appliquent pleinement aux échanges synchrones entre services. La communication synchrone, HTTP REST ou gRPC, convient aux requêtes nécessitant une réponse immédiate : le service commandes interroge le service catalogue pour vérifier une disponibilité. La communication asynchrone, via un broker comme RabbitMQ ou Kafka, découple les services dans le temps : une commande validée publie un événement, et le service notifications envoie un email sans bloquer le processus principal.
 
 ## Frontières de modules et patterns de communication
 
@@ -52,7 +52,7 @@ Les micro-services imposent le pattern Database per Service. Chaque service poss
 
 ### Observabilité et résilience en environnement distribué
 
-Un appel qui traversait trois classes dans un monolithe traverse désormais trois services réseau avec les latences et les risques de panne que cela implique. L'observabilité distribuée devient indispensable : tracing distribué avec OpenTelemetry, logs centralisés, métriques par service. L'infrastructure s'alourdit : orchestration de conteneurs avec Kubernetes, service mesh, circuit breakers. Ces outils sont puissants mais représentent un investissement significatif en compétences et en maintenance.
+Un appel qui traversait trois classes dans un monolithe traverse désormais trois services réseau avec les latences et les risques de panne que cela implique. L'observabilité distribuée devient indispensable : tracing distribué avec OpenTelemetry, logs centralisés, métriques par service. La [mise en cache](/article/tout-savoir-sur-la-mise-en-cache-tips) dans un système distribué ajoute une couche de complexité supplémentaire qu'il faut anticiper. L'infrastructure s'alourdit : orchestration de conteneurs avec Kubernetes, service mesh, circuit breakers. Ces outils sont puissants mais représentent un investissement significatif en compétences et en maintenance.
 
 ## Quand choisir l'une ou l'autre architecture
 
