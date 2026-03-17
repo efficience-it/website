@@ -49,3 +49,53 @@ Format attendu :
 4. Nouvelle arborescence proposee
 5. Liste des nouvelles pages strategiques a creer
 6. Recommandations de maillage interne
+
+## Référentiel de mots clés par technologie
+
+### PHP
+agence PHP, développement PHP sur mesure, développeur PHP senior, agence développement PHP, prestataire PHP, expertise PHP 8, refactoring PHP, modernisation application PHP legacy
+
+### Symfony
+agence Symfony, développeur Symfony, développement Symfony sur mesure, expert Symfony, migration Symfony, mise à jour Symfony, agence Symfony Lille, prestataire Symfony France
+
+### Laravel
+développement Laravel, agence Laravel, développeur Laravel senior, Laravel vs Symfony, migration Laravel
+
+### Sylius
+développement Sylius, agence Sylius, e-commerce Sylius sur mesure, intégration Sylius, boutique en ligne Sylius
+
+### API Platform
+développement API Platform, agence API Platform, API REST PHP, API REST Symfony, création API sur mesure PHP, API Platform expert, API RESTful Symfony
+
+### TypeScript
+développement TypeScript, application TypeScript sur mesure, migration JavaScript TypeScript
+
+### React
+développement React, agence React, application React sur mesure, développeur React senior, React Symfony intégration, frontend React PHP
+
+### Vue.js
+développement Vue.js, agence Vue.js, application Vue.js sur mesure, Vue.js Symfony, frontend Vue.js
+
+### Next.js
+développement Next.js, agence Next.js, application Next.js sur mesure, Next.js React SSR, Next.js API Symfony
+
+### Node.js
+développement Node.js, agence Node.js, API Node.js sur mesure, NestJS développement, backend Node.js
+
+### PostgreSQL
+développement PostgreSQL, optimisation base de données PostgreSQL, migration MySQL PostgreSQL, PostgreSQL Symfony Doctrine
+
+### Redis
+intégration Redis Symfony, cache Redis PHP, session Redis application web, Redis performance application
+
+### Elasticsearch
+intégration Elasticsearch Symfony, moteur de recherche Elasticsearch PHP, recherche full-text Elasticsearch
+
+### RabbitMQ
+intégration RabbitMQ Symfony, messaging RabbitMQ PHP, architecture événementielle RabbitMQ, Symfony Messenger RabbitMQ
+
+### Docker
+dockerisation application Symfony, Docker PHP production, conteneurisation application web, Docker Compose Symfony
+
+### Mots clés transversaux
+développement full stack PHP React, développement full stack Symfony Vue.js, agence full stack PHP TypeScript, architecture microservices PHP, architecture hexagonale PHP DDD, stack technique PHP Symfony Docker PostgreSQL, agence web technique PHP Lille, prestataire technique PHP France
