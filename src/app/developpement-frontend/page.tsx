@@ -15,19 +15,24 @@ import type { RelatedLink } from "@/components/sections/RelatedLinks";
 
 const frontendRelatedLinks: RelatedLink[] = [
   {
-    title: "Développement web sur mesure",
-    description: "Notre approche full stack du développement d'applications web",
-    href: "/developpement-web-sur-mesure",
+    title: "Développement React",
+    description: "Applications React et TypeScript sur mesure : SPA, dashboards, SSR avec Next.js",
+    href: "/developpement-react",
+  },
+  {
+    title: "Développement Vue.js",
+    description: "Interfaces réactives et progressives avec Vue.js et Nuxt",
+    href: "/developpement-vuejs",
+  },
+  {
+    title: "Développement TypeScript",
+    description: "Typage statique et applications maintenables sur la durée",
+    href: "/developpement-typescript",
   },
   {
     title: "API sur mesure Symfony",
     description: "Les APIs backend qui alimentent vos interfaces frontend",
     href: "/api-sur-mesure-symfony",
-  },
-  {
-    title: "Développement Node.js",
-    description: "Backend JavaScript et BFF pour vos applications React ou Vue.js",
-    href: "/developpement-nodejs",
   },
   {
     title: "Quel framework JavaScript choisir",
@@ -38,12 +43,6 @@ const frontendRelatedLinks: RelatedLink[] = [
     title: "React, documentation officielle",
     description: "La référence pour le développement d'interfaces React",
     href: "https://react.dev/",
-    external: true,
-  },
-  {
-    title: "Vue.js, documentation officielle",
-    description: "Le framework JavaScript progressif pour construire des interfaces",
-    href: "https://vuejs.org/",
     external: true,
   },
 ];
