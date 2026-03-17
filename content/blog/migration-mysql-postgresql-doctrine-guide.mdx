@@ -21,7 +21,7 @@ La question revient régulièrement dans les missions d'[accompagnement et conse
 
 MySQL fonctionne très bien pour une majorité de projets. Mais ses limites apparaissent quand le projet grandit : gestion du JSON moins mature que PostgreSQL (pas d'équivalent à `jsonb` avec index GIN, ni d'opérateurs de containment `@>` ou d'existence `?`), absence de `SKIP LOCKED` avant MySQL 8.0 (et des projets encore en 5.7 en production), conversions de types implicites qui masquent des bugs, planificateur de requêtes moins performant sur les jointures complexes avec sous-requêtes.
 
-PostgreSQL apporte des réponses concrètes à ces points. Le type `jsonb` est indexable avec GIN, `SKIP LOCKED` est stable depuis PostgreSQL 9.5 (et c'est ce que [Symfony Messenger utilise pour le transport Doctrine](/article/quelles-sont-les-differences-entre-symfony-messenger-php-enqueue-quoi-utiliser)), les types natifs (arrays, enums, UUID, ranges) réduisent la quantité de code applicatif, et le respect strict du standard SQL élimine une catégorie entière de bugs silencieux.
+PostgreSQL apporte des réponses concrètes à ces points. Notre accompagnement sur la [base de données PostgreSQL avec Symfony](/base-de-donnees-postgresql-symfony) couvre justement ces migrations. Le type `jsonb` est indexable avec GIN, `SKIP LOCKED` est stable depuis PostgreSQL 9.5 (et c'est ce que [Symfony Messenger utilise pour le transport Doctrine](/article/quelles-sont-les-differences-entre-symfony-messenger-php-enqueue-quoi-utiliser)), les types natifs (arrays, enums, UUID, ranges) réduisent la quantité de code applicatif, et le respect strict du standard SQL élimine une catégorie entière de bugs silencieux.
 
 ### Quand la migration se justifie
 

@@ -191,6 +191,7 @@ export default function NotreExpertise() {
                 <li><Link href="/audit-symfony-gratuit" className="text-primary hover:underline">Audit Symfony gratuit</Link> : 30 min pour évaluer votre application</li>
                 <li><Link href="/tests-automatises-php" className="text-primary hover:underline">Tests automatisés PHP</Link> : sécurisez chaque livraison</li>
                 <li><Link href="/architecture-hexagonale-symfony" className="text-primary hover:underline">Architecture hexagonale Symfony</Link> : DDD appliqué</li>
+                <li><Link href="/securite-application-symfony" className="text-primary hover:underline">Sécurité applicative Symfony</Link> : audit, protection OWASP, RGPD</li>
               </ul>
             </Card>
             <Card>
@@ -201,6 +202,10 @@ export default function NotreExpertise() {
                 <li><Link href="/developpement-frontend" className="text-primary hover:underline">Développement frontend</Link> : <Link href="/developpement-react" className="text-primary hover:underline">React</Link>, <Link href="/developpement-vuejs" className="text-primary hover:underline">Vue.js</Link>, <Link href="/developpement-typescript" className="text-primary hover:underline">TypeScript</Link></li>
                 <li><Link href="/api-sur-mesure-symfony" className="text-primary hover:underline">API sur mesure Symfony</Link></li>
                 <li><Link href="/cloud-et-devops" className="text-primary hover:underline">Cloud et DevOps</Link></li>
+                <li><Link href="/integration-docker-symfony" className="text-primary hover:underline">Docker et Symfony</Link> : conteneurisation et déploiement</li>
+                <li><Link href="/base-de-donnees-postgresql-symfony" className="text-primary hover:underline">PostgreSQL et Symfony</Link> : base de données performante</li>
+                <li><Link href="/integration-redis-symfony" className="text-primary hover:underline">Redis et Symfony</Link> : cache, sessions et performance</li>
+                <li><Link href="/integration-elasticsearch-symfony" className="text-primary hover:underline">Elasticsearch et Symfony</Link> : recherche full-text</li>
                 <li><Link href="/formation-symfony-entreprise" className="text-primary hover:underline">Formation Symfony entreprise</Link></li>
               </ul>
             </Card>

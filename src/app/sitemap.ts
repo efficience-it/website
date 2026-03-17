@@ -218,6 +218,36 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: `${BASE_URL}/integration-docker-symfony`,
+      lastModified: "2026-03-17",
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/securite-application-symfony`,
+      lastModified: "2026-03-17",
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/base-de-donnees-postgresql-symfony`,
+      lastModified: "2026-03-17",
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/integration-redis-symfony`,
+      lastModified: "2026-03-17",
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/integration-elasticsearch-symfony`,
+      lastModified: "2026-03-17",
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
       url: `${BASE_URL}/secteur`,
       lastModified: "2026-03-17",
       changeFrequency: "monthly",

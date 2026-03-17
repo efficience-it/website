@@ -25,7 +25,7 @@ Cet article explore Docker en production sous trois angles progressifs : les fon
 
 Avant Docker, les environnements de production étaient configurés manuellement, partiellement documentés et structurellement incohérents entre dev, préprod et prod. Un développeur installe PHP 8.3.12 sur sa machine, la préprod tourne avec PHP 8.3.8, la prod reste bloquée sur PHP 8.2. Une extension intl compilée différemment provoque un comportement inattendu sur les formats de date. Ce type de scénario coûte des heures de débogage et érode la confiance de toute l'équipe.
 
-Docker résout ce problème par un principe fondamental : embarquer l'application **et** son environnement d'exécution dans une image immuable. Runtime, librairies système, extensions, configuration, dépendances applicatives, tout est figé. L'image construite lors de la CI est celle qui sera déployée sur chaque serveur, sans recompilation ni installation de paquets supplémentaires. Ce qui est testé est exactement ce qui tourne en production.
+Docker résout ce problème par un principe fondamental : embarquer l'application **et** son environnement d'exécution dans une image immuable. C'est ce principe qui rend l'[intégration de Docker dans un projet Symfony](/integration-docker-symfony) si efficace. Runtime, librairies système, extensions, configuration, dépendances applicatives, tout est figé. L'image construite lors de la CI est celle qui sera déployée sur chaque serveur, sans recompilation ni installation de paquets supplémentaires. Ce qui est testé est exactement ce qui tourne en production.
 
 ### Le Dockerfile comme contrat d'exécution
 
