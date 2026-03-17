@@ -18,7 +18,7 @@ Cet article répond à trois questions : est-ce que mon projet est éligible ? Q
 
 ## Ce que JsonStreamer change vraiment
 
-Le Serializer Symfony fonctionne par réflexion. À chaque appel, il inspecte l'objet, résout les métadonnées, applique les normalizers dans l'ordre, construit un tableau PHP intermédiaire, puis l'encode en JSON. Tout est en mémoire, tout est dynamique, tout est flexible.
+Le [Serializer Symfony](https://symfony.com/doc/current/serializer.html) fonctionne par réflexion. À chaque appel, il inspecte l'objet, résout les métadonnées, applique les normalizers dans l'ordre, construit un tableau PHP intermédiaire, puis l'encode en JSON. Tout est en mémoire, tout est dynamique, tout est flexible.
 
 JsonStreamer prend l'approche inverse. Au moment du build (ou au premier appel), il génère du code PHP natif spécialisé pour chaque classe. Ce code produit du JSON directement, sans tableau intermédiaire, via un générateur PHP. C'est la différence entre imprimer un livre entier avant de l'envoyer, et l'envoyer page par page au fur et à mesure de l'impression. Le destinataire commence à recevoir alors que l'impression n'est pas terminée.
 
@@ -204,7 +204,7 @@ Si tu utilises JMS Serializer en plus du Serializer natif Symfony, JsonStreamer 
 
 ## La stratégie de migration
 
-Pas de big bang. Les deux composants coexistent sans problème dans la même application Symfony. La migration se fait endpoint par endpoint, en commençant par les cas les plus simples et les plus impactants en performance.
+Pas de big bang. C'est le type de modernisation progressive que nous pratiquons dans nos missions de [migration Symfony](/migration-symfony). Les deux composants coexistent sans problème dans la même application Symfony. La migration se fait endpoint par endpoint, en commençant par les cas les plus simples et les plus impactants en performance.
 
 ### La règle de décision en 3 questions
 

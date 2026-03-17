@@ -166,7 +166,7 @@ Le contrôleur ne contient aucune logique. Il traduit une requête HTTP en appel
 
 L'ancienne application utilisait massivement les lifecycle callbacks Doctrine : `prePersist`, `postUpdate`, `preRemove`. Ces callbacks contenaient de la logique métier. Un `postUpdate` sur `Order` envoyait un email. Un `prePersist` sur `Invoice` calculait le numéro de facture.
 
-Migrer ces callbacks vers le domaine est le chantier le plus sous-estimé. On a dû remplacer chaque callback par un événement domaine explicite, dispatché via [Symfony Messenger](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) après l'action métier :
+Migrer ces callbacks vers le domaine est le chantier le plus sous-estimé. On a dû remplacer chaque callback par un événement domaine explicite, dispatché via [Symfony Messenger](https://symfony.com/doc/current/messenger.html) après l'action métier :
 
 ```php
 final class ValidateOrder

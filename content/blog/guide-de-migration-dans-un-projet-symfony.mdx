@@ -24,7 +24,7 @@ Cette régularité a une conséquence directe : le coût d'une migration est pro
 
 ### Le mécanisme des dépréciations
 
-Le contrat de Symfony est clair : aucune fonctionnalité n'est supprimée sans avoir été dépréciée au moins une version majeure à l'avance. Concrètement, une classe marquée `@deprecated` en 5.2 reste fonctionnelle dans toute la branche 5.x. Elle disparaît en 6.0.
+Le contrat de Symfony est clair, comme le précise le [guide officiel de mise à jour majeure](https://symfony.com/doc/current/setup/upgrade_major.html) : aucune fonctionnalité n'est supprimée sans avoir été dépréciée au moins une version majeure à l'avance. Concrètement, une classe marquée `@deprecated` en 5.2 reste fonctionnelle dans toute la branche 5.x. Elle disparaît en 6.0.
 
 La dernière mineure avant une majeure (5.4 avant 6.0, 6.4 avant 7.0) joue un rôle pivot. Elle contient exactement les mêmes fonctionnalités que la majeure suivante, mais conserve la rétrocompatibilité. Migrer vers 5.4 et résoudre toutes les dépréciations revient à préparer le terrain pour un passage à 6.0 quasi transparent.
 

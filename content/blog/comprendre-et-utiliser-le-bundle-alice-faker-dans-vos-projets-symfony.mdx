@@ -173,7 +173,7 @@ ArticleFactory::createOne([
 ]);
 ```
 
-Pour garantir la cohérence des données, le choix du [type d'identifiant (INT, UUID ou ULID)](/article/prendre-int-uuid-ou-ulid-pour-un-index-de-base-de-donnees) impacte directement la génération des fixtures et les performances en test. Le trait `ResetDatabase` isole chaque test PHPUnit avec un rollback transactionnel automatique, ce qui élimine les effets de bord entre tests sans le coût d'un rechargement complet des fixtures :
+Pour garantir la cohérence des données, le choix du [type d'identifiant (INT, UUID ou ULID)](/article/prendre-int-uuid-ou-ulid-pour-un-index-de-base-de-donnees) impacte directement la génération des fixtures et les performances en test. Le trait `ResetDatabase` isole chaque test PHPUnit avec un rollback transactionnel automatique, en s'appuyant sur les principes décrits dans la [documentation officielle de Symfony sur les tests](https://symfony.com/doc/current/testing.html), ce qui élimine les effets de bord entre tests sans le coût d'un rechargement complet des fixtures :
 
 ```php
 use Zenstruck\Foundry\Test\ResetDatabase;

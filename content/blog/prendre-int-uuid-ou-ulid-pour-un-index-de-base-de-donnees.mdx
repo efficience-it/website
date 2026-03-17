@@ -58,7 +58,7 @@ Le coût structurel reste constant quelle que soit la version : 16 octets par cl
 private ?Uuid $id;
 ```
 
-Le composant Symfony Uid fournit le type Doctrine `uuid` et le générateur associé. Le stockage se fait en binaire (16 octets) via `BINARY(16)`, jamais en `VARCHAR(36)` qui doublerait l'espace et dégraderait les comparaisons. [Doctrine ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) a par ailleurs amélioré la gestion des types personnalisés, dont les UUID et ULID.
+Le composant Symfony Uid fournit le type Doctrine `uuid` et le générateur associé. Le stockage se fait en binaire (16 octets) via `BINARY(16)`, jamais en `VARCHAR(36)` qui doublerait l'espace et dégraderait les comparaisons. [Doctrine ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) a par ailleurs amélioré la gestion des types personnalisés, dont les UUID et ULID. Pour les projets qui utilisent [PostgreSQL avec Symfony](/base-de-donnees-postgresql-symfony), le type natif `uuid` du SGBD offre des performances optimales en stockage et en comparaison.
 
 ## ULID : le compromis monotone
 
