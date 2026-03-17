@@ -33,9 +33,9 @@ Savoir dans quel quadrant se situe chaque élément de dette change fondamentale
 
 Au-delà des raccourcis individuels, la dette technique a des racines systémiques qu'il faut identifier pour agir durablement.
 
-Les **délais serrés** poussent les équipes à livrer vite au détriment de la qualité. L'**absence de tests automatisés** empêche de détecter les régressions et rend chaque modification risquée. La **rotation des équipes** entraîne une perte de connaissance tacite sur le projet : les conventions non documentées disparaissent avec leurs auteurs. Le **report systématique des montées de version** crée un fossé croissant entre le projet et l'écosystème supporté. Enfin, l'**absence de vision architecturale** conduit à des décisions locales incohérentes entre elles.
+Les **délais serrés** poussent les équipes à livrer vite au détriment de la qualité. L'absence de [tests automatisés](/tests-automatises-php) empêche de détecter les régressions et rend chaque modification risquée. La **rotation des équipes** entraîne une perte de connaissance tacite sur le projet : les conventions non documentées disparaissent avec leurs auteurs. Le **report systématique des montées de version** crée un fossé croissant entre le projet et l'écosystème supporté. Enfin, l'**absence de vision architecturale** conduit à des décisions locales incohérentes entre elles.
 
-Un exemple concret : une application e-commerce développée en PHP 5.6 avec un framework maison. Au fil des années, les développeurs ajoutent des fonctionnalités sans refactoriser le code existant. Cinq ans plus tard, le temps de déploiement passe de quelques minutes à plusieurs heures, chaque correction de bug en introduit deux nouveaux, et plus personne dans l'équipe ne comprend certains modules critiques. La dette a atteint un seuil où elle paralyse l'organisation.
+Un exemple concret : une application e-commerce développée en PHP 5.6 avec un framework maison. Les [conventions de codage](/article/coding-conventions) inexistantes accélèrent l'accumulation de la dette. Au fil des années, les développeurs ajoutent des fonctionnalités sans refactoriser le code existant. Cinq ans plus tard, le temps de déploiement passe de quelques minutes à plusieurs heures, chaque correction de bug en introduit deux nouveaux, et plus personne dans l'équipe ne comprend certains modules critiques. La dette a atteint un seuil où elle paralyse l'organisation.
 
 ## Mesurer la dette : outillage et indicateurs
 
@@ -49,7 +49,7 @@ La **complexité cyclomatique** mesure le nombre de chemins d'exécution dans un
 
 ### Les outils de mesure
 
-SonarQube reste la référence pour estimer la dette en jours de travail. PHPStan et Psalm offrent une analyse statique progressive : on commence au niveau 0 et on monte graduellement. Rector détecte les patterns obsolètes et propose des corrections automatisées. Ces outils identifient les hotspots, ces fichiers à la fois très modifiés et très complexes qui concentrent généralement la majorité des problèmes. Une autre approche efficace est d'[éliminer le code mort dans vos projets PHP](/article/code-mort-mission-elimination) : supprimer ce qui n'est plus utilisé réduit mécaniquement la surface de maintenance et clarifie le périmètre réel de l'application.
+SonarQube reste la référence pour estimer la dette en jours de travail. [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) et Psalm offrent une analyse statique progressive : on commence au niveau 0 et on monte graduellement. [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) détecte les patterns obsolètes et propose des corrections automatisées. Ces outils identifient les hotspots, ces fichiers à la fois très modifiés et très complexes qui concentrent généralement la majorité des problèmes. Une autre approche efficace est d'[éliminer le code mort dans vos projets PHP](/article/code-mort-mission-elimination) : supprimer ce qui n'est plus utilisé réduit mécaniquement la surface de maintenance et clarifie le périmètre réel de l'application.
 
 L'approche la plus efficace combine l'analyse statique avec l'historique Git. Un fichier de 2 000 lignes avec une complexité cyclomatique de 45 et 300 commits sur les six derniers mois est un candidat prioritaire au refactoring, bien plus qu'un fichier tout aussi complexe mais jamais touché.
 
@@ -63,7 +63,7 @@ Classez chaque élément de dette selon deux axes : l'impact sur la vélocité d
 
 ### Les stratégies de remboursement
 
-Le **Strangler Fig Pattern** consiste à encapsuler le système existant et à le remplacer module par module. Chaque nouveau développement est réalisé dans le nouveau système, tandis que l'ancien est progressivement décommissionné. L'application reste fonctionnelle tout au long du processus, ce qui limite considérablement le risque.
+Le **Strangler Fig Pattern**, détaillé dans notre [guide de migration Symfony](/article/guide-de-migration-dans-un-projet-symfony), consiste à encapsuler le système existant et à le remplacer module par module. Chaque nouveau développement est réalisé dans le nouveau système, tandis que l'ancien est progressivement décommissionné. L'application reste fonctionnelle tout au long du processus, ce qui limite considérablement le risque.
 
 La **règle du Boy Scout**, popularisée par Robert C. Martin, propose de laisser le code dans un meilleur état que celui dans lequel on l'a trouvé. À chaque intervention, les développeurs améliorent un petit morceau du code existant. Cette approche est particulièrement efficace pour maîtriser la dette au quotidien sans mobiliser de budget dédié.
 

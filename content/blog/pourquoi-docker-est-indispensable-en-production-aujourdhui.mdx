@@ -85,7 +85,7 @@ Chaque dépendance système ajoutée à l'image doit être justifiée. Les paque
 
 ### Scan de vulnérabilités et chaîne de confiance
 
-Docker s'intègre nativement dans une chaîne de sécurité automatisée. Les scanners de CVE, Trivy, Snyk, Docker Scout, analysent chaque image dans le pipeline CI/CD. Un seuil de vulnérabilités critiques peut bloquer automatiquement un déploiement. Les signatures d'images (Docker Content Trust, cosign) garantissent l'intégrité de la chaîne de distribution. Si un conteneur est compromis en production, la réponse est immédiate : détruire le conteneur et en relancer un nouveau à partir de l'image saine. Aucune forensics complexe sur un serveur muté au fil du temps.
+Docker s'intègre nativement dans une chaîne de sécurité automatisée. Les scanners de CVE, Trivy, Snyk, Docker Scout, analysent chaque image dans le pipeline CI/CD. Comprendre [les failles CVE et leur impact](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) est essentiel pour configurer ces seuils correctement. Un seuil de vulnérabilités critiques peut bloquer automatiquement un déploiement. Les signatures d'images (Docker Content Trust, cosign) garantissent l'intégrité de la chaîne de distribution. Si un conteneur est compromis en production, la réponse est immédiate : détruire le conteneur et en relancer un nouveau à partir de l'image saine. Aucune forensics complexe sur un serveur muté au fil du temps.
 
 ## Pipelines CI/CD et déploiement continu
 

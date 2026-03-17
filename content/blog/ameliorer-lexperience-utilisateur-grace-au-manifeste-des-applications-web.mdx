@@ -53,7 +53,7 @@ La granularité du cache doit être pensée en amont. Un pré-cache agressif de 
 
 Les notifications push représentent un levier d'engagement majeur des PWA. Elles reposent sur l'API Push et l'API Notification, toutes deux orchestrées par le Service Worker. Le flux implique un serveur d'application qui envoie un message via un service push (FCM, Web Push Protocol), le Service Worker qui le reçoit et affiche la notification même quand l'application est fermée.
 
-La gestion du consentement est critique : demander la permission trop tôt ou sans contexte conduit à un taux de refus élevé. La bonne pratique consiste à déclencher la demande après une action utilisateur significative, accompagnée d'une explication claire de la valeur ajoutée.
+La gestion du consentement est critique, en particulier pour respecter les [normes d'accessibilité RGAA](/article/normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous) : demander la permission trop tôt ou sans contexte conduit à un taux de refus élevé. La bonne pratique consiste à déclencher la demande après une action utilisateur significative, accompagnée d'une explication claire de la valeur ajoutée.
 
 ## Limites et contraintes techniques
 
@@ -69,7 +69,7 @@ Pour un architecte ou un lead technique, la question n'est pas de savoir si les 
 
 ### Quand la PWA s'impose
 
-La PWA est le choix optimal quand le produit vise une large audience sur des appareils hétérogènes, quand le budget ne permet pas de maintenir des codebases iOS et Android séparées, quand le cycle de déploiement doit être rapide et indépendant des processus de validation des stores, ou quand les marchés cibles incluent des régions où la connectivité est intermittente.
+La PWA est le choix optimal quand le produit vise une large audience sur des appareils hétérogènes, quand le budget ne permet pas de maintenir des codebases iOS et Android séparées (le choix du [framework JavaScript](/article/quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular) devient alors central), quand le cycle de déploiement doit être rapide et indépendant des processus de validation des stores, ou quand les marchés cibles incluent des régions où la connectivité est intermittente.
 
 Twitter Lite illustre parfaitement ce scénario. En adoptant l'approche PWA, Twitter a observé une augmentation de 65 % des pages vues par session, une réduction de 75 % de la consommation de données et un temps de chargement réduit de 30 % par rapport à l'application native. La PWA leur a permis de toucher des utilisateurs sur des appareils d'entrée de gamme dans des marchés émergents, là où l'installation d'une application native de plusieurs dizaines de mégaoctets constitue un frein réel.
 
@@ -81,7 +81,7 @@ L'application native garde l'avantage quand le produit repose sur un accès inte
 
 L'approche la plus pérenne consiste à adopter le progressive enhancement comme principe directeur. Le manifeste incarne cette philosophie : il ajoute des capacités applicatives à un site web sans rien retirer à l'expérience de base. Un utilisateur sans support PWA accède toujours au contenu via son navigateur. Un utilisateur sur Chrome Android bénéficie de l'installation, du mode hors ligne et des notifications push. Chaque couche enrichit l'expérience sans créer de dépendance.
 
-Cette stratégie d'enrichissement progressif s'étend au-delà du manifeste. Elle guide les choix d'architecture : une [API REST respectant les bonnes pratiques](/article/api-rest-les-bonnes-pratiques) sert aussi bien une PWA qu'une application native future, un Service Worker bien structuré prépare le terrain pour des fonctionnalités temps réel sans refonte. L'intégration du manifeste dans un projet Symfony s'inscrit naturellement dans une démarche de [développement web sur mesure](/developpement-web-sur-mesure) orientée performance.
+Cette stratégie d'enrichissement progressif, en cohérence avec les principes d'[éco-conception](/article/eco-conception-un-ideal-en-marche-ou-une-illusion-durable), s'étend au-delà du manifeste. Elle guide les choix d'architecture : une [API REST respectant les bonnes pratiques](/article/api-rest-les-bonnes-pratiques) sert aussi bien une PWA qu'une application native future, un Service Worker bien structuré prépare le terrain pour des fonctionnalités temps réel sans refonte. L'intégration du manifeste dans un projet Symfony s'inscrit naturellement dans une démarche de [développement web sur mesure](/developpement-web-sur-mesure) orientée performance.
 
 ## Conclusion
 

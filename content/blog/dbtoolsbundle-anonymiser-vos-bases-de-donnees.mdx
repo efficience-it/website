@@ -116,7 +116,7 @@ Un point souvent négligé : le pipeline d'anonymisation lui-même doit tourner 
 
 DbToolsBundle génère des requêtes SQL natives exécutées directement par le moteur de base de données, sans passer par l'ORM ni charger d'objets PHP en mémoire. Cette architecture change l'ordre de grandeur : là où une approche Doctrine ligne-par-ligne saturerait la mémoire au-delà de quelques centaines de milliers de lignes, le bundle traite des tables de plusieurs millions d'enregistrements avec une consommation mémoire constante.
 
-Le bundle adapte le SQL généré au dialecte du moteur cible : PostgreSQL, MySQL et MariaDB sont supportés nativement. Les requêtes exploitent les mécanismes natifs de chaque SGBD (fonctions de hachage, générateurs aléatoires, opérations sur les chaînes) pour maximiser le débit.
+Le bundle adapte le SQL généré au dialecte du moteur cible : PostgreSQL, MySQL et MariaDB sont supportés nativement. Pour garantir la reproductibilité de ces opérations, conteneuriser l'environnement avec [Docker](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) est fortement recommandé. Les requêtes exploitent les mécanismes natifs de chaque SGBD (fonctions de hachage, générateurs aléatoires, opérations sur les chaînes) pour maximiser le débit.
 
 Sur des bases dépassant la dizaine de millions de lignes, quelques leviers complémentaires méritent attention : désactiver temporairement les index non essentiels et les contraintes de clé étrangère pendant l'anonymisation, puis les recréer ensuite. Le coût de reconstruction des index est largement compensé par le gain sur les UPDATE massifs.
 
@@ -134,7 +134,7 @@ Un aspect souvent sous-estimé est le risque de ré-identification par croisemen
 
 Dans une organisation mature, l'anonymisation s'inscrit dans une politique de gouvernance des données plus large. Plusieurs questions architecturales méritent d'être tranchées en amont.
 
-Qui est responsable de la configuration des anonymiseurs ? Si la règle vit dans le code (attributs PHP), elle suit le cycle de vie du code : review, merge, déploiement. C'est un avantage considérable par rapport à une configuration externalisée qui dérive silencieusement. Chaque ajout de champ sensible sans anonymiseur associé peut être détecté par une règle de CI (un test qui scanne les entités et vérifie la couverture d'anonymisation).
+Qui est responsable de la configuration des anonymiseurs ? Si la règle vit dans le code (attributs PHP), elle suit le cycle de vie du code : review, merge, déploiement. C'est un avantage considérable par rapport à une configuration externalisée qui dérive silencieusement. Chaque ajout de champ sensible sans anonymiseur associé peut être détecté par une règle de CI, de la même manière que [PHPStan détecte les erreurs de typage](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (un test qui scanne les entités et vérifie la couverture d'anonymisation).
 
 Comment prouver la conformité lors d'un audit ? Le pipeline CI/CD constitue une piste d'audit naturelle : logs horodatés, artefacts signés, historique des exécutions. Coupler cela à un registre des traitements (obligation RGPD article 30) referme la boucle de conformité.
 

@@ -22,7 +22,7 @@ L'AFUP met un point d'honneur à rendre l'événement inclusif et accessible. Le
 
 ### PHP 8.4 et les Objets Paresseux
 
-Les objets paresseux (lazy objects) représentent l'une des fonctionnalités les plus attendues de PHP 8.4. Ils permettent de différer l'initialisation d'un objet jusqu'à ce qu'il soit réellement utilisé, optimisant la gestion de la mémoire et les performances. Concrètement, un objet paresseux se comporte comme un proxy transparent : il n'exécute son constructeur et n'alloue ses ressources qu'au moment du premier accès à l'une de ses propriétés ou méthodes.
+Les objets paresseux (lazy objects) représentent l'une des fonctionnalités les plus attendues de PHP 8.4. Cette évolution du langage s'inscrit dans la trajectoire décrite dans notre article sur les [contributions de la Fondation PHP](/article/la-fondation-php-souffle-ses-trois-bougies). Ils permettent de différer l'initialisation d'un objet jusqu'à ce qu'il soit réellement utilisé, optimisant la gestion de la mémoire et les performances. Concrètement, un objet paresseux se comporte comme un proxy transparent : il n'exécute son constructeur et n'alloue ses ressources qu'au moment du premier accès à l'une de ses propriétés ou méthodes.
 
 Nicolas Grekas, développeur influent du projet Symfony et contributeur majeur au noyau PHP, a consacré un talk détaillé à cette fonctionnalité. Il a démontré comment les lazy objects pourraient transformer le fonctionnement du conteneur d'injection de dépendances de Symfony. Dans des applications comportant des centaines de services, seule une fraction est réellement utilisée lors d'une requête donnée. Grâce aux objets paresseux, les services non utilisés ne seraient jamais instanciés, réduisant significativement l'empreinte mémoire et le temps de démarrage. Nicolas a également présenté des benchmarks montrant des gains de performance concrets dans des contextes de forte charge.
 
@@ -70,7 +70,7 @@ Les ateliers pratiques, très prisés des participants, ont permis de passer de 
 
 ### Symfony et la durabilité numérique
 
-Michelle Sanver a présenté des pratiques concrètes pour rendre les applications Symfony plus respectueuses de l'environnement. Son talk abordait la réduction des ressources serveur inutiles, l'optimisation des requêtes en base de données pour limiter la consommation énergétique, et l'adoption de stratégies de mise en cache intelligentes. Elle a rappelé que le numérique représente environ 4 % des émissions mondiales de gaz à effet de serre et que chaque optimisation, même modeste, compte à l'échelle de millions d'utilisateurs.
+Michelle Sanver a présenté des pratiques concrètes pour rendre les applications Symfony plus respectueuses de l'environnement, un sujet que nous explorons dans notre article sur [l'éco-conception web](/article/eco-conception-un-ideal-en-marche-ou-une-illusion-durable). Son talk abordait la réduction des ressources serveur inutiles, l'optimisation des requêtes en base de données pour limiter la consommation énergétique, et l'adoption de stratégies de mise en cache intelligentes. Elle a rappelé que le numérique représente environ 4 % des émissions mondiales de gaz à effet de serre et que chaque optimisation, même modeste, compte à l'échelle de millions d'utilisateurs.
 
 ### Extensibilité : les enseignements de Shopware
 

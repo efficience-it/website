@@ -30,7 +30,7 @@ L'écosystème est par ailleurs extrêmement mature. Des outils comme [Swagger v
 
 Le problème de l'over-fetching et de l'under-fetching est inhérent au modèle. Un endpoint retourne une structure fixe : le client reçoit soit trop de données, soit pas assez. Pour afficher la page d'un article avec son auteur et ses commentaires, trois requêtes distinctes sont nécessaires, ce qui multiplie les allers-retours réseau et dégrade la latence perçue, en particulier sur mobile.
 
-La gestion du versioning alourdit la maintenance au fil du temps. Maintenir plusieurs versions en parallèle (v1, v2, v3) impose de faire cohabiter des contrats d'API différents, avec le risque de divergence et la charge de dépréciation progressive.
+La gestion du versioning alourdit la maintenance au fil du temps et contribue à la [dette technique](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur). Maintenir plusieurs versions en parallèle (v1, v2, v3) impose de faire cohabiter des contrats d'API différents, avec le risque de divergence et la charge de dépréciation progressive.
 
 ## GraphQL : un langage de requête pour API
 
@@ -70,7 +70,7 @@ REST impose un choix explicite de stratégie de versioning : par URI (`/v2/artic
 
 GraphQL contourne ce problème par sa nature additive, mais impose en contrepartie une discipline rigoureuse dans la conception du schéma. Un schéma mal pensé dès le départ peut conduire à des impasses architecturales difficiles à corriger sans breaking change. La granularité des types, le nommage des mutations, la gestion des unions et des interfaces exigent une réflexion en amont que REST ne demande pas avec la même intensité.
 
-En pratique, les équipes expérimentées adoptent un schema-first approach : le schéma est défini, discuté et validé avant toute implémentation, au même titre qu'un contrat OpenAPI pour REST.
+En pratique, les équipes expérimentées adoptent un schema-first approach, comparable aux [conventions de codage](/article/coding-conventions) qui formalisent les contrats entre développeurs : le schéma est défini, discuté et validé avant toute implémentation, au même titre qu'un contrat OpenAPI pour REST.
 
 ## Tableau comparatif REST vs GraphQL
 

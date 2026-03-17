@@ -36,7 +36,7 @@ Chaque image porteuse de sens nécessite un texte alternatif pertinent. Les imag
 
 ### Contrastes et lisibilité
 
-Le RGAA exige un ratio de contraste minimum de 4.5:1 pour le texte standard et 3:1 pour le texte agrandi. Ces seuils ne sont pas arbitraires : ils garantissent la lisibilité dans des conditions variées (écran de faible qualité, luminosité ambiante, déficiences visuelles légères). Le design responsive, la taille des zones tactiles (minimum 44x44 pixels) et le respect du zoom à 200% sans perte de contenu complètent ces exigences. Ces pratiques rejoignent la démarche plus large d'[améliorer l'expérience utilisateur grâce au manifeste des applications web](/article/ameliorer-lexperience-utilisateur-grace-au-manifeste-des-applications-web), qui permet d'offrir une expérience native et accessible sur tous les appareils.
+Le RGAA exige un ratio de contraste minimum de 4.5:1 pour le texte standard et 3:1 pour le texte agrandi. Ces seuils ne sont pas arbitraires : ils garantissent la lisibilité dans des conditions variées (écran de faible qualité, luminosité ambiante, déficiences visuelles légères). Le design responsive, la taille des zones tactiles (minimum 44x44 pixels) et le respect du zoom à 200% sans perte de contenu complètent ces exigences. Pour les équipes front-end, le [choix du framework JavaScript](/article/quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular) impacte directement la facilité d'implémentation de ces critères d'accessibilité. Ces pratiques rejoignent la démarche plus large d'[améliorer l'expérience utilisateur grâce au manifeste des applications web](/article/ameliorer-lexperience-utilisateur-grace-au-manifeste-des-applications-web), qui permet d'offrir une expérience native et accessible sur tous les appareils.
 
 ## Outillage et intégration continue
 
@@ -46,7 +46,7 @@ Un développeur senior ne se contente pas de connaître les critères : il autom
 
 Axe-core, le moteur derrière l'extension navigateur axe DevTools, s'intègre directement dans les tests. En combinaison avec Cypress, Playwright ou Testing Library, il permet de détecter environ 40% des problèmes d'accessibilité de manière automatisée. C'est insuffisant pour une conformité complète, mais c'est un filet de sécurité indispensable dans la CI.
 
-Pa11y offre une alternative en ligne de commande, adaptée aux pipelines CI/CD. Il permet de scanner des pages entières et de configurer des seuils d'erreurs acceptables, avec une sortie facilement intégrable dans les rapports de build.
+Pa11y offre une alternative en ligne de commande, adaptée aux pipelines CI/CD au même titre que les [tests Postman avec Newman dans GitLab CI](/article/comment-executer-des-tests-postman-avec-newman-dans-gitlab-ci). Il permet de scanner des pages entières et de configurer des seuils d'erreurs acceptables, avec une sortie facilement intégrable dans les rapports de build.
 
 ### Patterns ARIA avancés
 
@@ -74,7 +74,7 @@ Passer du niveau réactif au niveau culture prend généralement deux à trois a
 
 ### Mesurer le ROI de l'accessibilité
 
-L'accessibilité améliore des métriques directement liées à la performance business. Le SEO bénéficie de la structure sémantique, des alternatives textuelles et de la performance (les Core Web Vitals recoupent largement les critères RGAA). Le taux de conversion augmente grâce à des formulaires plus clairs et une navigation plus fluide. Le taux de rebond diminue quand les contenus sont lisibles et compréhensibles. Les coûts juridiques sont évités.
+L'accessibilité améliore des métriques directement liées à la performance business. Le SEO bénéficie de la structure sémantique, des alternatives textuelles et de la performance (les Core Web Vitals recoupent largement les critères RGAA). Cette convergence entre accessibilité et visibilité se retrouve dans les stratégies de [GEO pour les moteurs IA](/article/geo-rendre-votre-application-symfony-visible-dans-les-moteurs-ia). Le taux de conversion augmente grâce à des formulaires plus clairs et une navigation plus fluide. Le taux de rebond diminue quand les contenus sont lisibles et compréhensibles. Les coûts juridiques sont évités.
 
 Au-delà des métriques, un site accessible touche 15 à 20% d'utilisateurs supplémentaires (personnes en situation de handicap permanent, temporaire ou situationnel). C'est un marché de 80 millions de personnes en Europe.
 

@@ -14,7 +14,7 @@ Le bon outil dépend de votre contexte : génération de code, debugging, code r
 
 ## GitHub Copilot : l'assistant intégré à l'IDE
 
-GitHub Copilot reste l'assistant IA le plus répandu dans les équipes de développement. Son intégration native dans VS Code et les IDE JetBrains en fait le choix par défaut pour beaucoup de développeurs.
+GitHub Copilot reste l'assistant IA le plus répandu dans les équipes de développement. Son intégration native dans VS Code et les IDE JetBrains en fait le choix par défaut pour beaucoup de développeurs, comme le montre notre comparatif sur [quel éditeur de code choisir](/article/phpstorm-vscode-sublimetext-netbeans-quel-editeur-de-code-choisir).
 
 ### Ce qui a changé en 2026
 
@@ -31,7 +31,7 @@ Le mode agent transforme Copilot en développeur junior capable d'exécuter des 
 
 ### Limites
 
-- **Qualité variable sur les architectures complexes** : Copilot génère du code "standard". Sur un projet avec une architecture hexagonale ou des conventions spécifiques, les suggestions nécessitent souvent des corrections.
+- **Qualité variable sur les architectures complexes** : Copilot génère du code "standard". Sur un projet avec une [architecture hexagonale](/architecture-hexagonale-symfony) ou des conventions spécifiques, les suggestions nécessitent souvent des corrections.
 - **Contexte limité** : malgré les améliorations, Copilot ne comprend pas toujours l'architecture globale d'un projet. Il travaille fichier par fichier plus que sur l'ensemble du codebase.
 - **Dépendance à GitHub** : l'écosystème est verrouillé. Si votre code est sur GitLab ou Bitbucket, l'expérience est dégradée.
 
@@ -58,7 +58,7 @@ ChatGPT avec GPT-4o et GPT-5 reste un outil de référence pour la génération 
 
 ### Idéal pour
 
-Le debugging complexe, l'exploration de solutions architecturales, la rédaction de documentation technique, et les développeurs qui préfèrent une interface conversationnelle.
+Le debugging complexe, l'exploration de solutions architecturales, la rédaction de [documentation technique](/article/quel-outil-choisir-pour-votre-documentation-technique), et les développeurs qui préfèrent une interface conversationnelle.
 
 ## Claude Code : le CLI qui comprend votre projet
 
@@ -86,7 +86,7 @@ Le fichier `CLAUDE.md` à la racine du projet permet de définir les conventions
 
 ### Idéal pour
 
-Les développeurs expérimentés qui travaillent sur des projets avec des conventions strictes, du refactoring de legacy, et des tâches qui nécessitent une compréhension profonde du codebase.
+Les développeurs expérimentés qui travaillent sur des projets avec des conventions strictes, du refactoring de legacy, et des tâches qui nécessitent une compréhension profonde du codebase. Notre retour d'expérience sur [Symfony et IA dans un projet legacy](/article/symfony-ai-projet-legacy-retour-experience) illustre ce type d'usage.
 
 ## Cursor : l'IDE augmenté par l'IA
 
@@ -144,7 +144,7 @@ Pour l'autocomplétion au fil de l'eau, **Copilot** reste le plus fluide. Pour l
 
 ### Architecture et refactoring
 
-Pour les décisions d'architecture, **ChatGPT** et **Claude** (en conversation) sont les plus adaptés. Ils permettent de discuter des trade-offs, d'explorer des alternatives, et de challenger les choix techniques. Pour le refactoring effectif du code, **Claude Code** est le plus efficace car il peut appliquer les modifications, vérifier les tests, et itérer.
+Pour les décisions d'architecture, **ChatGPT** et **Claude** (en conversation) sont les plus adaptés. Ils permettent de discuter des trade-offs, d'explorer des alternatives comme le choix entre [micro-services et monolithe modulaire](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire), et de challenger les choix techniques. Pour le refactoring effectif du code, **Claude Code** est le plus efficace car il peut appliquer les modifications, vérifier les tests, et itérer.
 
 ### Tâches autonomes
 
@@ -171,7 +171,7 @@ Au-delà des fonctionnalités, plusieurs critères doivent guider le choix pour 
 
 ### Sécurité et confidentialité
 
-Où vont vos données ? Copilot et ChatGPT envoient le code aux serveurs de leurs éditeurs. Claude Code fait de même avec Anthropic. Cursor permet de choisir le fournisseur. Pour les projets sensibles, vérifiez les politiques de rétention de données et les certifications de chaque fournisseur.
+Où vont vos données ? Copilot et ChatGPT envoient le code aux serveurs de leurs éditeurs. Claude Code fait de même avec Anthropic. Cursor permet de choisir le fournisseur. Pour les projets sensibles, la compréhension des [CVE et des failles de sécurité](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) doit guider vos politiques de rétention de données et le choix de fournisseur.
 
 ### Coût par développeur
 
@@ -183,7 +183,7 @@ Si votre équipe est sur GitHub et VS Code, Copilot s'intègre sans friction. Si
 
 ### Montée en compétence de l'équipe
 
-Chaque outil a une courbe d'apprentissage. Copilot est le plus simple à adopter. ChatGPT ne nécessite aucune configuration. Claude Code demande un investissement initial (CLAUDE.md, habitudes CLI) mais offre le meilleur retour sur investissement à moyen terme. Cursor demande un changement d'IDE.
+Chaque outil a une courbe d'apprentissage. Copilot est le plus simple à adopter. ChatGPT ne nécessite aucune configuration. Claude Code demande un investissement initial (CLAUDE.md, habitudes CLI) mais offre le meilleur retour sur investissement à moyen terme, comme le détaille notre article sur les [6 étapes pour monter en compétences sur Symfony](/article/les-6-etapes-pour-monter-en-competences-sur-symfony). Cursor demande un changement d'IDE.
 
 ## Conclusion
 

@@ -46,7 +46,7 @@ L'architecture middleware PSR-15, combinée aux messages PSR-7, forme un modèle
 
 ### PSR-11 : Container Interface
 
-Le PSR-11 standardise l'injection de dépendances avec deux méthodes : `get(string $id)` et `has(string $id)`. Symfony DI, PHP-DI, Laravel Container, League Container : tous implémentent cette interface. Cela permet à des bibliothèques tierces de consommer un conteneur sans savoir lequel est utilisé.
+Le PSR-11 standardise l'injection de dépendances avec deux méthodes : `get(string $id)` et `has(string $id)`. Symfony DI, PHP-DI, Laravel Container, League Container : tous implémentent cette interface. Le [conteneur de services Symfony](https://symfony.com/doc/current/service_container.html) est l'une des implémentations les plus abouties de ce standard. Cela permet à des bibliothèques tierces de consommer un conteneur sans savoir lequel est utilisé.
 
 En pratique, PSR-11 a rendu possible la création de bibliothèques véritablement framework-agnostiques. Un bundle de validation, un système de routage, un gestionnaire de files d'attente peuvent déclarer une dépendance sur `Psr\Container\ContainerInterface` et fonctionner dans n'importe quel framework.
 
@@ -88,7 +88,7 @@ Le PHP-FIG compte parmi ses membres votants les représentants de Symfony, Larav
 
 Les PSR incarnent le principe d'inversion de dépendance (le D de SOLID) à l'échelle d'un écosystème entier. En dépendant d'abstractions plutôt que de concrétions, le code applicatif gagne en testabilité (les mocks implémentent la même interface), en maintenabilité (les composants sont remplaçables) et en lisibilité (les contrats sont explicites). Des outils comme [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) vérifient statiquement que vos dépendances respectent bien les interfaces PSR attendues.
 
-Pour une équipe, adopter les PSR signifie aussi réduire la surface de décision : les débats sur le style de code, le choix d'interface de logging ou le format des messages HTTP sont déjà tranchés. L'énergie se concentre sur la logique métier.
+Les PSR facilitent aussi la [migration entre versions majeures de frameworks](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony), puisque les interfaces standardisées restent stables. Pour une équipe, adopter les PSR signifie aussi réduire la surface de décision : les débats sur le style de code, le choix d'interface de logging ou le format des messages HTTP sont déjà tranchés. L'énergie se concentre sur la logique métier.
 
 ## Pour aller plus loin
 

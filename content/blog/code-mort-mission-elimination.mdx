@@ -14,14 +14,14 @@ Le développement web, tout comme l'entretien d'un jardin, nécessite un entreti
 
 PHPStan est un outil d'analyse statique pour le langage PHP. Pour une présentation complète de ses capacités, [notre guide sur PHPStan et l'amélioration de la qualité du code PHP](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) couvre l'installation, les niveaux de règles et les cas d'usage courants. Son objectif principal est de détecter des erreurs dans le code avant même que celui-ci ne soit exécuté. Il agit comme un vérificateur de type avancé en inspectant le code source et en identifiant des problèmes potentiels tels que les incohérences de typage, en détectant des types incorrects ou incompatibles dans les variables, paramètres ou retours de fonctions. Il repère les appels de méthodes inexistantes, avertissant si l'on tente d'appeler une méthode qui n'existe pas dans une classe. Il signale également les propriétés manquantes si elles sont utilisées sans avoir été définies, et identifie des erreurs logiques courantes, comme des conditions toujours vraies ou fausses.
 
-PHPStan est particulièrement utile dans les projets où la robustesse et la maintenance du code sont essentielles. Il fonctionne avec une configuration modifiable, permettant de s'adapter aux normes et contraintes spécifiques d'un projet. En outre, il peut s'intégrer facilement dans les pipelines CI/CD pour automatiser l'analyse et garantir une qualité constante du code.
+PHPStan est particulièrement utile dans les projets où la robustesse et la maintenance du code sont essentielles. Il fonctionne avec une configuration modifiable, permettant de s'adapter aux normes et contraintes spécifiques d'un projet. En outre, il peut s'intégrer facilement dans les pipelines CI/CD pour automatiser l'analyse et garantir une qualité constante du code. [PHPStan 2.0 et son niveau 10](/article/phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable) poussent encore plus loin cette rigueur d'analyse.
 
 ## Qu'est-ce que le code mort ?
 
 Dans le développement logiciel, le code mort, également connu sous le nom de code non utilisé ou code obsolète, désigne des parties de code qui ne sont jamais exécutées ou utilisées dans une application. Ce code peut inclure des fonctions, des méthodes, des classes ou même des blocs de code qui ne sont plus nécessaires pour le fonctionnement du programme. Bien que cela puisse sembler inoffensif, le code mort peut avoir des impacts significatifs sur un projet :
 
 - **Évolution du projet** : au fur et à mesure que les exigences du projet changent, certaines parties du code deviennent obsolètes.
-- **Refactorisation** : de nouvelles implémentations peuvent rendre certaines parties du code ancien inutiles.
+- **Refactorisation** : de nouvelles implémentations peuvent rendre certaines parties du code ancien inutiles. Des outils comme [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) automatisent ces transformations et aident à identifier le code devenu superflu.
 - **Erreurs de développement** : parfois, du code est écrit mais jamais utilisé en raison d'erreurs de conception ou de développement.
 
 ## Impacts du code mort sur un projet
@@ -32,7 +32,7 @@ Le code mort ajoute une couche de complexité inutile à la base de code. Cela r
 
 ### Risques de sécurité
 
-Le code mort peut contenir des vulnérabilités qui ne sont pas immédiatement apparentes. Comme il n'est pas utilisé, ces vulnérabilités peuvent passer inaperçues et rester non corrigées, posant un risque pour la sécurité de l'application.
+Le code mort peut contenir des vulnérabilités qui ne sont pas immédiatement apparentes. Comme il n'est pas utilisé, ces [failles CVE](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) peuvent passer inaperçues et rester non corrigées, posant un risque pour la sécurité de l'application.
 
 ### Performance réduite
 

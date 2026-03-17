@@ -103,7 +103,7 @@ final readonly class CreateOrderHandler
 }
 ```
 
-Le handler dépend de **ports** (interfaces) du domaine, pas d'implémentations concrètes. `OrderRepositoryInterface` est défini dans le domaine. L'implémentation Doctrine est dans l'infrastructure. Le handler ne sait pas et n'a pas besoin de savoir comment la persistence fonctionne.
+Le handler dépend de **ports** (interfaces) du domaine, pas d'implémentations concrètes. `OrderRepositoryInterface` est défini dans le domaine. L'implémentation [Doctrine](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) est dans l'infrastructure. Le handler ne sait pas et n'a pas besoin de savoir comment la persistence fonctionne.
 
 Dans ton controller, le dispatch est trivial :
 
@@ -346,7 +346,7 @@ Et les exploiter dans un middleware pour du multi-tenant, du tracing, ou n'impor
 
 ## Fini les services à 30 méthodes
 
-Tu connais ce `OrderService` avec `createOrder()`, `validateOrder()`, `cancelOrder()`, `getOrderById()`, `getOrdersByCustomer()`, `calculateTotal()`, et 25 autres méthodes ? Ce service god-class qui viole le Single Responsibility Principle et qui est impossible à tester proprement ?
+Tu connais ce `OrderService` avec `createOrder()`, `validateOrder()`, `cancelOrder()`, `getOrderById()`, `getOrdersByCustomer()`, `calculateTotal()`, et 25 autres méthodes ? Ce service god-class qui viole le Single Responsibility Principle, accumule de la [dette technique](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) et qui est impossible à tester proprement ?
 
 Avec le pattern Command/Query/Event, chaque cas d'usage est isolé dans son propre handler. Un handler fait **une seule chose**. Il a ses propres dépendances, clairement déclarées dans le constructeur. Il est testable unitairement en quelques lignes.
 
@@ -393,7 +393,7 @@ final class CreateOrderHandlerTest extends TestCase
 }
 ```
 
-Pas de kernel Symfony, pas de container, pas de base de données. Un test unitaire pur qui s'exécute en millisecondes. C'est le bénéfice direct d'avoir des handlers qui dépendent d'abstractions.
+Pas de kernel Symfony, pas de container, pas de base de données. Un test unitaire pur qui s'exécute en millisecondes. C'est le bénéfice direct d'avoir des handlers qui dépendent d'abstractions, et une stratégie de [tests automatisés](/tests-automatises-php) bien pensée couvre naturellement ces handlers.
 
 ## Les erreurs classiques à éviter
 
@@ -421,7 +421,7 @@ public function __invoke(CreateOrder $command): Order
 }
 ```
 
-Un command ne retourne rien. Si tu as besoin de l'ID de l'entité créée, génère-le **avant** le dispatch (avec un UUID par exemple) et passe-le dans le command.
+Un command ne retourne rien. Si tu as besoin de l'ID de l'entité créée, génère-le **avant** le dispatch (avec un [UUID ou ULID](/article/prendre-int-uuid-ou-ulid-pour-un-index-de-base-de-donnees) par exemple) et passe-le dans le command.
 
 ```php
 $orderId = Uuid::v7()->toString();

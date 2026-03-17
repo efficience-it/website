@@ -32,7 +32,7 @@ La configuration s'effectue par un fichier YAML à la racine du projet. On y dé
 
 ### Lecture des résultats
 
-Symfony Insight attribue une médaille au projet : platine (zéro violation), or, argent ou bronze selon la gravité et le nombre de problèmes détectés. Chaque violation est localisée par fichier et ligne, accompagnée d'une estimation du temps de correction. Cette granularité permet de transformer les résultats en tickets priorisés dans un backlog, avec un effort chiffré.
+Symfony Insight attribue une médaille au projet : platine (zéro violation), or, argent ou bronze selon la gravité et le nombre de problèmes détectés. Chaque violation est localisée par fichier et ligne, accompagnée d'une estimation du temps de correction. La [documentation officielle de Symfony](https://symfony.com/doc/current/index.html) sert de référence pour comprendre les bonnes pratiques attendues par l'outil. Cette granularité permet de transformer les résultats en tickets priorisés dans un backlog, avec un effort chiffré.
 
 ## Catégories de règles et priorisation
 
@@ -48,7 +48,7 @@ Requêtes N+1, appels Doctrine non optimisés, absence de cache HTTP, utilisatio
 
 ### Maintenabilité et architecture
 
-Code dupliqué, couplage excessif entre bundles, commentaires TODO abandonnés, dépendances obsolètes. Ces signaux révèlent l'accumulation de dette technique qui, laissée sans contrôle, finit par ralentir drastiquement la vélocité de l'équipe.
+Code dupliqué, couplage excessif entre bundles, commentaires TODO abandonnés, dépendances obsolètes. Ces signaux révèlent l'accumulation de [dette technique](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) qui, laissée sans contrôle, finit par ralentir drastiquement la vélocité de l'équipe.
 
 ## Positionnement face à PHPStan et SonarQube
 

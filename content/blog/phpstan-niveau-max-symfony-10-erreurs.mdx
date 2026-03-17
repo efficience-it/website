@@ -39,7 +39,7 @@ Ajoute le PHPDoc générique sur chaque propriété de type `Collection`. Si tu 
 private Collection $tags;
 ```
 
-Sur un projet de taille moyenne, compte entre 50 et 200 occurrences. Un bon regex dans ton IDE règle ça en une heure.
+Sur un projet de taille moyenne, compte entre 50 et 200 occurrences. Un bon regex dans ton IDE règle ça en une heure. Les évolutions de [Doctrine ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) améliorent d'ailleurs le typage natif des collections.
 
 ## 2. Le retour de `find()` non vérifié
 
@@ -61,7 +61,7 @@ $user = $this->userRepository->find($id)
 
 Dans un service métier, lève une exception domaine ou retourne un type nullable que l'appelant gère.
 
-Ne fais jamais de `assert($user !== null)` sauf dans les tests. C'est un pansement qui masque un vrai problème de gestion d'erreur.
+Ne fais jamais de `assert($user !== null)` sauf dans les tests. C'est un pansement qui masque un vrai problème de gestion d'erreur. Respecter les [bonnes pratiques des API REST](/article/api-rest-les-bonnes-pratiques) impose de gérer proprement ces cas de retour `null`.
 
 ## 3. Les paramètres `mixed` du Container
 

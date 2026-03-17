@@ -34,7 +34,7 @@ Les secrets en dur dans le code ou les fichiers de configuration versionnés res
 
 ### Authentification et gestion de sessions
 
-Implémenter son propre système d'authentification est presque toujours une erreur. Les frameworks modernes fournissent des composants éprouvés. La responsabilité de l'équipe est de les configurer correctement : politique de hachage (bcrypt, Argon2id), durée de vie des tokens, invalidation de session côté serveur, protection CSRF, headers de sécurité (HSTS, CSP, X-Content-Type-Options). Chaque choix de configuration a des implications en termes de surface d'attaque qu'il faut comprendre, pas simplement appliquer par copier-coller depuis Stack Overflow.
+Implémenter son propre système d'authentification est presque toujours une erreur. Les frameworks modernes comme [Symfony](/article/pourquoi-choisir-symfony-pour-vos-projets) fournissent des composants éprouvés. La responsabilité de l'équipe est de les configurer correctement : politique de hachage (bcrypt, Argon2id), durée de vie des tokens, invalidation de session côté serveur, protection CSRF, headers de sécurité (HSTS, CSP, X-Content-Type-Options). Chaque choix de configuration a des implications en termes de surface d'attaque qu'il faut comprendre, pas simplement appliquer par copier-coller depuis Stack Overflow.
 
 ## La revue de code comme levier de sécurité
 
@@ -78,7 +78,7 @@ Chaque étape doit avoir des gates clairement définis : quelles vulnérabilité
 
 ### Infrastructure as Code et sécurité
 
-Quand l'infrastructure est définie en code (Terraform, Ansible, Helm), elle peut être auditée comme du code. Les outils comme Checkov, tfsec ou Trivy permettent de vérifier que les configurations respectent les bonnes pratiques : pas de buckets S3 publics, pas de security groups ouverts à 0.0.0.0/0, chiffrement activé au repos et en transit. Ces vérifications s'intègrent dans la même pipeline que le code applicatif, unifiant la gouvernance sécurité sur toute la stack.
+Quand l'infrastructure est définie en code (Terraform, Ansible, Helm), elle peut être auditée comme du code, surtout lorsque [Docker est utilisé en production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui). Les outils comme Checkov, tfsec ou Trivy permettent de vérifier que les configurations respectent les bonnes pratiques : pas de buckets S3 publics, pas de security groups ouverts à 0.0.0.0/0, chiffrement activé au repos et en transit. Ces vérifications s'intègrent dans la même pipeline que le code applicatif, unifiant la gouvernance sécurité sur toute la stack.
 
 ## Mesurer la maturité sécurité
 

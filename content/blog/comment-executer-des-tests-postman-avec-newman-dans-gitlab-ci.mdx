@@ -55,7 +55,7 @@ Pour obtenir la collection et l'environnement, deux approches coexistent. La pre
 
 ## Gestion des environnements et des secrets
 
-La gestion des variables d'environnement est le premier point où la configuration devient intéressante. Une stratégie robuste combine trois niveaux.
+La gestion des variables d'environnement est le premier point où la configuration devient intéressante. Comme pour la [gestion des secrets dans un projet Symfony](/article/dbtoolsbundle-anonymiser-vos-bases-de-donnees), une stratégie robuste combine trois niveaux.
 
 Le fichier d'environnement versionné contient la structure complète : noms de variables, valeurs par défaut pour le développement local, placeholders pour les valeurs sensibles. Ce fichier fait partie du dépôt Git et sert de documentation vivante des dépendances de la suite de tests.
 
@@ -73,7 +73,7 @@ C'est un levier puissant pour augmenter la couverture sans dupliquer les requêt
 
 ## Stratégies d'assertion efficaces
 
-La qualité d'une suite de tests Postman repose sur la pertinence des assertions. Tester uniquement le code HTTP 200 ne suffit pas. Une stratégie d'assertion progressive couvre plusieurs niveaux : le code de retour HTTP, la structure du payload (présence des champs attendus, types corrects), les valeurs métier (un calcul retourne le bon résultat, une liste est triée correctement), et les headers de réponse (Content-Type, Cache-Control, CORS).
+La qualité d'une suite de tests Postman repose sur la pertinence des assertions, tout comme la qualité du code repose sur un [outillage d'analyse statique comme PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php). Tester uniquement le code HTTP 200 ne suffit pas. Une stratégie d'assertion progressive couvre plusieurs niveaux : le code de retour HTTP, la structure du payload (présence des champs attendus, types corrects), les valeurs métier (un calcul retourne le bon résultat, une liste est triée correctement), et les headers de réponse (Content-Type, Cache-Control, CORS).
 
 Les pre-request scripts permettent de préparer le contexte : générer des données uniques, stocker des timestamps pour des vérifications ultérieures, enchaîner des appels de setup. Les test scripts exploitent la bibliothèque Chai intégrée à Postman pour des assertions expressives. La combinaison des deux transforme une collection de requêtes en véritable suite de tests fonctionnels.
 

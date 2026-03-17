@@ -73,7 +73,7 @@ build_site:
            - dist
 ```
 
-Le cache sur `node_modules/` est essentiel. Sans lui, chaque pipeline réinstalle l'intégralité des dépendances. Sur un projet Nuxt.js typique, cela représente facilement deux à trois minutes économisées par exécution. À l'échelle d'une équipe qui pousse régulièrement, le gain cumulé est considérable.
+Le cache sur `node_modules/` est essentiel. Sans lui, chaque pipeline réinstalle l'intégralité des dépendances, un problème que l'on retrouve aussi lors de la [gestion des dépendances avec Composer](/article/utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques). Sur un projet Nuxt.js typique, cela représente facilement deux à trois minutes économisées par exécution. À l'échelle d'une équipe qui pousse régulièrement, le gain cumulé est considérable.
 
 ### Le stage de déploiement
 
@@ -100,7 +100,7 @@ Le flag `--delete` supprime du bucket les fichiers absents du build local, garan
 
 ### Variables CI/CD
 
-Dans GitLab, sous Settings > CI/CD > Variables, injectez les quatre secrets : `AWS_CLOUDFRONT_INVALIDATION_ID`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` et `AWS_BUCKET_NAME`. Marquez-les comme protégées et masquées pour éviter toute fuite dans les logs de pipeline.
+Dans GitLab, sous Settings > CI/CD > Variables, injectez les quatre secrets : `AWS_CLOUDFRONT_INVALIDATION_ID`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` et `AWS_BUCKET_NAME`. Marquez-les comme protégées et masquées pour éviter toute fuite dans les logs de pipeline. La gestion rigoureuse des secrets fait partie des bonnes pratiques pour [se prémunir contre les failles de sécurité](/article/cve-comprendre-les-failles-pour-mieux-se-proteger).
 
 ## Déploiement multi-environnement par branche
 
@@ -213,7 +213,7 @@ Deux approches alternatives existent. La première consiste à invalider uniquem
 
 ### Déploiement blue-green avec CloudFront
 
-Pour les sites à fort trafic, le déploiement blue-green élimine tout temps d'indisponibilité. Le principe : maintenir deux buckets S3 (blue et green), déployer sur le bucket inactif, puis basculer l'origin de la distribution CloudFront. En cas de problème, le rollback est immédiat puisque l'ancien bucket reste intact.
+Pour les sites à fort trafic nécessitant un [hébergement fiable](/hebergement-symfony), le déploiement blue-green élimine tout temps d'indisponibilité. Le principe : maintenir deux buckets S3 (blue et green), déployer sur le bucket inactif, puis basculer l'origin de la distribution CloudFront. En cas de problème, le rollback est immédiat puisque l'ancien bucket reste intact.
 
 CloudFront supporte nativement les origin groups avec failover automatique. Si l'origin primaire retourne une erreur 5xx, CloudFront bascule transparentement sur l'origin secondaire. Cette mécanique, combinée au blue-green, offre une résilience remarquable.
 
