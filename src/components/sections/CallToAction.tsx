@@ -9,8 +9,8 @@ export default function CallToAction() {
           Vous avez un projet en tête ?
         </h2>
         <p className="mx-auto mt-4 max-w-2xl text-lg text-white/90">
-          Vous souhaitez réaliser un intranet, progiciel, une application
-          entreprise ou un site internet complexe ? Efficience IT saura vous
+          Vous souhaitez réaliser un intranet, un progiciel, une application
+          d&apos;entreprise ou un site internet complexe ? Efficience IT saura vous
           accompagner au mieux sur vos projets !
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
