@@ -116,8 +116,8 @@ export default function LaTeam() {
                 Découvrir l&apos;histoire de l&apos;agence
               </h2>
               <p className="mt-4 text-lg text-gray">
-                Créée en 2018, nous cherchons à apporter des solutions efficaces
-                aux problématiques de nos clients.
+                Créée en 2018, Efficience IT cherche à apporter des solutions
+                efficaces aux problématiques de ses clients.
               </p>
             </div>
           </div>
@@ -178,8 +178,8 @@ export default function LaTeam() {
                 Une équipe d&apos;experts au service de vos performances
               </h2>
               <p className="mt-4 text-lg text-gray">
-                Dotés d&apos;outils d&apos;analyse, Efficience IT réalise des
-                outils projets répondant aux normes et standards du secteur.
+                Dotée d&apos;outils d&apos;analyse, Efficience IT réalise des
+                projets répondant aux normes et standards du secteur.
               </p>
               <p className="mt-4 text-lg text-gray">
                 Membre de l&apos;
@@ -216,7 +216,7 @@ export default function LaTeam() {
             <p className="mt-4 text-lg text-gray">
               Chez Efficience IT, la cohésion est essentielle pour servir au
               mieux nos clients. Au-delà du code de conduite, nous suivons la
-              charte de diversité, et suivons une parité entre 40 et 60 %.
+              charte de diversité et maintenons une parité entre 40 et 60 %.
             </p>
             <p className="mt-4 text-lg text-gray">
               En mettant un point d&apos;honneur à être centré sur le

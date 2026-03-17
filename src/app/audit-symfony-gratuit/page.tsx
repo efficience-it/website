@@ -414,8 +414,8 @@ export default function AuditSymfonyGratuit() {
                 <div className="rounded-lg bg-light-gray p-6">
                   <blockquote className="text-lg italic text-gray">
                     &laquo;&nbsp;Efficience IT a su rapidement comprendre nos
-                    problématiques. Compréhension approfondie de Symfony permise
-                    API performante et fiable.&nbsp;&raquo;
+                    problématiques. Leur compréhension approfondie de Symfony a
+                    permis une API performante et fiable.&nbsp;&raquo;
                   </blockquote>
                   <div className="mt-4">
                     <p className="font-semibold text-dark">Luc Delbreuil</p>

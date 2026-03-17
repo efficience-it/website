@@ -310,8 +310,8 @@ export default function DeveloppementWeb() {
                     Vos enjeux
                   </p>
                   <p className="mt-2 text-gray">
-                    Proposer une plateforme unique qui fédère vendeurs tout en
-                    offrant une expérience d&apos;achat intuitive.
+                    Proposer une plateforme unique qui fédère les vendeurs tout
+                    en offrant une expérience d&apos;achat intuitive.
                   </p>
                 </div>
                 <div className="md:col-span-3">
@@ -518,7 +518,7 @@ export default function DeveloppementWeb() {
           </div>
           <div className="mt-10 text-center">
             <h2 className="font-display text-2xl font-bold text-dark">
-              Passez à l&apos;action dès maintenant!
+              Passez à l&apos;action dès maintenant !
             </h2>
             <p className="mt-4 text-lg text-gray max-w-4xl mx-auto">
               Vous souhaitez moderniser votre infrastructure, développer un site

@@ -42,7 +42,7 @@ export default function PolitiqueDeConfidentialite() {
               concernant vos informations. Si vous lisez et comprenez pleinement
               cette politique de confidentialité, et que vous restez opposé(e) à
               nos pratiques, vous devez immédiatement cesser toute utilisation de
-              nos propriétés numérique et de nos services. En utilisant nos
+              nos propriétés numériques et de nos services. En utilisant nos
               services, vous acceptez les conditions de cette politique de
               confidentialité et le fait de continuer à les utiliser constitue
               votre acceptation de cette politique de confidentialité et de tout
