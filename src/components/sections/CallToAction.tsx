@@ -1,5 +1,8 @@
+"use client";
+
+import Link from "next/link";
 import Container from "@/components/ui/Container";
-import Button from "@/components/ui/Button";
+import { trackEvent } from "@/lib/tracking";
 
 export default function CallToAction() {
   return (
@@ -14,20 +17,20 @@ export default function CallToAction() {
           accompagner au mieux sur vos projets !
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Button
+          <Link
             href="/audit-symfony-gratuit"
-            variant="white"
-            size="lg"
+            className="inline-flex items-center justify-center rounded-lg bg-white px-8 py-3 text-base font-semibold text-primary transition-all duration-200 hover:bg-gray-100"
+            onClick={() => trackEvent("cta_click", { cta_location: "footer_cta", cta_text: "Audit gratuit 30 min" })}
           >
             Audit gratuit 30 min
-          </Button>
-          <Button
+          </Link>
+          <Link
             href="/contact"
-            variant="outline-white"
-            size="lg"
+            className="inline-flex items-center justify-center rounded-lg border-2 border-white/50 px-8 py-3 text-base font-semibold text-white transition-all duration-200 hover:border-white hover:bg-white/10"
+            onClick={() => trackEvent("cta_click", { cta_location: "footer_cta", cta_text: "Contactez-nous" })}
           >
             Contactez-nous
-          </Button>
+          </Link>
         </div>
       </Container>
     </section>

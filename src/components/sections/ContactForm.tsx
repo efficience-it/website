@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Button from "@/components/ui/Button";
+import { trackEvent } from "@/lib/tracking";
 
 const subjects = [
   "Demande de devis",
@@ -21,6 +22,11 @@ export default function ContactForm() {
     const email = "contact@itefficience.com";
     const subject = data.get("subject") as string;
     const body = `Nom: ${data.get("name")}\nEntreprise: ${data.get("company")}\nTéléphone: ${data.get("phone")}\nEmail: ${data.get("email")}\n\n${data.get("message")}`;
+
+    trackEvent("form_submit", {
+      form_type: "contact",
+      subject,
+    });
 
     window.open(
       `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`,

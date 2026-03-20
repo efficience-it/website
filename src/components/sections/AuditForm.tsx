@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Button from "@/components/ui/Button";
+import { trackEvent } from "@/lib/tracking";
 
 const problems = [
   "Performance",
@@ -46,6 +47,13 @@ export default function AuditForm() {
       `Message :`,
       `${data.get("message") || ""}`,
     ].join("\n");
+
+    trackEvent("form_submit", {
+      form_type: "audit",
+      symfony_version: data.get("symfonyVersion") as string,
+      team_size: data.get("teamSize") as string,
+      problem: data.get("problem") as string,
+    });
 
     window.open(
       `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`,

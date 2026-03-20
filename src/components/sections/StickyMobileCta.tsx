@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { trackEvent } from "@/lib/tracking";
 
 export default function StickyMobileCta() {
   const [visible, setVisible] = useState(true);
@@ -33,6 +34,7 @@ export default function StickyMobileCta() {
       <Link
         href="/audit-symfony-gratuit"
         className="font-display text-sm font-semibold text-white"
+        onClick={() => trackEvent("cta_click", { cta_location: "sticky_mobile", cta_text: "Audit gratuit 30 min" })}
       >
         Audit gratuit 30 min &rarr;
       </Link>
