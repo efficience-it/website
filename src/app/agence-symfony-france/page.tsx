@@ -123,22 +123,22 @@ const relatedLinks: RelatedLink[] = [
     href: "/agence-symfony-lille",
   },
   {
-    title: "Notre expertise",
+    title: "Agence Symfony a Paris",
     description:
-      "Decouvrez l'ensemble de nos competences techniques PHP et Symfony",
-    href: "/notre-expertise",
+      "Nos interventions en Ile-de-France, a 1h20 en TGV",
+    href: "/agence-symfony-paris",
   },
   {
-    title: "Modernisation applicative",
+    title: "Agence Symfony a Lyon",
     description:
-      "Strategies et accompagnement pour moderniser vos applications legacy",
-    href: "/modernisation-applicative",
+      "Notre expertise Symfony en Auvergne-Rhone-Alpes",
+    href: "/agence-symfony-lyon",
   },
   {
-    title: "Pourquoi choisir Symfony pour vos projets",
+    title: "Agence Symfony a Nantes",
     description:
-      "Les atouts du framework PHP pour les applications exigeantes",
-    href: "/article/pourquoi-choisir-symfony-pour-vos-projets",
+      "Nos interventions dans les Pays de la Loire",
+    href: "/agence-symfony-nantes",
   },
   {
     title: "Guide de migration Symfony",
