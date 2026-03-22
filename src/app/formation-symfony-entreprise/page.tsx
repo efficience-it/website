@@ -150,10 +150,12 @@ const courseJsonLd = {
       courseMode: ["onsite", "online"],
       location: {
         "@type": "Place",
-        name: "Lille, France",
+        name: "Efficience IT, Lille",
         address: {
           "@type": "PostalAddress",
+          streetAddress: "677 Avenue de la République",
           addressLocality: "Lille",
+          postalCode: "59800",
           addressCountry: "FR",
         },
       },
