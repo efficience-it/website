@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" fill="none">
+  <rect width="800" height="400" fill="#f8fafc"/>
+  <rect x="100" y="60" width="600" height="280" rx="16" fill="#1a1a2e"/>
+  <text x="400" y="160" text-anchor="middle" font-family="sans-serif" font-size="32" font-weight="bold" fill="#ffffff">Cahier des charges</text>
+  <text x="400" y="210" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="bold" fill="#f59e0b">Application web</text>
+  <text x="400" y="280" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#64748b">Contexte - Fonctionnalites - Contraintes - Budget</text>
+</svg>
