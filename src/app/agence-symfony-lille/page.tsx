@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
-import { BASE_URL } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
 import Card from "@/components/ui/Card";
@@ -47,50 +46,6 @@ const expertises = [
   },
 ];
 
-const localBusinessJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "@id": `${BASE_URL}/#localbusiness`,
-  name: "Efficience IT",
-  url: BASE_URL,
-  logo: `${BASE_URL}/images/logo/logo-bleu.webp`,
-  image: `${BASE_URL}/images/logo/logo-bleu.webp`,
-  description:
-    "Agence Symfony à Lille, Efficience IT développe des applications web adaptées à vos besoins, assure la maintenance et accompagne la migration de vos projets PHP.",
-  email: "contact@itefficience.com",
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: "677 Avenue de la République",
-    addressLocality: "Lille",
-    postalCode: "59800",
-    addressCountry: "FR",
-  },
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: 50.6292,
-    longitude: 3.0573,
-  },
-  knowsAbout: ["Symfony", "PHP", "API Platform", "Doctrine", "DevOps"],
-  areaServed: [
-    { "@type": "City", name: "Lille" },
-    { "@type": "AdministrativeArea", name: "Hauts-de-France" },
-    { "@type": "Country", name: "France" },
-  ],
-  priceRange: "$$",
-  openingHoursSpecification: [
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-      opens: "09:00",
-      closes: "18:00",
-    },
-  ],
-  sameAs: [
-    "https://github.com/efficience-it",
-    "https://www.linkedin.com/company/efficience-it",
-  ],
-};
-
 const breadcrumb = breadcrumbJsonLd([
   { name: "Agence Symfony à Lille", path: "/agence-symfony-lille" },
 ]);
@@ -114,10 +69,6 @@ const agenceRelatedLinks: RelatedLink[] = [
 export default function AgenceSymfonyLille() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
-      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
