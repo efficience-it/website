@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -92,6 +93,26 @@ export default function Contact() {
                     <strong className="text-dark">Adresse :</strong> 677 Avenue
                     de la République, 59800 Lille, France
                   </p>
+                </div>
+                <div className="mt-8 space-y-2">
+                  <p className="text-sm font-semibold text-dark">Vous pouvez aussi :</p>
+                  <ul className="space-y-1 text-sm text-gray">
+                    <li>
+                      <Link href="/audit-symfony-gratuit" className="text-primary hover:underline">
+                        Demander un audit Symfony gratuit de 30 minutes
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/notre-expertise" className="text-primary hover:underline">
+                        Découvrir nos expertises techniques
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/l-entreprise" className="text-primary hover:underline">
+                        En savoir plus sur l&apos;agence
+                      </Link>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>

@@ -110,10 +110,11 @@ const webPage = webPageJsonLd({
 });
 
 const devWebRelatedLinks: RelatedLink[] = [
+  { title: "Nos secteurs d'intervention", description: "E-commerce, finance, industrie et SaaS", href: "/secteur" },
   { title: "Sylius : la solution e-commerce Symfony", description: "Notre expertise e-commerce open source", href: "/article/sylius-la-solution-e-commerce-du-framework-symfony" },
   { title: "Symfony, site officiel", description: "Le framework PHP pour les applications web", href: "https://symfony.com/", external: true },
-  { title: "Sylius, site officiel", description: "La plateforme e-commerce bas\u00e9e sur Symfony", href: "https://sylius.com/", external: true },
-  { title: "API Platform", description: "Cr\u00e9er des API modernes en PHP", href: "https://api-platform.com/", external: true },
+  { title: "Sylius, site officiel", description: "La plateforme e-commerce basée sur Symfony", href: "https://sylius.com/", external: true },
+  { title: "API Platform", description: "Créer des API modernes en PHP", href: "https://api-platform.com/", external: true },
 ];
 
 export default function DeveloppementWeb() {

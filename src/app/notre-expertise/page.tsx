@@ -33,6 +33,16 @@ const webPage = webPageJsonLd({
 
 const expertiseRelatedLinks: RelatedLink[] = [
   {
+    title: "Nos secteurs d'intervention",
+    description: "E-commerce, finance, industrie et SaaS",
+    href: "/secteur",
+  },
+  {
+    title: "L'agence Efficience IT",
+    description: "Notre histoire, nos valeurs et notre approche",
+    href: "/l-entreprise",
+  },
+  {
     title: "Les contributions open source",
     description: "Notre engagement dans la communauté",
     href: "/article/les-contributions-open-source-un-enjeu-de-taille-pour-les-developpeurs-et-les-projets",
@@ -47,12 +57,6 @@ const expertiseRelatedLinks: RelatedLink[] = [
     title: "API Platform",
     description: "Créer des API modernes en PHP",
     href: "https://api-platform.com/",
-    external: true,
-  },
-  {
-    title: "Doctrine",
-    description: "ORM et abstraction de base de données pour PHP",
-    href: "https://www.doctrine-project.org/",
     external: true,
   },
 ];
