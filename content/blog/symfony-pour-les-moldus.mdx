@@ -45,7 +45,7 @@ Cette architecture événementielle permet de découpler les préoccupations tra
 
 ## Symfony Runtime : l'abstraction de l'exécution
 
-Le composant Runtime, introduit dans Symfony 5.3, est une évolution architecturale fondamentale souvent sous-estimée. Il découple l'application de son environnement d'exécution. Le même code peut tourner derrière Apache/mod_php, PHP-FPM, un serveur Swoole, [FrankenPHP](/article/concretement-cest-quoi-frankenphp) ou même en mode CLI, sans modification.
+Le composant Runtime, introduit dans Symfony 5.3, est une évolution architecturale fondamentale souvent sous-estimée. Il découple l'application de son environnement d'exécution. Le même code peut tourner derrière Apache/mod_php, PHP-FPM, un serveur Swoole, [FrankenPHP](/article/concretement-cest-quoi-frankenphp) ou même en mode CLI avec les [commandes invocables](/article/commandes-invocables-symfony-attributs-console), sans modification.
 
 Runtime abstrait le point d'entrée de l'application : la résolution de l'objet Request, la production de la Response et l'envoi au client sont délégués à un resolver configurable. Pour des équipes qui explorent des runtimes non bloquants ou des architectures serverless, c'est un levier stratégique.
 

@@ -12,10 +12,11 @@ import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 
 const enterpriseRelatedLinks: RelatedLink[] = [
-  { title: "7 bonnes raisons de rejoindre Efficience IT", description: "découvrir notre culture d'entreprise", href: "/article/7-bonnes-raisons-de-rejoindre-efficience-it" },
-  { title: "Symfony, site officiel", description: "le framework au cœur de notre expertise", href: "https://symfony.com/", external: true },
+  { title: "L'équipe Efficience IT", description: "Les profils qui composent l'agence", href: "/la-team" },
+  { title: "On recrute", description: "Rejoignez l'aventure Efficience IT", href: "/ta-carriere" },
+  { title: "Nos secteurs d'intervention", description: "E-commerce, finance, industrie et SaaS", href: "/secteur" },
+  { title: "7 bonnes raisons de rejoindre Efficience IT", description: "Découvrir notre culture d'entreprise", href: "/article/7-bonnes-raisons-de-rejoindre-efficience-it" },
   { title: "AFUP", description: "Association Française des Utilisateurs de PHP", href: "https://afup.org/", external: true },
-  { title: "AD2N", description: "communauté des entreprises numériques du Nord", href: "https://ad2n.fr/", external: true },
 ];
 
 export const metadata = pageMetadata({

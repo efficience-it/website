@@ -137,10 +137,11 @@ const webPage = webPageJsonLd({
 });
 
 const accompagnementRelatedLinks: RelatedLink[] = [
-  { title: "Comment se passe un audit chez Efficience IT", description: "Notre m\u00e9thodologie d'audit d\u00e9taill\u00e9e", href: "/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede" },
-  { title: "Symfony, documentation officielle", description: "R\u00e9f\u00e9rence technique du framework", href: "https://symfony.com/doc/current/index.html", external: true },
-  { title: "Scrum Guide", description: "Le guide officiel de la m\u00e9thodologie Scrum", href: "https://scrumguides.org/", external: true },
-  { title: "Manifeste Agile", description: "Les principes fondateurs de l'agilit\u00e9", href: "https://agilemanifesto.org/", external: true },
+  { title: "L'agence Efficience IT", description: "Notre histoire, nos valeurs et notre approche", href: "/l-entreprise" },
+  { title: "L'équipe Efficience IT", description: "Les profils qui vous accompagnent au quotidien", href: "/la-team" },
+  { title: "Comment se passe un audit chez Efficience IT", description: "Notre méthodologie d'audit détaillée", href: "/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede" },
+  { title: "Symfony, documentation officielle", description: "Référence technique du framework", href: "https://symfony.com/doc/current/index.html", external: true },
+  { title: "Scrum Guide", description: "Le guide officiel de la méthodologie Scrum", href: "https://scrumguides.org/", external: true },
 ];
 
 export default function AccompagnementEtConseil() {

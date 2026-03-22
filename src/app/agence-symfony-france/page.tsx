@@ -297,6 +297,14 @@ export default function AgenceSymfonyFrance() {
                     specialisation qui fait la difference quand il s&apos;agit de
                     concevoir des architectures solides, de migrer un projet
                     legacy ou de reprendre une application sans documentation.
+                    Nous intervenons dans de nombreux{" "}
+                    <Link
+                      href="/secteur"
+                      className="text-primary hover:underline"
+                    >
+                      secteurs d&apos;activite
+                    </Link>
+                    {" "}: e-commerce, finance, industrie et SaaS.
                   </p>
                   <p>
                     En tant qu&apos;
