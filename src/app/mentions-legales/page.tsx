@@ -27,8 +27,12 @@ export default function MentionsLegales() {
               IT SAS, inscrite au registre du commerce et des sociétés de Lille
               sous le SIRET 839 527 900, ayant pour numéro de TVA
               intra-communautaire FR 52 839527900, dont le siège social est
-              situé au 7 Rue du petit Mesnil, 59390 Sailly-Lez-Lannoy –
-              adresse de courrier électronique : contact@itefficience.com.
+              situé au 7 Rue du petit Mesnil, 59390 Sailly-Lez-Lannoy.
+            </p>
+            <p className="mt-2">
+              Adresse de l&apos;établissement : 677 Avenue de la République,
+              59800 Lille, France. Adresse de courrier électronique :
+              contact@itefficience.com.
             </p>
           </section>
 
