@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { NavItem, isDropdown } from "@/types/navigation";
+import { trackEvent } from "@/lib/tracking";
 
 interface MobileMenuProps {
   items: NavItem[];
@@ -88,7 +89,7 @@ export default function MobileMenu({ items }: MobileMenuProps) {
               <Link
                 href="/audit-symfony-gratuit"
                 className="block px-4 py-3 font-semibold text-primary"
-                onClick={() => setOpen(false)}
+                onClick={() => { trackEvent("cta_click", { cta_location: "header_mobile", cta_text: "Audit Symfony gratuit" }); setOpen(false); }}
               >
                 Audit Symfony gratuit
               </Link>
@@ -97,7 +98,7 @@ export default function MobileMenu({ items }: MobileMenuProps) {
               <Link
                 href="/contact"
                 className="block px-4 py-3 font-semibold text-primary"
-                onClick={() => setOpen(false)}
+                onClick={() => { trackEvent("cta_click", { cta_location: "header_mobile", cta_text: "Contact" }); setOpen(false); }}
               >
                 Contact
               </Link>

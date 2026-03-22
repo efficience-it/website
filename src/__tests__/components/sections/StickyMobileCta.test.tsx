@@ -1,4 +1,4 @@
-import { render, screen, act } from "@testing-library/react";
+import { render, screen, act, fireEvent } from "@testing-library/react";
 
 jest.mock("next/link", () => {
   function MockLink({ href, children, ...props }: { href: string; children: React.ReactNode; [key: string]: unknown }) {
@@ -96,6 +96,21 @@ describe("StickyMobileCta", () => {
     const { unmount } = render(<StickyMobileCta />);
     unmount();
     expect(mockDisconnect).toHaveBeenCalled();
+  });
+
+  it("fires a tracking event when the link is clicked", () => {
+    const gtagSpy = jest.fn();
+    window.gtag = gtagSpy;
+
+    render(<StickyMobileCta />);
+    fireEvent.click(screen.getByRole("link"));
+
+    expect(gtagSpy).toHaveBeenCalledWith("event", "cta_click", {
+      cta_location: "sticky_mobile",
+      cta_text: "Audit gratuit 30 min",
+    });
+
+    delete window.gtag;
   });
 
   it("does nothing when IntersectionObserver is undefined", () => {

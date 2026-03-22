@@ -15,6 +15,7 @@ import { BASE_URL, SITE_NAME, pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
 import { getAuthorSchema } from "@/data/authors";
 import FadeIn from "@/components/ui/FadeIn";
+import ScrollDepthTracker from "@/components/ui/ScrollDepthTracker";
 
 const TECH_CATEGORIES = ["Outils", "Formation", "Projet", "Green IT"];
 
@@ -160,6 +161,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           }}
         />
       )}
+      <ScrollDepthTracker slug={slug} />
       <main>
         <article className="py-16">
           <Container className="mx-auto max-w-3xl">

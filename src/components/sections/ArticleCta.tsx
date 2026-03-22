@@ -1,4 +1,4 @@
-import Button from "@/components/ui/Button";
+import TrackedArticleButton from "./TrackedArticleButton";
 
 interface ArticleCtaProps {
   category?: string;
@@ -129,9 +129,7 @@ export default function ArticleCta({ category, slug }: ArticleCtaProps) {
     <div className="mt-12 border-l-4 border-primary bg-primary/5 px-6 py-6">
       <p className="font-display text-lg font-bold text-dark">{cta.heading}</p>
       <p className="mt-2 text-gray">{cta.description}</p>
-      <Button href={cta.href} variant="outline" className="mt-4">
-        {cta.buttonLabel}
-      </Button>
+      <TrackedArticleButton href={cta.href} label={cta.buttonLabel} slug={slug} />
     </div>
   );
 }
