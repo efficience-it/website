@@ -26,12 +26,15 @@ Le site attire du trafic via le blog (79 articles) et les pages service. Sans tr
 | `cta_click` | CallToAction | `src/components/sections/CallToAction.tsx` | `cta_location: "footer_cta"`, `cta_text` |
 | `cta_click` | StickyMobileCta | `src/components/sections/StickyMobileCta.tsx` | `cta_location: "sticky_mobile"`, `cta_text` |
 | `cta_click` | MobileMenu | `src/components/layout/MobileMenu.tsx` | `cta_location: "header_mobile"`, `cta_text` |
+| `cta_click` | HeaderCtas | `src/components/layout/HeaderCtas.tsx` | `cta_location: "header_desktop"`, `cta_text` |
+| `cta_click` | ArticleCta | `src/components/sections/ArticleCta.tsx` | `cta_location: "article_body"`, `cta_text`, `article_slug` |
 | `cta_click` | Footer email | `src/components/layout/Footer.tsx` | `cta_location: "footer"`, `cta_text: "email_contact"` |
 | `scroll_depth` | ScrollDepthTracker | `src/components/ui/ScrollDepthTracker.tsx` | `event_label: slug`, `event_category: "25%/50%/75%/100%"` |
 
 ### Fichiers cles
 
 - `src/lib/tracking.ts` : helper `trackEvent`, types des parametres
+- `src/components/layout/HeaderCtas.tsx` : wrapper client pour les CTAs desktop du header
 - `src/components/ui/ScrollDepthTracker.tsx` : composant client, observe le scroll sur les articles
 - `src/components/ui/TrackedEmailLink.tsx` : wrapper pour les liens mailto avec tracking
 
@@ -70,12 +73,8 @@ Le ScrollDepthTracker est un composant invisible (retourne `null`) injecte dans 
 
 ### Limites actuelles
 
-- Les CTAs desktop du header (server component) ne sont pas trackes. Seuls les CTAs mobile le sont via MobileMenu.
 - Les formulaires utilisent `mailto:` : le tracking fire avant l'ouverture du client mail, mais ne garantit pas que l'email est effectivement envoye.
-- Pas de tracking sur les clics ArticleCta (CTA contextuel insere dans les articles).
 
 ### Evolutions possibles
 
-- Ajouter un tracking sur les CTAs desktop du header (necessite un wrapper client)
-- Tracker les clics ArticleCta pour savoir quels CTAs d'article convertissent
 - Ajouter un event `page_category` pour segmenter les visites par type de page (service, blog, agence)

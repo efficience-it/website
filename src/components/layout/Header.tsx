@@ -4,7 +4,7 @@ import { mainNav } from "@/../data/navigation";
 import { isDropdown } from "@/types/navigation";
 import DropdownNav from "./DropdownNav";
 import MobileMenu from "./MobileMenu";
-import Button from "@/components/ui/Button";
+import HeaderCtas from "./HeaderCtas";
 
 export default function Header() {
   return (
@@ -35,12 +35,7 @@ export default function Header() {
               </Link>
             ),
           )}
-          <Button href="/audit-symfony-gratuit" size="sm" variant="outline" className="ml-4">
-            Audit gratuit
-          </Button>
-          <Button href="/contact" size="sm" className="ml-2">
-            Contact
-          </Button>
+          <HeaderCtas />
         </nav>
 
         <MobileMenu items={mainNav} />

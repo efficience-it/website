@@ -8,6 +8,8 @@ type GtagEvent = {
   symfony_version?: string;
   team_size?: string;
   problem?: string;
+  page_category?: string;
+  article_slug?: string;
 };
 
 declare global {

@@ -1,4 +1,7 @@
-import Button from "@/components/ui/Button";
+"use client";
+
+import Link from "next/link";
+import { trackEvent } from "@/lib/tracking";
 
 interface ArticleCtaProps {
   category?: string;
@@ -125,13 +128,25 @@ function getCtaConfig(category?: string, slug?: string): CtaConfig {
 export default function ArticleCta({ category, slug }: ArticleCtaProps) {
   const cta = getCtaConfig(category, slug);
 
+  const handleClick = () => {
+    trackEvent("cta_click", {
+      cta_location: "article_body",
+      cta_text: cta.buttonLabel,
+      article_slug: slug,
+    });
+  };
+
   return (
     <div className="mt-12 border-l-4 border-primary bg-primary/5 px-6 py-6">
       <p className="font-display text-lg font-bold text-dark">{cta.heading}</p>
       <p className="mt-2 text-gray">{cta.description}</p>
-      <Button href={cta.href} variant="outline" className="mt-4">
+      <Link
+        href={cta.href}
+        className="mt-4 inline-flex items-center justify-center font-semibold rounded-md transition-all duration-200 hover:scale-105 active:scale-95 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 border-2 border-primary text-primary hover:bg-primary hover:text-white px-6 py-3 text-base"
+        onClick={handleClick}
+      >
         {cta.buttonLabel}
-      </Button>
+      </Link>
     </div>
   );
 }
