@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" fill="none">
-  <rect width="800" height="400" fill="#f8fafc"/>
-  <rect x="100" y="60" width="600" height="280" rx="16" fill="#1a1a2e"/>
-  <text x="400" y="160" text-anchor="middle" font-family="sans-serif" font-size="72" font-weight="bold" fill="#4ade80">15K-200K</text>
-  <text x="400" y="210" text-anchor="middle" font-family="sans-serif" font-size="24" fill="#a0aec0">Budget projet Symfony</text>
-  <text x="400" y="280" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#64748b">MVP - Application metier - Plateforme SaaS</text>
-</svg>
