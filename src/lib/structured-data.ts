@@ -116,11 +116,6 @@ export function reviewsJsonLd(testimonials: Testimonial[]) {
       "@type": "Organization",
       name: "Efficience IT",
     },
-    reviewRating: {
-      "@type": "Rating",
-      ratingValue: "5",
-      bestRating: "5",
-    },
   }));
 }
 
