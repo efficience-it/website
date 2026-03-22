@@ -17,6 +17,10 @@ function countWords(markdown: string): number {
   return text ? text.split(" ").length : 0;
 }
 
+export function readingTime(wordCount: number): number {
+  return Math.max(1, Math.round(wordCount / 200));
+}
+
 export function getAllPosts(): BlogPost[] {
   const files = fs.readdirSync(BLOG_DIR).filter((f) => f.endsWith(".mdx"));
 

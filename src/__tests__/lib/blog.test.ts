@@ -8,6 +8,7 @@ import {
   getCategories,
   getPostsByCategory,
   extractHeadings,
+  readingTime,
 } from "@/lib/blog";
 
 const BLOG_DIR = path.join(process.cwd(), "content/blog");
@@ -137,5 +138,28 @@ describe("extractHeadings", () => {
     const headings = extractHeadings(content);
     expect(headings).toHaveLength(1);
     expect(headings[0].text).toBe("Valid");
+  });
+});
+
+describe("readingTime", () => {
+  it("returns 1 min for very short articles", () => {
+    expect(readingTime(50)).toBe(1);
+  });
+
+  it("returns 1 min for 0 words", () => {
+    expect(readingTime(0)).toBe(1);
+  });
+
+  it("calculates based on 200 words per minute", () => {
+    expect(readingTime(200)).toBe(1);
+    expect(readingTime(400)).toBe(2);
+    expect(readingTime(1000)).toBe(5);
+    expect(readingTime(1500)).toBe(8);
+    expect(readingTime(2000)).toBe(10);
+  });
+
+  it("rounds to nearest minute", () => {
+    expect(readingTime(350)).toBe(2);
+    expect(readingTime(250)).toBe(1);
   });
 });

@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { getAllPosts, getPostBySlug, getCategorySlug, getPostsByCategory, extractHeadings } from "@/lib/blog";
+import { getAllPosts, getPostBySlug, getCategorySlug, getPostsByCategory, extractHeadings, readingTime } from "@/lib/blog";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import MarkdownContent from "@/components/ui/MarkdownContent";
@@ -119,6 +119,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     dateModified: post.updatedAt ?? post.date,
     url,
     wordCount: post.wordCount,
+    timeRequired: `PT${readingTime(post.wordCount)}M`,
     inLanguage: "fr-FR",
     speakable: {
       "@type": "SpeakableSpecification",
@@ -181,6 +182,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                         year: "numeric",
                       })}
                     </time>
+                    <span>&middot;</span>
+                    <span>{readingTime(post.wordCount)} min de lecture</span>
                     {post.category && (
                       <>
                         <span>&middot;</span>
