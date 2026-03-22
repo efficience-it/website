@@ -9,11 +9,12 @@ interface ScrollDepthTrackerProps {
 
 export default function ScrollDepthTracker({ slug }: ScrollDepthTrackerProps) {
   const firedRef = useRef<Set<number>>(new Set());
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
     const thresholds = [25, 50, 75, 100];
 
-    const handleScroll = () => {
+    const checkScroll = () => {
       const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
       if (scrollHeight <= 0) return;
 
@@ -24,14 +25,25 @@ export default function ScrollDepthTracker({ slug }: ScrollDepthTrackerProps) {
           firedRef.current.add(t);
           trackEvent("scroll_depth", {
             event_label: slug,
-            event_category: `${t}%`,
+            scroll_percent: `${t}%`,
           });
         }
       }
     };
 
+    const handleScroll = () => {
+      if (rafRef.current !== null) return;
+      rafRef.current = requestAnimationFrame(() => {
+        checkScroll();
+        rafRef.current = null;
+      });
+    };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+    };
   }, [slug]);
 
   return null;

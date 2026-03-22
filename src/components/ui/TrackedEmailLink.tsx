@@ -11,8 +11,6 @@ export default function TrackedEmailLink({ email, className }: TrackedEmailLinkP
   return (
     <a
       href={`mailto:${email}`}
-      target="_blank"
-      rel="noopener noreferrer"
       className={className}
       onClick={() => trackEvent("cta_click", { cta_location: "footer", cta_text: "email_contact" })}
     >

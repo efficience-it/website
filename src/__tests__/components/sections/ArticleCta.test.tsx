@@ -1,15 +1,17 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-
-jest.mock("next/link", () => {
-  function MockLink({ href, children, onClick, ...props }: { href: string; children: React.ReactNode; onClick?: () => void; [key: string]: unknown }) {
-    return <a href={href} onClick={onClick} {...props}>{children}</a>;
-  }
-  return MockLink;
-});
-
 import ArticleCta from "@/components/sections/ArticleCta";
 
 describe("ArticleCta", () => {
+  let savedGtag: typeof window.gtag;
+
+  beforeEach(() => {
+    savedGtag = window.gtag;
+  });
+
+  afterEach(() => {
+    window.gtag = savedGtag;
+  });
+
   it("renders default CTA when no category or slug", () => {
     render(<ArticleCta />);
     expect(screen.getByText("Un projet en tête ?")).toBeInTheDocument();
@@ -59,7 +61,5 @@ describe("ArticleCta", () => {
       cta_text: "Contactez-nous",
       article_slug: "mon-article",
     });
-
-    delete window.gtag;
   });
 });

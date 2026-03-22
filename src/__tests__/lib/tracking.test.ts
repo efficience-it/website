@@ -1,6 +1,16 @@
 import { trackEvent } from "@/lib/tracking";
 
 describe("trackEvent", () => {
+  let savedGtag: typeof window.gtag;
+
+  beforeEach(() => {
+    savedGtag = window.gtag;
+  });
+
+  afterEach(() => {
+    window.gtag = savedGtag;
+  });
+
   it("calls window.gtag when available", () => {
     const gtagSpy = jest.fn();
     window.gtag = gtagSpy;
@@ -10,12 +20,10 @@ describe("trackEvent", () => {
     expect(gtagSpy).toHaveBeenCalledWith("event", "form_submit", {
       form_type: "contact",
     });
-
-    delete window.gtag;
   });
 
   it("does nothing when window.gtag is undefined", () => {
-    delete window.gtag;
+    window.gtag = undefined;
     expect(() => trackEvent("cta_click")).not.toThrow();
   });
 
@@ -36,7 +44,5 @@ describe("trackEvent", () => {
       team_size: "3-5",
       problem: "Performance",
     });
-
-    delete window.gtag;
   });
 });

@@ -2,6 +2,16 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import CallToAction from "@/components/sections/CallToAction";
 
 describe("CallToAction", () => {
+  let savedGtag: typeof window.gtag;
+
+  beforeEach(() => {
+    savedGtag = window.gtag;
+  });
+
+  afterEach(() => {
+    window.gtag = savedGtag;
+  });
+
   it("renders heading and both CTA links", () => {
     render(<CallToAction />);
     expect(screen.getByText("Vous avez un projet en tête ?")).toBeInTheDocument();
@@ -31,7 +41,5 @@ describe("CallToAction", () => {
       cta_location: "footer_cta",
       cta_text: "Contactez-nous",
     });
-
-    delete window.gtag;
   });
 });

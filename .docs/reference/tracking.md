@@ -27,15 +27,16 @@ Le site attire du trafic via le blog (79 articles) et les pages service. Sans tr
 | `cta_click` | StickyMobileCta | `src/components/sections/StickyMobileCta.tsx` | `cta_location: "sticky_mobile"`, `cta_text` |
 | `cta_click` | MobileMenu | `src/components/layout/MobileMenu.tsx` | `cta_location: "header_mobile"`, `cta_text` |
 | `cta_click` | HeaderCtas | `src/components/layout/HeaderCtas.tsx` | `cta_location: "header_desktop"`, `cta_text` |
-| `cta_click` | ArticleCta | `src/components/sections/ArticleCta.tsx` | `cta_location: "article_body"`, `cta_text`, `article_slug` |
+| `cta_click` | TrackedArticleButton | `src/components/sections/TrackedArticleButton.tsx` | `cta_location: "article_body"`, `cta_text`, `article_slug` |
 | `cta_click` | Footer email | `src/components/layout/Footer.tsx` | `cta_location: "footer"`, `cta_text: "email_contact"` |
-| `scroll_depth` | ScrollDepthTracker | `src/components/ui/ScrollDepthTracker.tsx` | `event_label: slug`, `event_category: "25%/50%/75%/100%"` |
+| `scroll_depth` | ScrollDepthTracker | `src/components/ui/ScrollDepthTracker.tsx` | `event_label: slug`, `scroll_percent: "25%/50%/75%/100%"` |
 
 ### Fichiers cles
 
 - `src/lib/tracking.ts` : helper `trackEvent`, types des parametres
 - `src/components/layout/HeaderCtas.tsx` : wrapper client pour les CTAs desktop du header
-- `src/components/ui/ScrollDepthTracker.tsx` : composant client, observe le scroll sur les articles
+- `src/components/sections/TrackedArticleButton.tsx` : wrapper client pour le CTA dans les articles
+- `src/components/ui/ScrollDepthTracker.tsx` : composant client, observe le scroll avec throttle rAF
 - `src/components/ui/TrackedEmailLink.tsx` : wrapper pour les liens mailto avec tracking
 
 ## Guide
@@ -69,7 +70,9 @@ Le site attire du trafic via le blog (79 articles) et les pages service. Sans tr
 
 Le tracking est decouple du composant Button pour eviter de forcer tous les boutons en client components. Seuls les composants qui ont besoin de tracking sont en `"use client"`.
 
-Le ScrollDepthTracker est un composant invisible (retourne `null`) injecte dans la page article. Il utilise un `Set` dans un `useRef` pour ne fire chaque seuil qu'une seule fois par page.
+Le ScrollDepthTracker est un composant invisible (retourne `null`) injecte dans la page article. Il utilise un `Set` dans un `useRef` pour ne fire chaque seuil qu'une seule fois par page. Le listener scroll est throttle via `requestAnimationFrame` pour eviter les executions excessives.
+
+ArticleCta reste un server component. Seul le bouton est un client component (`TrackedArticleButton`) qui encapsule le tracking. Cela evite de passer toute la logique de routing CTA (50+ lignes) cote client.
 
 ### Limites actuelles
 

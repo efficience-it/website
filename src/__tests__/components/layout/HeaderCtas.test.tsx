@@ -2,6 +2,16 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import HeaderCtas from "@/components/layout/HeaderCtas";
 
 describe("HeaderCtas", () => {
+  let savedGtag: typeof window.gtag;
+
+  beforeEach(() => {
+    savedGtag = window.gtag;
+  });
+
+  afterEach(() => {
+    window.gtag = savedGtag;
+  });
+
   it("renders audit and contact links", () => {
     render(<HeaderCtas />);
     expect(screen.getByRole("link", { name: "Audit gratuit" })).toHaveAttribute("href", "/audit-symfony-gratuit");
@@ -25,7 +35,5 @@ describe("HeaderCtas", () => {
       cta_location: "header_desktop",
       cta_text: "Contact",
     });
-
-    delete window.gtag;
   });
 });
