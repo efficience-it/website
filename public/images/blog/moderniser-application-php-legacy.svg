@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" fill="none">
+  <rect width="800" height="400" fill="#f8fafc"/>
+  <rect x="100" y="60" width="600" height="280" rx="16" fill="#1a1a2e"/>
+  <text x="400" y="150" text-anchor="middle" font-family="sans-serif" font-size="28" font-weight="bold" fill="#ef4444">Legacy PHP</text>
+  <text x="400" y="200" text-anchor="middle" font-family="sans-serif" font-size="36" fill="#ffffff">&#8594;</text>
+  <text x="400" y="250" text-anchor="middle" font-family="sans-serif" font-size="28" font-weight="bold" fill="#4ade80">Symfony moderne</text>
+  <text x="400" y="300" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#64748b">Sans tout reecrire</text>
+</svg>
