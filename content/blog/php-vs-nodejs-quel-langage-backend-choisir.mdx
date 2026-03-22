@@ -24,7 +24,7 @@ En tant qu'[agence qui travaille avec les deux technologies](/developpement-php)
 
 PHP suit un modele synchrone classique : une requete arrive, le script s'execute, la reponse est renvoyee, la memoire est liberee. Ce modele, souvent critique pour son absence de concurrence native, est en realite un avantage pour la majorite des applications web. Il elimine les problemes de fuites memoire, simplifie le debugging et rend le comportement de l'application previsible.
 
-Avec PHP 8.x et les [JIT compiler](https://www.php.net/manual/fr/intro.opcache.php), les performances brutes ont fait un bond significatif. Des serveurs comme [FrankenPHP](/article/concretement-cest-quoi-frankenphp) introduisent le mode worker qui garde les processus en vie entre les requetes, combinant le meilleur des deux mondes.
+Avec PHP 8.x et les [JIT compiler](https://www.php.net/manual/fr/opcache.configuration.php), les performances brutes ont fait un bond significatif. Des serveurs comme [FrankenPHP](/article/concretement-cest-quoi-frankenphp) introduisent le mode worker qui garde les processus en vie entre les requetes, combinant le meilleur des deux mondes.
 
 ### Node.js : event loop et I/O non bloquantes
 
