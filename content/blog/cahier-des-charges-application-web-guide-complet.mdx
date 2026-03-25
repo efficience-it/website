@@ -3,99 +3,99 @@ title: "Cahier des charges pour une application web : le guide complet"
 date: "2026-03-22"
 author: "Louis-Arnaud Catoire"
 category: "Projet"
-excerpt: "Un bon cahier des charges est la fondation d'un projet web reussi. Structure, contenu et erreurs a eviter pour cadrer votre application Symfony."
+excerpt: "Un bon cahier des charges est la fondation d'un projet web réussi. Structure, contenu et erreurs à éviter pour cadrer votre application Symfony."
 image: "/images/blog/cahier-des-charges-application-web.webp"
 faq:
   - question: "Un cahier des charges est-il obligatoire pour un projet Symfony ?"
-    answer: "Non, mais fortement recommande. Sans cahier des charges, le chiffrage est imprecis, les malentendus sont frequents et le perimetre derive. Meme un document leger de 5 a 10 pages est preferable a rien. Pour les projets agiles, le cahier des charges peut prendre la forme d'un backlog priorise avec des user stories."
-  - question: "Quelle est la difference entre un cahier des charges fonctionnel et technique ?"
-    answer: "Le cahier des charges fonctionnel decrit ce que l'application doit faire du point de vue utilisateur (fonctionnalites, parcours, regles metier). Le cahier des charges technique decrit comment le faire (architecture, technologies, contraintes d'hebergement, performance). Les deux sont complementaires, mais le fonctionnel est la responsabilite du client, le technique celle du prestataire."
-  - question: "Combien de temps faut-il pour rediger un cahier des charges ?"
-    answer: "Entre 1 et 4 semaines selon la complexite du projet. Un projet simple peut etre cadre en quelques jours, une plateforme complexe necessite des ateliers fonctionnels avec les parties prenantes. Le temps investi dans le cadrage est toujours recupere en evitant les allers-retours pendant le developpement."
+    answer: "Non, mais fortement recommandé. Sans cahier des charges, le chiffrage est imprécis, les malentendus sont fréquents et le périmètre dérive. Même un document léger de 5 à 10 pages est préférable à rien. Pour les projets agiles, le cahier des charges peut prendre la forme d'un backlog priorisé avec des user stories."
+  - question: "Quelle est la différence entre un cahier des charges fonctionnel et technique ?"
+    answer: "Le cahier des charges fonctionnel décrit ce que l'application doit faire du point de vue utilisateur (fonctionnalités, parcours, règles métier). Le cahier des charges technique décrit comment le faire (architecture, technologies, contraintes d'hébergement, performance). Les deux sont complémentaires, mais le fonctionnel est la responsabilité du client, le technique celle du prestataire."
+  - question: "Combien de temps faut-il pour rédiger un cahier des charges ?"
+    answer: "Entre 1 et 4 semaines selon la complexité du projet. Un projet simple peut être cadré en quelques jours, une plateforme complexe nécessite des ateliers fonctionnels avec les parties prenantes. Le temps investi dans le cadrage est toujours récupéré en évitant les allers-retours pendant le développement."
 ---
 
-Le cahier des charges est le document le plus sous-estime du cycle de vie d'un projet web. Trop de projets demarrent avec un brief de trois lignes, un "on verra en avancant" ou un document de 80 pages que personne ne lit. Les trois approches menent au meme resultat : des derives de perimetre, des couts non maitrise et de la frustration des deux cotes.
+Le cahier des charges est le document le plus sous-estimé du cycle de vie d'un projet web. Trop de projets démarrent avec un brief de trois lignes, un "on verra en avançant" ou un document de 80 pages que personne ne lit. Les trois approches mènent au même résultat : des dérives de périmètre, des coûts non maîtrisés et de la frustration des deux côtés.
 
-En tant qu'[agence Symfony](/agence-symfony-france) ayant accompagne plus de 150 projets, nous avons lu des centaines de cahiers des charges. Voici ce qui fait la difference entre un document utile et un document qui finit dans un tiroir.
+En tant qu'[agence Symfony](/agence-symfony-france) ayant accompagné plus de 150 projets, nous avons lu des centaines de cahiers des charges. Voici ce qui fait la différence entre un document utile et un document qui finit dans un tiroir.
 
 ## Pourquoi un cahier des charges
 
 ### Aligner les parties prenantes
 
-Le premier role du cahier des charges est d'aligner tout le monde sur le meme objectif. Les parties prenantes (direction, metier, IT, utilisateurs finaux) ont chacune leur vision du projet. Sans document ecrit, chacun projette ses propres attentes et les incomprehensions se revelent en production.
+Le premier rôle du cahier des charges est d'aligner tout le monde sur le même objectif. Les parties prenantes (direction, métier, IT, utilisateurs finaux) ont chacune leur vision du projet. Sans document écrit, chacun projette ses propres attentes et les incompréhensions se révèlent en production.
 
-Un bon cahier des charges force a expliciter les choix, les priorites et les compromis. C'est un exercice de clarification qui beneficie autant au client qu'au prestataire. Notre article sur [la redaction d'un cahier des charges agile](/article/comment-rediger-un-cahier-de-charge-pour-un-projet-agile) detaille cette approche.
+Un bon cahier des charges force à expliciter les choix, les priorités et les compromis. C'est un exercice de clarification qui bénéficie autant au client qu'au prestataire. Notre article sur [la rédaction d'un cahier des charges agile](/article/comment-rediger-un-cahier-de-charge-pour-un-projet-agile) détaille cette approche.
 
 ### Obtenir des devis comparables
 
-Sans cahier des charges, chaque prestataire chiffre sa propre interpretation du besoin. Les devis sont incomparables et le moins cher n'est pas forcement le meilleur : il a peut-etre simplement compris un perimetre plus restreint. Un document clair permet de comparer des propositions sur une base identique.
+Sans cahier des charges, chaque prestataire chiffre sa propre interprétation du besoin. Les devis sont incomparables et le moins cher n'est pas forcément le meilleur : il a peut-être simplement compris un périmètre plus restreint. Un document clair permet de comparer des propositions sur une base identique.
 
-Pour savoir comment evaluer les propositions, notre guide pour [choisir son prestataire Symfony](/article/comment-choisir-son-prestataire-symfony) detaille les criteres. Et si votre projet concerne une application existante, notre article sur la [modernisation d'applications PHP legacy](/article/moderniser-application-php-legacy-sans-tout-reecrire) explique comment cadrer ce type de reprise.
+Pour savoir comment évaluer les propositions, notre guide pour [choisir son prestataire Symfony](/article/comment-choisir-son-prestataire-symfony) détaille les critères. Et si votre projet concerne une application existante, notre article sur la [modernisation d'applications PHP legacy](/article/moderniser-application-php-legacy-sans-tout-reecrire) explique comment cadrer ce type de reprise.
 
 ## Structure d'un cahier des charges
 
 ### Contexte et objectifs
 
-Commencez par le "pourquoi". Quel probleme l'application resout-elle ? Qui sont les utilisateurs ? Quels sont les objectifs mesurables (gain de temps, chiffre d'affaires, reduction des erreurs) ? Un prestataire qui comprend le contexte metier propose des solutions plus pertinentes.
+Commencez par le "pourquoi". Quel problème l'application résout-elle ? Qui sont les utilisateurs ? Quels sont les objectifs mesurables (gain de temps, chiffre d'affaires, réduction des erreurs) ? Un prestataire qui comprend le contexte métier propose des solutions plus pertinentes.
 
-Decrivez aussi l'existant : quels outils sont utilises aujourd'hui ? Quelles sont leurs limites ? Y a-t-il des donnees a migrer ? Cette section evite les mauvaises surprises en cours de projet.
+Décrivez aussi l'existant : quels outils sont utilisés aujourd'hui ? Quelles sont leurs limites ? Y a-t-il des données à migrer ? Cette section évite les mauvaises surprises en cours de projet.
 
-### Fonctionnalites
+### Fonctionnalités
 
-Listez les fonctionnalites par ordre de priorite. Pour chaque fonctionnalite, decrivez le besoin utilisateur, pas la solution technique. "L'administrateur doit pouvoir exporter les commandes du mois en CSV" est plus utile que "creer un bouton d'export".
+Listez les fonctionnalités par ordre de priorité. Pour chaque fonctionnalité, décrivez le besoin utilisateur, pas la solution technique. "L'administrateur doit pouvoir exporter les commandes du mois en CSV" est plus utile que "créer un bouton d'export".
 
-Pour les projets complexes, les user stories sont un bon format : "En tant que [role], je veux [action] afin de [objectif]". Regroupez-les par module fonctionnel (gestion des utilisateurs, catalogue, commandes, reporting).
+Pour les projets complexes, les user stories sont un bon format : "En tant que [rôle], je veux [action] afin de [objectif]". Regroupez-les par module fonctionnel (gestion des utilisateurs, catalogue, commandes, reporting).
 
-Un [progiciel](/article/quels-sont-les-avantages-dun-progiciel-pour-votre-entreprise) metier aura des fonctionnalites tres differentes d'une plateforme [e-commerce](/ecommerce-sylius) ou d'un outil [SaaS](/secteur/saas). Adaptez le niveau de detail a la complexite.
+Un [progiciel](/article/quels-sont-les-avantages-dun-progiciel-pour-votre-entreprise) métier aura des fonctionnalités très différentes d'une plateforme [e-commerce](/ecommerce-sylius) ou d'un outil [SaaS](/secteur/saas). Adaptez le niveau de détail à la complexité.
 
 ### Contraintes techniques
 
-Certaines contraintes techniques doivent etre explicites des le depart :
+Certaines contraintes techniques doivent être explicites dès le départ :
 
-- **Hebergement** : cloud, on-premise, [hebergement manage](/hebergement-symfony) ?
-- **Performance** : combien d'utilisateurs simultanees ? Quel temps de reponse cible ?
-- **Securite** : donnees sensibles ? Conformite RGPD ? [Securite applicative](/securite-application-symfony) specifique ?
-- **Integrations** : ERP, CRM, API tierces, systeme de paiement ?
-- **Accessibilite** : conformite [RGAA](/article/normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous) ?
+- **Hébergement** : cloud, on-premise, [hébergement managé](/hebergement-symfony) ?
+- **Performance** : combien d'utilisateurs simultanés ? Quel temps de réponse cible ?
+- **Sécurité** : données sensibles ? Conformité RGPD ? [Sécurité applicative](/securite-application-symfony) spécifique ?
+- **Intégrations** : ERP, CRM, API tierces, système de paiement ?
+- **Accessibilité** : conformité [RGAA](/article/normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous) ?
 
-Ces contraintes impactent directement l'architecture et le budget. Un prestataire Symfony specialise saura proposer les bonnes briques : [PostgreSQL](/base-de-donnees-postgresql-symfony) plutot que MySQL pour les contraintes de performance, [Elasticsearch](/integration-elasticsearch-symfony) pour la recherche plein texte, [Redis](/integration-redis-symfony) pour le cache applicatif.
+Ces contraintes impactent directement l'architecture et le budget. Un prestataire Symfony spécialisé saura proposer les bonnes briques : [PostgreSQL](/base-de-donnees-postgresql-symfony) plutôt que MySQL pour les contraintes de performance, [Elasticsearch](/integration-elasticsearch-symfony) pour la recherche plein texte, [Redis](/integration-redis-symfony) pour le cache applicatif.
 
 ### Planning et budget
 
-Indiquez votre enveloppe budgetaire, meme une fourchette. Un prestataire honnete adaptera sa proposition au budget plutot que de proposer un projet sur-dimensionne. Indiquez aussi les jalons critiques : date de mise en production, evenements commerciaux, contraintes reglementaires.
+Indiquez votre enveloppe budgétaire, même une fourchette. Un prestataire honnête adaptera sa proposition au budget plutôt que de proposer un projet surdimensionné. Indiquez aussi les jalons critiques : date de mise en production, événements commerciaux, contraintes réglementaires.
 
-L'approche MVP (Minimum Viable Product) permet de livrer une premiere version utile rapidement et d'iterer ensuite. C'est generalement l'approche la plus efficace pour maitriser le budget, surtout sur un premier projet avec un nouveau prestataire.
+L'approche MVP (Minimum Viable Product) permet de livrer une première version utile rapidement et d'itérer ensuite. C'est généralement l'approche la plus efficace pour maîtriser le budget, surtout sur un premier projet avec un nouveau prestataire.
 
-## Les erreurs a eviter
+## Les erreurs à éviter
 
 ### Le cahier des charges de 80 pages
 
-Un document trop detaille est aussi problematique qu'un document trop vague. Il fige des choix trop tot, decoure la lecture et cree une fausse impression de completude. 15 a 25 pages suffisent pour la plupart des projets. Le detail viendra en sprints, avec le prestataire.
+Un document trop détaillé est aussi problématique qu'un document trop vague. Il fige des choix trop tôt, décourage la lecture et crée une fausse impression de complétude. 15 à 25 pages suffisent pour la plupart des projets. Le détail viendra en sprints, avec le prestataire.
 
-### Decrire la solution au lieu du besoin
+### Décrire la solution au lieu du besoin
 
-"Mettre un bouton vert en haut a droite qui ouvre une modale avec un tableau" n'est pas un besoin fonctionnel. C'est une specification d'interface qui bride la creativite du prestataire. Decrivez le probleme utilisateur, laissez le prestataire proposer la solution. La [dette technique](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) nait souvent de solutions imposees sans reflexion architecturale.
+"Mettre un bouton vert en haut à droite qui ouvre une modale avec un tableau" n'est pas un besoin fonctionnel. C'est une spécification d'interface qui bride la créativité du prestataire. Décrivez le problème utilisateur, laissez le prestataire proposer la solution. La [dette technique](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) naît souvent de solutions imposées sans réflexion architecturale.
 
 ### Ignorer la maintenance
 
-Le cahier des charges doit inclure une section sur la vie apres la mise en production. Qui gere la [maintenance applicative](/maintenance-applicative-symfony) ? Quel est le processus pour les evolutions ? Quelle est la frequence des [montees de version](/article/guide-de-migration-dans-un-projet-symfony) Symfony ? Anticiper ces questions evite les mauvaises surprises.
+Le cahier des charges doit inclure une section sur la vie après la mise en production. Qui gère la [maintenance applicative](/maintenance-applicative-symfony) ? Quel est le processus pour les évolutions ? Quelle est la fréquence des [montées de version](/article/guide-de-migration-dans-un-projet-symfony) Symfony ? Anticiper ces questions évite les mauvaises surprises.
 
 ### Ne pas impliquer les utilisateurs finaux
 
-Les utilisateurs finaux sont les premiers concernes par l'application. Les exclure du cadrage, c'est prendre le risque de livrer un outil que personne n'utilise. L'[experience utilisateur](/article/ameliorer-lexperience-utilisateur-grace-au-manifeste-des-applications-web) doit etre au coeur de la reflexion des le cahier des charges.
+Les utilisateurs finaux sont les premiers concernés par l'application. Les exclure du cadrage, c'est prendre le risque de livrer un outil que personne n'utilise. L'[expérience utilisateur](/article/ameliorer-lexperience-utilisateur-grace-au-manifeste-des-applications-web) doit être au cœur de la réflexion dès le cahier des charges.
 
-## Outils et ressources pour rediger votre cahier des charges
+## Outils et ressources pour rédiger votre cahier des charges
 
-Plusieurs approches peuvent vous aider a structurer votre reflexion :
+Plusieurs approches peuvent vous aider à structurer votre réflexion :
 
-- **Templates et modeles** : des frameworks comme le [Business Model Canvas](https://en.wikipedia.org/wiki/Business_Model_Canvas) aident a clarifier le contexte metier avant de passer aux fonctionnalites. Pour les aspects techniques, la [documentation Symfony](https://symfony.com/doc/current/index.html) donne une vision claire des possibilites du framework.
-- **Ateliers fonctionnels** : des sessions de travail avec les parties prenantes pour cartographier les parcours utilisateurs, prioriser les fonctionnalites et identifier les contraintes. Ces ateliers sont plus productifs qu'un document redige en chambre.
-- **Prototypage** : des maquettes basse fidelite (wireframes) permettent de concretiser le besoin et de valider l'ergonomie avant le developpement. C'est un investissement modeste qui evite des remises en cause couteuses en cours de projet.
+- **Templates et modèles** : des frameworks comme le [Business Model Canvas](https://en.wikipedia.org/wiki/Business_Model_Canvas) aident à clarifier le contexte métier avant de passer aux fonctionnalités. Pour les aspects techniques, la [documentation Symfony](https://symfony.com/doc/current/index.html) donne une vision claire des possibilités du framework.
+- **Ateliers fonctionnels** : des sessions de travail avec les parties prenantes pour cartographier les parcours utilisateurs, prioriser les fonctionnalités et identifier les contraintes. Ces ateliers sont plus productifs qu'un document rédigé en chambre.
+- **Prototypage** : des maquettes basse fidélité (wireframes) permettent de concrétiser le besoin et de valider l'ergonomie avant le développement. C'est un investissement modeste qui évite des remises en cause coûteuses en cours de projet.
 
-Pour les secteurs specifiques, les contraintes metier varient fortement. Un projet [e-commerce](/secteur/e-commerce) n'a pas les memes exigences qu'une application [industrielle](/secteur/industrie) ou qu'un outil pour le [secteur financier](/secteur/finance). Le cahier des charges doit refleter ces specificites.
+Pour les secteurs spécifiques, les contraintes métier varient fortement. Un projet [e-commerce](/secteur/e-commerce) n'a pas les mêmes exigences qu'une application [industrielle](/secteur/industrie) ou qu'un outil pour le [secteur financier](/secteur/finance). Le cahier des charges doit refléter ces spécificités.
 
 ## Et si vous n'avez pas de cahier des charges ?
 
-Ce n'est pas bloquant. Beaucoup de projets commencent par un echange verbal qui se structure au fil des ateliers. L'important est d'avoir un point de depart ecrit, meme minimal, avant le chiffrage.
+Ce n'est pas bloquant. Beaucoup de projets commencent par un échange verbal qui se structure au fil des ateliers. L'important est d'avoir un point de départ écrit, même minimal, avant le chiffrage.
 
-Chez Efficience IT, l'[audit Symfony gratuit de 30 minutes](/audit-symfony-gratuit) permet de poser les bases du projet sans cahier des charges formalise. A partir de cet echange, nous produisons une proposition qui sert de base a la discussion. C'est souvent plus efficace qu'un document redige en interne sans expertise technique.
+Chez Efficience IT, l'[audit Symfony gratuit de 30 minutes](/audit-symfony-gratuit) permet de poser les bases du projet sans cahier des charges formalisé. À partir de cet échange, nous produisons une proposition qui sert de base à la discussion. C'est souvent plus efficace qu'un document rédigé en interne sans expertise technique.

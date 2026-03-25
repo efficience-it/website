@@ -1,93 +1,93 @@
 ---
-title: "Moderniser une application PHP legacy sans tout reecrire"
+title: "Moderniser une application PHP legacy sans tout réécrire"
 date: "2026-03-22"
 author: "Louis-Arnaud Catoire"
 category: "Projet"
-excerpt: "Votre application PHP vieillit, mais une reecriture complete est risquee et couteuse. Voici l'approche progressive pour moderniser sans casser ce qui fonctionne."
+excerpt: "Votre application PHP vieillit, mais une réécriture complète est risquée et coûteuse. Voici l'approche progressive pour moderniser sans casser ce qui fonctionne."
 image: "/images/blog/moderniser-application-php-legacy.webp"
 faq:
-  - question: "Faut-il reecrire une application PHP legacy ?"
-    answer: "Rarement. Une reecriture complete est le projet le plus risque en informatique : elle coute plus cher que prevu, prend plus de temps et introduit de nouveaux bugs. L'approche privilegiee est la modernisation progressive : on stabilise l'existant, on isole les modules critiques, et on migre par etapes. C'est moins spectaculaire mais beaucoup plus sur."
+  - question: "Faut-il réécrire une application PHP legacy ?"
+    answer: "Rarement. Une réécriture complète est le projet le plus risqué en informatique : elle coûte plus cher que prévu, prend plus de temps et introduit de nouveaux bugs. L'approche privilégiée est la modernisation progressive : on stabilise l'existant, on isole les modules critiques, et on migre par étapes. C'est moins spectaculaire mais beaucoup plus sûr."
   - question: "Comment savoir si mon application PHP est legacy ?"
-    answer: "Les signes les plus courants : le framework n'est plus maintenu (Symfony 3 ou anterieur), les montees de version sont impossibles, il n'y a pas de tests automatises, les deployments sont manuels et stressants, et chaque correction de bug en cree deux nouveaux. Si vous reconnaissez votre quotidien, votre application est legacy."
+    answer: "Les signes les plus courants : le framework n'est plus maintenu (Symfony 3 ou antérieur), les montées de version sont impossibles, il n'y a pas de tests automatisés, les déploiements sont manuels et stressants, et chaque correction de bug en crée deux nouveaux. Si vous reconnaissez votre quotidien, votre application est legacy."
   - question: "Combien de temps prend une modernisation ?"
-    answer: "De 3 a 12 mois selon la taille de l'application et la profondeur de la dette technique. L'avantage de l'approche progressive est que chaque etape livre de la valeur : les premieres ameliorations (CI/CD, analyse statique, corrections critiques) se font en quelques semaines et reduisent immediatement le risque."
+    answer: "De 3 à 12 mois selon la taille de l'application et la profondeur de la dette technique. L'avantage de l'approche progressive est que chaque étape livre de la valeur : les premières améliorations (CI/CD, analyse statique, corrections critiques) se font en quelques semaines et réduisent immédiatement le risque."
 ---
 
-Votre application PHP tourne depuis des annees. Elle fait le job, les utilisateurs s'en servent au quotidien, et le chiffre d'affaires depend en partie d'elle. Mais sous le capot, la situation se degrade : les montees de version sont impossibles, chaque correction de bug est une aventure, et plus personne ne veut toucher a certains modules. La tentation de tout reecrire est forte. C'est presque toujours une erreur.
+Votre application PHP tourne depuis des années. Elle fait le job, les utilisateurs s'en servent au quotidien, et le chiffre d'affaires dépend en partie d'elle. Mais sous le capot, la situation se dégrade : les montées de version sont impossibles, chaque correction de bug est une aventure, et plus personne ne veut toucher à certains modules. La tentation de tout réécrire est forte. C'est presque toujours une erreur.
 
-En tant qu'[agence specialisee en modernisation d'applications PHP](/modernisation-application-php), nous accompagnons des entreprises qui font face a cette situation. Voici l'approche qui fonctionne.
+En tant qu'[agence spécialisée en modernisation d'applications PHP](/modernisation-application-php), nous accompagnons des entreprises qui font face à cette situation. Voici l'approche qui fonctionne.
 
-## Pourquoi la reecriture complete est un piege
+## Pourquoi la réécriture complète est un piège
 
-La reecriture complete (le "big rewrite") est le projet le plus risque en ingenierie logicielle. Joel Spolsky l'a dit en 2000, et c'est toujours vrai en 2026. Les raisons sont structurelles :
+La réécriture complète (le "big rewrite") est le projet le plus risqué en ingénierie logicielle. Joel Spolsky l'a dit en 2000, et c'est toujours vrai en 2026. Les raisons sont structurelles :
 
-- **Le perimetre explose** : l'ancienne application fait des centaines de choses, dont certaines que personne ne documente. La nouvelle doit toutes les reproduire, plus les nouvelles fonctionnalites. Le budget double, puis triple.
-- **Le temps de developpement est sous-estime** : pendant que l'equipe reecrit, l'ancienne application continue de recevoir des corrections et des evolutions. La cible bouge en permanence.
-- **Les risques de regression sont enormes** : des comportements implicites de l'ancienne application (contournements, cas limites, regles metier non documentees) sont oublies dans la reecriture et se revelent en production.
+- **Le périmètre explose** : l'ancienne application fait des centaines de choses, dont certaines que personne ne documente. La nouvelle doit toutes les reproduire, plus les nouvelles fonctionnalités. Le budget double, puis triple.
+- **Le temps de développement est sous-estimé** : pendant que l'équipe réécrit, l'ancienne application continue de recevoir des corrections et des évolutions. La cible bouge en permanence.
+- **Les risques de régression sont énormes** : des comportements implicites de l'ancienne application (contournements, cas limites, règles métier non documentées) sont oubliés dans la réécriture et se révèlent en production.
 
-La bonne approche, c'est la modernisation progressive. On ne jette pas l'existant : on l'ameliore par etapes, en commencant par ce qui a le plus d'impact.
+La bonne approche, c'est la modernisation progressive. On ne jette pas l'existant : on l'améliore par étapes, en commençant par ce qui a le plus d'impact.
 
-## Etape 1 : diagnostiquer l'etat reel
+## Étape 1 : diagnostiquer l'état réel
 
-Avant toute intervention, il faut comprendre ou on met les pieds. Un [audit technique approfondi](/audit-code-php) cartographie la dette technique, identifie les risques et priorise les actions. Notre article sur [comment se passe un audit chez Efficience IT](/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede) detaille le processus.
+Avant toute intervention, il faut comprendre où on met les pieds. Un [audit technique approfondi](/audit-code-php) cartographie la dette technique, identifie les risques et priorise les actions. Notre article sur [comment se passe un audit chez Efficience IT](/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede) détaille le processus.
 
-Les points a evaluer en priorite :
+Les points à évaluer en priorité :
 
-- **Version du framework** : Symfony 3, 4 ou 5 ? Laravel 5 ou 6 ? Pas de framework du tout ? Le [guide de migration Symfony](/article/guide-de-migration-dans-un-projet-symfony) detaille les implications de chaque version.
-- **Couverture de tests** : zero test est courant dans les projets legacy. C'est le premier frein a toute evolution. Les [tests automatises](/tests-automatises-php) sont la priorite numero un.
-- **Qualite du code** : l'analyse statique avec [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) revele les problemes structurels invisibles a l'oeil nu. Le [code mort](/article/code-mort-mission-elimination) accumule est aussi un signal de dette.
-- **Infrastructure** : deployements manuels, pas de CI/CD, serveur non maintenu ? Le passage a [Docker](/integration-docker-symfony) et a une pipeline d'integration continue stabilise l'environnement avant meme de toucher au code.
+- **Version du framework** : Symfony 3, 4 ou 5 ? Laravel 5 ou 6 ? Pas de framework du tout ? Le [guide de migration Symfony](/article/guide-de-migration-dans-un-projet-symfony) détaille les implications de chaque version.
+- **Couverture de tests** : zéro test est courant dans les projets legacy. C'est le premier frein à toute évolution. Les [tests automatisés](/tests-automatises-php) sont la priorité numéro un.
+- **Qualité du code** : l'analyse statique avec [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) révèle les problèmes structurels invisibles à l'œil nu. Le [code mort](/article/code-mort-mission-elimination) accumulé est aussi un signal de dette.
+- **Infrastructure** : déploiements manuels, pas de CI/CD, serveur non maintenu ? Le passage à [Docker](/integration-docker-symfony) et à une pipeline d'intégration continue stabilise l'environnement avant même de toucher au code.
 
-L'[audit Symfony gratuit de 30 minutes](/audit-symfony-gratuit) est un bon point d'entree pour une premiere evaluation.
+L'[audit Symfony gratuit de 30 minutes](/audit-symfony-gratuit) est un bon point d'entrée pour une première évaluation.
 
-## Etape 2 : stabiliser avant de moderniser
+## Étape 2 : stabiliser avant de moderniser
 
-La premiere erreur est de vouloir moderniser le code avant de stabiliser le processus. Sans filet de securite, chaque modification est un risque. La stabilisation passe par :
+La première erreur est de vouloir moderniser le code avant de stabiliser le processus. Sans filet de sécurité, chaque modification est un risque. La stabilisation passe par :
 
 ### Mettre en place les tests
 
-Pas besoin de viser 100% de couverture. L'objectif est de proteger les parcours critiques : les flux de paiement, les calculs metier, les integrations tierces. Des tests fonctionnels de bout en bout (smoke tests) suffisent pour commencer. Ils se rajoutent sans modifier le code existant.
+Pas besoin de viser 100% de couverture. L'objectif est de protéger les parcours critiques : les flux de paiement, les calculs métier, les intégrations tierces. Des tests fonctionnels de bout en bout (smoke tests) suffisent pour commencer. Ils se rajoutent sans modifier le code existant.
 
-### Automatiser les deploiements
+### Automatiser les déploiements
 
-Passer d'un deploiement manuel (FTP, SSH, "on fait attention") a une pipeline CI/CD reduit drastiquement le risque. Chaque modification est testee automatiquement avant d'arriver en production. C'est un investissement de quelques jours qui se rentabilise des le premier mois.
+Passer d'un déploiement manuel (FTP, SSH, "on fait attention") à une pipeline CI/CD réduit drastiquement le risque. Chaque modification est testée automatiquement avant d'arriver en production. C'est un investissement de quelques jours qui se rentabilise dès le premier mois.
 
 ### Introduire l'analyse statique
 
-[PHPStan](/article/phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable) au niveau 1, puis progressivement monter. [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) pour automatiser les corrections de syntaxe et les mises a jour de code. Ces outils corrigent des centaines de problemes sans intervention manuelle.
+[PHPStan](/article/phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable) au niveau 1, puis progressivement monter. [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) pour automatiser les corrections de syntaxe et les mises à jour de code. Ces outils corrigent des centaines de problèmes sans intervention manuelle.
 
-## Etape 3 : moderniser par modules
+## Étape 3 : moderniser par modules
 
-Une fois l'application stabilisee, la modernisation peut commencer. L'approche modulaire est la cle : on isole un module, on le modernise, on verifie que tout fonctionne, puis on passe au suivant.
+Une fois l'application stabilisée, la modernisation peut commencer. L'approche modulaire est la clé : on isole un module, on le modernise, on vérifie que tout fonctionne, puis on passe au suivant.
 
 ### L'approche Strangler Fig
 
-Inspiree du pattern [Strangler Fig](https://martinfowler.com/bliki/StranglerFigApplication.html) de Martin Fowler, cette strategie consiste a construire les nouvelles fonctionnalites dans une architecture moderne (par exemple une [architecture hexagonale avec Symfony](/architecture-hexagonale-symfony)) tout en laissant l'ancien code en place. Progressivement, le nouveau code remplace l'ancien, module par module.
+Inspirée du pattern [Strangler Fig](https://martinfowler.com/bliki/StranglerFigApplication.html) de Martin Fowler, cette stratégie consiste à construire les nouvelles fonctionnalités dans une architecture moderne (par exemple une [architecture hexagonale avec Symfony](/architecture-hexagonale-symfony)) tout en laissant l'ancien code en place. Progressivement, le nouveau code remplace l'ancien, module par module.
 
-Notre [retour d'experience sur la migration vers une architecture hexagonale](/article/migration-symfony-architecture-hexagonale-retour-mission) detaille cette approche sur un cas concret. C'est la methode que nous utilisons le plus souvent chez nos clients.
+Notre [retour d'expérience sur la migration vers une architecture hexagonale](/article/migration-symfony-architecture-hexagonale-retour-mission) détaille cette approche sur un cas concret. C'est la méthode que nous utilisons le plus souvent chez nos clients.
 
 ### Migrer le framework
 
-Si l'application tourne sur un framework obsolete (Symfony 3, Zend Framework, CodeIgniter), la [migration vers une version LTS de Symfony](/migration-symfony) est une priorite. L'outil [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) automatise une grande partie des modifications de code. Le reste se fait manuellement, en s'appuyant sur les tests mis en place a l'etape 2.
+Si l'application tourne sur un framework obsolète (Symfony 3, Zend Framework, CodeIgniter), la [migration vers une version LTS de Symfony](/migration-symfony) est une priorité. L'outil [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) automatise une grande partie des modifications de code. Le reste se fait manuellement, en s'appuyant sur les tests mis en place à l'étape 2.
 
 ### Extraire les services
 
-Les applications legacy sont souvent monolithiques : tout est dans le meme code, sans separation claire. L'extraction de services (authentification, notifications, calculs metier) dans des modules independants, relies par [Symfony Messenger](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) ou des API internes, apporte de la flexibilite sans imposer une architecture micro-services complete. Notre article sur le [choix entre micro-services et monolithe modulaire](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) aide a trouver le bon equilibre.
+Les applications legacy sont souvent monolithiques : tout est dans le même code, sans séparation claire. L'extraction de services (authentification, notifications, calculs métier) dans des modules indépendants, reliés par [Symfony Messenger](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) ou des API internes, apporte de la flexibilité sans imposer une architecture micro-services complète. Notre article sur le [choix entre micro-services et monolithe modulaire](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) aide à trouver le bon équilibre.
 
-## Etape 4 : securiser et perenniser
+## Étape 4 : sécuriser et pérenniser
 
-La modernisation ne s'arrete pas a la refonte du code. Elle inclut la mise en place des gardes-fous qui empecheront le retour de la dette technique :
+La modernisation ne s'arrête pas à la refonte du code. Elle inclut la mise en place des gardes-fous qui empêcheront le retour de la dette technique :
 
-- **Pipeline CI/CD complete** : lint, analyse statique, tests, deploiement automatise. Chaque PR est validee avant d'etre mergee.
-- **Montees de version planifiees** : les [versions LTS de Symfony](https://symfony.com/releases) garantissent un support de 3 ans. Planifier les montees de version evite les ruptures.
-- **Documentation technique** : une documentation a jour, produite avec l'[approche Diataxis](/article/comment-produire-la-documentation-sur-votre-projet-symfony-avec-lapproche-diataxis), facilite l'onboarding des nouveaux developpeurs et reduit la dependance aux sachants.
-- **[Securite applicative](/securite-application-symfony)** : audit de securite, gestion des [CVE](/article/cve-comprendre-les-failles-pour-mieux-se-proteger), mises a jour regulieres des dependances.
+- **Pipeline CI/CD complète** : lint, analyse statique, tests, déploiement automatisé. Chaque PR est validée avant d'être mergée.
+- **Montées de version planifiées** : les [versions LTS de Symfony](https://symfony.com/releases) garantissent un support de 3 ans. Planifier les montées de version évite les ruptures.
+- **Documentation technique** : une documentation à jour, produite avec l'[approche Diataxis](/article/comment-produire-la-documentation-sur-votre-projet-symfony-avec-lapproche-diataxis), facilite l'onboarding des nouveaux développeurs et réduit la dépendance aux sachants.
+- **[Sécurité applicative](/securite-application-symfony)** : audit de sécurité, gestion des [CVE](/article/cve-comprendre-les-failles-pour-mieux-se-proteger), mises à jour régulières des dépendances.
 
 ## Faut-il internaliser ou externaliser ?
 
-La modernisation d'une application legacy demande des competences pointues en Symfony, en architecture et en gestion de dette technique. Si votre equipe n'a pas ces competences en interne, externaliser a un [prestataire specialise](/article/comment-choisir-son-prestataire-symfony) est souvent le choix le plus efficace.
+La modernisation d'une application legacy demande des compétences pointues en Symfony, en architecture et en gestion de dette technique. Si votre équipe n'a pas ces compétences en interne, externaliser à un [prestataire spécialisé](/article/comment-choisir-son-prestataire-symfony) est souvent le choix le plus efficace.
 
-Notre offre de [reprise de projets Symfony](/reprise-projet-symfony) est concue pour ces situations : nous prenons le relais sur des applications existantes, avec un audit honnete et une stabilisation progressive. Pour les equipes qui veulent monter en competences en parallele, nos [formations Symfony en entreprise](/formation-symfony-entreprise) combinent transfert de connaissances et travail sur le code reel du projet.
+Notre offre de [reprise de projets Symfony](/reprise-projet-symfony) est conçue pour ces situations : nous prenons le relais sur des applications existantes, avec un audit honnête et une stabilisation progressive. Pour les équipes qui veulent monter en compétences en parallèle, nos [formations Symfony en entreprise](/formation-symfony-entreprise) combinent transfert de connaissances et travail sur le code réel du projet.
 
-La premiere etape, dans tous les cas, est un diagnostic. L'[audit Symfony gratuit de 30 minutes](/audit-symfony-gratuit) permet d'evaluer la situation et de definir un plan d'action realiste, sans engagement. Avant de rediger un [cahier des charges](/article/cahier-des-charges-application-web-guide-complet), cet echange pose les bases du projet et evite de partir dans la mauvaise direction.
+La première étape, dans tous les cas, est un diagnostic. L'[audit Symfony gratuit de 30 minutes](/audit-symfony-gratuit) permet d'évaluer la situation et de définir un plan d'action réaliste, sans engagement. Avant de rédiger un [cahier des charges](/article/cahier-des-charges-application-web-guide-complet), cet échange pose les bases du projet et évite de partir dans la mauvaise direction.

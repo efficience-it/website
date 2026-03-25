@@ -15,35 +15,35 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured
 
 export const metadata = pageMetadata({
   title:
-    "Applications web pour la finance et la banque : securite et conformite avec Symfony",
+    "Applications web pour la finance et la banque : sécurité et conformité avec Symfony",
   description:
-    "Efficience IT developpe des applications web securisees pour le secteur financier : banque, fintech, assurance. Conformite, haute disponibilite et traitement de donnees sensibles.",
+    "Efficience IT développe des applications web sécurisées pour le secteur financier : banque, fintech, assurance. Conformité, haute disponibilité et traitement de données sensibles.",
   path: "/secteur/finance",
 });
 
 const expertises = [
   {
-    title: "Securite applicative renforcee",
+    title: "Sécurité applicative renforcée",
     description:
-      "Authentification multi-facteurs, chiffrement des donnees sensibles, gestion fine des roles et des permissions avec le composant Security de Symfony. Chaque application est auditee pour les vulnerabilites OWASP Top 10 avant mise en production.",
+      "Authentification multi-facteurs, chiffrement des données sensibles, gestion fine des rôles et des permissions avec le composant Security de Symfony. Chaque application est auditée pour les vulnérabilités OWASP Top 10 avant mise en production.",
     icon: "M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z",
   },
   {
-    title: "Conformite et tracabilite",
+    title: "Conformité et traçabilité",
     description:
-      "Journalisation complete des actions utilisateur, pistes d'audit, anonymisation des donnees personnelles. Nos applications sont concues pour repondre aux exigences reglementaires du secteur financier (RGPD, DSP2, KYC).",
+      "Journalisation complète des actions utilisateur, pistes d'audit, anonymisation des données personnelles. Nos applications sont conçues pour répondre aux exigences réglementaires du secteur financier (RGPD, DSP2, KYC).",
     icon: "M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z",
   },
   {
-    title: "Haute disponibilite",
+    title: "Haute disponibilité",
     description:
-      "Architecture concue pour le zero-downtime : deploiements blue-green, health checks, failover automatique, replicas de base de donnees. Votre application reste accessible meme pendant les mises a jour et les maintenances.",
+      "Architecture conçue pour le zero-downtime : déploiements blue-green, health checks, failover automatique, réplicas de base de données. Votre application reste accessible même pendant les mises à jour et les maintenances.",
     icon: "M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z",
   },
   {
-    title: "Integration de systemes financiers",
+    title: "Intégration de systèmes financiers",
     description:
-      "Connexion aux systemes bancaires (SWIFT, SEPA), passerelles de paiement, outils de scoring et de compliance via des API sur mesure. Des connecteurs robustes avec gestion des erreurs, retry automatique et reconciliation des transactions.",
+      "Connexion aux systèmes bancaires (SWIFT, SEPA), passerelles de paiement, outils de scoring et de compliance via des API sur mesure. Des connecteurs robustes avec gestion des erreurs, retry automatique et réconciliation des transactions.",
     icon: "M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5",
   },
 ];
@@ -56,24 +56,24 @@ const references = [
 
 const faqItems = [
   {
-    title: "Comment assurez-vous la securite des donnees financieres ?",
+    title: "Comment assurez-vous la sécurité des données financières ?",
     content:
-      "La securite est integree a chaque etape du developpement. Nous appliquons le chiffrement des donnees sensibles au repos et en transit, la gestion stricte des acces par role, et l'audit systematique du code pour les vulnerabilites OWASP. Les tests de securite font partie du pipeline CI/CD.",
+      "La sécurité est intégrée à chaque étape du développement. Nous appliquons le chiffrement des données sensibles au repos et en transit, la gestion stricte des accès par rôle, et l'audit systématique du code pour les vulnérabilités OWASP. Les tests de sécurité font partie du pipeline CI/CD.",
   },
   {
-    title: "Etes-vous conformes aux reglementations du secteur financier ?",
+    title: "Êtes-vous conformes aux réglementations du secteur financier ?",
     content:
-      "Nous concevons les applications pour faciliter la conformite : journalisation des actions, anonymisation des donnees personnelles avec DbToolsBundle, gestion du consentement. Nous travaillons en collaboration avec vos equipes juridiques pour implementer les exigences specifiques a votre activite (RGPD, DSP2, KYC).",
+      "Nous concevons les applications pour faciliter la conformité : journalisation des actions, anonymisation des données personnelles avec DbToolsBundle, gestion du consentement. Nous travaillons en collaboration avec vos équipes juridiques pour implémenter les exigences spécifiques à votre activité (RGPD, DSP2, KYC).",
   },
   {
-    title: "Comment gerez-vous les integrations avec les systemes bancaires ?",
+    title: "Comment gérez-vous les intégrations avec les systèmes bancaires ?",
     content:
-      "Nous concevons des connecteurs dedies avec gestion des erreurs, retry automatique et reconciliation. Les echanges passent par Symfony Messenger pour garantir qu'aucune transaction ne se perd. Chaque integration est idempotente pour eviter les doublons.",
+      "Nous concevons des connecteurs dédiés avec gestion des erreurs, retry automatique et réconciliation. Les échanges passent par Symfony Messenger pour garantir qu'aucune transaction ne se perd. Chaque intégration est idempotente pour éviter les doublons.",
   },
   {
-    title: "Quelle est votre experience dans le secteur financier ?",
+    title: "Quelle est votre expérience dans le secteur financier ?",
     content:
-      "Nous accompagnons des acteurs de la banque, de la fintech et du courtage. Credit Agricole Auto Bank, Mon Petit Placement et Keyliance nous font confiance pour le developpement et la maintenance de leurs applications metier.",
+      "Nous accompagnons des acteurs de la banque, de la fintech et du courtage. Crédit Agricole Auto Bank, Mon Petit Placement et Keyliance nous font confiance pour le développement et la maintenance de leurs applications métier.",
   },
 ];
 
@@ -97,14 +97,14 @@ const breadcrumb = breadcrumbJsonLd([
 const service = serviceJsonLd({
   name: "Applications web pour la finance et la banque",
   description:
-    "Conception et developpement d'applications web securisees pour le secteur financier : conformite, haute disponibilite, integration de systemes bancaires et traitement de donnees sensibles.",
+    "Conception et développement d'applications web sécurisées pour le secteur financier : conformité, haute disponibilité, intégration de systèmes bancaires et traitement de données sensibles.",
   path: "/secteur/finance",
 });
 
 const webPage = webPageJsonLd({
-  name: "Applications web pour la finance et la banque : securite et conformite avec Symfony",
+  name: "Applications web pour la finance et la banque : sécurité et conformité avec Symfony",
   description:
-    "Efficience IT developpe des applications web securisees pour le secteur financier : banque, fintech, assurance. Conformite, haute disponibilite et traitement de donnees sensibles.",
+    "Efficience IT développe des applications web sécurisées pour le secteur financier : banque, fintech, assurance. Conformité, haute disponibilité et traitement de données sensibles.",
   path: "/secteur/finance",
   datePublished: "2026-03-12",
   dateModified: "2026-03-12",
@@ -112,44 +112,44 @@ const webPage = webPageJsonLd({
 
 const relatedLinks: RelatedLink[] = [
   {
-    title: "CVE : comprendre les failles de securite",
+    title: "CVE : comprendre les failles de sécurité",
     description:
-      "Pourquoi les mises a jour de securite sont critiques dans la finance",
+      "Pourquoi les mises à jour de sécurité sont critiques dans la finance",
     href: "/article/cve-comprendre-les-failles-pour-mieux-se-proteger",
   },
   {
     title: "DbToolsBundle : anonymiser vos bases",
     description:
-      "Anonymisation des donnees personnelles pour la conformite RGPD",
+      "Anonymisation des données personnelles pour la conformité RGPD",
     href: "/article/dbtoolsbundle-anonymiser-vos-bases-de-donnees",
   },
   {
-    title: "Former vos equipes a la securite",
+    title: "Former vos équipes à la sécurité",
     description:
-      "Sensibiliser vos developpeurs aux enjeux de securite applicative",
+      "Sensibiliser vos développeurs aux enjeux de sécurité applicative",
     href: "/article/comment-former-vos-equipes-a-la-securite-informatique-en-toute-simplicite",
   },
   {
     title: "Audit de code PHP",
     description:
-      "Notre methode d'audit pour identifier les vulnerabilites",
+      "Notre méthode d'audit pour identifier les vulnérabilités",
     href: "/audit-code-php",
   },
   {
-    title: "Tests automatises PHP",
+    title: "Tests automatisés PHP",
     description:
-      "Garantir la fiabilite de votre application avec des tests exhaustifs",
+      "Garantir la fiabilité de votre application avec des tests exhaustifs",
     href: "/tests-automatises-php",
   },
   {
     title: "API sur mesure Symfony",
     description:
-      "Connecter vos systemes financiers via des API robustes et securisees",
+      "Connecter vos systèmes financiers via des API robustes et sécurisées",
     href: "/api-sur-mesure-symfony",
   },
   {
     title: "OWASP Top 10",
-    description: "Les 10 risques de securite les plus critiques pour les applications web",
+    description: "Les 10 risques de sécurité les plus critiques pour les applications web",
     href: "https://owasp.org/www-project-top-ten/",
     external: true,
   },
@@ -183,42 +183,42 @@ export default function SecteurFinance() {
                   Secteur finance
                 </p>
                 <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                  Applications web pour la finance et la banque : securite et conformite avec Symfony
+                  Applications web pour la finance et la banque : sécurité et conformité avec Symfony
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
-                  Dans le secteur financier, une faille de securite ou un
-                  probleme de conformite peut avoir des consequences majeures.
-                  Vos applications doivent etre irreprochables sur la securite,
-                  la tracabilite et la disponibilite.
+                  Dans le secteur financier, une faille de sécurité ou un
+                  problème de conformité peut avoir des conséquences majeures.
+                  Vos applications doivent être irréprochables sur la sécurité,
+                  la traçabilité et la disponibilité.
                 </p>
                 <p className="mt-4 max-w-3xl text-lg text-gray">
-                  Efficience IT developpe des{" "}
-                  <strong>applications web securisees</strong> pour la banque,
+                  Efficience IT développe des{" "}
+                  <strong>applications web sécurisées</strong> pour la banque,
                   la fintech et l&apos;assurance. Le composant Security de Symfony,
-                  combine a une{" "}
+                  combiné à une{" "}
                   <Link
                     href="/architecture-hexagonale-symfony"
                     className="text-primary hover:underline"
                   >
                     architecture hexagonale
                   </Link>
-                  , garantit une gestion rigoureuse des acces et une separation
-                  claire entre logique metier et infrastructure. Notre offre de{" "}
+                  , garantit une gestion rigoureuse des accès et une séparation
+                  claire entre logique métier et infrastructure. Notre offre de{" "}
                   <Link
                     href="/maintenance-applicative-symfony"
                     className="text-primary hover:underline"
                   >
                     maintenance applicative
                   </Link>{" "}
-                  assure ensuite la continuite de service et les mises a jour de
-                  securite.
+                  assure ensuite la continuité de service et les mises à jour de
+                  sécurité.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   <Button href="/contact">
                     Discutons de votre projet
                   </Button>
                   <Button href="/nos-references" variant="outline">
-                    Voir nos references
+                    Voir nos références
                   </Button>
                 </div>
               </div>
@@ -249,8 +249,8 @@ export default function SecteurFinance() {
           <Container>
             <SectionTitle>Notre expertise finance</SectionTitle>
             <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-              Des applications concues pour les exigences du secteur financier :
-              securite, conformite, fiabilite.
+              Des applications conçues pour les exigences du secteur financier :
+              sécurité, conformité, fiabilité.
             </p>
             <div className="mt-10 grid gap-6 sm:grid-cols-2">
               {expertises.map((item) => (
@@ -285,32 +285,32 @@ export default function SecteurFinance() {
         <FadeIn>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
-            <SectionTitle>La securite, au coeur de chaque ligne de code</SectionTitle>
+            <SectionTitle>La sécurité, au cœur de chaque ligne de code</SectionTitle>
             <div className="mx-auto mt-8 max-w-3xl space-y-6 text-lg text-gray">
               <p>
-                Dans la finance, la securite n&apos;est pas une feature, c&apos;est un
-                prerequis. Chaque application que nous developpons passe par un{" "}
+                Dans la finance, la sécurité n&apos;est pas une feature, c&apos;est un
+                prérequis. Chaque application que nous développons passe par un{" "}
                 <Link
                   href="/audit-code-php"
                   className="text-primary hover:underline"
                 >
                   audit de code
                 </Link>{" "}
-                systematique avant la mise en production. Nous verifions les
-                vulnerabilites OWASP Top 10, les injections SQL, les failles
-                XSS et les problemes d&apos;authentification.
+                systématique avant la mise en production. Nous vérifions les
+                vulnérabilités OWASP Top 10, les injections SQL, les failles
+                XSS et les problèmes d&apos;authentification.
               </p>
               <p>
-                Les donnees sensibles sont chiffrees au repos et en transit. Les{" "}
+                Les données sensibles sont chiffrées au repos et en transit. Les{" "}
                 <Link
                   href="/article/dbtoolsbundle-anonymiser-vos-bases-de-donnees"
                   className="text-primary hover:underline"
                 >
-                  bases de donnees de recette sont anonymisees
+                  bases de données de recette sont anonymisées
                 </Link>{" "}
-                pour que les donnees de production ne se retrouvent jamais dans
-                un environnement non securise. Les logs applicatifs sont
-                filtres pour exclure toute donnee personnelle.
+                pour que les données de production ne se retrouvent jamais dans
+                un environnement non sécurisé. Les logs applicatifs sont
+                filtrés pour exclure toute donnée personnelle.
               </p>
               <p>
                 Notre approche par{" "}
@@ -318,11 +318,11 @@ export default function SecteurFinance() {
                   href="/tests-automatises-php"
                   className="text-primary hover:underline"
                 >
-                  tests automatises
+                  tests automatisés
                 </Link>{" "}
-                inclut des tests de securite dans le pipeline CI/CD. Chaque
-                deploiement est verifie automatiquement pour les regressions de
-                securite, les dependances vulnerables (via{" "}
+                inclut des tests de sécurité dans le pipeline CI/CD. Chaque
+                déploiement est vérifié automatiquement pour les régressions de
+                sécurité, les dépendances vulnérables (via{" "}
                 <Link
                   href="/article/cve-comprendre-les-failles-pour-mieux-se-proteger"
                   className="text-primary hover:underline"
@@ -342,7 +342,7 @@ export default function SecteurFinance() {
             <SectionTitle>Ils nous font confiance</SectionTitle>
             <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
               Des acteurs de la banque et de la fintech nous confient le
-              developpement de leurs applications critiques.
+              développement de leurs applications critiques.
             </p>
             <div className="mx-auto mt-10 grid max-w-3xl grid-cols-3 gap-8">
               {references.map((client) => (
@@ -368,12 +368,12 @@ export default function SecteurFinance() {
         <section className="bg-primary py-16 text-center text-white">
           <div className="mx-auto max-w-3xl px-4">
             <h2 className="font-display text-3xl font-bold">
-              Votre application financiere merite une securite sans compromis
+              Votre application financière mérite une sécurité sans compromis
             </h2>
             <p className="mt-4 text-lg text-white/90">
-              Discutons de vos enjeux de securite et de conformite. Nous
+              Discutons de vos enjeux de sécurité et de conformité. Nous
               analysons votre besoin et vous proposons une architecture
-              adaptee aux exigences de votre secteur.
+              adaptée aux exigences de votre secteur.
             </p>
             <Link
               href="/contact"
@@ -388,7 +388,7 @@ export default function SecteurFinance() {
         <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
-            <SectionTitle>Questions frequentes</SectionTitle>
+            <SectionTitle>Questions fréquentes</SectionTitle>
             <div className="mx-auto max-w-2xl">
               <Accordion items={faqItems} />
             </div>

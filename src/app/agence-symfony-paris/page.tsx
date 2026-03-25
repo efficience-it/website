@@ -399,7 +399,7 @@ export default function AgenceSymfonyParis() {
                   <div className="rounded-lg border border-gray-100 bg-white p-6 shadow-sm">
                     <p className="font-display text-3xl font-bold text-primary">Station F</p>
                     <p className="mt-1 text-gray">
-                      Plus grand campus de startups au monde, au coeur de Paris
+                      Plus grand campus de startups au monde, au cœur de Paris
                     </p>
                   </div>
                   <div className="rounded-lg border border-gray-100 bg-white p-6 shadow-sm">
