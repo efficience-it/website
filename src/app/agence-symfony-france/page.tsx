@@ -24,48 +24,48 @@ export const metadata = pageMetadata({
 
 const cards = [
   {
-    title: "Expertise Symfony certifiee",
+    title: "Expertise Symfony certifiée",
     description:
-      "Nos developpeurs sont specialises sur l'ecosysteme Symfony et PHP. Pas de generalistes : chaque intervenant maitrise le framework en profondeur, de Doctrine a Messenger.",
+      "Nos développeurs sont spécialisés sur l'écosystème Symfony et PHP. Pas de généralistes : chaque intervenant maîtrise le framework en profondeur, de Doctrine à Messenger.",
   },
   {
     title: "Intervention remote ou sur site",
     description:
-      "Ou que vous soyez en France, nous intervenons a distance ou dans vos locaux. Nos outils et nos rituels sont penses pour le travail distribue, sans perte de qualite.",
+      "Où que vous soyez en France, nous intervenons à distance ou dans vos locaux. Nos outils et nos rituels sont pensés pour le travail distribué, sans perte de qualité.",
   },
   {
-    title: "De l'audit au deploiement",
+    title: "De l'audit au déploiement",
     description:
-      "Nous couvrons l'ensemble du cycle de vie de votre application : audit technique, developpement, tests, mise en production et maintenance continue.",
+      "Nous couvrons l'ensemble du cycle de vie de votre application : audit technique, développement, tests, mise en production et maintenance continue.",
   },
   {
-    title: "Stack technique maitrisee",
+    title: "Stack technique maîtrisée",
     description:
-      "Symfony, API Platform, Doctrine, PHPStan, PHPUnit, Docker, CI/CD : nous maitrisons les outils qui font la difference entre un projet qui tient et un projet qui s'effondre.",
+      "Symfony, API Platform, Doctrine, PHPStan, PHPUnit, Docker, CI/CD : nous maîtrisons les outils qui font la différence entre un projet qui tient et un projet qui s'effondre.",
   },
 ];
 
 const faqItems = [
   {
-    title: "Travaillez-vous uniquement avec des entreprises basees en France ?",
+    title: "Travaillez-vous uniquement avec des entreprises basées en France ?",
     content:
-      "Nous travaillons principalement avec des entreprises francaises, mais nous accompagnons aussi des clients francophones en Belgique, en Suisse et au Luxembourg. L'essentiel est de partager un fuseau horaire compatible et une langue commune pour une collaboration fluide.",
+      "Nous travaillons principalement avec des entreprises françaises, mais nous accompagnons aussi des clients francophones en Belgique, en Suisse et au Luxembourg. L'essentiel est de partager un fuseau horaire compatible et une langue commune pour une collaboration fluide.",
   },
   {
-    title: "Comment se deroule une premiere collaboration ?",
+    title: "Comment se déroule une première collaboration ?",
     content:
-      "Tout commence par un echange gratuit de 30 minutes pour comprendre votre projet, vos contraintes et vos objectifs. Nous vous proposons ensuite un cadrage technique et un devis detaille. Le developpement demarre en sprints courts avec des livraisons regulieres.",
+      "Tout commence par un échange gratuit de 30 minutes pour comprendre votre projet, vos contraintes et vos objectifs. Nous vous proposons ensuite un cadrage technique et un devis détaillé. Le développement démarre en sprints courts avec des livraisons régulières.",
   },
   {
     title:
-      "Pouvez-vous reprendre un projet Symfony existant developpe par une autre equipe ?",
+      "Pouvez-vous reprendre un projet Symfony existant développé par une autre équipe ?",
     content:
-      "Oui, c'est meme l'un de nos cas d'usage les plus frequents. Nous realisons un audit du code existant, identifions la dette technique et proposons un plan de reprise progressif. L'objectif : remettre le projet sur de bons rails sans tout reecrire.",
+      "Oui, c'est même l'un de nos cas d'usage les plus fréquents. Nous réalisons un audit du code existant, identifions la dette technique et proposons un plan de reprise progressif. L'objectif : remettre le projet sur de bons rails sans tout réécrire.",
   },
   {
-    title: "Quelle est la difference entre un prestataire Symfony et une agence web classique ?",
+    title: "Quelle est la différence entre un prestataire Symfony et une agence web classique ?",
     content:
-      "Une agence web classique couvre un large spectre (WordPress, Shopify, marketing, design). Un prestataire Symfony comme Efficience IT se concentre exclusivement sur le developpement d'applications PHP et Symfony. Cette specialisation garantit une expertise technique plus profonde et des choix architecturaux plus pertinents pour vos projets metier.",
+      "Une agence web classique couvre un large spectre (WordPress, Shopify, marketing, design). Un prestataire Symfony comme Efficience IT se concentre exclusivement sur le développement d'applications PHP et Symfony. Cette spécialisation garantit une expertise technique plus profonde et des choix architecturaux plus pertinents pour vos projets métier.",
   },
 ];
 
@@ -91,7 +91,7 @@ const organizationJsonLd = {
   logo: `${BASE_URL}/images/logo/logo-bleu.webp`,
   image: `${BASE_URL}/images/logo/logo-bleu.webp`,
   description:
-    "Prestataire Symfony en France, Efficience IT accompagne les entreprises dans le developpement, la migration et la maintenance de leurs applications PHP et Symfony.",
+    "Prestataire Symfony en France, Efficience IT accompagne les entreprises dans le développement, la migration et la maintenance de leurs applications PHP et Symfony.",
   email: "contact@itefficience.com",
   knowsAbout: ["Symfony", "PHP", "API Platform", "Doctrine", "DevOps"],
   areaServed: { "@type": "Country", name: "France" },
@@ -117,32 +117,32 @@ const webPage = webPageJsonLd({
 
 const relatedLinks: RelatedLink[] = [
   {
-    title: "Agence Symfony a Lille",
+    title: "Agence Symfony à Lille",
     description:
       "Notre ancrage lillois pour les entreprises des Hauts-de-France",
     href: "/agence-symfony-lille",
   },
   {
-    title: "Agence Symfony a Paris",
+    title: "Agence Symfony à Paris",
     description:
-      "Nos interventions en Ile-de-France, a 1h20 en TGV",
+      "Nos interventions en Île-de-France, à 1h20 en TGV",
     href: "/agence-symfony-paris",
   },
   {
-    title: "Agence Symfony a Lyon",
+    title: "Agence Symfony à Lyon",
     description:
-      "Notre expertise Symfony en Auvergne-Rhone-Alpes",
+      "Notre expertise Symfony en Auvergne-Rhône-Alpes",
     href: "/agence-symfony-lyon",
   },
   {
-    title: "Agence Symfony a Nantes",
+    title: "Agence Symfony à Nantes",
     description:
       "Nos interventions dans les Pays de la Loire",
     href: "/agence-symfony-nantes",
   },
   {
     title: "Guide de migration Symfony",
-    description: "Notre methodologie pour les mises a jour de version",
+    description: "Notre méthodologie pour les mises à jour de version",
     href: "/article/guide-de-migration-dans-un-projet-symfony",
   },
 ];
@@ -185,22 +185,22 @@ export default function AgenceSymfonyFrance() {
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
                   Efficience IT est un{" "}
-                  <strong>prestataire Symfony en France</strong>, specialise dans
-                  le developpement d&apos;applications web PHP robustes et
+                  <strong>prestataire Symfony en France</strong>, spécialisé dans
+                  le développement d&apos;applications web PHP robustes et
                   maintenables. Nous accompagnons les PME, ETI et startups sur
-                  l&apos;ensemble du territoire : developpement sur mesure,
+                  l&apos;ensemble du territoire : développement sur mesure,
                   migration, audit technique et maintenance.
                 </p>
                 <p className="mt-4 max-w-3xl text-lg text-gray">
-                  En remote ou sur site, nous mettons a votre disposition une
-                  equipe d&apos;
+                  En remote ou sur site, nous mettons à votre disposition une
+                  équipe d&apos;
                   <Link
                     href="/notre-expertise"
                     className="text-primary hover:underline"
                   >
                     experts Symfony
                   </Link>{" "}
-                  dediee, capable d&apos;intervenir rapidement sur vos projets
+                  dédiée, capable d&apos;intervenir rapidement sur vos projets
                   les plus exigeants.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -219,10 +219,10 @@ export default function AgenceSymfonyFrance() {
                   </span>
                   <div>
                     <p className="font-semibold text-dark">
-                      Ans d&apos;experience
+                      Ans d&apos;expérience
                     </p>
                     <p className="text-sm text-gray">
-                      Expertise Symfony depuis les premieres versions LTS
+                      Expertise Symfony depuis les premières versions LTS
                     </p>
                   </div>
                 </div>
@@ -232,10 +232,10 @@ export default function AgenceSymfonyFrance() {
                   </span>
                   <div>
                     <p className="font-semibold text-dark">
-                      Projets Symfony livres
+                      Projets Symfony livrés
                     </p>
                     <p className="text-sm text-gray">
-                      Applications metier, API, e-commerce, SaaS
+                      Applications métier, API, e-commerce, SaaS
                     </p>
                   </div>
                 </div>
@@ -248,7 +248,7 @@ export default function AgenceSymfonyFrance() {
                       Focus PHP et Symfony
                     </p>
                     <p className="text-sm text-gray">
-                      Specialistes, pas generalistes
+                      Spécialistes, pas généralistes
                     </p>
                   </div>
                 </div>
@@ -265,8 +265,8 @@ export default function AgenceSymfonyFrance() {
               </SectionTitle>
               <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
                 Choisir un <strong>prestataire technique PHP en France</strong>{" "}
-                specialise, c&apos;est s&apos;assurer d&apos;un accompagnement
-                adapte a la complexite de vos applications metier.
+                spécialisé, c&apos;est s&apos;assurer d&apos;un accompagnement
+                adapté à la complexité de vos applications métier.
               </p>
               <div className="mt-10 grid gap-6 sm:grid-cols-2">
                 {cards.map((item) => (
@@ -287,14 +287,14 @@ export default function AgenceSymfonyFrance() {
             <Container>
               <div className="mx-auto max-w-3xl">
                 <h2 className="font-display text-3xl font-bold text-dark md:text-4xl">
-                  Une agence technique, pas une agence web generaliste
+                  Une agence technique, pas une agence web généraliste
                 </h2>
                 <div className="mt-8 space-y-4 text-lg text-gray">
                   <p>
                     Beaucoup d&apos;agences web proposent du Symfony parmi une
                     dizaine d&apos;autres technologies. Chez Efficience IT, PHP
-                    et Symfony sont notre coeur de metier. C&apos;est cette
-                    specialisation qui fait la difference quand il s&apos;agit de
+                    et Symfony sont notre cœur de métier. C&apos;est cette
+                    spécialisation qui fait la différence quand il s&apos;agit de
                     concevoir des architectures solides, de migrer un projet
                     legacy ou de reprendre une application sans documentation.
                     Nous intervenons dans de nombreux{" "}
@@ -302,14 +302,14 @@ export default function AgenceSymfonyFrance() {
                       href="/secteur"
                       className="text-primary hover:underline"
                     >
-                      secteurs d&apos;activite
+                      secteurs d&apos;activité
                     </Link>
                     {" "}: e-commerce, finance, industrie et SaaS.
                   </p>
                   <p>
                     En tant qu&apos;
-                    <strong>agence Symfony</strong> dediee, nous intervenons sur
-                    des problematiques techniques avancees : mise en place
+                    <strong>agence Symfony</strong> dédiée, nous intervenons sur
+                    des problématiques techniques avancées : mise en place
                     d&apos;une{" "}
                     <Link
                       href="/architecture-hexagonale-symfony"
@@ -317,7 +317,7 @@ export default function AgenceSymfonyFrance() {
                     >
                       architecture hexagonale avec Symfony
                     </Link>
-                    , integration de{" "}
+                    , intégration de{" "}
                     <Link
                       href="/article/symfony-messenger-colonne-vertebrale-archi-hexagonale"
                       className="text-primary hover:underline"
@@ -334,14 +334,14 @@ export default function AgenceSymfonyFrance() {
                     approfondi avec PHPStan et des revues manuelles.
                   </p>
                   <p>
-                    Nous proposons egalement des{" "}
+                    Nous proposons également des{" "}
                     <Link
                       href="/formation-symfony-entreprise"
                       className="text-primary hover:underline"
                     >
                       formations Symfony en entreprise
                     </Link>{" "}
-                    pour permettre a vos equipes de monter en competences sur le
+                    pour permettre à vos équipes de monter en compétences sur le
                     framework. Et pour les entreprises qui souhaitent moderniser
                     progressivement leur SI, notre offre de{" "}
                     <Link
@@ -351,18 +351,18 @@ export default function AgenceSymfonyFrance() {
                       modernisation applicative
                     </Link>{" "}
                     couvre l&apos;ensemble du parcours, de l&apos;audit initial
-                    au deploiement de la nouvelle architecture.
+                    au déploiement de la nouvelle architecture.
                   </p>
                   <p>
                     Si vous cherchez un{" "}
                     <strong>expert Symfony</strong> capable d&apos;intervenir
-                    avec la meme rigueur a Lille, Paris, Lyon ou Bordeaux, vous
-                    etes au bon endroit. Notre{" "}
+                    avec la même rigueur à Lille, Paris, Lyon ou Bordeaux, vous
+                    êtes au bon endroit. Notre{" "}
                     <Link
                       href="/agence-symfony-lille"
                       className="text-primary hover:underline"
                     >
-                      agence Symfony a Lille
+                      agence Symfony à Lille
                     </Link>{" "}
                     est notre point d&apos;attache, mais nous travaillons avec
                     des entreprises dans toute la France, en full remote ou en
@@ -377,7 +377,7 @@ export default function AgenceSymfonyFrance() {
         <FadeIn>
           <section className="py-16 md:py-24">
             <Container>
-              <SectionTitle>Questions frequentes</SectionTitle>
+              <SectionTitle>Questions fréquentes</SectionTitle>
               <div className="mx-auto max-w-2xl">
                 <Accordion items={faqItems} />
               </div>

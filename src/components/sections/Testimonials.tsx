@@ -57,7 +57,7 @@ export default function Testimonials() {
 
           <button
             onClick={prev}
-            className="absolute -left-4 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-md transition-colors hover:bg-light-gray md:-left-12"
+            className="absolute -left-4 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-md transition-colors hover:bg-light-gray md:-left-12"
             aria-label="Témoignage précédent"
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="h-5 w-5 text-dark">
@@ -66,7 +66,7 @@ export default function Testimonials() {
           </button>
           <button
             onClick={next}
-            className="absolute -right-4 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-md transition-colors hover:bg-light-gray md:-right-12"
+            className="absolute -right-4 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-md transition-colors hover:bg-light-gray md:-right-12"
             aria-label="Témoignage suivant"
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="h-5 w-5 text-dark">

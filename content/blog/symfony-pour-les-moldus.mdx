@@ -29,7 +29,7 @@ Concrètement, Flex interagit avec un serveur de recettes qui associe chaque pac
 
 ## Le conteneur d'injection de dépendances
 
-Le conteneur de services est le coeur du framework. Toute classe PHP déclarée comme service est automatiquement instanciée, configurée et injectée là où elle est requise. Ce mécanisme d'injection est au coeur de la philosophie de découplage de Symfony, un principe poussé à l'extrême dans [l'architecture hexagonale où le domaine ne connaît pas le framework](/article/domain-ne-devrait-jamais-connaitre-symfony). Le mécanisme repose sur l'autowiring : Symfony analyse les type-hints des constructeurs pour résoudre les dépendances sans configuration explicite.
+Le conteneur de services est le cœur du framework. Toute classe PHP déclarée comme service est automatiquement instanciée, configurée et injectée là où elle est requise. Ce mécanisme d'injection est au cœur de la philosophie de découplage de Symfony, un principe poussé à l'extrême dans [l'architecture hexagonale où le domaine ne connaît pas le framework](/article/domain-ne-devrait-jamais-connaitre-symfony). Le mécanisme repose sur l'autowiring : Symfony analyse les type-hints des constructeurs pour résoudre les dépendances sans configuration explicite.
 
 ### Les compiler passes
 
@@ -51,7 +51,7 @@ Runtime abstrait le point d'entrée de l'application : la résolution de l'objet
 
 ## La sécurité comme fondation
 
-La sécurité est au coeur des préoccupations de l'équipe Symfony. Le framework intègre nativement des protections contre les attaques les plus courantes : injection SQL via Doctrine, failles XSS via l'auto-escaping de Twig, falsification de requêtes CSRF, fixation de session. Une équipe dédiée surveille les vulnérabilités et publie des correctifs dans des délais très courts, avec un processus de disclosure responsable documenté publiquement.
+La sécurité est au cœur des préoccupations de l'équipe Symfony. Le framework intègre nativement des protections contre les attaques les plus courantes : injection SQL via Doctrine, failles XSS via l'auto-escaping de Twig, falsification de requêtes CSRF, fixation de session. Une équipe dédiée surveille les vulnérabilités et publie des correctifs dans des délais très courts, avec un processus de disclosure responsable documenté publiquement.
 
 Le composant Security lui-même a été entièrement repensé dans Symfony 5.3 avec le nouveau système d'authenticators, remplaçant le guard system par une architecture plus claire et plus extensible. Pour les projets manipulant des données sensibles (données personnelles, paiements, données de santé), cette rigueur est un argument décisif.
 

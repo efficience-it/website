@@ -19,9 +19,9 @@ export default function NotFound() {
           height={400}
           className="mb-8"
         />
-        <h2 className="font-display text-4xl font-bold text-primary">
+        <h1 className="font-display text-4xl font-bold text-primary">
           Page non trouvée
-        </h2>
+        </h1>
         <p className="mt-4 text-lg text-gray">
           Mayday, mayday !
           <br />
