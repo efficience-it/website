@@ -22,6 +22,7 @@ Clone/reproduction de https://www.itefficience.com en Next.js.
 - **Pas de tiret cadratin** : ne jamais utiliser le caractère `—` (em dash), ni dans le code, ni dans les articles
 - **Pas de commentaires GitHub** : ne jamais commenter sur GitHub (issues, PRs, commits), sous aucun prétexte
 - **PRs concises** : titres de PR courts, descriptions brèves (quelques bullet points max), pas de pavés
+- **Commits et PRs opaques** : le repo est public. Utiliser des messages de commit génériques et courts qui ne révèlent pas la stratégie (ex: `update`, `fix`, `refactor`). Ne jamais mentionner de mots-clés SEO, de noms de clients, de stratégie marketing ou de détails techniques sensibles dans les commits, titres de PR ou descriptions de PR.
 - **Vérification orthographique avant commit** : avant chaque commit, vérifier les fautes de français (orthographe, grammaire, conjugaison) dans les fichiers modifiés
 
 ## SEO — Articles de blog
@@ -57,7 +58,7 @@ Clone/reproduction de https://www.itefficience.com en Next.js.
 
 ## Prompts d'audit (.docs/reference/)
 
-Le dossier `.docs/reference/` contient des prompts d'audit réutilisables : SEO, marketing, design, orthographe, accessibilité, performance, copywriting, concurrence, conversion. Quand l'utilisateur donne un retour, une contrainte ou une correction sur l'un de ces sujets, proposer de l'inscrire dans le prompt correspondant pour que les futurs audits en tiennent compte.
+Le dossier `.docs/reference/` contient les prompts d'audit. Le fichier `mega-audit-seo-ux.md` regroupe tout : SEO, UX/UI, design, copywriting, orthographe, accessibilité, performance. Le fichier `tracking.md` documente l'implémentation GA4. Quand l'utilisateur donne un retour ou une correction, proposer de l'inscrire dans le prompt correspondant.
 
 ## Hors périmètre
 
