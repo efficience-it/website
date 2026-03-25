@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { montserrat, exo } from "@/lib/fonts";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import GoogleAnalytics from "@/components/ui/GoogleAnalytics";
+import CookieConsent from "@/components/ui/CookieConsent";
 import { localBusinessJsonLd } from "@/lib/structured-data";
 import "./globals.css";
 
@@ -67,8 +68,6 @@ const websiteJsonLd = {
   url: "https://www.itefficience.com",
 };
 
-const GA_MEASUREMENT_ID = "G-CZN94LWSH2";
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -100,18 +99,7 @@ export default function RootLayout({
             __html: JSON.stringify(localBusinessJsonLd),
           }}
         />
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${GA_MEASUREMENT_ID}');
-          `}
-        </Script>
+        <GoogleAnalytics />
         <a href="#main-content" className="skip-to-content">
           Aller au contenu
         </a>
@@ -120,6 +108,7 @@ export default function RootLayout({
           {children}
         </div>
         <Footer />
+        <CookieConsent />
       </body>
     </html>
   );

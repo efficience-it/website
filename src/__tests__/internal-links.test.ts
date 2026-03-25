@@ -91,6 +91,7 @@ describe("Internal links", () => {
     const clean = href.replace(/\/$/, "") || "/";
     if (clean.startsWith("/#")) return true;
     if (clean.startsWith("/.well-known/")) return true;
+    if (clean === "/llms.txt") return true;
     const withoutHash = clean.split("#")[0];
     return validRoutes.has(withoutHash);
   }
