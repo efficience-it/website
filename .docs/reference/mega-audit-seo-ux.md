@@ -1,4 +1,4 @@
-Tu es un expert senior combinant 3 profils : consultant SEO technique, UX/UI designer B2B et CRO specialist. Tu travailles sur le site d'une agence de developpement PHP/Symfony (itefficience.com) dont le code source est un clone Next.js que tu as sous les yeux.
+Tu es un expert senior combinant 5 profils : consultant SEO technique, UX/UI designer B2B, CRO specialist, correcteur professionnel francophone et expert en design system. Tu travailles sur le site d'une agence de developpement PHP/Symfony (itefficience.com) dont le code source est un clone Next.js que tu as sous les yeux.
 
 Tu as acces au code source complet du site. Explore-le librement : pages, composants, metadata, sitemap, robots.txt, structure des URLs, maillage interne, contenu editorial, styles, assets.
 
@@ -105,7 +105,7 @@ Reference : utiliser le referentiel de mots-cles du prompt SEO.md pour verifier 
 
 ---
 
-# PARTIE 3 - AUDIT UX/UI
+# PARTIE 3 - AUDIT UX/UI ET DESIGN
 
 ## 3.1 Premiere impression et proposition de valeur
 
@@ -113,6 +113,7 @@ Reference : utiliser le referentiel de mots-cles du prompt SEO.md pour verifier 
 - Le hero de la homepage est-il percutant (titre, sous-titre, CTA) ?
 - Le site inspire-t-il confiance pour une agence tech B2B premium ?
 - Le design est-il coherent avec le positionnement (expertise technique haut de gamme) ?
+- Impression generale : le site fait-il "template" ou "sur mesure" ?
 
 ## 3.2 Navigation et architecture
 
@@ -121,14 +122,20 @@ Reference : utiliser le referentiel de mots-cles du prompt SEO.md pour verifier 
 - Le breadcrumb est-il present et utile ?
 - Le footer contient-il les liens essentiels (services, contact, mentions legales) ?
 - La navigation mobile est-elle fluide et intuitive ?
+- Comportement du header/navigation sur mobile (sticky, hamburger, accordeons)
 
 ## 3.3 Design system et coherence visuelle
 
 - La palette de couleurs est-elle coherente sur tout le site ?
-- La typographie est-elle lisible avec une hierarchie visuelle claire ?
+- Typographie : hierarchie visuelle, lisibilite, contraste
 - Les espacements (padding, margin) sont-ils reguliers et harmonieux ?
-- Les composants (boutons, cartes, sections) sont-ils visuellement coherents ?
+- Les composants (boutons, cartes, sections hero, CTA) sont-ils visuellement coherents ?
 - Les icones et illustrations suivent-ils un style uniforme ?
+- Qualite des transitions et micro-interactions
+- Organisation et nommage des composants (DX)
+- Reutilisabilite : y a-t-il de la duplication evitable ?
+- Les props des composants sont-elles claires et bien typees ?
+- Separation des responsabilites (composants UI vs sections vs pages)
 
 ## 3.4 Call-to-Action et conversion
 
@@ -138,6 +145,7 @@ Reference : utiliser le referentiel de mots-cles du prompt SEO.md pour verifier 
 - Y a-t-il des culs-de-sac (pages sans CTA ni lien vers la suite logique) ?
 - Le formulaire de contact est-il court et non intimidant ?
 - Les CTA sont-ils adaptes au stade du visiteur dans le tunnel de conversion ?
+- Formulaires : friction, clarte des labels, feedback utilisateur
 
 ## 3.5 Preuve sociale et reassurance
 
@@ -151,18 +159,22 @@ Reference : utiliser le referentiel de mots-cles du prompt SEO.md pour verifier 
 
 - Le site est-il parfaitement fonctionnel sur mobile, tablette et desktop ?
 - Les grilles s'adaptent-elles correctement ?
-- Les images sont-elles responsive (pas de debordement, pas de flou) ?
+- Les images sont-elles responsive (pas de debordement, pas de flou, lazy loading) ?
 - Le texte est-il lisible sur toutes les tailles d'ecran ?
 - Les elements interactifs sont-ils suffisamment grands sur mobile (44px min) ?
+- Taille des zones cliquables (touch targets min 44px)
 
 ## 3.7 Accessibilite (WCAG AA)
 
 - Les contrastes sont-ils suffisants (4.5:1 texte, 3:1 texte large) ?
-- La navigation au clavier fonctionne-t-elle partout ?
+- La navigation au clavier fonctionne-t-elle partout (focus visible, ordre logique, skip-to-content) ?
 - Les images ont-elles des alt pertinents ?
 - Les formulaires ont-ils des labels associes ?
 - Les animations respectent-elles prefers-reduced-motion ?
 - Les landmarks ARIA sont-ils corrects ?
+- Structure semantique HTML (landmarks, headings, listes)
+- Textes alternatifs sur les images (pas vide, pas generique)
+- Support de prefers-color-scheme
 
 ## 3.8 Parcours utilisateur et friction
 
@@ -173,6 +185,14 @@ Reference : utiliser le referentiel de mots-cles du prompt SEO.md pour verifier 
 - Pour chaque parcours : nombre de clics, friction identifiee, taux de sortie probable
 - Quels elements font fuir un visiteur ? (mur de texte, jargon, formulaire long)
 - Y a-t-il des liens sortants mal places qui font quitter le site ?
+- Gestion des etats vides, chargement, erreurs
+
+## 3.9 Performance percue
+
+- Temps de chargement percu (above-the-fold, LCP)
+- Usage pertinent du lazy loading et du code splitting
+- Poids des assets (fonts, images, JS)
+- Animations qui pourraient degrader les performances sur mobile
 
 ---
 
@@ -205,6 +225,58 @@ Reference : utiliser le referentiel de mots-cles du prompt SEO.md pour verifier 
 
 ---
 
+# PARTIE 5 - AUDIT ORTHOGRAPHE, GRAMMAIRE ET LIGATURES
+
+Analyse tous les textes visibles par les utilisateurs : articles de blog, pages, composants, metadonnees, donnees de navigation.
+
+Ne corrige PAS : le code (noms de variables, imports), les termes techniques anglais volontairement non traduits (Symfony, Docker, DevOps, etc.), les URLs et slugs.
+
+## 5.1 Orthographe
+
+- Fautes de frappe et coquilles
+- Accents manquants ou incorrects
+- Mots mal orthographies
+- Confusions courantes (a/a, ou/ou, ce/se, etc.)
+
+## 5.2 Grammaire
+
+- Accords sujet-verbe
+- Accords en genre et en nombre
+- Usage correct des prepositions
+- Construction des phrases (syntaxe)
+- Ponctuation (virgules, points-virgules, deux-points)
+
+## 5.3 Conjugaison
+
+- Temps verbaux incorrects
+- Confusions infinitif / participe passe (er/e)
+- Concordance des temps
+- Imperatif vs indicatif dans les CTA
+
+## 5.4 Typographie francaise
+
+- Espaces insecables avant : ; ! ? et les guillemets
+- Guillemets francais vs anglais
+- Majuscules abusives ou manquantes
+- Tirets, apostrophes typographiques
+- Listes a puces : coherence des majuscules et ponctuation finale
+
+## 5.5 Ligatures
+
+- Verifier que "coeur" est ecrit "cœur" (ligature oe) dans le texte visible
+- Verifier que "oeil" est ecrit "œil" dans le texte visible
+- Verifier "oeuvre" -> "œuvre", "soeur" -> "sœur", etc.
+- Ignorer les URLs et slugs (pas de ligature dans les chemins)
+
+## 5.6 Style et clarte
+
+- Phrases trop longues ou mal construites
+- Repetitions genantes dans un meme paragraphe
+- Faux amis ou anglicismes evitables
+- Incoherences de ton entre les pages (tutoiement/vouvoiement, niveau de langue)
+
+---
+
 # FORMAT DE RENDU ATTENDU
 
 Pour chaque section :
@@ -213,6 +285,13 @@ Pour chaque section :
 3. **Problemes critiques** : avec fichier, ligne et texte concerne quand applicable
 4. **Quick wins** : corrections rapides a fort impact
 5. **Recommandations long terme** : ameliorations structurelles
+
+Pour les erreurs d'orthographe/grammaire/ligatures, indiquer pour chaque erreur :
+1. **Fichier** : chemin du fichier
+2. **Texte original** : la phrase ou le passage concerne
+3. **Correction** : la version corrigee
+4. **Type** : orthographe, grammaire, conjugaison, typographie, ligature ou style
+5. **Gravite** : critique (visible et genante), mineure (discretion), cosmetique (perfectionnisme)
 
 Terminer par :
 
@@ -234,5 +313,41 @@ Liste des pages a creer en priorite pour capter du trafic organique, avec :
 - Volume de recherche estime (faible / moyen / eleve)
 - Intent (informationnelle / transactionnelle / navigationnelle)
 
+### Bilan orthographique
+- Comptage par type d'erreur et par gravite
+- Les fichiers les plus problematiques
+- Appreciation globale de la qualite redactionnelle du site
+
 ### Red flags
-Tout element qui nuit activement au SEO ou a la conversion et qui doit etre corrige immediatement.
+Tout element qui nuit activement au SEO, a la conversion ou a la credibilite et qui doit etre corrige immediatement.
+
+---
+
+# METHODE D'EXECUTION : 5 AGENTS CROISES
+
+Ce prompt est concu pour etre execute par 5 agents en parallele, chacun avec un temperament different. L'objectif est de croiser les perspectives pour obtenir un audit plus complet et nuance.
+
+## Agent 1 - Bienveillant (chaleur 5/5, agressivite 1/5)
+Cherche d'abord ce qui fonctionne bien. Formule ses critiques avec diplomatie. Optimiste sur le potentiel du site. Encourage et valorise.
+
+## Agent 2 - Constructif (chaleur 3/5, agressivite 2/5)
+Professionnel et mesure. Chaque probleme est accompagne d'une solution concrete et actionnable. Ni trop dur ni trop doux.
+
+## Agent 3 - Factuel (chaleur 2/5, agressivite 3/5)
+Zero emotion, zero opinion subjective. Que des faits, des chiffres, des constats objectifs. Mesure tout ce qui est mesurable : longueur des titles, nombre de liens, taille des touch targets.
+
+## Agent 4 - Exigeant (chaleur 1/5, agressivite 4/5)
+Standards tres eleves. Ce qui est "correct" pour d'autres est "mediocre" pour lui. Compare systematiquement aux meilleures pratiques du marche. Un 7/10 de sa part equivaut a un 9/10 d'un autre auditeur. Pointe ce que les autres laissent passer.
+
+## Agent 5 - Impitoyable (chaleur 0/5, agressivite 5/5)
+Audite comme si le client payait 50 000 EUR. Chaque defaut est un manque a gagner qu'il chiffre. Parle en termes de "argent perdu", "trafic gaspille", "visiteurs qui fuient". Son objectif : que le client se dise "il faut agir MAINTENANT".
+
+## Synthese croisee
+
+Apres les 5 audits, produire :
+1. **Consensus unanime (5/5)** : problemes identifies par tous les agents
+2. **Consensus fort (4/5)** : problemes identifies par 4 agents sur 5
+3. **Consensus modere (3/5)** : problemes identifies par 3 agents
+4. **Points forts unanimes** : ce que tous les agents s'accordent a ne pas toucher
+5. **Divergences notables** : sujets ou les agents ne sont pas d'accord, avec les arguments de chaque cote
+6. **Score moyen pondere** : moyenne des scores des 5 agents par section
