@@ -114,7 +114,7 @@ const steps = [
     num: "5",
     title: "Déploiement continu",
     description:
-      "Nous configurons un pipeline CI/CD pour automatiser les tests et les déploiements. Votre équipe gagne en confiance et en vélocité de livraison.",
+      "Nous configurons une pipeline CI/CD pour automatiser les tests et les déploiements. Votre équipe gagne en confiance et en vélocité de livraison.",
   },
 ];
 
