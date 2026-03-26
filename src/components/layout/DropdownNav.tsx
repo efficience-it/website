@@ -1,37 +1,26 @@
 "use client";
 
-import { useState, useRef, useCallback, useId } from "react";
+import { useRef, useId } from "react";
 import Link from "next/link";
 import { NavDropdown } from "@/types/navigation";
 
 interface DropdownNavProps {
   item: NavDropdown;
+  isOpen: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+  onDelayedClose: () => void;
 }
 
-export default function DropdownNav({ item }: DropdownNavProps) {
-  const [open, setOpen] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(-1);
+export default function DropdownNav({ item, isOpen, onOpen, onClose, onDelayedClose }: DropdownNavProps) {
+  const [activeIndex, setActiveIndex] = [useRef(-1).current, (v: number) => { activeIndexRef.current = v; }] as never;
   const menuId = useId();
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const activeIndexRef = useRef(-1);
   const allItems = item.highlight
     ? [...item.items, item.highlight]
     : item.items;
   const itemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
-  const closeTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null);
-
-  const openMenu = useCallback(() => {
-    if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
-    setOpen(true);
-  }, []);
-
-  const closeMenu = useCallback(() => {
-    setOpen(false);
-    setActiveIndex(-1);
-  }, []);
-
-  const delayedClose = useCallback(() => {
-    closeTimeoutRef.current = setTimeout(closeMenu, 150);
-  }, [closeMenu]);
 
   const handleButtonKeyDown = (e: React.KeyboardEvent) => {
     switch (e.key) {
@@ -39,20 +28,18 @@ export default function DropdownNav({ item }: DropdownNavProps) {
       case "Enter":
       case " ":
         e.preventDefault();
-        setOpen(true);
-        setActiveIndex(0);
+        onOpen();
         requestAnimationFrame(() => itemRefs.current[0]?.focus());
         break;
       case "ArrowUp":
         e.preventDefault();
-        setOpen(true);
-        setActiveIndex(allItems.length - 1);
+        onOpen();
         requestAnimationFrame(() =>
           itemRefs.current[allItems.length - 1]?.focus(),
         );
         break;
       case "Escape":
-        closeMenu();
+        onClose();
         break;
     }
   };
@@ -62,38 +49,32 @@ export default function DropdownNav({ item }: DropdownNavProps) {
       case "ArrowDown":
         e.preventDefault();
         if (index < allItems.length - 1) {
-          setActiveIndex(index + 1);
           itemRefs.current[index + 1]?.focus();
         } else {
-          setActiveIndex(0);
           itemRefs.current[0]?.focus();
         }
         break;
       case "ArrowUp":
         e.preventDefault();
         if (index > 0) {
-          setActiveIndex(index - 1);
           itemRefs.current[index - 1]?.focus();
         } else {
-          setActiveIndex(allItems.length - 1);
           itemRefs.current[allItems.length - 1]?.focus();
         }
         break;
       case "Escape":
-        closeMenu();
+        onClose();
         buttonRef.current?.focus();
         break;
       case "Tab":
-        closeMenu();
+        onClose();
         break;
       case "Home":
         e.preventDefault();
-        setActiveIndex(0);
         itemRefs.current[0]?.focus();
         break;
       case "End":
         e.preventDefault();
-        setActiveIndex(allItems.length - 1);
         itemRefs.current[allItems.length - 1]?.focus();
         break;
     }
@@ -105,23 +86,23 @@ export default function DropdownNav({ item }: DropdownNavProps) {
   return (
     <div
       className="relative"
-      onMouseEnter={openMenu}
-      onMouseLeave={delayedClose}
+      onMouseEnter={onOpen}
+      onMouseLeave={onDelayedClose}
     >
       <button
         ref={buttonRef}
         type="button"
-        className="flex items-center gap-1 px-3 py-2 font-medium text-dark transition-colors hover:text-primary"
-        aria-expanded={open}
+        className={`flex items-center gap-1 px-3 py-2 font-medium transition-colors hover:text-primary ${isOpen ? "text-primary" : "text-dark"}`}
+        aria-expanded={isOpen}
         aria-haspopup="true"
         aria-controls={menuId}
-        onClick={() => (open ? closeMenu() : openMenu())}
+        onClick={() => (isOpen ? onClose() : onOpen())}
         onKeyDown={handleButtonKeyDown}
       >
         {item.label}
         <svg
           aria-hidden="true"
-          className={`h-3.5 w-3.5 text-gray transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+          className={`h-3.5 w-3.5 transition-transform duration-200 ${isOpen ? "rotate-180 text-primary" : "text-gray"}`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -135,12 +116,12 @@ export default function DropdownNav({ item }: DropdownNavProps) {
         id={menuId}
         role="menu"
         aria-label={item.label}
-        className={`absolute left-1/2 top-full z-50 -translate-x-1/2 rounded-xl border border-gray-100 bg-white shadow-xl transition-all duration-200 ${
+        className={`absolute left-1/2 top-full z-50 -translate-x-1/2 rounded-xl border border-gray-100 bg-white shadow-xl transition-all duration-150 ${
           hasDescriptions ? (columns >= 2 ? "w-[560px]" : "w-[320px]") : "min-w-[220px]"
         } ${
-          open
+          isOpen
             ? "visible translate-y-2 opacity-100"
-            : "invisible translate-y-0 opacity-0"
+            : "invisible translate-y-0 opacity-0 pointer-events-none"
         }`}
       >
         <div className={`p-2 ${hasDescriptions && columns >= 2 ? "grid grid-cols-2 gap-1" : ""}`}>
@@ -152,14 +133,12 @@ export default function DropdownNav({ item }: DropdownNavProps) {
               }}
               href={link.href}
               role="menuitem"
-              tabIndex={open ? 0 : -1}
-              className={`block rounded-lg px-3 py-2.5 transition-colors hover:bg-light-gray ${
-                activeIndex === index ? "bg-light-gray" : ""
-              }`}
-              onClick={closeMenu}
+              tabIndex={isOpen ? 0 : -1}
+              className="block rounded-lg px-3 py-2.5 transition-colors hover:bg-light-gray"
+              onClick={onClose}
               onKeyDown={(e) => handleItemKeyDown(e, index)}
-              onFocus={openMenu}
-              onBlur={delayedClose}
+              onFocus={onOpen}
+              onBlur={onDelayedClose}
             >
               <span className="block text-sm font-medium text-dark">
                 {link.label}
@@ -181,14 +160,12 @@ export default function DropdownNav({ item }: DropdownNavProps) {
               }}
               href={item.highlight.href}
               role="menuitem"
-              tabIndex={open ? 0 : -1}
-              className={`flex items-center gap-3 rounded-lg bg-primary/5 px-3 py-2.5 transition-colors hover:bg-primary/10 ${
-                activeIndex === item.items.length ? "bg-primary/10" : ""
-              }`}
-              onClick={closeMenu}
+              tabIndex={isOpen ? 0 : -1}
+              className="flex items-center gap-3 rounded-lg bg-primary/5 px-3 py-2.5 transition-colors hover:bg-primary/10"
+              onClick={onClose}
               onKeyDown={(e) => handleItemKeyDown(e, item.items.length)}
-              onFocus={openMenu}
-              onBlur={delayedClose}
+              onFocus={onOpen}
+              onBlur={onDelayedClose}
             >
               <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10">
                 <svg className="h-4 w-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

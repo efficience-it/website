@@ -91,20 +91,56 @@ export const mainNav: NavItem[] = [
   {
     label: "L'agence",
     items: [
-      { label: "Notre histoire", href: "/l-entreprise" },
-      { label: "La team", href: "/la-team" },
-      { label: "Références", href: "/nos-references" },
-      { label: "Green IT", href: "/green-it" },
-      { label: "Jobs", href: "/ta-carriere" },
+      {
+        label: "Notre histoire",
+        href: "/l-entreprise",
+        description: "10 ans de spécialisation PHP et Symfony",
+      },
+      {
+        label: "La team",
+        href: "/la-team",
+        description: "Des développeurs passionnés et expérimentés",
+      },
+      {
+        label: "Références",
+        href: "/nos-references",
+        description: "Les projets qui nous ont fait grandir",
+      },
+      {
+        label: "Green IT",
+        href: "/green-it",
+        description: "Notre engagement pour un numérique responsable",
+      },
+      {
+        label: "Jobs",
+        href: "/ta-carriere",
+        description: "Rejoignez l'équipe Efficience IT",
+      },
     ],
   },
   {
     label: "Secteurs",
     items: [
-      { label: "E-commerce", href: "/secteur/e-commerce" },
-      { label: "Finance", href: "/secteur/finance" },
-      { label: "Industrie", href: "/secteur/industrie" },
-      { label: "SaaS", href: "/secteur/saas" },
+      {
+        label: "E-commerce",
+        href: "/secteur/e-commerce",
+        description: "Symfony, Sylius et solutions sur mesure",
+      },
+      {
+        label: "Finance",
+        href: "/secteur/finance",
+        description: "Applications critiques et conformité réglementaire",
+      },
+      {
+        label: "Industrie",
+        href: "/secteur/industrie",
+        description: "Outils métier, ERP et pilotage de production",
+      },
+      {
+        label: "SaaS",
+        href: "/secteur/saas",
+        description: "Architecture multi-tenant et scalabilité",
+      },
     ],
   },
   { label: "Blog", href: "/blog" },
