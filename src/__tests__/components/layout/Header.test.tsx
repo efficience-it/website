@@ -9,7 +9,7 @@ describe("Header", () => {
 
   it("renders the contact button", () => {
     render(<Header />);
-    expect(screen.getByRole("link", { name: "Contact" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "Nous contacter" })).toHaveAttribute(
       "href",
       "/contact",
     );
