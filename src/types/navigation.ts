@@ -1,11 +1,14 @@
 export interface NavLink {
   label: string;
   href: string;
+  description?: string;
 }
 
 export interface NavDropdown {
   label: string;
   items: NavLink[];
+  columns?: number;
+  highlight?: NavLink;
 }
 
 export type NavItem = NavLink | NavDropdown;
