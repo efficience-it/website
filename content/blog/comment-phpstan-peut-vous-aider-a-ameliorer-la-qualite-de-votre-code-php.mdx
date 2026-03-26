@@ -6,7 +6,7 @@ category: "Qualité de code"
 excerpt: "PHPStan est un outil de vérification statique pour la programmation PHP. Il examine votre code à la recherche d'erreurs potentielles et améliore la qualité du code."
 image: "/images/blog/phpstan-qualite.webp"
 faq:
-  - question: "A quoi sert PHPStan dans un projet PHP ?"
+  - question: "À quoi sert PHPStan dans un projet PHP ?"
     answer: "PHPStan est un outil d'analyse statique qui détecte les erreurs dans votre code PHP sans l'exécuter. Il vérifie la cohérence des types, les appels de méthodes inexistantes, les variables non définies et les problèmes de logique. C'est un complément aux tests unitaires qui attrape les bugs avant qu'ils n'arrivent en production."
   - question: "Quel niveau PHPStan utiliser pour commencer ?"
     answer: "Commencez par le niveau 1 et montez progressivement. Le niveau 5 est un bon objectif pour la plupart des projets : il vérifie les types de retour, les paramètres et les propriétés. Les niveaux 8 à 10 imposent un typage strict quasi complet, idéal pour les projets critiques mais plus exigeant à maintenir."
@@ -87,7 +87,7 @@ function findUser(int $id): User
 
 Si `find()` retourne `User|null`, PHPStan détecte l'incohérence. En production, c'est un crash sur le premier appel avec un ID invalide.
 
-PHPStan excelle aussi à repérer le [code mort dans vos projets](/article/code-mort-mission-elimination), ces branches jamais atteintes qui alourdissent la base de code. Coupler PHPStan avec des [tests automatises](/tests-automatises-php) garantit une couverture maximale des erreurs, tant structurelles que comportementales.
+PHPStan excelle aussi à repérer le [code mort dans vos projets](/article/code-mort-mission-elimination), ces branches jamais atteintes qui alourdissent la base de code. Coupler PHPStan avec des [tests automatisés](/tests-automatises-php) garantit une couverture maximale des erreurs, tant structurelles que comportementales.
 
 Une condition dupliquée, signe de copier-coller :
 

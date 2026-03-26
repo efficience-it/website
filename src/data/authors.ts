@@ -30,7 +30,7 @@ const knownAuthors: Record<string, AuthorPerson> = {
   "Florian Chenot": {
     "@type": "Person",
     name: "Florian Chenot",
-    jobTitle: "Developpeur Symfony",
+    jobTitle: "Développeur Symfony",
     url: `${BASE_URL}/la-team`,
     sameAs: [],
   },

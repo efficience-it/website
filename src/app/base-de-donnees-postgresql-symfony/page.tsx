@@ -179,7 +179,7 @@ export default function BaseDeDonneesPostgresqlSymfony() {
                     Migration MySQL vers PostgreSQL
                   </Link>
                   , optimisation Doctrine, indexation avancée : nous intervenons sur
-                  toute la chaine de données de vos{" "}
+                  toute la chaîne de données de vos{" "}
                   <Link
                     href="/developpement-php"
                     className="text-primary hover:underline"

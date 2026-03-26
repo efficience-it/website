@@ -239,9 +239,9 @@ export default function SecteursIndex() {
                     href="/secteur/finance"
                     className="text-primary hover:underline"
                   >
-                    conformite bancaire
+                    conformité bancaire
                   </Link>
-                  , qui ne ressemble pas a un{" "}
+                  , qui ne ressemble pas à un{" "}
                   <Link
                     href="/secteur/saas"
                     className="text-primary hover:underline"

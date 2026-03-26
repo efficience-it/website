@@ -107,7 +107,7 @@ function getCtaConfig(category?: string, slug?: string): CtaConfig {
     return {
       heading: "Besoin d'expertise Symfony ?",
       description:
-        "Architecture, dette technique, migration ou performance : notre équipe accompagne les projets Symfony exigeants depuis 2012.",
+        "Architecture, dette technique, migration ou performance : notre équipe accompagne les projets Symfony exigeants depuis 2018.",
       buttonLabel: "Demander un audit gratuit",
       href: "/audit-symfony-gratuit",
     };

@@ -54,7 +54,7 @@ const expertises = [
   {
     title: "Sessions distribuées",
     description:
-      "Redis comme backend de sessions permet de scaler horizontalement votre application Symfony. Les sessions sont partagées entre les instances, le sticky session disparait et le load balancing devient transparent pour vos utilisateurs.",
+      "Redis comme backend de sessions permet de scaler horizontalement votre application Symfony. Les sessions sont partagées entre les instances, le sticky session disparaît et le load balancing devient transparent pour vos utilisateurs.",
   },
   {
     title: "Files d'attente Messenger",
@@ -90,7 +90,7 @@ const faqItems = [
   {
     title: "Comment gérer la haute disponibilité de Redis ?",
     content:
-      "Redis Sentinel surveille vos instances Redis et bascule automatiquement sur un replica en cas de panne du primaire. Pour les charges importantes, Redis Cluster répartit les données sur plusieurs noeuds. Nous configurons l'architecture Redis adaptée à vos contraintes de disponibilité et de performance.",
+      "Redis Sentinel surveille vos instances Redis et bascule automatiquement sur un replica en cas de panne du primaire. Pour les charges importantes, Redis Cluster répartit les données sur plusieurs nœuds. Nous configurons l'architecture Redis adaptée à vos contraintes de disponibilité et de performance.",
   },
 ];
 

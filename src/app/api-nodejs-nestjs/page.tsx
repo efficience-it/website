@@ -274,7 +274,7 @@ export default function ApiNodejsNestjs() {
                 NestJS s&apos;est imposé comme le framework de référence pour le{" "}
                 <strong>développement API Node.js</strong> en entreprise. Sa
                 philosophie s&apos;inspire directement d&apos;Angular et de Symfony : modules
-                découplées, injection de dépendances, décorateurs, middlewares. Une
+                découplés, injection de dépendances, décorateurs, middlewares. Une
                 structure que les développeurs back-end reconnaissent immédiatement.
               </p>
               <p>
