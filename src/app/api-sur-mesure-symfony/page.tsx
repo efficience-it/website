@@ -202,6 +202,16 @@ const apiRelatedLinks: RelatedLink[] = [
     href: "https://api-platform.com/docs/",
     external: true,
   },
+  {
+    title: "Agence Symfony à Lyon",
+    description: "Notre expertise Symfony en Auvergne-Rhône-Alpes",
+    href: "/agence-symfony-lyon",
+  },
+  {
+    title: "Prestataire Symfony en France",
+    description: "Notre expertise Symfony partout en France, en remote ou sur site",
+    href: "/agence-symfony-france",
+  },
 ];
 
 export default function ApiSurMesureSymfony() {

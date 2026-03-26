@@ -64,6 +64,9 @@ const agenceRelatedLinks: RelatedLink[] = [
   { title: "Agence Symfony à Lyon", description: "Notre expertise Symfony en Auvergne-Rhône-Alpes", href: "/agence-symfony-lyon" },
   { title: "Agence Symfony à Nantes", description: "Nos interventions dans les Pays de la Loire", href: "/agence-symfony-nantes" },
   { title: "Documentation officielle Symfony", description: "La référence technique du framework", href: "https://symfony.com/doc/current/index.html", external: true },
+  { title: "Maintenance applicative Symfony", description: "TMA corrective, évolutive et préventive pour vos applications", href: "/maintenance-applicative-symfony" },
+  { title: "Formation Symfony en entreprise", description: "Formations sur site à Lille ou à distance", href: "/formation-symfony-entreprise" },
+  { title: "Audit Symfony gratuit", description: "30 minutes pour évaluer l'état de votre application", href: "/audit-symfony-gratuit" },
 ];
 
 export default function AgenceSymfonyLille() {

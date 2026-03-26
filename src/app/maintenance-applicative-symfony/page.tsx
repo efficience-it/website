@@ -160,6 +160,8 @@ const maintenanceRelatedLinks: RelatedLink[] = [
   { title: "Pourquoi nous confier la maintenance de vos applications web", description: "notre vision de la maintenance applicative", href: "/article/decouvrez-les-raisons-de-nous-confier-la-maintenance-de-vos-applications-web" },
   { title: "CVE : comprendre les failles pour mieux se protéger", description: "pourquoi les mises à jour de sécurité sont essentielles", href: "/article/cve-comprendre-les-failles-pour-mieux-se-proteger" },
   { title: "Calendrier des versions Symfony", description: "dates de fin de maintenance officielle", href: "https://symfony.com/releases", external: true },
+  { title: "Agence Symfony à Lille", description: "notre siège lillois pour les entreprises des Hauts-de-France", href: "/agence-symfony-lille" },
+  { title: "Prestataire Symfony en France", description: "notre expertise Symfony partout en France, en remote ou sur site", href: "/agence-symfony-france" },
 ];
 
 export default function MaintenanceApplicativeSymfony() {

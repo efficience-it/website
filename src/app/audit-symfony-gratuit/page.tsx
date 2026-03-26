@@ -141,6 +141,16 @@ const auditRelatedLinks: RelatedLink[] = [
     href: "https://symfony.com/doc/current/index.html",
     external: true,
   },
+  {
+    title: "Agence Symfony à Lille",
+    description: "Notre siège lillois pour les entreprises des Hauts-de-France",
+    href: "/agence-symfony-lille",
+  },
+  {
+    title: "Agence Symfony à Lyon",
+    description: "Notre expertise Symfony en Auvergne-Rhône-Alpes",
+    href: "/agence-symfony-lyon",
+  },
 ];
 
 export default function AuditSymfonyGratuit() {

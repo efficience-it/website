@@ -128,6 +128,21 @@ const relatedLinks: RelatedLink[] = [
     href: "https://symfony.com/doc/current/index.html",
     external: true,
   },
+  {
+    title: "Architecture hexagonale avec Symfony",
+    description: "Structurez vos applications avec le Domain-Driven Design",
+    href: "/architecture-hexagonale-symfony",
+  },
+  {
+    title: "Maintenance applicative Symfony",
+    description: "TMA corrective, évolutive et préventive pour vos applications",
+    href: "/maintenance-applicative-symfony",
+  },
+  {
+    title: "Formation Symfony en entreprise",
+    description: "Formations adaptées à votre équipe, à Lille ou à distance",
+    href: "/formation-symfony-entreprise",
+  },
 ];
 
 export default function AgenceSymfonyNantes() {

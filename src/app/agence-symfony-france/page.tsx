@@ -145,6 +145,21 @@ const relatedLinks: RelatedLink[] = [
     description: "Notre méthodologie pour les mises à jour de version",
     href: "/article/guide-de-migration-dans-un-projet-symfony",
   },
+  {
+    title: "Migration Symfony",
+    description: "Montez de version en toute sécurité avec notre expertise",
+    href: "/migration-symfony",
+  },
+  {
+    title: "Maintenance applicative Symfony",
+    description: "TMA corrective, évolutive et préventive pour vos applications",
+    href: "/maintenance-applicative-symfony",
+  },
+  {
+    title: "API sur mesure avec Symfony",
+    description: "Conception d'API REST et GraphQL avec API Platform",
+    href: "/api-sur-mesure-symfony",
+  },
 ];
 
 export default function AgenceSymfonyFrance() {
