@@ -530,6 +530,60 @@ export default function AgenceSymfonyLyon() {
         <FadeIn>
           <section className="py-16 md:py-24">
             <Container>
+              <SectionTitle>Notre stack technique Symfony</SectionTitle>
+              <div className="mx-auto max-w-3xl space-y-4 text-lg text-gray">
+                <p>
+                  Nos projets Symfony s&apos;appuient sur un socle technique éprouvé. Doctrine ORM pour la persistance,{" "}
+                  <Link href="/article/symfony-messenger-colonne-vertebrale-archi-hexagonale" className="text-primary hover:underline">
+                    Messenger pour les traitements asynchrones
+                  </Link>
+                  , Security pour la gestion des accès. Chaque composant est choisi et configuré en fonction des besoins réels du projet, pas par défaut.
+                </p>
+                <p>
+                  Pour les applications qui nécessitent des échanges avec des systèmes tiers, nous concevons des{" "}
+                  <Link href="/api-sur-mesure-symfony" className="text-primary hover:underline">
+                    API REST et GraphQL avec API Platform
+                  </Link>
+                  . Les projets e-commerce lyonnais bénéficient de notre expertise sur{" "}
+                  <Link href="/ecommerce-sylius" className="text-primary hover:underline">
+                    Sylius
+                  </Link>
+                  , la solution e-commerce native Symfony.
+                </p>
+                <p>
+                  La qualité est assurée par{" "}
+                  <Link href="/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php" className="text-primary hover:underline">
+                    PHPStan au niveau maximal
+                  </Link>
+                  , des tests PHPUnit sur chaque fonctionnalité critique, et des revues de code systématiques. Nos environnements{" "}
+                  <Link href="/integration-docker-symfony" className="text-primary hover:underline">
+                    Docker
+                  </Link>
+                  {" "}garantissent la parité entre développement, recette et production.
+                </p>
+                <p>
+                  Nous intégrons aussi{" "}
+                  <Link href="/base-de-donnees-postgresql-symfony" className="text-primary hover:underline">
+                    PostgreSQL
+                  </Link>
+                  {" "}pour les bases de données exigeantes,{" "}
+                  <Link href="/integration-redis-symfony" className="text-primary hover:underline">
+                    Redis
+                  </Link>
+                  {" "}pour le cache applicatif, et{" "}
+                  <Link href="/integration-elasticsearch-symfony" className="text-primary hover:underline">
+                    Elasticsearch
+                  </Link>
+                  {" "}pour la recherche full-text sur les catalogues volumineux.
+                </p>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="bg-light-gray py-16 md:py-24">
+            <Container>
               <SectionTitle>Questions fréquentes</SectionTitle>
               <div className="mx-auto max-w-2xl">
                 <Accordion items={faqItems} />
@@ -539,7 +593,7 @@ export default function AgenceSymfonyLyon() {
         </FadeIn>
 
         <FadeIn>
-          <RelatedLinks links={relatedLinks} className="bg-light-gray" />
+          <RelatedLinks links={relatedLinks} />
         </FadeIn>
 
         <CallToAction />
