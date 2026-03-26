@@ -5,7 +5,9 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import StickyMobileCta from "@/components/sections/StickyMobileCta";
+import CallToAction from "@/components/sections/CallToAction";
 import RelatedLinks from "@/components/sections/RelatedLinks";
+import Accordion from "@/components/ui/Accordion";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
@@ -58,6 +60,72 @@ const webPage = webPageJsonLd({
   dateModified: "2026-03-11",
 });
 
+const faqItems = [
+  {
+    title: "Pourquoi choisir une agence Symfony basée à Lille ?",
+    content:
+      "Lille est le 3e pôle tech de France, avec un écosystème PHP actif porté par l'AFUP Hauts-de-France. En choisissant une agence locale, vous bénéficiez de la proximité pour les réunions en présentiel, d'une connaissance directe du tissu économique régional et de tarifs plus compétitifs qu'à Paris, sans compromis sur l'expertise technique.",
+  },
+  {
+    title: "Intervenez-vous uniquement à Lille ?",
+    content:
+      "Non, nous travaillons avec des entreprises dans toute la France, en remote ou sur site. Lille est notre point d'attache, mais notre organisation est pensée pour le travail distribué. Nous intervenons aussi régulièrement à Paris (1h20 en TGV), Lyon, Nantes et partout où le projet le nécessite.",
+  },
+  {
+    title: "Comment se déroule une première collaboration ?",
+    content:
+      "Tout commence par un échange gratuit de 30 minutes pour comprendre votre projet et vos contraintes. Nous vous proposons ensuite un cadrage technique et un devis détaillé. Le développement démarre en sprints courts avec des livraisons régulières et une visibilité constante sur l'avancement.",
+  },
+  {
+    title: "Pouvez-vous reprendre un projet Symfony existant ?",
+    content:
+      "Oui, c'est l'un de nos cas d'usage les plus fréquents. Nous réalisons un audit du code existant, identifions la dette technique et proposons un plan de reprise progressif. L'objectif est de remettre le projet sur de bons rails sans tout réécrire.",
+  },
+  {
+    title: "Pourquoi choisir Symfony plutôt qu'un autre framework PHP ?",
+    content:
+      "Symfony est le framework PHP le plus adapté aux applications métier complexes. Sa stabilité, son cycle de releases LTS, son écosystème mature (Doctrine, Messenger, Security) et sa communauté active en font le choix de référence pour les projets qui doivent durer dans le temps. Contrairement à Laravel, orienté prototypage rapide, Symfony privilégie la robustesse architecturale et la maintenabilité à long terme.",
+  },
+  {
+    title: "Combien coûte le développement d'une application Symfony ?",
+    content:
+      "Le budget dépend de la complexité du projet : une API simple démarre autour de 10 000 euros, une application métier complète se situe entre 30 000 et 100 000 euros. Nous proposons un audit gratuit de 30 minutes pour évaluer votre besoin et vous donner une estimation réaliste. Chaque projet fait l'objet d'un devis détaillé, sans surprise.",
+  },
+  {
+    title: "Comment migrer une application PHP legacy vers Symfony ?",
+    content:
+      "Nous privilégions une approche progressive : audit du code existant, identification des modules critiques, migration incrémentale sans interruption de service. L'utilisation de Rector et d'outils d'analyse statique comme PHPStan accélère le processus. L'objectif est de moderniser sans tout réécrire, en conservant la valeur métier du code existant.",
+  },
+  {
+    title: "Symfony ou Laravel : lequel choisir pour mon projet ?",
+    content:
+      "Laravel excelle pour le prototypage rapide et les projets simples. Symfony est préférable pour les applications métier complexes, les projets à longue durée de vie et les équipes qui valorisent l'architecture logicielle. Si votre application doit gérer des règles métier complexes, une architecture hexagonale ou du CQRS, Symfony est le meilleur choix.",
+  },
+  {
+    title: "Quels sont les délais pour un projet Symfony ?",
+    content:
+      "Un MVP fonctionnel peut être livré en 6 à 8 semaines. Une application métier complète nécessite généralement 3 à 6 mois. Nous travaillons en sprints courts avec des livraisons régulières, ce qui vous donne de la visibilité dès les premières semaines et la possibilité d'ajuster les priorités en cours de route.",
+  },
+  {
+    title: "Quand utiliser API Platform avec Symfony ?",
+    content:
+      "API Platform est pertinent dès que votre projet implique une API REST ou GraphQL : application mobile, SPA, intégration avec des systèmes tiers ou architecture microservices. Il génère automatiquement la documentation OpenAPI, gère la pagination, le filtrage et la sérialisation. Pour les API simples, les controllers Symfony classiques suffisent.",
+  },
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.title,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.content,
+    },
+  })),
+};
+
 const agenceRelatedLinks: RelatedLink[] = [
   { title: "Prestataire Symfony en France", description: "Notre expertise Symfony au-delà de Lille, en remote ou sur site", href: "/agence-symfony-france" },
   { title: "Agence Symfony à Paris", description: "Nos interventions en Île-de-France, à 1h20 en TGV", href: "/agence-symfony-paris" },
@@ -76,6 +144,10 @@ export default function AgenceSymfonyLille() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
       <main>
         <section className="bg-light-gray py-16 md:py-24">
@@ -496,9 +568,22 @@ export default function AgenceSymfonyLille() {
         </FadeIn>
 
         <FadeIn>
-        <RelatedLinks links={agenceRelatedLinks} />
-        <StickyMobileCta />
+          <section className="py-16 md:py-24">
+            <Container>
+              <SectionTitle>Questions fréquentes</SectionTitle>
+              <div className="mx-auto max-w-2xl">
+                <Accordion items={faqItems} />
+              </div>
+            </Container>
+          </section>
         </FadeIn>
+
+        <FadeIn>
+        <RelatedLinks links={agenceRelatedLinks} />
+        </FadeIn>
+
+        <CallToAction />
+        <StickyMobileCta />
       </main>
     </>
   );
