@@ -281,7 +281,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             {post.faq && post.faq.length > 0 && (
               <FadeIn>
               <div className="mt-16">
-                <SectionTitle>Questions frequentes</SectionTitle>
+                <SectionTitle>Questions fréquentes</SectionTitle>
                 <div className="mx-auto mt-8 max-w-2xl">
                   <Accordion
                     items={post.faq.map((item) => ({

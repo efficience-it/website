@@ -31,7 +31,7 @@ export default function ProcessSteps() {
       <Container>
         <SectionTitle>Notre fonctionnement</SectionTitle>
         <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-          Basée sur le Lean Startup, l&apos;amélioration continue, le suivi se
+          Basé sur le Lean Startup, l&apos;amélioration continue, le suivi se
           fait en méthode agile et en totale transparence sur les avancées de
           votre projet.
         </p>

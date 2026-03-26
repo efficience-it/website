@@ -53,7 +53,7 @@ const expertises = [
   {
     title: "Optimisation des requêtes Doctrine",
     description:
-      "Requêtes N+1, jointures mal indexées, hydratation excessive : nous identifions et corrigeons les goulets d'étranglement Doctrine. EXPLAIN ANALYZE et pg_stat_statements guident chaque optimisation pour des temps de réponse mesurables.",
+      "Requêtes N+1, jointures mal indexées, hydratation excessive : nous identifions et corrigeons les goulots d'étranglement Doctrine. EXPLAIN ANALYZE et pg_stat_statements guident chaque optimisation pour des temps de réponse mesurables.",
   },
   {
     title: "Types avancés PostgreSQL (jsonb, arrays, UUID)",
@@ -179,7 +179,7 @@ export default function BaseDeDonneesPostgresqlSymfony() {
                     Migration MySQL vers PostgreSQL
                   </Link>
                   , optimisation Doctrine, indexation avancée : nous intervenons sur
-                  toute la chaine de données de vos{" "}
+                  toute la chaîne de données de vos{" "}
                   <Link
                     href="/developpement-php"
                     className="text-primary hover:underline"

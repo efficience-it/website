@@ -286,7 +286,7 @@ export default function AccompagnementEtConseil() {
                 </Link>{" "}
                 peut faire partie de cette démarche. Que ce
                 soit pour améliorer votre efficacité interne, fluidifier vos
-                process ou innover avec de nouvelles solutions, nous sommes à
+                processus ou innover avec de nouvelles solutions, nous sommes à
                 vos côtés à chaque étape.
               </p>
             </div>

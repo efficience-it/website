@@ -15,35 +15,35 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured
 
 export const metadata = pageMetadata({
   title:
-    "Applications metier pour l'industrie : outils sur mesure avec Symfony",
+    "Applications métier pour l'industrie : outils sur mesure avec Symfony",
   description:
-    "Efficience IT developpe des applications metier pour l'industrie : outils de production, interconnexion SI, workflows complexes et modernisation d'applications legacy.",
+    "Efficience IT développe des applications métier pour l'industrie : outils de production, interconnexion SI, workflows complexes et modernisation d'applications legacy.",
   path: "/secteur/industrie",
 });
 
 const expertises = [
   {
-    title: "Outils metier sur mesure",
+    title: "Outils métier sur mesure",
     description:
-      "ERP, GMAO, gestion de production, suivi qualite : nous concevons des applications qui epousent vos processus industriels. Pas de compromis avec un logiciel generique, chaque ecran, chaque workflow est pense pour vos equipes terrain.",
+      "ERP, GMAO, gestion de production, suivi qualité : nous concevons des applications qui épousent vos processus industriels. Pas de compromis avec un logiciel générique, chaque écran, chaque workflow est pensé pour vos équipes terrain.",
     icon: "M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z",
   },
   {
     title: "Interconnexion SI",
     description:
-      "Votre SI industriel est un ecosysteme complexe : ERP, MES, SCADA, outils de maintenance. Nous connectons ces briques entre elles grace a des API robustes et des files de messages Symfony Messenger pour garantir la fiabilite des echanges.",
+      "Votre SI industriel est un écosystème complexe : ERP, MES, SCADA, outils de maintenance. Nous connectons ces briques entre elles grâce à des API robustes et des files de messages Symfony Messenger pour garantir la fiabilité des échanges.",
     icon: "M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5",
   },
   {
-    title: "Workflows metier complexes",
+    title: "Workflows métier complexes",
     description:
-      "Validations multi-niveaux, circuits d'approbation, machines a etats pour le suivi de production : le composant Workflow de Symfony modele vos processus metier tels qu'ils existent dans votre organisation, avec une tracabilite complete.",
+      "Validations multi-niveaux, circuits d'approbation, machines à états pour le suivi de production : le composant Workflow de Symfony modèle vos processus métier tels qu'ils existent dans votre organisation, avec une traçabilité complète.",
     icon: "M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75Z",
   },
   {
     title: "Modernisation d'applications legacy",
     description:
-      "Migration progressive de vos applications vieillissantes (PHP natif, frameworks obsoletes) vers Symfony sans interruption de service. Nous appliquons le Strangler Fig pattern pour moderniser brique par brique, en limitant les risques.",
+      "Migration progressive de vos applications vieillissantes (PHP natif, frameworks obsolètes) vers Symfony sans interruption de service. Nous appliquons le Strangler Fig pattern pour moderniser brique par brique, en limitant les risques.",
     icon: "M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182",
   },
 ];
@@ -58,22 +58,22 @@ const faqItems = [
   {
     title: "Pouvez-vous intervenir sur des applications industrielles legacy ?",
     content:
-      "C'est meme une de nos specialites. Nous avons l'habitude de reprendre des applications metier developpees en PHP natif ou sur des frameworks obsoletes. Notre methodologie de migration progressive permet de moderniser sans interrompre la production.",
+      "C'est même une de nos spécialités. Nous avons l'habitude de reprendre des applications métier développées en PHP natif ou sur des frameworks obsolètes. Notre méthodologie de migration progressive permet de moderniser sans interrompre la production.",
   },
   {
-    title: "Comment gerez-vous l'interconnexion avec nos systemes existants ?",
+    title: "Comment gérez-vous l'interconnexion avec nos systèmes existants ?",
     content:
-      "Nous concevons des connecteurs sur mesure en utilisant API Platform pour les echanges synchrones et Symfony Messenger pour les flux asynchrones. Chaque integration est idempotente et resiliente : en cas de panne d'un systeme tiers, les messages sont mis en file d'attente et retraites automatiquement.",
+      "Nous concevons des connecteurs sur mesure en utilisant API Platform pour les échanges synchrones et Symfony Messenger pour les flux asynchrones. Chaque intégration est idempotente et résiliente : en cas de panne d'un système tiers, les messages sont mis en file d'attente et retraités automatiquement.",
   },
   {
     title: "Vos applications fonctionnent-elles dans des environnements contraints ?",
     content:
-      "Oui. Nous avons l'experience des environnements industriels avec des contraintes reseau, des postes de travail anciens ou des connexions intermittentes. Nos applications sont concues pour fonctionner de maniere fiable dans ces conditions.",
+      "Oui. Nous avons l'expérience des environnements industriels avec des contraintes réseau, des postes de travail anciens ou des connexions intermittentes. Nos applications sont conçues pour fonctionner de manière fiable dans ces conditions.",
   },
   {
     title: "Quelle est votre approche pour les projets industriels complexes ?",
     content:
-      "Nous commencons par un audit technique et fonctionnel pour comprendre vos processus. Ensuite, nous livrons par increments courts (sprints de 2 semaines) pour valider chaque brique avec vos equipes terrain avant de passer a la suivante.",
+      "Nous commençons par un audit technique et fonctionnel pour comprendre vos processus. Ensuite, nous livrons par incréments courts (sprints de 2 semaines) pour valider chaque brique avec vos équipes terrain avant de passer à la suivante.",
   },
 ];
 
@@ -95,16 +95,16 @@ const breadcrumb = breadcrumbJsonLd([
 ]);
 
 const service = serviceJsonLd({
-  name: "Applications metier pour l'industrie",
+  name: "Applications métier pour l'industrie",
   description:
-    "Conception et developpement d'applications metier pour l'industrie : outils de production, interconnexion SI, workflows complexes et modernisation d'applications legacy.",
+    "Conception et développement d'applications métier pour l'industrie : outils de production, interconnexion SI, workflows complexes et modernisation d'applications legacy.",
   path: "/secteur/industrie",
 });
 
 const webPage = webPageJsonLd({
-  name: "Applications metier pour l'industrie : outils sur mesure avec Symfony",
+  name: "Applications métier pour l'industrie : outils sur mesure avec Symfony",
   description:
-    "Efficience IT developpe des applications metier pour l'industrie : outils de production, interconnexion SI, workflows complexes et modernisation d'applications legacy.",
+    "Efficience IT développe des applications métier pour l'industrie : outils de production, interconnexion SI, workflows complexes et modernisation d'applications legacy.",
   path: "/secteur/industrie",
   datePublished: "2026-03-12",
   dateModified: "2026-03-12",
@@ -120,29 +120,29 @@ const relatedLinks: RelatedLink[] = [
   {
     title: "Migration vers l'architecture hexagonale",
     description:
-      "Retour de mission sur la modernisation d'une application couplee",
+      "Retour de mission sur la modernisation d'une application couplée",
     href: "/article/migration-symfony-architecture-hexagonale-retour-mission",
   },
   {
     title: "Modernisation d'application PHP",
     description:
-      "Notre offre dediee a la modernisation d'applications legacy",
+      "Notre offre dédiée à la modernisation d'applications legacy",
     href: "/modernisation-application-php",
   },
   {
     title: "Les avantages d'un progiciel sur mesure",
     description:
-      "Pourquoi un outil metier dedie surpasse un logiciel generique",
+      "Pourquoi un outil métier dédié surpasse un logiciel générique",
     href: "/article/quels-sont-les-avantages-dun-progiciel-pour-votre-entreprise",
   },
   {
     title: "Migration Symfony, guide complet",
     description:
-      "Mettre a jour un projet Symfony en toute securite",
+      "Mettre à jour un projet Symfony en toute sécurité",
     href: "/article/guide-de-migration-dans-un-projet-symfony",
   },
   {
-    title: "Hebergement Symfony",
+    title: "Hébergement Symfony",
     description:
       "Infrastructure fiable pour vos applications industrielles critiques",
     href: "/hebergement-symfony",
@@ -183,12 +183,12 @@ export default function SecteurIndustrie() {
                   Secteur industrie
                 </p>
                 <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                  Applications metier pour l&apos;industrie : outils sur mesure avec Symfony
+                  Applications métier pour l&apos;industrie : outils sur mesure avec Symfony
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
-                  Vos outils de production sont vieillissants, vos donnees sont
-                  cloisonnees entre plusieurs systemes, et vos equipes perdent du
-                  temps sur des taches manuelles que le SI devrait automatiser.
+                  Vos outils de production sont vieillissants, vos données sont
+                  cloisonnées entre plusieurs systèmes, et vos équipes perdent du
+                  temps sur des tâches manuelles que le SI devrait automatiser.
                   Un{" "}
                   <Link
                     href="/article/quels-sont-les-avantages-dun-progiciel-pour-votre-entreprise"
@@ -199,11 +199,11 @@ export default function SecteurIndustrie() {
                   peut transformer cette situation.
                 </p>
                 <p className="mt-4 max-w-3xl text-lg text-gray">
-                  Efficience IT concoit des{" "}
-                  <strong>applications metier sur mesure</strong> avec Symfony
-                  pour l&apos;industrie. Des outils qui s&apos;integrent dans votre
-                  SI existant et qui repondent aux contraintes specifiques de
-                  votre secteur : fiabilite, tracabilite, performance.
+                  Efficience IT conçoit des{" "}
+                  <strong>applications métier sur mesure</strong> avec Symfony
+                  pour l&apos;industrie. Des outils qui s&apos;intègrent dans votre
+                  SI existant et qui répondent aux contraintes spécifiques de
+                  votre secteur : fiabilité, traçabilité, performance.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   <Button href="/audit-symfony-gratuit">
@@ -241,7 +241,7 @@ export default function SecteurIndustrie() {
           <Container>
             <SectionTitle>Notre expertise industrielle</SectionTitle>
             <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-              Des applications robustes concues pour les environnements
+              Des applications robustes conçues pour les environnements
               industriels exigeants.
             </p>
             <div className="mt-10 grid gap-6 sm:grid-cols-2">
@@ -281,8 +281,8 @@ export default function SecteurIndustrie() {
             <div className="mx-auto mt-8 max-w-3xl space-y-6 text-lg text-gray">
               <p>
                 Dans l&apos;industrie, une application qui tombe en panne, c&apos;est
-                une chaine de production qui s&apos;arrete. Les enjeux de fiabilite
-                et de tracabilite sont critiques. C&apos;est pourquoi nous concevons
+                une chaîne de production qui s&apos;arrête. Les enjeux de fiabilité
+                et de traçabilité sont critiques. C&apos;est pourquoi nous concevons
                 des applications avec une{" "}
                 <Link
                   href="/architecture-hexagonale-symfony"
@@ -290,7 +290,7 @@ export default function SecteurIndustrie() {
                 >
                   architecture hexagonale
                 </Link>{" "}
-                qui separe la logique metier de l&apos;infrastructure.
+                qui sépare la logique métier de l&apos;infrastructure.
               </p>
               <p>
                 Cette approche permet de{" "}
@@ -300,27 +300,27 @@ export default function SecteurIndustrie() {
                 >
                   tester exhaustivement
                 </Link>{" "}
-                chaque regle metier independamment des systemes tiers (ERP, MES,
-                SCADA). En complement, notre{" "}
+                chaque règle métier indépendamment des systèmes tiers (ERP, MES,
+                SCADA). En complément, notre{" "}
                 <Link
                   href="/maintenance-applicative-symfony"
                   className="text-primary hover:underline"
                 >
                   maintenance applicative
                 </Link>{" "}
-                garantit la perennite de vos outils en production. Les echanges
-                de donnees passent par{" "}
+                garantit la pérennité de vos outils en production. Les échanges
+                de données passent par{" "}
                 <Link
                   href="/article/symfony-messenger-colonne-vertebrale-archi-hexagonale"
                   className="text-primary hover:underline"
                 >
                   Symfony Messenger
                 </Link>{" "}
-                pour garantir qu&apos;aucune information ne se perd, meme en cas de
-                panne temporaire d&apos;un systeme.
+                pour garantir qu&apos;aucune information ne se perd, même en cas de
+                panne temporaire d&apos;un système.
               </p>
               <p>
-                Pour les applications legacy, nous appliquons une strategie de{" "}
+                Pour les applications legacy, nous appliquons une stratégie de{" "}
                 <Link
                   href="/modernisation-application-php"
                   className="text-primary hover:underline"
@@ -328,7 +328,7 @@ export default function SecteurIndustrie() {
                   modernisation progressive
                 </Link>{" "}
                 qui permet de migrer sans interrompre la production. Chaque
-                iteration apporte de la valeur tout en reduisant la dette
+                itération apporte de la valeur tout en réduisant la dette
                 technique.
               </p>
             </div>
@@ -341,8 +341,8 @@ export default function SecteurIndustrie() {
           <Container>
             <SectionTitle>Ils nous font confiance</SectionTitle>
             <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-              Des groupes industriels nous confient le developpement et la
-              modernisation de leurs outils metier.
+              Des groupes industriels nous confient le développement et la
+              modernisation de leurs outils métier.
             </p>
             <div className="mx-auto mt-10 grid max-w-3xl grid-cols-3 gap-8">
               {references.map((client) => (
@@ -373,7 +373,7 @@ export default function SecteurIndustrie() {
             <p className="mt-4 text-lg text-white/90">
               Discutons de vos enjeux lors d&apos;un audit gratuit de 30 minutes.
               Nous analysons votre SI et vous proposons une feuille de route
-              concrete.
+              concrète.
             </p>
             <Link
               href="/audit-symfony-gratuit"
@@ -388,7 +388,7 @@ export default function SecteurIndustrie() {
         <FadeIn>
         <section className="py-16 md:py-24">
           <Container>
-            <SectionTitle>Questions frequentes</SectionTitle>
+            <SectionTitle>Questions fréquentes</SectionTitle>
             <div className="mx-auto max-w-2xl">
               <Accordion items={faqItems} />
             </div>

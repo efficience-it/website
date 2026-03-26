@@ -25,7 +25,7 @@ const principes = [
   {
     title: "Le domaine au centre",
     description:
-      "Le code métier est isolé dans un noyau indépendant de tout framework. Les règles de gestion ne dépendent ni de Symfony, ni de Doctrine, ni d'aucune librairie externe.",
+      "Le code métier est isolé dans un noyau indépendant de tout framework. Les règles de gestion ne dépendent ni de Symfony, ni de Doctrine, ni d'aucune bibliothèque externe.",
   },
   {
     title: "Ports et adaptateurs",

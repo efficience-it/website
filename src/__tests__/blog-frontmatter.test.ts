@@ -17,7 +17,7 @@ const VALID_CATEGORIES = [
   "PHP",
   "Green IT",
   "Qualité de code",
-  "Securite",
+  "Sécurité",
 ];
 
 function getBlogFiles(): string[] {

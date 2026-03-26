@@ -24,7 +24,7 @@ const techniques = [
   {
     title: "Données structurées avancées",
     description:
-      "Nous implémentons les schemas FAQPage, HowTo, TechArticle et SpeakableSpecification pour que les moteurs IA comprennent précisément le contenu de vos pages et le citent dans leurs réponses.",
+      "Nous implémentons les schémas FAQPage, HowTo, TechArticle et SpeakableSpecification pour que les moteurs IA comprennent précisément le contenu de vos pages et le citent dans leurs réponses.",
   },
   {
     title: "Fichier llms.txt",
@@ -90,7 +90,7 @@ const faqItems = [
   {
     title: "Quels types de données structurées utilisez-vous pour le GEO ?",
     content:
-      "Nous implémentons principalement les schemas FAQPage (pour les questions-réponses), HowTo (pour les guides étape par étape), TechArticle (pour les contenus techniques) et SpeakableSpecification (pour indiquer les passages les plus pertinents à lire ou citer). Ces schemas aident les moteurs IA à extraire et citer correctement vos contenus.",
+      "Nous implémentons principalement les schémas FAQPage (pour les questions-réponses), HowTo (pour les guides étape par étape), TechArticle (pour les contenus techniques) et SpeakableSpecification (pour indiquer les passages les plus pertinents à lire ou citer). Ces schémas aident les moteurs IA à extraire et citer correctement vos contenus.",
   },
   {
     title: "Est-ce que le GEO remplace le SEO traditionnel ?",
@@ -268,7 +268,7 @@ export default function GeoOptimisationIa() {
               </p>
               <p>
                 Le GEO s&apos;appuie sur trois piliers : les{" "}
-                <strong>données structurées</strong> (schemas FAQPage, HowTo,
+                <strong>données structurées</strong> (schémas FAQPage, HowTo,
                 TechArticle, SpeakableSpecification), le{" "}
                 <strong>fichier llms.txt</strong> qui guide les LLM dans
                 l&apos;interprétation de votre site, et l&apos;

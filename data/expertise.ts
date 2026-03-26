@@ -142,7 +142,7 @@ export const symfonyAdvantages = [
   {
     title: "Sur-mesure et adapté à vos besoins",
     description:
-      "Symfony permet de développer des applications 100 % personnalisées, qui s'adaptent parfaitement à vos process, vos utilisateurs et vos objectifs.",
+      "Symfony permet de développer des applications 100 % personnalisées, qui s'adaptent parfaitement à vos processus, vos utilisateurs et vos objectifs.",
   },
   {
     title: "Fiabilité et robustesse",

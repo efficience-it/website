@@ -14,7 +14,7 @@ Documenter une API est un acte fondateur. Ce n'est pas une corvée de fin de spr
 
 OpenAPI (anciennement Swagger Specification) est un standard industriel qui décrit une API REST dans un fichier JSON ou YAML. Ce fichier contient la liste des endpoints, les méthodes HTTP supportées, les schémas de requêtes et de réponses, les codes d'erreur et les mécanismes d'authentification. Des dizaines d'outils gravitent autour de ce format : Swagger UI pour la documentation interactive, Redoc pour une présentation plus éditoriale, et surtout des générateurs de SDK clients dans une trentaine de langages.
 
-NelmioApiDocBundle, référencé dans la [documentation Symfony sur la construction d'API](https://symfony.com/doc/current/the-fast-track/en/26-api.html), est le pont entre l'écosystème Symfony et cette spécification. Il introspective les routes, les contrôleurs, les Form Types et les entités Doctrine pour produire un fichier OpenAPI sans écrire une ligne de YAML à la main. Ce bundle est un outil incontournable pour le [developpement d'API Symfony](/api-sur-mesure-symfony) sur mesure. Pour tirer pleinement parti de ce bundle, il est utile de maîtriser les [bonnes pratiques des API REST](/article/api-rest-les-bonnes-pratiques) : structure des endpoints, gestion des codes HTTP et cohérence des réponses.
+NelmioApiDocBundle, référencé dans la [documentation Symfony sur la construction d'API](https://symfony.com/doc/current/the-fast-track/en/26-api.html), est le pont entre l'écosystème Symfony et cette spécification. Il introspecte les routes, les contrôleurs, les Form Types et les entités Doctrine pour produire un fichier OpenAPI sans écrire une ligne de YAML à la main. Ce bundle est un outil incontournable pour le [developpement d'API Symfony](/api-sur-mesure-symfony) sur mesure. Pour tirer pleinement parti de ce bundle, il est utile de maîtriser les [bonnes pratiques des API REST](/article/api-rest-les-bonnes-pratiques) : structure des endpoints, gestion des codes HTTP et cohérence des réponses.
 
 ## Installation et configuration initiale
 
@@ -61,7 +61,7 @@ Chaque attribut `OA\Response` documente un code HTTP de retour. Un endpoint bien
 
 ## Documenter les modèles de données
 
-Le véritable gain de productivité vient de la documentation automatique des modèles. Le bundle introspective les propriétés d'une classe PHP pour en déduire le schéma JSON :
+Le véritable gain de productivité vient de la documentation automatique des modèles. Le bundle introspecte les propriétés d'une classe PHP pour en déduire le schéma JSON :
 
 ```php
 class User

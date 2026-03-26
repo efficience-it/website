@@ -60,7 +60,7 @@ const webPage = webPageJsonLd({
 
 const agenceRelatedLinks: RelatedLink[] = [
   { title: "Prestataire Symfony en France", description: "Notre expertise Symfony au-delà de Lille, en remote ou sur site", href: "/agence-symfony-france" },
-  { title: "Agence Symfony à Paris", description: "Nos interventions en Ile-de-France, à 1h20 en TGV", href: "/agence-symfony-paris" },
+  { title: "Agence Symfony à Paris", description: "Nos interventions en Île-de-France, à 1h20 en TGV", href: "/agence-symfony-paris" },
   { title: "Agence Symfony à Lyon", description: "Notre expertise Symfony en Auvergne-Rhône-Alpes", href: "/agence-symfony-lyon" },
   { title: "Agence Symfony à Nantes", description: "Nos interventions dans les Pays de la Loire", href: "/agence-symfony-nantes" },
   { title: "Documentation officielle Symfony", description: "La référence technique du framework", href: "https://symfony.com/doc/current/index.html", external: true },

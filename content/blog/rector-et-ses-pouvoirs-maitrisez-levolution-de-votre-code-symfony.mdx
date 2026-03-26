@@ -12,9 +12,9 @@ updatedAt: "2026-01-13"
 
 Rector est un outil de refactoring automatique pour PHP, essentiel dans toute démarche de [modernisation applicative](/modernisation-applicative). Là où un développeur modifie du code manuellement, renommer une méthode, ajouter un type hint, remplacer une annotation par un attribut, Rector effectue ces transformations de manière programmatique sur l'ensemble d'une base de code.
 
-Le mécanisme repose sur l'AST (Abstract Syntax Tree). Plutôt que de manipuler du texte brut avec des expressions régulières, Rector utilise `nikic/php-parser` pour convertir chaque fichier PHP en arbre syntaxique. Chaque élément du code, classe, méthode, affectation, condition, devient un noeud typé dans cet arbre. Une affectation `$x = 1;` produit un noeud `Assign` contenant un noeud `Variable` et un noeud `LNumber`. Un double `!!$var` se traduit par deux noeuds `BooleanNot` imbriqués.
+Le mécanisme repose sur l'AST (Abstract Syntax Tree). Plutôt que de manipuler du texte brut avec des expressions régulières, Rector utilise `nikic/php-parser` pour convertir chaque fichier PHP en arbre syntaxique. Chaque élément du code, classe, méthode, affectation, condition, devient un nœud typé dans cet arbre. Une affectation `$x = 1;` produit un nœud `Assign` contenant un nœud `Variable` et un nœud `LNumber`. Un double `!!$var` se traduit par deux nœuds `BooleanNot` imbriqués.
 
-Le cycle de transformation suit trois phases : le parsing convertit le source en AST, la traversée applique les règles sur chaque noeud correspondant, et l'impression reconvertit l'arbre modifié en code PHP en préservant le style d'origine (indentation, espaces) pour minimiser les diffs. Cette approche structurelle garantit que seuls les patterns exacts sont modifiés, ce qui élimine la catégorie entière de bugs liés au rechercher-remplacer textuel.
+Le cycle de transformation suit trois phases : le parsing convertit le source en AST, la traversée applique les règles sur chaque nœud correspondant, et l'impression reconvertit l'arbre modifié en code PHP en préservant le style d'origine (indentation, espaces) pour minimiser les diffs. Cette approche structurelle garantit que seuls les patterns exacts sont modifiés, ce qui élimine la catégorie entière de bugs liés au rechercher-remplacer textuel.
 
 ## Installation et premier lancement
 
@@ -156,7 +156,7 @@ final class ReplaceLegacyHelperRector extends AbstractRector
 }
 ```
 
-`getNodeTypes()` déclare les types de noeuds AST ciblés. `refactor()` reçoit chaque noeud correspondant et retourne le noeud modifié ou `null` si aucune transformation ne s'applique. La puissance de cette API réside dans l'accès complet au graphe AST : on peut inspecter les noeuds parents, les annotations de type via PHPStan, la portée des variables, et composer des transformations complexes impliquant plusieurs noeuds.
+`getNodeTypes()` déclare les types de nœuds AST ciblés. `refactor()` reçoit chaque nœud correspondant et retourne le nœud modifié ou `null` si aucune transformation ne s'applique. La puissance de cette API réside dans l'accès complet au graphe AST : on peut inspecter les nœuds parents, les annotations de type via PHPStan, la portée des variables, et composer des transformations complexes impliquant plusieurs nœuds.
 
 Pour une équipe qui maintient des dizaines de règles internes, structurer ces règles dans un package dédié avec leurs propres tests PHPUnit garantit leur fiabilité lors des mises à jour de Rector.
 
@@ -164,7 +164,7 @@ Pour une équipe qui maintient des dizaines de règles internes, structurer ces 
 
 Derrière l'API simplifiée d'`AbstractRector` se cache la mécanique complète de `nikic/php-parser`. Les Node Visitors permettent d'intervenir à différents moments de la traversée (`beforeTraverse`, `enterNode`, `leaveNode`, `afterTraverse`). Rector orchestre ces visitors dans un ordre déterministe, résout les dépendances entre règles et gère les cas où une transformation invalide le contexte d'une autre.
 
-Pour les développeurs souhaitant approfondir ces concepts, les [évolutions de PHP 9.0](/article/php-9-0-devoile-ce-que-vous-devez-savoir-avant-la-sortie) ajouteront de nouvelles opportunités de refactoring automatisé. Comprendre ce niveau de détail devient nécessaire quand une règle doit effectuer des transformations multi-noeuds : déplacer une méthode d'une classe vers un trait, extraire un service à partir d'un code procédural, ou restructurer une hiérarchie d'héritage. Ces opérations requièrent de manipuler des noeuds `ClassLike`, `ClassMethod` et `Stmt` en coordination, en s'assurant que les imports (`use` statements) et les références croisées restent cohérents.
+Pour les développeurs souhaitant approfondir ces concepts, les [évolutions de PHP 9.0](/article/php-9-0-devoile-ce-que-vous-devez-savoir-avant-la-sortie) ajouteront de nouvelles opportunités de refactoring automatisé. Comprendre ce niveau de détail devient nécessaire quand une règle doit effectuer des transformations multi-nœuds : déplacer une méthode d'une classe vers un trait, extraire un service à partir d'un code procédural, ou restructurer une hiérarchie d'héritage. Ces opérations requièrent de manipuler des nœuds `ClassLike`, `ClassMethod` et `Stmt` en coordination, en s'assurant que les imports (`use` statements) et les références croisées restent cohérents.
 
 ## Rector comme outil de gouvernance technique
 

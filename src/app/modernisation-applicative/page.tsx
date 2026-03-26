@@ -63,7 +63,7 @@ const situations = [
   {
     title: "Symfony en version obsolète",
     description:
-      "Votre application Symfony 3, 4 ou 5 fonctionne mais n'est plus maintenue. Les mises à jour de sécurité ne sont plus disponibles, les nouvelles libraries sont incompatibles.",
+      "Votre application Symfony 3, 4 ou 5 fonctionne mais n'est plus maintenue. Les mises à jour de sécurité ne sont plus disponibles, les nouvelles bibliothèques sont incompatibles.",
     phase: "Commencer par la phase 1 (diagnostic) puis phase 4 (migration).",
   },
   {

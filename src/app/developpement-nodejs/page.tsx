@@ -282,8 +282,8 @@ export default function DeveloppementNodejs() {
                     Écosystème npm
                   </h3>
                   <p className="mt-2 text-gray">
-                    Le plus grand registre de paquets au monde. Authentication,
-                    PDF, email, paiement, ML : il existe une librairie mature
+                    Le plus grand registre de paquets au monde. Authentification,
+                    PDF, email, paiement, ML : il existe une bibliothèque mature
                     pour presque chaque besoin, ce qui accélère considérablement
                     les développements.
                   </p>

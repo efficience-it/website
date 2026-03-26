@@ -269,7 +269,7 @@ export default function AgenceSymfonyParis() {
                     Tarifs compétitifs
                   </h3>
                   <p className="mt-2 text-gray">
-                    Basée en région, nous proposons des tarifs plus compétitifs que
+                    Basés en région, nous proposons des tarifs plus compétitifs que
                     les agences parisiennes, sans compromis sur la qualité
                     technique. Votre budget va plus loin avec le même niveau
                     d&apos;exigence.

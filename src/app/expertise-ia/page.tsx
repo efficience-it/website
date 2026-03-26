@@ -66,7 +66,7 @@ const advantages = [
   {
     title: "Approche pragmatique",
     description:
-      "Pas de buzz ni de promesses irréalistes. Nous identifions les cas d'usage où l'IA apporte une vraie valeur ajoutée et nous vous aidons à les mettre en oeuvre de manière progressive.",
+      "Pas de buzz ni de promesses irréalistes. Nous identifions les cas d'usage où l'IA apporte une vraie valeur ajoutée et nous vous aidons à les mettre en œuvre de manière progressive.",
   },
   {
     title: "Veille technologique permanente",

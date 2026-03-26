@@ -105,7 +105,7 @@ Dans un monolithe connecté à une seule base, l'auto-incrémentation suffit. D�
 
 L'auto-incrémentation ne fonctionne plus sans coordination. Les solutions historiques (séquences avec pas de N, tables de séquences centralisées) ajoutent un point de contention. Les identifiants UUID/ULID, générables sans état partagé, éliminent ce goulot.
 
-Dans un contexte de sharding, l'identifiant influence directement la stratégie de répartition. Un INT auto-incrémenté global nécessite un coordinateur central (Snowflake ID chez Twitter, ou un service dédié). Un ULID ou UUIDv7, généré localement, permet à chaque noeud d'écrire indépendamment. L'horodatage intégré offre en prime un critère naturel de partitionnement temporel.
+Dans un contexte de sharding, l'identifiant influence directement la stratégie de répartition. Un INT auto-incrémenté global nécessite un coordinateur central (Snowflake ID chez Twitter, ou un service dédié). Un ULID ou UUIDv7, généré localement, permet à chaque nœud d'écrire indépendamment. L'horodatage intégré offre en prime un critère naturel de partitionnement temporel.
 
 Pour les architectures CQRS/Event Sourcing, souvent implémentées avec [Symfony Messenger](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale), l'identifiant doit exister avant la persistance. L'agrégat reçoit son identité dès sa création, et les événements le référencent immédiatement. Seuls les identifiants générés côté applicatif (UUID, ULID) rendent ce pattern possible sans contorsion.
 

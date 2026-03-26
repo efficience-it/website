@@ -86,7 +86,7 @@ export const categorySlugMap: Record<string, string> = {
   Projet: "projet",
   "Qualité de code": "qualite-de-code",
   Symfony: "symfony",
-  "Securite": "securite",
+  "Sécurité": "securite",
 };
 
 const slugToCategoryMap: Record<string, string> = Object.fromEntries(

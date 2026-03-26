@@ -350,7 +350,7 @@ export default function AuditCodePhp() {
                   CVE connues
                 </Link>{" "}
                 dans vos dépendances pour garantir que votre application ne
-                repose pas sur des librairies vulnérables.
+                repose pas sur des bibliothèques vulnérables.
                 L&apos;audit inclut aussi une évaluation de votre couverture de{" "}
                 <Link
                   href="/tests-automatises-php"

@@ -56,7 +56,7 @@ const stackItems = [
   {
     title: "REST et GraphQL",
     description:
-      "Nous choisissons le paradigme adapté à votre besoin : REST pour la simplicité et l'interopérabilité, GraphQL quand les clients ont besoin de requêtes flexibles sur des schemas riches.",
+      "Nous choisissons le paradigme adapté à votre besoin : REST pour la simplicité et l'interopérabilité, GraphQL quand les clients ont besoin de requêtes flexibles sur des schémas riches.",
   },
   {
     title: "OpenAPI / Swagger",
@@ -80,7 +80,7 @@ const approachSteps = [
     step: "1",
     title: "Spécification du contrat d'interface",
     description:
-      "Avant d'écrire une ligne de code, nous formalisons les endpoints, les schemas de données et les règles de sécurité. Ce contrat sert de référence à toutes les équipes impliquées.",
+      "Avant d'écrire une ligne de code, nous formalisons les endpoints, les schémas de données et les règles de sécurité. Ce contrat sert de référence à toutes les équipes impliquées.",
   },
   {
     step: "2",
@@ -129,7 +129,7 @@ const faqItems = [
   {
     title: "Quelle est la différence entre REST et GraphQL avec API Platform ?",
     content:
-      "REST est idéal pour des interfaces stables avec des schemas connus à l'avance, notamment pour les intégrateurs partenaires. GraphQL convient mieux aux clients qui ont besoin de flexibilité dans la sélection des champs, comme une application mobile avec plusieurs vues différentes. API Platform supporte les deux : nous choisissons selon votre contexte.",
+      "REST est idéal pour des interfaces stables avec des schémas connus à l'avance, notamment pour les intégrateurs partenaires. GraphQL convient mieux aux clients qui ont besoin de flexibilité dans la sélection des champs, comme une application mobile avec plusieurs vues différentes. API Platform supporte les deux : nous choisissons selon votre contexte.",
   },
   {
     title: "Comment sécurisez-vous les API que vous développez ?",

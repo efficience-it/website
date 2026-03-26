@@ -90,7 +90,7 @@ const whyTypescript = [
     number: "04",
     title: "Écosystème compatible",
     description:
-      "TypeScript s'intègre avec l'ensemble de l'écosystème JavaScript. Les librairies populaires fournissent leurs types, et DefinitelyTyped couvre le reste. Aucun compromis sur le choix des outils.",
+      "TypeScript s'intègre avec l'ensemble de l'écosystème JavaScript. Les bibliothèques populaires fournissent leurs types, et DefinitelyTyped couvre le reste. Aucun compromis sur le choix des outils.",
   },
 ];
 

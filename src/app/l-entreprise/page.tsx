@@ -215,7 +215,7 @@ export default function LEntreprise() {
               >
                 <p className="text-gray italic">&ldquo;{t.quote}&rdquo;</p>
                 <footer className="mt-4 font-display font-bold text-dark">
-                 , {t.source}
+                 {t.source}
                 </footer>
               </blockquote>
             ))}
