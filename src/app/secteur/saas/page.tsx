@@ -295,7 +295,7 @@ export default function SecteurSaas() {
                 Un SaaS, c&apos;est un produit qui doit évoluer vite, scaler
                 proprement et rester stable en production. Symfony apporte la
                 structure nécessaire pour ça : injection de dépendances,
-                composants decoupled, écosystème mature.
+                composants découplés, écosystème mature.
               </p>
               <p>
                 L&apos;architecture que nous mettons en place sépare clairement le{" "}

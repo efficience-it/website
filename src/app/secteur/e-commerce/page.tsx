@@ -289,7 +289,7 @@ export default function SecteurEcommerce() {
                 permet de découpler le front du back pour des architectures
                 headless performantes. Vous avez un
                 système de promotions complexe ? On le code sur mesure. Un
-                catalogue avec des variantes en cascade ? On modèle le domaine
+                catalogue avec des variantes en cascade ? On modélise le domaine
                 exactement comme votre métier le requiert.
               </p>
               <p>
