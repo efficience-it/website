@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 
@@ -28,6 +29,40 @@ export default function AboutPreview() {
             <p className="mt-4 text-lg text-gray">
               Écoute, clarté, engagement : vous pouvez compter sur un partenaire
               technique qui comprend vos enjeux et s&apos;investit à vos côtés.
+            </p>
+            <p className="mt-4 text-lg text-gray">
+              Spécialisés sur{" "}
+              <Link href="/developpement-php" className="text-primary hover:underline">
+                PHP et Symfony
+              </Link>
+              , nous intervenons sur des sujets techniques exigeants :{" "}
+              <Link href="/architecture-hexagonale-symfony" className="text-primary hover:underline">
+                architecture hexagonale
+              </Link>
+              , migration de versions, mise en place de tests automatisés et intégration continue.
+            </p>
+            <p className="mt-4 text-lg text-gray">
+              Nous intervenons partout en France, depuis notre{" "}
+              <Link href="/agence-symfony-lille" className="text-primary hover:underline">
+                agence Symfony à Lille
+              </Link>
+              , en remote ou sur site. Nos clients sont à{" "}
+              <Link href="/agence-symfony-paris" className="text-primary hover:underline">
+                Paris
+              </Link>
+              ,{" "}
+              <Link href="/agence-symfony-lyon" className="text-primary hover:underline">
+                Lyon
+              </Link>
+              ,{" "}
+              <Link href="/agence-symfony-nantes" className="text-primary hover:underline">
+                Nantes
+              </Link>
+              {" "}et dans toute la{" "}
+              <Link href="/agence-symfony-france" className="text-primary hover:underline">
+                France
+              </Link>
+              .
             </p>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
               <Button href="/notre-expertise" variant="outline">
