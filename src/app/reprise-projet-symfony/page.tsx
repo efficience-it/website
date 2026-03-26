@@ -166,6 +166,8 @@ const repriseRelatedLinks: RelatedLink[] = [
   { title: "Guide de migration dans un projet Symfony", description: "Notre méthodologie de montée de version", href: "/article/guide-de-migration-dans-un-projet-symfony" },
   { title: "Pourquoi nous confier la maintenance de vos applications web", description: "Au-delà de la reprise initiale", href: "/article/decouvrez-les-raisons-de-nous-confier-la-maintenance-de-vos-applications-web" },
   { title: "Calendrier des versions Symfony", description: "Dates de fin de maintenance officielle", href: "https://symfony.com/releases", external: true },
+  { title: "Agence Symfony à Paris", description: "Nos interventions en Île-de-France, à 1h20 en TGV", href: "/agence-symfony-paris" },
+  { title: "Agence Symfony à Lyon", description: "Notre expertise Symfony en Auvergne-Rhône-Alpes", href: "/agence-symfony-lyon" },
 ];
 
 export default function RepriseProjetSymfony() {

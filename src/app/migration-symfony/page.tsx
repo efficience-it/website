@@ -168,6 +168,8 @@ const migrationRelatedLinks: RelatedLink[] = [
   { title: "Migration Symfony et architecture hexagonale : retour de mission", description: "un cas concret de migration avancée", href: "/article/migration-symfony-architecture-hexagonale-retour-mission" },
   { title: "Rector : maîtrisez l'évolution de votre code Symfony", description: "l'outil indispensable pour automatiser les migrations", href: "/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony" },
   { title: "Calendrier des versions Symfony", description: "dates de fin de maintenance officielle", href: "https://symfony.com/releases", external: true },
+  { title: "Prestataire Symfony en France", description: "notre expertise Symfony partout en France, en remote ou sur site", href: "/agence-symfony-france" },
+  { title: "Agence Symfony à Paris", description: "nos interventions en Île-de-France, à 1h20 en TGV", href: "/agence-symfony-paris" },
 ];
 
 export default function MigrationSymfony() {

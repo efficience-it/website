@@ -193,6 +193,8 @@ const architectureRelatedLinks: RelatedLink[] = [
   { title: "Migration vers l'architecture hexagonale : retour de mission", description: "un cas concret de migration en production", href: "/article/migration-symfony-architecture-hexagonale-retour-mission" },
   { title: "Symfony Messenger, colonne vertébrale de l'archi hexagonale", description: "le rôle de Messenger dans cette architecture", href: "/article/symfony-messenger-colonne-vertebrale-archi-hexagonale" },
   { title: "Documentation officielle Symfony", description: "référence technique du framework", href: "https://symfony.com/doc/current/the-fast-track/en/index.html", external: true },
+  { title: "Agence Symfony à Nantes", description: "nos interventions dans les Pays de la Loire", href: "/agence-symfony-nantes" },
+  { title: "Agence Symfony à Paris", description: "nos interventions en Île-de-France, à 1h20 en TGV", href: "/agence-symfony-paris" },
 ];
 
 export default function ArchitectureHexagonaleSymfony() {

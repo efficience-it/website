@@ -128,6 +128,21 @@ const relatedLinks: RelatedLink[] = [
     href: "https://symfony.com/doc/current/index.html",
     external: true,
   },
+  {
+    title: "Migration Symfony",
+    description: "Montez de version en toute sécurité avec notre expertise",
+    href: "/migration-symfony",
+  },
+  {
+    title: "API sur mesure avec Symfony",
+    description: "Conception d'API REST et GraphQL avec API Platform",
+    href: "/api-sur-mesure-symfony",
+  },
+  {
+    title: "Reprise de projet Symfony",
+    description: "Nous prenons le relais de votre ancien prestataire",
+    href: "/reprise-projet-symfony",
+  },
 ];
 
 export default function AgenceSymfonyLyon() {

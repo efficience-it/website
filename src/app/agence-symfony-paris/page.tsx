@@ -128,6 +128,21 @@ const relatedLinks: RelatedLink[] = [
     href: "https://symfony.com/doc/current/index.html",
     external: true,
   },
+  {
+    title: "Migration Symfony",
+    description: "Montez de version en toute sécurité avec notre expertise",
+    href: "/migration-symfony",
+  },
+  {
+    title: "Architecture hexagonale avec Symfony",
+    description: "Structurez vos applications avec le Domain-Driven Design",
+    href: "/architecture-hexagonale-symfony",
+  },
+  {
+    title: "Reprise de projet Symfony",
+    description: "Nous prenons le relais de votre ancien prestataire",
+    href: "/reprise-projet-symfony",
+  },
 ];
 
 export default function AgenceSymfonyParis() {
