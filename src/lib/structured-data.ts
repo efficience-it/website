@@ -57,6 +57,14 @@ export const localBusinessJsonLd = {
     { "@type": "Country", name: "Spain" },
     { "@type": "Country", name: "Germany" },
   ],
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "5",
+    bestRating: "5",
+    worstRating: "1",
+    ratingCount: "32",
+    reviewCount: "32",
+  },
   priceRange: "$$",
   openingHoursSpecification: [
     {
