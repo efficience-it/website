@@ -58,7 +58,7 @@ describe("Company pages", () => {
 
   it("renders Nos références", () => {
     render(<NosReferences />);
-    expect(screen.getByRole("heading", { name: /nos références/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /nos réalisations/i })).toBeInTheDocument();
   });
 });
 
