@@ -16,6 +16,7 @@ export default function Header() {
             alt="Efficience IT"
             width={180}
             height={40}
+            className="h-auto"
             priority
           />
         </Link>
