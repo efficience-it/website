@@ -282,7 +282,7 @@ export default function SecuriteApplicationSymfony() {
             <Container>
               <div className="mx-auto max-w-3xl rounded-2xl border border-primary/20 bg-primary/5 p-8 md:p-12">
                 <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
-                  La sécurité, un investissement pas une option
+                  La sécurité, un investissement, pas une option
                 </h2>
                 <p className="mt-4 text-lg text-gray">
                   Une faille exploitée coûte infiniment plus cher qu&apos;un audit
