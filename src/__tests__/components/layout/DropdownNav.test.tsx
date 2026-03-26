@@ -1,4 +1,5 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
+import { useState, useCallback, useRef } from "react";
 import DropdownNav from "@/components/layout/DropdownNav";
 import { NavDropdown } from "@/types/navigation";
 
@@ -29,6 +30,34 @@ const item: NavDropdown = {
   ],
 };
 
+function DropdownNavWrapper({ dropdownItem }: { dropdownItem: NavDropdown }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const closeTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null);
+
+  const onOpen = useCallback(() => {
+    if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
+    setIsOpen(true);
+  }, []);
+
+  const onClose = useCallback(() => {
+    setIsOpen(false);
+  }, []);
+
+  const onDelayedClose = useCallback(() => {
+    closeTimeoutRef.current = setTimeout(onClose, 150);
+  }, [onClose]);
+
+  return (
+    <DropdownNav
+      item={dropdownItem}
+      isOpen={isOpen}
+      onOpen={onOpen}
+      onClose={onClose}
+      onDelayedClose={onDelayedClose}
+    />
+  );
+}
+
 beforeEach(() => {
   jest.useFakeTimers();
 });
@@ -47,13 +76,13 @@ function getMenuItems() {
 
 describe("DropdownNav", () => {
   it("renders button with label", () => {
-    render(<DropdownNav item={item} />);
+    render(<DropdownNavWrapper dropdownItem={item} />);
     expect(getButton()).toBeInTheDocument();
     expect(getButton()).toHaveAttribute("aria-expanded", "false");
   });
 
   it("opens on mouse enter and closes on mouse leave", () => {
-    render(<DropdownNav item={item} />);
+    render(<DropdownNavWrapper dropdownItem={item} />);
     const container = getButton().parentElement!;
 
     fireEvent.mouseEnter(container);
@@ -67,7 +96,7 @@ describe("DropdownNav", () => {
   });
 
   it("opens on click and closes on second click", () => {
-    render(<DropdownNav item={item} />);
+    render(<DropdownNavWrapper dropdownItem={item} />);
     const button = getButton();
 
     fireEvent.click(button);
@@ -78,7 +107,7 @@ describe("DropdownNav", () => {
   });
 
   it("opens and focuses first item on ArrowDown", () => {
-    render(<DropdownNav item={item} />);
+    render(<DropdownNavWrapper dropdownItem={item} />);
     const button = getButton();
 
     const rafSpy = jest
@@ -95,7 +124,7 @@ describe("DropdownNav", () => {
   });
 
   it("opens and focuses last item on ArrowUp", () => {
-    render(<DropdownNav item={item} />);
+    render(<DropdownNavWrapper dropdownItem={item} />);
     const button = getButton();
 
     const rafSpy = jest
@@ -112,7 +141,7 @@ describe("DropdownNav", () => {
   });
 
   it("opens on Enter key", () => {
-    render(<DropdownNav item={item} />);
+    render(<DropdownNavWrapper dropdownItem={item} />);
     const button = getButton();
 
     const rafSpy = jest
@@ -129,7 +158,7 @@ describe("DropdownNav", () => {
   });
 
   it("opens on Space key", () => {
-    render(<DropdownNav item={item} />);
+    render(<DropdownNavWrapper dropdownItem={item} />);
     const button = getButton();
 
     const rafSpy = jest
@@ -146,7 +175,7 @@ describe("DropdownNav", () => {
   });
 
   it("closes on Escape from button", () => {
-    render(<DropdownNav item={item} />);
+    render(<DropdownNavWrapper dropdownItem={item} />);
     const button = getButton();
 
     fireEvent.click(button);
@@ -157,7 +186,7 @@ describe("DropdownNav", () => {
   });
 
   it("moves focus down with ArrowDown on items and wraps at end", () => {
-    render(<DropdownNav item={item} />);
+    render(<DropdownNavWrapper dropdownItem={item} />);
     fireEvent.click(getButton());
     const items = getMenuItems();
 
@@ -172,7 +201,7 @@ describe("DropdownNav", () => {
   });
 
   it("moves focus up with ArrowUp on items and wraps at start", () => {
-    render(<DropdownNav item={item} />);
+    render(<DropdownNavWrapper dropdownItem={item} />);
     fireEvent.click(getButton());
     const items = getMenuItems();
 
@@ -187,7 +216,7 @@ describe("DropdownNav", () => {
   });
 
   it("moves to first item on Home and last on End", () => {
-    render(<DropdownNav item={item} />);
+    render(<DropdownNavWrapper dropdownItem={item} />);
     fireEvent.click(getButton());
     const items = getMenuItems();
 
@@ -199,7 +228,7 @@ describe("DropdownNav", () => {
   });
 
   it("closes on Tab from item", () => {
-    render(<DropdownNav item={item} />);
+    render(<DropdownNavWrapper dropdownItem={item} />);
     const button = getButton();
     fireEvent.click(button);
 
@@ -209,7 +238,7 @@ describe("DropdownNav", () => {
   });
 
   it("closes and focuses button on Escape from item", () => {
-    render(<DropdownNav item={item} />);
+    render(<DropdownNavWrapper dropdownItem={item} />);
     const button = getButton();
     fireEvent.click(button);
 
@@ -220,7 +249,7 @@ describe("DropdownNav", () => {
   });
 
   it("closes menu when clicking an item", () => {
-    render(<DropdownNav item={item} />);
+    render(<DropdownNavWrapper dropdownItem={item} />);
     const button = getButton();
     fireEvent.click(button);
 
@@ -230,7 +259,7 @@ describe("DropdownNav", () => {
   });
 
   it("opens on item focus and delays close on blur", () => {
-    render(<DropdownNav item={item} />);
+    render(<DropdownNavWrapper dropdownItem={item} />);
     const button = getButton();
 
     fireEvent.click(button);
@@ -246,7 +275,7 @@ describe("DropdownNav", () => {
   });
 
   it("cancels delayed close when focus moves to another item", () => {
-    render(<DropdownNav item={item} />);
+    render(<DropdownNavWrapper dropdownItem={item} />);
     fireEvent.click(getButton());
     const items = getMenuItems();
 
