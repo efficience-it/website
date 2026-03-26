@@ -46,7 +46,7 @@ const phpRelatedLinks: RelatedLink[] = [
 export const metadata = pageMetadata({
   title: "Développement PHP sur mesure : applications web robustes et performantes",
   description:
-    "Agence de développement PHP sur mesure. Efficience IT conçoit des applications web avec PHP 8, Symfony, Doctrine et les meilleures pratiques d'architecture.",
+    "Agence de développement PHP sur mesure. Efficience IT conçoit des applications web avec PHP 8, Symfony, Doctrine et les bonnes pratiques.",
   path: "/developpement-php",
 });
 
@@ -134,7 +134,7 @@ const service = serviceJsonLd({
 const webPage = webPageJsonLd({
   name: "Développement PHP sur mesure : applications web robustes et performantes",
   description:
-    "Agence de développement PHP sur mesure. Efficience IT conçoit des applications web avec PHP 8, Symfony, Doctrine et les meilleures pratiques d'architecture.",
+    "Agence de développement PHP sur mesure. Efficience IT conçoit des applications web avec PHP 8, Symfony, Doctrine et les bonnes pratiques.",
   path: "/developpement-php",
   datePublished: "2026-03-17",
   dateModified: "2026-03-17",

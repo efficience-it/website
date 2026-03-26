@@ -23,7 +23,7 @@ const nestjsRelatedLinks: RelatedLink[] = [
 export const metadata = pageMetadata({
   title: "API performantes avec NestJS et Node.js",
   description:
-    "Conception et développement d'API NestJS sur mesure : microservices, GraphQL, temps réel. Votre partenaire pour le développement API Node.js robuste et scalable.",
+    "Conception et développement d'API NestJS sur mesure : microservices, GraphQL, temps réel. Votre partenaire Node.js robuste et scalable.",
   path: "/api-nodejs-nestjs",
 });
 

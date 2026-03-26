@@ -17,7 +17,7 @@ export const metadata = pageMetadata({
   title:
     "Migration Symfony : montez de version en toute sécurité",
   description:
-    "Migration Symfony 4, 5, 6 vers Symfony 7 : montée de version progressive, sans interruption de service. Expertise certifiée, architecture hexagonale et outillage Rector.",
+    "Migration Symfony 4, 5, 6 vers Symfony 7 : montée de version progressive, sans interruption de service. Expertise certifiée et outillage Rector.",
   path: "/migration-symfony",
 });
 
@@ -155,7 +155,7 @@ const service = serviceJsonLd({
 const webPage = webPageJsonLd({
   name: "Migration Symfony : montez de version en toute sécurité",
   description:
-    "Migration Symfony 4, 5, 6 vers Symfony 7 : montée de version progressive, sans interruption de service. Expertise certifiée, architecture hexagonale et outillage Rector.",
+    "Migration Symfony 4, 5, 6 vers Symfony 7 : montée de version progressive, sans interruption de service. Expertise certifiée et outillage Rector.",
   path: "/migration-symfony",
   datePublished: "2026-03-12",
   dateModified: "2026-03-12",

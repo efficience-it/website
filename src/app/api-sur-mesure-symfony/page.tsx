@@ -15,7 +15,7 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured
 export const metadata = pageMetadata({
   title: "API sur mesure avec Symfony et API Platform",
   description:
-    "Développement API Symfony sur mesure : REST, GraphQL, OAuth2/JWT, OpenAPI. Nous concevons des API robustes et performantes pour vos applications mobiles, SaaS et interconnexions SI.",
+    "Développement API Symfony sur mesure : REST, GraphQL, OAuth2/JWT, OpenAPI. Des API robustes et performantes pour vos applications mobiles et SaaS.",
   path: "/api-sur-mesure-symfony",
 });
 

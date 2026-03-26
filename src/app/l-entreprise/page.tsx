@@ -22,7 +22,7 @@ const enterpriseRelatedLinks: RelatedLink[] = [
 export const metadata = pageMetadata({
   title: "Agence Symfony – Présentation et expertise",
   description:
-    "Découvrez Efficience IT, agence spécialisée Symfony et PHP. Notre équipe conçoit et développe des applications web robustes, pensées pour vos enjeux métiers.",
+    "Découvrez Efficience IT, agence spécialisée Symfony et PHP. Notre équipe conçoit et développe des applications web robustes pour vos enjeux métiers.",
   path: "/l-entreprise",
 });
 
@@ -128,7 +128,7 @@ const breadcrumb = breadcrumbJsonLd([{ name: "Notre histoire", path: "/l-entrepr
 const webPage = webPageJsonLd({
   name: "Agence Symfony - Présentation et expertise",
   description:
-    "Découvrez Efficience IT, agence spécialisée Symfony et PHP. Notre équipe conçoit et développe des applications web robustes, pensées pour vos enjeux métiers.",
+    "Découvrez Efficience IT, agence spécialisée Symfony et PHP. Notre équipe conçoit et développe des applications web robustes pour vos enjeux métiers.",
   path: "/l-entreprise",
   type: "AboutPage",
   datePublished: "2025-09-01",

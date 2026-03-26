@@ -54,7 +54,7 @@ export const services = [
   },
   {
     title: "Développement API",
-    slug: "/developpement-web-sur-mesure",
+    slug: "/api-sur-mesure-symfony",
     description:
       "Nous développons et intégrons des APIs pour les connexions avec vos autres outils types ERP, CRM, ou autres APIs extérieures, avec des standards comme le REST ou le SOAP au besoin.",
     items: [

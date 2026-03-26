@@ -15,7 +15,7 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured
 export const metadata = pageMetadata({
   title: "Reprise de projet Symfony : changement de prestataire, nous prenons le relais",
   description:
-    "Changement de prestataire Symfony ? Projet abandonné ou mal maintenu ? Efficience IT reprend votre projet existant : audit du code hérité, stabilisation, documentation et maintenance continue.",
+    "Changement de prestataire Symfony ? Projet abandonné ? Efficience IT reprend votre projet : audit du code hérité, stabilisation et maintenance.",
   path: "/reprise-projet-symfony",
 });
 

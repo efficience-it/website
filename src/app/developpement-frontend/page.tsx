@@ -50,7 +50,7 @@ const frontendRelatedLinks: RelatedLink[] = [
 export const metadata = pageMetadata({
   title: "Développement frontend React, Vue.js et TypeScript sur mesure",
   description:
-    "Efficience IT conçoit des interfaces frontend performantes avec React, Vue.js, Next.js et TypeScript. Applications sur mesure connectées à vos APIs Symfony ou Node.js.",
+    "Efficience IT conçoit des interfaces frontend performantes avec React, Vue.js, Next.js et TypeScript. Applications connectées à vos APIs Symfony.",
   path: "/developpement-frontend",
 });
 
@@ -138,7 +138,7 @@ const service = serviceJsonLd({
 const webPage = webPageJsonLd({
   name: "Développement frontend React, Vue.js et TypeScript sur mesure",
   description:
-    "Efficience IT conçoit des interfaces frontend performantes avec React, Vue.js, Next.js et TypeScript. Applications sur mesure connectées à vos APIs Symfony ou Node.js.",
+    "Efficience IT conçoit des interfaces frontend performantes avec React, Vue.js, Next.js et TypeScript. Applications connectées à vos APIs Symfony.",
   path: "/developpement-frontend",
   datePublished: "2026-03-17",
   dateModified: "2026-03-17",

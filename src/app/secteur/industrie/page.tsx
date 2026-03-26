@@ -17,7 +17,7 @@ export const metadata = pageMetadata({
   title:
     "Applications métier pour l'industrie : outils sur mesure avec Symfony",
   description:
-    "Efficience IT développe des applications métier pour l'industrie : outils de production, interconnexion SI, workflows complexes et modernisation d'applications legacy.",
+    "Efficience IT développe des applications métier pour l'industrie : outils de production, interconnexion SI et modernisation d'applications legacy.",
   path: "/secteur/industrie",
 });
 
@@ -104,7 +104,7 @@ const service = serviceJsonLd({
 const webPage = webPageJsonLd({
   name: "Applications métier pour l'industrie : outils sur mesure avec Symfony",
   description:
-    "Efficience IT développe des applications métier pour l'industrie : outils de production, interconnexion SI, workflows complexes et modernisation d'applications legacy.",
+    "Efficience IT développe des applications métier pour l'industrie : outils de production, interconnexion SI et modernisation d'applications legacy.",
   path: "/secteur/industrie",
   datePublished: "2026-03-12",
   dateModified: "2026-03-12",

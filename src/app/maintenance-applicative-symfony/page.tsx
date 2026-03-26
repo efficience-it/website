@@ -16,7 +16,7 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured
 export const metadata = pageMetadata({
   title: "Maintenance applicative Symfony (TMA) : corrective, évolutive, préventive",
   description:
-    "Efficience IT assure la maintenance applicative de vos projets Symfony : correction de bugs, évolutions fonctionnelles, mises à jour de sécurité, monitoring et SLA sur mesure.",
+    "Efficience IT assure la maintenance de vos projets Symfony : correction de bugs, évolutions fonctionnelles, mises à jour de sécurité et SLA.",
   path: "/maintenance-applicative-symfony",
 });
 
@@ -147,7 +147,7 @@ const service = serviceJsonLd({
 const webPage = webPageJsonLd({
   name: "Maintenance applicative Symfony (TMA) : corrective, évolutive, préventive",
   description:
-    "Efficience IT assure la maintenance applicative de vos projets Symfony : correction de bugs, évolutions fonctionnelles, mises à jour de sécurité, monitoring et SLA sur mesure.",
+    "Efficience IT assure la maintenance de vos projets Symfony : correction de bugs, évolutions fonctionnelles, mises à jour de sécurité et SLA.",
   path: "/maintenance-applicative-symfony",
   datePublished: "2026-03-12",
   dateModified: "2026-03-12",

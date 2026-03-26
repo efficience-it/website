@@ -20,7 +20,7 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured
 export const metadata = pageMetadata({
   title: "Expertise IA : intégrez l'intelligence artificielle dans vos projets Symfony",
   description:
-    "Efficience IT vous accompagne dans l'intégration de l'IA dans vos projets Symfony : LLM, RAG, assistants IA, GEO et modernisation d'applications legacy grâce à l'intelligence artificielle.",
+    "Efficience IT vous accompagne dans l'intégration de l'IA dans vos projets Symfony : LLM, RAG, assistants IA, GEO et modernisation d'applications legacy.",
   path: "/expertise-ia",
 });
 

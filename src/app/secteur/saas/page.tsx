@@ -17,7 +17,7 @@ export const metadata = pageMetadata({
   title:
     "Développement SaaS avec Symfony : architecture multi-tenant et API",
   description:
-    "Efficience IT conçoit des applications SaaS robustes avec Symfony : architecture multi-tenant, API REST/GraphQL, scalabilité, CI/CD et monitoring en production.",
+    "Efficience IT conçoit des applications SaaS robustes avec Symfony : architecture multi-tenant, API REST/GraphQL, scalabilité et CI/CD.",
   path: "/secteur/saas",
 });
 
@@ -103,7 +103,7 @@ const service = serviceJsonLd({
 const webPage = webPageJsonLd({
   name: "Développement SaaS avec Symfony : architecture multi-tenant et API",
   description:
-    "Efficience IT conçoit des applications SaaS robustes avec Symfony : architecture multi-tenant, API REST/GraphQL, scalabilité, CI/CD et monitoring en production.",
+    "Efficience IT conçoit des applications SaaS robustes avec Symfony : architecture multi-tenant, API REST/GraphQL, scalabilité et CI/CD.",
   path: "/secteur/saas",
   datePublished: "2026-03-12",
   dateModified: "2026-03-12",

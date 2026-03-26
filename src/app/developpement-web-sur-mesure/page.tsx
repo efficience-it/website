@@ -554,7 +554,7 @@ export default function DeveloppementWeb() {
                 </h3>
                 <p className="mt-1 text-gray">
                   Nos développeurs maîtrisent les technologies les plus avancées
-                  (PHP, Laravel, Node.js, etc.) pour créer des plateformes
+                  (PHP, Symfony, Node.js, etc.) pour créer des plateformes
                   robustes et évolutives.
                 </p>
               </div>
