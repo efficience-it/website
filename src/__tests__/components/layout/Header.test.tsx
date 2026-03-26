@@ -17,8 +17,8 @@ describe("Header", () => {
 
   it("renders desktop navigation links", () => {
     render(<Header />);
-    expect(screen.getByText("Green IT")).toBeInTheDocument();
     expect(screen.getByText("Blog")).toBeInTheDocument();
-    expect(screen.getByText("Références")).toBeInTheDocument();
+    expect(screen.getByText("Symfony")).toBeInTheDocument();
+    expect(screen.getByText("Services")).toBeInTheDocument();
   });
 });
