@@ -30,6 +30,15 @@ const item: NavDropdown = {
   ],
 };
 
+const itemWithHighlight: NavDropdown = {
+  label: "Services",
+  items: [
+    { label: "Dev Symfony", href: "/dev-symfony" },
+    { label: "Audit", href: "/audit" },
+  ],
+  highlight: { label: "Nos expertises", href: "/notre-expertise", description: "Vue d'ensemble" },
+};
+
 function DropdownNavWrapper({ dropdownItem }: { dropdownItem: NavDropdown }) {
   const [isOpen, setIsOpen] = useState(false);
   const closeTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null);
@@ -272,6 +281,21 @@ describe("DropdownNav", () => {
       jest.advanceTimersByTime(150);
     });
     expect(button).toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("renders highlight link and handles keyboard on it", () => {
+    render(<DropdownNavWrapper dropdownItem={itemWithHighlight} />);
+    fireEvent.click(getButton());
+    const items = getMenuItems();
+    expect(items).toHaveLength(3);
+    expect(items[2]).toHaveTextContent("Nos expertises");
+
+    fireEvent.keyDown(items[2], { key: "ArrowDown" });
+    expect(items[0]).toHaveFocus();
+
+    fireEvent.click(getButton());
+    fireEvent.keyDown(items[2], { key: "Escape" });
+    expect(getButton()).toHaveAttribute("aria-expanded", "false");
   });
 
   it("cancels delayed close when focus moves to another item", () => {
