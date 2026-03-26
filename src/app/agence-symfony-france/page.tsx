@@ -67,6 +67,36 @@ const faqItems = [
     content:
       "Une agence web classique couvre un large spectre (WordPress, Shopify, marketing, design). Un prestataire Symfony comme Efficience IT se concentre exclusivement sur le développement d'applications PHP et Symfony. Cette spécialisation garantit une expertise technique plus profonde et des choix architecturaux plus pertinents pour vos projets métier.",
   },
+  {
+    title: "Pourquoi choisir Symfony plutôt qu'un autre framework PHP ?",
+    content:
+      "Symfony est le framework PHP le plus adapté aux applications métier complexes. Sa stabilité, son cycle de releases LTS, son écosystème mature (Doctrine, Messenger, Security) et sa communauté active en font le choix de référence pour les projets qui doivent durer dans le temps. Contrairement à Laravel, orienté prototypage rapide, Symfony privilégie la robustesse architecturale et la maintenabilité à long terme.",
+  },
+  {
+    title: "Combien coûte le développement d'une application Symfony ?",
+    content:
+      "Le budget dépend de la complexité du projet : une API simple démarre autour de 10 000 euros, une application métier complète se situe entre 30 000 et 100 000 euros. Nous proposons un audit gratuit de 30 minutes pour évaluer votre besoin et vous donner une estimation réaliste. Chaque projet fait l'objet d'un devis détaillé, sans surprise.",
+  },
+  {
+    title: "Comment migrer une application PHP legacy vers Symfony ?",
+    content:
+      "Nous privilégions une approche progressive : audit du code existant, identification des modules critiques, migration incrémentale sans interruption de service. L'utilisation de Rector et d'outils d'analyse statique comme PHPStan accélère le processus. L'objectif est de moderniser sans tout réécrire, en conservant la valeur métier du code existant.",
+  },
+  {
+    title: "Symfony ou Laravel : lequel choisir pour mon projet ?",
+    content:
+      "Laravel excelle pour le prototypage rapide et les projets simples. Symfony est préférable pour les applications métier complexes, les projets à longue durée de vie et les équipes qui valorisent l'architecture logicielle. Si votre application doit gérer des règles métier complexes, une architecture hexagonale ou du CQRS, Symfony est le meilleur choix.",
+  },
+  {
+    title: "Quels sont les délais pour un projet Symfony ?",
+    content:
+      "Un MVP fonctionnel peut être livré en 6 à 8 semaines. Une application métier complète nécessite généralement 3 à 6 mois. Nous travaillons en sprints courts avec des livraisons régulières, ce qui vous donne de la visibilité dès les premières semaines et la possibilité d'ajuster les priorités en cours de route.",
+  },
+  {
+    title: "Quand utiliser API Platform avec Symfony ?",
+    content:
+      "API Platform est pertinent dès que votre projet implique une API REST ou GraphQL : application mobile, SPA, intégration avec des systèmes tiers ou architecture microservices. Il génère automatiquement la documentation OpenAPI, gère la pagination, le filtrage et la sérialisation. Pour les API simples, les controllers Symfony classiques suffisent.",
+  },
 ];
 
 const faqJsonLd = {
