@@ -13,10 +13,8 @@ interface DropdownNavProps {
 }
 
 export default function DropdownNav({ item, isOpen, onOpen, onClose, onDelayedClose }: DropdownNavProps) {
-  const [activeIndex, setActiveIndex] = [useRef(-1).current, (v: number) => { activeIndexRef.current = v; }] as never;
   const menuId = useId();
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const activeIndexRef = useRef(-1);
   const allItems = item.highlight
     ? [...item.items, item.highlight]
     : item.items;
