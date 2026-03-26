@@ -11,6 +11,18 @@ export const mainNav: NavItem[] = [
       { label: "Cloud & DevOps", href: "/cloud-et-devops" },
       { label: "Développement Node.js", href: "/developpement-nodejs" },
       { label: "Expertise IA", href: "/expertise-ia" },
+    ],
+  },
+  {
+    label: "Symfony",
+    items: [
+      { label: "Agence Symfony en France", href: "/agence-symfony-france" },
+      { label: "Migration Symfony", href: "/migration-symfony" },
+      { label: "Maintenance applicative", href: "/maintenance-applicative-symfony" },
+      { label: "API sur mesure", href: "/api-sur-mesure-symfony" },
+      { label: "Architecture hexagonale", href: "/architecture-hexagonale-symfony" },
+      { label: "Formation Symfony", href: "/formation-symfony-entreprise" },
+      { label: "Reprise de projet", href: "/reprise-projet-symfony" },
       { label: "Audit Symfony gratuit", href: "/audit-symfony-gratuit" },
     ],
   },
@@ -19,6 +31,7 @@ export const mainNav: NavItem[] = [
     items: [
       { label: "Notre histoire", href: "/l-entreprise" },
       { label: "La team", href: "/la-team" },
+      { label: "Références", href: "/nos-references" },
       { label: "Jobs", href: "/ta-carriere" },
     ],
   },
@@ -32,8 +45,6 @@ export const mainNav: NavItem[] = [
       { label: "SaaS", href: "/secteur/saas" },
     ],
   },
-  { label: "Green IT", href: "/green-it" },
-  { label: "Références", href: "/nos-references" },
   { label: "Blog", href: "/blog" },
 ];
 
@@ -50,6 +61,20 @@ export const footerNav = {
       { label: "Migration Symfony", href: "/migration-symfony" },
       { label: "Hébergement Symfony", href: "/hebergement-symfony" },
       { label: "Nos articles", href: "/blog" },
+    ],
+  },
+  symfony: {
+    title: "Symfony",
+    links: [
+      { label: "Agence Symfony en France", href: "/agence-symfony-france" },
+      { label: "Agence Symfony Lille", href: "/agence-symfony-lille" },
+      { label: "Agence Symfony Paris", href: "/agence-symfony-paris" },
+      { label: "Migration Symfony", href: "/migration-symfony" },
+      { label: "Maintenance applicative", href: "/maintenance-applicative-symfony" },
+      { label: "API sur mesure", href: "/api-sur-mesure-symfony" },
+      { label: "Architecture hexagonale", href: "/architecture-hexagonale-symfony" },
+      { label: "Formation Symfony", href: "/formation-symfony-entreprise" },
+      { label: "Audit Symfony gratuit", href: "/audit-symfony-gratuit" },
     ],
   },
   secteurs: {
