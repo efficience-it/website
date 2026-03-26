@@ -542,6 +542,58 @@ export default function AgenceSymfonyLille() {
         </FadeIn>
 
         <FadeIn>
+          <section className="bg-light-gray py-16 md:py-24">
+            <Container>
+              <SectionTitle>Nos interventions Symfony les plus fréquentes</SectionTitle>
+              <div className="mx-auto max-w-3xl space-y-4 text-lg text-gray">
+                <p>
+                  La majorité de nos missions à Lille et dans les Hauts-de-France portent sur la{" "}
+                  <Link href="/migration-symfony" className="text-primary hover:underline">
+                    migration de versions Symfony
+                  </Link>
+                  {" "}(de Symfony 4 ou 5 vers les versions LTS actuelles), la{" "}
+                  <Link href="/reprise-projet-symfony" className="text-primary hover:underline">
+                    reprise de projets
+                  </Link>
+                  {" "}laissés sans mainteneur, et le développement d&apos;
+                  <Link href="/api-sur-mesure-symfony" className="text-primary hover:underline">
+                    API sur mesure
+                  </Link>
+                  {" "}pour connecter vos systèmes d&apos;information.
+                </p>
+                <p>
+                  Nous intervenons aussi sur la mise en place d&apos;
+                  <Link href="/architecture-hexagonale-symfony" className="text-primary hover:underline">
+                    architectures hexagonales
+                  </Link>
+                  {" "}pour les applications métier complexes, et sur l&apos;intégration de solutions techniques comme{" "}
+                  <Link href="/base-de-donnees-postgresql-symfony" className="text-primary hover:underline">
+                    PostgreSQL
+                  </Link>
+                  ,{" "}
+                  <Link href="/integration-redis-symfony" className="text-primary hover:underline">
+                    Redis
+                  </Link>
+                  {" "}et{" "}
+                  <Link href="/integration-elasticsearch-symfony" className="text-primary hover:underline">
+                    Elasticsearch
+                  </Link>
+                  . Chaque projet bénéficie d&apos;un environnement{" "}
+                  <Link href="/integration-docker-symfony" className="text-primary hover:underline">
+                    Docker
+                  </Link>
+                  {" "}reproductible et d&apos;un{" "}
+                  <Link href="/hebergement-symfony" className="text-primary hover:underline">
+                    hébergement optimisé
+                  </Link>
+                  .
+                </p>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
         <section className="bg-primary py-16 text-center text-white">
           <div className="mx-auto max-w-3xl px-4">
             <h2 className="font-display text-3xl font-bold">

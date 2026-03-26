@@ -533,6 +533,60 @@ export default function AgenceSymfonyNantes() {
         <FadeIn>
           <section className="py-16 md:py-24">
             <Container>
+              <SectionTitle>Les technologies Symfony que nous déployons</SectionTitle>
+              <div className="mx-auto max-w-3xl space-y-4 text-lg text-gray">
+                <p>
+                  Chaque projet Symfony que nous livrons s&apos;appuie sur les composants les plus adaptés à vos besoins. Doctrine ORM pour la modélisation des données,{" "}
+                  <Link href="/article/symfony-messenger-colonne-vertebrale-archi-hexagonale" className="text-primary hover:underline">
+                    Messenger pour les traitements asynchrones
+                  </Link>
+                  , Security pour la gestion des authentifications et des autorisations.
+                </p>
+                <p>
+                  Les entreprises nantaises qui ont besoin d&apos;interconnecter leurs systèmes bénéficient de notre expertise en{" "}
+                  <Link href="/api-sur-mesure-symfony" className="text-primary hover:underline">
+                    conception d&apos;API sur mesure avec API Platform
+                  </Link>
+                  . Documentation OpenAPI générée automatiquement, versioning, pagination et filtres avancés sont intégrés nativement.
+                </p>
+                <p>
+                  Pour les projets à forte volumétrie, nous mettons en place des architectures performantes avec{" "}
+                  <Link href="/base-de-donnees-postgresql-symfony" className="text-primary hover:underline">
+                    PostgreSQL
+                  </Link>
+                  ,{" "}
+                  <Link href="/integration-redis-symfony" className="text-primary hover:underline">
+                    Redis
+                  </Link>
+                  {" "}et{" "}
+                  <Link href="/integration-elasticsearch-symfony" className="text-primary hover:underline">
+                    Elasticsearch
+                  </Link>
+                  . L&apos;
+                  <Link href="/integration-docker-symfony" className="text-primary hover:underline">
+                    intégration Docker
+                  </Link>
+                  {" "}garantit des environnements reproductibles du développement à la production.
+                </p>
+                <p>
+                  La qualité est non négociable :{" "}
+                  <Link href="/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php" className="text-primary hover:underline">
+                    analyse statique PHPStan
+                  </Link>
+                  {" "}au niveau maximal,{" "}
+                  <Link href="/tests-automatises-php" className="text-primary hover:underline">
+                    tests automatisés
+                  </Link>
+                  {" "}sur chaque fonctionnalité critique, et revues de code à chaque merge request.
+                </p>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="bg-light-gray py-16 md:py-24">
+            <Container>
               <SectionTitle>Questions fréquentes</SectionTitle>
               <div className="mx-auto max-w-2xl">
                 <Accordion items={faqItems} />
@@ -542,7 +596,7 @@ export default function AgenceSymfonyNantes() {
         </FadeIn>
 
         <FadeIn>
-          <RelatedLinks links={relatedLinks} className="bg-light-gray" />
+          <RelatedLinks links={relatedLinks} />
         </FadeIn>
 
         <CallToAction />
