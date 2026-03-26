@@ -41,7 +41,7 @@ const elasticsearchRelatedLinks: RelatedLink[] = [
 export const metadata = pageMetadata({
   title: "Elasticsearch et Symfony : recherche performante pour vos applications",
   description:
-    "Efficience IT intègre Elasticsearch dans vos projets Symfony. Indexation, recherche full-text, filtres à facettes et suggestions pour une expérience utilisateur fluide.",
+    "Efficience IT intègre Elasticsearch dans vos projets Symfony. Indexation, recherche full-text, filtres à facettes et suggestions en temps réel.",
   path: "/integration-elasticsearch-symfony",
 });
 
@@ -121,7 +121,7 @@ const service = serviceJsonLd({
 const webPage = webPageJsonLd({
   name: "Elasticsearch et Symfony : recherche performante pour vos applications",
   description:
-    "Efficience IT intègre Elasticsearch dans vos projets Symfony. Indexation, recherche full-text, filtres à facettes et suggestions pour une expérience utilisateur fluide.",
+    "Efficience IT intègre Elasticsearch dans vos projets Symfony. Indexation, recherche full-text, filtres à facettes et suggestions en temps réel.",
   path: "/integration-elasticsearch-symfony",
   datePublished: "2026-03-17",
   dateModified: "2026-03-17",

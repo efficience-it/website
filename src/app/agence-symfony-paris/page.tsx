@@ -16,7 +16,7 @@ import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 export const metadata = pageMetadata({
   title: "Agence Symfony à Paris : développement PHP sur mesure",
   description:
-    "Efficience IT, agence Symfony pour Paris et Île-de-France. Développement sur mesure, audit, migration et maintenance de vos applications PHP, en remote ou sur site.",
+    "Efficience IT, agence Symfony pour Paris et Île-de-France. Développement sur mesure, audit, migration et maintenance de vos applications PHP.",
   path: "/agence-symfony-paris",
 });
 
@@ -121,7 +121,7 @@ const breadcrumb = breadcrumbJsonLd([
 const webPage = webPageJsonLd({
   name: "Agence Symfony à Paris : développement PHP sur mesure",
   description:
-    "Efficience IT, agence Symfony pour Paris et Île-de-France. Développement sur mesure, audit, migration et maintenance de vos applications PHP, en remote ou sur site.",
+    "Efficience IT, agence Symfony pour Paris et Île-de-France. Développement sur mesure, audit, migration et maintenance de vos applications PHP.",
   path: "/agence-symfony-paris",
   datePublished: "2026-03-20",
   dateModified: "2026-03-20",

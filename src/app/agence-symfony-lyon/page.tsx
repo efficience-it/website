@@ -16,7 +16,7 @@ import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 export const metadata = pageMetadata({
   title: "Agence Symfony à Lyon : expertise PHP et développement sur mesure",
   description:
-    "Efficience IT, agence Symfony pour Lyon et Auvergne-Rhône-Alpes. Développement sur mesure, audit technique, migration et maintenance de vos applications PHP.",
+    "Efficience IT, agence Symfony pour Lyon et Auvergne-Rhône-Alpes. Développement sur mesure, audit, migration et maintenance de vos applications PHP.",
   path: "/agence-symfony-lyon",
 });
 
@@ -121,7 +121,7 @@ const breadcrumb = breadcrumbJsonLd([
 const webPage = webPageJsonLd({
   name: "Agence Symfony à Lyon : expertise PHP et développement sur mesure",
   description:
-    "Efficience IT, agence Symfony pour Lyon et Auvergne-Rhône-Alpes. Développement sur mesure, audit technique, migration et maintenance de vos applications PHP.",
+    "Efficience IT, agence Symfony pour Lyon et Auvergne-Rhône-Alpes. Développement sur mesure, audit, migration et maintenance de vos applications PHP.",
   path: "/agence-symfony-lyon",
   datePublished: "2026-03-20",
   dateModified: "2026-03-20",

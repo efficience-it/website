@@ -16,7 +16,7 @@ import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 export const metadata = pageMetadata({
   title: "Nos secteurs d'intervention : e-commerce, finance, industrie et SaaS",
   description:
-    "Efficience IT accompagne les entreprises du e-commerce, de la finance, de l'industrie et du SaaS avec des applications Symfony sur mesure adaptées à chaque métier.",
+    "Efficience IT accompagne les entreprises du e-commerce, de la finance, de l'industrie et du SaaS avec des applications Symfony sur mesure.",
   path: "/secteur",
 });
 
@@ -89,7 +89,7 @@ const breadcrumb = breadcrumbJsonLd([
 const webPage = webPageJsonLd({
   name: "Nos secteurs d'intervention : e-commerce, finance, industrie et SaaS",
   description:
-    "Efficience IT accompagne les entreprises du e-commerce, de la finance, de l'industrie et du SaaS avec des applications Symfony sur mesure adaptées à chaque métier.",
+    "Efficience IT accompagne les entreprises du e-commerce, de la finance, de l'industrie et du SaaS avec des applications Symfony sur mesure.",
   path: "/secteur",
   datePublished: "2026-03-17",
   dateModified: "2026-03-17",

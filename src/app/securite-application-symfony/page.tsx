@@ -45,7 +45,7 @@ const securiteRelatedLinks: RelatedLink[] = [
 export const metadata = pageMetadata({
   title: "Sécurité applicative Symfony : audit, protection et conformité",
   description:
-    "Efficience IT sécurise vos applications Symfony : audit de vulnérabilités, protection OWASP, conformité RGPD et mise en place de bonnes pratiques de sécurité.",
+    "Efficience IT sécurise vos applications Symfony : audit de vulnérabilités, protection OWASP, conformité RGPD et bonnes pratiques de sécurité.",
   path: "/securite-application-symfony",
 });
 
@@ -127,7 +127,7 @@ const service = serviceJsonLd({
 const webPage = webPageJsonLd({
   name: "Sécurité applicative Symfony : audit, protection et conformité",
   description:
-    "Efficience IT sécurise vos applications Symfony : audit de vulnérabilités, protection OWASP, conformité RGPD et mise en place de bonnes pratiques de sécurité.",
+    "Efficience IT sécurise vos applications Symfony : audit de vulnérabilités, protection OWASP, conformité RGPD et bonnes pratiques de sécurité.",
   path: "/securite-application-symfony",
   datePublished: "2026-03-17",
   dateModified: "2026-03-17",

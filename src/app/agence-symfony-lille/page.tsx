@@ -16,7 +16,7 @@ import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 export const metadata = pageMetadata({
   title: "Agence Symfony à Lille, votre partenaire développement web",
   description:
-    "Efficience IT, agence Symfony à Lille : développement sur mesure, maintenance, migration et audit. Proximité, réactivité et expertise technique au service de vos projets.",
+    "Efficience IT, agence Symfony à Lille : développement sur mesure, maintenance, migration et audit. Proximité, réactivité et expertise technique.",
   path: "/agence-symfony-lille",
 });
 

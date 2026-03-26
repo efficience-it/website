@@ -19,7 +19,7 @@ import {
 export const metadata = pageMetadata({
   title: "Green IT | Démarche numérique responsable – Efficience IT",
   description:
-    "Efficience IT s'engage dans une démarche Green IT pour réduire l'impact environnemental du numérique, à travers des pratiques techniques et responsables.",
+    "Efficience IT s'engage dans une démarche Green IT pour réduire l'impact environnemental du numérique via des pratiques techniques responsables.",
   path: "/green-it",
   absoluteTitle: true,
 });
@@ -29,7 +29,7 @@ const breadcrumb = breadcrumbJsonLd([{ name: "Green IT", path: "/green-it" }]);
 const webPage = webPageJsonLd({
   name: "Green IT | Démarche numérique responsable",
   description:
-    "Efficience IT s'engage dans une démarche Green IT pour réduire l'impact environnemental du numérique, à travers des pratiques techniques et responsables.",
+    "Efficience IT s'engage dans une démarche Green IT pour réduire l'impact environnemental du numérique via des pratiques techniques responsables.",
   path: "/green-it",
   datePublished: "2025-09-01",
   dateModified: "2025-09-01",

@@ -16,7 +16,7 @@ import TechnologiesGrid from "@/components/sections/TechnologiesGrid";
 export const metadata = pageMetadata({
   title: "Expertise Symfony de référence",
   description:
-    "Expertise Symfony de référence : Efficience IT conçoit, développe et maintient des applications web professionnelles, robustes et orientées production.",
+    "Expertise Symfony de référence : Efficience IT conçoit, développe et maintient des applications web professionnelles et orientées production.",
   path: "/notre-expertise",
 });
 
@@ -25,7 +25,7 @@ const breadcrumb = breadcrumbJsonLd([{ name: "Nos expertises", path: "/notre-exp
 const webPage = webPageJsonLd({
   name: "Expertise Symfony de référence",
   description:
-    "Expertise Symfony de référence : Efficience IT conçoit, développe et maintient des applications web professionnelles, robustes et orientées production.",
+    "Expertise Symfony de référence : Efficience IT conçoit, développe et maintient des applications web professionnelles et orientées production.",
   path: "/notre-expertise",
   datePublished: "2025-09-01",
   dateModified: "2026-01-15",
