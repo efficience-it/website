@@ -1,0 +1,178 @@
+---
+title: "10 skills Claude Code pour une équipe Symfony"
+date: "2026-03-29"
+author: "Efficience IT"
+category: "IA"
+excerpt: "Dix skills Claude Code prêts à l'emploi pour standardiser les pratiques d'une équipe Symfony : revue de code, tests, migrations, sécurité, refactoring et plus."
+image: "/images/blog/skills-claude-code-equipe-symfony.webp"
+proficiencyLevel: "Intermediate"
+faq:
+  - question: "Où placer les fichiers de skills Claude Code dans un projet Symfony ?"
+    answer: "Les skills se placent dans le dossier .claude/skills/ à la racine du projet. Ils se commitent dans le dépôt Git pour que toute l'équipe y accède. Vous pouvez aussi créer des skills globaux dans ~/.claude/skills/ pour des commandes personnelles."
+  - question: "Faut-il connaître Claude Code pour utiliser les skills ?"
+    answer: "Non. C'est justement l'intérêt des skills : un développeur tape /review ou /test sans savoir rédiger un prompt. Le skill encode les bonnes pratiques dans un fichier Markdown versionné. Le résultat est immédiat."
+  - question: "Les skills remplacent-ils les outils de CI/CD ?"
+    answer: "Non. Les skills interviennent pendant le développement, avant le commit. Ils complètent la CI en détectant les problèmes plus tôt dans le cycle. PHPStan, PHP-CS-Fixer et PHPUnit restent indispensables dans votre pipeline."
+---
+
+Les skills Claude Code sont des prompts réutilisables que chaque membre de l'équipe invoque avec un simple `/nom-du-skill`. Ils vivent dans le dossier `.claude/skills/` du projet, se commitent dans Git, et garantissent que tout le monde applique les mêmes critères. Pour une équipe Symfony, c'est le moyen le plus direct de transformer des conventions orales en automatismes partagés. Au lieu de répéter les mêmes consignes en revue de code ou de documenter des procédures que personne ne lit, vous encodez vos exigences dans des fichiers Markdown versionnés. Voici dix skills concrets, prêts à adapter à votre projet.
+
+## /review : la revue de code standardisée
+
+La revue de code est le premier skill à mettre en place. Chaque équipe a ses propres critères de qualité, mais ils restent souvent implicites. Un développeur senior vérifie instinctivement les violations d'architecture, les failles de sécurité et les tests manquants. Un junior, lui, passe à côté. Le skill `/review` rend ces critères explicites et accessibles à tous.
+
+```markdown
+Analyse le diff git staged. Identifie :
+- Les violations d'architecture (logique métier dans un contrôleur, dépendance du Domain vers l'Infrastructure)
+- Les problèmes de sécurité (injection SQL, données non validées)
+- Les tests manquants pour les cas limites
+- Les violations des conventions PSR-12
+Classe les remarques par sévérité : bloquant, important, suggestion.
+```
+
+Sur un projet qui suit une [architecture hexagonale](/article/migration-symfony-architecture-hexagonale-retour-mission), ce skill détecte automatiquement les imports interdits entre couches. Il complète les outils d'analyse statique en ajoutant une couche de vérification sémantique que les linters ne couvrent pas. Le résultat : des pull requests plus propres dès le premier push, et des revues humaines qui se concentrent sur la logique métier plutôt que sur des détails de style.
+
+## /test : générer des tests PHPUnit ciblés
+
+Écrire des tests prend du temps, surtout quand il faut respecter les conventions spécifiques du projet. Ce skill accélère le processus en générant un squelette complet adapté à votre organisation de tests.
+
+```markdown
+Génère un test PHPUnit pour le fichier courant.
+Utilise les conventions du projet : tests dans tests/Unit/ ou tests/Functional/.
+Couvre le cas nominal, un cas limite et un cas d'erreur.
+Utilise des data providers quand c'est pertinent.
+Ne mocke jamais la base de données dans les tests fonctionnels.
+```
+
+Le skill s'appuie sur la [documentation PHPUnit](https://docs.phpunit.de/en/11.5/) pour produire des tests conformes aux bonnes pratiques. Précisez vos conventions dans le prompt : nommage des méthodes de test, utilisation des data providers, distinction entre tests unitaires et fonctionnels. Plus le skill est spécifique, plus le code généré est exploitable sans modification.
+
+## /migration : sécuriser les migrations Doctrine
+
+Les migrations Doctrine sont une source fréquente de problèmes en production. Une colonne supprimée sans migration de données, une requête ALTER TABLE sur une table de plusieurs millions de lignes sans index, une méthode `down()` incohérente : ces erreurs passent souvent inaperçues jusqu'au déploiement. Ce skill ajoute une couche de vérification systématique.
+
+```markdown
+Analyse la migration Doctrine la plus récente dans migrations/.
+Vérifie :
+- Pas de perte de données (DROP COLUMN sans migration de données préalable)
+- Présence d'une méthode down() cohérente
+- Pas de requête longue sur une table volumineuse sans index
+- Compatibilité avec un déploiement sans downtime
+Suggère les corrections nécessaires.
+```
+
+Ce skill est particulièrement utile lors d'une migration entre moteurs de base de données, ou il vérifie la compatibilité des types et des contraintes. Mais même sur un projet mono-base, il attrape les erreurs que la précipitation laisse passer.
+
+## /security : audit de sécurité rapide
+
+La sécurité ne devrait pas attendre la CI. Le temps entre le commit et le retour de la pipeline, c'est du temps perdu quand la faille est évidente. Ce skill analyse le code modifié pour détecter les vulnérabilités courantes avant même que le code ne quitte la machine du développeur.
+
+```markdown
+Analyse les fichiers modifiés (git diff). Cherche :
+- Injections SQL (requêtes DQL/SQL sans paramètres bindés)
+- Failles XSS (données non échappées dans les templates Twig)
+- Exposition de données sensibles (tokens, mots de passe en clair)
+- Permissions manquantes (contrôleurs sans #[IsGranted])
+- Dépendances avec des CVE connues
+Réfère-toi aux recommandations OWASP Top 10.
+```
+
+Ce skill encode les réflexes de sécurité que chaque développeur devrait avoir mais que la pression du quotidien fait parfois oublier. Il ne remplace pas un audit complet ni un outil dédié comme [Symfony Security Checker](https://symfony.com/doc/current/setup.html#checking-security-vulnerabilities), mais il attrape les erreurs évidentes au moment ou elles sont introduites.
+
+## /refactor : refactoring guidé par l'architecture
+
+Le refactoring sans direction claire crée plus de problèmes qu'il n'en résout. Sans cadre, un développeur peut extraire une classe dans le mauvais namespace, créer une dépendance circulaire, ou déplacer de la logique métier dans l'infrastructure. Ce skill cadre les modifications selon votre architecture cible et explique chaque décision.
+
+```markdown
+Refactore le fichier ou la classe indiquée en respectant :
+- Séparation stricte Domain / Application / Infrastructure
+- Le Domain ne dépend de rien d'autre
+- Les use cases sont dans Application/
+- Les contrôleurs restent des adaptateurs minces
+Explique chaque déplacement de code.
+```
+
+Quand le [domaine ne devrait jamais connaître Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony), ce skill garantit que le refactoring va dans la bonne direction. Il est particulièrement utile pour les développeurs qui découvrent les principes d'architecture hexagonale et ont besoin d'un guide concret pendant leurs premières modifications.
+
+## /messenger : vérifier la configuration asynchrone
+
+[Symfony Messenger](https://symfony.com/doc/current/messenger.html) gère le traitement asynchrone, mais sa configuration peut vite devenir opaque. Entre les transports, les routages, les retry policies et les handlers, une incohérence passe facilement inaperçue. Ce skill vérifie que tout est correctement câblé.
+
+```markdown
+Analyse la configuration Messenger du projet (messenger.yaml, handlers, messages).
+Vérifie :
+- Chaque message a un handler enregistré
+- Les transports sont correctement routés
+- Les retry policies sont définies pour les transports async
+- Les handlers ne contiennent pas de logique métier lourde
+Liste les incohérences trouvées.
+```
+
+Ce skill aide à maintenir une configuration saine à mesure que le nombre de messages et de handlers grandit. Sur les projets ou Messenger sert de bus de commandes central, la moindre erreur de routage peut provoquer des messages perdus silencieusement.
+
+## /fixtures : générer des données de test réalistes
+
+Les fixtures de test influencent directement la qualité de vos tests fonctionnels. Des données trop uniformes masquent des bugs. Des données incohérentes faussent les résultats. Ce skill génère des jeux de données qui reflètent la réalité de votre modèle métier.
+
+```markdown
+Génère des fixtures Alice pour l'entité indiquée.
+Utilise des données réalistes (noms français, emails valides, dates cohérentes).
+Crée au moins 5 entrées avec des variations significatives.
+Respecte les contraintes de validation de l'entité.
+Gère les relations (ManyToOne, OneToMany) avec des références.
+```
+
+Ce skill s'intègre avec le bundle Alice/Faker déjà en place sur votre projet. Il évite de copier-coller les mêmes fixtures génériques d'un projet à l'autre et produit des données qui testent réellement les cas limites de vos entités.
+
+## /api-doc : documenter les endpoints
+
+La documentation API demande de la rigueur. Chaque endpoint nécessite une description, des paramètres, un schéma de requête et des codes de réponse. C'est un travail répétitif que les développeurs repoussent souvent. Ce skill génère les attributs OpenAPI à partir du code existant.
+
+```markdown
+Analyse le contrôleur API indiqué.
+Génère les attributs OpenAPI (OA\) pour chaque endpoint :
+- Description, summary
+- Parameters (path, query)
+- Request body avec schema
+- Responses (200, 400, 401, 404, 422)
+- Tags et groupes
+Respecte les conventions REST décrites dans le projet.
+```
+
+Combiné aux [bonnes pratiques REST](/article/api-rest-les-bonnes-pratiques), ce skill produit une documentation conforme aux standards sans effort manuel. La documentation reste synchronisée avec le code parce qu'elle est générée directement depuis les contrôleurs.
+
+## /phpstan : corriger les erreurs d'analyse statique
+
+PHPStan détecte les erreurs, mais les corriger prend du temps. Une sortie de 47 erreurs décourage même les développeurs motivés. Ce skill prend la liste des erreurs et les corrige une par une, en expliquant chaque modification.
+
+```markdown
+Lance PHPStan et corrige les erreurs détectées.
+Priorité : les erreurs de type, les appels de méthodes sur des types nullable,
+les paramètres manquants.
+Ne jamais utiliser @phpstan-ignore pour masquer une erreur.
+Ne jamais réduire le niveau de PHPStan.
+Explique chaque correction.
+```
+
+Ce skill est le compagnon idéal pour les équipes qui visent le [niveau max de PHPStan](/article/phpstan-niveau-max-symfony-10-erreurs). Il transforme une liste d'erreurs intimidante en corrections appliquées méthodiquement, sans tricher avec des annotations d'exclusion.
+
+## /onboard : accélérer l'intégration des nouveaux
+
+L'onboarding technique est souvent le parent pauvre des projets Symfony. La documentation existe peut-être, mais elle date de six mois et ne reflète plus la réalité du code. Ce skill génère un briefing à jour en analysant directement le projet.
+
+```markdown
+Analyse le projet et génère un guide d'onboarding :
+- Stack technique et versions
+- Architecture du projet (structure des dossiers, couches)
+- Commandes essentielles (install, test, lint, dev server)
+- Conventions de code et patterns utilisés
+- Points d'attention (dette technique connue, zones sensibles)
+Sois factuel et concis.
+```
+
+Le skill exploite le CLAUDE.md et le code source pour produire un résumé qui reflète l'état réel du projet. Contrairement à une documentation statique qui vieillit, le briefing est régénéré à chaque invocation. Le cout de maintenance est nul puisque le contenu est généré dynamiquement à chaque invocation.
+
+## Mettre en place les skills dans votre équipe
+
+La mise en place est simple : créez le dossier `.claude/skills/` à la racine du projet, ajoutez vos fichiers Markdown, et commitez. Chaque développeur accède aux skills dès sa prochaine session Claude Code. Commencez par deux ou trois skills qui répondent à vos irritants quotidiens. Itérez sur les prompts en fonction des résultats : un skill médiocre devient excellent en quelques ajustements. Pour aller plus loin dans la configuration, le [guide de montée en compétence sur Claude Code](/article/monter-en-competence-claude-code) couvre aussi les hooks et les serveurs MCP qui complètent les skills.
+
+L'objectif n'est pas de tout automatiser d'un coup, mais de construire progressivement une bibliothèque de commandes qui encode les standards de votre équipe. Les skills ne remplacent ni la CI ni les revues humaines. Ils interviennent plus tôt dans le cycle, au moment ou le développeur écrit son code, et réduisent le bruit dans les étapes suivantes.
