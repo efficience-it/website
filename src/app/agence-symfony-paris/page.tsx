@@ -16,7 +16,7 @@ import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 export const metadata = pageMetadata({
   title: "Agence Symfony à Paris : développement PHP sur mesure",
   description:
-    "Efficience IT, agence Symfony pour Paris et Île-de-France. Développement sur mesure, audit, migration et maintenance de vos applications PHP, en remote ou sur site.",
+    "Efficience IT, agence Symfony pour Paris et Île-de-France. Développement sur mesure, audit, migration et maintenance de vos applications PHP.",
   path: "/agence-symfony-paris",
 });
 
@@ -121,7 +121,7 @@ const breadcrumb = breadcrumbJsonLd([
 const webPage = webPageJsonLd({
   name: "Agence Symfony à Paris : développement PHP sur mesure",
   description:
-    "Efficience IT, agence Symfony pour Paris et Île-de-France. Développement sur mesure, audit, migration et maintenance de vos applications PHP, en remote ou sur site.",
+    "Efficience IT, agence Symfony pour Paris et Île-de-France. Développement sur mesure, audit, migration et maintenance de vos applications PHP.",
   path: "/agence-symfony-paris",
   datePublished: "2026-03-20",
   dateModified: "2026-03-20",
@@ -522,6 +522,52 @@ export default function AgenceSymfonyParis() {
         <FadeIn>
           <section className="py-16 md:py-24">
             <Container>
+              <SectionTitle>Les composants Symfony au cœur de nos projets</SectionTitle>
+              <div className="mx-auto max-w-3xl space-y-4 text-lg text-gray">
+                <p>
+                  Chaque projet Symfony que nous livrons s&apos;appuie sur les composants les plus robustes de l&apos;écosystème. Doctrine ORM pour la persistance des données, Messenger pour les traitements asynchrones, Security pour l&apos;authentification et les autorisations fines.
+                </p>
+                <p>
+                  Pour les projets nécessitant des API, nous utilisons{" "}
+                  <Link href="/api-sur-mesure-symfony" className="text-primary hover:underline">
+                    API Platform
+                  </Link>
+                  {" "}qui génère automatiquement la documentation OpenAPI et gère la pagination, le filtrage et la sérialisation. Les applications e-commerce s&apos;appuient sur{" "}
+                  <Link href="/ecommerce-sylius" className="text-primary hover:underline">
+                    Sylius
+                  </Link>
+                  , la solution e-commerce native Symfony.
+                </p>
+                <p>
+                  La qualité du code est assurée par PHPStan au niveau maximal, des tests PHPUnit systématiques et des revues de code à chaque merge request. Nos pipelines CI/CD valident chaque livraison avant déploiement, avec des environnements{" "}
+                  <Link href="/integration-docker-symfony" className="text-primary hover:underline">
+                    Docker
+                  </Link>
+                  {" "}reproductibles du développement à la production.
+                </p>
+                <p>
+                  Pour les bases de données exigeantes, nous intégrons{" "}
+                  <Link href="/base-de-donnees-postgresql-symfony" className="text-primary hover:underline">
+                    PostgreSQL
+                  </Link>
+                  {" "}avec des optimisations spécifiques (index partiels, JSONB, full-text search). Les applications à fort trafic bénéficient de notre expertise en{" "}
+                  <Link href="/integration-redis-symfony" className="text-primary hover:underline">
+                    cache Redis
+                  </Link>
+                  {" "}et{" "}
+                  <Link href="/integration-elasticsearch-symfony" className="text-primary hover:underline">
+                    recherche Elasticsearch
+                  </Link>
+                  .
+                </p>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="bg-light-gray py-16 md:py-24">
+            <Container>
               <SectionTitle>Questions fréquentes</SectionTitle>
               <div className="mx-auto max-w-2xl">
                 <Accordion items={faqItems} />
@@ -531,7 +577,7 @@ export default function AgenceSymfonyParis() {
         </FadeIn>
 
         <FadeIn>
-          <RelatedLinks links={relatedLinks} className="bg-light-gray" />
+          <RelatedLinks links={relatedLinks} />
         </FadeIn>
 
         <CallToAction />

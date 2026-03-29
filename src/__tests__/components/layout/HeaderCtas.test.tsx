@@ -15,7 +15,7 @@ describe("HeaderCtas", () => {
   it("renders audit and contact links", () => {
     render(<HeaderCtas />);
     expect(screen.getByRole("link", { name: "Audit gratuit" })).toHaveAttribute("href", "/audit-symfony-gratuit");
-    expect(screen.getByRole("link", { name: "Contact" })).toHaveAttribute("href", "/contact");
+    expect(screen.getByRole("link", { name: "Nous contacter" })).toHaveAttribute("href", "/contact");
   });
 
   it("fires tracking events on click", () => {
@@ -30,7 +30,7 @@ describe("HeaderCtas", () => {
       cta_text: "Audit gratuit",
     });
 
-    fireEvent.click(screen.getByRole("link", { name: "Contact" }));
+    fireEvent.click(screen.getByRole("link", { name: "Nous contacter" }));
     expect(gtagSpy).toHaveBeenCalledWith("event", "cta_click", {
       cta_location: "header_desktop",
       cta_text: "Contact",

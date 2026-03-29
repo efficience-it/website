@@ -25,7 +25,7 @@ export const metadata = pageMetadata({
   title:
     "Modernisation d'application PHP : réduire la dette technique et remettre aux normes",
   description:
-    "Modernisez votre application PHP obsolète : réduction de la dette technique, refactoring progressif, mise aux normes PHP 8 et migration vers Symfony. PHP natif, CodeIgniter, Zend ou Laravel.",
+    "Modernisez votre application PHP obsolète : réduction de la dette technique, refactoring progressif, mise aux normes PHP 8 et migration vers Symfony.",
   path: "/modernisation-application-php",
 });
 

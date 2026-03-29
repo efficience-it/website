@@ -3,37 +3,146 @@ import { NavItem } from "@/types/navigation";
 export const mainNav: NavItem[] = [
   {
     label: "Services",
+    columns: 2,
     items: [
-      { label: "Nos expertises", href: "/notre-expertise" },
-      { label: "Développement PHP", href: "/developpement-php" },
-      { label: "Modernisation applicative", href: "/modernisation-applicative" },
-      { label: "Développement frontend", href: "/developpement-frontend" },
-      { label: "Cloud & DevOps", href: "/cloud-et-devops" },
-      { label: "Développement Node.js", href: "/developpement-nodejs" },
-      { label: "Expertise IA", href: "/expertise-ia" },
-      { label: "Audit Symfony gratuit", href: "/audit-symfony-gratuit" },
+      {
+        label: "Développement PHP",
+        href: "/developpement-php",
+        description: "Applications Symfony sur mesure, robustes et maintenables",
+      },
+      {
+        label: "Modernisation applicative",
+        href: "/modernisation-applicative",
+        description: "Migration, refactoring et remise à niveau de vos applications",
+      },
+      {
+        label: "Développement frontend",
+        href: "/developpement-frontend",
+        description: "React, Vue.js, TypeScript pour vos interfaces utilisateur",
+      },
+      {
+        label: "Cloud & DevOps",
+        href: "/cloud-et-devops",
+        description: "Infrastructure, CI/CD et déploiements automatisés",
+      },
+      {
+        label: "Développement Node.js",
+        href: "/developpement-nodejs",
+        description: "API performantes et applications temps réel",
+      },
+      {
+        label: "Expertise IA",
+        href: "/expertise-ia",
+        description: "Intégration d'IA dans vos processus métier",
+      },
     ],
+    highlight: {
+      label: "Nos expertises",
+      href: "/notre-expertise",
+      description: "Vue d'ensemble de nos savoir-faire",
+    },
+  },
+  {
+    label: "Symfony",
+    columns: 2,
+    items: [
+      {
+        label: "Agence Symfony en France",
+        href: "/agence-symfony-france",
+        description: "Développement, migration et maintenance partout en France",
+      },
+      {
+        label: "Migration Symfony",
+        href: "/migration-symfony",
+        description: "Montée de version progressive, sans interruption",
+      },
+      {
+        label: "Maintenance applicative",
+        href: "/maintenance-applicative-symfony",
+        description: "TMA corrective, évolutive et préventive",
+      },
+      {
+        label: "API sur mesure",
+        href: "/api-sur-mesure-symfony",
+        description: "REST, GraphQL avec API Platform",
+      },
+      {
+        label: "Architecture hexagonale",
+        href: "/architecture-hexagonale-symfony",
+        description: "DDD et séparation des couches métier",
+      },
+      {
+        label: "Formation Symfony",
+        href: "/formation-symfony-entreprise",
+        description: "Montée en compétences de vos équipes",
+      },
+      {
+        label: "Reprise de projet",
+        href: "/reprise-projet-symfony",
+        description: "Audit et reprise d'applications existantes",
+      },
+    ],
+    highlight: {
+      label: "Audit Symfony gratuit",
+      href: "/audit-symfony-gratuit",
+      description: "30 minutes pour évaluer votre application",
+    },
   },
   {
     label: "L'agence",
     items: [
-      { label: "Notre histoire", href: "/l-entreprise" },
-      { label: "La team", href: "/la-team" },
-      { label: "Jobs", href: "/ta-carriere" },
+      {
+        label: "Notre histoire",
+        href: "/l-entreprise",
+        description: "10 ans de spécialisation PHP et Symfony",
+      },
+      {
+        label: "La team",
+        href: "/la-team",
+        description: "Des développeurs passionnés et expérimentés",
+      },
+      {
+        label: "Références",
+        href: "/nos-references",
+        description: "Les projets qui nous ont fait grandir",
+      },
+      {
+        label: "Green IT",
+        href: "/green-it",
+        description: "Notre engagement pour un numérique responsable",
+      },
+      {
+        label: "Jobs",
+        href: "/ta-carriere",
+        description: "Rejoignez l'équipe Efficience IT",
+      },
     ],
   },
   {
     label: "Secteurs",
     items: [
-      { label: "Nos secteurs", href: "/secteur" },
-      { label: "E-commerce", href: "/secteur/e-commerce" },
-      { label: "Finance", href: "/secteur/finance" },
-      { label: "Industrie", href: "/secteur/industrie" },
-      { label: "SaaS", href: "/secteur/saas" },
+      {
+        label: "E-commerce",
+        href: "/secteur/e-commerce",
+        description: "Symfony, Sylius et solutions sur mesure",
+      },
+      {
+        label: "Finance",
+        href: "/secteur/finance",
+        description: "Applications critiques et conformité réglementaire",
+      },
+      {
+        label: "Industrie",
+        href: "/secteur/industrie",
+        description: "Outils métier, ERP et pilotage de production",
+      },
+      {
+        label: "SaaS",
+        href: "/secteur/saas",
+        description: "Architecture multi-tenant et scalabilité",
+      },
     ],
   },
-  { label: "Green IT", href: "/green-it" },
-  { label: "Références", href: "/nos-references" },
   { label: "Blog", href: "/blog" },
 ];
 
@@ -50,6 +159,20 @@ export const footerNav = {
       { label: "Migration Symfony", href: "/migration-symfony" },
       { label: "Hébergement Symfony", href: "/hebergement-symfony" },
       { label: "Nos articles", href: "/blog" },
+    ],
+  },
+  symfony: {
+    title: "Symfony",
+    links: [
+      { label: "Agence Symfony en France", href: "/agence-symfony-france" },
+      { label: "Agence Symfony Lille", href: "/agence-symfony-lille" },
+      { label: "Agence Symfony Paris", href: "/agence-symfony-paris" },
+      { label: "Migration Symfony", href: "/migration-symfony" },
+      { label: "Maintenance applicative", href: "/maintenance-applicative-symfony" },
+      { label: "API sur mesure", href: "/api-sur-mesure-symfony" },
+      { label: "Architecture hexagonale", href: "/architecture-hexagonale-symfony" },
+      { label: "Formation Symfony", href: "/formation-symfony-entreprise" },
+      { label: "Audit Symfony gratuit", href: "/audit-symfony-gratuit" },
     ],
   },
   secteurs: {

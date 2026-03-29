@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
 import ProcessStep from "@/components/cards/ProcessStep";
@@ -47,6 +48,19 @@ export default function ProcessSteps() {
               description={step.description}
             />
           ))}
+        </div>
+        <div className="mx-auto mt-10 max-w-3xl space-y-4 text-center text-lg text-gray">
+          <p>
+            Cette méthodologie nous permet de livrer des{" "}
+            <Link href="/developpement-web-sur-mesure" className="text-primary hover:underline">
+              applications web sur mesure
+            </Link>
+            {" "}de qualité, dans les délais, avec une visibilité constante sur l&apos;avancement. Chaque livraison est testée, documentée et déployée via notre pipeline{" "}
+            <Link href="/cloud-et-devops" className="text-primary hover:underline">
+              CI/CD
+            </Link>
+            .
+          </p>
         </div>
       </Container>
     </section>

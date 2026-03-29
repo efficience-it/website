@@ -17,7 +17,7 @@ export const metadata = pageMetadata({
   title:
     "Agence e-commerce Symfony et Sylius : développement sur mesure",
   description:
-    "Efficience IT développe des plateformes e-commerce performantes avec Symfony et Sylius : catalogue produit, API headless, intégration PIM/ERP et scalabilité.",
+    "Efficience IT développe des plateformes e-commerce performantes avec Symfony et Sylius : catalogue produit, API headless et intégration PIM/ERP.",
   path: "/secteur/e-commerce",
 });
 
@@ -104,7 +104,7 @@ const service = serviceJsonLd({
 const webPage = webPageJsonLd({
   name: "Agence e-commerce Symfony et Sylius : développement sur mesure",
   description:
-    "Efficience IT développe des plateformes e-commerce performantes avec Symfony et Sylius : catalogue produit, API headless, intégration PIM/ERP et scalabilité.",
+    "Efficience IT développe des plateformes e-commerce performantes avec Symfony et Sylius : catalogue produit, API headless et intégration PIM/ERP.",
   path: "/secteur/e-commerce",
   datePublished: "2026-03-12",
   dateModified: "2026-03-12",

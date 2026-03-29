@@ -17,7 +17,7 @@ export const metadata = pageMetadata({
   title:
     "Tests automatisés PHP et Symfony : sécurisez chaque livraison",
   description:
-    "Mettez en place une stratégie de tests automatisés PHP et Symfony : tests unitaires, intégration, fonctionnels et e2e avec PHPUnit, Behat et Cypress. Pipeline CI/CD inclus.",
+    "Stratégie de tests automatisés PHP et Symfony : tests unitaires, intégration, fonctionnels et e2e avec PHPUnit, Behat et Cypress. CI/CD inclus.",
   path: "/tests-automatises-php",
 });
 
@@ -123,7 +123,7 @@ const service = serviceJsonLd({
 const webPage = webPageJsonLd({
   name: "Tests automatisés PHP et Symfony : sécurisez chaque livraison",
   description:
-    "Mettez en place une stratégie de tests automatisés PHP et Symfony : tests unitaires, intégration, fonctionnels et e2e avec PHPUnit, Behat et Cypress. Pipeline CI/CD inclus.",
+    "Stratégie de tests automatisés PHP et Symfony : tests unitaires, intégration, fonctionnels et e2e avec PHPUnit, Behat et Cypress. CI/CD inclus.",
   path: "/tests-automatises-php",
   datePublished: "2026-03-12",
   dateModified: "2026-03-12",

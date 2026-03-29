@@ -132,7 +132,7 @@ export default function NosReferences() {
       <section className="bg-light-gray py-8 md:py-12">
         <Container className="text-center">
           <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
-            Nos références
+            Nos réalisations et contributions open source
           </h1>
           <p className="mx-auto mt-4 max-w-3xl text-lg text-gray">
             Ils nous font confiance pour leurs projets web, cloud et DevOps.

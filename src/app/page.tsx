@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Hero from "@/components/sections/Hero";
 import ExpertiseCards from "@/components/sections/ExpertiseCards";
 import AboutPreview from "@/components/sections/AboutPreview";
@@ -62,6 +63,59 @@ export default function Home() {
       </FadeIn>
       <FadeIn>
         <ProcessSteps />
+      </FadeIn>
+      <FadeIn>
+        <section className="bg-light-gray py-16 md:py-24">
+          <Container>
+            <SectionTitle>Pourquoi Symfony pour vos projets métier</SectionTitle>
+            <div className="mx-auto max-w-3xl space-y-4 text-lg text-gray">
+              <p>
+                Symfony est le framework PHP de référence pour les applications métier complexes. Sa stabilité, son cycle de releases LTS et son écosystème mature en font le choix naturel des entreprises qui ont besoin d&apos;applications robustes et durables.
+              </p>
+              <p>
+                Contrairement aux solutions généralistes, Symfony offre une{" "}
+                <Link href="/architecture-hexagonale-symfony" className="text-primary hover:underline">
+                  architecture modulaire
+                </Link>
+                {" "}qui permet de séparer proprement le code métier de l&apos;infrastructure. Doctrine pour la persistance,{" "}
+                <Link href="/article/symfony-messenger-colonne-vertebrale-archi-hexagonale" className="text-primary hover:underline">
+                  Messenger pour les traitements asynchrones
+                </Link>
+                , Security pour l&apos;authentification : chaque composant est conçu pour fonctionner indépendamment et évoluer sans casser l&apos;existant.
+              </p>
+              <p>
+                Notre expertise couvre l&apos;ensemble du cycle de vie de vos applications Symfony : de la{" "}
+                <Link href="/api-sur-mesure-symfony" className="text-primary hover:underline">
+                  conception d&apos;API sur mesure avec API Platform
+                </Link>
+                {" "}à la{" "}
+                <Link href="/maintenance-applicative-symfony" className="text-primary hover:underline">
+                  maintenance applicative
+                </Link>
+                , en passant par la{" "}
+                <Link href="/migration-symfony" className="text-primary hover:underline">
+                  migration vers les dernières versions LTS
+                </Link>
+                . Nous accompagnons aussi vos équipes avec des{" "}
+                <Link href="/formation-symfony-entreprise" className="text-primary hover:underline">
+                  formations Symfony en entreprise
+                </Link>
+                .
+              </p>
+              <p>
+                Vous avez un projet existant qui nécessite une reprise en main ? Notre service de{" "}
+                <Link href="/reprise-projet-symfony" className="text-primary hover:underline">
+                  reprise de projets Symfony
+                </Link>
+                {" "}est conçu pour remettre sur pied les applications abandonnées ou mal maintenues, avec un{" "}
+                <Link href="/audit-symfony-gratuit" className="text-primary hover:underline">
+                  audit gratuit de 30 minutes
+                </Link>
+                {" "}comme point de départ.
+              </p>
+            </div>
+          </Container>
+        </section>
       </FadeIn>
       <FadeIn>
         <ClientLogos />

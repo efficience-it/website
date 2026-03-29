@@ -16,7 +16,7 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured
 export const metadata = pageMetadata({
   title: "Audit technique approfondi de code PHP : rapport détaillé et plan d'action",
   description:
-    "Audit technique approfondi de votre code PHP : analyse statique PHPStan niveau max, revue manuelle par un développeur senior, rapport détaillé avec plan d'action priorisé. Livraison sous 48h.",
+    "Audit technique de votre code PHP : analyse statique PHPStan niveau max, revue par un développeur senior, rapport détaillé avec plan d'action. Sous 48h.",
   path: "/audit-code-php",
 });
 
@@ -154,7 +154,7 @@ const service = serviceJsonLd({
 const webPage = webPageJsonLd({
   name: "Audit technique approfondi de code PHP : rapport détaillé et plan d'action",
   description:
-    "Audit technique approfondi de votre code PHP : analyse statique PHPStan niveau max, revue manuelle par un développeur senior, rapport détaillé avec plan d'action priorisé. Livraison sous 48h.",
+    "Audit technique de votre code PHP : analyse statique PHPStan niveau max, revue par un développeur senior, rapport détaillé avec plan d'action. Sous 48h.",
   path: "/audit-code-php",
   datePublished: "2026-03-12",
   dateModified: "2026-03-12",

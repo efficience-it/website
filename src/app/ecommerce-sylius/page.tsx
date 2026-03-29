@@ -17,7 +17,7 @@ export const metadata = pageMetadata({
   title:
     "Développement e-commerce Sylius : votre boutique Symfony sur mesure",
   description:
-    "Efficience IT développe votre boutique e-commerce avec Sylius, la plateforme open source basée sur Symfony. Solution adaptée à vos besoins, performante et évolutive.",
+    "Efficience IT développe votre boutique e-commerce avec Sylius, la plateforme open source Symfony. Solution adaptée, performante et évolutive.",
   path: "/ecommerce-sylius",
 });
 

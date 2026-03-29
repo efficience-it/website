@@ -16,7 +16,7 @@ import { BASE_URL } from "@/lib/metadata";
 export const metadata = pageMetadata({
   title: "Formation Symfony pour les entreprises à Lille et à distance",
   description:
-    "Formation Symfony adaptée aux entreprises, à Lille et à distance. Fondamentaux, architecture hexagonale, API Platform, PHPStan. Groupes de 2 à 8 personnes, formateurs praticiens.",
+    "Formation Symfony pour entreprises, à Lille et à distance. Fondamentaux, architecture hexagonale, API Platform, PHPStan. Formateurs praticiens.",
   path: "/formation-symfony-entreprise",
 });
 

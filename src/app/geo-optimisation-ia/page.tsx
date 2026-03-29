@@ -16,7 +16,7 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured
 export const metadata = pageMetadata({
   title: "GEO : optimisez votre visibilité dans les moteurs IA",
   description:
-    "Generative Engine Optimization (GEO) : rendez votre site visible dans ChatGPT, Perplexity et les AI Overviews de Google. Données structurées, llms.txt, optimisation du contenu pour les moteurs IA.",
+    "Generative Engine Optimization (GEO) : rendez votre site visible dans ChatGPT, Perplexity et les AI Overviews de Google. Données structurées et llms.txt.",
   path: "/geo-optimisation-ia",
 });
 
@@ -131,7 +131,7 @@ const service = serviceJsonLd({
 const webPage = webPageJsonLd({
   name: "GEO : optimisez votre visibilité dans les moteurs IA",
   description:
-    "Generative Engine Optimization (GEO) : rendez votre site visible dans ChatGPT, Perplexity et les AI Overviews de Google. Données structurées, llms.txt, optimisation du contenu pour les moteurs IA.",
+    "Generative Engine Optimization (GEO) : rendez votre site visible dans ChatGPT, Perplexity et les AI Overviews de Google. Données structurées et llms.txt.",
   path: "/geo-optimisation-ia",
   datePublished: "2026-03-12",
   dateModified: "2026-03-12",

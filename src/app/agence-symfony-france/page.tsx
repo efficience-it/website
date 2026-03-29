@@ -422,6 +422,75 @@ export default function AgenceSymfonyFrance() {
         <FadeIn>
           <section className="py-16 md:py-24">
             <Container>
+              <SectionTitle>L&apos;écosystème Symfony que nous maîtrisons</SectionTitle>
+              <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+                Notre spécialisation Symfony va au-delà du framework. Nous maîtrisons l&apos;ensemble de son écosystème pour répondre aux exigences de vos projets métier.
+              </p>
+              <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <Card>
+                  <h3 className="font-display text-lg font-bold text-dark">Doctrine ORM</h3>
+                  <p className="mt-2 text-gray">
+                    Mapping objet-relationnel, migrations de schéma, optimisation des requêtes DQL. Nous concevons des modèles de données performants, adaptés à vos règles métier et à vos volumes de données.
+                  </p>
+                </Card>
+                <Card>
+                  <h3 className="font-display text-lg font-bold text-dark">Symfony Messenger</h3>
+                  <p className="mt-2 text-gray">
+                    Files de messages asynchrones, workers, retry et dead letter queues. Messenger est au cœur de nos{" "}
+                    <Link href="/article/symfony-messenger-colonne-vertebrale-archi-hexagonale" className="text-primary hover:underline">
+                      architectures hexagonales
+                    </Link>
+                    {" "}pour découpler les traitements lourds.
+                  </p>
+                </Card>
+                <Card>
+                  <h3 className="font-display text-lg font-bold text-dark">API Platform</h3>
+                  <p className="mt-2 text-gray">
+                    Conception d&apos;
+                    <Link href="/api-sur-mesure-symfony" className="text-primary hover:underline">
+                      API REST et GraphQL
+                    </Link>
+                    {" "}documentées, versionnées et testées. Génération automatique de la documentation OpenAPI, gestion fine des sérialisations et des filtres.
+                  </p>
+                </Card>
+                <Card>
+                  <h3 className="font-display text-lg font-bold text-dark">Symfony Security</h3>
+                  <p className="mt-2 text-gray">
+                    Authentification OAuth2/JWT, gestion des rôles et des voters, protection CSRF. La{" "}
+                    <Link href="/securite-application-symfony" className="text-primary hover:underline">
+                      sécurité applicative
+                    </Link>
+                    {" "}est intégrée dès la conception, pas ajoutée après coup.
+                  </p>
+                </Card>
+                <Card>
+                  <h3 className="font-display text-lg font-bold text-dark">PHPStan et qualité</h3>
+                  <p className="mt-2 text-gray">
+                    Analyse statique au niveau maximal, tests PHPUnit, couverture de code et revues systématiques. Découvrez{" "}
+                    <Link href="/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php" className="text-primary hover:underline">
+                      comment PHPStan améliore la qualité de votre code
+                    </Link>
+                    .
+                  </p>
+                </Card>
+                <Card>
+                  <h3 className="font-display text-lg font-bold text-dark">Docker et CI/CD</h3>
+                  <p className="mt-2 text-gray">
+                    Environnements reproductibles avec{" "}
+                    <Link href="/integration-docker-symfony" className="text-primary hover:underline">
+                      Docker
+                    </Link>
+                    , pipelines d&apos;intégration continue, déploiements automatisés. Chaque livraison est testée et validée avant mise en production.
+                  </p>
+                </Card>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="bg-light-gray py-16 md:py-24">
+            <Container>
               <SectionTitle>Questions fréquentes</SectionTitle>
               <div className="mx-auto max-w-2xl">
                 <Accordion items={faqItems} />
@@ -431,7 +500,7 @@ export default function AgenceSymfonyFrance() {
         </FadeIn>
 
         <FadeIn>
-          <RelatedLinks links={relatedLinks} className="bg-light-gray" />
+          <RelatedLinks links={relatedLinks} />
         </FadeIn>
 
         <CallToAction />

@@ -1,0 +1,173 @@
+---
+title: "Comment monter en compétence sur Claude Code"
+date: "2026-03-29"
+author: "Efficience IT"
+category: "Formation"
+excerpt: "CLAUDE.md, skills, hooks, serveurs MCP : les fonctionnalités clés de Claude Code et les bonnes pratiques pour devenir un utilisateur avancé."
+image: "/images/blog/monter-en-competence-claude-code.webp"
+proficiencyLevel: "Beginner"
+faq:
+  - question: "Faut-il payer pour utiliser Claude Code ?"
+    answer: "Oui. Claude Code nécessite un abonnement Claude Pro (20 $/mois) ou Claude Max. Un plan gratuit avec des limites existe pour tester l'outil, mais pour un usage professionnel quotidien, l'abonnement est vite rentabilisé."
+  - question: "Claude Code fonctionne-t-il avec tous les langages de programmation ?"
+    answer: "Oui. Claude Code n'est pas limité à un langage. Il fonctionne avec PHP, Python, JavaScript, TypeScript, Go, Rust, Java et bien d'autres. La qualité des réponses dépend de la richesse du contexte fourni via le CLAUDE.md et les fichiers du projet."
+  - question: "Quelle est la différence entre Claude Code et Cursor ?"
+    answer: "Cursor est un éditeur de code complet basé sur VS Code avec IA intégrée. Claude Code est un agent CLI (ligne de commande) qui s'intègre aussi en extension dans VS Code et JetBrains. Claude Code mise sur l'autonomie de l'agent et la personnalisation poussée via CLAUDE.md, skills et hooks."
+  - question: "Peut-on utiliser Claude Code en équipe ?"
+    answer: "Oui. Le fichier CLAUDE.md se commit dans le dépôt Git. Toute l'équipe partage les mêmes instructions, conventions et skills. C'est un moyen efficace de standardiser les pratiques sans réunion ni documentation supplémentaire."
+---
+
+Claude Code n'est pas un chatbot dans un terminal. C'est un agent de développement autonome qui lit ton code, exécute des commandes, édite des fichiers et s'adapte à ton projet. Mais comme tout outil puissant, il ne livre son plein potentiel qu'à ceux qui prennent le temps de le configurer. Ce guide couvre les fonctionnalités clés pour passer de débutant à utilisateur avancé : le fichier CLAUDE.md, les skills personnalisés, les hooks d'automatisation, les serveurs MCP et les bonnes pratiques qui font la difference au quotidien.
+
+## Ce qui distingue Claude Code des autres assistants IA
+
+La plupart des [assistants IA pour le code](/article/quel-assistant-ia-choisir-pour-coder) fonctionnent en mode question-réponse : tu poses une question, tu reçois un snippet à copier-coller. Claude Code fonctionne différemment. Il navigue dans ton arborescence, lit les fichiers dont il a besoin, propose des modifications et les applique directement. Il lance les tests, vérifie que ça passe, et corrige si nécessaire. Il peut enchaîner des dizaines d'étapes sans intervention, analyser un bug en remontant la stack trace, ou refactorer un module entier en respectant tes conventions.
+
+Cette autonomie change la dynamique. Tu ne copies plus du code depuis une fenêtre de chat. Tu décris ce que tu veux, et l'agent s'en charge. Parmi les [forces des IA génératives actuelles](/article/forces-et-faiblesses-des-ia-generatives-les-plus-utilisees), la capacité à traiter de larges fenêtres de contexte est déterminante. Claude Code exploite cette force en chargeant automatiquement les instructions de ton projet à chaque conversation. Mais pour qu'il travaille correctement, il a besoin de contexte. Sans instructions explicites, il génère du code "générique" qui ne respecte ni ton architecture ni tes conventions. C'est là que le fichier CLAUDE.md entre en jeu.
+
+## Le fichier CLAUDE.md : la mémoire de ton projet
+
+Le CLAUDE.md est un fichier Markdown placé à la racine de ton projet. Claude Code le lit automatiquement au démarrage de chaque session. C'est ton moyen de communiquer des règles, des conventions et du contexte sans avoir à les répéter.
+
+### Ce qu'un bon CLAUDE.md contient
+
+Un CLAUDE.md efficace couvre quatre axes :
+
+- **Le contexte projet** : stack technique, commandes de build/test/lint, architecture générale
+- **Les [conventions de code](/article/coding-conventions)** : règles de nommage, patterns à suivre, structure des fichiers
+- **Les interdits** : ce que l'agent ne doit jamais faire (modifier certains fichiers, lancer des commandes destructives)
+- **Les préférences** : style de commit, langue, niveau de verbosité
+
+Voici un exemple minimaliste pour un projet Symfony :
+
+```markdown
+# CLAUDE.md
+
+## Stack
+- Symfony 7.2, PHP 8.3, PostgreSQL 16
+- Tests : PHPUnit
+- Lint : PHP-CS-Fixer + PHPStan niveau 9
+
+## Commandes
+- `make test` pour les tests
+- `make lint` pour le linting
+
+## Conventions
+- Architecture hexagonale stricte
+- Pas de logique métier dans les contrôleurs
+- Noms de variables et méthodes en anglais
+```
+
+Tu peux aussi créer des CLAUDE.md dans des sous-dossiers pour des instructions spécifiques à un module. Claude Code les charge en fonction du contexte de navigation. Par exemple, un `src/Domain/CLAUDE.md` qui interdit les dépendances vers l'infrastructure, et un `src/Infrastructure/CLAUDE.md` qui précise les conventions Doctrine. L'agent applique les bonnes règles selon l'endroit ou il travaille.
+
+L'autre avantage du CLAUDE.md, c'est qu'il se commit dans le repo. Toute l'équipe partage les mêmes instructions. Un nouveau développeur qui ouvre Claude Code sur le projet hérite immédiatement des conventions, sans lire une documentation de 50 pages. Sur un projet Symfony legacy, [un CLAUDE.md bien structuré transforme la qualité des suggestions](/article/claude-assistant-architecture-symfony-legacy) en encodant les conventions d'architecture hexagonale et les règles DDD que l'IA ne connaît pas par défaut.
+
+## Les skills : créer tes propres commandes
+
+Les skills sont des prompts réutilisables que tu invoques avec la syntaxe `/nom-du-skill`. Ils vivent dans le dossier `.claude/skills/` de ton projet ou dans `~/.claude/skills/` pour des skills globaux.
+
+Chaque skill est un fichier Markdown contenant un prompt. Quand tu tapes `/review`, Claude Code charge ce prompt comme instruction. C'est le moyen le plus efficace de standardiser des tâches récurrentes.
+
+### Exemples concrets
+
+Un skill de revue de code :
+
+```markdown
+# .claude/skills/review.md
+Analyse le diff git staged et identifie :
+- Les problèmes de sécurité
+- Les violations d'architecture
+- Les tests manquants
+Sois concis. Classe par priorité.
+```
+
+Un skill de création de test :
+
+```markdown
+# .claude/skills/test.md
+Génère un test pour le fichier courant.
+Utilise PHPUnit. Couvre les cas nominaux
+et les cas limites.
+```
+
+L'intérêt des skills va au-delà du gain de temps. Ils encodent les bonnes pratiques de l'équipe dans des prompts versionnés. Un junior qui tape `/review` applique les mêmes critères de revue qu'un senior. Un skill `/migration` garantit que chaque migration Doctrine suit le même protocole de vérification.
+
+La montée en compétence passe par la construction progressive d'une bibliothèque de skills adaptés à ton workflow. C'est le même principe que [la montée en compétence sur un framework](/article/les-6-etapes-pour-monter-en-competences-sur-symfony) : on commence par les bases, puis on automatise ce qu'on répète.
+
+## Les hooks : déclencher des actions automatiquement
+
+Les hooks sont des commandes shell qui s'exécutent avant ou après certaines actions de Claude Code. Tu les configures dans `.claude/settings.json`.
+
+Quelques cas d'usage concrets :
+
+- Lancer le linter après chaque modification de fichier
+- Exécuter les tests après chaque édition pour détecter les régressions en temps réel
+- Formater le code automatiquement
+
+```json
+{
+  "hooks": {
+    "afterWrite": [
+      {
+        "command": "php-cs-fixer fix $FILE --quiet",
+        "description": "Format PHP files"
+      }
+    ]
+  }
+}
+```
+
+Un hook `PreCommit` peut aussi vérifier que les tests passent avant chaque commit, ou qu'aucun `var_dump` ne traîne dans le code. L'idée est de créer un filet de sécurité autour de l'agent : il peut coder vite, mais les hooks garantissent que le résultat respecte tes standards.
+
+Les hooks transforment Claude Code en pipeline de développement. Combinés aux skills, ils permettent de [construire des workflows IA robustes sur des projets existants](/article/symfony-ai-projet-legacy-retour-experience) sans modifier le code de production.
+
+## Les serveurs MCP : connecter Claude Code au monde extérieur
+
+Le Model Context Protocol ([MCP](https://modelcontextprotocol.io)) est un standard ouvert qui permet à Claude Code de communiquer avec des services externes. Un serveur MCP expose des outils que l'agent peut appeler pendant une conversation.
+
+Les cas d'usage les plus courants :
+
+- **Base de données** : interroger PostgreSQL ou MySQL directement depuis Claude Code
+- **API internes** : appeler tes endpoints pour tester ou récupérer des données
+- **Documentation** : indexer ta doc technique pour que Claude Code la consulte à la demande
+- **Outils de projet** : créer des tickets Jira, lire des PRs GitHub, consulter Sentry
+
+Si tu travailles sur des projets impliquant de [l'indexation de données métier pour des agents IA](/article/rag-symfony-ai-doctrine-indexer-base-metier), les serveurs MCP sont la pièce manquante entre ton code et tes sources de données. L'agent peut ainsi interroger ta base, vérifier un état en production, ou consulter la documentation interne sans que tu aies à copier-coller des informations dans le chat.
+
+La configuration se fait dans `.claude/settings.json` :
+
+```json
+{
+  "mcpServers": {
+    "postgres": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres", "postgresql://localhost:5432/mydb"]
+    }
+  }
+}
+```
+
+## Intégrations IDE : choisir son environnement
+
+Claude Code s'utilise de trois façons : en CLI dans le terminal, en extension VS Code, ou en extension JetBrains (PhpStorm, IntelliJ). Le choix dépend de tes habitudes. Si tu hésites entre [les éditeurs de code disponibles](/article/phpstorm-vscode-sublimetext-netbeans-quel-editeur-de-code-choisir), sache que Claude Code fonctionne partout. L'expérience CLI reste la plus complète, mais les extensions IDE offrent le confort de l'intégration visuelle.
+
+Quelques raccourcis à connaître en CLI :
+
+- **Ctrl+L** : effacer la conversation et repartir avec un contexte propre
+- **#** suivi d'un nom de fichier : ajouter un fichier au contexte
+- **/compact** : compresser l'historique pour libérer de la fenêtre de contexte
+- **Echap** : interrompre une action en cours
+
+## Cinq pratiques pour progresser rapidement
+
+**Commence petit.** Ne configure pas tout d'un coup. Crée un CLAUDE.md minimaliste, utilise Claude Code pendant une semaine, puis enrichis le fichier avec les corrections que tu répètes.
+
+**Lis les diffs.** Claude Code propose des modifications. Prends le temps de les lire avant d'accepter. C'est comme ça que tu apprends ce que l'agent fait bien et ce qu'il rate.
+
+**Itère sur tes skills.** Un skill médiocre devient excellent en trois itérations. Note ce qui manque dans les résultats et ajuste le prompt.
+
+**Partage le CLAUDE.md avec ton équipe.** C'est un fichier qui se commit. Toute l'équipe bénéficie des mêmes instructions. Les conventions ne vivent plus dans la tête d'un seul développeur.
+
+**Explore les serveurs MCP communautaires.** L'écosystème grandit vite. Des serveurs existent pour GitHub, Slack, PostgreSQL, Notion, Linear et des dizaines d'autres outils. Si tu exposes déjà des [fichiers llms.txt pour les moteurs IA](/article/llms-txt-le-nouveau-levier-seo-a-lere-de-lintelligence-artificielle), tu comprendras la logique derrière le protocole MCP.
+
+La [documentation officielle de Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview) reste la référence pour suivre les nouvelles fonctionnalités. L'outil évolue vite, et chaque mise à jour apporte de nouveaux leviers de productivité. Le plus important reste la pratique : plus tu utilises Claude Code sur des projets réels, plus tu apprends à formuler des instructions précises et à construire un environnement qui multiplie ta vélocité.
