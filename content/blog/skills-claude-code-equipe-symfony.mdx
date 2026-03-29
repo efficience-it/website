@@ -60,7 +60,7 @@ Vérifie :
 Suggère les corrections nécessaires.
 ```
 
-Ce skill est particulièrement utile lors d'une migration entre moteurs de base de données, ou il vérifie la compatibilité des types et des contraintes. Mais même sur un projet mono-base, il attrape les erreurs que la précipitation laisse passer.
+Ce skill est particulièrement utile lors d'une migration entre moteurs de base de données, où il vérifie la compatibilité des types et des contraintes. Mais même sur un projet mono-base, il attrape les erreurs que la précipitation laisse passer.
 
 ## /security : audit de sécurité rapide
 
@@ -76,7 +76,7 @@ Analyse les fichiers modifiés (git diff). Cherche :
 Réfère-toi aux recommandations OWASP Top 10.
 ```
 
-Ce skill encode les réflexes de sécurité que chaque développeur devrait avoir mais que la pression du quotidien fait parfois oublier. Il ne remplace pas un audit complet ni un outil dédié comme [Symfony Security Checker](https://symfony.com/doc/current/setup.html#checking-security-vulnerabilities), mais il attrape les erreurs évidentes au moment ou elles sont introduites.
+Ce skill encode les réflexes de sécurité que chaque développeur devrait avoir mais que la pression du quotidien fait parfois oublier. Il ne remplace pas un audit complet ni un outil dédié comme [Symfony Security Checker](https://symfony.com/doc/current/setup.html#checking-security-vulnerabilities), mais il attrape les erreurs évidentes au moment où elles sont introduites.
 
 ## /refactor : refactoring guidé par l'architecture
 
@@ -107,7 +107,7 @@ Vérifie :
 Liste les incohérences trouvées.
 ```
 
-Ce skill aide à maintenir une configuration saine à mesure que le nombre de messages et de handlers grandit. Sur les projets ou Messenger sert de bus de commandes central, la moindre erreur de routage peut provoquer des messages perdus silencieusement.
+Ce skill aide à maintenir une configuration saine à mesure que le nombre de messages et de handlers grandit. Sur les projets où Messenger sert de bus de commandes central, la moindre erreur de routage peut provoquer des messages perdus silencieusement.
 
 ## /fixtures : générer des données de test réalistes
 
@@ -169,10 +169,18 @@ Analyse le projet et génère un guide d'onboarding :
 Sois factuel et concis.
 ```
 
-Le skill exploite le CLAUDE.md et le code source pour produire un résumé qui reflète l'état réel du projet. Contrairement à une documentation statique qui vieillit, le briefing est régénéré à chaque invocation. Le cout de maintenance est nul puisque le contenu est généré dynamiquement à chaque invocation.
+Le skill exploite le CLAUDE.md et le code source pour produire un résumé qui reflète l'état réel du projet. Contrairement à une documentation statique qui vieillit, le briefing est régénéré à chaque invocation. Le coût de maintenance est nul puisque le contenu est généré dynamiquement à chaque invocation.
+
+## Skills Claude Code vs Symfony AI : ne pas confondre
+
+Les skills Claude Code et le composant [Symfony AI](https://symfony.com/blog/introducing-symfony-ai) répondent à deux besoins distincts. Les skills agissent côté développeur, dans le terminal ou l'IDE. Ils automatisent des tâches de développement : revue de code, génération de tests, vérification d'architecture. Le code de votre application n'est pas modifié, et vos utilisateurs ne voient rien.
+
+Symfony AI, lui, s'intègre dans votre application Symfony. Il expose une API PHP pour appeler des LLM, orchestrer des chaînes de prompts, brancher des outils que le modèle peut invoquer, ou implémenter du RAG avec des embeddings. C'est le composant à utiliser quand vous construisez une fonctionnalité IA destinée aux utilisateurs de votre application : un chatbot métier, une recherche sémantique, une génération de contenu.
+
+En résumé : les skills outillent votre équipe de développement, Symfony AI outille votre application. Les deux peuvent coexister sur le même projet sans interférence.
 
 ## Mettre en place les skills dans votre équipe
 
 La mise en place est simple : créez le dossier `.claude/skills/` à la racine du projet, ajoutez vos fichiers Markdown, et commitez. Chaque développeur accède aux skills dès sa prochaine session Claude Code. Commencez par deux ou trois skills qui répondent à vos irritants quotidiens. Itérez sur les prompts en fonction des résultats : un skill médiocre devient excellent en quelques ajustements. Pour aller plus loin dans la configuration, le [guide de montée en compétence sur Claude Code](/article/monter-en-competence-claude-code) couvre aussi les hooks et les serveurs MCP qui complètent les skills.
 
-L'objectif n'est pas de tout automatiser d'un coup, mais de construire progressivement une bibliothèque de commandes qui encode les standards de votre équipe. Les skills ne remplacent ni la CI ni les revues humaines. Ils interviennent plus tôt dans le cycle, au moment ou le développeur écrit son code, et réduisent le bruit dans les étapes suivantes.
+L'objectif n'est pas de tout automatiser d'un coup, mais de construire progressivement une bibliothèque de commandes qui encode les standards de votre équipe. Les skills ne remplacent ni la CI ni les revues humaines. Ils interviennent plus tôt dans le cycle, au moment où le développeur écrit son code, et réduisent le bruit dans les étapes suivantes.
