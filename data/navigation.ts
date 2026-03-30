@@ -120,6 +120,7 @@ export const mainNav: NavItem[] = [
   },
   {
     label: "Secteurs",
+    columns: 2,
     items: [
       {
         label: "E-commerce",
@@ -140,6 +141,36 @@ export const mainNav: NavItem[] = [
         label: "SaaS",
         href: "/secteur/saas",
         description: "Architecture multi-tenant et scalabilité",
+      },
+      {
+        label: "Migration legacy",
+        href: "/secteur/migration-legacy",
+        description: "Modernisation progressive de vos applications PHP",
+      },
+      {
+        label: "Application métier",
+        href: "/secteur/application-metier",
+        description: "Digitalisation de vos processus sur mesure",
+      },
+      {
+        label: "Renfort d'équipe",
+        href: "/secteur/renfort-equipe",
+        description: "Développeurs Symfony seniors en régie",
+      },
+      {
+        label: "Maintenance applicative",
+        href: "/secteur/maintenance-applicative",
+        description: "TMA, SLA et continuité de service",
+      },
+      {
+        label: "API et intégration",
+        href: "/secteur/api-integration",
+        description: "API Platform, connecteurs et flux asynchrones",
+      },
+      {
+        label: "Sécurité et conformité",
+        href: "/secteur/securite-conformite",
+        description: "Audit OWASP, RGPD et anonymisation",
       },
     ],
   },
@@ -183,6 +214,12 @@ export const footerNav = {
       { label: "Finance", href: "/secteur/finance" },
       { label: "Industrie", href: "/secteur/industrie" },
       { label: "SaaS", href: "/secteur/saas" },
+      { label: "Migration legacy", href: "/secteur/migration-legacy" },
+      { label: "Application métier", href: "/secteur/application-metier" },
+      { label: "Renfort d'équipe", href: "/secteur/renfort-equipe" },
+      { label: "Maintenance", href: "/secteur/maintenance-applicative" },
+      { label: "API et intégration", href: "/secteur/api-integration" },
+      { label: "Sécurité", href: "/secteur/securite-conformite" },
     ],
   },
   agence: {
