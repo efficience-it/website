@@ -296,6 +296,42 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
+      url: `${BASE_URL}/secteur/migration-legacy`,
+      lastModified: "2026-03-30",
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/secteur/renfort-equipe`,
+      lastModified: "2026-03-30",
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/secteur/application-metier`,
+      lastModified: "2026-03-30",
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/secteur/maintenance-applicative`,
+      lastModified: "2026-03-30",
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/secteur/api-integration`,
+      lastModified: "2026-03-30",
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/secteur/securite-conformite`,
+      lastModified: "2026-03-30",
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
       url: `${BASE_URL}/contact`,
       lastModified: "2025-09-01",
       changeFrequency: "yearly",

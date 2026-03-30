@@ -14,9 +14,9 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title: "Nos secteurs d'intervention : e-commerce, finance, industrie et SaaS",
+  title: "Nos secteurs d'intervention et nos domaines d'expertise Symfony",
   description:
-    "Efficience IT accompagne les entreprises du e-commerce, de la finance, de l'industrie et du SaaS avec des applications Symfony sur mesure.",
+    "Efficience IT accompagne les entreprises par secteur et par besoin : e-commerce, finance, industrie, SaaS, migration legacy, API, maintenance et sécurité.",
   path: "/secteur",
 });
 
@@ -48,6 +48,51 @@ const secteurs = [
       "Applications SaaS robustes avec Symfony : architecture multi-tenant, API REST et GraphQL, scalabilité horizontale, CI/CD et monitoring en production.",
     href: "/secteur/saas",
     icon: "M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848 5.25 5.25 0 0 0-10.233 2.33A4.502 4.502 0 0 0 2.25 15Z",
+  },
+];
+
+const besoins = [
+  {
+    title: "Migration legacy",
+    description:
+      "Modernisation progressive de vos applications PHP vieillissantes vers Symfony : Strangler Fig pattern, zero downtime et refactoring architectural.",
+    href: "/secteur/migration-legacy",
+    icon: "M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182",
+  },
+  {
+    title: "Application métier",
+    description:
+      "Digitalisation de vos processus avec des outils sur mesure : gestion, suivi, automatisation. Des applications conçues pour votre métier, pas l'inverse.",
+    href: "/secteur/application-metier",
+    icon: "M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z",
+  },
+  {
+    title: "Renfort d'équipe",
+    description:
+      "Développeurs Symfony seniors intégrés dans votre équipe : régie, transfert de compétences et montée en charge rapide.",
+    href: "/secteur/renfort-equipe",
+    icon: "M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z",
+  },
+  {
+    title: "Maintenance applicative",
+    description:
+      "TMA corrective, évolutive et préventive pour vos applications Symfony : SLA, mises à jour de sécurité et continuité de service.",
+    href: "/secteur/maintenance-applicative",
+    icon: "M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z",
+  },
+  {
+    title: "API et intégration",
+    description:
+      "API REST et GraphQL avec API Platform, connecteurs sur mesure et flux asynchrones pour interconnecter vos systèmes.",
+    href: "/secteur/api-integration",
+    icon: "M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5",
+  },
+  {
+    title: "Sécurité et conformité",
+    description:
+      "Audit OWASP, conformité RGPD, anonymisation des données et chiffrement pour sécuriser vos applications Symfony.",
+    href: "/secteur/securite-conformite",
+    icon: "M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z",
   },
 ];
 
@@ -87,12 +132,12 @@ const breadcrumb = breadcrumbJsonLd([
 ]);
 
 const webPage = webPageJsonLd({
-  name: "Nos secteurs d'intervention : e-commerce, finance, industrie et SaaS",
+  name: "Nos secteurs d'intervention et nos domaines d'expertise Symfony",
   description:
-    "Efficience IT accompagne les entreprises du e-commerce, de la finance, de l'industrie et du SaaS avec des applications Symfony sur mesure.",
+    "Efficience IT accompagne les entreprises par secteur et par besoin : e-commerce, finance, industrie, SaaS, migration legacy, API, maintenance et sécurité.",
   path: "/secteur",
   datePublished: "2026-03-17",
-  dateModified: "2026-03-17",
+  dateModified: "2026-03-30",
 });
 
 const relatedLinks: RelatedLink[] = [
@@ -143,8 +188,7 @@ export default function SecteursIndex() {
               items={[{ label: "Nos secteurs" }]}
             />
             <h1 className="mt-4 font-display text-4xl font-bold text-dark md:text-5xl">
-              Nos secteurs d&apos;intervention : e-commerce, finance, industrie
-              et SaaS
+              Nos secteurs d&apos;intervention et nos domaines d&apos;expertise Symfony
             </h1>
             <p className="mt-6 max-w-3xl text-lg text-gray">
               Chaque secteur a ses contraintes métier, ses exigences de sécurité
@@ -204,6 +248,49 @@ export default function SecteursIndex() {
                         {secteur.title}
                       </h2>
                       <p className="mt-2 text-gray">{secteur.description}</p>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="py-16 md:py-24">
+            <Container>
+              <SectionTitle>
+                Par besoin
+              </SectionTitle>
+              <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+                Migration, maintenance, intégration ou sécurité : nous
+                répondons aux besoins concrets des décideurs techniques,
+                quel que soit le secteur.
+              </p>
+              <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {besoins.map((besoin) => (
+                  <Link key={besoin.title} href={besoin.href} className="group">
+                    <Card>
+                      <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="h-6 w-6 text-primary"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d={besoin.icon}
+                          />
+                        </svg>
+                      </div>
+                      <h2 className="mt-4 font-display text-lg font-bold text-dark group-hover:text-primary">
+                        {besoin.title}
+                      </h2>
+                      <p className="mt-2 text-gray">{besoin.description}</p>
                     </Card>
                   </Link>
                 ))}
