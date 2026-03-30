@@ -8,6 +8,7 @@ const subjects = [
   "Demande de devis",
   "Proposer un projet",
   "Candidature",
+  "Venir prendre le café",
   "Autre",
 ];
 
