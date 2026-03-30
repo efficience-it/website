@@ -17,7 +17,7 @@ faq:
     answer: "Oui. Le fichier CLAUDE.md se commit dans le dépôt Git. Toute l'équipe partage les mêmes instructions, conventions et skills. C'est un moyen efficace de standardiser les pratiques sans réunion ni documentation supplémentaire."
 ---
 
-Claude Code n'est pas un chatbot dans un terminal. C'est un agent de développement autonome qui lit ton code, exécute des commandes, édite des fichiers et s'adapte à ton projet. Mais comme tout outil puissant, il ne livre son plein potentiel qu'à ceux qui prennent le temps de le configurer. Ce guide couvre les fonctionnalités clés pour passer de débutant à utilisateur avancé : le fichier CLAUDE.md, les skills personnalisés, les hooks d'automatisation, les serveurs MCP et les bonnes pratiques qui font la difference au quotidien.
+Claude Code n'est pas un chatbot dans un terminal. C'est un agent de développement autonome qui lit ton code, exécute des commandes, édite des fichiers et s'adapte à ton projet. Mais comme tout outil puissant, il ne livre son plein potentiel qu'à ceux qui prennent le temps de le configurer. Ce guide couvre les fonctionnalités clés pour passer de débutant à utilisateur avancé : le fichier CLAUDE.md, les skills personnalisés, les hooks d'automatisation, les serveurs MCP et les bonnes pratiques qui font la différence au quotidien.
 
 ## Ce qui distingue Claude Code des autres assistants IA
 
@@ -58,7 +58,7 @@ Voici un exemple minimaliste pour un projet Symfony :
 - Noms de variables et méthodes en anglais
 ```
 
-Tu peux aussi créer des CLAUDE.md dans des sous-dossiers pour des instructions spécifiques à un module. Claude Code les charge en fonction du contexte de navigation. Par exemple, un `src/Domain/CLAUDE.md` qui interdit les dépendances vers l'infrastructure, et un `src/Infrastructure/CLAUDE.md` qui précise les conventions Doctrine. L'agent applique les bonnes règles selon l'endroit ou il travaille.
+Tu peux aussi créer des CLAUDE.md dans des sous-dossiers pour des instructions spécifiques à un module. Claude Code les charge en fonction du contexte de navigation. Par exemple, un `src/Domain/CLAUDE.md` qui interdit les dépendances vers l'infrastructure, et un `src/Infrastructure/CLAUDE.md` qui précise les conventions Doctrine. L'agent applique les bonnes règles selon l'endroit où il travaille.
 
 L'autre avantage du CLAUDE.md, c'est qu'il se commit dans le repo. Toute l'équipe partage les mêmes instructions. Un nouveau développeur qui ouvre Claude Code sur le projet hérite immédiatement des conventions, sans lire une documentation de 50 pages. Sur un projet Symfony legacy, [un CLAUDE.md bien structuré transforme la qualité des suggestions](/article/claude-assistant-architecture-symfony-legacy) en encodant les conventions d'architecture hexagonale et les règles DDD que l'IA ne connaît pas par défaut.
 
