@@ -39,7 +39,7 @@ export default function ProcessSteps() {
         <p className="mx-auto mt-2 max-w-3xl text-center text-lg font-semibold text-dark">
           Un processus simple, robuste et efficace
         </p>
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:mt-12 lg:grid-cols-4">
           {steps.map((step, index) => (
             <ProcessStep
               key={step.title}
