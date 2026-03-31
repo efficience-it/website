@@ -11,6 +11,7 @@ import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
+import TaskIllustration from "@/components/illustrations/TaskIllustration";
 
 const relatedLinks: RelatedLink[] = [
   { title: "La dette technique : faut-il vraiment en avoir peur ?", description: "comprendre et anticiper l'accumulation de dette", href: "/article/la-dette-technique-faut-il-vraiment-en-avoir-peur" },
@@ -138,32 +139,42 @@ export default function ModernisationApplicative() {
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <Breadcrumb items={[{ label: "Modernisation applicative" }]} />
-            <div className="mx-auto max-w-4xl text-center">
-              <p className="text-sm font-semibold uppercase tracking-wider text-primary">
-                Parcours modernisation
-              </p>
-              <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                Modernisation applicative : du diagnostic à la migration
-              </h1>
-              <p className="mt-6 text-lg text-gray">
-                Votre application PHP vieillit, accumule de la{" "}
-                <Link href="/article/la-dette-technique-faut-il-vraiment-en-avoir-peur" className="text-primary hover:underline">dette technique</Link>
-                {" "}ou tourne sur un framework en fin de vie. Plutôt que de tout
-                réécrire, nous vous proposons un parcours structuré en 5 phases
-                pour la remettre à niveau progressivement, sans interruption de
-                service.
-              </p>
-              <p className="mt-4 text-lg text-gray">
-                Chaque phase est indépendante et livre de la valeur. Vous
-                choisissez par où commencer selon votre situation.
-              </p>
-              <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-                <Button href="/audit-symfony-gratuit">
-                  Diagnostic gratuit 30 min
-                </Button>
-                <Button href="/contact" variant="outline">
-                  Discuter de mon projet
-                </Button>
+            <div className="grid items-center gap-12 md:grid-cols-2">
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-wider text-primary">
+                  Parcours modernisation
+                </p>
+                <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
+                  Modernisation applicative : du diagnostic à la migration
+                </h1>
+                <p className="mt-6 max-w-3xl text-lg text-gray">
+                  Votre application PHP vieillit, accumule de la{" "}
+                  <Link
+                    href="/article/la-dette-technique-faut-il-vraiment-en-avoir-peur"
+                    className="text-primary hover:underline"
+                  >
+                    dette technique
+                  </Link>{" "}
+                  ou tourne sur un framework en fin de vie. Plutôt que de tout
+                  réécrire, nous vous proposons un parcours structuré en 5 phases
+                  pour la remettre à niveau progressivement, sans interruption
+                  de service.
+                </p>
+                <p className="mt-4 max-w-3xl text-lg text-gray">
+                  Chaque phase est indépendante et livre de la valeur. Vous
+                  choisissez par où commencer selon votre situation.
+                </p>
+                <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                  <Button href="/audit-symfony-gratuit">
+                    Diagnostic gratuit 30 min
+                  </Button>
+                  <Button href="/contact" variant="outline">
+                    Discuter de mon projet
+                  </Button>
+                </div>
+              </div>
+              <div className="hidden md:flex justify-center">
+                <TaskIllustration className="h-96 w-full text-primary" />
               </div>
             </div>
           </Container>
@@ -235,7 +246,7 @@ export default function ModernisationApplicative() {
             </SectionTitle>
             <div className="mt-12 space-y-12">
               <div className="flex gap-6">
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-xl font-bold text-white">
                     1
                   </div>
@@ -277,7 +288,7 @@ export default function ModernisationApplicative() {
               </div>
 
               <div className="flex gap-6">
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-xl font-bold text-white">
                     2
                   </div>
@@ -311,7 +322,7 @@ export default function ModernisationApplicative() {
               </div>
 
               <div className="flex gap-6">
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-xl font-bold text-white">
                     3
                   </div>
@@ -353,7 +364,7 @@ export default function ModernisationApplicative() {
               </div>
 
               <div className="flex gap-6">
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-xl font-bold text-white">
                     4
                   </div>
@@ -394,7 +405,7 @@ export default function ModernisationApplicative() {
               </div>
 
               <div className="flex gap-6">
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-xl font-bold text-white">
                     5
                   </div>

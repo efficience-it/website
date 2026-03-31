@@ -12,6 +12,7 @@ import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 import TechnologiesGrid from "@/components/sections/TechnologiesGrid";
+import SharingIllustration from "@/components/illustrations/SharingIllustration";
 
 export const metadata = pageMetadata({
   title: "Expertise Symfony de référence",
@@ -102,15 +103,7 @@ export default function NotreExpertise() {
               </Button>
             </div>
             <div className="flex justify-center">
-              <Image
-                src="/images/expertise/tech/techs-symfony.webp"
-                alt="Technologies Symfony"
-                width={500}
-                height={350}
-                className="w-full rounded-lg"
-                priority
-                fetchPriority="high"
-              />
+              <SharingIllustration className="h-96 w-full text-primary" />
             </div>
           </div>
         </Container>

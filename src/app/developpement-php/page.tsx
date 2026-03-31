@@ -9,9 +9,14 @@ import CallToAction from "@/components/sections/CallToAction";
 import StickyMobileCta from "@/components/sections/StickyMobileCta";
 import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
-import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
+import {
+  breadcrumbJsonLd,
+  serviceJsonLd,
+  webPageJsonLd,
+} from "@/lib/structured-data";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
+import ProgrammingIllustration from "@/components/illustrations/ProgrammingIllustration";
 
 const phpRelatedLinks: RelatedLink[] = [
   {
@@ -21,7 +26,8 @@ const phpRelatedLinks: RelatedLink[] = [
   },
   {
     title: "Modernisation applicative",
-    description: "Modernisez vos applications legacy pour gagner en maintenabilité",
+    description:
+      "Modernisez vos applications legacy pour gagner en maintenabilité",
     href: "/modernisation-applicative",
   },
   {
@@ -37,14 +43,16 @@ const phpRelatedLinks: RelatedLink[] = [
   },
   {
     title: "Symfony, documentation officielle",
-    description: "Le framework PHP de référence pour les applications web d'entreprise",
+    description:
+      "Le framework PHP de référence pour les applications web d'entreprise",
     href: "https://symfony.com/doc/current/index.html",
     external: true,
   },
 ];
 
 export const metadata = pageMetadata({
-  title: "Développement PHP sur mesure : applications web robustes et performantes",
+  title:
+    "Développement PHP sur mesure : applications web robustes et performantes",
   description:
     "Agence de développement PHP sur mesure. Efficience IT conçoit des applications web avec PHP 8, Symfony, Doctrine et les bonnes pratiques.",
   path: "/developpement-php",
@@ -74,13 +82,34 @@ const expertises = [
 ];
 
 const stack = [
-  { name: "PHP 8.x", description: "Typage strict, enums, fibers et performances natives" },
-  { name: "Symfony", description: "Le framework PHP de référence pour l'entreprise" },
-  { name: "Doctrine ORM", description: "Mapping objet-relationnel et migrations de base" },
-  { name: "PHPStan", description: "Analyse statique pour détecter les bugs avant l'exécution" },
-  { name: "Rector", description: "Refactoring et montées de version automatisés" },
-  { name: "Composer", description: "Gestion des dépendances et autoloading PSR-4" },
-  { name: "PHPUnit", description: "Tests unitaires, fonctionnels et couverture de code" },
+  {
+    name: "PHP 8.x",
+    description: "Typage strict, enums, fibers et performances natives",
+  },
+  {
+    name: "Symfony",
+    description: "Le framework PHP de référence pour l'entreprise",
+  },
+  {
+    name: "Doctrine ORM",
+    description: "Mapping objet-relationnel et migrations de base",
+  },
+  {
+    name: "PHPStan",
+    description: "Analyse statique pour détecter les bugs avant l'exécution",
+  },
+  {
+    name: "Rector",
+    description: "Refactoring et montées de version automatisés",
+  },
+  {
+    name: "Composer",
+    description: "Gestion des dépendances et autoloading PSR-4",
+  },
+  {
+    name: "PHPUnit",
+    description: "Tests unitaires, fonctionnels et couverture de code",
+  },
 ];
 
 const faqItems = [
@@ -162,14 +191,20 @@ export default function DeveloppementPhp() {
       <main>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
-            <Breadcrumb items={[{ label: "Nos expertises", href: "/notre-expertise" }, { label: "Développement PHP" }]} />
+            <Breadcrumb
+              items={[
+                { label: "Nos expertises", href: "/notre-expertise" },
+                { label: "Développement PHP" },
+              ]}
+            />
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">
                   Agence PHP sur mesure
                 </p>
                 <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                  Développement PHP sur mesure : applications web robustes et performantes
+                  Développement PHP sur mesure : applications web robustes et
+                  performantes
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
                   Votre application PHP vieillit mal, ou vous partez de zéro.
@@ -206,22 +241,7 @@ export default function DeveloppementPhp() {
                 </div>
               </div>
               <div className="hidden md:flex justify-center">
-                <div className="flex h-64 w-64 items-center justify-center rounded-full bg-primary/10">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="h-32 w-32 text-primary"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"
-                    />
-                  </svg>
-                </div>
+                <ProgrammingIllustration className="h-96 w-full text-primary" />
               </div>
             </div>
           </Container>
@@ -251,7 +271,8 @@ export default function DeveloppementPhp() {
                   href="/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php"
                   className="text-primary hover:underline"
                 >
-                  découvrez comment PHPStan améliore la qualité de votre code PHP
+                  découvrez comment PHPStan améliore la qualité de votre code
+                  PHP
                 </Link>{" "}
                 et pourquoi l&apos;
                 <Link
@@ -300,7 +321,8 @@ export default function DeveloppementPhp() {
                   avec Symfony qui produit des applications d&apos;entreprise
                   maintenables sur le long terme. Symfony impose une structure,
                   une gestion des dépendances propre et des conventions que vos
-                  équipes peuvent suivre sans documentation interne de 200 pages.
+                  équipes peuvent suivre sans documentation interne de 200
+                  pages.
                 </p>
                 <p className="mt-4 text-lg text-gray">
                   Chez Efficience IT, chaque{" "}
