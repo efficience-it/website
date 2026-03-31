@@ -12,6 +12,7 @@ import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
+import CodeThinkingIllustration from "@/components/illustrations/CodeThinkingIllustration";
 
 export const metadata = pageMetadata({
   title:
@@ -259,22 +260,7 @@ export default function ArchitectureHexagonaleSymfony() {
                 </div>
               </div>
               <div className="hidden md:flex justify-center">
-                <div className="flex h-64 w-64 items-center justify-center rounded-full bg-primary/10">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="h-32 w-32 text-primary"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"
-                    />
-                  </svg>
-                </div>
+                <CodeThinkingIllustration className="h-96 w-full text-primary" />
               </div>
             </div>
           </Container>

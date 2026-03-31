@@ -12,6 +12,7 @@ import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
+import ReviewIllustration from "@/components/illustrations/ReviewIllustration";
 
 export const metadata = pageMetadata({
   title: "Maintenance applicative Symfony (TMA) : corrective, évolutive, préventive",
@@ -217,22 +218,7 @@ export default function MaintenanceApplicativeSymfony() {
                 </div>
               </div>
               <div className="hidden md:flex justify-center">
-                <div className="flex h-64 w-64 items-center justify-center rounded-full bg-primary/10">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="h-32 w-32 text-primary"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"
-                    />
-                  </svg>
-                </div>
+                <ReviewIllustration className="h-96 w-full text-primary" />
               </div>
             </div>
           </Container>

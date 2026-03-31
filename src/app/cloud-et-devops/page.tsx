@@ -16,6 +16,7 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import { clients } from "@/../data/clients";
 import { testimonials } from "@/../data/testimonials";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
+import GrowthIllustration from "@/components/illustrations/GrowthIllustration";
 
 export const metadata = pageMetadata({
   title: "Cloud & DevOps : infrastructure et automatisation",
@@ -185,24 +186,14 @@ export default function CloudEtDevops() {
                 </Button>
               </div>
             </div>
-            <div className="flex justify-center">
-              <Image
-                src="/images/illustrations/online-report.svg"
-                alt="Cloud et DevOps"
-                width={400}
-                height={300}
-                className="w-full max-w-md"
-                priority
-                fetchPriority="high"
-              />
-            </div>
+              <GrowthIllustration className="h-96 w-full text-primary" />
           </div>
         </Container>
       </section>
 
       <FadeIn>
       <section className="py-16 md:py-24">
-        <Container>
+        <Container> 
           <SectionTitle>
             Hébergement Cloud : une infrastructure à la hauteur de vos ambitions
           </SectionTitle>
