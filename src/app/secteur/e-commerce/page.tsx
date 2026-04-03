@@ -51,7 +51,7 @@ const expertises = [
 const references = [
   { name: "Decathlon", image: "/images/clients/decathlon.webp" },
   { name: "Carter Cash", image: "/images/clients/carter-cash.webp" },
-  { name: "Mecatechnic", image: "/images/clients/macatechnic.webp" },
+  { name: "Mecatechnic", image: "/images/clients/mecatechnic.webp" },
 ];
 
 const faqItems = [
