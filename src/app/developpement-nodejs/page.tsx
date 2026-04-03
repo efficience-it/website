@@ -12,6 +12,7 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
+import DashboardIllustration from "@/components/illustrations/DashboardIllustration";
 
 const nodejsRelatedLinks: RelatedLink[] = [
   { title: "Les bonnes pratiques des APIs REST", description: "pour concevoir des interfaces performantes et maintenables", href: "/article/api-rest-les-bonnes-pratiques" },
@@ -202,27 +203,7 @@ export default function DeveloppementNodejs() {
                 </div>
               </div>
               <div className="flex justify-center">
-                <div className="flex h-64 w-64 items-center justify-center rounded-full bg-primary/10">
-                  <svg
-                    viewBox="0 0 256 292"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-40 w-40"
-                    aria-label="Logo Node.js"
-                  >
-                    <path
-                      d="M128 0C93.1 0 60.5 18.1 43.1 47.4L4.3 115.9C-3.6 129.3-1.5 146.1 8.9 157.3L43.1 244.6C60.5 273.9 93.1 292 128 292s67.5-18.1 84.9-47.4l34.2-87.3c10.4-11.2 12.5-28 4.6-41.4L212.9 47.4C195.5 18.1 162.9 0 128 0z"
-                      fill="#83CD29"
-                    />
-                    <path
-                      d="M128 16.3c-30.4 0-58.7 15.6-74.7 41.3L15.6 123.5c-6.9 11.7-5.2 26.4 4.2 36.2l34.2 87.8c16 25.7 44.3 41.3 74.7 41.3V16.3z"
-                      fill="#404137"
-                    />
-                    <path
-                      d="M128 16.3v259c30.4 0 58.7-15.6 74.7-41.3l34.2-87.8c9.4-9.8 11.1-24.5 4.2-36.2L203.2 57.6C187.2 31.9 158.9 16.3 128 16.3z"
-                      fill="#83CD29"
-                    />
-                  </svg>
-                </div>
+                <DashboardIllustration className="h-96 w-full text-primary" />
               </div>
             </div>
           </Container>
