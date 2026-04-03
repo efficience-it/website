@@ -59,7 +59,11 @@ export default function ProcessSteps() {
             <Link href="/cloud-et-devops" className="text-primary hover:underline">
               CI/CD
             </Link>
-            .
+            . Découvrez en détail{" "}
+            <Link href="/processus-collaboration" className="text-primary hover:underline">
+              notre processus de collaboration
+            </Link>
+            , étape par étape.
           </p>
         </div>
       </Container>

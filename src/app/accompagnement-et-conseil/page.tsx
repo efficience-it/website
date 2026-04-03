@@ -287,7 +287,11 @@ export default function AccompagnementEtConseil() {
                 peut faire partie de cette démarche. Que ce
                 soit pour améliorer votre efficacité interne, fluidifier vos
                 processus ou innover avec de nouvelles solutions, nous sommes à
-                vos côtés à chaque étape.
+                vos côtés à chaque étape. Consultez{" "}
+                <Link href="/processus-collaboration" className="text-primary hover:underline">
+                  notre processus de collaboration
+                </Link>
+                {" "}pour comprendre comment se déroule un projet.
               </p>
             </div>
 
