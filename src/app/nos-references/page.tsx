@@ -30,7 +30,7 @@ const allClients = [
   { name: "OEMServices", image: "/images/clients/oems.webp" },
   { name: "Assoconnect", image: "/images/clients/assoconnect.webp" },
   { name: "Mobivia", image: "/images/clients/mobivia.webp" },
-  { name: "Mecatechnic", image: "/images/clients/macatechnic.webp" },
+  { name: "Mecatechnic", image: "/images/clients/mecatechnic.webp" },
   { name: "Centre Européen de Formation", image: "/images/clients/cef.webp" },
   { name: "Sesame IT", image: "/images/clients/sesame-it.webp" },
   { name: "DPDO", image: "/images/clients/dpdo.webp" },
