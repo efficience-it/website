@@ -105,9 +105,9 @@ const faqItems = [
       "La durée dépend de la complexité du projet. Un MVP peut être livré en 6 à 8 semaines. Un projet plus conséquent prend généralement 3 à 6 mois. Le cadrage initial permet de définir un planning réaliste dès le départ.",
   },
   {
-    title: "Quel est le budget minimum pour démarrer un projet ?",
+    title: "Comment évaluez-vous la faisabilité d'un projet ?",
     content:
-      "Chaque projet est différent. Le diagnostic gratuit de 30 minutes nous permet d'évaluer votre besoin et de vous fournir une estimation budgétaire adaptée. Nous privilégions la transparence : pas de surprise sur la facture.",
+      "Chaque projet est différent. Le diagnostic gratuit de 30 minutes nous permet d'évaluer votre besoin, d'identifier les contraintes techniques et de proposer une approche adaptée, sans engagement.",
   },
   {
     title: "Puis-je suivre l'avancement du projet en temps réel ?",
@@ -419,12 +419,12 @@ export default function ProcessusCollaboration() {
                 </Card>
                 <Card>
                   <h3 className="font-display text-lg font-bold text-dark">
-                    Budget maîtrisé
+                    Transparence totale
                   </h3>
                   <p className="mt-2 text-gray">
-                    Estimation détaillée en amont, suivi du budget en temps réel,
-                    alertes en cas de dérive. Pas de surprise sur la facture
-                    finale.
+                    Estimation détaillée en amont, suivi en temps réel, alertes
+                    en cas de dérive. Pas de mauvaise surprise à la
+                    livraison.
                   </p>
                 </Card>
                 <Card>
