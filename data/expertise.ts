@@ -41,7 +41,7 @@ export const technologies = [
 
 export const services = [
   {
-    title: "Développement Web Sur-Mesure",
+    title: "Développement web sur mesure",
     slug: "/developpement-web-sur-mesure",
     description:
       "Nous concevons et développons des applications digitales web sur mesure, adaptées à vos besoins et vos exigences.",
@@ -56,7 +56,7 @@ export const services = [
     title: "Développement API",
     slug: "/api-sur-mesure-symfony",
     description:
-      "Nous développons et intégrons des APIs pour les connexions avec vos autres outils types ERP, CRM, ou autres APIs extérieures, avec des standards comme le REST ou le SOAP au besoin.",
+      "Nous développons et intégrons des APIs pour les connexions avec vos autres outils type ERP, CRM, ou autres APIs extérieures, avec des standards comme le REST ou le SOAP au besoin.",
     items: [
       "Connexions ERP, CRM et outils tiers",
       "Intégration Stripe et services de paiement",

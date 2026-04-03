@@ -12,6 +12,7 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { BASE_URL } from "@/lib/metadata";
+import UserInterfaceIllustration from "@/components/illustrations/UserInterfaceIllustration";
 
 export const metadata = pageMetadata({
   title: "Formation Symfony pour les entreprises à Lille et à distance",
@@ -212,23 +213,28 @@ export default function FormationSymfonyEntreprise() {
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <Breadcrumb items={[{ label: "Formation Symfony" }]} />
-            <div className="mx-auto max-w-3xl text-center">
-              <p className="text-sm font-semibold uppercase tracking-wider text-primary">
-                Formation Symfony entreprise - Lille et à distance
-              </p>
-              <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                Formation Symfony pour les entreprises à Lille et à distance
-              </h1>
-              <p className="mt-6 text-lg text-gray">
-                Montez en compétences sur Symfony avec des formations adaptées à votre équipe.
-                Programmes adaptés à votre équipe, formateurs praticiens, groupes réduits pour un apprentissage
-                efficace.
-              </p>
-              <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-                <Button href="/contact">Demander un programme</Button>
-                <Button href="/audit-symfony-gratuit" variant="outline">
-                  Audit gratuit d&apos;abord
-                </Button>
+            <div className="grid items-center gap-12 md:grid-cols-2">
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-wider text-primary">
+                  Formation Symfony entreprise - Lille et à distance
+                </p>
+                <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
+                  Formation Symfony pour les entreprises à Lille et à distance
+                </h1>
+                <p className="mt-6 max-w-3xl text-lg text-gray">
+                  Montez en compétences sur Symfony avec des formations adaptées à votre équipe.
+                  Programmes adaptés à votre équipe, formateurs praticiens, groupes réduits pour un apprentissage
+                  efficace.
+                </p>
+                <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                  <Button href="/contact">Demander un programme</Button>
+                  <Button href="/audit-symfony-gratuit" variant="outline">
+                    Audit gratuit d&apos;abord
+                  </Button>
+                </div>
+              </div>
+              <div className="hidden md:flex justify-center">
+                <UserInterfaceIllustration className="h-96 w-full text-primary" />
               </div>
             </div>
           </Container>

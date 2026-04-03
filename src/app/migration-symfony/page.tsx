@@ -12,6 +12,7 @@ import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
+import StrategyIllustration from "@/components/illustrations/StrategyIllustration";
 
 export const metadata = pageMetadata({
   title:
@@ -228,22 +229,7 @@ export default function MigrationSymfony() {
                 </div>
               </div>
               <div className="hidden md:flex justify-center">
-                <div className="flex h-64 w-64 items-center justify-center rounded-full bg-primary/10">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="h-32 w-32 text-primary"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M3 7.5 7.5 3m0 0L12 7.5M7.5 3v13.5m13.5-6L16.5 15m0 0L12 10.5m4.5 4.5V1.5"
-                    />
-                  </svg>
-                </div>
+                <StrategyIllustration className="h-96 w-full text-primary" />
               </div>
             </div>
           </Container>

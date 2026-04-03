@@ -8,6 +8,7 @@ import FadeIn from "@/components/ui/FadeIn";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
+import PresentationIllustration from "@/components/illustrations/PresentationIllustration";
 
 export const metadata = pageMetadata({
   title: "L'équipe Efficience IT | Agence web et technique",
@@ -81,15 +82,7 @@ export default function LaTeam() {
               </Button>
             </div>
             <div className="flex justify-center">
-              <Image
-                src="/images/illustrations/team-work.svg"
-                alt="Illustration agence web Symfony"
-                width={400}
-                height={300}
-                className="w-full max-w-md"
-                priority
-                fetchPriority="high"
-              />
+              <PresentationIllustration className="h-96 w-full text-primary" />
             </div>
           </div>
         </Container>

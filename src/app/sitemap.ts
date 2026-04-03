@@ -332,7 +332,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
-      url: `${BASE_URL}/pourquoi-efficience-it`,
+      url: `${BASE_URL}/processus-collaboration`,
+      lastModified: "2026-04-03",
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/processus-collaboration`,
       lastModified: "2026-04-03",
       changeFrequency: "monthly",
       priority: 0.8,

@@ -49,7 +49,7 @@ Une fois connecté, tu peux demander :
 
 Claude Code écrit la requête SQL, l'exécute via le serveur MCP, analyse le résultat et propose une action. Sur un projet en cours de [migration MySQL vers PostgreSQL](/article/migration-mysql-postgresql-doctrine-guide), tu peux même connecter les deux bases simultanément et demander à Claude de comparer les schémas.
 
-La question de la sécurité est centrale. En production, configure un accès en lecture seule. Un utilisateur MySQL ou PostgreSQL sans droits INSERT/UPDATE/DELETE garantit que Claude Code ne peut pas modifier les données par accident. En développement ou en staging, un accès complet permet à Claude Code de tester ses migrations en les appliquant directement. Combine ça avec un hook qui lance `php bin/console doctrine:schema:validate` après chaque modification et tu obtiens un workflow ou chaque changement de schéma est vérifié automatiquement.
+La question de la sécurité est centrale. En production, configure un accès en lecture seule. Un utilisateur MySQL ou PostgreSQL sans droits INSERT/UPDATE/DELETE garantit que Claude Code ne peut pas modifier les données par accident. En développement ou en staging, un accès complet permet à Claude Code de tester ses migrations en les appliquant directement. Combine ça avec un hook qui lance `php bin/console doctrine:schema:validate` après chaque modification et tu obtiens un workflow où chaque changement de schéma est vérifié automatiquement.
 
 L'avantage par rapport à un simple copier-coller de schéma dans le chat : le serveur MCP donne à Claude Code un accès vivant à la base. Il peut vérifier ses hypothèses en temps réel, tester une requête avant de la transformer en QueryBuilder Doctrine, ou compter les lignes affectées par une migration avant de la proposer.
 
@@ -121,7 +121,7 @@ await server.connect(transport);
 
 Ce serveur expose une commande `list_routes` qui appelle `debug:router` sur ton projet Symfony. Claude Code peut l'utiliser pour explorer les routes avant de modifier un contrôleur. Tu peux ajouter d'autres outils : `cache:clear`, `messenger:stats`, `doctrine:schema:validate`, ou n'importe quelle commande console Symfony.
 
-Le pattern [RAG avec Symfony AI et Doctrine](/article/rag-symfony-ai-doctrine-indexer-base-metier) va encore plus loin : un serveur MCP qui indexe tes données métier et les expose via une recherche vectorielle. Claude Code peut alors répondre a des questions comme "quel client a rencontré un problème similaire ?" en s'appuyant sur tes propres données.
+Le pattern [RAG avec Symfony AI et Doctrine](/article/rag-symfony-ai-doctrine-indexer-base-metier) va encore plus loin : un serveur MCP qui indexe tes données métier et les expose via une recherche vectorielle. Claude Code peut alors répondre à des questions comme "quel client a rencontré un problème similaire ?" en s'appuyant sur tes propres données.
 
 ## Configuration projet vs configuration personnelle
 

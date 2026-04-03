@@ -11,6 +11,7 @@ import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, howToJsonLd, webPageJsonLd } from "@/lib/structured-data";
+import CodeIllustration from "@/components/illustrations/CodeIllustration";
 
 export const metadata = pageMetadata({
   title: "Diagnostic Symfony gratuit de 30 minutes : premier état des lieux",
@@ -208,15 +209,7 @@ export default function AuditSymfonyGratuit() {
                 </p>
               </div>
               <div className="flex justify-center">
-                <Image
-                  src="/images/illustrations/online-report.svg"
-                  alt="Audit Symfony gratuit"
-                  width={400}
-                  height={300}
-                  className="w-full max-w-md"
-                  priority
-                  fetchPriority="high"
-                />
+                <CodeIllustration className="h-96 w-full text-primary" />
               </div>
             </div>
           </Container>
