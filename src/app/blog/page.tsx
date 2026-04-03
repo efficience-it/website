@@ -4,6 +4,7 @@ import BlogCard from "@/components/cards/BlogCard";
 import { getAllPosts, getCategories, getCategorySlug } from "@/lib/blog";
 import Link from "next/link";
 import FadeIn from "@/components/ui/FadeIn";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, blogItemListJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
@@ -46,6 +47,7 @@ export default function BlogPage() {
     <main>
       <section className="bg-light-gray py-16 md:py-24">
         <Container className="text-center">
+          <Breadcrumb items={[{ label: "Blog" }]} />
           <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
             Blog Efficience IT
           </h1>
