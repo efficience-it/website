@@ -190,6 +190,11 @@ const relatedLinks: RelatedLink[] = [
     description: "Conception d'API REST et GraphQL avec API Platform",
     href: "/api-sur-mesure-symfony",
   },
+  {
+    title: "Pourquoi choisir Efficience IT",
+    description: "Agence vs freelance, ESN ou agence générique : notre comparatif",
+    href: "/pourquoi-efficience-it",
+  },
 ];
 
 export default function AgenceSymfonyFrance() {

@@ -115,6 +115,7 @@ const devWebRelatedLinks: RelatedLink[] = [
   { title: "Symfony, site officiel", description: "Le framework PHP pour les applications web", href: "https://symfony.com/", external: true },
   { title: "Sylius, site officiel", description: "La plateforme e-commerce basée sur Symfony", href: "https://sylius.com/", external: true },
   { title: "API Platform", description: "Créer des API modernes en PHP", href: "https://api-platform.com/", external: true },
+  { title: "Pourquoi choisir Efficience IT", description: "Agence vs freelance, ESN ou agence générique : notre comparatif", href: "/pourquoi-efficience-it" },
 ];
 
 export default function DeveloppementWeb() {
