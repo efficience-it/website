@@ -36,9 +36,9 @@ const faqItems = [
       "Les ESN fonctionnent sur un modèle de placement de profils, souvent juniors. Vous n'avez pas de garantie sur l'expertise réelle du développeur affecté. Chez Efficience IT, chaque projet est porté par notre équipe interne, certifiée Symfony, avec une maîtrise de bout en bout.",
   },
   {
-    title: "Combien coûte un projet Symfony avec Efficience IT ?",
+    title: "Comment démarrer un projet avec Efficience IT ?",
     content:
-      "Le budget dépend de la complexité. Un MVP démarre autour de 15 000 euros, une application métier complète entre 30 000 et 100 000 euros. Nous proposons un diagnostic gratuit de 30 minutes pour estimer votre projet sans engagement.",
+      "Tout commence par un diagnostic gratuit de 30 minutes. Nous analysons votre contexte technique, identifions les priorités et vous proposons une feuille de route claire, sans engagement.",
   },
   {
     title: "Travaillez-vous uniquement sur Symfony ?",
@@ -106,7 +106,7 @@ const comparisonData = [
   {
     type: "Freelance Symfony",
     pros: [
-      "Tarif souvent compétitif",
+      "Flexibilité et disponibilité",
       "Relation directe avec le développeur",
     ],
     cons: [
@@ -125,7 +125,7 @@ const comparisonData = [
     cons: [
       "Profils souvent juniors ou tournés",
       "Peu de spécialisation Symfony",
-      "Coût élevé pour la valeur livrée",
+      "Résultats souvent décevants",
       "Distance entre décision et exécution",
     ],
   },
