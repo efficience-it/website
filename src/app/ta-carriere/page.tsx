@@ -6,6 +6,7 @@ import JobCard from "@/components/cards/JobCard";
 import { jobs, domains, spontaneousEmail } from "@/../data/jobs";
 import Link from "next/link";
 import FadeIn from "@/components/ui/FadeIn";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
@@ -51,6 +52,7 @@ export default function TaCarriere() {
     <main>
       <section className="bg-light-gray py-16 md:py-24">
         <Container className="text-center">
+          <Breadcrumb items={[{ label: "Jobs" }]} />
           <p className="font-display text-sm font-semibold uppercase tracking-wider text-primary">
             Un projet commun, une vision commune
           </p>

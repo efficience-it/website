@@ -6,6 +6,7 @@ import Testimonials from "@/components/sections/Testimonials";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import FadeIn from "@/components/ui/FadeIn";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, webPageJsonLd, reviewsJsonLd } from "@/lib/structured-data";
 import { testimonials } from "@/../data/testimonials";
 
@@ -131,6 +132,7 @@ export default function NosReferences() {
     <main>
       <section className="bg-light-gray py-8 md:py-12">
         <Container className="text-center">
+          <Breadcrumb items={[{ label: "Références" }]} />
           <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
             Nos réalisations et contributions open source
           </h1>

@@ -1,3 +1,4 @@
+import Breadcrumb from "@/components/ui/Breadcrumb";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 
@@ -12,6 +13,7 @@ export default function PolitiqueDeConfidentialite() {
   return (
     <main className="py-16">
       <Container className="mx-auto max-w-3xl">
+        <Breadcrumb items={[{ label: "Politique de confidentialité" }]} />
         <h1 className="font-display text-3xl font-bold text-dark md:text-4xl">
           Politique de confidentialité
         </h1>

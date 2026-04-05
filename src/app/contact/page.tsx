@@ -5,6 +5,7 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import Accordion from "@/components/ui/Accordion";
 import ContactForm from "@/components/sections/ContactForm";
 import FadeIn from "@/components/ui/FadeIn";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 import { faqItems } from "@/../data/faq";
 import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
@@ -58,6 +59,7 @@ export default function Contact() {
       <main>
         <section className="bg-light-gray py-16 md:py-24">
           <Container className="text-center">
+            <Breadcrumb items={[{ label: "Contact" }]} />
             <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
               Contactez-nous
             </h1>

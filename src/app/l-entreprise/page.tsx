@@ -7,6 +7,7 @@ import TimelineItem from "@/components/cards/TimelineItem";
 import Button from "@/components/ui/Button";
 import CallToAction from "@/components/sections/CallToAction";
 import FadeIn from "@/components/ui/FadeIn";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
@@ -149,6 +150,7 @@ export default function LEntreprise() {
     <main>
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
+          <Breadcrumb items={[{ label: "Notre histoire" }]} />
           <div className="grid items-center gap-12 md:grid-cols-2">
             <div>
               <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">

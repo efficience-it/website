@@ -5,6 +5,7 @@ import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import CallToAction from "@/components/sections/CallToAction";
 import FadeIn from "@/components/ui/FadeIn";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
@@ -61,9 +62,9 @@ export default function LaTeam() {
       dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
     />
     <main>
-      {/* Hero */}
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
+          <Breadcrumb items={[{ label: "La team" }]} />
           <div className="grid items-center gap-12 md:grid-cols-2">
             <div>
               <p className="text-sm font-semibold uppercase tracking-wider text-primary">
