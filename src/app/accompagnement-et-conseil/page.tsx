@@ -137,6 +137,7 @@ const webPage = webPageJsonLd({
 });
 
 const accompagnementRelatedLinks: RelatedLink[] = [
+  { title: "Audit IA en entreprise", description: "Diagnostic, accompagnement et formation IA pour vos équipes", href: "/audit-ia-entreprise" },
   { title: "L'agence Efficience IT", description: "Notre histoire, nos valeurs et notre approche", href: "/l-entreprise" },
   { title: "L'équipe Efficience IT", description: "Les profils qui vous accompagnent au quotidien", href: "/la-team" },
   { title: "Comment se passe un audit chez Efficience IT", description: "Notre méthodologie d'audit détaillée", href: "/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede" },
@@ -362,6 +363,15 @@ export default function AccompagnementEtConseil() {
                   les 6 étapes pour monter en compétences sur Symfony
                 </Link>{" "}
                 que nous recommandons à nos clients.
+              </p>
+              <p className="mt-4 text-lg text-gray">
+                Vous souhaitez intégrer l&apos;intelligence artificielle dans
+                vos processus ? Notre{" "}
+                <Link href="/audit-ia-entreprise" className="text-primary hover:underline">
+                  audit IA en entreprise
+                </Link>{" "}
+                identifie les cas d&apos;usage pertinents et inclut la formation
+                de vos équipes aux outils déployés.
               </p>
             </div>
           </div>

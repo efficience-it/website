@@ -362,6 +362,18 @@ export default function FormationSymfonyEntreprise() {
                 </Link>
                 .
               </p>
+              <p>
+                Au-delà de Symfony, nous accompagnons aussi les entreprises dans
+                l&apos;adoption de l&apos;intelligence artificielle. Notre{" "}
+                <Link
+                  href="/audit-ia-entreprise"
+                  className="text-primary hover:underline"
+                >
+                  audit IA en entreprise
+                </Link>{" "}
+                inclut la formation de vos équipes aux outils IA adaptés à leur
+                métier.
+              </p>
             </div>
           </Container>
         </section>

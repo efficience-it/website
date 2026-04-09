@@ -35,6 +35,11 @@ export const mainNav: NavItem[] = [
         href: "/expertise-ia",
         description: "Intégration d'IA dans vos processus métier",
       },
+      {
+        label: "Audit IA en entreprise",
+        href: "/audit-ia-entreprise",
+        description: "Diagnostic, accompagnement et formation IA",
+      },
     ],
     highlight: {
       label: "Nos expertises",
@@ -187,6 +192,7 @@ export const footerNav = {
       { label: "Accompagnement et Conseil", href: "/accompagnement-et-conseil" },
       { label: "Expertise IA", href: "/expertise-ia" },
       { label: "Audit de code PHP", href: "/audit-code-php" },
+      { label: "Audit IA en entreprise", href: "/audit-ia-entreprise" },
       { label: "Migration Symfony", href: "/migration-symfony" },
       { label: "Hébergement Symfony", href: "/hebergement-symfony" },
       { label: "Nos articles", href: "/blog" },
