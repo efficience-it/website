@@ -139,6 +139,7 @@ const webPage = webPageJsonLd({
 });
 
 const expertiseIaRelatedLinks: RelatedLink[] = [
+  { title: "Audit IA en entreprise", description: "Diagnostic, accompagnement et formation IA pour vos équipes", href: "/audit-ia-entreprise" },
   { title: "RAG Symfony : indexer sa base métier avec l'IA", description: "Construire un pipeline RAG sur vos entités Doctrine", href: "/article/rag-symfony-ai-doctrine-indexer-base-metier" },
   { title: "Quel assistant IA choisir pour coder ?", description: "Comparatif des assistants IA pour le développement", href: "/article/quel-assistant-ia-choisir-pour-coder" },
   { title: "GEO : rendre votre application visible dans les moteurs IA", description: "Les enjeux du référencement IA pour Symfony", href: "/article/geo-rendre-votre-application-symfony-visible-dans-les-moteurs-ia" },
