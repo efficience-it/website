@@ -1,0 +1,171 @@
+---
+title: "Playwright : automatiser vos tests end-to-end avec Claude Code"
+date: "2026-04-09"
+author: "Efficience IT"
+category: "DevOps"
+excerpt: "Playwright s'impose comme la référence pour les tests end-to-end d'applications web. Combiné à Claude Code, il devient possible de générer, maintenir et faire évoluer une suite de tests E2E sans y passer des semaines."
+image: "/images/blog/playwright.webp"
+faq:
+  - question: "Playwright est-il gratuit ?"
+    answer: "Oui. Playwright est entièrement open source, développé par Microsoft et distribué sous licence Apache 2.0. Il est gratuit pour tous les usages, y compris commerciaux. Aucun abonnement ni compte n'est requis."
+  - question: "Quelle est la différence entre Playwright et Cypress ?"
+    answer: "Playwright supporte nativement Chromium, Firefox et WebKit, tandis que Cypress se concentre sur Chrome et Edge. Playwright exécute les tests hors du navigateur, ce qui lui permet de gérer plusieurs onglets, les iframes et les contextes d'authentification isolés. Cypress offre une expérience développeur plus guidée avec son interface de débogage intégrée."
+  - question: "Claude Code peut-il écrire des tests Playwright automatiquement ?"
+    answer: "Oui. Claude Code peut lire le code source de votre application, analyser les parcours utilisateur et générer des tests Playwright complets avec sélecteurs, assertions et gestion des données de test. Le développeur valide et ajuste les tests générés plutôt que de les écrire de zéro."
+---
+
+Les tests end-to-end sont le filet de sécurité ultime d'une application web. Ils simulent un utilisateur réel : clic, navigation, saisie de formulaire, vérification du résultat affiché. Mais cette puissance a un prix. Les tests E2E sont longs à écrire, fragiles face aux changements d'interface et coûteux à maintenir. Playwright, le framework de test de Microsoft, résout une partie de ces problèmes. [Claude Code](/article/monter-en-competence-claude-code) s'occupe du reste en accélérant l'écriture et la maintenance des tests.
+
+## Pourquoi Playwright s'est imposé
+
+Avant Playwright, le paysage du test E2E se partageait entre Selenium (puissant mais verbeux), Cypress (ergonomique mais limité à Chrome) et Puppeteer (performant mais cantonné à Chromium). Playwright a pris le meilleur de chacun.
+
+Le framework supporte nativement trois moteurs de rendu : Chromium, Firefox et WebKit. Un même test valide le comportement sur Chrome, Safari et Firefox sans configuration supplémentaire. Cette couverture multi-navigateur est native, pas un plugin ajouté après coup.
+
+L'architecture est aussi un atout. Contrairement à Cypress qui s'exécute dans le navigateur, Playwright communique via le protocole DevTools depuis un processus externe. Cela lui permet de gérer des scénarios impossibles pour Cypress : plusieurs onglets simultanés, iframes imbriquées, interception réseau fine, téléchargement de fichiers, contextes d'authentification isolés. Pour les équipes qui testent des [applications respectant les normes d'accessibilité RGAA](/article/normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous), Playwright inclut des sélecteurs par rôle ARIA qui encouragent un code de test aligné avec les bonnes pratiques d'accessibilité.
+
+## Premiers pas : structure d'un projet de test
+
+L'installation est une commande npm. Playwright fournit un CLI qui initialise la structure du projet, installe les navigateurs et crée un fichier de configuration prêt à l'emploi.
+
+```bash
+npm init playwright@latest
+```
+
+La structure générée est simple.
+
+```
+tests/
+├── example.spec.ts
+├── auth.setup.ts
+playwright.config.ts
+```
+
+Le fichier `playwright.config.ts` centralise la configuration : navigateurs cibles, URL de base, timeouts, capture de screenshots en cas d'échec, enregistrement vidéo.
+
+```typescript
+import { defineConfig, devices } from '@playwright/test';
+
+export default defineConfig({
+  testDir: './tests',
+  timeout: 30_000,
+  retries: process.env.CI ? 2 : 0,
+  use: {
+    baseURL: process.env.BASE_URL || 'http://localhost:8000',
+    screenshot: 'only-on-failure',
+    trace: 'on-first-retry',
+  },
+  projects: [
+    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+    { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
+    { name: 'webkit', use: { ...devices['Desktop Safari'] } },
+  ],
+});
+```
+
+## Anatomie d'un test Playwright
+
+Un test Playwright lit comme un scénario utilisateur. Les locators trouvent les éléments, les actions simulent les interactions, les assertions vérifient le résultat.
+
+```typescript
+import { test, expect } from '@playwright/test';
+
+test('un utilisateur peut soumettre le formulaire de contact', async ({ page }) => {
+  await page.goto('/contact');
+
+  await page.getByLabel('Nom').fill('Jean Dupont');
+  await page.getByLabel('Email').fill('jean@example.com');
+  await page.getByLabel('Message').fill('Demande de devis pour un audit');
+  await page.getByRole('button', { name: 'Envoyer' }).click();
+
+  await expect(page.getByText('Message envoyé')).toBeVisible();
+});
+```
+
+Les sélecteurs `getByRole`, `getByLabel` et `getByText` sont la force de Playwright. Ils ciblent les éléments par leur sémantique plutôt que par leur structure HTML. Un bouton renommé dans le code ne casse pas le test tant que son rôle et son label restent cohérents. C'est un changement de philosophie par rapport aux sélecteurs CSS fragiles de Selenium.
+
+L'auto-wait est intégré : Playwright attend automatiquement qu'un élément soit visible, stable et interactif avant d'agir. Les `sleep` et `waitFor` explicites disparaissent de la base de test, ce qui la rend plus lisible et plus robuste.
+
+## Gestion de l'authentification
+
+Les applications réelles nécessitent une authentification. Répéter un login avant chaque test gaspille du temps et introduit de la fragilité. Playwright résout ce problème avec les setup projects et le stockage d'état.
+
+```typescript
+import { test as setup } from '@playwright/test';
+
+setup('authenticate', async ({ page }) => {
+  await page.goto('/login');
+  await page.getByLabel('Email').fill('admin@example.com');
+  await page.getByLabel('Mot de passe').fill(process.env.TEST_PASSWORD);
+  await page.getByRole('button', { name: 'Se connecter' }).click();
+  await page.waitForURL('/dashboard');
+
+  await page.context().storageState({ path: '.auth/state.json' });
+});
+```
+
+Le fichier `state.json` contient les cookies et le localStorage. Les tests suivants chargent cet état sans repasser par le formulaire de login. Sur une suite de 50 tests, le gain de temps est significatif.
+
+## Intégration dans un pipeline CI/CD
+
+Playwright est conçu pour la CI. Le mode headless est le comportement par défaut, et l'image Docker officielle embarque tous les navigateurs et leurs dépendances système. Pour les équipes qui [automatisent déjà leurs tests d'API avec Bruno](/article/bruno-alternative-open-source-postman-tester-api) ou [Newman](/article/comment-executer-des-tests-postman-avec-newman-dans-gitlab-ci), Playwright complète la pyramide de tests avec la couche E2E.
+
+```yaml
+stages:
+  - test
+
+e2e_tests:
+  stage: test
+  image: mcr.microsoft.com/playwright:v1.52.0-noble
+  script:
+    - npm ci
+    - npx playwright test --reporter=junit --output-file=results.xml
+  artifacts:
+    when: always
+    reports:
+      junit: results.xml
+    paths:
+      - test-results/
+    expire_in: 7 days
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main"
+```
+
+L'image Docker Microsoft est la méthode recommandée. Elle garantit que les navigateurs et les librairies système sont synchronisés avec la version de Playwright. Construire une image custom avec [Docker](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) est possible mais rarement nécessaire.
+
+Les traces Playwright sont l'outil de débogage principal en CI. Quand un test échoue, la trace contient un enregistrement complet : chaque action, chaque requête réseau, l'état du DOM à chaque étape, et des screenshots. Le Trace Viewer (accessible via `npx playwright show-trace trace.zip`) reconstitue l'exécution pas à pas, ce qui élimine le cycle classique "relancer en local pour comprendre".
+
+## Playwright et Claude Code : le duo productif
+
+C'est ici que l'approche change. La barrière principale du test E2E n'est pas technique, c'est le temps. Écrire un test complet pour un parcours d'achat (navigation catalogue, ajout au panier, saisie adresse, paiement, confirmation) prend facilement une heure. Claude Code réduit ce temps à quelques minutes.
+
+Le workflow est direct. Le développeur demande à Claude Code de lire le code source d'une page ou d'un composant, puis de générer le test Playwright correspondant. Claude Code analyse la structure HTML, identifie les éléments interactifs et produit un test avec des sélecteurs sémantiques et des assertions pertinentes.
+
+Les [skills Claude Code](/article/skills-claude-code-equipe-symfony) permettent de standardiser cette approche. Un skill `/e2e-gen` encode les conventions de l'équipe : structure des fichiers de test, patterns d'authentification, sélecteurs privilégiés, assertions minimales attendues. Chaque développeur génère des tests cohérents sans connaître les conventions par cœur.
+
+La maintenance bénéficie du même levier. Quand une refonte d'interface casse 15 tests, Claude Code peut analyser les changements de markup et mettre à jour les sélecteurs en lot. Le développeur valide le diff plutôt que de corriger chaque fichier manuellement. Ce gain de temps est d'autant plus important dans les projets où la [dette technique](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) a accumulé des tests fragiles basés sur des sélecteurs CSS trop spécifiques.
+
+## Bonnes pratiques pour des tests durables
+
+L'outil ne fait pas tout. Quelques principes gardent une suite E2E maintenable sur la durée.
+
+### Isoler les tests
+
+Chaque test doit pouvoir tourner seul, dans n'importe quel ordre. Playwright facilite cela avec les contextes de navigateur isolés : chaque test obtient un contexte vierge, sans cookies ni état partagé. Les données de test sont créées par le test lui-même (via l'API ou des fixtures), jamais supposées présentes en base.
+
+### Cibler les parcours critiques
+
+Les tests E2E couvrent les scénarios métier, pas l'exhaustivité fonctionnelle. Un formulaire de contact, un parcours d'achat, une inscription : ce sont les flux qui, s'ils cassent, impactent directement le chiffre d'affaires. Les cas limites et les validations unitaires restent dans les tests de niveau inférieur. L'approche est complémentaire avec les [tests d'API via Bruno](/article/bruno-alternative-open-source-postman-tester-api) qui couvrent les contrats techniques.
+
+### Utiliser les sélecteurs sémantiques
+
+Préférer `getByRole('button', { name: 'Valider' })` à `page.locator('.btn-primary.mt-4')`. Le premier résiste à un changement de design, le second casse à la première refonte CSS. Playwright encourage cette approche avec ses [conventions de codage](/article/coding-conventions) de sélecteurs, et le mode strict qui échoue si un sélecteur matche plusieurs éléments.
+
+## Pour aller plus loin
+
+- [Bruno : l'alternative open source à Postman](/article/bruno-alternative-open-source-postman-tester-api), tester vos API en complément des tests E2E
+- [Tests Postman avec Newman dans GitLab CI](/article/comment-executer-des-tests-postman-avec-newman-dans-gitlab-ci), automatiser les tests d'API dans le pipeline
+- [Quel éditeur de code choisir](/article/phpstorm-vscode-sublimetext-netbeans-quel-editeur-de-code-choisir), Playwright s'intègre nativement dans VS Code avec une extension dédiée
+- [Playwright](https://playwright.dev/), documentation officielle du framework
+- [Playwright sur GitHub](https://github.com/microsoft/playwright), code source et issues du projet
