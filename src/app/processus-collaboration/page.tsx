@@ -419,12 +419,12 @@ export default function ProcessusCollaboration() {
                 </Card>
                 <Card>
                   <h3 className="font-display text-lg font-bold text-dark">
-                    Transparence totale
+                    Suivi en temps réel
                   </h3>
                   <p className="mt-2 text-gray">
-                    Estimation détaillée en amont, suivi en temps réel, alertes
-                    en cas de dérive. Pas de mauvaise surprise à la
-                    livraison.
+                    Estimation détaillée en amont, tableau de bord accessible à
+                    tout moment, alertes en cas de dérive. Vous gardez une
+                    visibilité complète sur l&apos;avancement de votre projet.
                   </p>
                 </Card>
                 <Card>
