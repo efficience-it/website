@@ -73,7 +73,7 @@ export const services = [
       "Une nouvelle infrastructure",
       "Une nouvelle base de données",
       "Migration de plateforme web",
-      "Architectures dockérisées",
+      "Architectures dockerisées",
     ],
   },
   {
