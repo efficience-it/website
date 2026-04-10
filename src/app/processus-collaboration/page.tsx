@@ -45,7 +45,7 @@ const processSteps = [
       "Document de cadrage",
       "Backlog priorisé",
       "Planning prévisionnel",
-      "Estimation budgétaire détaillée",
+      "Estimation détaillée du périmètre",
     ],
   },
   {
@@ -158,7 +158,7 @@ const howTo = howToJsonLd(
     },
     {
       name: "Cadrage et spécifications",
-      text: "Définissez le périmètre du projet avec l'équipe : analyse fonctionnelle, spécifications techniques, backlog priorisé et estimation budgétaire.",
+      text: "Définissez le périmètre du projet avec l'équipe : analyse fonctionnelle, spécifications techniques, backlog priorisé et estimation du périmètre.",
     },
     {
       name: "Développement itératif en sprints",

@@ -116,7 +116,7 @@ const faqItems = [
   {
     title: "Pourquoi choisir PHP en 2026 pour un nouveau projet ?",
     content:
-      "PHP 8 a profondément modernisé le langage : typage strict, enums, fibers, performances en forte hausse. Combiné à Symfony, PHP reste le choix le plus pragmatique pour les applications web d'entreprise. L'écosystème est mature, les développeurs PHP seniors sont disponibles et le coût de maintenance est maîtrisé.",
+      "PHP 8 a profondément modernisé le langage : typage strict, enums, fibers, performances en forte hausse. Combiné à Symfony, PHP reste le choix le plus pragmatique pour les applications web d'entreprise. L'écosystème est mature, les développeurs PHP seniors sont disponibles et la maintenance reste simple et prévisible.",
   },
   {
     title: "Comment moderniser une application PHP legacy ?",
@@ -127,11 +127,6 @@ const faqItems = [
     title: "Quelle différence entre un développeur PHP junior et senior ?",
     content:
       "Un développeur PHP senior ne se contente pas de faire fonctionner le code. Il structure l'application avec une architecture propre, écrit des tests, utilise l'analyse statique, anticipe les problèmes de performance et de sécurité. Chez Efficience IT, chaque projet est mené par des développeurs PHP seniors.",
-  },
-  {
-    title: "Combien coûte le développement d'une application PHP sur mesure ?",
-    content:
-      "Le budget dépend de la complexité fonctionnelle, des intégrations nécessaires et du niveau de qualité attendu. Un MVP peut démarrer autour de quelques semaines de développement. Nous proposons un audit gratuit de 30 minutes pour cadrer votre projet et vous donner une estimation réaliste.",
   },
 ];
 

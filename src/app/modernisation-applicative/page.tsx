@@ -99,7 +99,7 @@ const faqItems = [
   {
     title: "Faut-il tout réécrire ou peut-on moderniser progressivement ?",
     content:
-      "La réécriture complète est rarement la bonne stratégie. Elle coûte cher, prend du temps et introduit de nouveaux risques. Nous privilégions le refactoring progressif : on identifie les modules les plus critiques, on les modernise en priorité, et on avance par étapes. Chaque module migré est couvert par des tests et livré en production.",
+      "La réécriture complète est rarement la bonne stratégie. Elle prend du temps, mobilise beaucoup de ressources et introduit de nouveaux risques. Nous privilégions le refactoring progressif : on identifie les modules les plus critiques, on les modernise en priorité, et on avance par étapes. Chaque module migré est couvert par des tests et livré en production.",
   },
 ];
 
@@ -200,12 +200,12 @@ export default function ModernisationApplicative() {
               </Card>
               <Card>
                 <h2 className="font-display text-lg font-bold text-dark">
-                  Coûts de maintenance croissants
+                  Maintenance de plus en plus lourde
                 </h2>
                 <p className="mt-2 text-gray">
                   Plus la{" "}
                   <Link href="/article/la-dette-technique-faut-il-vraiment-en-avoir-peur" className="text-primary hover:underline">dette technique</Link>
-                  {" "}s&apos;accumule, plus chaque évolution coûte cher.
+                  {" "}s&apos;accumule, plus chaque évolution prend du temps.
                   Un bug corrigé en crée deux autres. Les développeurs
                   passent plus de temps à contourner les problèmes qu&apos;à
                   livrer de la valeur.

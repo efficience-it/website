@@ -67,11 +67,6 @@ const faqItems = [
       "Oui, c'est même courant. Nous commençons par un audit technique pour évaluer l'état du code, la couverture de tests et l'architecture. Ensuite, nous proposons un plan de reprise avec les actions prioritaires pour stabiliser l'application avant d'engager des évolutions.",
   },
   {
-    title: "Quel est le coût d'un contrat de maintenance ?",
-    content:
-      "Le coût dépend de la taille de l'application, du volume d'évolutions prévu et du niveau de SLA souhaité. Nous proposons des forfaits mensuels à partir de quelques jours par mois, ajustables en fonction de vos besoins réels.",
-  },
-  {
     title: "Comment sont gérées les urgences ?",
     content:
       "Les incidents critiques (application indisponible, faille de sécurité, perte de données) sont pris en charge en priorité, avec un temps de réponse garanti par le SLA. Pour les clients qui le nécessitent, nous proposons des astreintes en dehors des heures ouvrées.",
@@ -297,7 +292,7 @@ export default function SecteurMaintenanceApplicative() {
                 >
                   dette technique
                 </Link>{" "}
-                finit par coûter plus cher que la maintenance elle-même.
+                finit par peser davantage que la maintenance elle-même.
               </p>
               <p>
                 Notre approche préventive inclut les montées de version
@@ -379,7 +374,7 @@ export default function SecteurMaintenanceApplicative() {
             <p className="mt-4 text-lg text-white/90">
               Discutons de votre besoin en maintenance. Nous auditons votre
               application et vous proposons un contrat adapté à vos enjeux
-              et à votre budget.
+              et à vos besoins.
             </p>
             <Link
               href="/contact"

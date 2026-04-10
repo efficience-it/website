@@ -290,7 +290,7 @@ export default function SecteurMigrationLegacy() {
                 Une application legacy, c&apos;est un risque qui augmente avec
                 le temps. Les failles de sécurité ne sont plus corrigées, les
                 développeurs compétents sur votre stack deviennent rares, et
-                chaque nouvelle fonctionnalité coûte plus cher que la
+                chaque nouvelle fonctionnalité prend plus de temps que la
                 précédente. La{" "}
                 <Link
                   href="/securite-application-symfony"

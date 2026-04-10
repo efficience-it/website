@@ -172,7 +172,7 @@ export default function CloudEtDevops() {
               <p className="mt-4 max-w-3xl text-lg text-gray">
                 Nos solutions flexibles et innovantes répondent aux défis
                 majeurs de scalabilité, de sécurité et de performance, tout en
-                vous aidant à maximiser vos ressources et à réduire vos coûts.
+                vous aidant à maximiser vos ressources et à gagner en efficacité.
               </p>
               <p className="mt-6 text-lg font-semibold text-dark">
                 Un projet à déployer ?

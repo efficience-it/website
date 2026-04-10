@@ -85,7 +85,7 @@ const faqItems = [
   {
     title: "Quels modèles d'IA recommandez-vous pour un projet Symfony ?",
     content:
-      "Ça dépend du cas d'usage. Pour du traitement de texte ou de la génération, Claude et GPT sont les plus polyvalents. Pour du RAG sur des données techniques, Mistral offre un bon rapport coût/performance. Pour de l'embarqué ou du temps réel, des modèles plus légers comme Gemma peuvent convenir. Nous vous aidons à choisir.",
+      "Ça dépend du cas d'usage. Pour du traitement de texte ou de la génération, Claude et GPT sont les plus polyvalents. Pour du RAG sur des données techniques, Mistral offre un bon rapport effort/résultat. Pour de l'embarqué ou du temps réel, des modèles plus légers comme Gemma peuvent convenir. Nous vous aidons à choisir.",
   },
   {
     title: "Qu'est-ce que le RAG et comment ça fonctionne avec Doctrine ?",

@@ -24,27 +24,27 @@ const expertises = [
   {
     title: "Développement Symfony dédié",
     description:
-      "Conception d'applications web métier en direct depuis nos locaux lillois. Architecture propre, code maintenable, livraisons itératives avec des points réguliers en présentiel.",
+      "Conception et réalisation d'applications web métier avec Symfony : architecture propre, code maintenable, livraisons itératives.",
   },
   {
     title: "Maintenance et TMA",
     description:
-      "Prise en charge technique de vos applications existantes depuis Lille : corrections, évolutions, mises à jour de sécurité et montées de version avec une réactivité de proximité.",
+      "Prise en charge technique de vos applications existantes : corrections, évolutions, mises à jour de sécurité et montées de version.",
   },
   {
     title: "Migration Symfony",
     description:
-      "Migration de Symfony 3, 4 ou 5 vers les versions LTS actuelles. Stratégie progressive, sans interruption de service, pilotée depuis notre siège lillois.",
+      "Migration de Symfony 3, 4 ou 5 vers les versions LTS actuelles. Stratégie progressive, sans interruption de service.",
   },
   {
     title: "API REST et API Platform",
     description:
-      "Conception d'API robustes avec API Platform et Symfony. Interfaces documentées, versionnées et testées, avec des ateliers de conception dans nos locaux.",
+      "Conception d'API robustes avec API Platform et Symfony. Interfaces documentées, versionnées et testées.",
   },
   {
     title: "Audit technique",
     description:
-      "Analyse de votre application avec restitution en face à face : architecture, dette technique, sécurité, performances. Rapport écrit avec recommandations priorisées.",
+      "Analyse de votre application : architecture, dette technique, sécurité, performances. Rapport écrit avec recommandations priorisées.",
   },
 ];
 
@@ -57,39 +57,54 @@ const webPage = webPageJsonLd({
   description: "Efficience IT, agence Symfony à Lille : développement sur mesure, maintenance, migration et audit. Proximité, réactivité et expertise technique au service de vos projets.",
   path: "/agence-symfony-lille",
   datePublished: "2026-03-11",
-  dateModified: "2026-04-10",
+  dateModified: "2026-03-11",
 });
 
 const faqItems = [
   {
     title: "Pourquoi choisir une agence Symfony basée à Lille ?",
     content:
-      "Lille est le 3e pôle tech de France, avec un écosystème PHP actif porté par l'AFUP Hauts-de-France. En choisissant une agence locale, vous bénéficiez de la proximité pour les réunions en présentiel, d'une connaissance directe du tissu économique régional et d'une réactivité que le travail à distance seul ne peut pas offrir.",
+      "Lille est le 3e pôle tech de France, avec un écosystème PHP actif porté par l'AFUP Hauts-de-France. En choisissant une agence locale, vous bénéficiez de la proximité pour les réunions en présentiel, d'une connaissance directe du tissu économique régional et d'une expertise technique sans compromis.",
   },
   {
-    title: "Peut-on se rencontrer dans vos locaux à Lille ?",
+    title: "Intervenez-vous uniquement à Lille ?",
     content:
-      "Oui, et c'est même ce que nous recommandons pour les phases de cadrage et les ateliers fonctionnels. Notre siège à Lille est ouvert à nos clients pour des réunions de travail, des sessions de pair programming ou des restitutions d'audit. La collaboration en face à face accélère la compréhension mutuelle et la prise de décision.",
+      "Non, nous travaillons avec des entreprises dans toute la France, en remote ou sur site. Lille est notre point d'attache, mais notre organisation est pensée pour le travail distribué. Nous intervenons aussi régulièrement à Paris (1h20 en TGV), Lyon, Nantes et partout où le projet le nécessite.",
   },
   {
-    title: "Comment fonctionne la collaboration de proximité au quotidien ?",
+    title: "Comment se déroule une première collaboration ?",
     content:
-      "Nous combinons les avantages du présentiel et du remote. Les ateliers de cadrage, les revues d'architecture et les points stratégiques se font en face à face dans nos locaux ou les vôtres. Le développement au quotidien s'appuie sur des rituels agiles en visio, des livraisons régulières et une communication continue via nos outils collaboratifs.",
+      "Tout commence par un échange gratuit de 30 minutes pour comprendre votre projet et vos contraintes. Nous vous proposons ensuite un cadrage technique et un devis détaillé. Le développement démarre en sprints courts avec des livraisons régulières et une visibilité constante sur l'avancement.",
   },
   {
-    title: "Travaillez-vous avec des entreprises hors de Lille ?",
+    title: "Pouvez-vous reprendre un projet Symfony existant ?",
     content:
-      "Oui. Notre siège est à Lille, mais nous accompagnons des entreprises dans toute la France. Nous intervenons régulièrement à Paris (1h20 en TGV), Lyon, Nantes et partout où le projet le nécessite. Pour les entreprises de la métropole lilloise, la proximité est un atout supplémentaire, pas une condition exclusive.",
+      "Oui, c'est l'un de nos cas d'usage les plus fréquents. Nous réalisons un audit du code existant, identifions la dette technique et proposons un plan de reprise progressif. L'objectif est de remettre le projet sur de bons rails sans tout réécrire.",
   },
   {
-    title: "Quel est l'avantage de travailler avec une agence locale plutôt qu'un freelance ?",
+    title: "Pourquoi choisir Symfony plutôt qu'un autre framework PHP ?",
     content:
-      "Une agence locale comme Efficience IT offre la stabilité d'une équipe dédiée, avec un interlocuteur technique qui connaît votre application et votre métier dans la durée. Contrairement à un freelance, nous assurons la continuité en cas d'absence, la revue de code croisée et une capacité de montée en charge si votre projet l'exige.",
+      "Symfony est le framework PHP le plus adapté aux applications métier complexes. Sa stabilité, son cycle de releases LTS, son écosystème mature (Doctrine, Messenger, Security) et sa communauté active en font le choix de référence pour les projets qui doivent durer dans le temps. Contrairement à Laravel, orienté prototypage rapide, Symfony privilégie la robustesse architecturale et la maintenabilité à long terme.",
   },
   {
-    title: "Participez-vous à la communauté tech lilloise ?",
+    title: "Comment migrer une application PHP legacy vers Symfony ?",
     content:
-      "Oui, nous sommes actifs dans l'écosystème tech des Hauts-de-France. Nous participons aux meetups organisés par l'AFUP Hauts-de-France, aux événements d'EuraTechnologies et aux conférences de la communauté PHP. Cette implication nous permet de rester à la pointe des pratiques et de tisser des liens avec les autres acteurs tech de la région.",
+      "Nous privilégions une approche progressive : audit du code existant, identification des modules critiques, migration incrémentale sans interruption de service. L'utilisation de Rector et d'outils d'analyse statique comme PHPStan accélère le processus. L'objectif est de moderniser sans tout réécrire, en conservant la valeur métier du code existant.",
+  },
+  {
+    title: "Symfony ou Laravel : lequel choisir pour mon projet ?",
+    content:
+      "Laravel excelle pour le prototypage rapide et les projets simples. Symfony est préférable pour les applications métier complexes, les projets à longue durée de vie et les équipes qui valorisent l'architecture logicielle. Si votre application doit gérer des règles métier complexes, une architecture hexagonale ou du CQRS, Symfony est le meilleur choix.",
+  },
+  {
+    title: "Quels sont les délais pour un projet Symfony ?",
+    content:
+      "Un MVP fonctionnel peut être livré en 6 à 8 semaines. Une application métier complète nécessite généralement 3 à 6 mois. Nous travaillons en sprints courts avec des livraisons régulières, ce qui vous donne de la visibilité dès les premières semaines et la possibilité d'ajuster les priorités en cours de route.",
+  },
+  {
+    title: "Quand utiliser API Platform avec Symfony ?",
+    content:
+      "API Platform est pertinent dès que votre projet implique une API REST ou GraphQL : application mobile, SPA, intégration avec des systèmes tiers ou architecture microservices. Il génère automatiquement la documentation OpenAPI, gère la pagination, le filtrage et la sérialisation. Pour les API simples, les controllers Symfony classiques suffisent.",
   },
 ];
 
@@ -148,15 +163,14 @@ export default function AgenceSymfonyLille() {
                   Efficience IT est une{" "}
                   <strong>agence Symfony basée à Lille</strong>, spécialisée
                   dans le développement d&apos;applications web PHP robustes et
-                  évoluées. Notre siège lillois est le point de départ de toutes
-                  nos missions : un ancrage local qui garantit la proximité, la
-                  réactivité et une collaboration directe avec nos clients.
+                  évoluées. Nous accompagnons les PME, ETI et startups du
+                  territoire dans leurs projets techniques : création, maintenance,
+                  migration et audit.
                 </p>
                 <p className="mt-4 max-w-3xl text-lg text-gray">
-                  Réunions dans nos locaux, ateliers en face à face, pair
-                  programming sur site : la proximité n&apos;est pas un argument
-                  marketing, c&apos;est notre mode de fonctionnement pour les
-                  entreprises de la métropole lilloise et des Hauts-de-France.
+                  Notre ancrage lillois nous permet d&apos;intervenir rapidement,
+                  en présentiel ou à distance, avec une connaissance directe de
+                  l&apos;écosystème tech de la région.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   <Button href="/audit-symfony-gratuit">
@@ -207,41 +221,41 @@ export default function AgenceSymfonyLille() {
               Pourquoi choisir une agence Symfony à Lille
             </SectionTitle>
             <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-              Notre siège lillois est bien plus qu&apos;une adresse : c&apos;est
-              le socle d&apos;une collaboration de proximité avec vos équipes.
+              Travailler avec une agence locale présente de vrais avantages
+              concrets pour vos projets techniques.
             </p>
             <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               <Card>
                 <h3 className="font-display text-lg font-bold text-dark">
-                  Collaboration directe
+                  Proximité et réactivité
                 </h3>
                 <p className="mt-2 text-gray">
-                  Réunions dans nos locaux ou les vôtres, ateliers de
-                  conception en face à face, restitutions d&apos;audit en
-                  présentiel. La proximité géographique permet des échanges
-                  plus riches et des décisions plus rapides.
+                  Réunions en présentiel possibles, interventions rapides sur
+                  site, et une communication directe sans intermédiaire. Nous
+                  sommes dans le même fuseau horaire, avec les mêmes contraintes
+                  métier que vous.
                 </p>
               </Card>
               <Card>
                 <h3 className="font-display text-lg font-bold text-dark">
-                  Ancrage dans l&apos;écosystème lillois
+                  Connaissance de l&apos;écosystème local
                 </h3>
                 <p className="mt-2 text-gray">
-                  Actifs dans la communauté tech des Hauts-de-France, nous
-                  participons aux événements de l&apos;AFUP, aux meetups
-                  d&apos;EuraTechnologies et aux conférences PHP locales.
-                  Nous connaissons les acteurs et les enjeux de la région.
+                  Ancrés dans la métropole lilloise, nous connaissons les acteurs
+                  tech de la région, participons aux événements de la communauté
+                  PHP et Symfony, et entretenons des liens avec les structures
+                  d&apos;accompagnement locales.
                 </p>
               </Card>
               <Card>
                 <h3 className="font-display text-lg font-bold text-dark">
-                  Interlocuteur stable et accessible
+                  Partenariat sur le long terme
                 </h3>
                 <p className="mt-2 text-gray">
-                  Pas de turnover, pas de sous-traitance. Votre interlocuteur
-                  technique est à Lille, connaît votre application et votre
-                  métier, et reste disponible pour un café ou une session de
-                  travail imprévue.
+                  Notre modèle n&apos;est pas celui de la prestation one-shot.
+                  Nous construisons des relations durables avec nos clients :
+                  vous avez un interlocuteur technique stable qui connaît votre
+                  application et votre métier.
                 </p>
               </Card>
             </div>

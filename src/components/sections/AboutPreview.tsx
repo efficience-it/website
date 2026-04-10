@@ -23,8 +23,8 @@ export default function AboutPreview() {
               construisons des solutions utiles, avec vous et pour vous.
             </p>
             <p className="mt-4 text-lg text-gray">
-              Notre objectif est simple : vous faire gagner du temps, maîtriser
-              vos coûts et obtenir un outil fiable, pensé pour durer.
+              Notre objectif est simple : vous faire gagner du temps, optimiser
+              vos ressources et obtenir un outil fiable, pensé pour durer.
             </p>
             <p className="mt-4 text-lg text-gray">
               Écoute, clarté, engagement : vous pouvez compter sur un partenaire

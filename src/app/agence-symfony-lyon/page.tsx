@@ -24,27 +24,27 @@ const expertises = [
   {
     title: "Développement Symfony sur mesure",
     description:
-      "Applications web métier, plateformes SaaS, outils internes : nous concevons des solutions Symfony adaptées aux enjeux des entreprises lyonnaises, de l'industrie à la fintech.",
+      "Applications web métier, plateformes SaaS, outils internes : nous concevons des solutions Symfony adaptées à vos enjeux fonctionnels et techniques.",
   },
   {
     title: "Audit et reprise de projets",
     description:
-      "Analyse approfondie de votre codebase : dette technique, sécurité, performances. Reprise en main de projets Symfony existants, même sans documentation ni historique.",
+      "Analyse approfondie de votre codebase : dette technique, sécurité, performances. Reprise en main de projets Symfony existants sans documentation.",
   },
   {
     title: "Migration et modernisation",
     description:
-      "Migration vers les versions LTS de Symfony, refonte progressive d'applications PHP legacy. Passage à une architecture hexagonale pour les projets qui ont grandi trop vite.",
+      "Migration vers les versions LTS de Symfony, refonte progressive d'applications PHP legacy, passage à une architecture hexagonale.",
   },
   {
     title: "API REST et API Platform",
     description:
-      "Conception d'API robustes avec API Platform : documentation OpenAPI, versioning, tests automatisés. Intégration avec les ERP et SI industriels de la région lyonnaise.",
+      "Conception d'API robustes avec API Platform : documentation OpenAPI, versioning, tests automatisés, intégration avec vos systèmes tiers.",
   },
   {
     title: "Maintenance applicative",
     description:
-      "Corrections, évolutions fonctionnelles, montées de version et mises à jour de sécurité. Un suivi technique continu, piloté à distance avec la même rigueur qu'en local.",
+      "Corrections, évolutions fonctionnelles, montées de version et mises à jour de sécurité. Un suivi technique continu pour vos applications Symfony.",
   },
 ];
 
@@ -55,29 +55,44 @@ const faqItems = [
       "Notre agence est basée à Lille, mais nous intervenons régulièrement à Lyon en remote ou sur site. Notre organisation est pensée pour le travail distribué : rituels en visio, outils collaboratifs et déplacements quand le projet le nécessite.",
   },
   {
-    title: "Comment se passe la collaboration à distance depuis Lyon ?",
+    title: "Comment se passe la collaboration à distance ?",
     content:
       "Nous utilisons les mêmes rituels agiles que pour nos clients locaux : daily en visio, sprint review, rétrospective. La distance ne change rien à la qualité de la communication ni au rythme des livraisons. Nos clients lyonnais travaillent avec nous exactement comme nos clients lillois.",
   },
   {
-    title: "Quels types d'entreprises lyonnaises accompagnez-vous ?",
-    content:
-      "Nous travaillons avec des startups, des PME et des ETI dans des secteurs variés : industrie, finance, santé, e-commerce, SaaS. Le point commun : des applications métier complexes où le choix de Symfony fait la différence en termes de robustesse et de maintenabilité.",
-  },
-  {
-    title: "Connaissez-vous l'écosystème tech lyonnais ?",
-    content:
-      "Oui. Nous suivons l'actualité de la communauté PHP lyonnaise via l'AFUP Lyon et Digital League. Les secteurs de l'industrie, de la santé et de la fintech, très présents à Lyon, correspondent à notre expertise en applications métier complexes et sécurisées.",
-  },
-  {
-    title: "Pouvez-vous reprendre un projet Symfony développé par une autre équipe à Lyon ?",
+    title: "Pouvez-vous reprendre un projet Symfony développé par une autre équipe ?",
     content:
       "Oui, c'est l'un de nos cas d'usage les plus fréquents. Nous commençons par un audit du code existant, identifions la dette technique et proposons un plan de reprise progressif. Pas de rewrite complet : nous remettons le projet sur de bons rails étape par étape.",
   },
   {
-    title: "Proposez-vous des formations Symfony pour les équipes lyonnaises ?",
+    title: "Quels types d'entreprises lyonnaises accompagnez-vous ?",
     content:
-      "Oui. Nos formations Symfony en entreprise sont disponibles à distance pour les équipes lyonnaises. Nous adaptons le programme à votre contexte technique : montée en compétences sur les composants Symfony, bonnes pratiques d'architecture, mise en place de tests automatisés.",
+      "Nous travaillons avec des startups, des PME et des ETI dans des secteurs variés : industrie, finance, santé, e-commerce, SaaS. Le point commun : des applications métier complexes où le choix de Symfony fait la différence.",
+  },
+  {
+    title: "Pourquoi choisir Symfony plutôt qu'un autre framework PHP ?",
+    content:
+      "Symfony est le framework PHP le plus adapté aux applications métier complexes. Sa stabilité, son cycle de releases LTS, son écosystème mature (Doctrine, Messenger, Security) et sa communauté active en font le choix de référence pour les projets qui doivent durer dans le temps. Contrairement à Laravel, orienté prototypage rapide, Symfony privilégie la robustesse architecturale et la maintenabilité à long terme.",
+  },
+  {
+    title: "Comment migrer une application PHP legacy vers Symfony ?",
+    content:
+      "Nous privilégions une approche progressive : audit du code existant, identification des modules critiques, migration incrémentale sans interruption de service. L'utilisation de Rector et d'outils d'analyse statique comme PHPStan accélère le processus. L'objectif est de moderniser sans tout réécrire, en conservant la valeur métier du code existant.",
+  },
+  {
+    title: "Symfony ou Laravel : lequel choisir pour mon projet ?",
+    content:
+      "Laravel excelle pour le prototypage rapide et les projets simples. Symfony est préférable pour les applications métier complexes, les projets à longue durée de vie et les équipes qui valorisent l'architecture logicielle. Si votre application doit gérer des règles métier complexes, une architecture hexagonale ou du CQRS, Symfony est le meilleur choix.",
+  },
+  {
+    title: "Quels sont les délais pour un projet Symfony ?",
+    content:
+      "Un MVP fonctionnel peut être livré en 6 à 8 semaines. Une application métier complète nécessite généralement 3 à 6 mois. Nous travaillons en sprints courts avec des livraisons régulières, ce qui vous donne de la visibilité dès les premières semaines et la possibilité d'ajuster les priorités en cours de route.",
+  },
+  {
+    title: "Quand utiliser API Platform avec Symfony ?",
+    content:
+      "API Platform est pertinent dès que votre projet implique une API REST ou GraphQL : application mobile, SPA, intégration avec des systèmes tiers ou architecture microservices. Il génère automatiquement la documentation OpenAPI, gère la pagination, le filtrage et la sérialisation. Pour les API simples, les controllers Symfony classiques suffisent.",
   },
 ];
 
@@ -104,7 +119,7 @@ const webPage = webPageJsonLd({
     "Efficience IT, agence Symfony pour Lyon et Auvergne-Rhône-Alpes. Développement sur mesure, audit, migration et maintenance de vos applications PHP.",
   path: "/agence-symfony-lyon",
   datePublished: "2026-03-20",
-  dateModified: "2026-04-10",
+  dateModified: "2026-03-20",
 });
 
 const relatedLinks: RelatedLink[] = [
@@ -186,28 +201,27 @@ export default function AgenceSymfonyLyon() {
                 <p className="mt-6 max-w-3xl text-lg text-gray">
                   Efficience IT accompagne les entreprises lyonnaises dans le{" "}
                   <strong>développement d&apos;applications Symfony</strong> sur
-                  mesure. Deuxième pôle tech de France, Lyon concentre des besoins
-                  croissants en applications métier robustes. Notre équipe de
-                  spécialistes PHP intervient en remote ou sur site pour y répondre.
+                  mesure. Notre équipe de spécialistes PHP intervient en remote
+                  ou sur site pour vos projets les plus exigeants.
                 </p>
                 <p className="mt-4 max-w-3xl text-lg text-gray">
-                  Industrie, fintech, santé : les secteurs phares de la métropole
-                  lyonnaise exigent des applications fiables et sécurisées. Nous
-                  mettons à disposition des entreprises de la région une{" "}
+                  Lyon est le deuxième pôle tech français, avec un tissu
+                  industriel et numérique dense. Nous accompagnons les
+                  entreprises de la région dans la conception, la{" "}
                   <Link
-                    href="/notre-expertise"
+                    href="/migration-symfony"
                     className="text-primary hover:underline"
                   >
-                    expertise Symfony de référence
+                    migration
                   </Link>{" "}
-                  pour concevoir, faire évoluer et{" "}
+                  et la{" "}
                   <Link
                     href="/maintenance-applicative-symfony"
                     className="text-primary hover:underline"
                   >
-                    maintenir
+                    maintenance
                   </Link>{" "}
-                  ces applications critiques.
+                  de leurs applications Symfony.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   <Button href="/audit-symfony-gratuit">
@@ -266,7 +280,7 @@ export default function AgenceSymfonyLyon() {
               <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
                 Lyon possède un écosystème tech mature, avec des besoins
                 croissants en développement PHP spécialisé. Notre expertise
-                Symfony répond aux exigences des secteurs industriels et tech lyonnais.
+                Symfony répond à ces exigences.
               </p>
               <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 <Card>
@@ -288,7 +302,7 @@ export default function AgenceSymfonyLyon() {
                     Notre équipe travaille en remote depuis nos débuts. Pas
                     d&apos;adaptation nécessaire : nos outils, nos rituels et
                     notre méthodologie sont conçus pour la collaboration à
-                    distance, avec des déplacements sur site quand le projet l&apos;exige.
+                    distance.
                   </p>
                 </Card>
                 <Card>

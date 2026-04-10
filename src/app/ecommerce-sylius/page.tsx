@@ -35,7 +35,7 @@ const useCases = [
   {
     title: "Commerce B2B",
     description:
-      "Gérez des catalogues personnalisés, des grilles tarifaires par client et des workflows de commande complexes adaptés au B2B.",
+      "Gérez des catalogues personnalisés, des conditions commerciales par client et des workflows de commande complexes adaptés au B2B.",
   },
   {
     title: "Migration depuis Prestashop ou Magento",
@@ -87,11 +87,6 @@ const faqItems = [
     title: "Peut-on intégrer Sylius avec un ERP ou un CRM existant ?",
     content:
       "Absolument. Grâce à API Platform intégré dans Sylius et l'écosystème Symfony, les intégrations avec des ERP, CRM ou outils tiers se font via des API REST ou des connecteurs dédiés.",
-  },
-  {
-    title: "Combien coûte un projet e-commerce Sylius ?",
-    content:
-      "Le coût dépend de la complexité du projet : catalogue, intégrations, design sur mesure. Nous proposons un audit gratuit de 30 minutes pour évaluer vos besoins et vous fournir une estimation réaliste.",
   },
   {
     title: "Sylius supporte-t-il le multi-langue et le multi-devise ?",

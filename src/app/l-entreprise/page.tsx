@@ -170,7 +170,7 @@ export default function LEntreprise() {
                 <Link href="/article/pourquoi-choisir-symfony-pour-vos-projets" className="text-primary hover:underline">
                   Symfony
                 </Link>{" "}
-                nous permet de construire des applications robustes, évolutives, personnalisables et sécurisées, dans un délai et un budget maîtrisés.
+                nous permet de construire des applications robustes, évolutives, personnalisables et sécurisées, dans un délai maîtrisé.
               </p>
             </div>
             <div className="flex justify-center">

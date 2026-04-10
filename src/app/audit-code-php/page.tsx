@@ -44,7 +44,7 @@ const axes = [
   {
     title: "Performance",
     description:
-      "Analyse des goulots d'étranglement : requêtes SQL lentes, absence de cache, boucles coûteuses et consommation mémoire excessive.",
+      "Analyse des goulots d'étranglement : requêtes SQL lentes, absence de cache, boucles inefficaces et consommation mémoire excessive.",
   },
   {
     title: "Conventions et maintenabilité",
