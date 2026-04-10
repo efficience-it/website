@@ -4,12 +4,12 @@ date: "2026-03-09"
 updatedAt: "2026-03-26"
 author: "Louis-Arnaud Catoire"
 category: "Architecture"
-excerpt: "Symfony Messenger ne sert pas qu'à envoyer des messages en asynchrone. Découvre comment l'utiliser comme Command Bus, Query Bus et Event Bus."
+excerpt: "Symfony Messenger ne sert pas qu'à envoyer des messages en asynchrone. Découvrez comment l'utiliser comme Command Bus, Query Bus et Event Bus."
 image: "/images/blog/symfony-messenger.webp"
 proficiencyLevel: "Expert"
 ---
 
-Tu utilises Symfony Messenger depuis des mois, peut-être des années. Tu dispatches des messages, tu consommes des queues, tu gères des workers. Mais est-ce que tu exploites vraiment tout son potentiel ? La plupart des développeurs Symfony voient Messenger comme un outil d'async. C'est une erreur. Messenger est un **bus de messages complet**, et c'est exactement ce dont tu as besoin pour structurer une architecture hexagonale solide.
+Vous utilisez Symfony Messenger depuis des mois, peut-être des années. Vous dispatchez des messages, vous consommez des queues, vous gérez des workers. Mais est-ce que vous exploitez vraiment tout son potentiel ? La plupart des développeurs Symfony voient Messenger comme un outil d'async. C'est une erreur. Messenger est un **bus de messages complet**, et c'est exactement ce dont vous avez besoin pour structurer une architecture hexagonale solide.
 
 ## Messenger, bien plus que de l'async
 
@@ -17,13 +17,13 @@ Quand on parle de Messenger, on pense immédiatement à RabbitMQ, aux workers, a
 
 Un bus de messages, c'est un médiateur entre celui qui envoie une intention et celui qui la traite. Le sender ne connaît pas le handler. Le handler ne sait pas d'où vient le message. Ce découplage est exactement le fondement d'une architecture hexagonale : [le domaine ne devrait jamais connaître Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony), c'est l'infrastructure qui s'adapte.
 
-Messenger te donne trois choses essentielles :
+Messenger vous donne trois choses essentielles :
 
 - Un système de **dispatch** de messages
 - Un mécanisme de **routing** vers les handlers
 - Un pipeline de **middlewares** pour les préoccupations transversales
 
-Avec ça, tu peux construire trois bus distincts qui structurent toute ton application : le Command Bus, le Query Bus et l'Event Bus.
+Avec ça, vous pouvez construire trois bus distincts qui structurent toute votre application : le Command Bus, le Query Bus et l'Event Bus.
 
 ## Configurer trois bus séparés
 
@@ -70,7 +70,7 @@ final readonly class CreateOrder
 }
 ```
 
-Rien de Symfony là-dedans. Pas d'attribut, pas d'interface, pas de dépendance framework. C'est un objet du domaine pur. Tu pourrais le réutiliser dans un autre contexte sans toucher à une ligne.
+Rien de Symfony là-dedans. Pas d'attribut, pas d'interface, pas de dépendance framework. C'est un objet du domaine pur. Vous pourriez le réutiliser dans un autre contexte sans toucher à une ligne.
 
 Le handler, lui, vit dans la couche Application :
 
@@ -106,7 +106,7 @@ final readonly class CreateOrderHandler
 
 Le handler dépend de **ports** (interfaces) du domaine, pas d'implémentations concrètes. `OrderRepositoryInterface` est défini dans le domaine. L'implémentation [Doctrine](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) est dans l'infrastructure. Le handler ne sait pas et n'a pas besoin de savoir comment la persistence fonctionne.
 
-Dans ton controller, le dispatch est trivial :
+Dans votre controller, le dispatch est trivial :
 
 ```php
 $this->commandBus->dispatch(new CreateOrder(
@@ -159,7 +159,7 @@ final readonly class GetOrderByIdHandler
 }
 ```
 
-Pour récupérer le résultat, tu utilises le système d'enveloppes et stamps de Messenger :
+Pour récupérer le résultat, vous utilisez le système d'enveloppes et stamps de Messenger :
 
 ```php
 $envelope = $this->queryBus->dispatch(new GetOrderById($orderId));
@@ -186,7 +186,7 @@ final readonly class OrderValidated
 }
 ```
 
-La différence clé : **un event peut avoir plusieurs handlers**. C'est pour ça qu'on a configuré `allow_no_handlers: true` sur l'event bus. Quand une commande est validée, tu veux peut-être envoyer un email, mettre à jour des statistiques, notifier un ERP. Chaque handler gère une réaction, indépendamment des autres.
+La différence clé : **un event peut avoir plusieurs handlers**. C'est pour ça qu'on a configuré `allow_no_handlers: true` sur l'event bus. Quand une commande est validée, vous voulez peut-être envoyer un email, mettre à jour des statistiques, notifier un ERP. Chaque handler gère une réaction, indépendamment des autres.
 
 ```php
 #[AsMessageHandler(bus: 'event_bus')]
@@ -220,7 +220,7 @@ final readonly class UpdateSalesStatistics
 }
 ```
 
-Par défaut, les events devraient être **asynchrones**. C'est le cas d'usage naturel, et c'est exactement ce qui rend Messenger indispensable pour les [applications industrielles](/secteur/industrie) qui orchestrent des workflows complexes entre plusieurs systèmes : la validation de la commande n'a pas besoin d'attendre que l'email soit envoyé. Configure le routing dans `messenger.yaml` :
+Par défaut, les events devraient être **asynchrones**. C'est le cas d'usage naturel, et c'est exactement ce qui rend Messenger indispensable pour les [applications industrielles](/secteur/industrie) qui orchestrent des workflows complexes entre plusieurs systèmes : la validation de la commande n'a pas besoin d'attendre que l'email soit envoyé. Configurez le routing dans `messenger.yaml` :
 
 ```yaml
 framework:
@@ -231,11 +231,11 @@ framework:
 
 ## Commands et queries sont des objets domaine
 
-C'est un point crucial que beaucoup ratent. Tes commands et queries ne doivent **jamais** dépendre de Symfony. Messenger n'impose ni attribut, ni interface sur les messages. Ce sont des objets du domaine, des DTOs purs.
+C'est un point crucial que beaucoup ratent. Vos commands et queries ne doivent **jamais** dépendre de Symfony. Messenger n'impose ni attribut, ni interface sur les messages. Ce sont des objets du domaine, des DTOs purs.
 
 Pourquoi ? Parce que dans une architecture hexagonale, le domaine est au centre. Il ne dépend de rien. C'est l'infrastructure (ici Symfony Messenger) qui s'adapte au domaine, pas l'inverse.
 
-Messenger n'exige aucune interface sur tes messages. N'importe quel objet PHP peut être dispatché. C'est un choix de design brillant qui rend le composant compatible avec une archi hexagonale sans effort.
+Messenger n'exige aucune interface sur vos messages. N'importe quel objet PHP peut être dispatché. C'est un choix de design brillant qui rend le composant compatible avec une archi hexagonale sans effort.
 
 ## Les handlers vivent dans la couche Application
 
@@ -287,7 +287,7 @@ framework:
 
 On le met **uniquement sur le command bus**. Pourquoi ? Parce que seuls les commands mutent l'état. Les queries ne font que lire, pas besoin de transaction. Les events sont traités individuellement, chaque handler gère sa propre unité de travail.
 
-Tu peux aussi écrire tes propres middlewares. Un exemple classique pour du logging :
+Vous pouvez aussi écrire vos propres middlewares. Un exemple classique pour du logging :
 
 ```php
 namespace App\Infrastructure\Messenger\Middleware;
@@ -327,7 +327,7 @@ Stamps natifs utiles :
 - `ReceivedStamp` : indique que le message a été reçu depuis un transport
 - `DelayStamp` : permet de différer le traitement
 
-Tu peux créer tes propres stamps :
+Vous pouvez créer vos propres stamps :
 
 ```php
 namespace App\Infrastructure\Messenger\Stamp;
@@ -347,11 +347,11 @@ Et les exploiter dans un middleware pour du multi-tenant, du tracing, ou n'impor
 
 ## Fini les services à 30 méthodes
 
-Tu connais ce `OrderService` avec `createOrder()`, `validateOrder()`, `cancelOrder()`, `getOrderById()`, `getOrdersByCustomer()`, `calculateTotal()`, et 25 autres méthodes ? Ce service god-class qui viole le Single Responsibility Principle, accumule de la [dette technique](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) et qui est impossible à tester proprement ?
+Vous connaissez ce `OrderService` avec `createOrder()`, `validateOrder()`, `cancelOrder()`, `getOrderById()`, `getOrdersByCustomer()`, `calculateTotal()`, et 25 autres méthodes ? Ce service god-class qui viole le Single Responsibility Principle, accumule de la [dette technique](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) et qui est impossible à tester proprement ?
 
 Avec le pattern Command/Query/Event, chaque cas d'usage est isolé dans son propre handler. Un handler fait **une seule chose**. Il a ses propres dépendances, clairement déclarées dans le constructeur. Il est testable unitairement en quelques lignes.
 
-Tu passes de :
+Vous passez de :
 
 ```php
 class OrderService
@@ -410,7 +410,7 @@ final readonly class CreateOrder
 }
 ```
 
-Non. Le `Request` est un objet Symfony HTTP. Le command est un objet domaine. Extrais les données dans le controller et passe des types primitifs ou des value objects au command.
+Non. Le `Request` est un objet Symfony HTTP. Le command est un objet domaine. Extrayez les données dans le controller et passez des types primitifs ou des value objects au command.
 
 ### Retourner une valeur depuis un command handler
 
@@ -422,7 +422,7 @@ public function __invoke(CreateOrder $command): Order
 }
 ```
 
-Un command ne retourne rien. Si tu as besoin de l'ID de l'entité créée, génère-le **avant** le dispatch (avec un [UUID ou ULID](/article/prendre-int-uuid-ou-ulid-pour-un-index-de-base-de-donnees) par exemple) et passe-le dans le command.
+Un command ne retourne rien. Si vous avez besoin de l'ID de l'entité créée, générez-le **avant** le dispatch (avec un [UUID ou ULID](/article/prendre-int-uuid-ou-ulid-pour-un-index-de-base-de-donnees) par exemple) et passez-le dans le command.
 
 ```php
 $orderId = Uuid::v7()->toString();
@@ -431,17 +431,17 @@ $this->commandBus->dispatch(new CreateOrder($orderId, $customerId, $items));
 
 ### Events synchrones par défaut
 
-Si tes events sont traités de manière synchrone, tu perds un des principaux avantages : le découplage temporel. Un handler d'event qui fail ne devrait pas faire crasher le flow principal. Configure le routing async pour les events.
+Si vos events sont traités de manière synchrone, vous perdez un des principaux avantages : le découplage temporel. Un handler d'event qui fail ne devrait pas faire crasher le flow principal. Configurez le routing async pour les events.
 
 ### Un handler qui fait trop
 
-Si ton handler fait plus de 20 lignes, il y a un problème. Soit il contient de la logique domaine qui devrait être dans un service du domaine, soit il orchestre trop de choses et devrait être découpé.
+Si votre handler fait plus de 20 lignes, il y a un problème. Soit il contient de la logique domaine qui devrait être dans un service du domaine, soit il orchestre trop de choses et devrait être découpé.
 
 ## Aller plus loin
 
-Le pattern CQRS/Event-driven avec Messenger est un excellent point de départ pour structurer des applications Symfony maintenables. Si tu veux approfondir le sujet, la [documentation officielle de Symfony Messenger](https://symfony.com/doc/current/messenger.html) est complète et bien structurée, et le [dépôt GitHub du composant](https://github.com/symfony/messenger) permet de lire le code source pour comprendre les internals.
+Le pattern CQRS/Event-driven avec Messenger est un excellent point de départ pour structurer des applications Symfony maintenables. Si vous voulez approfondir le sujet, la [documentation officielle de Symfony Messenger](https://symfony.com/doc/current/messenger.html) est complète et bien structurée, et le [dépôt GitHub du composant](https://github.com/symfony/messenger) permet de lire le code source pour comprendre les internals.
 
-L'architecture hexagonale avec Messenger n'est pas une mode. C'est une approche éprouvée qui rend ton code testable, maintenable et évolutif. Notre accompagnement en [architecture hexagonale Symfony](/architecture-hexagonale-symfony) aide les équipes à mettre en place ces patterns sur des projets existants. Le framework devient un détail d'implémentation. Le domaine reste pur. Et tes collègues te remercieront quand ils ouvriront le projet dans six mois. Si tu pars d'un projet existant et que tu veux adopter cette architecture progressivement, le [retour de mission sur la migration vers l'architecture hexagonale](/article/migration-symfony-architecture-hexagonale-retour-mission) offre une démarche pragmatique issue du terrain.
+L'architecture hexagonale avec Messenger n'est pas une mode. C'est une approche éprouvée qui rend votre code testable, maintenable et évolutif. Notre accompagnement en [architecture hexagonale Symfony](/architecture-hexagonale-symfony) aide les équipes à mettre en place ces patterns sur des projets existants. Le framework devient un détail d'implémentation. Le domaine reste pur. Et vos collègues vous remercieront quand ils ouvriront le projet dans six mois. Si vous partez d'un projet existant et que vous voulez adopter cette architecture progressivement, le [retour de mission sur la migration vers l'architecture hexagonale](/article/migration-symfony-architecture-hexagonale-retour-mission) offre une démarche pragmatique issue du terrain.
 
 ## Pour aller plus loin
 

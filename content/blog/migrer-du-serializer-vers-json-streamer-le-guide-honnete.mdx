@@ -4,14 +4,14 @@ date: "2026-03-10"
 updatedAt: "2026-03-26"
 author: "Louis-Arnaud Catoire"
 category: "Symfony"
-excerpt: "JsonStreamer promet des gains de performance impressionnants. On a mesuré les vrais chiffres : tu ne peux pas juste remplacer ton Serializer."
+excerpt: "JsonStreamer promet des gains de performance impressionnants. On a mesuré les vrais chiffres : vous ne pouvez pas juste remplacer votre Serializer."
 image: "/images/blog/json-streamer.webp"
 proficiencyLevel: "Expert"
 ---
 
-JsonStreamer sérialise jusqu'à 6x plus vite. Voilà pourquoi tu ne peux pas juste remplacer ton Serializer demain.
+JsonStreamer sérialise jusqu'à 6x plus vite. Voilà pourquoi vous ne pouvez pas juste remplacer votre Serializer demain.
 
-Le nouveau composant `symfony/json-streamer`, introduit dans Symfony 7.3 comme composant **expérimental**, promet des gains massifs sur la sérialisation JSON. Mais entre un benchmark sur un DTO simple et ton application Symfony en production avec ses groupes de normalisation, ses callbacks custom et ses objets imbriqués sur trois niveaux, il y a un gouffre.
+Le nouveau composant `symfony/json-streamer`, introduit dans Symfony 7.3 comme composant **expérimental**, promet des gains massifs sur la sérialisation JSON. Mais entre un benchmark sur un DTO simple et votre application Symfony en production avec ses groupes de normalisation, ses callbacks custom et ses objets imbriqués sur trois niveaux, il y a un gouffre.
 
 Un point important : le composant est marqué expérimental par Symfony. Son API peut changer entre deux versions mineures sans garantie de rétrocompatibilité. C'est à prendre en compte avant de l'utiliser en production.
 
@@ -122,11 +122,11 @@ Le composant requiert PHP 8.4 minimum (`"php": ">=8.4"` dans son `composer.json`
 php -v | head -1
 ```
 
-Si la sortie affiche PHP 8.2 ou 8.3 : stop. Rien d'autre à lire ici, planifie d'abord ta montée de version PHP. Notre article sur [PHP 9.0 et les changements à anticiper](/article/php-9-0-devoile-ce-que-vous-devez-savoir-avant-la-sortie) peut t'aider à planifier cette trajectoire. Si tu es en 8.4+, on continue.
+Si la sortie affiche PHP 8.2 ou 8.3 : stop. Rien d'autre à lire ici, planifiez d'abord votre montée de version PHP. Notre article sur [PHP 9.0 et les changements à anticiper](/article/php-9-0-devoile-ce-que-vous-devez-savoir-avant-la-sortie) peut vous aider à planifier cette trajectoire. Si vous êtes en 8.4+, on continue.
 
-### Audit de tes objets sérialisés
+### Audit de vos objets sérialisés
 
-JsonStreamer n'accepte que des classes à propriétés publiques, sans logique dans le constructeur. Un DTO pur, typiquement. Le script suivant analyse ton répertoire `src/` et identifie les classes compatibles :
+JsonStreamer n'accepte que des classes à propriétés publiques, sans logique dans le constructeur. Un DTO pur, typiquement. Le script suivant analyse votre répertoire `src/` et identifie les classes compatibles :
 
 ```php
 <?php
@@ -159,11 +159,11 @@ foreach ($phpFiles as $file) {
 }
 ```
 
-Sur un projet Symfony typique, ne sois pas surpris si 70% de tes classes sont incompatibles. C'est normal, les entités Doctrine, les services, les value objects avec constructeur sont tous exclus. Seuls tes DTOs purs sont candidats. Note que les changements introduits par [Doctrine ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) peuvent influencer la structure de tes entités dans ce contexte.
+Sur un projet Symfony typique, ne soyez pas surpris si 70% de tes classes sont incompatibles. C'est normal, les entités Doctrine, les services, les value objects avec constructeur sont tous exclus. Seuls vos DTOs purs sont candidats. Note que les changements introduits par [Doctrine ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) peuvent influencer la structure de tes entités dans ce contexte.
 
 ### Inventaire des fonctionnalités Serializer utilisées
 
-Avant de migrer un endpoint, vérifie quelles fonctionnalités du Serializer il utilise. Voici la matrice de compatibilité :
+Avant de migrer un endpoint, vérifiez quelles fonctionnalités du Serializer il utilise. Voici la matrice de compatibilité :
 
 | Fonctionnalité Serializer | Compatible JsonStreamer ? |
 |---------------------------|--------------------------|
@@ -176,13 +176,13 @@ Avant de migrer un endpoint, vérifie quelles fonctionnalités du Serializer il 
 | DateTime | Via ValueTransformer |
 | Circular reference handler | Non applicable (pas de référence circulaire en DTO) |
 
-Si ton endpoint utilise des groupes ou du contexte dynamique, la migration demande du refactoring structurel, pas juste un changement d'appel. Un outil comme [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) peut automatiser une partie de ces transformations.
+Si votre endpoint utilise des groupes ou du contexte dynamique, la migration demande du refactoring structurel, pas juste un changement d'appel. Un outil comme [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) peut automatiser une partie de ces transformations.
 
-## Ce que tu perds, soyons honnêtes
+## Ce que vous perdez, soyons honnêtes
 
 ### Les groupes de sérialisation
 
-C'est la perte la plus douloureuse. Si tu as un `User` avec `["groups" => ["public"]]` pour l'API publique et `["groups" => ["admin"]]` pour le back-office, tu dois créer deux DTOs distincts : `PublicUserDto` et `AdminUserDto`.
+C'est la perte la plus douloureuse. Si vous avez un `User` avec `["groups" => ["public"]]` pour l'API publique et `["groups" => ["admin"]]` pour le back-office, vous devez créer deux DTOs distincts : `PublicUserDto` et `AdminUserDto`.
 
 ```php
 // Avant : un seul objet, deux vues
@@ -193,7 +193,7 @@ $dto = PublicUserDto::fromEntity($user);
 $json = $jsonStreamer->serialize($dto);
 ```
 
-C'est plus verbeux, mais architecturalement plus propre. Chaque représentation est explicite dans le code, pas cachée dans une annotation. Si tu travailles en architecture hexagonale, tu as probablement déjà ces DTOs : la [migration vers l'architecture hexagonale](/article/migration-symfony-architecture-hexagonale-retour-mission) est précisément le contexte où cette séparation émergera naturellement.
+C'est plus verbeux, mais architecturalement plus propre. Chaque représentation est explicite dans le code, pas cachée dans une annotation. Si vous travaillez en architecture hexagonale, vous avez probablement déjà ces DTOs : la [migration vers l'architecture hexagonale](/article/migration-symfony-architecture-hexagonale-retour-mission) est précisément le contexte où cette séparation émergera naturellement.
 
 ### Le contexte dynamique
 
@@ -201,7 +201,7 @@ Fini le `$context['datetime_format'] = 'Y-m-d'` à la volée. Tout doit être co
 
 ### La compatibilité avec JMS Serializer
 
-Si tu utilises JMS Serializer en plus du Serializer natif Symfony, JsonStreamer ne s'y substitue pas. Les deux ciblent des usages différents. JMS reste pertinent pour ses fonctionnalités avancées (versioning, exclusion strategies, virtual properties).
+Si vous utilisez JMS Serializer en plus du Serializer natif Symfony, JsonStreamer ne s'y substitue pas. Les deux ciblent des usages différents. JMS reste pertinent pour ses fonctionnalités avancées (versioning, exclusion strategies, virtual properties).
 
 ## La stratégie de migration
 
@@ -209,10 +209,10 @@ Pas de big bang. C'est le type de modernisation progressive que nous pratiquons 
 
 ### La règle de décision en 3 questions
 
-Avant de migrer un endpoint, pose-toi ces trois questions dans l'ordre :
+Avant de migrer un endpoint, posez-vous ces trois questions dans l'ordre :
 
 1. **Mon endpoint retourne plus de 1 000 objets ?** Si non, le gain de performance est négligeable, garde le Serializer.
-2. **J'utilise des groupes de sérialisation sur cet endpoint ?** Si oui, tu devras refactorer tes DTOs avant de migrer, évalue le coût.
+2. **J'utilise des groupes de sérialisation sur cet endpoint ?** Si oui, vous devrez refactorer vos DTOs avant de migrer, évalue le coût.
 3. **Mes objets sont des DTOs purs (pas de constructeur avec arguments, propriétés publiques) ?** Si oui, JsonStreamer est viable immédiatement.
 
 ```mermaid
@@ -232,7 +232,7 @@ flowchart TD
 
 ### Coexistence dans le même projet
 
-Les deux composants s'injectent indépendamment grâce au [conteneur de services Symfony](https://symfony.com/doc/current/service_container.html). Tu peux utiliser le Serializer sur 90% de tes endpoints et JsonStreamer sur les 10% qui en ont besoin :
+Les deux composants s'injectent indépendamment grâce au [conteneur de services Symfony](https://symfony.com/doc/current/service_container.html). Vous pouvez utiliser le Serializer sur 90% de vos endpoints et JsonStreamer sur les 10% qui en ont besoin :
 
 ```yaml
 # config/services.yaml
@@ -335,4 +335,4 @@ Sur 50 000 produits, on passe de ~340 ms à ~54 ms et de ~24 MB à ~8 MB.
 - [Swagger et NelmioApiDocBundle](/article/swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on), documenter vos endpoints sérialisés
 - [Streaming JSON : documentation Symfony](https://symfony.com/doc/current/serializer/streaming_json.html), la référence officielle
 
-JsonStreamer n'est pas le futur du Serializer, c'est un outil spécialisé pour un problème précis. Si tu fais du volume, il est imbattable. Si tu as besoin de flexibilité de vue avec des groupes et du contexte dynamique, garde le Serializer. Les deux coexistent, utilise-les ensemble. La migration intelligente, c'est endpoint par endpoint, en commençant par ceux où le gain est mesurable. Ce type d'optimisation ciblée fait partie des leviers que nous activons dans nos projets de [développement web sur mesure](/developpement-web-sur-mesure).
+JsonStreamer n'est pas le futur du Serializer, c'est un outil spécialisé pour un problème précis. Si vous faites du volume, il est imbattable. Si vous avez besoin de flexibilité de vue avec des groupes et du contexte dynamique, garde le Serializer. Les deux coexistent, utilise-les ensemble. La migration intelligente, c'est endpoint par endpoint, en commençant par ceux où le gain est mesurable. Ce type d'optimisation ciblée fait partie des leviers que nous activons dans nos projets de [développement web sur mesure](/developpement-web-sur-mesure).

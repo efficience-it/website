@@ -1,5 +1,5 @@
 ---
-title: "J'ai intégré Symfony AI dans un projet legacy : ce que personne ne te dit"
+title: "J'ai intégré Symfony AI dans un projet legacy : ce que personne ne vous dit"
 date: "2026-03-09"
 updatedAt: "2026-03-26"
 author: "Louis-Arnaud Catoire"
@@ -9,7 +9,7 @@ image: "/images/blog/symfony-ai.webp"
 proficiencyLevel: "Expert"
 ---
 
-Tous les articles sur [Symfony AI](https://symfony.com/doc/current/ai.html) partent du même postulat : tu crées un projet neuf, tu installes le composant, tu fais un chat avec GPT en dix lignes. Bravo. Maintenant essaie de faire la même chose sur une application Symfony 6.4 en production depuis quatre ans, avec 200 entités Doctrine, un monolithe qui tourne sur trois serveurs, et une équipe qui n'a jamais touché à une API d'IA.
+Tous les articles sur [Symfony AI](https://symfony.com/doc/current/ai.html) partent du même postulat : vous créez un projet neuf, vous installez le composant, vous faites un chat avec GPT en dix lignes. Bravo. Maintenant essaie de faire la même chose sur une application Symfony 6.4 en production depuis quatre ans, avec 200 entités Doctrine, un monolithe qui tourne sur trois serveurs, et une équipe qui n'a jamais touché à une API d'IA.
 
 C'est exactement ce qu'on a fait. Et ce qu'on a appris ne ressemble pas du tout aux tutoriels.
 
@@ -53,7 +53,7 @@ framework:
                     x-api-key: '%env(ANTHROPIC_API_KEY)%'
 ```
 
-Rien de dramatique, mais c'est le genre de détail qui n'existe dans aucun tutoriel et qui te bloque une demi-journée.
+Rien de dramatique, mais c'est le genre de détail qui n'existe dans aucun tutoriel et qui vous bloque une demi-journée.
 
 ## L'architecture : où mettre l'IA dans du code existant
 
@@ -61,7 +61,7 @@ C'est la vraie question. Pas "comment appeler un LLM" mais "où placer cet appel
 
 ### Le piège : tout mettre dans le contrôleur
 
-Le réflexe de l'équipe : ajouter l'appel IA dans le contrôleur existant de classement. C'est rapide, ça marche, et c'est exactement ce qu'il ne faut pas faire. Le jour où tu changes de modèle, de prompt, ou de stratégie de fallback, tu touches un contrôleur qui gère aussi l'upload, la validation et la persistence.
+Le réflexe de l'équipe : ajouter l'appel IA dans le contrôleur existant de classement. C'est rapide, ça marche, et c'est exactement ce qu'il ne faut pas faire. Le jour où vous changez de modèle, de prompt, ou de stratégie de fallback, vous touchez un contrôleur qui gère aussi l'upload, la validation et la persistence.
 
 ### La solution : un port dans le domaine
 
@@ -106,7 +106,7 @@ Cette séparation nous a sauvés trois fois en deux mois. Changement de modèle,
 
 ## Les prompts : le code le plus fragile de l'application
 
-Personne ne te prévient : les prompts sont du code. Ils ont des bugs, des régressions, et ils doivent être versionnés.
+Personne ne vous prévient : les prompts sont du code. Ils ont des bugs, des régressions, et ils doivent être versionnés.
 
 ### Le premier prompt naïf
 
@@ -226,7 +226,7 @@ public function summary(string $id, SummarizeDocument $summarize): StreamedRespo
 }
 ```
 
-Ça fonctionne, mais attention : si tu as un reverse proxy Nginx avec du buffering activé, le streaming ne passe pas. On a perdu une journée là-dessus avant de trouver le `X-Accel-Buffering: no`.
+Ça fonctionne, mais attention : si vous avez un reverse proxy Nginx avec du buffering activé, le streaming ne passe pas. On a perdu une journée là-dessus avant de trouver le `X-Accel-Buffering: no`.
 
 ## Les tests : mocker l'IA sans tricher
 
@@ -260,7 +260,7 @@ Ce n'est pas du test déterministe. C'est du monitoring de qualité. Mais c'est 
 
 ## Ce que j'aurais aimé savoir avant
 
-L'intégration d'IA dans un projet legacy n'est pas un problème d'IA. C'est un problème d'architecture. Si ton code est proprement découplé, ajouter un appel LLM revient à ajouter n'importe quelle dépendance externe. Si ton code est un monolithe couplé, l'IA va amplifier le chaos. C'est d'ailleurs ce que décrit notre article sur [la dette technique et comment l'apprivoiser](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) : plus le code est endetté, plus chaque ajout coûte cher. Un accompagnement en [modernisation d'application PHP](/modernisation-application-php) permet de traiter cette dette avant d'y greffer de l'IA.
+L'intégration d'IA dans un projet legacy n'est pas un problème d'IA. C'est un problème d'architecture. Si votre code est proprement découplé, ajouter un appel LLM revient à ajouter n'importe quelle dépendance externe. Si votre code est un monolithe couplé, l'IA va amplifier le chaos. C'est d'ailleurs ce que décrit notre article sur [la dette technique et comment l'apprivoiser](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) : plus le code est endetté, plus chaque ajout coûte cher. Un accompagnement en [modernisation d'application PHP](/modernisation-application-php) permet de traiter cette dette avant d'y greffer de l'IA.
 
 Symfony AI est un bon outil. L'abstraction fournisseur fonctionne. Le support du streaming est solide. Mais le composant ne résout pas les vrais problèmes : la gestion des erreurs, le coût, la qualité des prompts, et la cohabitation avec du code qui n'a pas été pensé pour.
 
