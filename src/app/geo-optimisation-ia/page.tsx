@@ -14,7 +14,7 @@ import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title: "GEO : optimisez votre visibilité dans les moteurs IA",
+  title: "GEO : visibilité dans les moteurs IA",
   description:
     "Generative Engine Optimization (GEO) : rendez votre site visible dans ChatGPT, Perplexity et les AI Overviews de Google. Données structurées et llms.txt.",
   path: "/geo-optimisation-ia",

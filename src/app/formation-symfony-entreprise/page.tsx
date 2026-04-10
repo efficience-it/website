@@ -15,7 +15,7 @@ import { BASE_URL } from "@/lib/metadata";
 import UserInterfaceIllustration from "@/components/illustrations/UserInterfaceIllustration";
 
 export const metadata = pageMetadata({
-  title: "Formation Symfony pour les entreprises à Lille et à distance",
+  title: "Formation Symfony en entreprise",
   description:
     "Formation Symfony pour entreprises, à Lille et à distance. Fondamentaux, architecture hexagonale, API Platform, PHPStan. Formateurs praticiens.",
   path: "/formation-symfony-entreprise",

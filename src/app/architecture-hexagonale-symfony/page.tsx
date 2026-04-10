@@ -15,8 +15,7 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured
 import CodeThinkingIllustration from "@/components/illustrations/CodeThinkingIllustration";
 
 export const metadata = pageMetadata({
-  title:
-    "Architecture hexagonale avec Symfony : Domain-Driven Design appliqué",
+  title: "Architecture hexagonale Symfony",
   description:
     "Structurez vos applications Symfony avec l'architecture hexagonale et le Domain-Driven Design. Principes, avantages et retours d'expérience.",
   path: "/architecture-hexagonale-symfony",

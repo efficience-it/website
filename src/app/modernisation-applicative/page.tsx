@@ -22,8 +22,7 @@ const relatedLinks: RelatedLink[] = [
 ];
 
 export const metadata = pageMetadata({
-  title:
-    "Modernisation applicative : du diagnostic à la migration",
+  title: "Modernisation applicative",
   description:
     "Parcours complet de modernisation applicative : diagnostic, audit de dette technique, refactoring progressif et migration architecturale.",
   path: "/modernisation-applicative",

@@ -19,7 +19,7 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured
 import GrowthIllustration from "@/components/illustrations/GrowthIllustration";
 
 export const metadata = pageMetadata({
-  title: "Cloud & DevOps : infrastructure et automatisation",
+  title: "Cloud et DevOps",
   description:
     "Expertise Cloud et DevOps : Efficience IT accompagne la mise en place d'infrastructures, d'automatisation et de pratiques DevOps adaptées aux projets web.",
   path: "/cloud-et-devops",

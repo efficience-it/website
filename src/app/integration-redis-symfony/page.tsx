@@ -39,7 +39,7 @@ const redisRelatedLinks: RelatedLink[] = [
 ];
 
 export const metadata = pageMetadata({
-  title: "Redis et Symfony : cache, sessions et performance applicative",
+  title: "Redis et Symfony",
   description:
     "Efficience IT intègre Redis dans vos applications Symfony pour le cache, les sessions, les files d'attente Messenger et l'amélioration des performances.",
   path: "/integration-redis-symfony",

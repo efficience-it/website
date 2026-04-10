@@ -18,7 +18,7 @@ import { testimonials } from "@/../data/testimonials";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title: "Développement web sur mesure | Expertise Symfony – Efficience IT",
+  title: "Développement web sur mesure | Efficience IT",
   description:
     "Efficience IT accompagne vos projets de développement web, notamment basés sur Symfony, de la conception à la mise en œuvre.",
   path: "/developpement-web-sur-mesure",

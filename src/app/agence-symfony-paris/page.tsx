@@ -14,7 +14,7 @@ import Accordion from "@/components/ui/Accordion";
 import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title: "Agence Symfony à Paris : développement PHP sur mesure",
+  title: "Agence Symfony à Paris",
   description:
     "Efficience IT, agence Symfony pour Paris et Île-de-France. Développement sur mesure, audit, migration et maintenance de vos applications PHP.",
   path: "/agence-symfony-paris",

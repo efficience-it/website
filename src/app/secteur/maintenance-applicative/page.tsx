@@ -15,8 +15,7 @@ import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title:
-    "TMA et maintenance applicative Symfony : continuité de service garantie",
+  title: "TMA et maintenance Symfony",
   description:
     "Efficience IT assure la maintenance de vos applications Symfony : TMA corrective, évolutive et préventive, SLA, mises à jour de sécurité et monitoring.",
   path: "/secteur/maintenance-applicative",

@@ -15,8 +15,7 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured
 import StrategyIllustration from "@/components/illustrations/StrategyIllustration";
 
 export const metadata = pageMetadata({
-  title:
-    "Migration Symfony : montez de version en toute sécurité",
+  title: "Migration Symfony",
   description:
     "Migration Symfony 4, 5, 6 vers Symfony 7 : montée de version progressive, sans interruption de service. Expertise certifiée et outillage Rector.",
   path: "/migration-symfony",

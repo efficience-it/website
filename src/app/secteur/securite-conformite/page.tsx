@@ -15,8 +15,7 @@ import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title:
-    "Sécurité applicative et conformité RGPD avec Symfony",
+  title: "Sécurité et conformité RGPD Symfony",
   description:
     "Efficience IT sécurise vos applications Symfony : audit de sécurité, conformité RGPD, bonnes pratiques OWASP, anonymisation et chiffrement des données.",
   path: "/secteur/securite-conformite",

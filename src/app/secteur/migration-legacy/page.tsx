@@ -15,8 +15,7 @@ import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title:
-    "Migration et modernisation d'applications legacy PHP avec Symfony",
+  title: "Migration d'applications legacy PHP",
   description:
     "Efficience IT modernise vos applications legacy PHP vers Symfony : migration progressive, zero downtime, Strangler Fig pattern et refactoring structurel.",
   path: "/secteur/migration-legacy",

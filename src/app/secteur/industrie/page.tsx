@@ -15,8 +15,7 @@ import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title:
-    "Applications métier pour l'industrie : outils sur mesure avec Symfony",
+  title: "Applications Symfony pour l'industrie",
   description:
     "Efficience IT développe des applications métier pour l'industrie : outils de production, interconnexion SI et modernisation d'applications legacy.",
   path: "/secteur/industrie",

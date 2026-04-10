@@ -14,7 +14,7 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured
 import FittingPieceIllustration from "@/components/illustrations/FittingPieceIllustration";
 
 export const metadata = pageMetadata({
-  title: "Reprise de projet Symfony : changement de prestataire, nous prenons le relais",
+  title: "Reprise de projet Symfony",
   description:
     "Changement de prestataire Symfony ? Projet abandonné ? Efficience IT reprend votre projet : audit du code hérité, stabilisation et maintenance.",
   path: "/reprise-projet-symfony",

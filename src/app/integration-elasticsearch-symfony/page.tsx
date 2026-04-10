@@ -39,7 +39,7 @@ const elasticsearchRelatedLinks: RelatedLink[] = [
 ];
 
 export const metadata = pageMetadata({
-  title: "Elasticsearch et Symfony : recherche performante pour vos applications",
+  title: "Elasticsearch et Symfony",
   description:
     "Efficience IT intègre Elasticsearch dans vos projets Symfony. Indexation, recherche full-text, filtres à facettes et suggestions en temps réel.",
   path: "/integration-elasticsearch-symfony",

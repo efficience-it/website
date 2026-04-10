@@ -14,7 +14,7 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title: "Nos secteurs d'intervention et nos domaines d'expertise Symfony",
+  title: "Nos secteurs d'intervention Symfony",
   description:
     "Efficience IT accompagne les entreprises par secteur et par besoin : e-commerce, finance, industrie, SaaS, migration legacy, API, maintenance et sécurité.",
   path: "/secteur",

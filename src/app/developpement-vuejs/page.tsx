@@ -43,7 +43,7 @@ const vuejsRelatedLinks: RelatedLink[] = [
 ];
 
 export const metadata = pageMetadata({
-  title: "Développement Vue.js sur mesure : interfaces réactives et progressives",
+  title: "Développement Vue.js sur mesure",
   description:
     "Efficience IT développe des applications Vue.js et Nuxt sur mesure. Interfaces légères, intégration Symfony native et montée en charge progressive.",
   path: "/developpement-vuejs",

@@ -14,8 +14,7 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title:
-    "Tests automatisés PHP et Symfony : sécurisez chaque livraison",
+  title: "Tests automatisés PHP et Symfony",
   description:
     "Stratégie de tests automatisés PHP et Symfony : tests unitaires, intégration, fonctionnels et e2e avec PHPUnit, Behat et Cypress. CI/CD inclus.",
   path: "/tests-automatises-php",

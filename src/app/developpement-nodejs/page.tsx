@@ -22,7 +22,7 @@ const nodejsRelatedLinks: RelatedLink[] = [
 ];
 
 export const metadata = pageMetadata({
-  title: "Développement Node.js sur mesure pour vos applications",
+  title: "Développement Node.js sur mesure",
   description:
     "Agence Node.js spécialisée : API REST, GraphQL, microservices, temps réel et BFF. Développement avec NestJS, TypeScript et bonnes pratiques.",
   path: "/developpement-nodejs",

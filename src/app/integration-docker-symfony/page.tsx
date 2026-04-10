@@ -43,7 +43,7 @@ const dockerRelatedLinks: RelatedLink[] = [
 ];
 
 export const metadata = pageMetadata({
-  title: "Docker et Symfony en production : conteneurisation et déploiement",
+  title: "Docker et Symfony en production",
   description:
     "Efficience IT conteneurise vos applications Symfony avec Docker. Dockerfile optimisé, Docker Compose, CI/CD et déploiement en production.",
   path: "/integration-docker-symfony",

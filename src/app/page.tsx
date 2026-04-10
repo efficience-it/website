@@ -27,7 +27,7 @@ const keyFigures = [
 ];
 
 export const metadata: Metadata = pageMetadata({
-  title: "Agence PHP et Symfony, experte en développement web",
+  title: "Agence PHP et Symfony",
   description:
     "Agence spécialisée Symfony et PHP, Efficience IT conçoit et développe des applications web robustes, pensées pour vos enjeux métiers.",
   path: "/",

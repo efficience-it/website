@@ -51,8 +51,7 @@ const phpRelatedLinks: RelatedLink[] = [
 ];
 
 export const metadata = pageMetadata({
-  title:
-    "Développement PHP sur mesure : applications web robustes et performantes",
+  title: "Développement PHP sur mesure",
   description:
     "Agence de développement PHP sur mesure. Efficience IT conçoit des applications web avec PHP 8, Symfony, Doctrine et les bonnes pratiques.",
   path: "/developpement-php",

@@ -15,8 +15,7 @@ import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title:
-    "Agence e-commerce Symfony et Sylius : développement sur mesure",
+  title: "E-commerce Symfony et Sylius",
   description:
     "Efficience IT développe des plateformes e-commerce performantes avec Symfony et Sylius : catalogue produit, API headless et intégration PIM/ERP.",
   path: "/secteur/e-commerce",

@@ -38,7 +38,7 @@ const typescriptRelatedLinks: RelatedLink[] = [
 ];
 
 export const metadata = pageMetadata({
-  title: "Développement TypeScript sur mesure : applications typées et maintenables",
+  title: "Développement TypeScript sur mesure",
   description:
     "Efficience IT développe en TypeScript sur tous ses projets frontend et Node.js. Typage statique, refactoring sûr et code maintenable sur la durée.",
   path: "/developpement-typescript",

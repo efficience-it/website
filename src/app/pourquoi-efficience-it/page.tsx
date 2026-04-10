@@ -18,7 +18,7 @@ import { testimonials } from "@/../data/testimonials";
 import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title: "Pourquoi choisir Efficience IT pour vos projets Symfony",
+  title: "Pourquoi choisir Efficience IT",
   description:
     "Agence Symfony vs freelance, ESN ou agence web : pourquoi choisir Efficience IT pour vos projets PHP. 10+ ans, 150+ projets, certifications Symfony.",
   path: "/pourquoi-efficience-it",

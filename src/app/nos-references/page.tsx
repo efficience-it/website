@@ -13,7 +13,7 @@ import { testimonials } from "@/../data/testimonials";
 const reviews = reviewsJsonLd(testimonials);
 
 export const metadata = pageMetadata({
-  title: "Nos réalisations et contributions open source",
+  title: "Nos réalisations open source",
   description:
     "Applications web, outils métiers et contributions open source réalisés par Efficience IT dans des contextes variés.",
   path: "/nos-references",

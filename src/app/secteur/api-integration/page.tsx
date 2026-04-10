@@ -15,8 +15,7 @@ import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title:
-    "Développement d'API et intégration SI avec Symfony et API Platform",
+  title: "API et intégration SI avec Symfony",
   description:
     "Efficience IT conçoit des API REST et GraphQL avec Symfony et API Platform : intégration SI, connecteurs sur mesure et flux asynchrones fiables.",
   path: "/secteur/api-integration",

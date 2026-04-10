@@ -14,8 +14,7 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title:
-    "Développement e-commerce Sylius : votre boutique Symfony sur mesure",
+  title: "E-commerce Sylius sur mesure",
   description:
     "Efficience IT développe votre boutique e-commerce avec Sylius, la plateforme open source Symfony. Solution adaptée, performante et évolutive.",
   path: "/ecommerce-sylius",

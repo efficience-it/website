@@ -15,8 +15,7 @@ import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title:
-    "Renfort d'équipe Symfony : développeurs seniors en régie",
+  title: "Renfort d'équipe Symfony",
   description:
     "Efficience IT met à disposition des développeurs Symfony seniors pour renforcer votre équipe : régie, expertise technique et montée en compétences.",
   path: "/secteur/renfort-equipe",

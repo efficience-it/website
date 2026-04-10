@@ -15,8 +15,7 @@ import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title:
-    "Applications web pour la finance et la banque : sécurité et conformité avec Symfony",
+  title: "Applications Symfony pour la finance",
   description:
     "Efficience IT développe des applications web sécurisées pour la finance : banque, fintech, assurance. Conformité et haute disponibilité.",
   path: "/secteur/finance",

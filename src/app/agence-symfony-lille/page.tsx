@@ -14,7 +14,7 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title: "Agence Symfony à Lille, votre partenaire développement web",
+  title: "Agence Symfony à Lille",
   description:
     "Efficience IT, agence Symfony à Lille : développement sur mesure, maintenance, migration et audit. Proximité, réactivité et expertise technique.",
   path: "/agence-symfony-lille",

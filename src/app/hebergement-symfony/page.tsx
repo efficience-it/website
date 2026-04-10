@@ -14,8 +14,7 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title:
-    "Hébergement Symfony : infrastructure cloud pour vos applications",
+  title: "Hébergement Symfony",
   description:
     "Efficience IT héberge et déploie vos applications Symfony sur le cloud (AWS, GCP, Azure). CI/CD, monitoring, haute disponibilité et sécurité.",
   path: "/hebergement-symfony",

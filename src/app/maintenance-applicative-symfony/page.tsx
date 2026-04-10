@@ -15,7 +15,7 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured
 import ReviewIllustration from "@/components/illustrations/ReviewIllustration";
 
 export const metadata = pageMetadata({
-  title: "Maintenance applicative Symfony (TMA) : corrective, évolutive, préventive",
+  title: "Maintenance applicative Symfony (TMA)",
   description:
     "Efficience IT assure la maintenance de vos projets Symfony : correction de bugs, évolutions fonctionnelles, mises à jour de sécurité et SLA.",
   path: "/maintenance-applicative-symfony",
