@@ -6,7 +6,7 @@ import Link from "next/link";
 import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, blogItemListJsonLd, webPageJsonLd } from "@/lib/structured-data";
-import { CallToAction } from "@/components/sections/CallToAction";
+import CallToAction from "@/components/sections/CallToAction";
 
 export const metadata = pageMetadata({
   title: "Blog Efficience IT | Symfony, PHP et développement web",
