@@ -24,27 +24,27 @@ const expertises = [
   {
     title: "Développement Symfony sur mesure",
     description:
-      "Applications web métier, plateformes collaboratives, outils internes : nous concevons des solutions Symfony adaptées aux besoins des entreprises nantaises.",
+      "Applications web métier, plateformes collaboratives, outils internes : nous concevons des solutions Symfony adaptées aux besoins des entreprises nantaises, en full remote.",
   },
   {
     title: "Audit et reprise de projets",
     description:
-      "Analyse technique de votre application existante : dette technique, sécurité, performances. Reprise de projets Symfony sans mainteneur actif.",
+      "Analyse technique de votre application existante : dette technique, sécurité, performances. Reprise de projets Symfony sans mainteneur actif, avec un plan d'action structuré.",
   },
   {
     title: "Migration et modernisation",
     description:
-      "Migration vers les dernières versions LTS de Symfony, modernisation progressive d'applications PHP legacy, refonte architecturale.",
+      "Migration vers les dernières versions LTS de Symfony, modernisation progressive d'applications PHP legacy. Un accompagnement complet, de l'audit à la mise en production.",
   },
   {
     title: "API REST et API Platform",
     description:
-      "Conception d'API documentées et testées avec API Platform. Intégration avec vos systèmes existants, applications mobiles ou partenaires.",
+      "Conception d'API documentées et testées avec API Platform. Intégration avec vos systèmes existants, applications mobiles ou plateformes partenaires.",
   },
   {
     title: "Maintenance applicative",
     description:
-      "Corrections, évolutions fonctionnelles, montées de version, mises à jour de sécurité. Un interlocuteur technique stable pour vos applications.",
+      "Corrections, évolutions fonctionnelles, montées de version, mises à jour de sécurité. Un interlocuteur technique stable, disponible à distance comme s'il était dans vos locaux.",
   },
 ];
 
@@ -52,17 +52,17 @@ const faqItems = [
   {
     title: "Êtes-vous présents à Nantes ?",
     content:
-      "Notre agence est basée à Lille. Nous intervenons à Nantes et dans les Pays de la Loire en remote, avec des déplacements ponctuels sur site quand le projet le demande. Notre organisation est conçue pour le travail distribué, avec la même rigueur que pour nos clients locaux.",
+      "Notre agence est basée à Lille. Nous intervenons à Nantes et dans les Pays de la Loire en full remote, avec des déplacements ponctuels sur site quand le projet le demande. Notre organisation remote-first garantit la même qualité de service que pour nos clients locaux.",
   },
   {
-    title: "Comment collaborez-vous avec vos clients nantais ?",
+    title: "Comment collaborez-vous avec vos clients nantais au quotidien ?",
     content:
       "Nous utilisons les mêmes rituels agiles que pour tous nos clients : daily en visio, sprint review, rétrospective. Les outils collaboratifs (Git, CI/CD, messagerie) assurent une transparence totale sur l'avancement du projet. La distance n'impacte ni la qualité ni le rythme des livraisons.",
   },
   {
-    title: "Pouvez-vous intervenir sur un projet Symfony existant ?",
+    title: "Le full remote fonctionne-t-il vraiment pour un projet Symfony complexe ?",
     content:
-      "Oui, la reprise de projets est l'un de nos cas d'usage les plus courants. Nous commençons par un audit technique pour cartographier la dette et les risques, puis nous proposons un plan d'action progressif. Pas de rewrite complet : nous privilégions une approche incrémentale.",
+      "Oui, et c'est notre mode de fonctionnement principal pour les clients hors des Hauts-de-France. Les outils de visioconférence, les revues de code en ligne, les environnements Docker partagés et les pipelines CI/CD permettent une collaboration aussi efficace qu'en présentiel. Nos clients nantais en témoignent.",
   },
   {
     title: "Quels secteurs accompagnez-vous à Nantes ?",
@@ -70,34 +70,14 @@ const faqItems = [
       "Nantes est dynamique dans le numérique, le naval, l'agroalimentaire et les services. Nous accompagnons des entreprises de tous ces secteurs dès lors qu'elles ont besoin d'applications métier robustes et maintenables avec Symfony.",
   },
   {
-    title: "Pourquoi choisir Symfony plutôt qu'un autre framework PHP ?",
+    title: "Pouvez-vous intervenir sur un projet Symfony existant développé à Nantes ?",
     content:
-      "Symfony est le framework PHP le plus adapté aux applications métier complexes. Sa stabilité, son cycle de releases LTS, son écosystème mature (Doctrine, Messenger, Security) et sa communauté active en font le choix de référence pour les projets qui doivent durer dans le temps. Contrairement à Laravel, orienté prototypage rapide, Symfony privilégie la robustesse architecturale et la maintenabilité à long terme.",
+      "Oui, la reprise de projets est l'un de nos cas d'usage les plus courants. Nous commençons par un audit technique pour cartographier la dette et les risques, puis nous proposons un plan d'action progressif. Pas de réécriture complète : nous privilégions une approche incrémentale qui préserve la valeur métier existante.",
   },
   {
-    title: "Combien coûte le développement d'une application Symfony ?",
+    title: "Proposez-vous un accompagnement structuré pour les équipes nantaises ?",
     content:
-      "Le budget dépend de la complexité du projet : une API simple démarre autour de 10 000 euros, une application métier complète se situe entre 30 000 et 100 000 euros. Nous proposons un audit gratuit de 30 minutes pour évaluer votre besoin et vous donner une estimation réaliste. Chaque projet fait l'objet d'un devis détaillé, sans surprise.",
-  },
-  {
-    title: "Comment migrer une application PHP legacy vers Symfony ?",
-    content:
-      "Nous privilégions une approche progressive : audit du code existant, identification des modules critiques, migration incrémentale sans interruption de service. L'utilisation de Rector et d'outils d'analyse statique comme PHPStan accélère le processus. L'objectif est de moderniser sans tout réécrire, en conservant la valeur métier du code existant.",
-  },
-  {
-    title: "Symfony ou Laravel : lequel choisir pour mon projet ?",
-    content:
-      "Laravel excelle pour le prototypage rapide et les projets simples. Symfony est préférable pour les applications métier complexes, les projets à longue durée de vie et les équipes qui valorisent l'architecture logicielle. Si votre application doit gérer des règles métier complexes, une architecture hexagonale ou du CQRS, Symfony est le meilleur choix.",
-  },
-  {
-    title: "Quels sont les délais pour un projet Symfony ?",
-    content:
-      "Un MVP fonctionnel peut être livré en 6 à 8 semaines. Une application métier complète nécessite généralement 3 à 6 mois. Nous travaillons en sprints courts avec des livraisons régulières, ce qui vous donne de la visibilité dès les premières semaines et la possibilité d'ajuster les priorités en cours de route.",
-  },
-  {
-    title: "Quand utiliser API Platform avec Symfony ?",
-    content:
-      "API Platform est pertinent dès que votre projet implique une API REST ou GraphQL : application mobile, SPA, intégration avec des systèmes tiers ou architecture microservices. Il génère automatiquement la documentation OpenAPI, gère la pagination, le filtrage et la sérialisation. Pour les API simples, les controllers Symfony classiques suffisent.",
+      "Oui. Au-delà du développement, nous proposons des formations Symfony en entreprise à distance, du pair programming régulier et des revues d'architecture. L'objectif est de faire monter en compétences vos équipes tout en livrant votre projet.",
   },
 ];
 
@@ -124,7 +104,7 @@ const webPage = webPageJsonLd({
     "Efficience IT, agence Symfony pour Nantes et les Pays de la Loire. Développement sur mesure, audit, migration et maintenance de vos applications PHP.",
   path: "/agence-symfony-nantes",
   datePublished: "2026-03-20",
-  dateModified: "2026-03-20",
+  dateModified: "2026-04-10",
 });
 
 const relatedLinks: RelatedLink[] = [
@@ -205,10 +185,10 @@ export default function AgenceSymfonyNantes() {
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
                   Efficience IT accompagne les entreprises nantaises dans le{" "}
-                  <strong>développement d&apos;applications Symfony</strong> sur
-                  mesure. Notre équipe de spécialistes PHP intervient en remote
-                  ou sur site pour concevoir, maintenir et faire évoluer vos
-                  applications les plus critiques.
+                  <strong>développement d&apos;applications Symfony</strong> en
+                  full remote. Notre organisation remote-first nous permet de
+                  collaborer avec vos équipes nantaises avec la même fluidité
+                  qu&apos;une agence locale.
                 </p>
                 <p className="mt-4 max-w-3xl text-lg text-gray">
                   Nantes s&apos;est imposée comme l&apos;un des pôles tech les
@@ -220,7 +200,8 @@ export default function AgenceSymfonyNantes() {
                   >
                     expertise Symfony de référence
                   </Link>{" "}
-                  pour répondre à leurs enjeux techniques.
+                  pour répondre à leurs enjeux techniques, sans les contraintes
+                  d&apos;une présence physique.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   <Button href="/audit-symfony-gratuit">
@@ -279,7 +260,8 @@ export default function AgenceSymfonyNantes() {
               <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
                 L&apos;écosystème nantais est en pleine croissance et les
                 besoins en développement PHP spécialisé augmentent. Notre
-                expertise Symfony répond à ces exigences.
+                expertise Symfony, combinée à notre organisation remote-first,
+                répond à ces exigences.
               </p>
               <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 <Card>
@@ -308,7 +290,7 @@ export default function AgenceSymfonyNantes() {
                     Nos outils et rituels sont pensés pour le travail distribué
                     depuis le premier jour. Pas d&apos;adaptation : la
                     collaboration à distance est notre mode de fonctionnement
-                    standard.
+                    standard, pas un plan B.
                   </p>
                 </Card>
                 <Card>
@@ -318,7 +300,8 @@ export default function AgenceSymfonyNantes() {
                   <p className="mt-2 text-gray">
                     Nantes et Lille partagent un ADN tech similaire : communauté
                     PHP active, tissu de PME innovantes, startups ambitieuses.
-                    Nous comprenons les enjeux des entreprises nantaises.
+                    Nous comprenons les enjeux des entreprises nantaises car
+                    nous les vivons au quotidien.
                   </p>
                 </Card>
               </div>
