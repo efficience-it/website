@@ -67,7 +67,7 @@ export default function BlogPage() {
             <div className="mb-8 flex flex-wrap justify-center gap-2">
               <Link
                 href="/blog"
-                className="rounded-full bg-primary px-4 py-2 text-sm font-medium text-white"
+                className="inline-flex min-h-[44px] items-center rounded-full bg-primary px-4 py-2 text-sm font-medium text-white"
               >
                 Tous
               </Link>
@@ -75,7 +75,7 @@ export default function BlogPage() {
                 <Link
                   key={cat}
                   href={`/blog/${getCategorySlug(cat)}`}
-                  className="rounded-full bg-light-gray px-4 py-2 text-sm font-medium text-dark hover:bg-primary hover:text-white transition-colors"
+                  className="inline-flex min-h-[44px] items-center rounded-full bg-light-gray px-4 py-2 text-sm font-medium text-dark hover:bg-primary hover:text-white transition-colors"
                 >
                   {cat}
                 </Link>
