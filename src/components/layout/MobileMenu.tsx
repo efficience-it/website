@@ -21,7 +21,7 @@ export default function MobileMenu({ items }: MobileMenuProps) {
     <div className="lg:hidden">
       <button
         type="button"
-        className="p-2 text-dark"
+        className="p-3 text-dark"
         onClick={() => setOpen(!open)}
         aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
         aria-expanded={open}
@@ -63,7 +63,7 @@ export default function MobileMenu({ items }: MobileMenuProps) {
                         <li key={link.href}>
                           <Link
                             href={link.href}
-                            className="block px-8 py-2 text-sm text-dark hover:text-primary"
+                            className="block px-8 py-3 text-sm text-dark hover:text-primary"
                             onClick={() => setOpen(false)}
                           >
                             {link.label}
