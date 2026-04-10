@@ -8,6 +8,7 @@ import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, webPageJsonLd, reviewsJsonLd } from "@/lib/structured-data";
+import { CallToAction } from "@/components/sections/CallToAction";
 import { testimonials } from "@/../data/testimonials";
 
 const reviews = reviewsJsonLd(testimonials);
@@ -220,6 +221,7 @@ export default function NosReferences() {
       <FadeIn>
       <Testimonials />
       </FadeIn>
+      <CallToAction />
     </main>
     </>
   );
