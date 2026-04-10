@@ -1,0 +1,128 @@
+---
+title: "Elasticsearch ou Algolia : quel moteur de recherche choisir pour votre projet Symfony"
+date: "2026-04-10"
+author: "Louis-Arnaud Catoire"
+category: "Symfony"
+excerpt: "Elasticsearch et Algolia répondent à des besoins différents. Comparaison technique pour choisir le bon moteur de recherche dans un projet Symfony."
+image: "/images/blog/elasticsearch-algolia.webp"
+proficiencyLevel: "Intermediate"
+faq:
+  - question: "Peut-on combiner Elasticsearch et Algolia dans un même projet ?"
+    answer: "Oui. Certaines architectures utilisent Elasticsearch pour la recherche back-office (requêtes complexes, agrégations, reporting) et Algolia pour la recherche front-end (autocomplétion, recherche instantanée). Cette approche hybride ajoute de la complexité à la synchronisation des index, mais elle permet de tirer le meilleur de chaque outil."
+  - question: "FOSElasticaBundle fonctionne-t-il avec Symfony 7 ?"
+    answer: "Oui. FOSElasticaBundle est activement maintenu et compatible avec Symfony 7. Le bundle gère la synchronisation entre les entités Doctrine et les index Elasticsearch via des listeners ou des commandes de réindexation. Il reste le bundle de référence pour intégrer Elasticsearch dans un projet Symfony."
+  - question: "Algolia propose-t-il un plan gratuit ?"
+    answer: "Algolia propose un plan gratuit limité à 10 000 requêtes par mois et 10 000 enregistrements. Ce plan convient pour un prototype ou un site à faible trafic. Au-delà, les plans payants démarrent selon le volume de requêtes et d'enregistrements indexés."
+  - question: "Faut-il un DevOps dédié pour maintenir Elasticsearch en production ?"
+    answer: "Pas nécessairement, mais une compétence ops est indispensable. Elasticsearch demande une supervision active : gestion des shards, monitoring de la mémoire JVM, mises à jour de sécurité. Les services managés (Elastic Cloud, AWS OpenSearch) réduisent cette charge, mais le dimensionnement et l'optimisation des requêtes restent de la responsabilité de l'équipe."
+---
+
+La recherche est l'un des composants les plus sous-estimés d'une application web. Un formulaire de recherche qui renvoie des résultats lents ou impertinents fait fuir les utilisateurs plus vite qu'une page 404. Dans un contexte e-commerce, chaque seconde de latence sur la recherche se traduit par une perte de conversion mesurable. Pour une application métier, une recherche qui ne trouve pas ce que l'utilisateur cherche engendre des tickets support et de la frustration.
+
+Deux solutions dominent le marché : [Elasticsearch](https://www.elastic.co/elasticsearch), le moteur de recherche open source devenu un standard, et [Algolia](https://www.algolia.com/doc/), le service SaaS qui a fait de la recherche instantanée son cœur de métier. Les deux s'intègrent dans un projet Symfony, mais leurs philosophies, leurs contraintes et leurs implications à long terme diffèrent profondément. En tant qu'[agence spécialisée Symfony](/agence-symfony-france), nous avons déployé les deux solutions et nous partageons ici une comparaison basée sur l'expérience terrain.
+
+## Elasticsearch : le couteau suisse de la recherche
+
+Elasticsearch est un moteur de recherche distribué, construit sur Apache Lucene. Il indexe des documents JSON et permet des recherches full-text, des agrégations, du filtrage géographique et de l'analyse de données en temps quasi réel. Sa flexibilité en fait un outil qui dépasse largement le cadre de la recherche utilisateur : il sert aussi de backend pour des dashboards analytics, du monitoring applicatif et du traitement de logs.
+
+### Puissance et flexibilité
+
+La force d'Elasticsearch réside dans son langage de requêtes. Le Query DSL permet de construire des recherches complexes : combinaison de critères full-text et de filtres structurés, pondération des champs, recherche floue, synonymes, suggestions, highlighting des résultats. Pour une application qui gère un catalogue produit avec des facettes multiples, des filtres par attributs et une recherche par pertinence personnalisée, Elasticsearch offre un contrôle total.
+
+L'indexation est configurable à tous les niveaux : analyseurs de texte personnalisés, tokenizers adaptés à la langue française, mappings typés pour chaque champ. Cette granularité permet d'obtenir des résultats de recherche pertinents, y compris sur des données métier complexes. Notre page dédiée à l'[intégration d'Elasticsearch dans Symfony](/integration-elasticsearch-symfony) détaille les cas d'usage les plus courants.
+
+### Le revers : la complexité opérationnelle
+
+Elasticsearch est un système distribué qui tourne sur la JVM. Il faut provisionner des nœuds, dimensionner la mémoire heap, gérer les shards et les réplicas, superviser les performances du cluster et planifier les mises à jour. Pour une équipe qui ne dispose pas de compétences [DevOps](/cloud-et-devops), cette charge opérationnelle peut devenir un frein.
+
+Les services managés (Elastic Cloud, AWS OpenSearch, Scalingo) réduisent cette charge, mais ne l'éliminent pas. Le dimensionnement des index, l'optimisation des requêtes et la gestion de la réindexation restent de la responsabilité de l'équipe de développement. Un cluster Elasticsearch mal configuré peut consommer des ressources disproportionnées par rapport au volume de données indexées.
+
+## Algolia : la recherche clé en main
+
+Algolia a été conçu pour résoudre un problème précis : offrir une recherche instantanée avec un minimum d'effort d'intégration. Le service indexe vos données via une API REST, et expose une API de recherche qui renvoie des résultats en quelques millisecondes. L'infrastructure, la réplication, la mise à l'échelle et les mises à jour sont gérées par Algolia.
+
+### Rapidité d'intégration
+
+L'avantage principal d'Algolia est le temps de mise en production. En quelques heures, vous disposez d'une recherche fonctionnelle avec autocomplétion, tolérance aux fautes de frappe, ranking par pertinence et facettes. Les widgets front-end (InstantSearch pour React, Vue.js, vanilla JS) fournissent des composants prêts à l'emploi pour la barre de recherche, les filtres et la pagination.
+
+Pour un [projet web sur mesure](/developpement-web-sur-mesure) qui doit livrer rapidement une fonctionnalité de recherche sans mobiliser l'équipe sur l'infrastructure, Algolia est un raccourci efficace. Le dashboard permet de configurer les synonymes, les règles de ranking et les filtres sans écrire de code.
+
+### Les limites du SaaS
+
+La simplicité d'Algolia a un coût. Le modèle de facturation repose sur le volume de requêtes et d'enregistrements indexés. Pour une application avec un gros volume de recherches (e-commerce à fort trafic, moteur de recherche interne d'une plateforme), la facture peut grimper rapidement.
+
+La personnalisation du ranking est limitée aux options exposées par le dashboard et l'API. Pas de requêtes booléennes complexes, pas d'agrégations avancées, pas de custom scoring comparable au Query DSL d'Elasticsearch. Si votre logique de pertinence dépasse les scénarios standards (pondération dynamique selon le profil utilisateur, scoring basé sur des données métier internes), vous atteindrez les limites d'Algolia.
+
+La dépendance à un service tiers est aussi un facteur à considérer. Vos index de recherche vivent sur les serveurs d'Algolia. En cas de panne ou de changement de politique tarifaire, la migration vers une autre solution demande un travail significatif.
+
+## Comparaison technique dans un projet Symfony
+
+### Intégration avec Doctrine
+
+Les deux solutions s'intègrent avec Doctrine, mais de manières différentes.
+
+Pour Elasticsearch, le bundle [FOSElasticaBundle](https://github.com/FriendsOfSymfony/FOSElasticaBundle) est la référence. Il synchronise automatiquement les entités Doctrine avec les index Elasticsearch via des listeners Doctrine. La configuration des mappings se fait en YAML ou en PHP, et le bundle expose un service de recherche injectable. La flexibilité est totale : vous contrôlez chaque aspect du mapping, de l'analyse et de la recherche.
+
+Pour Algolia, le package `algolia/search-bundle` fournit une intégration similaire. Les entités sont annotées pour définir quels champs indexer, et la synchronisation se fait via des listeners ou des commandes. L'API de recherche est exposée via un client PHP qui retourne directement les résultats.
+
+Dans les deux cas, la synchronisation doit être pensée dès le début. Un article modifié dans Doctrine doit se retrouver dans l'index de recherche en quelques secondes. Pour les gros volumes de données, une stratégie de réindexation asynchrone via [Symfony Messenger](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) est souvent nécessaire. C'est un pattern classique d'[architecture découplée](/architecture-hexagonale-symfony) : le domaine publie un événement, un handler asynchrone met à jour l'index.
+
+### Performances de recherche
+
+Algolia est optimisé pour la latence. Les temps de réponse sont généralement inférieurs à 20 ms, grâce à une infrastructure distribuée sur plusieurs data centers. L'autocomplétion en temps réel (search-as-you-type) est le cas d'usage principal et l'expérience utilisateur est irréprochable.
+
+Elasticsearch peut atteindre des performances similaires, mais cela demande du travail : index bien dimensionnés, requêtes optimisées, cache de résultats, nœuds proches des utilisateurs. Sur un cluster correctement configuré, les temps de réponse descendent sous les 50 ms pour la majorité des requêtes. Mais ce n'est pas la configuration par défaut. Pour aller plus loin sur les stratégies d'optimisation, notre article sur la [mise en cache](/article/tout-savoir-sur-la-mise-en-cache-tips) couvre les mécanismes complémentaires à mettre en place.
+
+### API et recherche front-end
+
+Algolia brille côté front-end. Les librairies InstantSearch fournissent des composants React, Vue.js et vanilla JS pour construire une interface de recherche complète en quelques heures. Les requêtes sont envoyées directement depuis le navigateur vers l'API Algolia, ce qui élimine le passage par votre serveur Symfony et réduit la latence.
+
+Avec Elasticsearch, la recherche transite par votre backend. Vous exposez un endpoint Symfony qui interroge Elasticsearch et renvoie les résultats. Cette approche donne un contrôle total sur la logique de filtrage et de sécurité, mais ajoute une étape réseau. Pour les [API REST bien structurées](/article/api-rest-les-bonnes-pratiques), ce pattern s'intègre naturellement dans l'architecture existante.
+
+## Quel choix selon votre contexte
+
+Le choix entre Elasticsearch et Algolia n'est pas technique en premier lieu. C'est une décision architecturale qui dépend de votre contexte organisationnel.
+
+### Volume et complexité des données
+
+Si vous indexez quelques milliers de documents avec une recherche simple (full-text + filtres basiques), Algolia est le choix pragmatique. L'intégration est rapide, les performances sont excellentes et la maintenance est minimale.
+
+Si vous gérez des centaines de milliers de documents avec des recherches complexes (agrégations, facettes dynamiques, scoring personnalisé, recherche géographique), Elasticsearch s'impose. Sa flexibilité permet de couvrir des cas d'usage qu'Algolia ne peut pas adresser.
+
+### Compétences de l'équipe
+
+Elasticsearch demande des compétences ops : dimensionnement du cluster, monitoring, gestion des index. Si votre équipe est composée de développeurs Symfony sans profil DevOps, la charge de maintenance d'un cluster Elasticsearch peut peser sur la vélocité du projet. Les [services cloud managés](/cloud-et-devops) réduisent cette contrainte, mais ne l'éliminent pas entièrement.
+
+Algolia ne demande quasiment aucune compétence infrastructure. L'intégration côté Symfony est simple et le dashboard couvre la majorité des besoins de configuration. C'est un choix cohérent pour une équipe qui veut se concentrer sur le métier plutôt que sur l'infrastructure de recherche.
+
+### Maîtrise et souveraineté des données
+
+Avec Elasticsearch auto-hébergé, vos données restent sur votre infrastructure. C'est un prérequis dans certains secteurs (finance, santé, défense) ou pour des applications qui traitent des données sensibles. Les services managés d'Elastic offrent un compromis, mais les données transitent toujours par un tiers.
+
+Avec Algolia, vos index sont stockés sur leurs serveurs (hébergés sur des data centers aux Etats-Unis et en Europe). Pour les projets soumis à des contraintes RGPD strictes ou à des exigences de souveraineté, cette architecture peut poser problème.
+
+### Evolutivité du besoin
+
+Si la recherche est un composant central de votre application (marketplace, plateforme de contenu, moteur de recommandation), Elasticsearch offre une base solide pour évoluer. Vous pouvez ajouter de l'analyse de données, du monitoring, du machine learning (Elastic ML) sans changer de stack.
+
+Si la recherche est un composant périphérique (recherche dans un back-office, recherche sur un site vitrine), Algolia fait le travail sans surcharger l'architecture. Quand [vous choisissez Symfony pour votre projet](/article/pourquoi-choisir-symfony-pour-vos-projets), l'intégration d'Algolia reste légère et ne complexifie pas l'application.
+
+## Synthèse des critères de décision
+
+**Elasticsearch** s'impose quand :
+
+- Le volume de données dépasse les dizaines de milliers de documents
+- La logique de pertinence est complexe et spécifique au métier
+- L'équipe dispose de compétences ops ou utilise un service managé
+- La souveraineté des données est un prérequis
+- La recherche est un composant central qui va évoluer
+
+**Algolia** s'impose quand :
+
+- La mise en production doit être rapide (jours, pas semaines)
+- Le volume de données et de requêtes reste modéré
+- L'expérience de recherche front-end (autocomplétion, search-as-you-type) est prioritaire
+- L'équipe veut se concentrer sur le métier sans gérer d'infrastructure de recherche
+- Le projet est un site vitrine, un blog ou une application à trafic modéré
+
+Les deux solutions sont solides et éprouvées. Le bon choix est celui qui correspond à votre contexte, pas celui qui a le plus de fonctionnalités sur le papier. Et si votre besoin évolue, [l'architecture Symfony](https://symfony.com/doc/current/the-fast-track/en/index.html) permet de migrer d'une solution à l'autre sans réécrire l'application, à condition d'avoir correctement isolé la couche de recherche derrière une abstraction.
