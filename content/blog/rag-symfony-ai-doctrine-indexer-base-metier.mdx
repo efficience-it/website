@@ -4,31 +4,31 @@ date: "2026-03-09"
 updatedAt: "2026-03-26"
 author: "Louis-Arnaud Catoire"
 category: "IA"
-excerpt: "Comment connecter un LLM à ta base Doctrine grâce au RAG, Symfony AI et pgvector. Indexer, rechercher et interroger tes données métier."
+excerpt: "Comment connecter un LLM à votre base Doctrine grâce au RAG, Symfony AI et pgvector. Indexer, rechercher et interroger vos données métier."
 image: "/images/blog/rag-symfony.webp"
 proficiencyLevel: "Expert"
 ---
 
-Tu as une application Symfony en production, une base [Doctrine](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) bien remplie, et tu te demandes comment rendre tout ça interrogeable par un LLM. Pas via une API REST classique. Via du langage naturel : « quels tickets similaires ont déjà été résolus ? », « quel client a eu ce problème en janvier ? ».
+Vous avez une application Symfony en production, une base [Doctrine](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) bien remplie, et vous vous demandez comment rendre tout ça interrogeable par un LLM. Pas via une API REST classique. Via du langage naturel : « quels tickets similaires ont déjà été résolus ? », « quel client a eu ce problème en janvier ? ».
 
 La réponse tient en trois lettres : **RAG** (Retrieval-Augmented Generation). Et depuis l'arrivée de [Symfony AI](https://symfony.com/doc/current/ai.html), on a enfin les briques pour le faire proprement dans l'écosystème Symfony.
 
-Cet article te montre comment, concrètement, indexer ta base Doctrine dans un vector store et construire un pipeline RAG fonctionnel. Pas de théorie creuse. Du code, des choix d'architecture, des pièges à éviter.
+Cet article vous montre comment, concrètement, indexer votre base Doctrine dans un vector store et construire un pipeline RAG fonctionnel. Pas de théorie creuse. Du code, des choix d'architecture, des pièges à éviter.
 
 ## Pourquoi le RAG change la donne pour les apps métier
 
-Les LLM sont puissants, mais ils ne connaissent pas tes données. Ton catalogue produit, tes tickets support, tes contrats clients, tout ça n'existe pas pour GPT-4 ou Claude.
+Les LLM sont puissants, mais ils ne connaissent pas vos données. Votre catalogue produit, vos tickets support, vos contrats clients, tout ça n'existe pas pour GPT-4 ou Claude.
 
-Deux options s'offrent à toi :
+Deux options s'offrent à vous :
 
-- **Fine-tuning** : réentraîner le modèle sur tes données. Coûteux, long, et obsolète dès que ta base change.
+- **Fine-tuning** : réentraîner le modèle sur vos données. Coûteux, long, et obsolète dès que votre base change.
 - **RAG** : injecter le contexte pertinent dans le prompt au moment de la requête. Pas de réentraînement, données toujours fraîches, coût maîtrisé.
 
 Le RAG fonctionne en trois étapes :
 
-1. **Indexation** : transformer tes données en vecteurs (embeddings) et les stocker
+1. **Indexation** : transformer vos données en vecteurs (embeddings) et les stocker
 2. **Recherche** : convertir la question de l'utilisateur en vecteur, trouver les documents les plus proches
-3. **Génération** : envoyer les documents trouvés au LLM comme contexte, obtenir une réponse fondée sur tes données
+3. **Génération** : envoyer les documents trouvés au LLM comme contexte, obtenir une réponse fondée sur vos données
 
 C'est simple conceptuellement. L'implémentation dans un projet Symfony demande quelques choix structurants.
 
@@ -65,7 +65,7 @@ Symfony AI fournit les abstractions nécessaires : modèles d'embedding, vector 
 composer require symfony/ai
 ```
 
-La configuration se fait via le fichier `config/packages/ai.yaml`. Tu y déclares tes plateformes (OpenAI, Mistral, Ollama) et tes stores.
+La configuration se fait via le fichier `config/packages/ai.yaml`. Vous y déclarez vos plateformes (OpenAI, Mistral, Ollama) et vos stores.
 
 ```yaml
 symfony_ai:
@@ -81,9 +81,9 @@ symfony_ai:
 
 ## Choisir ce qu'on indexe
 
-Première erreur classique : vouloir tout indexer. Ta table `User` avec ses mots de passe hashés, tes logs d'audit, tes tables de jointure, rien de tout ça n'a de valeur pour un LLM.
+Première erreur classique : vouloir tout indexer. Votre table `User` avec ses mots de passe hashés, vos logs d'audit, vos tables de jointure, rien de tout ça n'a de valeur pour un LLM.
 
-Concentre-toi sur les **données à forte valeur sémantique** :
+Concentrez-vous sur les **données à forte valeur sémantique** :
 
 - Descriptions de produits
 - Contenus de tickets support (titre + corps + résolution)
@@ -91,7 +91,7 @@ Concentre-toi sur les **données à forte valeur sémantique** :
 - Commentaires clients
 - Fiches techniques
 
-Pour chaque entité, tu définis une méthode qui produit le texte à vectoriser :
+Pour chaque entité, vous définissez une méthode qui produit le texte à vectoriser :
 
 ```php
 class SupportTicket
@@ -112,7 +112,7 @@ class SupportTicket
 }
 ```
 
-Cette méthode est le contrat entre ton modèle Doctrine et le pipeline d'indexation. Elle détermine ce que le LLM « verra » de ton entité.
+Cette méthode est le contrat entre votre modèle Doctrine et le pipeline d'indexation. Elle détermine ce que le LLM « verra » de ton entité.
 
 ## La commande d'indexation
 
@@ -157,13 +157,13 @@ class IndexTicketsCommand extends Command
 }
 ```
 
-Les **metadata** sont importantes : elles te permettent de filtrer les résultats par type d'entité, par statut, par date. Tu ne veux pas remonter des tickets fermés quand l'utilisateur cherche un problème ouvert.
+Les **metadata** sont importantes : elles vous permettent de filtrer les résultats par type d'entité, par statut, par date. Vous ne voulez pas remonter des tickets fermés quand l'utilisateur cherche un problème ouvert.
 
 ## Choisir son vector store
 
 ### PostgreSQL avec pgvector
 
-Si ton application tourne déjà sur PostgreSQL, conteneurisée avec [Docker](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui), c'est le choix le plus pragmatique. [pgvector](https://github.com/pgvector/pgvector) ajoute un type `vector` et des opérateurs de similarité directement dans ta base existante.
+Si votre application tourne déjà sur PostgreSQL, conteneurisée avec [Docker](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui), c'est le choix le plus pragmatique. [pgvector](https://github.com/pgvector/pgvector) ajoute un type `vector` et des opérateurs de similarité directement dans votre base existante.
 
 ```sql
 CREATE EXTENSION IF NOT EXISTS vector;
@@ -182,7 +182,7 @@ Avantages : pas d'infra supplémentaire, backup unifié, transactions ACID. Pour
 
 ### Qdrant
 
-Si tu as besoin de performances poussées sur de gros volumes ou de fonctionnalités avancées (filtrage par payload, sharding), Qdrant est un excellent choix. C'est un vector store dédié, conçu spécifiquement pour la recherche de similarité.
+Si vous avez besoin de performances poussées sur de gros volumes ou de fonctionnalités avancées (filtrage par payload, sharding), Qdrant est un excellent choix. C'est un vector store dédié, conçu spécifiquement pour la recherche de similarité.
 
 ```yaml
 symfony_ai:
@@ -193,7 +193,7 @@ symfony_ai:
             collection: support_tickets
 ```
 
-Le choix dépend de ton contexte : pgvector pour simplifier, Qdrant pour scaler.
+Le choix dépend de votre contexte : pgvector pour simplifier, Qdrant pour scaler.
 
 ## Le pipeline de recherche
 
@@ -251,7 +251,7 @@ Le point clé : le prompt dit explicitement au LLM de se baser **uniquement** su
 
 ## Structurer la recherche en architecture hexagonale
 
-Dans une application Symfony sérieuse, tu ne veux pas coupler ton domaine à un vector store spécifique. C'est le principe fondamental de [l'architecture hexagonale appliquée à Symfony](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) : isoler le domaine de l'infrastructure. On définit un port :
+Dans une application Symfony sérieuse, vous ne voulez pas coupler votre domaine à un vector store spécifique. C'est le principe fondamental de [l'architecture hexagonale appliquée à Symfony](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) : isoler le domaine de l'infrastructure. On définit un port :
 
 ```php
 interface SemanticSearchPort
@@ -284,11 +284,11 @@ class SymfonyAiSemanticSearchAdapter implements SemanticSearchPort
 }
 ```
 
-Demain, si tu passes de pgvector à Qdrant (ou l'inverse), tu changes l'adaptateur. Ton domaine n'en sait rien.
+Demain, si vous passez de pgvector à Qdrant (ou l'inverse), vous changez l'adaptateur. Votre domaine n'en sait rien.
 
 ## Stratégies de chunking pour les textes longs
 
-Un embedding a une taille maximale de tokens (8191 pour `text-embedding-3-small` d'OpenAI). Si tes entités contiennent des champs longs, documentation technique, articles de blog, rapports, tu dois découper.
+Un embedding a une taille maximale de tokens (8191 pour `text-embedding-3-small` d'OpenAI). Si vos entités contiennent des champs longs, documentation technique, articles de blog, rapports, vous devez découper.
 
 ```php
 class TextChunker
@@ -448,7 +448,7 @@ class ReindexEntityHandler
 
 ## Exemple concret : un système de tickets support
 
-Prenons un cas réel. Tu gères une application de support avec des milliers de tickets résolus. Les agents passent du temps à chercher si un problème similaire a déjà été traité.
+Prenons un cas réel. Vous gérez une application de support avec des milliers de tickets résolus. Les agents passent du temps à chercher si un problème similaire a déjà été traité.
 
 Avec le RAG en place, l'agent tape : « Le client n'arrive pas à exporter ses factures en PDF depuis la mise à jour de mars ».
 
@@ -511,7 +511,7 @@ Un embedding de dimension 1536 occupe environ 6 Ko. Pour 100 000 documents, ça 
 
 ### Pertinence
 
-Le RAG n'est pas magique. Si tes données sources sont mal structurées (champs vides, textes trop courts, doublons), les résultats seront médiocres. La qualité de la méthode `toEmbeddingText()` est déterminante.
+Le RAG n'est pas magique. Si vos données sources sont mal structurées (champs vides, textes trop courts, doublons), les résultats seront médiocres. La qualité de la méthode `toEmbeddingText()` est déterminante.
 
 ### Latence
 
@@ -519,16 +519,16 @@ Un appel d'embedding prend 50-200 ms. La recherche de similarité sur pgvector a
 
 ## Aller plus loin
 
-Le RAG est une première étape. Une fois le pipeline en place, tu peux :
+Le RAG est une première étape. Une fois le pipeline en place, vous pouvez :
 
 - Ajouter du **reranking** pour affiner les résultats de similarité
 - Implémenter du **RAG multi-sources** (Doctrine + fichiers PDF + API externes)
 - Construire un **agent conversationnel** avec historique de conversation
 - Mettre en place des **guardrails** pour limiter les réponses aux données autorisées
 
-L'écosystème Symfony AI est encore jeune mais progresse vite. Combiné avec la maturité de Doctrine et la richesse de l'écosystème Symfony (Messenger, Security, Cache), tu as tout ce qu'il faut pour construire des applications IA robustes en PHP. C'est exactement le type de projets sur lesquels notre [expertise en intelligence artificielle](/expertise-ia) s'applique au quotidien.
+L'écosystème Symfony AI est encore jeune mais progresse vite. Combiné avec la maturité de Doctrine et la richesse de l'écosystème Symfony (Messenger, Security, Cache), vous avez tout ce qu'il faut pour construire des applications IA robustes en PHP. C'est exactement le type de projets sur lesquels notre [expertise en intelligence artificielle](/expertise-ia) s'applique au quotidien.
 
-Le RAG avec Symfony AI et Doctrine, c'est exactement le type de sujet qu'on adore creuser chez Efficience IT. Si tu veux discuter de ton cas d'usage, [contacte-nous](https://www.itefficience.com/contact).
+Le RAG avec Symfony AI et Doctrine, c'est exactement le type de sujet qu'on adore creuser chez Efficience IT. Si vous voulez discuter de votre cas d'usage, [contactez-nous](https://www.itefficience.com/contact).
 
 ## Pour aller plus loin
 

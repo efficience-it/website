@@ -17,21 +17,21 @@ faq:
     answer: "Les données récupérées par un serveur MCP sont injectées dans le contexte de la conversation Claude. Elles transitent donc par l'API Anthropic au même titre que votre code source. Pour les données sensibles, vérifiez que votre politique de sécurité autorise ce traitement."
 ---
 
-Tu utilises Claude Code au quotidien sur tes projets Symfony. Tu as configuré ton [CLAUDE.md, tes skills et tes hooks](/article/monter-en-competence-claude-code). Mais chaque fois que tu as besoin d'une information qui n'est pas dans le code, tu dois la chercher toi-même : un schéma de table, une erreur Sentry, le contenu d'une PR. Le serveur MCP supprime cette friction. Il connecte Claude Code directement à tes outils, et l'agent accède aux données sans que tu aies à quitter le terminal.
+Vous utilisez Claude Code au quotidien sur vos projets Symfony. Vous avez configuré votre [CLAUDE.md, vos skills et vos hooks](/article/monter-en-competence-claude-code). Mais chaque fois que vous avez besoin d'une information qui n'est pas dans le code, vous devez la chercher vous-même : un schéma de table, une erreur Sentry, le contenu d'une PR. Le serveur MCP supprime cette friction. Il connecte Claude Code directement à vos outils, et l'agent accède aux données sans que vous ayez à quitter le terminal.
 
 ## Le Model Context Protocol en bref
 
-MCP est un protocole ouvert créé par Anthropic et publié sur [modelcontextprotocol.io](https://modelcontextprotocol.io). Il standardise la communication entre un agent IA et des services externes. Sans MCP, Claude Code est limité à ce qu'il voit dans ton arborescence de fichiers. Avec MCP, il peut interroger une base de données, lire tes erreurs Sentry, consulter une PR GitHub ou appeler une API interne.
+MCP est un protocole ouvert créé par Anthropic et publié sur [modelcontextprotocol.io](https://modelcontextprotocol.io). Il standardise la communication entre un agent IA et des services externes. Sans MCP, Claude Code est limité à ce qu'il voit dans votre arborescence de fichiers. Avec MCP, il peut interroger une base de données, lire tes erreurs Sentry, consulter une PR GitHub ou appeler une API interne.
 
 Un serveur MCP expose deux types de capacités : des **outils** (des fonctions que Claude Code peut appeler, comme "execute cette requête SQL") et des **ressources** (des données consultables, comme le schéma d'une table). Le protocole gère la découverte automatique : quand Claude Code se connecte à un serveur, il apprend quels outils sont disponibles et sait quand les utiliser.
 
-Le principe est simple. Tu déclares un serveur dans la configuration de ton projet. Claude Code le démarre automatiquement au lancement d'une session. Tu lui demandes "montre-moi le schéma de la table orders", il interroge le serveur MCP, récupère le résultat et raisonne dessus. Pas de copier-coller, pas de changement de fenêtre, pas d'aller-retour entre le terminal et un dashboard.
+Le principe est simple. Vous déclarez un serveur dans la configuration de votre projet. Claude Code le démarre automatiquement au lancement d'une session. Vous lui demandez "montre-moi le schéma de la table orders", il interroge le serveur MCP, récupère le résultat et raisonne dessus. Pas de copier-coller, pas de changement de fenêtre, pas d'aller-retour entre le terminal et un dashboard.
 
-Trois modes de transport existent : **stdio** pour les serveurs locaux (un processus sur ta machine, le plus courant en développement), **HTTP** pour les serveurs distants hébergés par un service tiers, et **SSE** (Server-Sent Events) pour les connexions persistantes. Sur un projet Symfony typique, tu utiliseras stdio pour la base de données et HTTP pour GitHub ou Sentry.
+Trois modes de transport existent : **stdio** pour les serveurs locaux (un processus sur votre machine, le plus courant en développement), **HTTP** pour les serveurs distants hébergés par un service tiers, et **SSE** (Server-Sent Events) pour les connexions persistantes. Sur un projet Symfony typique, vous utiliserez stdio pour la base de données et HTTP pour GitHub ou Sentry.
 
 ## Connecter sa base de données Doctrine
 
-C'est le cas d'usage le plus immédiat pour un développeur Symfony. Ton application tourne sur MySQL ou PostgreSQL via [Doctrine](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees). Avec un serveur MCP, Claude Code peut interroger cette base directement.
+C'est le cas d'usage le plus immédiat pour un développeur Symfony. Votre application tourne sur MySQL ou PostgreSQL via [Doctrine](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees). Avec un serveur MCP, Claude Code peut interroger cette base directement.
 
 La configuration tient en une ligne :
 
@@ -40,47 +40,47 @@ claude mcp add --transport stdio db -- npx -y @bytebase/dbhub \
   --dsn "mysql://readonly:password@localhost:3306/monprojet"
 ```
 
-Une fois connecté, tu peux demander :
+Une fois connecté, vous pouvez demander :
 
 - "Montre-moi le schéma de la table product avec ses index"
 - "Combien de commandes ont un statut pending depuis plus de 7 jours ?"
 - "Trouve les utilisateurs qui ont un email en double"
 - "Génère une migration Doctrine pour ajouter une colonne deleted_at"
 
-Claude Code écrit la requête SQL, l'exécute via le serveur MCP, analyse le résultat et propose une action. Sur un projet en cours de [migration MySQL vers PostgreSQL](/article/migration-mysql-postgresql-doctrine-guide), tu peux même connecter les deux bases simultanément et demander à Claude de comparer les schémas.
+Claude Code écrit la requête SQL, l'exécute via le serveur MCP, analyse le résultat et propose une action. Sur un projet en cours de [migration MySQL vers PostgreSQL](/article/migration-mysql-postgresql-doctrine-guide), vous pouvez même connecter les deux bases simultanément et demander à Claude de comparer les schémas.
 
-La question de la sécurité est centrale. En production, configure un accès en lecture seule. Un utilisateur MySQL ou PostgreSQL sans droits INSERT/UPDATE/DELETE garantit que Claude Code ne peut pas modifier les données par accident. En développement ou en staging, un accès complet permet à Claude Code de tester ses migrations en les appliquant directement. Combine ça avec un hook qui lance `php bin/console doctrine:schema:validate` après chaque modification et tu obtiens un workflow où chaque changement de schéma est vérifié automatiquement.
+La question de la sécurité est centrale. En production, configurez un accès en lecture seule. Un utilisateur MySQL ou PostgreSQL sans droits INSERT/UPDATE/DELETE garantit que Claude Code ne peut pas modifier les données par accident. En développement ou en staging, un accès complet permet à Claude Code de tester ses migrations en les appliquant directement. Combinez ça avec un hook qui lance `php bin/console doctrine:schema:validate` après chaque modification et vous obtenez un workflow où chaque changement de schéma est vérifié automatiquement.
 
 L'avantage par rapport à un simple copier-coller de schéma dans le chat : le serveur MCP donne à Claude Code un accès vivant à la base. Il peut vérifier ses hypothèses en temps réel, tester une requête avant de la transformer en QueryBuilder Doctrine, ou compter les lignes affectées par une migration avant de la proposer.
 
 ## GitHub : piloter ses PRs sans quitter le terminal
 
-Le serveur MCP GitHub connecte Claude Code à ton repository. Tu peux lui demander de lire une PR, de commenter, de créer une issue ou de consulter les résultats de la CI.
+Le serveur MCP GitHub connecte Claude Code à votre repository. Vous pouvez lui demander de lire une PR, de commenter, de créer une issue ou de consulter les résultats de la CI.
 
 ```bash
 claude mcp add --transport http github https://api.githubcopilot.com/mcp/
 ```
 
-En pratique, tu ouvres Claude Code sur ta branche et tu lui dis : "Revois la PR #42 et identifie les problèmes d'architecture." Il lit le diff complet, le compare aux conventions de ton CLAUDE.md, et produit une review structurée. Si tu développes une [API REST](/article/api-rest-les-bonnes-pratiques), il peut vérifier que les endpoints respectent les conventions de nommage et les codes de retour HTTP.
+En pratique, vous ouvrez Claude Code sur ta branche et vous lui dites : "Revois la PR #42 et identifie les problèmes d'architecture." Il lit le diff complet, le compare aux conventions de votre CLAUDE.md, et produit une review structurée. Si vous développez une [API REST](/article/api-rest-les-bonnes-pratiques), il peut vérifier que les endpoints respectent les conventions de nommage et les codes de retour HTTP.
 
-L'intégration GitHub devient encore plus intéressante quand tu la combines avec d'autres serveurs MCP. Claude Code peut lire une issue, consulter le schéma de la base pour comprendre le contexte, proposer une implémentation, puis créer la PR. Le tout sans que tu aies tapé une seule commande git.
+L'intégration GitHub devient encore plus intéressante quand vous la combinez avec d'autres serveurs MCP. Claude Code peut lire une issue, consulter le schéma de la base pour comprendre le contexte, proposer une implémentation, puis créer la PR. Le tout sans que vous ayez tapé une seule commande git.
 
 ## Sentry : debugger la production en temps réel
 
-Un serveur MCP Sentry donne à Claude Code un accès direct à tes erreurs de production. Plus besoin d'aller lire les stack traces dans le dashboard.
+Un serveur MCP Sentry donne à Claude Code un accès direct à vos erreurs de production. Plus besoin d'aller lire les stack traces dans le dashboard.
 
 ```bash
 claude mcp add --transport http sentry https://mcp.sentry.dev/mcp \
   --header "Authorization: Bearer ${SENTRY_TOKEN}"
 ```
 
-Tu peux demander : "Quelles sont les 5 erreurs les plus fréquentes depuis le dernier déploiement ?" ou "Montre-moi la stack trace de cette exception EntityNotFoundException." Claude Code récupère les données, les croise avec ton code source, et propose un correctif.
+Vous pouvez demander : "Quelles sont les 5 erreurs les plus fréquentes depuis le dernier déploiement ?" ou "Montre-moi la stack trace de cette exception EntityNotFoundException." Claude Code récupère les données, les croise avec votre code source, et propose un correctif.
 
-Sur un projet Symfony avec [de l'IA intégrée dans du code legacy](/article/symfony-ai-projet-legacy-retour-experience), la capacité de croiser les erreurs Sentry avec le code et la base de données accélère considérablement le diagnostic. Tu décris le symptôme, Claude Code récupère la stack trace via Sentry, inspecte le code concerné dans ton repo, et interroge la base si nécessaire pour reproduire le contexte. Le diagnostic qui prenait 30 minutes se fait en 2 minutes.
+Sur un projet Symfony avec [de l'IA intégrée dans du code legacy](/article/symfony-ai-projet-legacy-retour-experience), la capacité de croiser les erreurs Sentry avec le code et la base de données accélère considérablement le diagnostic. Vous décrivez le symptôme, Claude Code récupère la stack trace via Sentry, inspecte le code concerné dans votre repo, et interroge la base si nécessaire pour reproduire le contexte. Le diagnostic qui prenait 30 minutes se fait en 2 minutes.
 
 ## Créer un serveur MCP personnalisé
 
-Les serveurs communautaires couvrent les cas génériques. Mais sur un projet Symfony, tu as souvent des besoins spécifiques : interroger une API interne, consulter un cache Redis, lire la configuration d'un service métier.
+Les serveurs communautaires couvrent les cas génériques. Mais sur un projet Symfony, vous avez souvent des besoins spécifiques : interroger une API interne, consulter un cache Redis, lire la configuration d'un service métier.
 
 Créer un serveur MCP basique ne demande que quelques dizaines de lignes. Le SDK existe en TypeScript et en Python. Voici la structure minimale en TypeScript :
 
@@ -119,9 +119,9 @@ const transport = new StdioServerTransport();
 await server.connect(transport);
 ```
 
-Ce serveur expose une commande `list_routes` qui appelle `debug:router` sur ton projet Symfony. Claude Code peut l'utiliser pour explorer les routes avant de modifier un contrôleur. Tu peux ajouter d'autres outils : `cache:clear`, `messenger:stats`, `doctrine:schema:validate`, ou n'importe quelle commande console Symfony.
+Ce serveur expose une commande `list_routes` qui appelle `debug:router` sur votre projet Symfony. Claude Code peut l'utiliser pour explorer les routes avant de modifier un contrôleur. Vous pouvez ajouter d'autres outils : `cache:clear`, `messenger:stats`, `doctrine:schema:validate`, ou n'importe quelle commande console Symfony.
 
-Le pattern [RAG avec Symfony AI et Doctrine](/article/rag-symfony-ai-doctrine-indexer-base-metier) va encore plus loin : un serveur MCP qui indexe tes données métier et les expose via une recherche vectorielle. Claude Code peut alors répondre à des questions comme "quel client a rencontré un problème similaire ?" en s'appuyant sur tes propres données.
+Le pattern [RAG avec Symfony AI et Doctrine](/article/rag-symfony-ai-doctrine-indexer-base-metier) va encore plus loin : un serveur MCP qui indexe vos données métier et les expose via une recherche vectorielle. Claude Code peut alors répondre à des questions comme "quel client a rencontré un problème similaire ?" en s'appuyant sur vos propres données.
 
 ## Configuration projet vs configuration personnelle
 
@@ -129,7 +129,7 @@ MCP supporte deux niveaux de configuration :
 
 Le fichier **`.mcp.json`** à la racine du projet est partagé via Git. Toute l'équipe accède aux mêmes serveurs. C'est l'endroit pour déclarer la base de données de dev, le GitHub du projet, le Sentry de l'équipe.
 
-Le fichier **`~/.claude.json`** est personnel. C'est l'endroit pour tes outils privés, tes tokens d'API, ou des serveurs expérimentaux que tu testes avant de les proposer à l'équipe.
+Le fichier **`~/.claude.json`** est personnel. C'est l'endroit pour vos outils privés, vos tokens d'API, ou des serveurs expérimentaux que vous testez avant de les proposer à l'équipe.
 
 ```json
 {
@@ -149,4 +149,4 @@ Le fichier **`~/.claude.json`** est personnel. C'est l'endroit pour tes outils p
 
 Les variables d'environnement (`${DATABASE_URL}`) évitent de committer des credentials. Chaque développeur définit ses propres valeurs dans son `.env.local`, exactement comme pour la configuration Symfony.
 
-Le registre officiel sur [GitHub](https://github.com/modelcontextprotocol/servers) référence des centaines de serveurs communautaires. Pour un projet Symfony, commence par la base de données et GitHub. Ajoute Sentry quand tu gères de la production. Quand tu identifies un pattern répétitif dans tes échanges avec Claude Code, un [assistant IA bien configuré](/article/quel-assistant-ia-choisir-pour-coder) connecté à tes outils via MCP devient un vrai multiplicateur de productivité. La combinaison d'un CLAUDE.md solide, de skills adaptés et de serveurs MCP ciblés transforme un outil d'aide au code en plateforme de développement intégrée.
+Le registre officiel sur [GitHub](https://github.com/modelcontextprotocol/servers) référence des centaines de serveurs communautaires. Pour un projet Symfony, commencez par la base de données et GitHub. Ajoutez Sentry quand vous gérez de la production. Quand vous identifiez un pattern répétitif dans vos échanges avec Claude Code, un [assistant IA bien configuré](/article/quel-assistant-ia-choisir-pour-coder) connecté à vos outils via MCP devient un vrai multiplicateur de productivité. La combinaison d'un CLAUDE.md solide, de skills adaptés et de serveurs MCP ciblés transforme un outil d'aide au code en plateforme de développement intégrée.

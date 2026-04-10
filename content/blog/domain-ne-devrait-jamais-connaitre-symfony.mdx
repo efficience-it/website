@@ -1,21 +1,21 @@
 ---
-title: "Pourquoi ton Domain ne devrait jamais connaître Symfony"
+title: "Pourquoi votre Domain ne devrait jamais connaître Symfony"
 date: "2026-03-09"
 updatedAt: "2026-03-26"
 author: "Louis-Arnaud Catoire"
 category: "Architecture"
-excerpt: "Ton domaine métier ne devrait dépendre de rien. Ni de Symfony, ni de Doctrine. Voici pourquoi et ce que ça change concrètement sur un vrai projet."
+excerpt: "Votre domaine métier ne devrait dépendre de rien. Ni de Symfony, ni de Doctrine. Voici pourquoi et ce que ça change concrètement sur un vrai projet."
 image: "/images/blog/domain-symfony.webp"
 proficiencyLevel: "Expert"
 ---
 
-Ouvre le répertoire `src/Entity/` de n'importe quel projet Symfony. Tu y trouveras des classes avec des attributs Doctrine, des validations Symfony, parfois des appels à des services, et au milieu de tout ça, de la logique métier. Le modèle de commande calcule ses totaux entre deux annotations `#[ORM\Column]`. L'entité utilisateur vérifie les permissions au milieu des `#[Assert\NotBlank]`.
+Ouvrez le répertoire `src/Entity/` de n'importe quel projet Symfony. Vous y trouverez des classes avec des attributs Doctrine, des validations Symfony, parfois des appels à des services, et au milieu de tout ça, de la logique métier. Le modèle de commande calcule ses totaux entre deux annotations `#[ORM\Column]`. L'entité utilisateur vérifie les permissions au milieu des `#[Assert\NotBlank]`.
 
-Ce code fonctionne. Il passe les tests. Il tourne en production. Mais il a un problème fondamental : ton métier est prisonnier de ton framework.
+Ce code fonctionne. Il passe les tests. Il tourne en production. Mais il a un problème fondamental : votre métier est prisonnier de votre framework.
 
 ## Ce que "connaître Symfony" veut dire
 
-Quand on dit qu'un domaine "connaît" Symfony, on parle de dépendances. Pas de dépendances au sens Composer, mais au sens `use` en haut de tes fichiers PHP.
+Quand on dit qu'un domaine "connaît" Symfony, on parle de dépendances. Pas de dépendances au sens Composer, mais au sens `use` en haut de vos fichiers PHP.
 
 ```php
 namespace App\Entity;
@@ -46,19 +46,19 @@ class Order
 }
 ```
 
-Cette classe dépend de trois composants Symfony/Doctrine. Certes, les attributs PHP sont des métadonnées inertes : tu peux instancier cette classe et tester `calculateTotal()` sans que Doctrine soit chargé. Mais la dépendance existe dans le code. Tes `use` pointent vers `vendor/`, ton domaine ne compile plus sans ces paquets, et chaque montée de version Doctrine ou Symfony peut casser tes modèles métier. Si tu veux réutiliser cette logique dans un contexte non-Symfony (une commande CLI, un worker, un autre projet), tu traînes tout le framework avec toi.
+Cette classe dépend de trois composants Symfony/Doctrine. Certes, les attributs PHP sont des métadonnées inertes : vous pouvez instancier cette classe et tester `calculateTotal()` sans que Doctrine soit chargé. Mais la dépendance existe dans le code. Vos `use` pointent vers `vendor/`, votre domaine ne compile plus sans ces paquets, et chaque montée de version Doctrine ou Symfony peut casser vos modèles métier. Si vous voulez réutiliser cette logique dans un contexte non-Symfony (une commande CLI, un worker, un autre projet), vous traînez tout le framework avec vous.
 
 Le principe fondamental de l'architecture hexagonale tient en une phrase : le domaine est au centre, et il ne dépend de rien.
 
 ## Le test décisif
 
-Voici un test simple pour savoir si ton domaine est couplé au framework. Prends n'importe quel fichier dans ton répertoire domaine et pose-toi cette question : est-ce que je peux exécuter ce code dans un projet PHP vanilla, sans Symfony, sans Doctrine, sans aucune dépendance externe ?
+Voici un test simple pour savoir si votre domaine est couplé au framework. Prenez n'importe quel fichier dans votre répertoire domaine et posez-vous cette question : est-ce que je peux exécuter ce code dans un projet PHP vanilla, sans Symfony, sans Doctrine, sans aucune dépendance externe ?
 
-Si la réponse est non, ton domaine connaît ton infrastructure.
+Si la réponse est non, votre domaine connaît votre infrastructure.
 
-Concrètement, ça veut dire que dans le namespace de ton domaine, les seuls `use` autorisés sont :
+Concrètement, ça veut dire que dans le namespace de votre domaine, les seuls `use` autorisés sont :
 
-- Des classes de ton propre domaine
+- Des classes de votre propre domaine
 - Des interfaces PHP natives (`Stringable`, `JsonSerializable`)
 - Des exceptions PHP standard
 
@@ -68,7 +68,7 @@ Pas de `Doctrine\*`. Pas de `Symfony\*`. Pas de `Psr\*`. Rien qui vienne de `ven
 
 ### 1. Doctrine dans les modèles
 
-Le plus évident. Les attributs `#[ORM\Entity]`, `#[ORM\Column]`, `#[ORM\ManyToOne]` créent une dépendance directe entre ton modèle métier et l'ORM.
+Le plus évident. Les attributs `#[ORM\Entity]`, `#[ORM\Column]`, `#[ORM\ManyToOne]` créent une dépendance directe entre votre modèle métier et l'ORM.
 
 ```php
 // Couplé
@@ -137,7 +137,7 @@ La validation Symfony reste utile pour valider les entrées HTTP (formulaires, r
 
 ### 3. Les interfaces Symfony Security
 
-Implémenter `UserInterface` directement dans ton modèle domaine couple ton concept d'utilisateur au système d'authentification Symfony.
+Implémenter `UserInterface` directement dans votre modèle domaine couple votre concept d'utilisateur au système d'authentification Symfony.
 
 ```php
 // Couplé
@@ -151,7 +151,7 @@ class User implements UserInterface
 }
 ```
 
-Le problème : ton modèle `User` domaine porte des méthodes (`eraseCredentials`, `getUserIdentifier`) qui n'ont aucun sens métier. Ce sont des exigences du framework, pas de ton business.
+Le problème : votre modèle `User` domaine porte des méthodes (`eraseCredentials`, `getUserIdentifier`) qui n'ont aucun sens métier. Ce sont des exigences du framework, pas de votre business.
 
 ```php
 // Domaine : le concept métier
@@ -204,7 +204,7 @@ class OrderValidated extends Event
 }
 ```
 
-Ton événement domaine hérite d'une classe Symfony. Si demain tu passes sur un autre framework, tu dois réécrire tous tes événements.
+Votre événement domaine hérite d'une classe Symfony. Si demain vous passez sur un autre framework, vous devez réécrire tous vos événements.
 
 ```php
 // Découplé
@@ -252,7 +252,7 @@ class ProcessOrder
 }
 ```
 
-Si ton use case a besoin de logger, demande-toi pourquoi. Le logging est un concern d'infrastructure. Un décorateur dans l'infra peut logger autour de l'appel au use case sans que le use case le sache :
+Si votre use case a besoin de logger, demandez-vous pourquoi. Le logging est un concern d'infrastructure. Un décorateur dans l'infra peut logger autour de l'appel au use case sans que le use case le sache :
 
 ```php
 class LoggingProcessOrder implements ProcessOrderInterface
@@ -326,14 +326,14 @@ C'est vrai. Et c'est le prix de l'indépendance.
 
 Mais ce prix est souvent surestimé. Un mapper, c'est 20 lignes de code trivial. Pas de logique, pas de conditions, juste de l'assignation de propriétés. Sur un projet de 50 entités, ça représente 1000 lignes de code ennuyeux. Sur une base de code de 100 000 lignes, c'est 1%.
 
-Et ce 1% te donne :
+Et ce 1% vous donne :
 
-- **Des tests unitaires rapides** : ton domaine se teste sans base de données, sans container, en millisecondes
+- **Des tests unitaires rapides** : votre domaine se teste sans base de données, sans container, en millisecondes
 - **La liberté de changer d'ORM** : improbable mais possible, et surtout ça simplifie les montées de version Doctrine
-- **Un domaine lisible** : tes modèles métier ne sont pas pollués par des annotations techniques
-- **Des refactorisations sûres** : tu changes la structure de la base sans toucher au domaine, et inversement
+- **Un domaine lisible** : vos modèles métier ne sont pas pollués par des annotations techniques
+- **Des refactorisations sûres** : vous changez la structure de la base sans toucher au domaine, et inversement
 
-## Vérifie tes dépendances avec Deptrac
+## Vérifiez vos dépendances avec Deptrac
 
 La discipline humaine ne suffit pas. Sur un projet avec dix développeurs, quelqu'un finira par ajouter un `use Doctrine\*` dans le domaine. Deptrac automatise la vérification.
 
@@ -365,9 +365,9 @@ deptrac:
       - Application
 ```
 
-La règle `Domain: []` est la plus importante : le domaine ne dépend de rien. Aucune autre couche n'est autorisée. Si un développeur ajoute un import Doctrine dans le domaine, Deptrac casse le build. Combiné avec [PHPStan comme gardien d'architecture](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php), tu vérifies à la fois les dépendances entre couches et la cohérence des types.
+La règle `Domain: []` est la plus importante : le domaine ne dépend de rien. Aucune autre couche n'est autorisée. Si un développeur ajoute un import Doctrine dans le domaine, Deptrac casse le build. Combiné avec [PHPStan comme gardien d'architecture](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php), vous vérifiez à la fois les dépendances entre couches et la cohérence des types.
 
-Ajoute-le dans ta CI :
+Ajoutez-le dans votre CI :
 
 ```bash
 vendor/bin/deptrac --no-interaction
@@ -379,7 +379,7 @@ C'est un filet de sécurité permanent. L'architecture n'est plus une convention
 
 Cette approche a un coût. Pour un CRUD d'admin avec cinq entités et aucune logique métier, séparer domaine et infrastructure est de l'over-engineering. Le couplage Doctrine n'est un problème que quand il y a de la logique métier à protéger. La question de [choisir entre micro-services et monolithe modulaire](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) se pose dans le même esprit : l'architecture doit servir le projet, pas l'inverse.
 
-La règle pragmatique : si ta classe ne fait que stocker et relire des données, une entité Doctrine suffit. Si elle contient des calculs, des validations métier, des transitions d'état, des règles conditionnelles, alors elle mérite un domaine propre.
+La règle pragmatique : si votre classe ne fait que stocker et relire des données, une entité Doctrine suffit. Si elle contient des calculs, des validations métier, des transitions d'état, des règles conditionnelles, alors elle mérite un domaine propre.
 
 Sur un projet Symfony typique, 20% des entités portent 80% de la logique métier. Commence par celles-là. Le reste peut attendre, ou ne jamais être migré.
 
@@ -387,11 +387,11 @@ Sur un projet Symfony typique, 20% des entités portent 80% de la logique métie
 
 Symfony 4 a remplacé Symfony 3. Symfony 5 a remplacé Symfony 4. Doctrine 3 a cassé des choses par rapport à Doctrine 2. Les frameworks évoluent, changent leurs APIs, déprécient des composants.
 
-Ton métier, lui, ne change pas parce que Symfony sort une nouvelle version. Une commande se calcule de la même façon, qu'elle soit persistée avec Doctrine, Eloquent ou un fichier CSV.
+Votre métier, lui, ne change pas parce que Symfony sort une nouvelle version. Une commande se calcule de la même façon, qu'elle soit persistée avec Doctrine, Eloquent ou un fichier CSV.
 
 Un domaine qui ne connaît pas Symfony survit à Symfony. Il survit aux montées de version, aux changements d'ORM, aux migrations de framework. C'est du code qui a une durée de vie de dix ans dans une industrie où les frameworks changent tous les trois ans.
 
-C'est pour ça que ton domaine ne devrait jamais connaître Symfony. Pas par purisme architectural, pas pour faire joli sur un schéma. Pour que le code le plus important de ton application soit aussi le plus durable. Si tu veux structurer ton projet selon ces principes, notre accompagnement en [architecture hexagonale Symfony](/architecture-hexagonale-symfony) couvre exactement ce type de migration.
+C'est pour ça que votre domaine ne devrait jamais connaître Symfony. Pas par purisme architectural, pas pour faire joli sur un schéma. Pour que le code le plus important de votre application soit aussi le plus durable. Si vous voulez structurer votre projet selon ces principes, notre accompagnement en [architecture hexagonale Symfony](/architecture-hexagonale-symfony) couvre exactement ce type de migration.
 
 ## Pour aller plus loin
 
