@@ -24,27 +24,27 @@ const expertises = [
   {
     title: "Développement Symfony sur mesure",
     description:
-      "Conception d'applications web métier avec Symfony : API, back-office, plateformes SaaS. Architecture pensée pour la maintenabilité et la scalabilité.",
+      "Conception d'applications web métier avec Symfony pour les entreprises parisiennes : API, back-office, plateformes SaaS. Architecture pensée pour la scalabilité du marché francilien.",
   },
   {
     title: "Audit et reprise de projets",
     description:
-      "Analyse technique de votre application existante : dette technique, sécurité, performances. Reprise de projets Symfony laissés sans mainteneur.",
+      "Analyse technique de votre application existante : dette technique, sécurité, performances. Reprise de projets Symfony laissés sans mainteneur, avec déplacements dans vos locaux parisiens.",
   },
   {
     title: "Migration et modernisation",
     description:
-      "Migration de Symfony 3, 4 ou 5 vers les versions LTS actuelles. Modernisation progressive de vos applications PHP legacy.",
+      "Migration de Symfony 3, 4 ou 5 vers les versions LTS actuelles. Modernisation progressive de vos applications PHP legacy, pilotée en mode hybride Paris-Lille.",
   },
   {
     title: "API REST et API Platform",
     description:
-      "Conception d'API documentées, versionnées et testées avec API Platform et Symfony. Intégration avec vos systèmes existants.",
+      "Conception d'API documentées, versionnées et testées avec API Platform et Symfony. Intégration avec les systèmes d'information des grands comptes parisiens.",
   },
   {
     title: "Maintenance applicative",
     description:
-      "Suivi technique continu de vos applications : corrections, évolutions fonctionnelles, mises à jour de sécurité et montées de version.",
+      "Suivi technique continu de vos applications : corrections, évolutions fonctionnelles, mises à jour de sécurité. Réactivité garantie malgré la distance.",
   },
 ];
 
@@ -65,39 +65,19 @@ const faqItems = [
       "Oui. Pour les phases de cadrage, les ateliers fonctionnels ou les périodes de développement intensif, nous nous déplaçons dans vos locaux. La proximité Lille-Paris en TGV rend ces interventions simples et fréquentes.",
   },
   {
+    title: "À quelle fréquence vous déplacez-vous à Paris ?",
+    content:
+      "La fréquence dépend du projet et de vos besoins. Certains clients nous voient chaque semaine pour des ateliers sur site, d'autres préfèrent un rythme mensuel pour les revues de sprint. Le TGV Lille-Paris en 1h20 rend chaque déplacement simple à organiser, même en dernière minute.",
+  },
+  {
     title: "Quel est votre avantage par rapport à une agence parisienne ?",
     content:
-      "Notre spécialisation exclusive sur Symfony et PHP nous distingue des agences généralistes parisiennes. Vous bénéficiez d'une expertise technique pointue, avec la réactivité d'une équipe dédiée et des tarifs compétitifs par rapport au marché parisien.",
+      "Notre spécialisation exclusive sur Symfony et PHP nous distingue des agences généralistes parisiennes. Vous bénéficiez d'une expertise technique pointue, avec la réactivité d'une équipe dédiée. Notre implantation lilloise nous permet aussi d'attirer des profils techniques de haut niveau dans un bassin d'emploi moins saturé que Paris.",
   },
   {
-    title: "Pourquoi choisir Symfony plutôt qu'un autre framework PHP ?",
+    title: "Gérez-vous des projets pour des grands comptes parisiens ?",
     content:
-      "Symfony est le framework PHP le plus adapté aux applications métier complexes. Sa stabilité, son cycle de releases LTS, son écosystème mature (Doctrine, Messenger, Security) et sa communauté active en font le choix de référence pour les projets qui doivent durer dans le temps. Contrairement à Laravel, orienté prototypage rapide, Symfony privilégie la robustesse architecturale et la maintenabilité à long terme.",
-  },
-  {
-    title: "Combien coûte le développement d'une application Symfony ?",
-    content:
-      "Le budget dépend de la complexité du projet : une API simple démarre autour de 10 000 euros, une application métier complète se situe entre 30 000 et 100 000 euros. Nous proposons un audit gratuit de 30 minutes pour évaluer votre besoin et vous donner une estimation réaliste. Chaque projet fait l'objet d'un devis détaillé, sans surprise.",
-  },
-  {
-    title: "Comment migrer une application PHP legacy vers Symfony ?",
-    content:
-      "Nous privilégions une approche progressive : audit du code existant, identification des modules critiques, migration incrémentale sans interruption de service. L'utilisation de Rector et d'outils d'analyse statique comme PHPStan accélère le processus. L'objectif est de moderniser sans tout réécrire, en conservant la valeur métier du code existant.",
-  },
-  {
-    title: "Symfony ou Laravel : lequel choisir pour mon projet ?",
-    content:
-      "Laravel excelle pour le prototypage rapide et les projets simples. Symfony est préférable pour les applications métier complexes, les projets à longue durée de vie et les équipes qui valorisent l'architecture logicielle. Si votre application doit gérer des règles métier complexes, une architecture hexagonale ou du CQRS, Symfony est le meilleur choix.",
-  },
-  {
-    title: "Quels sont les délais pour un projet Symfony ?",
-    content:
-      "Un MVP fonctionnel peut être livré en 6 à 8 semaines. Une application métier complète nécessite généralement 3 à 6 mois. Nous travaillons en sprints courts avec des livraisons régulières, ce qui vous donne de la visibilité dès les premières semaines et la possibilité d'ajuster les priorités en cours de route.",
-  },
-  {
-    title: "Quand utiliser API Platform avec Symfony ?",
-    content:
-      "API Platform est pertinent dès que votre projet implique une API REST ou GraphQL : application mobile, SPA, intégration avec des systèmes tiers ou architecture microservices. Il génère automatiquement la documentation OpenAPI, gère la pagination, le filtrage et la sérialisation. Pour les API simples, les controllers Symfony classiques suffisent.",
+      "Oui. Nous accompagnons des PME, des ETI et des grands comptes en Île-de-France sur des projets Symfony complexes : applications métier, API à fort trafic, plateformes SaaS. Notre méthodologie agile et notre spécialisation technique répondent aux exigences de qualité et de sécurité de ces environnements.",
   },
 ];
 
@@ -124,7 +104,7 @@ const webPage = webPageJsonLd({
     "Efficience IT, agence Symfony pour Paris et Île-de-France. Développement sur mesure, audit, migration et maintenance de vos applications PHP.",
   path: "/agence-symfony-paris",
   datePublished: "2026-03-20",
-  dateModified: "2026-03-20",
+  dateModified: "2026-04-10",
 });
 
 const relatedLinks: RelatedLink[] = [
@@ -311,13 +291,13 @@ export default function AgenceSymfonyParis() {
                 </Card>
                 <Card>
                   <h3 className="font-display text-lg font-bold text-dark">
-                    Tarifs compétitifs
+                    Équipe dédiée et stable
                   </h3>
                   <p className="mt-2 text-gray">
-                    Basés en région, nous proposons des tarifs plus compétitifs que
-                    les agences parisiennes, sans compromis sur la qualité
-                    technique. Votre budget va plus loin avec le même niveau
-                    d&apos;exigence.
+                    Contrairement aux ESN parisiennes qui font tourner les profils,
+                    nous affectons une équipe stable à votre projet. Votre
+                    interlocuteur technique connaît votre application et votre métier
+                    dans la durée.
                   </p>
                 </Card>
               </div>
@@ -450,7 +430,7 @@ export default function AgenceSymfonyParis() {
                   <div className="rounded-lg border border-gray-100 bg-white p-6 shadow-sm">
                     <p className="font-display text-3xl font-bold text-primary">1h20</p>
                     <p className="mt-1 text-gray">
-                      De Lille en TGV : la proximité sans le coût parisien
+                      De Lille en TGV : la proximité sans les contraintes de l&apos;Île-de-France
                     </p>
                   </div>
                 </div>

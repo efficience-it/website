@@ -47,20 +47,14 @@ const cards = [
 
 const faqItems = [
   {
+    title: "Comment fonctionne votre modèle d'intervention national ?",
+    content:
+      "Notre siège est à Lille, mais notre organisation est pensée pour intervenir partout en France. Nous travaillons principalement en remote, avec des déplacements sur site quand le projet le nécessite. Nos outils collaboratifs, nos rituels agiles et nos pipelines CI/CD garantissent la même qualité de service que vous soyez à Paris, Lyon, Nantes ou Bordeaux.",
+  },
+  {
     title: "Travaillez-vous uniquement avec des entreprises basées en France ?",
     content:
       "Nous travaillons principalement avec des entreprises françaises, mais nous accompagnons aussi des clients francophones en Belgique, en Suisse et au Luxembourg. L'essentiel est de partager un fuseau horaire compatible et une langue commune pour une collaboration fluide.",
-  },
-  {
-    title: "Comment se déroule une première collaboration ?",
-    content:
-      "Tout commence par un échange gratuit de 30 minutes pour comprendre votre projet, vos contraintes et vos objectifs. Nous vous proposons ensuite un cadrage technique et un devis détaillé. Le développement démarre en sprints courts avec des livraisons régulières.",
-  },
-  {
-    title:
-      "Pouvez-vous reprendre un projet Symfony existant développé par une autre équipe ?",
-    content:
-      "Oui, c'est même l'un de nos cas d'usage les plus fréquents. Nous réalisons un audit du code existant, identifions la dette technique et proposons un plan de reprise progressif. L'objectif : remettre le projet sur de bons rails sans tout réécrire.",
   },
   {
     title: "Quelle est la différence entre un prestataire Symfony et une agence web classique ?",
@@ -68,34 +62,19 @@ const faqItems = [
       "Une agence web classique couvre un large spectre (WordPress, Shopify, marketing, design). Un prestataire Symfony comme Efficience IT se concentre exclusivement sur le développement d'applications PHP et Symfony. Cette spécialisation garantit une expertise technique plus profonde et des choix architecturaux plus pertinents pour vos projets métier.",
   },
   {
-    title: "Pourquoi choisir Symfony plutôt qu'un autre framework PHP ?",
+    title: "Dans quelles villes intervenez-vous le plus souvent ?",
     content:
-      "Symfony est le framework PHP le plus adapté aux applications métier complexes. Sa stabilité, son cycle de releases LTS, son écosystème mature (Doctrine, Messenger, Security) et sa communauté active en font le choix de référence pour les projets qui doivent durer dans le temps. Contrairement à Laravel, orienté prototypage rapide, Symfony privilégie la robustesse architecturale et la maintenabilité à long terme.",
+      "Nos interventions les plus fréquentes concernent Lille (notre siège, avec des réunions en présentiel), Paris (à 1h20 en TGV, avec des déplacements réguliers), Lyon et Nantes. Mais nous accompagnons aussi des entreprises à Bordeaux, Toulouse, Marseille et dans toute la France en remote.",
   },
   {
-    title: "Combien coûte le développement d'une application Symfony ?",
+    title: "Pouvez-vous reprendre un projet Symfony développé par un autre prestataire ?",
     content:
-      "Le budget dépend de la complexité du projet : une API simple démarre autour de 10 000 euros, une application métier complète se situe entre 30 000 et 100 000 euros. Nous proposons un audit gratuit de 30 minutes pour évaluer votre besoin et vous donner une estimation réaliste. Chaque projet fait l'objet d'un devis détaillé, sans surprise.",
+      "Oui, c'est même l'un de nos cas d'usage les plus fréquents. Nous réalisons un audit du code existant, identifions la dette technique et proposons un plan de reprise progressif. L'objectif : remettre le projet sur de bons rails sans tout réécrire, en préservant la valeur métier du code existant.",
   },
   {
-    title: "Comment migrer une application PHP legacy vers Symfony ?",
+    title: "Comment garantissez-vous la qualité à distance ?",
     content:
-      "Nous privilégions une approche progressive : audit du code existant, identification des modules critiques, migration incrémentale sans interruption de service. L'utilisation de Rector et d'outils d'analyse statique comme PHPStan accélère le processus. L'objectif est de moderniser sans tout réécrire, en conservant la valeur métier du code existant.",
-  },
-  {
-    title: "Symfony ou Laravel : lequel choisir pour mon projet ?",
-    content:
-      "Laravel excelle pour le prototypage rapide et les projets simples. Symfony est préférable pour les applications métier complexes, les projets à longue durée de vie et les équipes qui valorisent l'architecture logicielle. Si votre application doit gérer des règles métier complexes, une architecture hexagonale ou du CQRS, Symfony est le meilleur choix.",
-  },
-  {
-    title: "Quels sont les délais pour un projet Symfony ?",
-    content:
-      "Un MVP fonctionnel peut être livré en 6 à 8 semaines. Une application métier complète nécessite généralement 3 à 6 mois. Nous travaillons en sprints courts avec des livraisons régulières, ce qui vous donne de la visibilité dès les premières semaines et la possibilité d'ajuster les priorités en cours de route.",
-  },
-  {
-    title: "Quand utiliser API Platform avec Symfony ?",
-    content:
-      "API Platform est pertinent dès que votre projet implique une API REST ou GraphQL : application mobile, SPA, intégration avec des systèmes tiers ou architecture microservices. Il génère automatiquement la documentation OpenAPI, gère la pagination, le filtrage et la sérialisation. Pour les API simples, les controllers Symfony classiques suffisent.",
+      "La qualité ne dépend pas de la proximité géographique mais des processus. Nous appliquons des pratiques rigoureuses : analyse statique PHPStan au niveau maximal, tests PHPUnit systématiques, revues de code à chaque merge request, pipelines CI/CD et environnements Docker reproductibles. Ces pratiques sont les mêmes pour tous nos clients, qu'ils soient à Lille ou à Marseille.",
   },
 ];
 
@@ -142,7 +121,7 @@ const webPage = webPageJsonLd({
     "Efficience IT, prestataire Symfony en France. Développement, migration, audit et maintenance de vos applications PHP et Symfony, en remote ou sur site.",
   path: "/agence-symfony-france",
   datePublished: "2026-03-17",
-  dateModified: "2026-03-17",
+  dateModified: "2026-04-10",
 });
 
 const relatedLinks: RelatedLink[] = [
@@ -237,9 +216,20 @@ export default function AgenceSymfonyFrance() {
                   Efficience IT est un{" "}
                   <strong>prestataire Symfony en France</strong>, spécialisé dans
                   le développement d&apos;applications web PHP robustes et
-                  maintenables. Nous accompagnons les PME, ETI et startups sur
-                  l&apos;ensemble du territoire : développement sur mesure,
-                  migration, audit technique et maintenance.
+                  maintenables. Basée à Lille, notre équipe intervient sur
+                  l&apos;ensemble du territoire : à{" "}
+                  <Link href="/agence-symfony-paris" className="text-primary hover:underline">
+                    Paris
+                  </Link>
+                  , à{" "}
+                  <Link href="/agence-symfony-lyon" className="text-primary hover:underline">
+                    Lyon
+                  </Link>
+                  , à{" "}
+                  <Link href="/agence-symfony-nantes" className="text-primary hover:underline">
+                    Nantes
+                  </Link>
+                  {" "}et partout en France.
                 </p>
                 <p className="mt-4 max-w-3xl text-lg text-gray">
                   En remote ou sur site, nous mettons à votre disposition une
@@ -427,6 +417,69 @@ export default function AgenceSymfonyFrance() {
         <FadeIn>
           <section className="py-16 md:py-24">
             <Container>
+              <SectionTitle>Nos implantations en France</SectionTitle>
+              <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+                Depuis notre siège lillois, nous intervenons dans les principales
+                métropoles françaises. Chaque ville a ses spécificités, et nous
+                adaptons notre mode d&apos;intervention en conséquence.
+              </p>
+              <div className="mt-10 grid gap-6 sm:grid-cols-2">
+                <Card>
+                  <h3 className="font-display text-lg font-bold text-dark">
+                    <Link href="/agence-symfony-lille" className="text-primary hover:underline">
+                      Lille - Siège social
+                    </Link>
+                  </h3>
+                  <p className="mt-2 text-gray">
+                    Notre siège dans les Hauts-de-France. Réunions en présentiel,
+                    collaboration directe, ancrage dans l&apos;écosystème tech
+                    lillois autour d&apos;EuraTechnologies et de l&apos;AFUP.
+                  </p>
+                </Card>
+                <Card>
+                  <h3 className="font-display text-lg font-bold text-dark">
+                    <Link href="/agence-symfony-paris" className="text-primary hover:underline">
+                      Paris - Île-de-France
+                    </Link>
+                  </h3>
+                  <p className="mt-2 text-gray">
+                    À 1h20 en TGV, nous intervenons régulièrement dans les
+                    locaux de nos clients parisiens. Ateliers sur site, cadrage
+                    en présentiel et développement en mode hybride.
+                  </p>
+                </Card>
+                <Card>
+                  <h3 className="font-display text-lg font-bold text-dark">
+                    <Link href="/agence-symfony-lyon" className="text-primary hover:underline">
+                      Lyon - Auvergne-Rhône-Alpes
+                    </Link>
+                  </h3>
+                  <p className="mt-2 text-gray">
+                    Deuxième pôle tech de France, Lyon concentre des besoins forts
+                    en applications métier industrielles et fintech. Nous y
+                    intervenons en remote avec des déplacements ponctuels.
+                  </p>
+                </Card>
+                <Card>
+                  <h3 className="font-display text-lg font-bold text-dark">
+                    <Link href="/agence-symfony-nantes" className="text-primary hover:underline">
+                      Nantes - Pays de la Loire
+                    </Link>
+                  </h3>
+                  <p className="mt-2 text-gray">
+                    Pôle tech attractif en pleine croissance, Nantes partage
+                    avec Lille un écosystème de PME innovantes. Collaboration
+                    100% remote avec un accompagnement structuré.
+                  </p>
+                </Card>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="bg-light-gray py-16 md:py-24">
+            <Container>
               <SectionTitle>L&apos;écosystème Symfony que nous maîtrisons</SectionTitle>
               <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
                 Notre spécialisation Symfony va au-delà du framework. Nous maîtrisons l&apos;ensemble de son écosystème pour répondre aux exigences de vos projets métier.
@@ -494,7 +547,7 @@ export default function AgenceSymfonyFrance() {
         </FadeIn>
 
         <FadeIn>
-          <section className="bg-light-gray py-16 md:py-24">
+          <section className="py-16 md:py-24">
             <Container>
               <SectionTitle>Questions fréquentes</SectionTitle>
               <div className="mx-auto max-w-2xl">
