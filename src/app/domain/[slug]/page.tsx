@@ -22,12 +22,15 @@ export async function generateMetadata({
   const domain = domains.find((d) => d.slug === slug);
   if (!domain) return { title: "Domaine introuvable" };
 
-  return pageMetadata({
-    title: `${domain.name} | Carrières Efficience IT`,
-    description: domain.description,
-    path: `/domain/${slug}`,
-    absoluteTitle: true,
-  });
+  return {
+    ...pageMetadata({
+      title: `${domain.name} | Carrières Efficience IT`,
+      description: domain.description,
+      path: `/domain/${slug}`,
+      absoluteTitle: true,
+    }),
+    robots: { index: false },
+  };
 }
 
 export default async function DomainPage({ params }: DomainPageProps) {
