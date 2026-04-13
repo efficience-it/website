@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { NavItem, isDropdown } from "@/types/navigation";
 import { trackEvent } from "@/lib/tracking";
@@ -13,9 +13,25 @@ export default function MobileMenu({ items }: MobileMenuProps) {
   const [open, setOpen] = useState(false);
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
+  const closeMenu = useCallback(() => {
+    setOpen(false);
+    setExpandedIndex(null);
+  }, []);
+
   const toggleDropdown = (index: number) => {
     setExpandedIndex(expandedIndex === index ? null : index);
   };
+
+  useEffect(() => {
+    if (!open) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        closeMenu();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [open, closeMenu]);
 
   return (
     <div className="lg:hidden">
@@ -38,73 +54,94 @@ export default function MobileMenu({ items }: MobileMenuProps) {
       </button>
 
       {open && (
-        <nav className="absolute left-0 right-0 top-full z-50 border-t border-border bg-white shadow-lg">
-          <ul className="divide-y divide-border">
-            {items.map((item, index) =>
-              isDropdown(item) ? (
-                <li key={item.label}>
-                  <button
-                    type="button"
-                    className="flex w-full items-center justify-between px-4 py-3 font-medium text-dark"
-                    onClick={() => toggleDropdown(index)}
-                  >
-                    {item.label}
-                    <span
-                      className={`text-xs transition-transform duration-200 ${
-                        expandedIndex === index ? "rotate-180" : ""
-                      }`}
+        <>
+          <div
+            className="fixed inset-0 z-40"
+            aria-hidden="true"
+            onClick={closeMenu}
+          />
+          <nav
+            aria-label="Menu de navigation"
+            className="absolute left-0 right-0 top-full z-50 border-t border-border bg-white shadow-lg"
+          >
+            <ul className="divide-y divide-border">
+              {items.map((item, index) =>
+                isDropdown(item) ? (
+                  <li key={item.label}>
+                    <button
+                      type="button"
+                      className="flex w-full items-center justify-between px-4 py-3 font-medium text-dark"
+                      onClick={() => toggleDropdown(index)}
                     >
-                      ▼
-                    </span>
-                  </button>
-                  {expandedIndex === index && (
-                    <ul className="bg-light-gray pb-2">
-                      {item.items.map((link) => (
-                        <li key={link.href}>
-                          <Link
-                            href={link.href}
-                            className="block px-8 py-3 text-sm text-dark hover:text-primary"
-                            onClick={() => setOpen(false)}
-                          >
-                            {link.label}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
-              ) : (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="block px-4 py-3 font-medium text-dark hover:text-primary"
-                    onClick={() => setOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ),
-            )}
-            <li>
-              <Link
-                href="/audit-symfony-gratuit"
-                className="block px-4 py-3 font-semibold text-primary"
-                onClick={() => { trackEvent("cta_click", { cta_location: "header_mobile", cta_text: "Audit Symfony gratuit" }); setOpen(false); }}
-              >
-                Audit Symfony gratuit
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/contact"
-                className="block px-4 py-3 font-semibold text-primary"
-                onClick={() => { trackEvent("cta_click", { cta_location: "header_mobile", cta_text: "Contact" }); setOpen(false); }}
-              >
-                Contact
-              </Link>
-            </li>
-          </ul>
-        </nav>
+                      {item.label}
+                      <span
+                        className={`text-xs transition-transform duration-200 ${
+                          expandedIndex === index ? "rotate-180" : ""
+                        }`}
+                      >
+                        ▼
+                      </span>
+                    </button>
+                    {expandedIndex === index && (
+                      <ul className="bg-light-gray pb-2">
+                        {item.items.map((link) => (
+                          <li key={link.href}>
+                            <Link
+                              href={link.href}
+                              className="block px-8 py-3 text-sm text-dark hover:text-primary"
+                              onClick={closeMenu}
+                            >
+                              {link.label}
+                            </Link>
+                          </li>
+                        ))}
+                        {item.highlight && (
+                          <li key={item.highlight.href}>
+                            <Link
+                              href={item.highlight.href}
+                              className="block px-8 py-3 text-sm font-semibold text-primary hover:text-primary-dark"
+                              onClick={closeMenu}
+                            >
+                              {item.highlight.label}
+                            </Link>
+                          </li>
+                        )}
+                      </ul>
+                    )}
+                  </li>
+                ) : (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className="block px-4 py-3 font-medium text-dark hover:text-primary"
+                      onClick={closeMenu}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ),
+              )}
+              <li>
+                <Link
+                  href="/audit-symfony-gratuit"
+                  className="block px-4 py-3 font-semibold text-primary"
+                  onClick={() => { trackEvent("cta_click", { cta_location: "header_mobile", cta_text: "Audit Symfony gratuit" }); closeMenu(); }}
+                >
+                  Audit Symfony gratuit
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/contact"
+                  className="block px-4 py-3 font-semibold text-primary"
+                  onClick={() => { trackEvent("cta_click", { cta_location: "header_mobile", cta_text: "Contact" }); closeMenu(); }}
+                >
+                  Contact
+                </Link>
+              </li>
+            </ul>
+          </nav>
+        </>
       )}
     </div>
   );
