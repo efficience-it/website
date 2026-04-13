@@ -98,7 +98,7 @@ const useCases = [
   {
     title: "Optimisation Doctrine sur application existante",
     description:
-      "Audit de performance d'une application Symfony qui ralentit en production : identification des requêtes N+1, ajout d'index ciblés guidés par EXPLAIN ANALYZE et refactoring des hydrations Doctrine. Gain mesuré de 70 % sur la latence p95.",
+      "Audit de performance d'une application Symfony qui ralentit en production : identification des requêtes N+1, ajout d'index ciblés guidés par EXPLAIN ANALYZE et refactoring des hydrations Doctrine pour faire baisser la latence p95.",
   },
   {
     title: "Modélisation jsonb et types avancés",
@@ -376,7 +376,7 @@ export default function BaseDeDonneesPostgresqlSymfony() {
                 </Card>
                 <Card>
                   <h3 className="font-display text-lg font-bold text-dark">
-                    Rester sur autre chose si
+                    Regarder ailleurs si
                   </h3>
                   <ul className="mt-4 space-y-3 text-gray">
                     {whenNotToChoose.map((item) => (

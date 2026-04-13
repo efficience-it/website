@@ -383,7 +383,7 @@ export default function IntegrationDockerSymfony() {
                 </Card>
                 <Card>
                   <h3 className="font-display text-lg font-bold text-dark">
-                    Reporter ou autre approche si
+                    Regarder ailleurs si
                   </h3>
                   <ul className="mt-4 space-y-3 text-gray">
                     {whenNotToChoose.map((item) => (

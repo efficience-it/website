@@ -165,7 +165,7 @@ const faqItems = [
       "Pour une application PHP Symfony de taille moyenne, une première version utilisable en production est généralement livrée en 8 à 12 semaines. Nous démarrons par un sprint de cadrage qui pose l'architecture, le modèle de données et la chaîne de déploiement, puis avançons en sprints de deux semaines avec une démo et un retour à chaque cycle.",
   },
   {
-    title: "Travaillez-vous avec mes équipes internes ?",
+    title: "Comment vous intégrez-vous à une équipe interne déjà en place ?",
     content:
       "Oui. Selon le contexte, nous intervenons en équipe autonome, en renfort d'une équipe interne, ou en mode pair programming pour faire monter vos développeurs en compétence. Le mode de collaboration est défini en début de mission et peut évoluer selon vos besoins, avec des rituels d'équipe partagés (daily, revue de sprint, rétro).",
   },
