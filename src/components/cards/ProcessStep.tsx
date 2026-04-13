@@ -10,12 +10,12 @@ export default function ProcessStep({
   description,
 }: ProcessStepProps) {
   return (
-    <div className="text-center">
-      <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-primary text-xl font-bold text-white">
+    <div className="mx-auto max-w-xs text-center">
+      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary text-lg font-bold text-white md:h-14 md:w-14 md:text-xl">
         {number}
       </div>
-      <h3 className="mt-4 text-lg font-bold text-dark">{title}</h3>
-      <p className="mt-2 text-sm text-gray">{description}</p>
+      <h3 className="mt-5 text-xl font-bold leading-snug text-dark md:text-2xl">{title}</h3>
+      <p className="mt-3 text-base leading-relaxed text-gray">{description}</p>
     </div>
   );
 }
