@@ -185,7 +185,7 @@ export default function DeveloppementWeb() {
             <div className="flex justify-center">
               <Image
                 src="/images/illustrations/developpement-backend.svg"
-                alt="Développement back-end"
+                alt="Illustration d'architecture back-end Symfony avec API et services"
                 width={400}
                 height={300}
                 className="w-full max-w-md"
@@ -460,7 +460,7 @@ export default function DeveloppementWeb() {
             <div className="flex justify-center">
               <Image
                 src="/images/team/team-photo.webp"
-                alt="L'équipe Efficience IT"
+                alt="Photo de l'équipe Efficience IT au complet"
                 width={500}
                 height={350}
                 className="w-full rounded-lg"

@@ -14,7 +14,7 @@ export default function NotFound() {
       <Container className="flex flex-col items-center text-center">
         <Image
           src="/images/404-robot.svg"
-          alt="Page 404 Efficience IT"
+          alt=""
           width={400}
           height={400}
           className="mb-8"

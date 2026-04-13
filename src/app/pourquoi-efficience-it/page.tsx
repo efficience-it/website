@@ -200,7 +200,7 @@ export default function PourquoiEfficienceIt() {
               <div className="flex justify-center">
                 <Image
                   src="/images/illustrations/team-work.svg"
-                  alt="Équipe de développement Symfony"
+                  alt="Illustration d'une équipe de développeurs Symfony en pair programming"
                   width={400}
                   height={300}
                   className="w-full max-w-md"

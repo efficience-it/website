@@ -176,7 +176,7 @@ export default function LEntreprise() {
             <div className="flex justify-center">
               <Image
                 src="/images/entreprise/geographie.webp"
-                alt="Géographie Efficience IT"
+                alt="Carte des implantations d'Efficience IT en France et en Europe"
                 width={400}
                 height={300}
                 className="w-full rounded-lg"

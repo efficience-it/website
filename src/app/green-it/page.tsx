@@ -115,7 +115,7 @@ export default function GreenIt() {
             <div className="flex justify-center">
               <Image
                 src="/images/illustrations/greenit.svg"
-                alt="Green IT"
+                alt="Illustration symbolisant l'éco-conception logicielle et la sobriété numérique"
                 width={400}
                 height={300}
                 className="w-full max-w-md"
@@ -178,7 +178,7 @@ export default function GreenIt() {
             <div className="flex justify-center">
               <Image
                 src="/images/green-it/objectifs.webp"
-                alt="Objectifs Green IT Efficience IT"
+                alt="Schéma des objectifs Green IT et engagements environnementaux d'Efficience IT"
                 width={500}
                 height={250}
                 className="w-full rounded-lg"
