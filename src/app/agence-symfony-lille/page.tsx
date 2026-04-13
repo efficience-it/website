@@ -64,7 +64,7 @@ const faqItems = [
   {
     title: "Pourquoi choisir une agence Symfony basée à Lille ?",
     content:
-      "Lille est le 3e pôle tech de France, avec un écosystème PHP actif porté par l'AFUP Hauts-de-France. En choisissant une agence locale, vous bénéficiez de la proximité pour les réunions en présentiel, d'une connaissance directe du tissu économique régional et d'une réactivité que le travail à distance seul ne peut pas offrir.",
+      "Lille est la 3e ville tech de France, avec un écosystème PHP actif porté par l'AFUP Hauts-de-France. En choisissant une agence locale, vous bénéficiez de la proximité pour les réunions en présentiel, d'une connaissance directe du tissu économique régional et d'une réactivité que le travail à distance seul ne peut pas offrir.",
   },
   {
     title: "Peut-on se rencontrer dans vos locaux à Lille ?",

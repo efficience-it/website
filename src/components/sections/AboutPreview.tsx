@@ -16,7 +16,7 @@ export default function AboutPreview() {
               Nous transformons vos idées en solutions digitales rentables.
             </h2>
             <p className="mt-2 font-display text-xl font-semibold text-dark">
-              Des Techs passionné(e)s
+              Une équipe passionnée
             </p>
             <p className="mt-4 text-lg text-gray">
               Chez Efficience IT, nous ne livrons pas simplement du code : nous

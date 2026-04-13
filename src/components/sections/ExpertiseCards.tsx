@@ -5,7 +5,7 @@ import Button from "@/components/ui/Button";
 
 const expertises = [
   {
-    title: "Développement Web Sur-Mesure",
+    title: "Développement web sur mesure",
     intro:
       "Chaque organisation a ses propres défis, c'est pourquoi nous développons des solutions qui :",
     items: [

@@ -471,7 +471,7 @@ export default function DeveloppementWeb() {
                 SYMFONY
               </p>
               <h2 className="mt-4 font-display text-3xl font-bold text-dark md:text-4xl">
-                Des Techs passionné(e)s
+                Une équipe passionnée
               </h2>
               <p className="mt-4 text-lg text-gray">
                 Chez Efficience IT, nous ne livrons pas simplement du code :
