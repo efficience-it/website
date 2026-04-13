@@ -122,6 +122,11 @@ export const mainNav: NavItem[] = [
         description: "Rejoignez l'équipe Efficience IT",
       },
     ],
+    highlight: {
+      label: "Pourquoi nous choisir",
+      href: "/pourquoi-efficience-it",
+      description: "Agence Symfony vs freelance, ESN ou agence générique",
+    },
   },
   {
     label: "Secteurs",
@@ -232,6 +237,7 @@ export const footerNav = {
     title: "L'agence",
     links: [
       { label: "Présentation", href: "/l-entreprise" },
+      { label: "Pourquoi nous choisir", href: "/pourquoi-efficience-it" },
       { label: "Nos valeurs", href: "/la-team" },
       { label: "Recrutement", href: "/ta-carriere" },
       { label: "Mentions légales", href: "/mentions-legales" },

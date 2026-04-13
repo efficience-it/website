@@ -29,6 +29,11 @@ export default function AboutPreview() {
             <p className="mt-4 text-lg text-gray">
               Écoute, clarté, engagement : vous pouvez compter sur un partenaire
               technique qui comprend vos enjeux et s&apos;investit à vos côtés.
+              Découvrez{" "}
+              <Link href="/pourquoi-efficience-it" className="text-primary hover:underline">
+                pourquoi nous choisir
+              </Link>{" "}
+              plutôt qu&apos;un freelance, une ESN ou une agence généraliste.
             </p>
             <p className="mt-4 text-lg text-gray">
               Spécialisés sur{" "}
