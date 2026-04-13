@@ -13,6 +13,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
 import FadeIn from "@/components/ui/FadeIn";
+import CallToAction from "@/components/sections/CallToAction";
 
 const categoryDescriptions: Record<string, string> = {
   Architecture:
@@ -62,7 +63,7 @@ export async function generateMetadata({
 
 export default async function BlogCategoryPage({
   params,
-}: BlogCategoryPageProps) {
+}: Readonly<BlogCategoryPageProps>) {
   const { category: slug } = await params;
   const categoryName = getCategoryBySlug(slug);
 
@@ -136,6 +137,7 @@ export default async function BlogCategoryPage({
         </Container>
       </section>
       </FadeIn>
+      <CallToAction />
     </main>
     </>
   );
