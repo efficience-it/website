@@ -28,18 +28,18 @@ const steps = [
 
 export default function ProcessSteps() {
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-16 md:py-20">
       <Container>
         <SectionTitle>Notre fonctionnement</SectionTitle>
-        <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+        <p className="mx-auto mt-5 max-w-3xl text-center text-base leading-relaxed text-gray md:text-lg">
           Basé sur le Lean Startup, l&apos;amélioration continue, le suivi se
           fait en méthode agile et en totale transparence sur les avancées de
           votre projet.
         </p>
-        <p className="mx-auto mt-2 max-w-3xl text-center text-lg font-semibold text-dark">
+        <p className="mx-auto mt-4 max-w-3xl text-center text-lg font-semibold text-dark">
           Un processus simple, robuste et efficace
         </p>
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-10 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:mt-12 lg:grid-cols-4">
           {steps.map((step, index) => (
             <ProcessStep
               key={step.title}
@@ -49,7 +49,7 @@ export default function ProcessSteps() {
             />
           ))}
         </div>
-        <div className="mx-auto mt-10 max-w-3xl space-y-4 text-center text-lg text-gray">
+        <div className="mx-auto mt-12 max-w-4xl text-center text-base leading-relaxed text-gray md:text-lg">
           <p>
             Cette méthodologie nous permet de livrer des{" "}
             <Link href="/developpement-web-sur-mesure" className="text-primary hover:underline">
