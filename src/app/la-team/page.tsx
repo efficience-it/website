@@ -123,6 +123,15 @@ export default function LaTeam() {
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
           <div className="grid items-center gap-12 md:grid-cols-2">
+            <div className="flex justify-center">
+              <Image
+                src="/images/team/team-cohesion-2.webp"
+                alt="L'équipe Efficience IT à l'AFUP Day"
+                width={500}
+                height={375}
+                className="w-full rounded-lg object-cover"
+              />
+            </div>
             <div>
               <h2 className="font-display text-3xl font-bold text-dark md:text-4xl">
                 Comment se compose l&apos;équipe ?
@@ -139,15 +148,6 @@ export default function LaTeam() {
               >
                 Découvrir nos expertises →
               </Link>
-            </div>
-            <div className="flex justify-center">
-              <Image
-                src="/images/team/team-cohesion-2.webp"
-                alt="L'équipe Efficience IT à l'AFUP Day"
-                width={500}
-                height={375}
-                className="w-full rounded-lg object-cover"
-              />
             </div>
           </div>
         </Container>
