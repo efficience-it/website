@@ -280,7 +280,7 @@ export default function PourquoiEfficienceIt() {
                     Années d&apos;expérience
                   </h3>
                   <p className="mt-2 text-gray">
-                    Une expertise forgée depuis 2014 sur des projets{" "}
+                    Une expertise forgée sur des projets{" "}
                     <Link
                       href="/developpement-php"
                       className="text-primary hover:underline"

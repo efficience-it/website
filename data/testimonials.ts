@@ -11,7 +11,7 @@ export const testimonials: Testimonial[] = [
   {
     name: "Claire Trochu",
     role: "Chef de projet",
-    company: "Cartercash",
+    company: "Carter Cash",
     quote:
       "Bonne équipe à l'écoute des besoins clients. Développeurs sérieux et impliqués.",
   },
