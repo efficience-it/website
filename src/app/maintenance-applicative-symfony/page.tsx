@@ -65,6 +65,37 @@ const slaItems = [
   },
 ];
 
+const whenToChoose = [
+  "Votre application Symfony est en production et vous n'avez pas d'équipe interne dédiée à sa maintenance dans la durée.",
+  "Vous voulez sécuriser votre exploitation avec un SLA et un interlocuteur qui connaît votre code, plutôt que des interventions ponctuelles.",
+  "Votre application accumule de la dette technique et vous voulez la traiter au fil de l'eau, sans bloquer les évolutions fonctionnelles.",
+  "Vos équipes internes sont surchargées sur de nouveaux projets et la maintenance des applications existantes passe au second plan.",
+];
+
+const whenNotToChoose = [
+  "Vous avez une équipe interne Symfony solide et un processus de maintenance déjà rodé : l'externalisation n'apporterait pas de valeur.",
+  "Votre application est en fin de vie et sera décommissionnée dans les six mois : un contrat de maintenance long terme n'a pas de sens.",
+  "Vous cherchez ponctuellement un développeur freelance pour quelques jours par mois plutôt qu'un engagement structuré avec SLA.",
+];
+
+const useCases = [
+  {
+    title: "TMA d'une plateforme SaaS Symfony",
+    description:
+      "Maintenance applicative complète pour un éditeur SaaS B2B : correction de bugs, évolutions fonctionnelles trimestrielles, mises à jour de sécurité Symfony et monitoring proactif avec un SLA 4h sur les incidents critiques.",
+  },
+  {
+    title: "Reprise de maintenance après départ d'équipe",
+    description:
+      "Reprise d'une application Symfony sans documentation après le départ de l'équipe interne : audit, prise en main, mise en place du monitoring et reprise des évolutions sous deux mois.",
+  },
+  {
+    title: "Maintenance préventive et réduction de dette",
+    description:
+      "Plan pluriannuel pour un acteur du retail B2B : montées de version Symfony et PHP, refactoring ciblé des zones les plus risquées, mise en place de tests automatisés sur les modules critiques.",
+  },
+];
+
 const approche = [
   {
     num: "1",
@@ -357,6 +388,69 @@ export default function MaintenanceApplicativeSymfony() {
               </Link>{" "}
               pour mesurer et améliorer en continu la qualité de votre code.
             </p>
+          </Container>
+        </section>
+        </FadeIn>
+
+        <FadeIn>
+        <section className="bg-light-gray py-16 md:py-24">
+          <Container>
+            <SectionTitle>Quand choisir une TMA externalisée</SectionTitle>
+            <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+              La TMA n&apos;est pas la bonne réponse à tous les contextes.
+              Voici quand elle apporte une vraie valeur, et quand une autre
+              approche sera plus pertinente.
+            </p>
+            <div className="mt-10 grid gap-6 md:grid-cols-2">
+              <Card>
+                <h3 className="font-display text-lg font-bold text-dark">
+                  Choisir une TMA externalisée si
+                </h3>
+                <ul className="mt-4 space-y-3 text-gray">
+                  {whenToChoose.map((item) => (
+                    <li key={item} className="flex gap-3">
+                      <span aria-hidden="true" className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </Card>
+              <Card>
+                <h3 className="font-display text-lg font-bold text-dark">
+                  Regarder ailleurs si
+                </h3>
+                <ul className="mt-4 space-y-3 text-gray">
+                  {whenNotToChoose.map((item) => (
+                    <li key={item} className="flex gap-3">
+                      <span aria-hidden="true" className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-gray-400" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </Card>
+            </div>
+          </Container>
+        </section>
+        </FadeIn>
+
+        <FadeIn>
+        <section className="py-16 md:py-24">
+          <Container>
+            <SectionTitle>Cas d&apos;usage typiques</SectionTitle>
+            <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+              Trois exemples concrets de missions de maintenance applicative
+              que nous menons régulièrement.
+            </p>
+            <div className="mt-10 grid gap-6 md:grid-cols-3">
+              {useCases.map((useCase) => (
+                <Card key={useCase.title}>
+                  <h3 className="font-display text-lg font-bold text-dark">
+                    {useCase.title}
+                  </h3>
+                  <p className="mt-2 text-gray">{useCase.description}</p>
+                </Card>
+              ))}
+            </div>
           </Container>
         </section>
         </FadeIn>

@@ -112,11 +112,42 @@ const stack = [
   },
 ];
 
+const whenToChoose = [
+  "Vous avez déjà une application PHP en production : moderniser sur PHP 8 et Symfony coûte bien moins qu'une réécriture complète.",
+  "Votre application est riche fonctionnellement (CRM, ERP, plateforme métier) et bénéficie de la maturité de Symfony et de Doctrine.",
+  "Vous voulez un écosystème mature pour les besoins courants : authentification, files d'attente Messenger, génération de PDF, intégrations tierces.",
+  "Vous avez besoin de profils confirmés disponibles sur le marché : la communauté PHP/Symfony est large, en France comme à l'international.",
+];
+
+const whenNotToChoose = [
+  "Vous construisez une application temps réel haute performance avec des connexions persistantes massives : Node.js ou Go seront plus pertinents.",
+  "Vous avez des besoins en calcul intensif ou en traitement de données massif : Python avec son écosystème data, ou Java pour les charges JVM, sont mieux outillés.",
+  "Votre équipe ne connaît ni PHP ni Symfony et vous démarrez de zéro : choisir une stack alignée avec les compétences existantes est plus rationnel.",
+];
+
+const useCases = [
+  {
+    title: "Plateforme métier B2B sur mesure",
+    description:
+      "Conception et développement d'une plateforme de gestion pour un acteur du retail B2B : pilotage des opérations, intégrations ERP, exports comptables, le tout en Symfony 7 et PostgreSQL.",
+  },
+  {
+    title: "Modernisation d'un legacy PHP 5",
+    description:
+      "Reprise d'une application PHP 5.6 sans framework, montée progressive en PHP 8, introduction de Symfony composant par composant, refactoring du code spaghetti vers une architecture en couches.",
+  },
+  {
+    title: "API headless pour une scale-up SaaS",
+    description:
+      "API Symfony et API Platform pour un éditeur de logiciel, alimentant un frontend React et plusieurs intégrations partenaires, avec authentification JWT et documentation OpenAPI générée.",
+  },
+];
+
 const faqItems = [
   {
     title: "Pourquoi choisir PHP en 2026 pour un nouveau projet ?",
     content:
-      "PHP 8 a profondément modernisé le langage : typage strict, enums, fibers, performances en forte hausse. Combiné à Symfony, PHP reste le choix le plus pragmatique pour les applications web d'entreprise. L'écosystème est mature, les développeurs PHP seniors sont disponibles et le coût de maintenance est maîtrisé.",
+      "PHP 8 a profondément modernisé le langage : typage strict, enums, fibers, performances en forte hausse. Combiné à Symfony, PHP reste le choix le plus pragmatique pour les applications web d'entreprise. L'écosystème est mature, les développeurs PHP seniors sont disponibles et l'application reste maintenable sur la durée.",
   },
   {
     title: "Comment moderniser une application PHP legacy ?",
@@ -129,9 +160,14 @@ const faqItems = [
       "Un développeur PHP senior ne se contente pas de faire fonctionner le code. Il structure l'application avec une architecture propre, écrit des tests, utilise l'analyse statique, anticipe les problèmes de performance et de sécurité. Chez Efficience IT, chaque projet est mené par des développeurs PHP seniors.",
   },
   {
-    title: "Combien coûte le développement d'une application PHP sur mesure ?",
+    title: "Combien de temps pour une première version livrable ?",
     content:
-      "Le budget dépend de la complexité fonctionnelle, des intégrations nécessaires et du niveau de qualité attendu. Un MVP peut démarrer autour de quelques semaines de développement. Nous proposons un audit gratuit de 30 minutes pour cadrer votre projet et vous donner une estimation réaliste.",
+      "Pour une application PHP Symfony de taille moyenne, une première version utilisable en production est généralement livrée en 8 à 12 semaines. Nous démarrons par un sprint de cadrage qui pose l'architecture, le modèle de données et la chaîne de déploiement, puis avançons en sprints de deux semaines avec une démo et un retour à chaque cycle.",
+  },
+  {
+    title: "Comment vous intégrez-vous à une équipe interne déjà en place ?",
+    content:
+      "Oui. Selon le contexte, nous intervenons en équipe autonome, en renfort d'une équipe interne, ou en mode pair programming pour faire monter vos développeurs en compétence. Le mode de collaboration est défini en début de mission et peut évoluer selon vos besoins, avec des rituels d'équipe partagés (daily, revue de sprint, rétro).",
   },
 ];
 
@@ -368,6 +404,69 @@ export default function DeveloppementPhp() {
                   , nous accompagnons vos équipes de l&apos;audit initial
                   jusqu&apos;à la mise en production.
                 </p>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="bg-light-gray py-16 md:py-24">
+            <Container>
+              <SectionTitle>Quand choisir PHP</SectionTitle>
+              <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+                PHP est un excellent choix pour la majorité des applications
+                web métier, mais il y a des contextes où une autre stack sera
+                plus pertinente.
+              </p>
+              <div className="mt-10 grid gap-6 md:grid-cols-2">
+                <Card>
+                  <h3 className="font-display text-lg font-bold text-dark">
+                    Choisir PHP si
+                  </h3>
+                  <ul className="mt-4 space-y-3 text-gray">
+                    {whenToChoose.map((item) => (
+                      <li key={item} className="flex gap-3">
+                        <span aria-hidden="true" className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+                <Card>
+                  <h3 className="font-display text-lg font-bold text-dark">
+                    Regarder ailleurs si
+                  </h3>
+                  <ul className="mt-4 space-y-3 text-gray">
+                    {whenNotToChoose.map((item) => (
+                      <li key={item} className="flex gap-3">
+                        <span aria-hidden="true" className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-gray-400" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="py-16 md:py-24">
+            <Container>
+              <SectionTitle>Cas d&apos;usage typiques</SectionTitle>
+              <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+                Trois exemples concrets de projets PHP sur lesquels nous
+                intervenons régulièrement.
+              </p>
+              <div className="mt-10 grid gap-6 md:grid-cols-3">
+                {useCases.map((useCase) => (
+                  <Card key={useCase.title}>
+                    <h3 className="font-display text-lg font-bold text-dark">
+                      {useCase.title}
+                    </h3>
+                    <p className="mt-2 text-gray">{useCase.description}</p>
+                  </Card>
+                ))}
               </div>
             </Container>
           </section>

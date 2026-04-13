@@ -75,6 +75,37 @@ const stack = [
   { name: "Kibana", description: "Visualisation et monitoring des index Elasticsearch" },
 ];
 
+const whenToChoose = [
+  "Vous avez de gros volumes à indexer (dizaines de milliers de documents et plus) et la recherche SQL ne tient plus la charge.",
+  "La qualité de la recherche est un critère métier : pertinence par scoring, analyseurs linguistiques, gestion des synonymes et des fautes de frappe.",
+  "Vous avez besoin de filtres à facettes avec des compteurs en temps réel, sur un catalogue produit ou un moteur d'annonces.",
+  "Vous voulez agréger et analyser de gros volumes de logs ou d'événements applicatifs : la stack ELK est le standard.",
+];
+
+const whenNotToChoose = [
+  "Votre catalogue tient en quelques milliers de lignes : un index GIN PostgreSQL ou MeiliSearch suffira largement, sans la complexité opérationnelle d'un cluster Elasticsearch.",
+  "Vous cherchez une base relationnelle pour stocker et requêter vos données métier : Elasticsearch n'est pas une base primaire, c'est un moteur de recherche.",
+  "Votre équipe DevOps n'a pas la capacité d'opérer un cluster JVM en production : la maintenance d'Elasticsearch a un coût récurrent.",
+];
+
+const useCases = [
+  {
+    title: "Moteur de recherche e-commerce",
+    description:
+      "Indexation d'un catalogue de plusieurs centaines de milliers de références pour une plateforme logistique, avec recherche full-text, filtres à facettes et autocomplétion en temps réel via Symfony Messenger.",
+  },
+  {
+    title: "Plateforme d'annonces avec géolocalisation",
+    description:
+      "Recherche multicritère sur une plateforme d'annonces : full-text, filtres par catégorie, prix et localisation géographique avec geo_distance Elasticsearch.",
+  },
+  {
+    title: "Stack ELK pour observabilité",
+    description:
+      "Centralisation et indexation des logs applicatifs d'une scale-up SaaS dans Elasticsearch, dashboards Kibana pour le monitoring et alerting sur les patterns d'erreurs.",
+  },
+];
+
 const faqItems = [
   {
     title: "Pourquoi utiliser Elasticsearch plutôt que la recherche SQL ?",
@@ -90,6 +121,16 @@ const faqItems = [
     title: "Elasticsearch est-il adapté aux petites applications ?",
     content:
       "Elasticsearch ajoute de la complexité opérationnelle (cluster JVM, monitoring, mapping). Pour une application avec quelques milliers de documents et une recherche simple, PostgreSQL avec son index GIN peut suffire. Elasticsearch prend tout son sens à partir de dizaines de milliers de documents, ou quand la qualité de la recherche est un critère métier important.",
+  },
+  {
+    title: "Combien de temps pour intégrer Elasticsearch dans une application Symfony ?",
+    content:
+      "Pour une intégration de base avec FOSElasticaBundle, indexation asynchrone via Messenger et un premier endpoint de recherche, comptez 2 à 4 semaines selon la complexité du mapping et le volume de données. L'optimisation fine du scoring, des analyseurs linguistiques et des suggestions s'étale ensuite sur plusieurs sprints, en s'appuyant sur les retours utilisateurs réels.",
+  },
+  {
+    title: "Quelles métriques Elasticsearch surveiller en production ?",
+    content:
+      "Côté cluster : CPU, mémoire heap JVM, latence des requêtes p95 et p99, taille des shards et nombre de documents par index. Côté applicatif : taux d'erreur des indexations, lag de la file Messenger, taux de cache hit. Kibana suffit à visualiser l'essentiel, et Elastic APM ou OpenSearch Dashboards prennent le relais pour l'alerting et la corrélation avec les traces applicatives.",
   },
 ];
 
@@ -299,6 +340,69 @@ export default function IntegrationElasticsearchSymfony() {
                   </Link>
                   , permet d&apos;optimiser le scoring en continu.
                 </p>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="bg-light-gray py-16 md:py-24">
+            <Container>
+              <SectionTitle>Quand choisir Elasticsearch</SectionTitle>
+              <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+                Elasticsearch est un outil puissant mais coûteux à opérer.
+                Voici quand l&apos;investissement est justifié, et quand une
+                solution plus simple suffit.
+              </p>
+              <div className="mt-10 grid gap-6 md:grid-cols-2">
+                <Card>
+                  <h3 className="font-display text-lg font-bold text-dark">
+                    Choisir Elasticsearch si
+                  </h3>
+                  <ul className="mt-4 space-y-3 text-gray">
+                    {whenToChoose.map((item) => (
+                      <li key={item} className="flex gap-3">
+                        <span aria-hidden="true" className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+                <Card>
+                  <h3 className="font-display text-lg font-bold text-dark">
+                    Regarder ailleurs si
+                  </h3>
+                  <ul className="mt-4 space-y-3 text-gray">
+                    {whenNotToChoose.map((item) => (
+                      <li key={item} className="flex gap-3">
+                        <span aria-hidden="true" className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-gray-400" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="py-16 md:py-24">
+            <Container>
+              <SectionTitle>Cas d&apos;usage typiques</SectionTitle>
+              <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+                Trois exemples concrets d&apos;intégrations Elasticsearch que
+                nous menons régulièrement.
+              </p>
+              <div className="mt-10 grid gap-6 md:grid-cols-3">
+                {useCases.map((useCase) => (
+                  <Card key={useCase.title}>
+                    <h3 className="font-display text-lg font-bold text-dark">
+                      {useCase.title}
+                    </h3>
+                    <p className="mt-2 text-gray">{useCase.description}</p>
+                  </Card>
+                ))}
               </div>
             </Container>
           </section>

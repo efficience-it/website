@@ -88,6 +88,37 @@ const stack = [
   { name: "Vitest / Cypress", description: "Tests unitaires et end-to-end" },
 ];
 
+const whenToChoose = [
+  "Vous concevez une application web avec une vraie complexité d'interactions : SaaS, dashboards, backoffices, outils internes.",
+  "Vous voulez un design system maintenable, partagé entre plusieurs produits ou équipes.",
+  "Le SEO et les Core Web Vitals comptent : un frontend moderne avec SSR ou SSG est indispensable.",
+  "Votre backend est en Symfony ou Node.js et vous voulez une intégration sans frictions entre les deux côtés.",
+];
+
+const whenNotToChoose = [
+  "Votre besoin se résume à un site vitrine de quelques pages : un générateur statique fait largement le travail.",
+  "Une application mobile native est plus pertinente que le web pour votre cas d'usage (capteurs, hors-ligne fort, performances natives).",
+  "Une plateforme no-code ou low-code couvre déjà 90 % de votre besoin et vous n'avez pas de logique métier complexe à implémenter.",
+];
+
+const useCases = [
+  {
+    title: "Refonte d'un backoffice métier",
+    description:
+      "Migration d'un backoffice Symfony Twig vieillissant vers une SPA React TypeScript, avec un design system commun à toutes les équipes produit et une couverture de tests end-to-end.",
+  },
+  {
+    title: "Frontoffice e-commerce SSR",
+    description:
+      "Frontoffice Next.js pour un site média B2B, rendu côté serveur pour le SEO, hydratation progressive pour l'interactivité, intégration avec une API Symfony existante.",
+  },
+  {
+    title: "Application Vue.js progressive",
+    description:
+      "Intégration progressive de Vue.js dans une application Twig héritée pour ajouter de la réactivité sur les écrans critiques, sans réécrire l'ensemble du frontend.",
+  },
+];
+
 const faqItems = [
   {
     title: "React ou Vue.js : comment choisir ?",
@@ -108,6 +139,11 @@ const faqItems = [
     title: "Reprenez-vous des projets frontend existants ?",
     content:
       "Oui. Nous réalisons un audit du code frontend existant : architecture des composants, gestion d'état, couverture de tests, performances (bundle size, rendering). Nous proposons ensuite un plan de refactoring ou de migration vers une stack plus maintenable.",
+  },
+  {
+    title: "Combien de temps pour livrer une première version ?",
+    content:
+      "Pour une application de taille moyenne, comptez 6 à 10 semaines pour une première version utilisable en production. Nous démarrons par un sprint de cadrage qui pose l'architecture, le design system et la chaîne de déploiement, puis enchaînons des sprints de deux semaines avec une démo et un retour utilisateur à chaque fin de cycle.",
   },
 ];
 
@@ -303,6 +339,69 @@ export default function DeveloppementFrontend() {
                   ou un mix des deux, nous concevons le frontend pour qu&apos;il
                   s&apos;intègre parfaitement à votre architecture existante.
                 </p>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="bg-light-gray py-16 md:py-24">
+            <Container>
+              <SectionTitle>Quand choisir un frontend sur mesure</SectionTitle>
+              <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+                Un frontend moderne est un investissement. Il prend tout son
+                sens dans certains contextes, et reste superflu dans
+                d&apos;autres.
+              </p>
+              <div className="mt-10 grid gap-6 md:grid-cols-2">
+                <Card>
+                  <h3 className="font-display text-lg font-bold text-dark">
+                    Choisir un frontend sur mesure si
+                  </h3>
+                  <ul className="mt-4 space-y-3 text-gray">
+                    {whenToChoose.map((item) => (
+                      <li key={item} className="flex gap-3">
+                        <span aria-hidden="true" className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+                <Card>
+                  <h3 className="font-display text-lg font-bold text-dark">
+                    Regarder ailleurs si
+                  </h3>
+                  <ul className="mt-4 space-y-3 text-gray">
+                    {whenNotToChoose.map((item) => (
+                      <li key={item} className="flex gap-3">
+                        <span aria-hidden="true" className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-gray-400" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="py-16 md:py-24">
+            <Container>
+              <SectionTitle>Cas d&apos;usage typiques</SectionTitle>
+              <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+                Trois exemples concrets de projets frontend sur lesquels nous
+                intervenons.
+              </p>
+              <div className="mt-10 grid gap-6 md:grid-cols-3">
+                {useCases.map((useCase) => (
+                  <Card key={useCase.title}>
+                    <h3 className="font-display text-lg font-bold text-dark">
+                      {useCase.title}
+                    </h3>
+                    <p className="mt-2 text-gray">{useCase.description}</p>
+                  </Card>
+                ))}
               </div>
             </Container>
           </section>

@@ -81,6 +81,37 @@ const stack = [
   { name: "DbToolsBundle (anonymisation)", description: "Anonymisation des bases de données pour la conformité RGPD" },
 ];
 
+const whenToChoose = [
+  "Vous préparez une mise en conformité RGPD ou un audit externe (ISO 27001, SOC 2) et devez documenter vos pratiques de sécurité.",
+  "Votre application Symfony manipule des données sensibles : santé, finance, données personnelles à grande échelle.",
+  "Vous avez subi un incident de sécurité ou un pentest a remonté des vulnérabilités à corriger en urgence.",
+  "Votre application n'a jamais été auditée et vous voulez avoir une vision claire de votre exposition au risque.",
+];
+
+const whenNotToChoose = [
+  "Votre application est un POC interne sans données sensibles, accessible uniquement en VPN d'entreprise : un audit complet est probablement disproportionné.",
+  "Vous avez juste besoin d'une mise à jour des dépendances Composer : un développeur Symfony interne peut le faire avec composer audit.",
+  "Vous cherchez un pentest offensif sur l'infrastructure réseau plutôt qu'un audit applicatif : un cabinet spécialisé en pentest sera plus pertinent.",
+];
+
+const useCases = [
+  {
+    title: "Audit avant mise en conformité RGPD",
+    description:
+      "Audit complet pour une scale-up SaaS B2B : analyse du code Symfony, des dépendances, du chiffrement des données personnelles et de la gestion du consentement, avec un rapport priorisé pour la mise en conformité.",
+  },
+  {
+    title: "Migration d'une auth maison vers Symfony Security",
+    description:
+      "Refonte de l'authentification d'un éditeur de logiciel B2B, passage d'un système maison fragile vers Symfony Security avec voters, JWT et refresh tokens, sans interruption du service.",
+  },
+  {
+    title: "Hardening post-pentest",
+    description:
+      "Intervention urgente après un pentest qui a remonté une dizaine de vulnérabilités critiques sur une plateforme e-commerce Symfony : correction, mise en place de tests de non-régression et hardening complet.",
+  },
+];
+
 const faqItems = [
   {
     title: "Comment savoir si mon application Symfony est vulnérable ?",
@@ -96,6 +127,16 @@ const faqItems = [
     title: "Comment rendre une application Symfony conforme au RGPD ?",
     content:
       "La conformité RGPD technique passe par le chiffrement des données personnelles en base, l'anonymisation des environnements de test avec DbToolsBundle, la mise en place du droit à l'effacement et du droit à la portabilité, et une gestion propre du consentement. Nous accompagnons vos équipes sur chaque volet technique.",
+  },
+  {
+    title: "Combien de temps pour un audit de sécurité Symfony ?",
+    content:
+      "Un audit de sécurité standard prend entre 5 et 15 jours selon la taille du code et le périmètre. Nous démarrons par un kick-off pour cadrer les zones critiques, puis menons l'analyse statique, la revue manuelle du code, l'inspection des dépendances et la vérification de la configuration. Le rapport est remis sous une à deux semaines après la fin de l'analyse.",
+  },
+  {
+    title: "Que livrez-vous concrètement à la fin d'un audit ?",
+    content:
+      "Un rapport détaillé avec la liste des vulnérabilités classées par criticité (CVSS), pour chacune : l'extrait de code concerné, la preuve d'exploitation quand c'est pertinent, le correctif recommandé et l'effort estimé. Nous livrons aussi un plan de remédiation priorisé et, sur demande, nous accompagnons la mise en œuvre des correctifs avec votre équipe.",
   },
 ];
 
@@ -309,6 +350,69 @@ export default function SecuriteApplicationSymfony() {
                   </Link>{" "}
                   avec DbToolsBundle complète notre approche pour la conformité RGPD.
                 </p>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="bg-light-gray py-16 md:py-24">
+            <Container>
+              <SectionTitle>Quand choisir un audit de sécurité</SectionTitle>
+              <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+                Un audit demande du temps et de la préparation côté équipe.
+                Voici les contextes où l&apos;investissement est clairement
+                justifié.
+              </p>
+              <div className="mt-10 grid gap-6 md:grid-cols-2">
+                <Card>
+                  <h3 className="font-display text-lg font-bold text-dark">
+                    Choisir un audit si
+                  </h3>
+                  <ul className="mt-4 space-y-3 text-gray">
+                    {whenToChoose.map((item) => (
+                      <li key={item} className="flex gap-3">
+                        <span aria-hidden="true" className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+                <Card>
+                  <h3 className="font-display text-lg font-bold text-dark">
+                    Regarder ailleurs si
+                  </h3>
+                  <ul className="mt-4 space-y-3 text-gray">
+                    {whenNotToChoose.map((item) => (
+                      <li key={item} className="flex gap-3">
+                        <span aria-hidden="true" className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-gray-400" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="py-16 md:py-24">
+            <Container>
+              <SectionTitle>Cas d&apos;usage typiques</SectionTitle>
+              <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+                Trois exemples concrets de missions de sécurité que nous
+                menons régulièrement.
+              </p>
+              <div className="mt-10 grid gap-6 md:grid-cols-3">
+                {useCases.map((useCase) => (
+                  <Card key={useCase.title}>
+                    <h3 className="font-display text-lg font-bold text-dark">
+                      {useCase.title}
+                    </h3>
+                    <p className="mt-2 text-gray">{useCase.description}</p>
+                  </Card>
+                ))}
               </div>
             </Container>
           </section>
