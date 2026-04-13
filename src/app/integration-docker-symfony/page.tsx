@@ -81,6 +81,37 @@ const stack = [
   { name: "PHP-FPM / FrankenPHP", description: "Runtimes PHP optimisés pour les conteneurs" },
 ];
 
+const whenToChoose = [
+  "Vous avez plus de deux ou trois développeurs et vous voulez un environnement local identique à la production pour éliminer les bugs liés à la configuration.",
+  "Vous déployez sur plusieurs environnements (staging, preprod, prod) et la dérive de configuration entre eux vous coûte du temps.",
+  "Vous avez besoin de scaler horizontalement vos services Symfony en production : Docker est la brique de base avant Kubernetes ou un PaaS.",
+  "Votre application dépend de plusieurs services tiers (PostgreSQL, Redis, Elasticsearch) : Docker Compose simplifie radicalement leur orchestration.",
+];
+
+const whenNotToChoose = [
+  "Vous êtes seul développeur sur un projet simple hébergé chez un hébergeur mutualisé : la complexité Docker n'apporte rien à votre cas.",
+  "Votre infrastructure est totalement gérée par un PaaS (Heroku, Platform.sh, Clever Cloud) qui abstrait déjà la conteneurisation.",
+  "Votre équipe DevOps n'a aucune expérience Docker et vous n'avez pas le temps d'investir dans la formation : commencez par sécuriser le déploiement existant avant de migrer.",
+];
+
+const useCases = [
+  {
+    title: "Conteneurisation d'un monolithe Symfony",
+    description:
+      "Conteneurisation d'une application Symfony 4 historique pour un acteur du retail B2B, avec un Dockerfile multi-stage optimisé, Docker Compose pour le développement et déploiement sur Kubernetes en production.",
+  },
+  {
+    title: "Setup local développeur identique à la prod",
+    description:
+      "Mise en place d'un environnement Docker Compose pour une équipe de douze développeurs : démarrage du projet en une seule commande, services PostgreSQL, Redis et MailHog inclus, parité totale avec la production.",
+  },
+  {
+    title: "Pipeline CI multi-environnements",
+    description:
+      "Pipeline GitHub Actions pour une scale-up SaaS : build des images Docker à chaque push, déploiement automatique sur staging et déploiement sur production validé par approbation manuelle, avec rollback automatique en cas de health check KO.",
+  },
+];
+
 const faqItems = [
   {
     title: "Quelle différence entre Docker et une machine virtuelle ?",
@@ -96,6 +127,16 @@ const faqItems = [
     title: "Comment intégrer Docker dans un pipeline CI/CD ?",
     content:
       "Le pipeline build l'image Docker à chaque push, lance les tests dans un conteneur isolé, puis pousse l'image sur un registry (GitHub Container Registry, Docker Hub). Le déploiement tire la nouvelle image et relance les conteneurs sans interruption de service grâce au rolling update. Nous mettons en place ce workflow avec GitHub Actions ou GitLab CI.",
+  },
+  {
+    title: "Combien de temps pour conteneuriser une application Symfony existante ?",
+    content:
+      "Pour une application Symfony classique avec PHP-FPM, PostgreSQL et Redis, comptez 1 à 3 semaines pour une conteneurisation complète : Dockerfile multi-stage optimisé, Docker Compose pour le développement, pipeline CI/CD et premier déploiement en staging. Les applications avec des dépendances système exotiques ou des assets compilés complexes prennent plus de temps.",
+  },
+  {
+    title: "Quelles métriques surveiller en production sur des conteneurs Docker ?",
+    content:
+      "CPU et mémoire par conteneur, redémarrages inattendus, succès des health checks, temps de démarrage des conteneurs, latence et taux d'erreur HTTP. Côté infrastructure, surveillez l'espace disque (les images et logs s'accumulent vite) et le réseau entre conteneurs. Grafana avec Prometheus, ou Datadog, couvrent l'ensemble de ces signaux.",
   },
 ];
 
@@ -312,6 +353,69 @@ export default function IntegrationDockerSymfony() {
                   </Link>{" "}
                   à vos contraintes de charge et de sécurité.
                 </p>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="bg-light-gray py-16 md:py-24">
+            <Container>
+              <SectionTitle>Quand passer à Docker</SectionTitle>
+              <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+                Conteneuriser n&apos;est pas toujours la bonne réponse. Voici
+                quand l&apos;effort en vaut clairement la peine, et quand il
+                vaut mieux attendre.
+              </p>
+              <div className="mt-10 grid gap-6 md:grid-cols-2">
+                <Card>
+                  <h3 className="font-display text-lg font-bold text-dark">
+                    Conteneuriser si
+                  </h3>
+                  <ul className="mt-4 space-y-3 text-gray">
+                    {whenToChoose.map((item) => (
+                      <li key={item} className="flex gap-3">
+                        <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary"></span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+                <Card>
+                  <h3 className="font-display text-lg font-bold text-dark">
+                    Reporter ou autre approche si
+                  </h3>
+                  <ul className="mt-4 space-y-3 text-gray">
+                    {whenNotToChoose.map((item) => (
+                      <li key={item} className="flex gap-3">
+                        <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gray-400"></span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="py-16 md:py-24">
+            <Container>
+              <SectionTitle>Cas d&apos;usage typiques</SectionTitle>
+              <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+                Trois exemples concrets de conteneurisations Docker que nous
+                menons régulièrement.
+              </p>
+              <div className="mt-10 grid gap-6 md:grid-cols-3">
+                {useCases.map((useCase) => (
+                  <Card key={useCase.title}>
+                    <h3 className="font-display text-lg font-bold text-dark">
+                      {useCase.title}
+                    </h3>
+                    <p className="mt-2 text-gray">{useCase.description}</p>
+                  </Card>
+                ))}
               </div>
             </Container>
           </section>

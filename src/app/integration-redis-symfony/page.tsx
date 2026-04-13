@@ -76,6 +76,37 @@ const stack = [
   { name: "Redis Sentinel / Cluster", description: "Haute disponibilité et répartition de charge Redis" },
 ];
 
+const whenToChoose = [
+  "Vous avez besoin d'un cache applicatif rapide pour soulager votre base de données : requêtes Doctrine répétitives, calculs métier coûteux, sessions utilisateurs.",
+  "Vous voulez scaler horizontalement votre application Symfony sur plusieurs serveurs : Redis comme backend de sessions élimine le sticky session.",
+  "Vous traitez des volumes importants de messages asynchrones : Redis comme transport Symfony Messenger offre des performances excellentes pour les files à fort débit.",
+  "Vous avez des cas d'usage spécifiques : leaderboards, compteurs temps réel, rate limiting, locks distribués.",
+];
+
+const whenNotToChoose = [
+  "Vous cherchez une base primaire pour stocker durablement vos données métier : Redis est un cache, pas un SGBD relationnel. PostgreSQL ou MySQL restent indispensables.",
+  "Vos volumes sont faibles et votre base de données ne montre aucun signe de saturation : ajouter Redis ne ferait que complexifier l'infrastructure.",
+  "Vous avez besoin de persistance forte avec garanties ACID strictes : Redis est performant mais sa persistance reste asynchrone par défaut.",
+];
+
+const useCases = [
+  {
+    title: "Cache de session distribuées",
+    description:
+      "Migration des sessions PHP file vers Redis pour une plateforme SaaS B2B, suppression du sticky session sur le load balancer et passage à une infrastructure scalable horizontalement.",
+  },
+  {
+    title: "Files Symfony Messenger haute volumétrie",
+    description:
+      "Refonte du transport Messenger d'un éditeur de logiciel : passage de Doctrine à Redis pour absorber des pics à plusieurs millions de messages par jour, avec une latence maîtrisée.",
+  },
+  {
+    title: "Rate limiting et compteurs temps réel",
+    description:
+      "Mise en place de rate limiting pour une API publique d'un acteur du retail, avec compteurs Redis et fenêtres glissantes, pour protéger l'infrastructure des abus sans pénaliser les usages légitimes.",
+  },
+];
+
 const faqItems = [
   {
     title: "Pourquoi utiliser Redis avec Symfony ?",
@@ -91,6 +122,16 @@ const faqItems = [
     title: "Comment gérer la haute disponibilité de Redis ?",
     content:
       "Redis Sentinel surveille vos instances Redis et bascule automatiquement sur un replica en cas de panne du primaire. Pour les charges importantes, Redis Cluster répartit les données sur plusieurs nœuds. Nous configurons l'architecture Redis adaptée à vos contraintes de disponibilité et de performance.",
+  },
+  {
+    title: "Combien de temps pour intégrer Redis dans une application Symfony ?",
+    content:
+      "Pour un cache applicatif simple basé sur Symfony Cache, comptez quelques jours de mise en place. Pour une intégration complète avec sessions distribuées, transport Messenger Redis et stratégies d'invalidation par tags, comptez 1 à 2 sprints. La complexité vient du choix des bonnes stratégies de cache, pas de l'intégration technique en elle-même.",
+  },
+  {
+    title: "Quelles métriques surveiller en production ?",
+    content:
+      "Mémoire utilisée et taux d'éviction des clés, taux de cache hit, latence des commandes p95 et p99, nombre de connexions actives, lag de réplication si Sentinel ou Cluster sont en place. Côté applicatif, surveillez les stampede effects sur les clés chaudes et le temps passé en attente de Redis dans vos requêtes Symfony. Datadog, Grafana ou Redis Insight font le travail.",
   },
 ];
 
@@ -301,6 +342,69 @@ export default function IntegrationRedisSymfony() {
                   </Link>{" "}
                   en production.
                 </p>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="bg-light-gray py-16 md:py-24">
+            <Container>
+              <SectionTitle>Quand choisir Redis</SectionTitle>
+              <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+                Redis est ultra performant, mais ce n&apos;est pas une base de
+                données universelle. Voici quand l&apos;ajouter à votre stack,
+                et quand s&apos;en passer.
+              </p>
+              <div className="mt-10 grid gap-6 md:grid-cols-2">
+                <Card>
+                  <h3 className="font-display text-lg font-bold text-dark">
+                    Choisir Redis si
+                  </h3>
+                  <ul className="mt-4 space-y-3 text-gray">
+                    {whenToChoose.map((item) => (
+                      <li key={item} className="flex gap-3">
+                        <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary"></span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+                <Card>
+                  <h3 className="font-display text-lg font-bold text-dark">
+                    S&apos;en passer si
+                  </h3>
+                  <ul className="mt-4 space-y-3 text-gray">
+                    {whenNotToChoose.map((item) => (
+                      <li key={item} className="flex gap-3">
+                        <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gray-400"></span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="py-16 md:py-24">
+            <Container>
+              <SectionTitle>Cas d&apos;usage typiques</SectionTitle>
+              <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+                Trois exemples concrets d&apos;intégrations Redis que nous
+                menons régulièrement.
+              </p>
+              <div className="mt-10 grid gap-6 md:grid-cols-3">
+                {useCases.map((useCase) => (
+                  <Card key={useCase.title}>
+                    <h3 className="font-display text-lg font-bold text-dark">
+                      {useCase.title}
+                    </h3>
+                    <p className="mt-2 text-gray">{useCase.description}</p>
+                  </Card>
+                ))}
               </div>
             </Container>
           </section>

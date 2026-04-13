@@ -87,6 +87,38 @@ const stack = [
   { name: "Storybook", description: "Documentation et test visuel des composants" },
 ];
 
+const whenToChoose = [
+  "Vous construisez une application complexe avec beaucoup d'interactions et d'états partagés : dashboards métier, backoffices, outils SaaS multi-écrans.",
+  "Votre équipe a une culture JavaScript moderne, ou vous recrutez des profils frontend confirmés sur le marché.",
+  "Vous avez besoin d'un écosystème mature : design systems, librairies de graphiques, cartes interactives, éditeurs riches.",
+  "Le SEO et la performance au premier chargement comptent : Next.js permet de combiner React et rendu serveur.",
+];
+
+const whenNotToChoose = [
+  "Votre projet est un site vitrine ou un blog : un site statique généré avec Astro ou Next.js SSG sera plus simple et plus rapide.",
+  "Votre équipe backend découvre le frontend et veut progresser sans surcharge cognitive : Vue.js est plus accessible.",
+  "Vous avez besoin de réactivité ponctuelle dans une application Twig ou Symfony existante : montez Vue.js composant par composant plutôt que de tout réécrire.",
+  "Vos contraintes de bundle size sont extrêmes (sites publics critiques en mobile dégradé) : regardez Solid, Svelte ou Preact.",
+];
+
+const useCases = [
+  {
+    title: "Dashboard métier B2B",
+    description:
+      "Backoffice pour un éditeur SaaS avec une cinquantaine d'écrans, gestion fine des permissions, tables paginées et exports asynchrones. Stack React, TypeScript, React Query, Tailwind, déployée sur un backend Symfony.",
+  },
+  {
+    title: "Application collaborative temps réel",
+    description:
+      "Outil de gestion de projets pour une scale-up, avec édition collaborative, présence en temps réel via WebSockets et synchronisation hors-ligne. Architecture découplée frontend React et API Symfony.",
+  },
+  {
+    title: "Frontoffice e-commerce performant",
+    description:
+      "Refonte du frontoffice d'un acteur du retail B2B avec Next.js en mode hybride SSR/SSG, pour des temps de chargement sous la seconde et un SEO de niveau professionnel.",
+  },
+];
+
 const faqItems = [
   {
     title: "Pourquoi choisir React plutôt qu'un autre framework frontend ?",
@@ -102,6 +134,16 @@ const faqItems = [
     title: "Reprenez-vous des projets React existants ?",
     content:
       "Oui. Nous auditons le code React existant : architecture des composants, gestion d'état, couverture de tests, performances (bundle size, rendering, waterfalls réseau). Nous proposons ensuite un plan de refactoring progressif : migration vers TypeScript, modernisation des hooks, mise en place de tests, optimisation du bundle.",
+  },
+  {
+    title: "Combien de temps pour démarrer un nouveau projet React ?",
+    content:
+      "Une première version livrable est généralement prête en 4 à 8 semaines, selon la complexité du périmètre. Nous démarrons par un atelier de cadrage de 2 à 3 jours pour définir l'architecture, le design system et le découpage en sprints. Le premier sprint livre l'authentification, le routing et un premier écran fonctionnel pour valider la stack et la chaîne de déploiement.",
+  },
+  {
+    title: "Comment garantissez-vous la qualité du code React ?",
+    content:
+      "Chaque projet est développé en TypeScript strict, avec un linting ESLint et Prettier configurés en pre-commit. La couverture de tests combine Vitest pour l'unitaire et Cypress pour le end-to-end. Le code est revu en pair sur chaque pull request, le bundle size est mesuré à chaque build pour éviter les régressions, et Storybook documente les composants critiques. La qualité est outillée, pas espérée.",
   },
 ];
 
@@ -333,6 +375,69 @@ export default function DeveloppementReact() {
                   </Link>{" "}
                   pour alimenter vos interfaces.
                 </p>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="bg-light-gray py-16 md:py-24">
+            <Container>
+              <SectionTitle>Quand choisir React</SectionTitle>
+              <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+                React est puissant, mais ce n&apos;est pas la bonne réponse à
+                toutes les questions. Voici quand React est le bon choix, et
+                quand il vaut mieux regarder ailleurs.
+              </p>
+              <div className="mt-10 grid gap-6 md:grid-cols-2">
+                <Card>
+                  <h3 className="font-display text-lg font-bold text-dark">
+                    Choisir React si
+                  </h3>
+                  <ul className="mt-4 space-y-3 text-gray">
+                    {whenToChoose.map((item) => (
+                      <li key={item} className="flex gap-3">
+                        <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary"></span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+                <Card>
+                  <h3 className="font-display text-lg font-bold text-dark">
+                    Regarder ailleurs si
+                  </h3>
+                  <ul className="mt-4 space-y-3 text-gray">
+                    {whenNotToChoose.map((item) => (
+                      <li key={item} className="flex gap-3">
+                        <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gray-400"></span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="py-16 md:py-24">
+            <Container>
+              <SectionTitle>Cas d&apos;usage typiques</SectionTitle>
+              <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+                Trois exemples concrets de projets React sur lesquels nous
+                intervenons régulièrement.
+              </p>
+              <div className="mt-10 grid gap-6 md:grid-cols-3">
+                {useCases.map((useCase) => (
+                  <Card key={useCase.title}>
+                    <h3 className="font-display text-lg font-bold text-dark">
+                      {useCase.title}
+                    </h3>
+                    <p className="mt-2 text-gray">{useCase.description}</p>
+                  </Card>
+                ))}
               </div>
             </Container>
           </section>

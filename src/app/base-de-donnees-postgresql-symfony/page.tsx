@@ -76,6 +76,37 @@ const stack = [
   { name: "Symfony Messenger (SKIP LOCKED)", description: "Files d'attente fiables avec verrouillage PostgreSQL natif" },
 ];
 
+const whenToChoose = [
+  "Vous démarrez un nouveau projet Symfony et n'êtes pas contraint par une base existante : PostgreSQL est notre choix par défaut pour sa robustesse et ses fonctionnalités avancées.",
+  "Vous manipulez des données semi-structurées (jsonb), des arrays, ou avez besoin de types complexes que MySQL gère mal.",
+  "Vous voulez un transport Symfony Messenger fiable basé sur la base de données : SKIP LOCKED de PostgreSQL est le mécanisme idéal.",
+  "Vous avez besoin d'index avancés (GIN, GiST, partiels) pour la recherche full-text, la géolocalisation ou des cas d'usage spécifiques.",
+];
+
+const whenNotToChoose = [
+  "Votre application MySQL est stable, performante et correctement administrée : la migration vers PostgreSQL n'apporterait pas un gain à la hauteur du risque.",
+  "Vos équipes d'exploitation ne maîtrisent que MySQL et vous n'avez pas la capacité à monter en compétence sur PostgreSQL : la stabilité opérationnelle prime.",
+  "Vous avez besoin d'un SGBD ultra simple à opérer pour un petit projet : SQLite peut suffire en environnement contraint, ou un MySQL managed.",
+];
+
+const useCases = [
+  {
+    title: "Migration MySQL vers PostgreSQL",
+    description:
+      "Migration d'une plateforme métier d'un acteur du retail B2B de MySQL vers PostgreSQL, avec analyse du schéma, conversion des types via pgloader et adaptation des requêtes Doctrine pour exploiter jsonb et les index GIN.",
+  },
+  {
+    title: "Optimisation Doctrine sur application existante",
+    description:
+      "Audit de performance d'une application Symfony qui ralentit en production : identification des requêtes N+1, ajout d'index ciblés guidés par EXPLAIN ANALYZE et refactoring des hydrations Doctrine. Gain mesuré de 70 % sur la latence p95.",
+  },
+  {
+    title: "Modélisation jsonb et types avancés",
+    description:
+      "Conception du modèle de données pour une scale-up SaaS, en exploitant jsonb pour les configurations utilisateur dynamiques, les arrays pour les permissions et les UUID pour les identifiants distribués entre microservices.",
+  },
+];
+
 const faqItems = [
   {
     title: "Pourquoi migrer de MySQL vers PostgreSQL ?",
@@ -96,6 +127,16 @@ const faqItems = [
     title: "Quel type d'identifiant choisir : int, UUID ou ULID ?",
     content:
       "Les auto-increment (int) sont simples mais exposent des informations sur le volume de données. Les UUID v4 sont uniques mais fragmentent les index B-tree. Les ULID combinent unicité et tri chronologique, ce qui préserve les performances d'insertion. Le choix dépend de vos contraintes de sécurité et de performance.",
+  },
+  {
+    title: "Combien de temps pour migrer une base MySQL vers PostgreSQL ?",
+    content:
+      "Pour une base de quelques dizaines de gigaoctets et une application Symfony correctement structurée avec Doctrine, comptez 2 à 6 semaines selon les spécificités MySQL utilisées (types ENUM non standards, requêtes natives MySQL, fonctions spécifiques). La migration des données elle-même est rapide avec pgloader, l'essentiel du temps va à l'adaptation des requêtes et à la validation fonctionnelle.",
+  },
+  {
+    title: "Quelles métriques surveiller en production sur PostgreSQL ?",
+    content:
+      "Les requêtes les plus consommatrices via pg_stat_statements, le taux de cache hit (shared buffers), les locks et les long-running transactions, le bloat des tables et index, la réplication si vous avez un standby. Côté Symfony, surveillez le nombre de requêtes par requête HTTP (pour détecter les N+1) et le temps passé en base via un APM. pgBadger et Datadog Database Monitoring couvrent l'essentiel.",
   },
 ];
 
@@ -306,6 +347,68 @@ export default function BaseDeDonneesPostgresqlSymfony() {
                   Symfony dont la couche données est performante, maintenable et
                   évolutive.
                 </p>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="bg-light-gray py-16 md:py-24">
+            <Container>
+              <SectionTitle>Quand choisir PostgreSQL</SectionTitle>
+              <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+                PostgreSQL est notre choix par défaut, mais ce n&apos;est pas
+                toujours la bonne réponse. Voici quand l&apos;adopter ou s&apos;abstenir.
+              </p>
+              <div className="mt-10 grid gap-6 md:grid-cols-2">
+                <Card>
+                  <h3 className="font-display text-lg font-bold text-dark">
+                    Choisir PostgreSQL si
+                  </h3>
+                  <ul className="mt-4 space-y-3 text-gray">
+                    {whenToChoose.map((item) => (
+                      <li key={item} className="flex gap-3">
+                        <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary"></span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+                <Card>
+                  <h3 className="font-display text-lg font-bold text-dark">
+                    Rester sur autre chose si
+                  </h3>
+                  <ul className="mt-4 space-y-3 text-gray">
+                    {whenNotToChoose.map((item) => (
+                      <li key={item} className="flex gap-3">
+                        <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gray-400"></span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="py-16 md:py-24">
+            <Container>
+              <SectionTitle>Cas d&apos;usage typiques</SectionTitle>
+              <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+                Trois exemples concrets de missions PostgreSQL que nous menons
+                régulièrement.
+              </p>
+              <div className="mt-10 grid gap-6 md:grid-cols-3">
+                {useCases.map((useCase) => (
+                  <Card key={useCase.title}>
+                    <h3 className="font-display text-lg font-bold text-dark">
+                      {useCase.title}
+                    </h3>
+                    <p className="mt-2 text-gray">{useCase.description}</p>
+                  </Card>
+                ))}
               </div>
             </Container>
           </section>

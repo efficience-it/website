@@ -94,6 +94,37 @@ const whyTypescript = [
   },
 ];
 
+const whenToChoose = [
+  "Votre codebase JavaScript dépasse quelques milliers de lignes : le typage statique évite les régressions silencieuses au refactoring.",
+  "Vous travaillez en équipe : TypeScript fait office de documentation vivante et accélère l'onboarding des nouveaux développeurs.",
+  "Vos APIs sont stables et vous voulez partager des types entre frontend et backend pour éliminer les bugs d'intégration.",
+  "Vous démarrez un nouveau projet React, Vue.js ou Node.js : TypeScript est le standard de fait depuis plusieurs années.",
+];
+
+const whenNotToChoose = [
+  "Votre projet est un script jetable, un POC de quelques jours ou un prototype à valider rapidement : la friction du typage n'apporte pas de valeur.",
+  "Votre équipe n'a pas la culture des langages typés et vous n'avez pas le temps d'investir dans la montée en compétence.",
+  "Vous travaillez exclusivement avec des données dynamiques sans schéma stable (parsing libre, scraping ad hoc) : les types deviennent vite un fardeau.",
+];
+
+const useCases = [
+  {
+    title: "Migration d'une SPA React vers TypeScript",
+    description:
+      "Migration progressive d'une application React de 80 000 lignes en JavaScript vers TypeScript strict, fichier par fichier, sans interrompre les livraisons fonctionnelles.",
+  },
+  {
+    title: "API Node.js typée de bout en bout",
+    description:
+      "API Node.js TypeScript pour une scale-up SaaS, avec génération automatique des types depuis le schéma OpenAPI et partage des types avec le frontend Vue.js.",
+  },
+  {
+    title: "Mise en place d'un linting strict",
+    description:
+      "Audit et configuration de tsconfig strict, ESLint et Prettier sur un projet existant, intégration au pipeline CI pour bloquer les régressions de typage.",
+  },
+];
+
 const faqItems = [
   {
     title: "Faut-il migrer tout le projet JavaScript en TypeScript d'un coup ?",
@@ -109,6 +140,16 @@ const faqItems = [
     title: "TypeScript fonctionne-t-il avec React et Node.js ?",
     content:
       "TypeScript est le standard de fait pour les projets React et Node.js. React supporte nativement les fichiers .tsx, Next.js génère le tsconfig automatiquement, et Node.js exécute du TypeScript via ts-node ou le transpile en amont. Chez Efficience IT, chaque projet frontend et backend est développé en TypeScript.",
+  },
+  {
+    title: "Combien de temps pour migrer une codebase JavaScript existante ?",
+    content:
+      "Pour une codebase de 50 000 à 100 000 lignes, comptez 2 à 4 mois de migration progressive en parallèle des livraisons fonctionnelles. Nous démarrons par les modules critiques et les types partagés (modèles de données, helpers), puis étendons la couverture fichier par fichier. Le mode allowJs garde l'application fonctionnelle pendant toute la migration.",
+  },
+  {
+    title: "Comment garantir que TypeScript ne devient pas un frein au quotidien ?",
+    content:
+      "Une configuration trop laxiste rend le typage inutile, une configuration trop stricte décourage l'équipe. Nous calibrons tsconfig en fonction de la maturité de l'équipe et des contraintes du projet : strict mode activé par défaut sur les nouveaux modules, mode permissif sur le code legacy en attente de migration. Le typage doit accélérer le développement, pas le ralentir.",
   },
 ];
 
@@ -340,6 +381,69 @@ export default function DeveloppementTypescript() {
                   partage de modèles de données et accélère le développement
                   des fonctionnalités qui traversent toute l&apos;application.
                 </p>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="bg-light-gray py-16 md:py-24">
+            <Container>
+              <SectionTitle>Quand passer à TypeScript</SectionTitle>
+              <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+                TypeScript apporte une vraie valeur dans la majorité des
+                projets, mais il y a des contextes où la friction n&apos;en
+                vaut pas la peine.
+              </p>
+              <div className="mt-10 grid gap-6 md:grid-cols-2">
+                <Card>
+                  <h3 className="font-display text-lg font-bold text-dark">
+                    Passer à TypeScript si
+                  </h3>
+                  <ul className="mt-4 space-y-3 text-gray">
+                    {whenToChoose.map((item) => (
+                      <li key={item} className="flex gap-3">
+                        <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary"></span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+                <Card>
+                  <h3 className="font-display text-lg font-bold text-dark">
+                    Rester en JavaScript si
+                  </h3>
+                  <ul className="mt-4 space-y-3 text-gray">
+                    {whenNotToChoose.map((item) => (
+                      <li key={item} className="flex gap-3">
+                        <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gray-400"></span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="py-16 md:py-24">
+            <Container>
+              <SectionTitle>Cas d&apos;usage typiques</SectionTitle>
+              <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+                Trois exemples concrets d&apos;interventions TypeScript que
+                nous menons régulièrement.
+              </p>
+              <div className="mt-10 grid gap-6 md:grid-cols-3">
+                {useCases.map((useCase) => (
+                  <Card key={useCase.title}>
+                    <h3 className="font-display text-lg font-bold text-dark">
+                      {useCase.title}
+                    </h3>
+                    <p className="mt-2 text-gray">{useCase.description}</p>
+                  </Card>
+                ))}
               </div>
             </Container>
           </section>

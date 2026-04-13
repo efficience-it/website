@@ -81,6 +81,37 @@ const stack = [
   { name: "Vitest / Cypress", description: "Tests unitaires et end-to-end" },
 ];
 
+const whenToChoose = [
+  "Vous voulez intégrer progressivement de la réactivité dans une application Symfony ou Twig existante, sans tout réécrire.",
+  "Votre équipe backend monte en compétence sur le frontend : la courbe d'apprentissage de Vue.js est nettement plus douce que celle de React.",
+  "Vous cherchez un framework opinioné avec un cadre clair (routing, state, build) plutôt qu'un puzzle d'outils à assembler.",
+  "Le SEO compte : Nuxt apporte SSR, génération statique et rendu hybride avec une configuration minimale.",
+];
+
+const whenNotToChoose = [
+  "Votre projet vise un marché où les profils Vue.js sont rares à recruter : React reste plus liquide sur le marché du travail.",
+  "Vous avez besoin de l'écosystème React Native pour partager du code entre web et mobile natif.",
+  "L'application est extrêmement complexe avec un état partagé énorme : l'écosystème React (Redux, Zustand, Jotai) est plus fourni en patterns avancés.",
+];
+
+const useCases = [
+  {
+    title: "Modernisation d'un backoffice Symfony",
+    description:
+      "Ajout progressif de Vue.js dans un backoffice Twig pour rendre certains écrans interactifs (filtres, tableaux dynamiques, éditeurs) sans réécrire l'ensemble de l'application.",
+  },
+  {
+    title: "Application Nuxt full SSR",
+    description:
+      "Site éditorial pour un média B2B avec Nuxt 3 en SSR, génération statique des articles, intégration avec une API headless Symfony et déploiement automatisé sur S3 et CloudFront.",
+  },
+  {
+    title: "Backoffice Vue.js dédié",
+    description:
+      "SPA Vue.js 3 avec Composition API et Pinia pour un éditeur de logiciel, gestion fine des permissions, intégration à un backend Symfony API Platform existant.",
+  },
+];
+
 const faqItems = [
   {
     title: "Pourquoi choisir Vue.js plutôt qu'un autre framework ?",
@@ -96,6 +127,16 @@ const faqItems = [
     title: "Peut-on migrer une application jQuery ou Twig vers Vue.js ?",
     content:
       "Oui, et c'est précisément la force de Vue.js. Vous pouvez monter un composant Vue.js sur une portion de page Twig existante, puis étendre progressivement la couverture. Pas de big bang, pas de réécriture complète. Nous accompagnons cette migration composant par composant, en maintenant la stabilité de l'application à chaque étape.",
+  },
+  {
+    title: "Combien de temps pour livrer une première version Vue.js ?",
+    content:
+      "Pour une SPA Vue.js de taille moyenne, une première version utilisable est généralement livrée en 6 à 8 semaines. Pour une intégration progressive de composants Vue.js dans une application Twig existante, les premiers écrans réactifs peuvent être livrés en 2 à 3 semaines. Tout dépend du périmètre fonctionnel et de la maturité de l'API backend.",
+  },
+  {
+    title: "Quels outils utilisez-vous pour garantir la qualité du code Vue.js ?",
+    content:
+      "Chaque projet est développé en TypeScript avec un linting ESLint et Prettier configurés en pre-commit. Les composants critiques sont couverts par Vitest pour les tests unitaires et Cypress pour le end-to-end. Pinia gère l'état global avec un typage strict, et le bundle size est mesuré à chaque build pour éviter les régressions de performance.",
   },
 ];
 
@@ -314,6 +355,68 @@ export default function DeveloppementVuejs() {
                   d&apos;infrastructure : vous ajoutez de la réactivité là où
                   elle apporte le plus de valeur.
                 </p>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="bg-light-gray py-16 md:py-24">
+            <Container>
+              <SectionTitle>Quand choisir Vue.js</SectionTitle>
+              <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+                Vue.js brille dans certains contextes et reste discutable dans
+                d&apos;autres. Voici comment trancher.
+              </p>
+              <div className="mt-10 grid gap-6 md:grid-cols-2">
+                <Card>
+                  <h3 className="font-display text-lg font-bold text-dark">
+                    Choisir Vue.js si
+                  </h3>
+                  <ul className="mt-4 space-y-3 text-gray">
+                    {whenToChoose.map((item) => (
+                      <li key={item} className="flex gap-3">
+                        <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary"></span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+                <Card>
+                  <h3 className="font-display text-lg font-bold text-dark">
+                    Regarder ailleurs si
+                  </h3>
+                  <ul className="mt-4 space-y-3 text-gray">
+                    {whenNotToChoose.map((item) => (
+                      <li key={item} className="flex gap-3">
+                        <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gray-400"></span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="py-16 md:py-24">
+            <Container>
+              <SectionTitle>Cas d&apos;usage typiques</SectionTitle>
+              <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+                Trois exemples concrets de projets Vue.js sur lesquels nous
+                intervenons.
+              </p>
+              <div className="mt-10 grid gap-6 md:grid-cols-3">
+                {useCases.map((useCase) => (
+                  <Card key={useCase.title}>
+                    <h3 className="font-display text-lg font-bold text-dark">
+                      {useCase.title}
+                    </h3>
+                    <p className="mt-2 text-gray">{useCase.description}</p>
+                  </Card>
+                ))}
               </div>
             </Container>
           </section>
