@@ -376,7 +376,7 @@ export default function DeveloppementVuejs() {
                   <ul className="mt-4 space-y-3 text-gray">
                     {whenToChoose.map((item) => (
                       <li key={item} className="flex gap-3">
-                        <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary"></span>
+                        <span aria-hidden="true" className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -389,7 +389,7 @@ export default function DeveloppementVuejs() {
                   <ul className="mt-4 space-y-3 text-gray">
                     {whenNotToChoose.map((item) => (
                       <li key={item} className="flex gap-3">
-                        <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gray-400"></span>
+                        <span aria-hidden="true" className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-gray-400" />
                         <span>{item}</span>
                       </li>
                     ))}

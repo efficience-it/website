@@ -395,7 +395,7 @@ export default function MaintenanceApplicativeSymfony() {
         <FadeIn>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
-            <SectionTitle>Quand externaliser la maintenance applicative</SectionTitle>
+            <SectionTitle>Quand choisir une TMA externalisée</SectionTitle>
             <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
               La TMA n&apos;est pas la bonne réponse à tous les contextes.
               Voici quand elle apporte une vraie valeur, et quand une autre
@@ -404,12 +404,12 @@ export default function MaintenanceApplicativeSymfony() {
             <div className="mt-10 grid gap-6 md:grid-cols-2">
               <Card>
                 <h3 className="font-display text-lg font-bold text-dark">
-                  Externaliser si
+                  Choisir une TMA externalisée si
                 </h3>
                 <ul className="mt-4 space-y-3 text-gray">
                   {whenToChoose.map((item) => (
                     <li key={item} className="flex gap-3">
-                      <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary"></span>
+                      <span aria-hidden="true" className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -422,7 +422,7 @@ export default function MaintenanceApplicativeSymfony() {
                 <ul className="mt-4 space-y-3 text-gray">
                   {whenNotToChoose.map((item) => (
                     <li key={item} className="flex gap-3">
-                      <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gray-400"></span>
+                      <span aria-hidden="true" className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-gray-400" />
                       <span>{item}</span>
                     </li>
                   ))}

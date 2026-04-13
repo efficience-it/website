@@ -105,7 +105,7 @@ const useCases = [
   {
     title: "Dashboard métier B2B",
     description:
-      "Backoffice pour un éditeur SaaS avec une cinquantaine d'écrans, gestion fine des permissions, tables paginées et exports asynchrones. Stack React, TypeScript, React Query, Tailwind, déployée sur un backend Symfony.",
+      "Backoffice pour un éditeur SaaS avec plusieurs dizaines d'écrans, gestion fine des permissions, tables paginées et exports asynchrones. Stack React, TypeScript, React Query, Tailwind, déployée sur un backend Symfony.",
   },
   {
     title: "Application collaborative temps réel",
@@ -115,7 +115,7 @@ const useCases = [
   {
     title: "Frontoffice e-commerce performant",
     description:
-      "Refonte du frontoffice d'un acteur du retail B2B avec Next.js en mode hybride SSR/SSG, pour des temps de chargement sous la seconde et un SEO de niveau professionnel.",
+      "Refonte du frontoffice d'une marketplace de services professionnels avec Next.js en mode hybride SSR/SSG, pour des temps de chargement rapides et un SEO de niveau professionnel.",
   },
 ];
 
@@ -397,7 +397,7 @@ export default function DeveloppementReact() {
                   <ul className="mt-4 space-y-3 text-gray">
                     {whenToChoose.map((item) => (
                       <li key={item} className="flex gap-3">
-                        <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary"></span>
+                        <span aria-hidden="true" className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -410,7 +410,7 @@ export default function DeveloppementReact() {
                   <ul className="mt-4 space-y-3 text-gray">
                     {whenNotToChoose.map((item) => (
                       <li key={item} className="flex gap-3">
-                        <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gray-400"></span>
+                        <span aria-hidden="true" className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-gray-400" />
                         <span>{item}</span>
                       </li>
                     ))}

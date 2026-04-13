@@ -93,7 +93,7 @@ const useCases = [
   {
     title: "Migration MySQL vers PostgreSQL",
     description:
-      "Migration d'une plateforme métier d'un acteur du retail B2B de MySQL vers PostgreSQL, avec analyse du schéma, conversion des types via pgloader et adaptation des requêtes Doctrine pour exploiter jsonb et les index GIN.",
+      "Migration d'une plateforme métier d'un groupe industriel de MySQL vers PostgreSQL, avec analyse du schéma, conversion des types via pgloader et adaptation des requêtes Doctrine pour exploiter jsonb et les index GIN.",
   },
   {
     title: "Optimisation Doctrine sur application existante",
@@ -136,7 +136,7 @@ const faqItems = [
   {
     title: "Quelles métriques surveiller en production sur PostgreSQL ?",
     content:
-      "Les requêtes les plus consommatrices via pg_stat_statements, le taux de cache hit (shared buffers), les locks et les long-running transactions, le bloat des tables et index, la réplication si vous avez un standby. Côté Symfony, surveillez le nombre de requêtes par requête HTTP (pour détecter les N+1) et le temps passé en base via un APM. pgBadger et Datadog Database Monitoring couvrent l'essentiel.",
+      "Les requêtes les plus consommatrices via pg_stat_statements, le taux de cache hit (shared buffers), les locks et les long-running transactions, le bloat des tables et index, la réplication si vous avez un standby. Côté Symfony, surveillez le nombre de requêtes par requête HTTP (pour détecter les N+1) et le temps passé en base via un APM. pgBadger pour l'analyse historique des logs, pganalyze pour le suivi continu, et le Symfony Profiler en environnement de recette pour traquer les requêtes problématiques avant la production.",
   },
 ];
 
@@ -368,7 +368,7 @@ export default function BaseDeDonneesPostgresqlSymfony() {
                   <ul className="mt-4 space-y-3 text-gray">
                     {whenToChoose.map((item) => (
                       <li key={item} className="flex gap-3">
-                        <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary"></span>
+                        <span aria-hidden="true" className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -381,7 +381,7 @@ export default function BaseDeDonneesPostgresqlSymfony() {
                   <ul className="mt-4 space-y-3 text-gray">
                     {whenNotToChoose.map((item) => (
                       <li key={item} className="flex gap-3">
-                        <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gray-400"></span>
+                        <span aria-hidden="true" className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-gray-400" />
                         <span>{item}</span>
                       </li>
                     ))}

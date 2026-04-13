@@ -98,12 +98,12 @@ const useCases = [
   {
     title: "Files Symfony Messenger haute volumétrie",
     description:
-      "Refonte du transport Messenger d'un éditeur de logiciel : passage de Doctrine à Redis pour absorber des pics à plusieurs millions de messages par jour, avec une latence maîtrisée.",
+      "Refonte du transport Messenger d'un éditeur de logiciel : passage de Doctrine à Redis pour absorber des pics à fort volume, avec une latence maîtrisée.",
   },
   {
     title: "Rate limiting et compteurs temps réel",
     description:
-      "Mise en place de rate limiting pour une API publique d'un acteur du retail, avec compteurs Redis et fenêtres glissantes, pour protéger l'infrastructure des abus sans pénaliser les usages légitimes.",
+      "Mise en place de rate limiting pour l'API publique d'un éditeur SaaS, avec compteurs Redis et fenêtres glissantes, pour protéger l'infrastructure des abus sans pénaliser les usages légitimes.",
   },
 ];
 
@@ -129,9 +129,9 @@ const faqItems = [
       "Pour un cache applicatif simple basé sur Symfony Cache, comptez quelques jours de mise en place. Pour une intégration complète avec sessions distribuées, transport Messenger Redis et stratégies d'invalidation par tags, comptez 1 à 2 sprints. La complexité vient du choix des bonnes stratégies de cache, pas de l'intégration technique en elle-même.",
   },
   {
-    title: "Quelles métriques surveiller en production ?",
+    title: "Quelles métriques Redis surveiller en production ?",
     content:
-      "Mémoire utilisée et taux d'éviction des clés, taux de cache hit, latence des commandes p95 et p99, nombre de connexions actives, lag de réplication si Sentinel ou Cluster sont en place. Côté applicatif, surveillez les stampede effects sur les clés chaudes et le temps passé en attente de Redis dans vos requêtes Symfony. Datadog, Grafana ou Redis Insight font le travail.",
+      "Mémoire utilisée et taux d'éviction des clés, taux de cache hit, latence des commandes p95 et p99, nombre de connexions actives, lag de réplication si Sentinel ou Cluster sont en place. Côté applicatif, surveillez les stampede effects sur les clés chaudes et le temps passé en attente de Redis dans vos requêtes Symfony. Redis Insight pour l'inspection des clés, RedisInsight Enterprise pour le monitoring agrégé, et Sentry côté applicatif pour les erreurs liées aux timeouts.",
   },
 ];
 
@@ -364,7 +364,7 @@ export default function IntegrationRedisSymfony() {
                   <ul className="mt-4 space-y-3 text-gray">
                     {whenToChoose.map((item) => (
                       <li key={item} className="flex gap-3">
-                        <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary"></span>
+                        <span aria-hidden="true" className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -377,7 +377,7 @@ export default function IntegrationRedisSymfony() {
                   <ul className="mt-4 space-y-3 text-gray">
                     {whenNotToChoose.map((item) => (
                       <li key={item} className="flex gap-3">
-                        <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gray-400"></span>
+                        <span aria-hidden="true" className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-gray-400" />
                         <span>{item}</span>
                       </li>
                     ))}

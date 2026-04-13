@@ -110,7 +110,7 @@ const useCases = [
   {
     title: "Frontoffice e-commerce SSR",
     description:
-      "Frontoffice Next.js pour un acteur du retail B2B, rendu côté serveur pour le SEO, hydratation progressive pour l'interactivité, intégration avec une API Symfony existante.",
+      "Frontoffice Next.js pour un site média B2B, rendu côté serveur pour le SEO, hydratation progressive pour l'interactivité, intégration avec une API Symfony existante.",
   },
   {
     title: "Application Vue.js progressive",
@@ -347,7 +347,7 @@ export default function DeveloppementFrontend() {
         <FadeIn>
           <section className="bg-light-gray py-16 md:py-24">
             <Container>
-              <SectionTitle>Quand investir dans un frontend sur mesure</SectionTitle>
+              <SectionTitle>Quand choisir un frontend sur mesure</SectionTitle>
               <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
                 Un frontend moderne est un investissement. Il prend tout son
                 sens dans certains contextes, et reste superflu dans
@@ -356,12 +356,12 @@ export default function DeveloppementFrontend() {
               <div className="mt-10 grid gap-6 md:grid-cols-2">
                 <Card>
                   <h3 className="font-display text-lg font-bold text-dark">
-                    Investir si
+                    Choisir un frontend sur mesure si
                   </h3>
                   <ul className="mt-4 space-y-3 text-gray">
                     {whenToChoose.map((item) => (
                       <li key={item} className="flex gap-3">
-                        <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary"></span>
+                        <span aria-hidden="true" className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -374,7 +374,7 @@ export default function DeveloppementFrontend() {
                   <ul className="mt-4 space-y-3 text-gray">
                     {whenNotToChoose.map((item) => (
                       <li key={item} className="flex gap-3">
-                        <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gray-400"></span>
+                        <span aria-hidden="true" className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-gray-400" />
                         <span>{item}</span>
                       </li>
                     ))}

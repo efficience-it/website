@@ -92,7 +92,7 @@ const useCases = [
   {
     title: "Moteur de recherche e-commerce",
     description:
-      "Indexation d'un catalogue de plus de 500 000 références pour un acteur du retail B2B, avec recherche full-text, filtres à facettes et autocomplétion en temps réel via Symfony Messenger.",
+      "Indexation d'un catalogue de plusieurs centaines de milliers de références pour une plateforme logistique, avec recherche full-text, filtres à facettes et autocomplétion en temps réel via Symfony Messenger.",
   },
   {
     title: "Plateforme d'annonces avec géolocalisation",
@@ -128,9 +128,9 @@ const faqItems = [
       "Pour une intégration de base avec FOSElasticaBundle, indexation asynchrone via Messenger et un premier endpoint de recherche, comptez 2 à 4 semaines selon la complexité du mapping et le volume de données. L'optimisation fine du scoring, des analyseurs linguistiques et des suggestions s'étale ensuite sur plusieurs sprints, en s'appuyant sur les retours utilisateurs réels.",
   },
   {
-    title: "Quelles métriques surveiller en production ?",
+    title: "Quelles métriques Elasticsearch surveiller en production ?",
     content:
-      "Côté cluster : CPU, mémoire heap JVM, latence des requêtes p95 et p99, taille des shards et nombre de documents par index. Côté applicatif : taux d'erreur des indexations, lag de la file Messenger, taux de cache hit. Kibana et un agent APM (Elastic APM, Datadog) permettent de suivre tout cela en temps réel et d'alerter avant la dégradation.",
+      "Côté cluster : CPU, mémoire heap JVM, latence des requêtes p95 et p99, taille des shards et nombre de documents par index. Côté applicatif : taux d'erreur des indexations, lag de la file Messenger, taux de cache hit. Kibana suffit à visualiser l'essentiel, et Elastic APM ou OpenSearch Dashboards prennent le relais pour l'alerting et la corrélation avec les traces applicatives.",
   },
 ];
 
@@ -362,7 +362,7 @@ export default function IntegrationElasticsearchSymfony() {
                   <ul className="mt-4 space-y-3 text-gray">
                     {whenToChoose.map((item) => (
                       <li key={item} className="flex gap-3">
-                        <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary"></span>
+                        <span aria-hidden="true" className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -375,7 +375,7 @@ export default function IntegrationElasticsearchSymfony() {
                   <ul className="mt-4 space-y-3 text-gray">
                     {whenNotToChoose.map((item) => (
                       <li key={item} className="flex gap-3">
-                        <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gray-400"></span>
+                        <span aria-hidden="true" className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-gray-400" />
                         <span>{item}</span>
                       </li>
                     ))}

@@ -389,7 +389,7 @@ export default function DeveloppementTypescript() {
         <FadeIn>
           <section className="bg-light-gray py-16 md:py-24">
             <Container>
-              <SectionTitle>Quand passer à TypeScript</SectionTitle>
+              <SectionTitle>Quand choisir TypeScript</SectionTitle>
               <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
                 TypeScript apporte une vraie valeur dans la majorité des
                 projets, mais il y a des contextes où la friction n&apos;en
@@ -398,12 +398,12 @@ export default function DeveloppementTypescript() {
               <div className="mt-10 grid gap-6 md:grid-cols-2">
                 <Card>
                   <h3 className="font-display text-lg font-bold text-dark">
-                    Passer à TypeScript si
+                    Choisir TypeScript si
                   </h3>
                   <ul className="mt-4 space-y-3 text-gray">
                     {whenToChoose.map((item) => (
                       <li key={item} className="flex gap-3">
-                        <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary"></span>
+                        <span aria-hidden="true" className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -416,7 +416,7 @@ export default function DeveloppementTypescript() {
                   <ul className="mt-4 space-y-3 text-gray">
                     {whenNotToChoose.map((item) => (
                       <li key={item} className="flex gap-3">
-                        <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gray-400"></span>
+                        <span aria-hidden="true" className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-gray-400" />
                         <span>{item}</span>
                       </li>
                     ))}

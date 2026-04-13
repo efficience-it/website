@@ -98,12 +98,12 @@ const useCases = [
   {
     title: "Conteneurisation d'un monolithe Symfony",
     description:
-      "Conteneurisation d'une application Symfony 4 historique pour un acteur du retail B2B, avec un Dockerfile multi-stage optimisé, Docker Compose pour le développement et déploiement sur Kubernetes en production.",
+      "Conteneurisation d'une application Symfony 4 historique pour une plateforme logistique, avec un Dockerfile multi-stage optimisé, Docker Compose pour le développement et déploiement sur Kubernetes en production.",
   },
   {
     title: "Setup local développeur identique à la prod",
     description:
-      "Mise en place d'un environnement Docker Compose pour une équipe de douze développeurs : démarrage du projet en une seule commande, services PostgreSQL, Redis et MailHog inclus, parité totale avec la production.",
+      "Mise en place d'un environnement Docker Compose pour une équipe d'une dizaine de développeurs : démarrage du projet en une seule commande, services PostgreSQL, Redis et MailHog inclus, parité totale avec la production.",
   },
   {
     title: "Pipeline CI multi-environnements",
@@ -136,7 +136,7 @@ const faqItems = [
   {
     title: "Quelles métriques surveiller en production sur des conteneurs Docker ?",
     content:
-      "CPU et mémoire par conteneur, redémarrages inattendus, succès des health checks, temps de démarrage des conteneurs, latence et taux d'erreur HTTP. Côté infrastructure, surveillez l'espace disque (les images et logs s'accumulent vite) et le réseau entre conteneurs. Grafana avec Prometheus, ou Datadog, couvrent l'ensemble de ces signaux.",
+      "CPU et mémoire par conteneur, redémarrages inattendus, succès des health checks, temps de démarrage des conteneurs, latence et taux d'erreur HTTP. Côté infrastructure, surveillez l'espace disque (les images et logs s'accumulent vite) et le réseau entre conteneurs. Prometheus avec cAdvisor pour les métriques conteneurs, Grafana pour les dashboards, Loki pour la centralisation des logs et Sentry pour les erreurs applicatives.",
   },
 ];
 
@@ -361,7 +361,7 @@ export default function IntegrationDockerSymfony() {
         <FadeIn>
           <section className="bg-light-gray py-16 md:py-24">
             <Container>
-              <SectionTitle>Quand passer à Docker</SectionTitle>
+              <SectionTitle>Quand choisir Docker</SectionTitle>
               <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
                 Conteneuriser n&apos;est pas toujours la bonne réponse. Voici
                 quand l&apos;effort en vaut clairement la peine, et quand il
@@ -370,12 +370,12 @@ export default function IntegrationDockerSymfony() {
               <div className="mt-10 grid gap-6 md:grid-cols-2">
                 <Card>
                   <h3 className="font-display text-lg font-bold text-dark">
-                    Conteneuriser si
+                    Choisir Docker si
                   </h3>
                   <ul className="mt-4 space-y-3 text-gray">
                     {whenToChoose.map((item) => (
                       <li key={item} className="flex gap-3">
-                        <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary"></span>
+                        <span aria-hidden="true" className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -388,7 +388,7 @@ export default function IntegrationDockerSymfony() {
                   <ul className="mt-4 space-y-3 text-gray">
                     {whenNotToChoose.map((item) => (
                       <li key={item} className="flex gap-3">
-                        <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gray-400"></span>
+                        <span aria-hidden="true" className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-gray-400" />
                         <span>{item}</span>
                       </li>
                     ))}
