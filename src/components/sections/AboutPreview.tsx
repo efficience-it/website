@@ -81,7 +81,7 @@ export default function AboutPreview() {
           <div className="flex justify-center">
             <Image
               src="/images/team/team-photo.webp"
-              alt="L'équipe Efficience IT"
+              alt="Photo de l'équipe Efficience IT au complet"
               width={500}
               height={350}
               sizes="(max-width: 768px) 100vw, 380px"

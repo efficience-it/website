@@ -282,7 +282,7 @@ export default function ProcessusCollaboration() {
               <div className="flex justify-center">
                 <Image
                   src="/images/illustrations/team-work.svg"
-                  alt="Processus de collaboration Efficience IT"
+                  alt="Illustration d'une équipe de développeurs collaborant autour d'un projet"
                   width={400}
                   height={300}
                   className="w-full max-w-md"

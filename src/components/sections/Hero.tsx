@@ -43,7 +43,7 @@ export default function Hero() {
           <div className="hidden md:flex justify-center">
             <Image
               src="/images/illustrations/source-code.svg"
-              alt="Développement web"
+              alt="Illustration d'écran de code source représentant le développement web sur mesure"
               width={500}
               height={400}
               className="w-full max-w-md"

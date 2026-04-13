@@ -206,7 +206,7 @@ export default function AccompagnementEtConseil() {
             <div className="flex justify-center">
               <Image
                 src="/images/illustrations/digital-presentation.svg"
-                alt="Accompagnement et conseil"
+                alt="Illustration d'une présentation collaborative autour d'un projet digital"
                 width={400}
                 height={300}
                 className="w-full max-w-md"
