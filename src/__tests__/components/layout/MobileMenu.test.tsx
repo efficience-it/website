@@ -129,4 +129,44 @@ describe("MobileMenu", () => {
     expect(screen.queryByText("Blog")).not.toBeInTheDocument();
     expect(getHamburger()).toBeInTheDocument();
   });
+
+  it("closes menu when pressing Escape", () => {
+    render(<MobileMenu items={items} />);
+    fireEvent.click(getHamburger());
+    expect(screen.getByText("Blog")).toBeInTheDocument();
+
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(screen.queryByText("Blog")).not.toBeInTheDocument();
+    expect(getHamburger()).toBeInTheDocument();
+  });
+
+  it("ignores non-Escape keys", () => {
+    render(<MobileMenu items={items} />);
+    fireEvent.click(getHamburger());
+
+    fireEvent.keyDown(document, { key: "a" });
+    expect(screen.getByText("Blog")).toBeInTheDocument();
+  });
+
+  it("renders highlight link in dropdown and closes menu on click", () => {
+    const itemsWithHighlight: NavItem[] = [
+      {
+        label: "Symfony",
+        items: [{ label: "Audit", href: "/audit" }],
+        highlight: { label: "Audit gratuit", href: "/audit-symfony-gratuit" },
+      },
+      { label: "Blog", href: "/blog" },
+    ];
+
+    render(<MobileMenu items={itemsWithHighlight} />);
+    fireEvent.click(getHamburger());
+    fireEvent.click(screen.getByRole("button", { name: /Symfony/ }));
+
+    const highlight = screen.getAllByText("Audit gratuit")[0];
+    expect(highlight).toBeInTheDocument();
+    expect(highlight).toHaveAttribute("href", "/audit-symfony-gratuit");
+
+    fireEvent.click(highlight);
+    expect(screen.queryByText("Blog")).not.toBeInTheDocument();
+  });
 });
