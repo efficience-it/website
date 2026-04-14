@@ -74,16 +74,20 @@ export default function Testimonials() {
             </svg>
           </button>
 
-          <div className="mt-6 flex justify-center gap-2">
+          <div className="mt-6 flex justify-center">
             {testimonials.map((t, i) => (
               <button
                 key={t.name}
                 onClick={() => setCurrent(i)}
-                className={`h-2.5 rounded-full transition-all duration-300 ${
-                  i === current ? "w-8 bg-primary" : "w-2.5 bg-border hover:bg-gray"
-                }`}
+                className="flex h-11 w-11 items-center justify-center"
                 aria-label={`Aller au témoignage ${i + 1}`}
-              />
+              >
+                <span
+                  className={`rounded-full transition-all duration-300 ${
+                    i === current ? "h-2.5 w-8 bg-primary" : "h-2.5 w-2.5 bg-border hover:bg-gray"
+                  }`}
+                />
+              </button>
             ))}
           </div>
         </div>

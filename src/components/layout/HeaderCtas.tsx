@@ -5,7 +5,7 @@ export default function HeaderCtas() {
     <div className="ml-4 flex items-center gap-2">
       <TrackedHeaderLink
         href="/audit-symfony-gratuit"
-        className="group inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-dark shadow-sm transition-all duration-200 hover:border-primary/30 hover:shadow-md"
+        className="group inline-flex min-h-[44px] items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-dark shadow-sm transition-all duration-200 hover:border-primary/30 hover:shadow-md"
         location="header_desktop"
         text="Audit gratuit"
       >
@@ -26,7 +26,7 @@ export default function HeaderCtas() {
       </TrackedHeaderLink>
       <TrackedHeaderLink
         href="/contact"
-        className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:bg-primary-dark hover:shadow-md"
+        className="inline-flex min-h-[44px] items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:bg-primary-dark hover:shadow-md"
         location="header_desktop"
         text="Contact"
       >
