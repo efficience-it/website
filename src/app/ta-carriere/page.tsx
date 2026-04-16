@@ -10,6 +10,7 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
+import CallToAction from "@/components/sections/CallToAction";
 
 const relatedLinks: RelatedLink[] = [
   { title: "7 bonnes raisons de rejoindre Efficience IT", description: "notre culture et nos valeurs", href: "/article/7-bonnes-raisons-de-rejoindre-efficience-it" },
@@ -125,6 +126,22 @@ export default function TaCarriere() {
         </Container>
       </section>
       </FadeIn>
+      <CallToAction
+        title="Prêt à postuler ?"
+        description="Envoyez-nous votre candidature et échangeons sur les opportunités qui correspondent à votre profil."
+        buttons={[
+          {
+            href: `mailto:${spontaneousEmail}`,
+            label: "Envoyer ma candidature",
+            variant: "white",
+          },
+          {
+            href: "/la-team",
+            label: "Découvrir la team",
+            variant: "outline-white",
+          },
+        ]}
+      />
     </main>
     </>
   );

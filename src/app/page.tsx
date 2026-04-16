@@ -56,6 +56,9 @@ export default function Home() {
     <main>
       <Hero />
       <FadeIn>
+        <ClientLogos />
+      </FadeIn>
+      <FadeIn>
         <ExpertiseCards />
       </FadeIn>
       <FadeIn>
@@ -116,9 +119,6 @@ export default function Home() {
             </div>
           </Container>
         </section>
-      </FadeIn>
-      <FadeIn>
-        <ClientLogos />
       </FadeIn>
       <FadeIn>
         <section className="py-16">
