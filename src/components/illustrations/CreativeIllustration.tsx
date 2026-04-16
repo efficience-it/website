@@ -6,15 +6,17 @@ type CreativeIllustrationProps = React.SVGProps<SVGSVGElement>;
  * Illustration : Creative (by Katerina Limpitsouni - undraw.co)
  * Supporte le className, le style et toutes les props SVG standards via {...props}
  */
-const CreativeIllustration = (props: CreativeIllustrationProps) => (
+const CreativeIllustration = ({ className, ...props }: CreativeIllustrationProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={927.68}
     height={702.46}
     viewBox="0 0 927.67711 702.45932"
     aria-label="Illustration créative"
+    className={`text-[#090814] dark:text-white ${className ?? ""}`}
     {...props}
   >
+    <style>{`.dark .creative-dark-fill{fill:#fff}`}</style>
     {/* Background / Base elements */}
     <path
       d="M351.52225,625.1482c-.89552,0-1.78795-.15594-2.64333-.46783l-57.39199-20.85943c-3.36129-1.2213-5.35459-4.31393-5.07821-7.88057.27792-3.56664,2.72516-6.31496,6.23621-7.00204l158.51002-31.03284c1.27843-.25322,2.61245-.17138,3.85228.22388l44.29115,14.19398c3.36746,1.07926,5.47965,4.06072,5.38084,7.59647-.10036,3.53576-2.37621,6.3937-5.8008,7.2815l-145.40919,37.69828c-.64076.16675-1.29542.24858-1.94698.24858Z"
@@ -43,6 +45,7 @@ const CreativeIllustration = (props: CreativeIllustrationProps) => (
     <path
       d="M159.93668,445.08086l-.0633-1.6073-9.62066-241.14948,10.74778-7.73698.579.04632,224.55149,18.12037,24.9819,11.45493.04478.96191,9.6608,204.9427-260.88179,14.96753ZM153.47967,203.89587l9.48942,237.84378,254.54213-14.60314-9.4678-200.85574-22.72458-10.42045-223.41356-18.02773-8.4256,6.06328Z"
       fill="#090814"
+      className="creative-dark-fill"
     />
     <path
       d="M387.93901,358.26798h-201.88404c-7.8991,0-14.32522-6.42612-14.32522-14.32368v-59.28956c0-3.9372,1.56561-7.60728,4.40812-10.33553,2.84713-2.73442,6.59751-4.14718,10.5347-3.98969l201.88559,8.71279c7.68448.31806,13.70608,6.60368,13.70608,14.30824v50.59376c0,7.89755-6.42612,14.32368-14.32522,14.32368Z"
@@ -58,6 +61,7 @@ const CreativeIllustration = (props: CreativeIllustrationProps) => (
       width={57.49852}
       height={3.16211}
       fill="#090814"
+      className="creative-dark-fill"
     />
     <rect
       x={281.18228}
@@ -65,10 +69,12 @@ const CreativeIllustration = (props: CreativeIllustrationProps) => (
       width={102.40882}
       height={3.16211}
       fill="#090814"
+      className="creative-dark-fill"
     />
     <path
       d="M90.52929,99.95386l-82.30441-8.23106L0,7.83579l80.66005,9.87696,9.86924,82.24111ZM11.11834,88.83552l75.80109,7.57949-9.10342-75.86439L3.53267,11.45493l7.58567,77.3806Z"
       fill="#090814"
+      className="creative-dark-fill"
     />
     <rect
       x={43.66368}
@@ -77,6 +83,7 @@ const CreativeIllustration = (props: CreativeIllustrationProps) => (
       height={46.09528}
       transform="translate(5.04655 77.06107) rotate(-84.09386)"
       fill="#090814"
+      className="creative-dark-fill"
     />
     <rect
       x={43.66365}
@@ -85,6 +92,7 @@ const CreativeIllustration = (props: CreativeIllustrationProps) => (
       height={46.05107}
       transform="translate(-7.15476 88.93128) rotate(-84.65183)"
       fill="#090814"
+      className="creative-dark-fill"
     />
     <rect
       x={43.66385}
@@ -93,10 +101,12 @@ const CreativeIllustration = (props: CreativeIllustrationProps) => (
       height={45.99687}
       transform="translate(-17.24883 99.47019) rotate(-85.4293)"
       fill="#090814"
+      className="creative-dark-fill"
     />
     <path
       d="M406.74028,144.2234l-82.30441-8.23106-8.22488-83.88701,80.66005,9.87696,9.86924,82.24111ZM327.32933,133.10506l75.80109,7.57949-9.10342-75.86439-74.28333-9.0957,7.58567,77.3806Z"
       fill="#090814"
+      className="creative-dark-fill"
     />
     <rect
       x={359.87467}
@@ -105,6 +115,7 @@ const CreativeIllustration = (props: CreativeIllustrationProps) => (
       height={46.09528}
       transform="translate(244.68515 431.30779) rotate(-84.09386)"
       fill="#090814"
+      className="creative-dark-fill"
     />
     <rect
       x={359.87464}
@@ -113,6 +124,7 @@ const CreativeIllustration = (props: CreativeIllustrationProps) => (
       height={46.05107}
       transform="translate(235.50609 443.90898) rotate(-84.65183)"
       fill="#090814"
+      className="creative-dark-fill"
     />
     <rect
       x={359.87484}
@@ -121,10 +133,12 @@ const CreativeIllustration = (props: CreativeIllustrationProps) => (
       height={45.99687}
       transform="translate(229.63481 455.41728) rotate(-85.4293)"
       fill="#090814"
+      className="creative-dark-fill"
     />
     <path
       d="M248.38157,111.03977l-91.38467-11.45956V0l93.01822,14.62167-1.63355,96.4181ZM160.15901,96.78866l85.11912,10.67521,1.52856-90.14638L160.15901,3.69942v93.08924Z"
       fill="#090814"
+      className="creative-dark-fill"
     />
     <rect
       x={204.93126}
@@ -133,6 +147,7 @@ const CreativeIllustration = (props: CreativeIllustrationProps) => (
       height={52.5567}
       transform="translate(143.83549 238.53158) rotate(-83.08877)"
       fill="#090814"
+      className="creative-dark-fill"
     />
     <rect
       x={203.35023}
@@ -141,10 +156,12 @@ const CreativeIllustration = (props: CreativeIllustrationProps) => (
       height={46.09528}
       transform="translate(129.42954 252.92036) rotate(-84.09386)"
       fill="#090814"
+      className="creative-dark-fill"
     />
     <path
       d="M413.63115,228.68323l-264.89927-19.81568v-17.14148c0-4.44363,1.88985-8.70198,5.1832-11.68344,3.29489-2.98146,7.72308-4.439,12.14201-3.99587l233.38316,23.32982c8.09055.80751,14.19089,7.54861,14.19089,15.67931v13.62733Z"
       fill="#090814"
+      className="creative-dark-fill"
     />
     <circle cx={173.31124} cy={193.83884} r={5.53369} fill="#fff" />
     <circle cx={192.28389} cy={197.00095} r={5.53369} fill="#fff" />

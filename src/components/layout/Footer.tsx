@@ -8,7 +8,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-dark text-white">
+    <footer className="text-white" style={{ backgroundColor: "#333333", color: "#ffffff" }}>
       <Container className="py-12">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-6">
           {/* Logo + description */}
@@ -29,7 +29,7 @@ export default function Footer() {
 
           {/* Expertises */}
           <div>
-            <h3 className="mb-4 font-display text-sm font-semibold uppercase tracking-wider">
+            <h3 className="mb-4 font-display text-sm font-semibold uppercase tracking-wider" style={{ color: "#ffffff" }}>
               {footerNav.expertises.title}
             </h3>
             <ul className="space-y-2">
@@ -37,7 +37,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-300 transition-colors hover:text-white"
+                    className="text-sm text-[#d1d5db] visited:text-[#d1d5db] transition-colors hover:text-[#ffffff]!"
                   >
                     {link.label}
                   </Link>
@@ -47,7 +47,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="mb-4 font-display text-sm font-semibold uppercase tracking-wider">
+            <h3 className="mb-4 font-display text-sm font-semibold uppercase tracking-wider" style={{ color: "#ffffff" }}>
               {footerNav.symfony.title}
             </h3>
             <ul className="space-y-2">
@@ -55,7 +55,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-300 transition-colors hover:text-white"
+                    className="text-sm text-[#d1d5db] visited:text-[#d1d5db] transition-colors hover:text-[#ffffff]!"
                   >
                     {link.label}
                   </Link>
@@ -65,7 +65,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="mb-4 font-display text-sm font-semibold uppercase tracking-wider">
+            <h3 className="mb-4 font-display text-sm font-semibold uppercase tracking-wider" style={{ color: "#ffffff" }}>
               {footerNav.secteurs.title}
             </h3>
             <ul className="space-y-2">
@@ -73,7 +73,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-300 transition-colors hover:text-white"
+                    className="text-sm text-[#d1d5db] visited:text-[#d1d5db] transition-colors hover:text-[#ffffff]!"
                   >
                     {link.label}
                   </Link>
@@ -84,7 +84,7 @@ export default function Footer() {
 
           {/* Agence */}
           <div>
-            <h3 className="mb-4 font-display text-sm font-semibold uppercase tracking-wider">
+            <h3 className="mb-4 font-display text-sm font-semibold uppercase tracking-wider" style={{ color: "#ffffff" }}>
               {footerNav.agence.title}
             </h3>
             <ul className="space-y-2">
@@ -92,7 +92,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-300 transition-colors hover:text-white"
+                    className="text-sm text-[#d1d5db] visited:text-[#d1d5db] transition-colors hover:text-[#ffffff]!"
                   >
                     {link.label}
                   </Link>
@@ -103,22 +103,22 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h3 className="mb-4 font-display text-sm font-semibold uppercase tracking-wider">
+            <h3 className="mb-4 font-display text-sm font-semibold uppercase tracking-wider" style={{ color: "#ffffff" }}>
               {footerNav.contact.title}
             </h3>
             <TrackedEmailLink
               email={footerNav.contact.email}
-              className="text-sm text-gray-300 transition-colors hover:text-white"
+              className="text-sm text-[#d1d5db] visited:text-[#d1d5db] transition-colors hover:text-[#ffffff]!"
             />
             <Link
               href={footerNav.contact.cta.href}
-              className="mt-2 inline-block text-sm font-semibold text-primary-light transition-colors hover:text-white"
+              className="mt-2 inline-block text-sm font-semibold text-primary-light transition-colors hover:text-[#ffffff]!"
             >
               {footerNav.contact.cta.label}
             </Link>
             <Link
               href={footerNav.contact.auditCta.href}
-              className="mt-1 block text-sm font-semibold text-primary-light transition-colors hover:text-white"
+              className="mt-1 block text-sm font-semibold text-primary-light transition-colors hover:text-[#ffffff]!"
             >
               {footerNav.contact.auditCta.label}
             </Link>
@@ -134,7 +134,7 @@ export default function Footer() {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center text-sm text-gray-300 transition-opacity hover:opacity-80 hover:text-white"
+                    className="inline-flex items-center justify-center text-sm text-[#d1d5db] visited:text-[#d1d5db] transition-opacity hover:opacity-80 hover:text-[#ffffff]!"
                   >
                     {link.icon ? (
                       <Image

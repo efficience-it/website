@@ -68,15 +68,18 @@ const websiteJsonLd = {
   url: "https://www.itefficience.com",
 };
 
+const themeInitScript = `(function(){try{var storedTheme=localStorage.getItem("theme");var prefersDark=window.matchMedia("(prefers-color-scheme: dark)").matches;var theme=storedTheme==="dark"||storedTheme==="light"?storedTheme:(prefersDark?"dark":"light");var root=document.documentElement;root.classList.remove("light","dark");root.classList.add(theme);root.style.colorScheme=theme;}catch(e){}})();`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr-FR">
+    <html lang="fr-FR" suppressHydrationWarning>
       <head>
         <link rel="ai-metadata" href="/llms.txt" />
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body
         className={`${montserrat.variable} ${exo.variable} font-sans antialiased`}

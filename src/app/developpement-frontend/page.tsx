@@ -246,7 +246,7 @@ export default function DeveloppementFrontend() {
                 </div>
               </div>
               <div className="hidden md:flex justify-center">
-                <CreativeIllustration className="h-96 w-full text-primary" />
+                <CreativeIllustration className="h-96 w-full text-black dark:text-white" />
               </div>
             </div>
           </Container>

@@ -14,6 +14,7 @@ const TaskIllustration = (props: TaskIllustrationProps) => (
     viewBox="0 0 800.417 601.352"
     {...props}
   >
+    <style>{`.dark .task-top-dark{fill:#fff}.dark .task-right-ground-dark{fill:#090814}`}</style>
     <g transform="translate(-560.001 -239)">
       {/* Character Figure */}
       <g transform="translate(1202.178 477.843)">
@@ -97,29 +98,33 @@ const TaskIllustration = (props: TaskIllustrationProps) => (
         d="M742.338,733.271H911.35c.338-.017.607-.412.607-.894s-.268-.877-.607-.894H742.338c-.338.017-.607.412-.607.894S742,733.254,742.338,733.271Z"
         transform="translate(448.461 107.068)"
         fill="#f2f2f2"
+        className="task-right-ground-dark"
       />
       <path
         d="M962.207,200.837H263.129a1.123,1.123,0,1,1,0-2.245H962.207a1.123,1.123,0,1,1,0,2.245Z"
         transform="translate(297.994 78.574)"
         fill="#d6d6e3"
       />
-      <ellipse cx={585.839} cy={251.348} rx={12.079} ry={12.348} fill="#3f3d56" />
-      <ellipse cx={627.565} cy={251.348} rx={12.079} ry={12.348} fill="#3f3d56" />
-      <ellipse cx={669.29} cy={251.348} rx={12.079} ry={12.348} fill="#3f3d56" />
+      <ellipse cx={585.839} cy={251.348} rx={12.079} ry={12.348} fill="#3f3d56" className="task-top-dark" />
+      <ellipse cx={627.565} cy={251.348} rx={12.079} ry={12.348} fill="#3f3d56" className="task-top-dark" />
+      <ellipse cx={669.29} cy={251.348} rx={12.079} ry={12.348} fill="#3f3d56" className="task-top-dark" />
       <path
         d="M875.773,166.838h-29.64a2.245,2.245,0,1,0,0,4.489h29.64a2.245,2.245,0,1,0,0-4.489Z"
         transform="translate(359.424 75.222)"
         fill="#3f3d56"
+        className="task-top-dark"
       />
       <path
         d="M875.773,174.458h-29.64a2.245,2.245,0,1,0,0,4.489h29.64a2.245,2.245,0,1,0,0-4.489Z"
         transform="translate(359.424 76.026)"
         fill="#3f3d56"
+        className="task-top-dark"
       />
       <path
         d="M875.773,182.068h-29.64a2.245,2.245,0,1,0,0,4.489h29.64a2.245,2.245,0,1,0,0-4.489Z"
         transform="translate(359.424 76.83)"
         fill="#3f3d56"
+        className="task-top-dark"
       />
       <path
         d="M924.789,234.906H288.047a13.32,13.32,0,0,0-13.3,13.3v2.145a13.32,13.32,0,0,0,13.3,13.3H924.789a13.32,13.32,0,0,0,13.3-13.3v-2.145a13.32,13.32,0,0,0-13.3-13.3Z"

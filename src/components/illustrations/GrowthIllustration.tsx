@@ -19,7 +19,7 @@ const GrowthIllustration = (props: GrowthIllustrationProps) => (
       <path
         d="M926.654,741.64H128.347c-.468,0-.847-.5-.847-1.126s.379-1.126.847-1.126H926.654c.467,0,.847.5.847,1.126S927.121,741.64,926.654,741.64Z"
         transform="translate(476.5 163.634)"
-        fill="#cbcbcb"
+        className="fill-[#cbcbcb] dark:fill-[#090814]"
       />
       <path
         d="M4.753,0,28.6,6.653,21.925,30.746l-30.4-5.01Z"
