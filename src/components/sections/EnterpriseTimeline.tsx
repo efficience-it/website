@@ -33,9 +33,7 @@ export default function EnterpriseTimeline({ items }: Readonly<EnterpriseTimelin
       const markerY = window.innerHeight * markerViewportRatio;
       const rawProgress = markerY - rect.top - lineStartOffset;
       const clampedProgress = Math.max(0, Math.min(rawProgress, rect.height - lineStartOffset));
-      if (progressBarRef.current) {
-        progressBarRef.current.style.height = `${clampedProgress}px`;
-      }
+      progressBarRef.current!.style.height = `${clampedProgress}px`;
 
       const nextActiveItems: number[] = [];
       itemRefs.current.forEach((item, index) => {
