@@ -36,7 +36,7 @@ export default function ThemeToggle() {
     <button
       type="button"
       onClick={toggleTheme}
-      className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-white text-dark transition-colors hover:bg-light-gray"
+      className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-white text-dark transition-colors hover:bg-light-gray dark:bg-light-gray"
       aria-label="Basculer le thème"
       title="Basculer le thème"
     >

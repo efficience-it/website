@@ -62,7 +62,7 @@ export default function MobileMenu({ items }: MobileMenuProps) {
           />
           <nav
             aria-label="Menu de navigation"
-            className="absolute left-0 right-0 top-full z-50 border-t border-border bg-white shadow-lg dark:shadow-black/40"
+            className="absolute left-0 right-0 top-full z-50 border-t border-border bg-white shadow-lg dark:bg-light-gray dark:shadow-black/40"
           >
             <ul className="divide-y divide-border">
               {items.map((item, index) =>

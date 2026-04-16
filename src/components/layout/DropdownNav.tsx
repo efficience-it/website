@@ -114,7 +114,7 @@ export default function DropdownNav({ item, isOpen, onOpen, onClose, onDelayedCl
         id={menuId}
         role="menu"
         aria-label={item.label}
-        className={`absolute left-1/2 top-full z-50 -translate-x-1/2 rounded-xl border border-border bg-white shadow-xl transition-all duration-150 dark:shadow-black/40 ${
+        className={`absolute left-1/2 top-full z-50 -translate-x-1/2 rounded-xl border border-border bg-white shadow-xl transition-all duration-150 dark:bg-light-gray dark:shadow-black/40 ${
           hasDescriptions ? (columns >= 2 ? "w-[560px]" : "w-[320px]") : "min-w-[220px]"
         } ${
           isOpen
