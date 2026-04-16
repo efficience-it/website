@@ -24,27 +24,31 @@ export function readingTime(wordCount: number): number {
 export function getAllPosts(): BlogPost[] {
   const files = fs.readdirSync(BLOG_DIR).filter((f) => f.endsWith(".mdx"));
 
-  const posts = files.map((filename) => {
-    const slug = filename.replace(/\.mdx$/, "");
-    const filePath = path.join(BLOG_DIR, filename);
-    const fileContent = fs.readFileSync(filePath, "utf-8");
-    const { data, content } = matter(fileContent);
+  const posts = files
+    .map((filename) => {
+      const slug = filename.replace(/\.mdx$/, "");
+      const filePath = path.join(BLOG_DIR, filename);
+      if (!fs.existsSync(filePath)) return null;
 
-    return {
-      slug,
-      title: data.title ?? "",
-      date: data.date ?? "",
-      author: data.author ?? "",
-      category: data.category ?? "",
-      excerpt: data.excerpt ?? "",
-      updatedAt: data.updatedAt,
-      image: data.image,
-      proficiencyLevel: data.proficiencyLevel,
-      faq: data.faq,
-      content,
-      wordCount: countWords(content),
-    };
-  });
+      const fileContent = fs.readFileSync(filePath, "utf-8");
+      const { data, content } = matter(fileContent);
+
+      return {
+        slug,
+        title: data.title ?? "",
+        date: data.date ?? "",
+        author: data.author ?? "",
+        category: data.category ?? "",
+        excerpt: data.excerpt ?? "",
+        updatedAt: data.updatedAt,
+        image: data.image,
+        proficiencyLevel: data.proficiencyLevel,
+        faq: data.faq,
+        content,
+        wordCount: countWords(content),
+      };
+    })
+    .filter((p): p is BlogPost => p !== null);
 
   return posts.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),

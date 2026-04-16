@@ -15,7 +15,17 @@ describe("No em dash", () => {
   const files = getFiles();
 
   it.each(files)("%s does not contain em dash", (file) => {
-    const content = fs.readFileSync(path.join(ROOT, file), "utf-8");
+    const fullPath = path.join(ROOT, file);
+    let content = "";
+    try {
+      content = fs.readFileSync(fullPath, "utf-8");
+    } catch (err: unknown) {
+      if (err instanceof Error && "code" in err) {
+        const code = (err as { code?: unknown }).code;
+        if (code === "ENOENT") return;
+      }
+      throw err;
+    }
     const lines = content.split("\n");
     const offending = lines
       .map((line, i) => ({ line: i + 1, content: line }))
