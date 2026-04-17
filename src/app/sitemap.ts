@@ -388,6 +388,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: post.updatedAt ?? post.date,
     changeFrequency: "monthly" as const,
     priority: 0.6,
+    ...(post.image ? { images: [`${BASE_URL}${post.image}`] } : {}),
   }));
 
   return [...staticPages, ...categoryPages, ...blogPages];
