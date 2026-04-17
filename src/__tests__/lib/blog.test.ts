@@ -62,6 +62,23 @@ describe("getAllPosts", () => {
     expect(tempPost!.excerpt).toBe("");
     expect(tempPost!.wordCount).toBe(0);
   });
+
+  it("ignores files that do not exist", () => {
+    const originalExistsSync = fs.existsSync;
+    const existsSyncSpy = jest.spyOn(fs, "existsSync");
+    existsSyncSpy.mockImplementation((p) => {
+      if (p.toString().includes(TEMP_SLUG)) {
+        return false;
+      }
+      return originalExistsSync(p);
+    });
+
+    const posts = getAllPosts();
+    const tempPost = posts.find((p) => p.slug === TEMP_SLUG);
+    expect(tempPost).toBeUndefined();
+
+    existsSyncSpy.mockRestore();
+  });
 });
 
 describe("getCategoryBySlug", () => {
