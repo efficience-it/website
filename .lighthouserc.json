@@ -3,11 +3,11 @@
     "collect": {
       "staticDistDir": "./out",
       "url": [
-        "http://localhost/index.html",
-        "http://localhost/blog/index.html",
-        "http://localhost/audit-symfony-gratuit/index.html",
-        "http://localhost/agence-symfony-france/index.html",
-        "http://localhost/blog/coding-conventions/index.html"
+        "/index.html",
+        "/blog.html",
+        "/audit-symfony-gratuit.html",
+        "/agence-symfony-france.html",
+        "/article/coding-conventions.html"
       ]
     },
     "assert": {
