@@ -54,7 +54,7 @@ describe("ThemeToggle", () => {
     render(<ThemeToggle />);
     
     // Trigger system theme change to dark
-    const changeEvent = new Event("change") as any;
+    const changeEvent = new Event("change") as Event & { matches: boolean };
     changeEvent.matches = true; // dark mode
     
     // Since addEventListener was called with handleSystemChange, we need to extract it
@@ -68,7 +68,7 @@ describe("ThemeToggle", () => {
     render(<ThemeToggle />);
     
     // Trigger system theme change to light
-    const changeEvent = new Event("change") as any;
+    const changeEvent = new Event("change") as Event & { matches: boolean };
     changeEvent.matches = false; // light mode
     
     const handleSystemChange = addEventListenerMock.mock.calls[0][1];
@@ -81,7 +81,7 @@ describe("ThemeToggle", () => {
     localStorage.setItem("theme", "light");
     render(<ThemeToggle />);
     
-    const changeEvent = new Event("change") as any;
+    const changeEvent = new Event("change") as Event & { matches: boolean };
     changeEvent.matches = true; // dark mode
     
     const handleSystemChange = addEventListenerMock.mock.calls[0][1];
