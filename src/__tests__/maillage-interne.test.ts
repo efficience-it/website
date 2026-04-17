@@ -28,7 +28,7 @@ const SERVICE_PAGES = [
 function getMdxFiles(): string[] {
   return fs
     .readdirSync(CONTENT_DIR)
-    .filter((f) => f.endsWith(".mdx"));
+    .filter((f) => f.endsWith(".mdx") && !f.startsWith("__test"));
 }
 
 function countIncomingLinks(servicePath: string, mdxFiles: string[]): number {

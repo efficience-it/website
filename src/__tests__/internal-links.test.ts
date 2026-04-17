@@ -24,7 +24,7 @@ function getValidRoutes(): Set<string> {
 
   const blogFiles = fs
     .readdirSync(CONTENT_DIR)
-    .filter((f) => f.endsWith(".mdx"));
+    .filter((f) => f.endsWith(".mdx") && !f.startsWith("__test"));
   for (const file of blogFiles) {
     routes.add(`/article/${file.replace(/\.mdx$/, "")}`);
   }
@@ -62,6 +62,7 @@ function getAllFiles(dir: string, ext: string): string[] {
   function walk(d: string) {
     const entries = fs.readdirSync(d, { withFileTypes: true });
     for (const entry of entries) {
+      if (entry.name.startsWith("__test")) continue;
       const fullPath = path.join(d, entry.name);
       if (entry.isDirectory()) {
         walk(fullPath);
