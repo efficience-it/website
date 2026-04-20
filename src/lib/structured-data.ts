@@ -144,3 +144,28 @@ export function howToJsonLd(name: string, description: string, steps: HowToStep[
     })),
   };
 }
+
+import { EventSchema } from "@/types/blog";
+
+export function eventJsonLd(event: EventSchema) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BusinessEvent",
+    name: event.name,
+    startDate: event.startDate,
+    endDate: event.endDate,
+    eventStatus: "https://schema.org/EventScheduled",
+    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+    location: {
+      "@type": "Place",
+      name: event.location.name,
+      address: event.location.address,
+    },
+    organizer: {
+      "@type": "Organization",
+      name: event.organizer.name,
+      url: event.organizer.url,
+    },
+    url: event.url,
+  };
+}
