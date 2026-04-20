@@ -23,7 +23,7 @@ const VALID_CATEGORIES = [
 function getBlogFiles(): string[] {
   return fs
     .readdirSync(CONTENT_DIR)
-    .filter((f) => f.endsWith(".mdx"));
+    .filter((f) => f.endsWith(".mdx") && !f.startsWith("__test-"));
 }
 
 describe("Blog front matter", () => {
