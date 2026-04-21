@@ -1,11 +1,14 @@
 import {
-  extractHowToStepsFromMarkdown,
-  getSpeakableSelectors,
+  blogItemListJsonLd,
+  breadcrumbJsonLd,
   howToJsonLd,
-  isTutorialArticle,
   localBusinessJsonLd,
+  reviewsJsonLd,
+  serviceJsonLd,
+  webPageJsonLd,
 } from "@/lib/structured-data";
 import { categorySlugMap } from "@/lib/blog";
+import { BASE_URL } from "@/lib/metadata";
 
 describe("howToJsonLd", () => {
   it("returns correct schema with steps", () => {
@@ -45,116 +48,123 @@ describe("localBusinessJsonLd", () => {
   });
 });
 
+describe("breadcrumbJsonLd", () => {
+  it("builds a breadcrumb list including home", () => {
+    const result = breadcrumbJsonLd([
+      { name: "Blog", path: "/blog" },
+      { name: "Article", path: "/article/test" },
+    ]);
+
+    expect(result["@context"]).toBe("https://schema.org");
+    expect(result["@type"]).toBe("BreadcrumbList");
+    expect(result.itemListElement).toHaveLength(3);
+    expect(result.itemListElement[0]).toEqual({
+      "@type": "ListItem",
+      position: 1,
+      name: "Accueil",
+      item: BASE_URL,
+    });
+    expect(result.itemListElement[2].item).toBe(`${BASE_URL}/article/test`);
+  });
+});
+
+describe("serviceJsonLd", () => {
+  it("returns a valid Service schema", () => {
+    const result = serviceJsonLd({
+      name: "Audit Symfony",
+      description: "Audit de code Symfony",
+      path: "/audit-code-php",
+    });
+
+    expect(result["@context"]).toBe("https://schema.org");
+    expect(result["@type"]).toBe("Service");
+    expect(result.name).toBe("Audit Symfony");
+    expect(result.url).toBe(`${BASE_URL}/audit-code-php`);
+    expect(result.provider["@id"]).toBe(`${BASE_URL}/#localbusiness`);
+    expect(result.areaServed).toHaveLength(6);
+  });
+});
+
+describe("reviewsJsonLd", () => {
+  it("maps testimonials to Review schemas", () => {
+    const result = reviewsJsonLd([
+      { name: "Alice", role: "CTO", company: "Acme", quote: "Excellent accompagnement." },
+      { name: "Bob", role: "Lead Dev", company: "Beta", quote: "Equipe reactive." },
+    ]);
+
+    expect(result).toHaveLength(2);
+    expect(result[0]["@type"]).toBe("Review");
+    expect(result[0].author.name).toBe("Alice");
+    expect(result[1].reviewBody).toBe("Equipe reactive.");
+  });
+});
+
+describe("blogItemListJsonLd", () => {
+  it("returns an ItemList for blog posts", () => {
+    const result = blogItemListJsonLd([
+      {
+        slug: "post-a",
+        title: "Post A",
+        date: "2026-01-01",
+        author: "Auteur",
+        category: "Symfony",
+        excerpt: "Excerpt",
+        content: "Content",
+        wordCount: 100,
+      },
+      {
+        slug: "post-b",
+        title: "Post B",
+        date: "2026-01-02",
+        author: "Auteur",
+        category: "Projet",
+        excerpt: "Excerpt",
+        content: "Content",
+        wordCount: 120,
+      },
+    ]);
+
+    expect(result["@type"]).toBe("ItemList");
+    expect(result.itemListElement).toHaveLength(2);
+    expect(result.itemListElement[0].position).toBe(1);
+    expect(result.itemListElement[1].url).toBe(`${BASE_URL}/article/post-b`);
+  });
+});
+
+describe("webPageJsonLd", () => {
+  it("returns base WebPage schema without optional dates", () => {
+    const result = webPageJsonLd({
+      name: "Nom",
+      description: "Description",
+      path: "/contact",
+    });
+
+    expect(result["@type"]).toBe("WebPage");
+    expect(result.url).toBe(`${BASE_URL}/contact`);
+    expect(result).not.toHaveProperty("datePublished");
+    expect(result).not.toHaveProperty("dateModified");
+  });
+
+  it("includes optional type and dates when provided", () => {
+    const result = webPageJsonLd({
+      name: "Blog",
+      description: "Page blog",
+      path: "/blog",
+      type: "CollectionPage",
+      datePublished: "2026-01-01",
+      dateModified: "2026-02-01",
+    });
+
+    expect(result["@type"]).toBe("CollectionPage");
+    expect(result.datePublished).toBe("2026-01-01");
+    expect(result.dateModified).toBe("2026-02-01");
+  });
+});
+
 describe("categorySlugMap", () => {
   it("maps category names to slugs", () => {
     expect(categorySlugMap["Symfony"]).toBe("symfony");
     expect(categorySlugMap["Green IT"]).toBe("green-it");
     expect(Object.keys(categorySlugMap).length).toBeGreaterThan(0);
-  });
-});
-
-describe("isTutorialArticle", () => {
-  it("returns true for deploy, install and migrate terms", () => {
-    expect(isTutorialArticle("deployer-symfony-sur-docker", "Guide complet")).toBe(true);
-    expect(isTutorialArticle("symfony-tips", "Installation Symfony en production")).toBe(true);
-    expect(isTutorialArticle("api-rest", "Migration Symfony 7")).toBe(true);
-  });
-
-  it("returns false for non tutorial article", () => {
-    expect(isTutorialArticle("api-rest-les-bonnes-pratiques", "Bonnes pratiques API REST")).toBe(
-      false,
-    );
-  });
-});
-
-describe("getSpeakableSelectors", () => {
-  it("returns selectors for first two paragraph blocks", () => {
-    const content = `Introduction au sujet.
-
-## Etape 1
-Premier paragraphe de section.
-
-Second paragraphe de section.`;
-
-    expect(getSpeakableSelectors(content)).toEqual([
-      "article .prose p:nth-of-type(1)",
-      "article .prose p:nth-of-type(2)",
-    ]);
-  });
-
-  it("falls back to h1 when no paragraph found", () => {
-    const content = `## Titre
-- item 1
-- item 2`;
-
-    expect(getSpeakableSelectors(content)).toEqual(["h1"]);
-  });
-});
-
-describe("extractHowToStepsFromMarkdown", () => {
-  it("extracts one step per h2 section", () => {
-    const content = `## Preparer l'environnement
-Installez les dependances necessaires.
-
-## Deployer l'application
-Lancez la commande de deploiement.
-`;
-
-    expect(extractHowToStepsFromMarkdown(content)).toEqual([
-      {
-        name: "Preparer l'environnement",
-        text: "Installez les dependances necessaires.",
-      },
-      {
-        name: "Deployer l'application",
-        text: "Lancez la commande de deploiement.",
-      },
-    ]);
-  });
-
-  it("excludes non procedural headings and keeps actionable sentence", () => {
-    const content = `## Introduction
-Ce paragraphe de contexte ne doit pas devenir une etape.
-
-## Installer Symfony CLI
-Installez Symfony CLI sur votre machine avec le script officiel. Puis verifiez la version.
-
-## Configurer les variables
-Configurez les variables d'environnement de production dans votre pipeline CI.
-
-## Conclusion
-Ce bloc ne doit pas etre garde.
-`;
-
-    expect(extractHowToStepsFromMarkdown(content)).toEqual([
-      {
-        name: "Installer Symfony CLI",
-        text: "Installez Symfony CLI sur votre machine avec le script officiel.",
-      },
-      {
-        name: "Configurer les variables",
-        text: "Configurez les variables d'environnement de production dans votre pipeline CI.",
-      },
-    ]);
-  });
-
-  it("limits the output to 6 steps", () => {
-    const content = `## Etape 1
-Installez le prerequis A pour preparer l'environnement.
-## Etape 2
-Configurez le prerequis B pour preparer l'environnement.
-## Etape 3
-Ajoutez le prerequis C pour preparer l'environnement.
-## Etape 4
-Executez le prerequis D pour preparer l'environnement.
-## Etape 5
-Ouvrez le prerequis E pour preparer l'environnement.
-## Etape 6
-Verifiez le prerequis F pour preparer l'environnement.
-## Etape 7
-Lancez le prerequis G pour preparer l'environnement.
-`;
-
-    expect(extractHowToStepsFromMarkdown(content)).toHaveLength(6);
   });
 });

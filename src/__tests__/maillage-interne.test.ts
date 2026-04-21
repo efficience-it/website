@@ -28,13 +28,16 @@ const SERVICE_PAGES = [
 function getMdxFiles(): string[] {
   return fs
     .readdirSync(CONTENT_DIR)
-    .filter((f) => f.endsWith(".mdx"));
+    .filter((f) => f.endsWith(".mdx"))
+    .filter((f) => !f.startsWith("__test-"));
 }
 
 function countIncomingLinks(servicePath: string, mdxFiles: string[]): number {
   let count = 0;
   for (const file of mdxFiles) {
-    const content = fs.readFileSync(path.join(CONTENT_DIR, file), "utf-8");
+    const fullPath = path.join(CONTENT_DIR, file);
+    if (!fs.existsSync(fullPath)) continue;
+    const content = fs.readFileSync(fullPath, "utf-8");
     if (content.includes(`(${servicePath})`) || content.includes(`"${servicePath}"`)) {
       count++;
     }

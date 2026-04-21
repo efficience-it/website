@@ -12,18 +12,12 @@ import BlogCard from "@/components/cards/BlogCard";
 import TableOfContents from "@/components/ui/TableOfContents";
 import type { Metadata } from "next";
 import { BASE_URL, SITE_NAME, pageMetadata } from "@/lib/metadata";
-import {
-  breadcrumbJsonLd,
-  extractHowToStepsFromMarkdown,
-  getSpeakableSelectors,
-  howToJsonLd,
-  isTutorialArticle,
-} from "@/lib/structured-data";
+import { breadcrumbJsonLd } from "@/lib/structured-data";
 import { getAuthorSchema } from "@/data/authors";
 import FadeIn from "@/components/ui/FadeIn";
 import ScrollDepthTracker from "@/components/ui/ScrollDepthTracker";
 
-const TECH_CATEGORIES = new Set(["Outils", "Formation", "Projet", "Green IT"]);
+const TECH_CATEGORIES = ["Outils", "Formation", "Projet", "Green IT"];
 
 function splitContentAfterThirdH2(content: string): [string, string] | null {
   const h2Regex = /^## /gm;
@@ -90,23 +84,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   const url = `${BASE_URL}/article/${slug}`;
 
-  const isTech = TECH_CATEGORIES.has(post.category);
-  const speakableSelectors = getSpeakableSelectors(post.content, 2);
-  const tutorialArticle = isTutorialArticle(post.slug, post.title);
-  const howToSteps = tutorialArticle ? extractHowToStepsFromMarkdown(post.content) : [];
-  const articleHowToJsonLd =
-    tutorialArticle && howToSteps.length > 1
-      ? {
-          ...howToJsonLd(post.title, post.excerpt, howToSteps),
-          inLanguage: "fr-FR",
-          mainEntityOfPage: {
-            "@type": "WebPage",
-            "@id": url,
-          },
-          url,
-          image: post.image ? `${BASE_URL}${post.image}` : undefined,
-        }
-      : null;
+  const isTech = TECH_CATEGORIES.includes(post.category);
 
   const headings = extractHeadings(post.content);
 
@@ -145,7 +123,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     inLanguage: "fr-FR",
     speakable: {
       "@type": "SpeakableSpecification",
-      cssSelector: speakableSelectors,
+      cssSelector: ["h1", "article > p:first-of-type"],
     },
     ...(isTech && { proficiencyLevel: post.proficiencyLevel ?? "Intermediate" }),
   };
@@ -165,12 +143,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
       />
-      {articleHowToJsonLd && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(articleHowToJsonLd) }}
-        />
-      )}
       {post.faq && post.faq.length > 0 && (
         <script
           type="application/ld+json"
@@ -270,7 +242,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                     return <MarkdownContent content={post.content} />;
                   }
                   const [firstPart, secondPart] = parts;
-                  const isSymfony = post.category && TECH_CATEGORIES.has(post.category);
+                  const isSymfony =
+                    post.category && TECH_CATEGORIES.includes(post.category);
                   return (
                     <>
                       <MarkdownContent content={firstPart} />
