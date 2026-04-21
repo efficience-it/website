@@ -5,7 +5,8 @@ import { getAllPosts, getPostBySlug, getCategorySlug, getPostsByCategory, extrac
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import MarkdownContent from "@/components/ui/MarkdownContent";
-import ArticleCta from "@/components/sections/ArticleCta";
+import ArticleCta, { getArticleCtaConfig } from "@/components/sections/ArticleCta";
+import StickyArticleCta from "@/components/sections/StickyArticleCta";
 import Accordion from "@/components/ui/Accordion";
 import SectionTitle from "@/components/ui/SectionTitle";
 import BlogCard from "@/components/cards/BlogCard";
@@ -17,7 +18,7 @@ import { getAuthorSchema } from "@/data/authors";
 import FadeIn from "@/components/ui/FadeIn";
 import ScrollDepthTracker from "@/components/ui/ScrollDepthTracker";
 
-const TECH_CATEGORIES = ["Outils", "Formation", "Projet", "Green IT"];
+const TECH_CATEGORIES = new Set(["Outils", "Formation", "Projet", "Green IT"]);
 
 function splitContentAfterThirdH2(content: string): [string, string] | null {
   const h2Regex = /^## /gm;
@@ -84,7 +85,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   const url = `${BASE_URL}/article/${slug}`;
 
-  const isTech = TECH_CATEGORIES.includes(post.category);
+  const isTech = TECH_CATEGORIES.has(post.category);
+  const shouldShowStickyCta = post.wordCount > 1500;
+  const stickyCtaConfig = getArticleCtaConfig(post.category, slug);
 
   const headings = extractHeadings(post.content);
 
@@ -163,6 +166,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         />
       )}
       <ScrollDepthTracker slug={slug} />
+      {shouldShowStickyCta && (
+        <StickyArticleCta href={stickyCtaConfig.href} slug={slug} />
+      )}
       <main>
         <article className="py-16">
           <Container className="mx-auto max-w-3xl">
@@ -243,7 +249,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   }
                   const [firstPart, secondPart] = parts;
                   const isSymfony =
-                    post.category && TECH_CATEGORIES.includes(post.category);
+                    post.category && TECH_CATEGORIES.has(post.category);
                   return (
                     <>
                       <MarkdownContent content={firstPart} />

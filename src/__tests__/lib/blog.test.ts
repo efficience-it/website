@@ -62,6 +62,32 @@ describe("getAllPosts", () => {
     expect(tempPost!.excerpt).toBe("");
     expect(tempPost!.wordCount).toBe(0);
   });
+
+  it("skips files removed between listing and reading", () => {
+    const readdirSpy = jest.spyOn(fs, "readdirSync").mockImplementation(() => ["missing.mdx"] as never);
+    const missingError = Object.assign(new Error("missing file"), { code: "ENOENT" });
+    const readFileSpy = jest.spyOn(fs, "readFileSync").mockImplementation(() => {
+      throw missingError;
+    });
+
+    expect(getAllPosts()).toEqual([]);
+
+    readFileSpy.mockRestore();
+    readdirSpy.mockRestore();
+  });
+
+  it("rethrows read errors that are not missing-file errors", () => {
+    const readdirSpy = jest.spyOn(fs, "readdirSync").mockImplementation(() => ["broken.mdx"] as never);
+    const readError = Object.assign(new Error("permission denied"), { code: "EACCES" });
+    const readFileSpy = jest.spyOn(fs, "readFileSync").mockImplementation(() => {
+      throw readError;
+    });
+
+    expect(() => getAllPosts()).toThrow("permission denied");
+
+    readFileSpy.mockRestore();
+    readdirSpy.mockRestore();
+  });
 });
 
 describe("getCategoryBySlug", () => {
