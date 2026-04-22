@@ -62,6 +62,14 @@ describe("Blog front matter", () => {
     expect(String(data.date)).toMatch(/^\d{4}-\d{2}-\d{2}$/);
   });
 
+  it.each(files)("%s has an updatedAt in YYYY-MM-DD format", (file) => {
+    const content = fs.readFileSync(path.join(CONTENT_DIR, file), "utf-8");
+    const { data } = matter(content);
+
+    expect(data.updatedAt).toBeDefined();
+    expect(String(data.updatedAt)).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+  });
+
   it.each(files)("%s has a non-empty title", (file) => {
     const content = fs.readFileSync(path.join(CONTENT_DIR, file), "utf-8");
     const { data } = matter(content);
