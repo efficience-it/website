@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { montserrat, exo } from "@/lib/fonts";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -16,6 +16,10 @@ export const metadata: Metadata = {
   },
   description:
     "Agence spécialisée Symfony et PHP, Efficience IT conçoit et développe des applications web sur mesure, robustes et adaptées aux enjeux métiers.",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0066cc",
 };
 
 export default function RootLayout({
