@@ -19,6 +19,7 @@ import FadeIn from "@/components/ui/FadeIn";
 import ScrollDepthTracker from "@/components/ui/ScrollDepthTracker";
 
 const TECH_CATEGORIES = new Set(["Outils", "Formation", "Projet", "Green IT"]);
+const STICKY_CTA_MIN_WORDS = 1500;
 
 function splitContentAfterThirdH2(content: string): [string, string] | null {
   const h2Regex = /^## /gm;
@@ -86,7 +87,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const url = `${BASE_URL}/article/${slug}`;
 
   const isTech = TECH_CATEGORIES.has(post.category);
-  const shouldShowStickyCta = post.wordCount > 1500;
+  const shouldShowStickyCta = post.wordCount > STICKY_CTA_MIN_WORDS;
   const stickyCtaConfig = getArticleCtaConfig(post.category, slug);
 
   const headings = extractHeadings(post.content);
@@ -170,7 +171,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         <StickyArticleCta href={stickyCtaConfig.href} slug={slug} />
       )}
       <main>
-        <article className="py-16">
+        <article className={`py-16 ${shouldShowStickyCta ? "pb-32 md:pb-16" : ""}`}>
           <Container className="mx-auto max-w-3xl">
             <header className="mb-16">
               <div className="flex flex-col gap-8 xl:flex-row xl:items-center xl:justify-between">
@@ -253,7 +254,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   return (
                     <>
                       <MarkdownContent content={firstPart} />
-                      <div className="my-8 rounded-lg bg-primary/5 p-6 text-center">
+                      <div data-cta-section className="my-8 rounded-lg bg-primary/5 p-6 text-center">
                         <p className="font-display text-lg font-semibold text-dark">
                           {isSymfony
                             ? "Besoin d'un regard expert sur votre code Symfony ?"

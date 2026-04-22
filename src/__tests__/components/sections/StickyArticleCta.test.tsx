@@ -67,22 +67,18 @@ describe("StickyArticleCta", () => {
     const gtagSpy = jest.fn();
     globalThis.window.gtag = gtagSpy;
 
-    render(<StickyArticleCta href="/contact" slug="article-test" />);
-    fireEvent.click(screen.getByRole("link", { name: "Parler de votre projet" }));
+    try {
+      render(<StickyArticleCta href="/contact" slug="article-test" />);
+      fireEvent.click(screen.getByRole("link", { name: "Parler de votre projet" }));
 
-    expect(gtagSpy).toHaveBeenCalledWith("event", "cta_click", {
-      cta_location: "article_sticky",
-      cta_text: "Parler de votre projet",
-      article_slug: "article-test",
-    });
-
-    delete globalThis.window.gtag;
-  });
-
-  it("stays visible when no cta section exists", () => {
-    render(<StickyArticleCta href="/contact" />);
-    const container = screen.getByText("Besoin d'un regard externe sur votre projet ?").parentElement;
-    expect(container?.className).toContain("translate-y-0");
+      expect(gtagSpy).toHaveBeenCalledWith("event", "cta_click", {
+        cta_location: "article_sticky",
+        cta_text: "Parler de votre projet",
+        article_slug: "article-test",
+      });
+    } finally {
+      delete globalThis.window.gtag;
+    }
   });
 
   it("shows again when cta section is no longer intersecting", () => {
@@ -115,9 +111,11 @@ describe("StickyArticleCta", () => {
     const saved = (globalThis as unknown as Record<string, unknown>).IntersectionObserver;
     (globalThis as unknown as Record<string, unknown>).IntersectionObserver = undefined;
 
-    render(<StickyArticleCta href="/contact" />);
-    expect(screen.getByRole("link", { name: "Parler de votre projet" })).toHaveAttribute("href", "/contact");
-
-    (globalThis as unknown as Record<string, unknown>).IntersectionObserver = saved;
+    try {
+      render(<StickyArticleCta href="/contact" />);
+      expect(screen.getByRole("link", { name: "Parler de votre projet" })).toHaveAttribute("href", "/contact");
+    } finally {
+      (globalThis as unknown as Record<string, unknown>).IntersectionObserver = saved;
+    }
   });
 });

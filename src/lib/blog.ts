@@ -23,33 +23,28 @@ export function readingTime(wordCount: number): number {
 
 export function getAllPosts(): BlogPost[] {
   const files = fs.readdirSync(BLOG_DIR).filter((f) => f.endsWith(".mdx"));
-  const posts: BlogPost[] = [];
 
-  for (const filename of files) {
+  const posts = files.map((filename) => {
     const slug = filename.replace(/\.mdx$/, "");
     const filePath = path.join(BLOG_DIR, filename);
-    try {
-      const fileContent = fs.readFileSync(filePath, "utf-8");
-      const { data, content } = matter(fileContent);
-      posts.push({
-        slug,
-        title: data.title ?? "",
-        date: data.date ?? "",
-        author: data.author ?? "",
-        category: data.category ?? "",
-        excerpt: data.excerpt ?? "",
-        updatedAt: data.updatedAt,
-        image: data.image,
-        proficiencyLevel: data.proficiencyLevel,
-        faq: data.faq,
-        content,
-        wordCount: countWords(content),
-      });
-    } catch (error) {
-      const isMissingFileError = error instanceof Error && "code" in error && error.code === "ENOENT";
-      if (!isMissingFileError) throw error;
-    }
-  }
+    const fileContent = fs.readFileSync(filePath, "utf-8");
+    const { data, content } = matter(fileContent);
+
+    return {
+      slug,
+      title: data.title ?? "",
+      date: data.date ?? "",
+      author: data.author ?? "",
+      category: data.category ?? "",
+      excerpt: data.excerpt ?? "",
+      updatedAt: data.updatedAt,
+      image: data.image,
+      proficiencyLevel: data.proficiencyLevel,
+      faq: data.faq,
+      content,
+      wordCount: countWords(content),
+    };
+  });
 
   return posts.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
