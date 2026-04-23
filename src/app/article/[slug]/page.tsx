@@ -16,6 +16,7 @@ import { breadcrumbJsonLd } from "@/lib/structured-data";
 import { getAuthorSchema } from "@/data/authors";
 import FadeIn from "@/components/ui/FadeIn";
 import ScrollDepthTracker from "@/components/ui/ScrollDepthTracker";
+import ArticleShareButtons from "@/components/ui/ArticleShareButtons";
 
 const TECH_CATEGORIES = ["Outils", "Formation", "Projet", "Green IT"];
 
@@ -199,20 +200,25 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   <h1 className="font-display text-3xl font-bold text-dark md:text-4xl">
                     {post.title}
                   </h1>
-                  {post.author && (
-                    <p className="mt-4 text-gray">Par {post.author}</p>
-                  )}
-                  {post.updatedAt && (
-                    <p className="mt-2 text-sm text-gray">
-                      Mis à jour le{" "}
-                      <time dateTime={post.updatedAt}>
-                        {new Date(post.updatedAt).toLocaleDateString("fr-FR", {
-                          day: "numeric",
-                          month: "long",
-                          year: "numeric",
-                        })}
-                      </time>
-                    </p>
+                  {(post.author || post.updatedAt) && (
+                    <div className="mt-4 flex flex-wrap items-start gap-4 min-[520px]:justify-between">
+                      <div className="space-y-2">
+                        {post.author && <p className="text-gray">Par {post.author}</p>}
+                        {post.updatedAt && (
+                          <p className="text-sm text-gray">
+                            Mis à jour le{" "}
+                            <time dateTime={post.updatedAt}>
+                              {new Date(post.updatedAt).toLocaleDateString("fr-FR", {
+                                day: "numeric",
+                                month: "long",
+                                year: "numeric",
+                              })}
+                            </time>
+                          </p>
+                        )}
+                      </div>
+                      <ArticleShareButtons url={url} title={post.title} />
+                    </div>
                   )}
                 </div>
                 {post.image && (
