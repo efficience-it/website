@@ -24,7 +24,7 @@ const secteurs = [
   {
     title: "E-commerce",
     description:
-      "Plateformes e-commerce sur mesure avec Symfony et Sylius : catalogue produit, API headless, intégration PIM/ERP et scalabilité pour encaisser les pics de trafic.",
+      "Plateformes e-commerce adaptées avec Symfony et Sylius : catalogue produit, API headless, intégration PIM/ERP et scalabilité pour encaisser les pics de trafic.",
     href: "/secteur/e-commerce",
     icon: "M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z",
   },
@@ -38,7 +38,7 @@ const secteurs = [
   {
     title: "Industrie",
     description:
-      "Outils métier sur mesure pour la production industrielle : interconnexion des systèmes d'information, workflows complexes et modernisation d'applications legacy.",
+      "Outils métier spécifiques pour la production industrielle : interconnexion des systèmes d'information, workflows complexes et modernisation d'applications legacy.",
     href: "/secteur/industrie",
     icon: "M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z",
   },
@@ -62,7 +62,7 @@ const besoins = [
   {
     title: "Application métier",
     description:
-      "Digitalisation de vos processus avec des outils sur mesure : gestion, suivi, automatisation. Des applications conçues pour votre métier, pas l'inverse.",
+      "Digitalisation de vos processus avec des outils dédiés : gestion, suivi, automatisation. Des applications conçues pour votre métier, pas l'inverse.",
     href: "/secteur/application-metier",
     icon: "M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z",
   },
@@ -83,7 +83,7 @@ const besoins = [
   {
     title: "API et intégration",
     description:
-      "API REST et GraphQL avec API Platform, connecteurs sur mesure et flux asynchrones pour interconnecter vos systèmes.",
+      "API REST et GraphQL avec API Platform, connecteurs adaptés et flux asynchrones pour interconnecter vos systèmes.",
     href: "/secteur/api-integration",
     icon: "M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5",
   },
@@ -142,7 +142,7 @@ const webPage = webPageJsonLd({
 
 const relatedLinks: RelatedLink[] = [
   {
-    title: "Développement web sur mesure",
+    title: "Développement web personnalisé",
     description:
       "Notre approche du développement d'applications web professionnelles",
     href: "/developpement-web-sur-mesure",
@@ -197,7 +197,7 @@ export default function SecteursIndex() {
                 href="/developpement-web-sur-mesure"
                 className="text-primary hover:underline"
               >
-                web sur mesure
+                web personnalisées
               </Link>{" "}
               qui répondent précisément à ces enjeux, avec Symfony comme socle
               technique.

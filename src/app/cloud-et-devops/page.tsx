@@ -379,7 +379,7 @@ export default function CloudEtDevops() {
                 Expertise reconnue
               </h3>
               <p className="mt-2 text-gray">
-                Une expertise éprouvée en solutions IT sur mesure pour répondre
+                Une expertise éprouvée en solutions IT conçu pour répondre
                 aux enjeux spécifiques de votre secteur.
               </p>
             </Card>
@@ -478,7 +478,7 @@ export default function CloudEtDevops() {
             <Link href="/developpement-web-sur-mesure" className="group">
               <Card>
                 <h3 className="font-display text-lg font-bold text-dark group-hover:text-primary">
-                  Développement web sur mesure
+                  Développement web personnalisé
                 </h3>
                 <p className="mt-2 text-gray">
                   Applications Symfony, sites e-commerce Sylius et intégrations

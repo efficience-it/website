@@ -18,11 +18,10 @@ import { testimonials } from "@/../data/testimonials";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title: "Développement web sur mesure | Expertise Symfony – Efficience IT",
+  title: "Développement web sur mesure - Expertise Symfony",
   description:
     "Efficience IT accompagne vos projets de développement web, notamment basés sur Symfony, de la conception à la mise en œuvre.",
   path: "/developpement-web-sur-mesure",
-  absoluteTitle: true,
 });
 
 const advantages = [
@@ -322,7 +321,7 @@ export default function DeveloppementWeb() {
                   </p>
                   <p className="mt-2 text-gray">
                     De la conception technique à la gestion multivendeurs, nous
-                    développons des marketplaces robustes et évolutives,
+                    développons des marketplaces durables et évolutives,
                     adaptées à votre secteur et à votre stratégie de croissance.
                   </p>
                 </div>

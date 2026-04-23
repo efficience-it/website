@@ -18,11 +18,10 @@ import {
 } from "@/../data/greenIt";
 
 export const metadata = pageMetadata({
-  title: "Green IT | Démarche numérique responsable – Efficience IT",
+  title: "Green IT - Démarche numérique responsable",
   description:
     "Efficience IT s'engage dans une démarche Green IT pour réduire l'impact environnemental du numérique via des pratiques techniques responsables.",
   path: "/green-it",
-  absoluteTitle: true,
 });
 
 const breadcrumb = breadcrumbJsonLd([{ name: "Green IT", path: "/green-it" }]);

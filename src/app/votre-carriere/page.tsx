@@ -21,25 +21,24 @@ const relatedLinks: RelatedLink[] = [
 ];
 
 export const metadata = pageMetadata({
-  title: "On recrute | Efficience IT – Opportunités de carrière",
+  title: "On recrute – Opportunités de carrière",
   description:
     "Découvrez les opportunités de carrière chez Efficience IT : développement, business et communication au sein d'une agence web spécialisée Symfony.",
-  path: "/ta-carriere",
-  absoluteTitle: true,
+  path: "/votre-carriere",
 });
 
-const breadcrumb = breadcrumbJsonLd([{ name: "Jobs", path: "/ta-carriere" }]);
+const breadcrumb = breadcrumbJsonLd([{ name: "Jobs", path: "/votre-carriere" }]);
 
 const webPage = webPageJsonLd({
   name: "On recrute | Efficience IT - Opportunités de carrière",
   description:
     "Découvrez les opportunités de carrière chez Efficience IT : développement, business et communication au sein d'une agence web spécialisée Symfony.",
-  path: "/ta-carriere",
+  path: "/votre-carriere",
   datePublished: "2025-09-01",
   dateModified: "2025-09-01",
 });
 
-export default function TaCarriere() {
+export default function VotreCarriere() {
   return (
     <>
     <script

@@ -48,9 +48,9 @@ const reactRelatedLinks: RelatedLink[] = [
 ];
 
 export const metadata = pageMetadata({
-  title: "Développement React sur mesure : applications performantes et maintenables",
+  title: "Développement React dédié : applications rapides et maintenables",
   description:
-    "Efficience IT développe des applications React et TypeScript sur mesure : SPA, dashboards, backoffices. Connectées à vos APIs Symfony ou Node.js.",
+    "Efficience IT développe des applications React et TypeScript personnalisées : SPA, dashboards, backoffices. Connectées à vos APIs Symfony ou Node.js.",
   path: "/developpement-react",
 });
 
@@ -169,12 +169,12 @@ const breadcrumb = breadcrumbJsonLd([
 const service = serviceJsonLd({
   name: "Développement React sur mesure",
   description:
-    "Conception et développement d'applications React et TypeScript sur mesure : SPA, dashboards, backoffices. Connectées à vos APIs Symfony ou Node.js.",
+    "Conception et développement d'applications React et TypeScript adaptées : SPA, dashboards, backoffices. Connectées à vos APIs Symfony ou Node.js.",
   path: "/developpement-react",
 });
 
 const webPage = webPageJsonLd({
-  name: "Développement React sur mesure : applications performantes et maintenables",
+  name: "Développement React personnalisé : applications fluides et maintenables",
   description:
     "Efficience IT développe des applications React et TypeScript sur mesure : SPA, dashboards, backoffices. Connectées à vos APIs Symfony ou Node.js.",
   path: "/developpement-react",
@@ -213,15 +213,15 @@ export default function DeveloppementReact() {
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">
-                  Développement React sur mesure
+                  Développement React spécialisé
                 </p>
                 <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                  Développement React sur mesure : applications performantes et maintenables
+                  Développement React dédié : applications performantes et maintenables
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
                   Vous avez besoin d&apos;une interface riche, réactive et
                   maintenable. Efficience IT conçoit des{" "}
-                  <strong>applications React sur mesure</strong> en TypeScript,
+                  <strong>applications React personnalisées</strong> en TypeScript,
                   connectées à vos{" "}
                   <Link
                     href="/api-sur-mesure-symfony"
@@ -245,10 +245,10 @@ export default function DeveloppementReact() {
                     href="/developpement-web-sur-mesure"
                     className="text-primary hover:underline"
                   >
-                    projet web sur mesure
+                    projet web personnalisé
                   </Link>{" "}
                   a ses contraintes, et React est souvent la réponse la plus
-                  robuste pour les interfaces complexes.
+                  solide pour les interfaces complexes.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   <Button href="/contact">Discuter de votre projet</Button>

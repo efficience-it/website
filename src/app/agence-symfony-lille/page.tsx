@@ -147,7 +147,7 @@ export default function AgenceSymfonyLille() {
                 <p className="mt-6 max-w-3xl text-lg text-gray">
                   Efficience IT est une{" "}
                   <strong>agence Symfony basée à Lille</strong>, spécialisée
-                  dans le développement d&apos;applications web PHP robustes et
+                  dans le développement d&apos;applications web PHP solides et
                   évoluées. Notre siège lillois est le point de départ de toutes
                   nos missions : un ancrage local qui garantit la proximité, la
                   réactivité et une collaboration directe avec nos clients.
@@ -538,7 +538,7 @@ export default function AgenceSymfonyLille() {
                   </Link>
                   {" "}laissés sans mainteneur, et le développement d&apos;
                   <Link href="/api-sur-mesure-symfony" className="text-primary hover:underline">
-                    API sur mesure
+                    API personnalisée
                   </Link>
                   {" "}pour connecter vos systèmes d&apos;information.
                 </p>

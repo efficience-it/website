@@ -35,7 +35,7 @@ export const localBusinessJsonLd = {
   logo: `${BASE_URL}/images/logo/logo-bleu.webp`,
   image: `${BASE_URL}/images/logo/logo-bleu.webp`,
   description:
-    "Agence Symfony et PHP, Efficience IT conçoit des applications web sur mesure, robustes et adaptées aux enjeux métiers.",
+    "Agence Symfony et PHP, Efficience IT conçoit des applications web conçues pour vos enjeux métiers, fiables et adaptées.",
   email: "contact@itefficience.com",
   address: {
     "@type": "PostalAddress",

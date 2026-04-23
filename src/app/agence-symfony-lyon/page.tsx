@@ -187,7 +187,7 @@ export default function AgenceSymfonyLyon() {
                   Efficience IT accompagne les entreprises lyonnaises dans le{" "}
                   <strong>développement d&apos;applications Symfony</strong> sur
                   mesure. Deuxième pôle tech de France, Lyon concentre des besoins
-                  croissants en applications métier robustes. Notre équipe de
+                  croissants en applications métier fiables. Notre équipe de
                   spécialistes PHP intervient en remote ou sur site pour y répondre.
                 </p>
                 <p className="mt-4 max-w-3xl text-lg text-gray">

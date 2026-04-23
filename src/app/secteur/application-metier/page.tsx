@@ -16,9 +16,9 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured
 
 export const metadata = pageMetadata({
   title:
-    "Développement d'applications métier sur mesure avec Symfony",
+    "Développement d'applications métier pensées pour votre activité avec Symfony",
   description:
-    "Efficience IT développe des applications métier sur mesure avec Symfony : digitalisation de processus, outils internes et logiciels de gestion adaptés à votre activité.",
+    "Efficience IT développe des applications métier spécifiques avec Symfony : digitalisation de processus, outils internes et logiciels de gestion adaptés à votre activité.",
   path: "/secteur/application-metier",
 });
 
@@ -38,7 +38,7 @@ const expertises = [
   {
     title: "Intégration dans le SI existant",
     description:
-      "Votre application métier ne vit pas en silo. Nous la connectons à votre ERP, votre CRM, votre messagerie et vos outils de reporting via des API sur mesure et des flux asynchrones fiables avec Symfony Messenger.",
+      "Votre application métier ne vit pas en silo. Nous la connectons à votre ERP, votre CRM, votre messagerie et vos outils de reporting via des API adaptées à vos besoins et des flux asynchrones fiables avec Symfony Messenger.",
     icon: "M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5",
   },
   {
@@ -57,9 +57,9 @@ const references = [
 
 const faqItems = [
   {
-    title: "Quelle est la différence entre un progiciel et une application sur mesure ?",
+    title: "Quelle est la différence entre un progiciel et une application dédiée ?",
     content:
-      "Un progiciel (ERP, CRM) est un logiciel standard paramétrable. Une application sur mesure est développée spécifiquement pour votre métier. Le progiciel convient quand vos processus sont standards. L'application sur mesure s'impose quand vos processus sont votre avantage compétitif et qu'aucun logiciel du marché ne les couvre correctement.",
+      "Un progiciel (ERP, CRM) est un logiciel standard paramétrable. Une application conçue pour votre métier est développée spécifiquement pour votre métier. Le progiciel convient quand vos processus sont standards. L'application sur mesure s'impose quand vos processus sont votre avantage compétitif et qu'aucun logiciel du marché ne les couvre correctement.",
   },
   {
     title: "Comment cadrer le besoin avant de développer ?",
@@ -98,14 +98,14 @@ const breadcrumb = breadcrumbJsonLd([
 const service = serviceJsonLd({
   name: "Développement d'applications métier sur mesure",
   description:
-    "Conception et développement d'applications métier sur mesure avec Symfony : digitalisation de processus, outils internes, logiciels de gestion et intégration SI.",
+    "Conception et développement d'applications métier adaptées avec Symfony : digitalisation de processus, outils internes, logiciels de gestion et intégration SI.",
   path: "/secteur/application-metier",
 });
 
 const webPage = webPageJsonLd({
-  name: "Développement d'applications métier sur mesure avec Symfony",
+  name: "Développement d'applications métier spécialisées avec Symfony",
   description:
-    "Efficience IT développe des applications métier sur mesure avec Symfony : digitalisation de processus, outils internes et logiciels de gestion adaptés à votre activité.",
+    "Efficience IT développe des applications métier conçues pour votre activité avec Symfony : digitalisation de processus, outils internes et logiciels de gestion adaptés à votre activité.",
   path: "/secteur/application-metier",
   datePublished: "2026-03-30",
   dateModified: "2026-03-30",
@@ -113,7 +113,7 @@ const webPage = webPageJsonLd({
 
 const relatedLinks: RelatedLink[] = [
   {
-    title: "Les avantages d'un progiciel sur mesure",
+    title: "Les avantages d'un progiciel adapté à votre contexte",
     description:
       "Pourquoi un outil métier dédié surpasse un logiciel générique",
     href: "/article/quels-sont-les-avantages-dun-progiciel-pour-votre-entreprise",
@@ -185,7 +185,7 @@ export default function SecteurApplicationMetier() {
                   Application métier
                 </p>
                 <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                  Développement d&apos;applications métier sur mesure avec Symfony
+                  Développement d&apos;applications métier dédiées avec Symfony
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
                   Vos équipes jonglent entre des tableurs Excel, des emails
@@ -195,7 +195,7 @@ export default function SecteurApplicationMetier() {
                 </p>
                 <p className="mt-4 max-w-3xl text-lg text-gray">
                   Efficience IT conçoit des{" "}
-                  <strong>applications métier sur mesure</strong> avec Symfony
+                  <strong>applications métier personnalisées</strong> avec Symfony
                   pour digitaliser vos processus. Un{" "}
                   <Link
                     href="/article/quels-sont-les-avantages-dun-progiciel-pour-votre-entreprise"

@@ -207,10 +207,10 @@ export default function DeveloppementVuejs() {
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">
-                  Développement Vue.js sur mesure
+                  Développement Vue.js personnalisé
                 </p>
                 <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                  Développement Vue.js sur mesure : interfaces réactives et progressives
+                  Développement Vue.js adapté à vos besoins : interfaces réactives et progressives
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
                   Vue.js est le framework JavaScript le plus naturel pour les

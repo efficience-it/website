@@ -215,7 +215,7 @@ export default function AgenceSymfonyFrance() {
                 <p className="mt-6 max-w-3xl text-lg text-gray">
                   Efficience IT est un{" "}
                   <strong>prestataire Symfony en France</strong>, spécialisé dans
-                  le développement d&apos;applications web PHP robustes et
+                  le développement d&apos;applications web PHP solides et
                   maintenables. Basée à Lille, notre équipe intervient sur
                   l&apos;ensemble du territoire : à{" "}
                   <Link href="/agence-symfony-paris" className="text-primary hover:underline">

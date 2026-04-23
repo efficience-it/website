@@ -8,7 +8,7 @@ export const mainNav: NavItem[] = [
       {
         label: "Développement PHP",
         href: "/developpement-php",
-        description: "Applications Symfony sur mesure, robustes et maintenables",
+        description: "Applications Symfony personnalisée, solides et maintenables",
       },
       {
         label: "Modernisation applicative",
@@ -28,7 +28,7 @@ export const mainNav: NavItem[] = [
       {
         label: "Développement Node.js",
         href: "/developpement-nodejs",
-        description: "API performantes et applications temps réel",
+        description: "API efficaces et applications temps réel",
       },
       {
         label: "Expertise IA",
@@ -118,7 +118,7 @@ export const mainNav: NavItem[] = [
       },
       {
         label: "Jobs",
-        href: "/ta-carriere",
+        href: "/votre-carriere",
         description: "Rejoignez l'équipe Efficience IT",
       },
     ],
@@ -239,7 +239,7 @@ export const footerNav = {
       { label: "Présentation", href: "/l-entreprise" },
       { label: "Pourquoi nous choisir", href: "/pourquoi-efficience-it" },
       { label: "Nos valeurs", href: "/la-team" },
-      { label: "Recrutement", href: "/ta-carriere" },
+      { label: "Recrutement", href: "/votre-carriere" },
       { label: "Mentions légales", href: "/mentions-legales" },
       { label: "Confidentialité", href: "/politique-de-confidentialite" },
     ],

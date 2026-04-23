@@ -14,7 +14,7 @@ import EnterpriseTimeline from "@/components/sections/EnterpriseTimeline";
 
 const enterpriseRelatedLinks: RelatedLink[] = [
   { title: "L'équipe Efficience IT", description: "Les profils qui composent l'agence", href: "/la-team" },
-  { title: "On recrute", description: "Rejoignez l'aventure Efficience IT", href: "/ta-carriere" },
+  { title: "On recrute", description: "Rejoignez l'aventure Efficience IT", href: "/votre-carriere" },
   { title: "Nos secteurs d'intervention", description: "E-commerce, finance, industrie et SaaS", href: "/secteur" },
   { title: "7 bonnes raisons de rejoindre Efficience IT", description: "Découvrir notre culture d'entreprise", href: "/article/7-bonnes-raisons-de-rejoindre-efficience-it" },
   { title: "AFUP", description: "Association Française des Utilisateurs de PHP", href: "https://afup.org/", external: true },

@@ -15,7 +15,7 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured
 export const metadata = pageMetadata({
   title: "API sur mesure avec Symfony et API Platform",
   description:
-    "Développement API Symfony sur mesure : REST, GraphQL, OAuth2/JWT, OpenAPI. Des API robustes et performantes pour vos applications mobiles et SaaS.",
+    "Développement API Symfony sur mesure : REST, GraphQL, OAuth2/JWT, OpenAPI. Des API robustes et efficaces pour vos applications mobiles et SaaS.",
   path: "/api-sur-mesure-symfony",
 });
 
@@ -169,7 +169,7 @@ const service = serviceJsonLd({
 
 const webPage = webPageJsonLd({
   name: "API sur mesure avec Symfony et API Platform",
-  description: "Développement API Symfony sur mesure : REST, GraphQL, OAuth2/JWT, OpenAPI. Nous concevons des API robustes et performantes pour vos applications mobiles, SaaS et interconnexions SI.",
+  description: "Développement API Symfony sur mesure : REST, GraphQL, OAuth2/JWT, OpenAPI. Nous concevons des API robustes et efficaces pour vos applications mobiles, SaaS et interconnexions SI.",
   path: "/api-sur-mesure-symfony",
   datePublished: "2026-03-11",
   dateModified: "2026-03-11",
@@ -246,11 +246,11 @@ export default function ApiSurMesureSymfony() {
                   API sur mesure avec Symfony et API Platform
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
-                  Connectez vos systèmes avec des API robustes et performantes.
+                  Connectez vos systèmes avec des API solides et performantes.
                   Que ce soit pour alimenter une application mobile, ouvrir
                   votre plateforme à des partenaires B2B ou synchroniser vos
                   outils internes, nous concevons des{" "}
-                  <strong>API Symfony sur mesure</strong> adaptées à vos
+                  <strong>API Symfony dédiées</strong> et adaptées à vos
                   contraintes techniques et métier. Ce service fait partie de
                   l&apos;offre globale de notre{" "}
                   <Link

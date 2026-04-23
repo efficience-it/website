@@ -22,7 +22,7 @@ const nodejsRelatedLinks: RelatedLink[] = [
 ];
 
 export const metadata = pageMetadata({
-  title: "Développement Node.js sur mesure pour vos applications",
+  title: "Développement Node.js dédié à vos applications",
   description:
     "Agence Node.js spécialisée : API REST, GraphQL, microservices, temps réel et BFF. Développement avec NestJS, TypeScript et bonnes pratiques.",
   path: "/developpement-nodejs",
@@ -128,7 +128,7 @@ const breadcrumb = breadcrumbJsonLd([
 const service = serviceJsonLd({
   name: "Développement Node.js sur mesure",
   description:
-    "Conception et développement d'applications Node.js sur mesure : APIs REST et GraphQL, temps réel, microservices et BFF avec NestJS, TypeScript et les meilleures pratiques d'architecture.",
+    "Conception et développement d'applications Node.js adaptées : APIs REST et GraphQL, temps réel, microservices et BFF avec NestJS, TypeScript et les meilleures pratiques d'architecture.",
   path: "/developpement-nodejs",
 });
 
@@ -166,10 +166,10 @@ export default function DeveloppementNodejs() {
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">
-                  Développement Node.js sur mesure
+                  Développement Node.js personnalisé
                 </p>
                 <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                  Développement Node.js sur mesure pour vos applications
+                  Développement Node.js conçu pour vos applications
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
                   Des applications rapides, scalables et modernes avec{" "}

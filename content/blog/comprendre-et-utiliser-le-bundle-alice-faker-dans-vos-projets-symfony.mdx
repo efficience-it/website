@@ -3,7 +3,7 @@ title: "Comprendre et utiliser le bundle Alice Faker dans vos projets Symfony"
 date: "2024-06-24"
 author: "Louis-Arnaud Catoire"
 category: "Symfony"
-excerpt: "Symfony est reconnu comme un framework PHP robuste et flexible. Les développeurs ont fréquemment besoin de données fictives pour les tests."
+excerpt: "Symfony est reconnu comme un framework PHP solide et flexible. Les développeurs ont fréquemment besoin de données fictives pour les tests."
 image: "/images/blog/alice-faker.webp"
 updatedAt: "2026-01-13"
 ---
@@ -228,7 +228,7 @@ Le staging pose un défi différent du développement local : il doit refléter 
 
 ### Anonymisation et conformité RGPD
 
-Dès que des données de production alimentent un environnement non-production, la question de l'anonymisation devient juridique. Pour des besoins d'anonymisation plus avancés, [DbToolsBundle propose une solution dédiée à l'anonymisation des bases de données](/article/dbtoolsbundle-anonymiser-vos-bases-de-donnees) directement intégrée à Symfony. FakerPHP peut servir de brique d'anonymisation en remplaçant les champs sensibles par des valeurs générées. Mais attention : une anonymisation naïve (remplacer chaque email par `<email()>`) ne suffit pas si les données restent corrélables via d'autres champs. Une stratégie robuste exige une analyse du modèle de données pour identifier tous les attributs directement ou indirectement identifiants, et appliquer une transformation cohérente qui préserve l'utilité statistique sans permettre la ré-identification.
+Dès que des données de production alimentent un environnement non-production, la question de l'anonymisation devient juridique. Pour des besoins d'anonymisation plus avancés, [DbToolsBundle propose une solution dédiée à l'anonymisation des bases de données](/article/dbtoolsbundle-anonymiser-vos-bases-de-donnees) directement intégrée à Symfony. FakerPHP peut servir de brique d'anonymisation en remplaçant les champs sensibles par des valeurs générées. Mais attention : une anonymisation naïve (remplacer chaque email par `<email()>`) ne suffit pas si les données restent corrélables via d'autres champs. Une stratégie fiable exige une analyse du modèle de données pour identifier tous les attributs directement ou indirectement identifiants, et appliquer une transformation cohérente qui préserve l'utilité statistique sans permettre la ré-identification.
 
 ### Fixtures et tests de performance
 

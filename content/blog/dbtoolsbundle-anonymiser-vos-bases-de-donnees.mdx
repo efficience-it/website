@@ -97,11 +97,11 @@ Les anonymiseurs intégrés ne couvrent pas les formats spécifiques à votre do
 
 Un anonymiseur personnalisé est un service Symfony classique, injectable et testable unitairement. Il reçoit la valeur d'origine et retourne la valeur anonymisée. La logique peut aller d'un simple remplacement à une transformation conservant la structure du format (longueur, préfixes, checksums) pour que les validateurs applicatifs continuent de fonctionner sur les données anonymisées.
 
-La bonne pratique consiste à centraliser ces anonymiseurs dans un namespace dédié et à les couvrir par des tests vérifiant que le format de sortie respecte les contraintes métier. Un IBAN anonymisé qui ne passe plus la validation MOD-97 provoquera des faux positifs dans vos suites de tests. Coupler cette approche avec [le bundle Alice Faker dans vos projets Symfony](/article/comprendre-et-utiliser-le-bundle-alice-faker-dans-vos-projets-symfony) permet de disposer à la fois de données anonymisées réalistes et d'une stratégie de fixtures robuste pour les environnements de test.
+La bonne pratique consiste à centraliser ces anonymiseurs dans un namespace dédié et à les couvrir par des tests vérifiant que le format de sortie respecte les contraintes métier. Un IBAN anonymisé qui ne passe plus la validation MOD-97 provoquera des faux positifs dans vos suites de tests. Coupler cette approche avec [le bundle Alice Faker dans vos projets Symfony](/article/comprendre-et-utiliser-le-bundle-alice-faker-dans-vos-projets-symfony) permet de disposer à la fois de données anonymisées réalistes et d'une stratégie de fixtures stables pour les environnements de test.
 
 ## Intégration CI/CD
 
-Le véritable levier de DbToolsBundle se révèle dans l'automatisation. Un pipeline robuste suit ce schéma :
+Le véritable levier de DbToolsBundle se révèle dans l'automatisation. Un pipeline stable suit ce schéma :
 
 1. `db-tools:backup` exporte la base de production vers un dump chiffré.
 2. Le dump est transféré dans un environnement isolé et restauré via `db-tools:restore`.

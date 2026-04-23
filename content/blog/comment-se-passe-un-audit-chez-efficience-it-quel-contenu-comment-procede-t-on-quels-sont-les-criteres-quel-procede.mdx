@@ -38,7 +38,7 @@ La sécurité constitue un axe non négociable. Nous structurons notre analyse a
 
 ### Vecteurs d'attaque applicatifs
 
-Nous vérifions systématiquement la validation des entrées utilisateur pour prévenir les injections SQL et les attaques XSS, le hachage des mots de passe avec des algorithmes robustes (bcrypt, Argon2), la protection CSRF sur les formulaires, et la configuration du composant Security de Symfony : voters, firewalls, principe du moindre privilège sur les rôles.
+Nous vérifions systématiquement la validation des entrées utilisateur pour prévenir les injections SQL et les attaques XSS, le hachage des mots de passe avec des algorithmes fiables (bcrypt, Argon2), la protection CSRF sur les formulaires, et la configuration du composant Security de Symfony : voters, firewalls, principe du moindre privilège sur les rôles.
 
 Les en-têtes HTTP de sécurité font aussi l'objet d'une vérification : Content-Security-Policy, Strict-Transport-Security, X-Content-Type-Options. Leur absence expose l'application à des vecteurs d'attaque facilement exploitables.
 

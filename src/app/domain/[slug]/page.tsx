@@ -24,10 +24,9 @@ export async function generateMetadata({
 
   return {
     ...pageMetadata({
-      title: `${domain.name} | Carrières Efficience IT`,
+      title: `${domain.name} - Carrières`,
       description: domain.description,
       path: `/domain/${slug}`,
-      absoluteTitle: true,
     }),
     robots: { index: false },
   };

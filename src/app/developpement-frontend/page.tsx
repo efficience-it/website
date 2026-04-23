@@ -17,7 +17,7 @@ import CreativeIllustration from "@/components/illustrations/CreativeIllustratio
 const frontendRelatedLinks: RelatedLink[] = [
   {
     title: "Développement React",
-    description: "Applications React et TypeScript sur mesure : SPA, dashboards, SSR avec Next.js",
+    description: "Applications React et TypeScript personnalisées : SPA, dashboards, SSR avec Next.js",
     href: "/developpement-react",
   },
   {
@@ -49,7 +49,7 @@ const frontendRelatedLinks: RelatedLink[] = [
 ];
 
 export const metadata = pageMetadata({
-  title: "Développement frontend React, Vue.js et TypeScript sur mesure",
+  title: "Développement frontend React, Vue.js et TypeScript personnalisé",
   description:
     "Efficience IT conçoit des interfaces frontend performantes avec React, Vue.js, Next.js et TypeScript. Applications connectées à vos APIs Symfony.",
   path: "/developpement-frontend",
@@ -168,7 +168,7 @@ const breadcrumb = breadcrumbJsonLd([
 const service = serviceJsonLd({
   name: "Développement frontend React, Vue.js et TypeScript",
   description:
-    "Conception et développement d'interfaces frontend sur mesure avec React, Vue.js, Next.js et TypeScript. Applications connectées à vos APIs Symfony ou Node.js.",
+    "Conception et développement d'interfaces frontend adapté avec React, Vue.js, Next.js et TypeScript. Applications connectées à vos APIs Symfony ou Node.js.",
   path: "/developpement-frontend",
 });
 
@@ -207,10 +207,10 @@ export default function DeveloppementFrontend() {
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">
-                  Développement frontend sur mesure
+                  Développement frontend dédiées
                 </p>
                 <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                  Développement frontend React, Vue.js et TypeScript sur mesure
+                  Développement frontend React, Vue.js et TypeScript personnalisé
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
                   Votre backend est solide, mais votre interface ne suit pas.

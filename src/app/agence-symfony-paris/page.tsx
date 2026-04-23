@@ -505,7 +505,7 @@ export default function AgenceSymfonyParis() {
               <SectionTitle>Les composants Symfony au cœur de nos projets</SectionTitle>
               <div className="mx-auto max-w-3xl space-y-4 text-lg text-gray">
                 <p>
-                  Chaque projet Symfony que nous livrons s&apos;appuie sur les composants les plus robustes de l&apos;écosystème. Doctrine ORM pour la persistance des données, Messenger pour les traitements asynchrones, Security pour l&apos;authentification et les autorisations fines.
+                  Chaque projet Symfony que nous livrons s&apos;appuie sur les composants les plus solides de l&apos;écosystème. Doctrine ORM pour la persistance des données, Messenger pour les traitements asynchrones, Security pour l&apos;authentification et les autorisations fines.
                 </p>
                 <p>
                   Pour les projets nécessitant des API, nous utilisons{" "}

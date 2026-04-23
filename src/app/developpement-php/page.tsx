@@ -20,7 +20,7 @@ import ProgrammingIllustration from "@/components/illustrations/ProgrammingIllus
 
 const phpRelatedLinks: RelatedLink[] = [
   {
-    title: "Développement web sur mesure",
+    title: "Développement web dédié",
     description: "Notre approche globale du développement d'applications web",
     href: "/developpement-web-sur-mesure",
   },
@@ -54,13 +54,13 @@ export const metadata = pageMetadata({
   title:
     "Développement PHP sur mesure : applications web robustes et performantes",
   description:
-    "Agence de développement PHP sur mesure. Efficience IT conçoit des applications web avec PHP 8, Symfony, Doctrine et les bonnes pratiques.",
+    "Agence de développement PHP spécialisée. Efficience IT conçoit des applications web avec PHP 8, Symfony, Doctrine et les bonnes pratiques.",
   path: "/developpement-php",
 });
 
 const expertises = [
   {
-    title: "Applications métier sur mesure",
+    title: "Applications métier adaptées",
     description:
       "Nous concevons des applications PHP taillées pour vos processus : CRM internes, plateformes de gestion, outils de pilotage. Chaque projet s'appuie sur Symfony et une architecture pensée pour évoluer avec vos besoins métier.",
   },
@@ -127,7 +127,7 @@ const whenNotToChoose = [
 
 const useCases = [
   {
-    title: "Plateforme métier B2B sur mesure",
+    title: "Plateforme métier B2B adaptée à vos besoins",
     description:
       "Conception et développement d'une plateforme de gestion pour un acteur du retail B2B : pilotage des opérations, intégrations ERP, exports comptables, le tout en Symfony 7 et PostgreSQL.",
   },
@@ -190,16 +190,16 @@ const breadcrumb = breadcrumbJsonLd([
 ]);
 
 const service = serviceJsonLd({
-  name: "Développement PHP sur mesure",
+  name: "Développement PHP dédié",
   description:
     "Conception et développement d'applications web PHP sur mesure avec PHP 8, Symfony, Doctrine et les meilleures pratiques d'architecture logicielle.",
   path: "/developpement-php",
 });
 
 const webPage = webPageJsonLd({
-  name: "Développement PHP sur mesure : applications web robustes et performantes",
+  name: "Développement PHP dédié : applications web fiables et rapides",
   description:
-    "Agence de développement PHP sur mesure. Efficience IT conçoit des applications web avec PHP 8, Symfony, Doctrine et les bonnes pratiques.",
+    "Agence de développement PHP spécialisée. Efficience IT conçoit des applications web avec PHP 8, Symfony, Doctrine et les bonnes pratiques.",
   path: "/developpement-php",
   datePublished: "2026-03-17",
   dateModified: "2026-03-17",
@@ -236,16 +236,16 @@ export default function DeveloppementPhp() {
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">
-                  Agence PHP sur mesure
+                  Agence PHP spécialisée
                 </p>
                 <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                  Développement PHP sur mesure : applications web robustes et
+                  Développement PHP dédié : applications web fiables et
                   performantes
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
                   Votre application PHP vieillit mal, ou vous partez de zéro.
                   Efficience IT est une{" "}
-                  <strong>agence de développement PHP sur mesure</strong> qui
+                  <strong>agence de développement PHP spécialisée</strong> qui
                   conçoit des applications web robustes avec PHP 8, Symfony et
                   Doctrine. Chaque projet est mené par des{" "}
                   <strong>développeurs PHP seniors</strong> qui maîtrisent
@@ -264,7 +264,7 @@ export default function DeveloppementPhp() {
                     href="/developpement-web-sur-mesure"
                     className="text-primary hover:underline"
                   >
-                    développement web sur mesure
+                    développement web dédié
                   </Link>{" "}
                   : nous intervenons comme prestataire PHP de confiance sur vos
                   projets critiques.

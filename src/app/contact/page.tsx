@@ -10,11 +10,10 @@ import { faqItems } from "@/../data/faq";
 import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title: "Contact | Agence web Symfony – Efficience IT",
+  title: "Contact Agence Web Symfony",
   description:
     "Contactez Efficience IT pour échanger autour de vos projets web, besoins techniques ou demandes de collaboration.",
   path: "/contact",
-  absoluteTitle: true,
 });
 
 const jsonLd = {

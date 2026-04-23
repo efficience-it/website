@@ -69,7 +69,7 @@ Pour les conventions qui échappent au formatage automatique (structure des rép
 
 ## Intégration dans la CI : rendre les conventions incontournables
 
-Les conventions non automatisées sont des suggestions. Seule l'intégration continue transforme une convention en règle. Un pipeline CI robuste pour un projet PHP comprend au minimum trois étapes : vérification du formatage (PHP-CS-Fixer en mode `--dry-run --diff`), analyse statique (PHPStan), et exécution des tests.
+Les conventions non automatisées sont des suggestions. Seule l'intégration continue transforme une convention en règle. Un pipeline CI solide pour un projet PHP comprend au minimum trois étapes : vérification du formatage (PHP-CS-Fixer en mode `--dry-run --diff`), analyse statique (PHPStan), et exécution des tests.
 
 L'ordre compte. Le formatage est vérifié en premier car c'est le check le plus rapide et le plus fréquemment échoué par les nouveaux contributeurs. PHPStan vient ensuite, car ses erreurs sont souvent plus longues à corriger. Les tests passent en dernier.
 

@@ -18,7 +18,7 @@ export const metadata = pageMetadata({
   title:
     "Développement d'API et intégration SI avec Symfony et API Platform",
   description:
-    "Efficience IT conçoit des API REST et GraphQL avec Symfony et API Platform : intégration SI, connecteurs sur mesure et flux asynchrones fiables.",
+    "Efficience IT conçoit des API REST et GraphQL avec Symfony et API Platform : intégration SI, connecteurs spécifiques et flux asynchrones fiables.",
   path: "/secteur/api-integration",
 });
 
@@ -30,7 +30,7 @@ const expertises = [
     icon: "M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5",
   },
   {
-    title: "Connecteurs sur mesure",
+    title: "Connecteurs adaptés",
     description:
       "Intégration avec vos ERP, CRM, PIM, outils de facturation et services tiers via des connecteurs dédiés. Chaque connecteur gère les erreurs, les retries et la réconciliation pour garantir la fiabilité des échanges.",
     icon: "M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5",
@@ -98,14 +98,14 @@ const breadcrumb = breadcrumbJsonLd([
 const service = serviceJsonLd({
   name: "Développement d'API et intégration SI",
   description:
-    "Conception d'API REST et GraphQL avec Symfony et API Platform, intégration SI, connecteurs sur mesure et flux asynchrones fiables.",
+    "Conception d'API REST et GraphQL avec Symfony et API Platform, intégration SI, connecteurs spécialisés et flux asynchrones fiables.",
   path: "/secteur/api-integration",
 });
 
 const webPage = webPageJsonLd({
   name: "Développement d'API et intégration SI avec Symfony et API Platform",
   description:
-    "Efficience IT conçoit des API REST et GraphQL avec Symfony et API Platform : intégration SI, connecteurs sur mesure et flux asynchrones fiables.",
+    "Efficience IT conçoit des API REST et GraphQL avec Symfony et API Platform : intégration SI, connecteurs adaptés à votre SI et flux asynchrones fiables.",
   path: "/secteur/api-integration",
   datePublished: "2026-03-30",
   dateModified: "2026-03-30",
@@ -199,7 +199,7 @@ export default function SecteurApiIntegration() {
                     href="/api-sur-mesure-symfony"
                     className="text-primary hover:underline"
                   >
-                    API sur mesure
+                    API spécialisées
                   </Link>{" "}
                   avec Symfony et API Platform pour interconnecter vos
                   systèmes. Des flux fiables, documentés et sécurisés qui

@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     template: "%s | Efficience IT",
   },
   description:
-    "Agence spécialisée Symfony et PHP, Efficience IT conçoit et développe des applications web sur mesure, robustes et adaptées aux enjeux métiers.",
+    "Agence spécialisée Symfony et PHP, Efficience IT conçoit et développe des applications web conçues pour vos enjeux métiers, fiables et adaptées.",
 };
 
 const organizationJsonLd = {
@@ -25,7 +25,7 @@ const organizationJsonLd = {
   url: "https://www.itefficience.com",
   logo: "https://www.itefficience.com/images/logo/logo-bleu.webp",
   description:
-    "Agence spécialisée Symfony et PHP, Efficience IT conçoit et développe des applications web sur mesure.",
+    "Agence spécialisée Symfony et PHP, Efficience IT conçoit et développe des applications web personnalisées.",
   address: {
     "@type": "PostalAddress",
     streetAddress: "677 Avenue de la République",

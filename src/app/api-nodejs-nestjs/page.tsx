@@ -16,14 +16,14 @@ import type { RelatedLink } from "@/components/sections/RelatedLinks";
 const nestjsRelatedLinks: RelatedLink[] = [
   { title: "REST vs GraphQL : quel protocole choisir pour votre API ?", description: "une comparaison technique pour orienter vos choix d'architecture", href: "/article/que-vaut-rest-face-a-son-nouveau-challenger-graphql" },
   { title: "Quel framework JavaScript choisir ?", description: "Node.js, React, Vue ou Angular : notre analyse comparative", href: "/article/quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular" },
-  { title: "API sur mesure avec Symfony", description: "notre offre API Platform pour les projets PHP", href: "/developpement-web-sur-mesure" },
+  { title: "API spécialisées avec Symfony", description: "notre offre API Platform pour les projets PHP", href: "/developpement-web-sur-mesure" },
   { title: "Documentation officielle NestJS", description: "la référence technique du framework", href: "https://docs.nestjs.com", external: true },
 ];
 
 export const metadata = pageMetadata({
-  title: "API performantes avec NestJS et Node.js",
+  title: "API efficaces avec NestJS et Node.js",
   description:
-    "Conception et développement d'API NestJS sur mesure : microservices, GraphQL, temps réel. Votre partenaire Node.js robuste et scalable.",
+    "Conception et développement d'API NestJS dédiées : microservices, GraphQL, temps réel. Votre partenaire Node.js robuste et scalable.",
   path: "/api-nodejs-nestjs",
 });
 
@@ -161,13 +161,13 @@ const breadcrumb = breadcrumbJsonLd([
 const service = serviceJsonLd({
   name: "Développement API NestJS et Node.js",
   description:
-    "Conception et développement d'API performantes avec NestJS et Node.js : microservices, GraphQL, temps réel, architecture hexagonale.",
+    "Conception et développement d'API réactives avec NestJS et Node.js : microservices, GraphQL, temps réel, architecture hexagonale.",
   path: "/api-nodejs-nestjs",
 });
 
 const webPage = webPageJsonLd({
   name: "API performantes avec NestJS et Node.js",
-  description: "Conception et développement d'API NestJS sur mesure : microservices, GraphQL, temps réel. Votre partenaire pour le développement API Node.js robuste et scalable.",
+  description: "Conception et développement d'API NestJS spécialisées : microservices, GraphQL, temps réel. Votre partenaire pour le développement API Node.js robuste et scalable.",
   path: "/api-nodejs-nestjs",
   datePublished: "2026-03-11",
   dateModified: "2026-03-11",
@@ -205,7 +205,7 @@ export default function ApiNodejsNestjs() {
                   API performantes avec NestJS et Node.js
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
-                  Construisez des API robustes et scalables avec NestJS. Un framework
+                  Construisez des API stables et scalables avec NestJS. Un framework
                   TypeScript d&apos;entreprise qui combine la puissance de{" "}
                   <Link
                     href="/developpement-nodejs"

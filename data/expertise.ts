@@ -157,7 +157,7 @@ export const symfonyAdvantages = [
   {
     title: "Optimisation des performances",
     description:
-      "Grâce à son architecture modulaire et optimisée, Symfony permet de <strong>créer des applications performantes et réactives</strong>, même sur des projets complexes.",
+      "Grâce à son architecture modulaire et optimisée, Symfony permet de <strong>créer des applications efficaces et réactives</strong>, même sur des projets complexes.",
   },
   {
     title: "Un écosystème riche et durable",

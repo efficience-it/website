@@ -421,7 +421,7 @@ export default function AgenceSymfonyNantes() {
                   <p className="mt-4 text-lg text-gray">
                     Le tissu économique nantais est diversifié : numérique,
                     naval, agroalimentaire, services. Autant de secteurs où les
-                    applications métier sur mesure, construites avec Symfony,
+                    applications métier personnalisées, construites avec Symfony,
                     répondent à des besoins concrets de performance et de
                     fiabilité.
                   </p>

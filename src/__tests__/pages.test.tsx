@@ -6,7 +6,7 @@ import CloudEtDevops, { metadata as cloudEtDevopsMetadata } from "@/app/cloud-et
 import AccompagnementEtConseil, { metadata as accompagnementEtConseilMetadata } from "@/app/accompagnement-et-conseil/page";
 import LEntreprise, { metadata as lEntrepriseMetadata } from "@/app/l-entreprise/page";
 import LaTeam, { metadata as laTeamMetadata } from "@/app/la-team/page";
-import TaCarriere, { metadata as taCarriereMetadata } from "@/app/ta-carriere/page";
+import VotreCarriere, { metadata as votreCarriereMetadata } from "@/app/votre-carriere/page";
 import GreenIt, { metadata as greenItMetadata } from "@/app/green-it/page";
 import NosReferences, { metadata as nosReferencesMetadata } from "@/app/nos-references/page";
 import BlogPage, { metadata as blogMetadata } from "@/app/blog/page";
@@ -46,8 +46,8 @@ describe("Company pages", () => {
     expect(screen.getByRole("heading", { name: /une équipe passionnée/i })).toBeInTheDocument();
   });
 
-  it("renders Ta carrière", () => {
-    render(<TaCarriere />);
+  it("renders Votre carrière", () => {
+    render(<VotreCarriere />);
     expect(screen.getByRole("heading", { name: /rejoignez notre équipe/i })).toBeInTheDocument();
   });
 
@@ -110,9 +110,9 @@ describe("Page metadata exports", () => {
     expect(laTeamMetadata.description).toBeTruthy();
   });
 
-  it("exports metadata for Ta carrière", () => {
-    expect(taCarriereMetadata).toBeDefined();
-    expect(taCarriereMetadata.description).toBeTruthy();
+  it("exports metadata for Votre carrière", () => {
+    expect(votreCarriereMetadata).toBeDefined();
+    expect(votreCarriereMetadata.description).toBeTruthy();
   });
 
   it("exports metadata for Green IT", () => {
@@ -150,14 +150,14 @@ jest.mock("@/../data/jobs", () => ({
 
 let mockJobs: Array<{ title: string; contract: string; location: string; domain: string; url: string }> | null = null;
 
-describe("Ta carrière with jobs", () => {
+describe("Votre carrière with jobs", () => {
   afterEach(() => {
     mockJobs = null;
   });
 
   it("renders job cards when jobs exist", () => {
     mockJobs = [{ title: "Dev Symfony", contract: "CDI", location: "Lille", domain: "dev", url: "/job/dev" }];
-    render(<TaCarriere />);
+    render(<VotreCarriere />);
     expect(screen.getByText("Dev Symfony")).toBeInTheDocument();
   });
 });

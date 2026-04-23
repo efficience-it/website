@@ -44,7 +44,7 @@ const expertises = [
   {
     title: "Intégration de systèmes financiers",
     description:
-      "Connexion aux systèmes bancaires (SWIFT, SEPA), passerelles de paiement, outils de scoring et de compliance via des API sur mesure. Des connecteurs robustes avec gestion des erreurs, retry automatique et réconciliation des transactions.",
+      "Connexion aux systèmes bancaires (SWIFT, SEPA), passerelles de paiement, outils de scoring et de compliance via des API adaptées au secteur financier. Des connecteurs robustes avec gestion des erreurs, retry automatique et réconciliation des transactions.",
     icon: "M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5",
   },
 ];

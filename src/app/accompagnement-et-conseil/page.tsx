@@ -345,7 +345,7 @@ export default function AccompagnementEtConseil() {
                 Nous concevons et intégrons des outils adaptés à vos besoins, en
                 garantissant un équilibre entre innovation, sécurité et
                 performance. Nos experts Symfony et stack JavaScript développent
-                des solutions robustes, évolutives et alignées avec les
+                des solutions de qualité, évolutives et alignées avec les
                 standards de l&apos;industrie.
               </p>
             </div>

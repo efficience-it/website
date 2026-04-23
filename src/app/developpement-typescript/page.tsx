@@ -220,7 +220,7 @@ export default function DeveloppementTypescript() {
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">
-                  Développement TypeScript sur mesure
+                  Développement TypeScript personnalisé
                 </p>
                 <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
                   Développement TypeScript sur mesure : applications typées et maintenables
@@ -247,7 +247,7 @@ export default function DeveloppementTypescript() {
                 </p>
                 <p className="mt-4 max-w-3xl text-lg text-gray">
                   Migration JavaScript vers TypeScript, applications React typées,
-                  APIs Node.js robustes : nous adaptons notre approche à votre
+                  APIs Node.js durables : nous adaptons notre approche à votre
                   contexte et à la maturité de votre codebase.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">

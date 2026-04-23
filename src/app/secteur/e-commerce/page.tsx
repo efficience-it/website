@@ -38,7 +38,7 @@ const expertises = [
   {
     title: "Intégration PIM/ERP",
     description:
-      "Connexion de votre plateforme e-commerce à votre PIM (Akeneo, Pimcore), votre ERP (SAP, Sage, Cegid) et vos outils logistiques. Des flux bidirectionnels fiables grâce à Symfony Messenger et des connecteurs sur mesure.",
+      "Connexion de votre plateforme e-commerce à votre PIM (Akeneo, Pimcore), votre ERP (SAP, Sage, Cegid) et vos outils logistiques. Des flux bidirectionnels fiables grâce à Symfony Messenger et des connecteurs dediés.",
     icon: "M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5",
   },
   {
@@ -98,12 +98,12 @@ const breadcrumb = breadcrumbJsonLd([
 const service = serviceJsonLd({
   name: "Développement e-commerce Symfony et Sylius",
   description:
-    "Conception et développement de plateformes e-commerce sur mesure avec Symfony et Sylius : catalogue produit, API headless, intégration PIM/ERP et scalabilité.",
+    "Conception et développement de plateformes e-commerce personnalisées avec Symfony et Sylius : catalogue produit, API headless, intégration PIM/ERP et scalabilité.",
   path: "/secteur/e-commerce",
 });
 
 const webPage = webPageJsonLd({
-  name: "Agence e-commerce Symfony et Sylius : développement sur mesure",
+  name: "Agence e-commerce Symfony et Sylius : développement dédié",
   description:
     "Efficience IT développe des plateformes e-commerce performantes avec Symfony et Sylius : catalogue produit, API headless et intégration PIM/ERP.",
   path: "/secteur/e-commerce",
@@ -133,7 +133,7 @@ const relatedLinks: RelatedLink[] = [
   {
     title: "Développement e-commerce Sylius",
     description:
-      "Notre offre dédiée au développement de boutiques Sylius sur mesure",
+      "Notre offre dédiée au développement de boutiques Sylius adaptées à vos besoins",
     href: "/ecommerce-sylius",
   },
   {
@@ -179,7 +179,7 @@ export default function SecteurEcommerce() {
                   Secteur e-commerce
                 </p>
                 <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                  Agence e-commerce Symfony et Sylius : développement sur mesure
+                  Agence e-commerce Symfony et Sylius : développement personnalisé
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
                   Votre catalogue compte des milliers de références, vos règles
@@ -189,7 +189,7 @@ export default function SecteurEcommerce() {
                 </p>
                 <p className="mt-4 max-w-3xl text-lg text-gray">
                   Efficience IT conçoit des{" "}
-                  <strong>plateformes e-commerce sur mesure</strong> avec{" "}
+                  <strong>plateformes e-commerce conçues pour vos usages</strong> avec{" "}
                   <Link
                     href="/ecommerce-sylius"
                     className="text-primary hover:underline"
@@ -286,7 +286,7 @@ export default function SecteurEcommerce() {
                   href="/api-sur-mesure-symfony"
                   className="text-primary hover:underline"
                 >
-                  expertise API sur mesure
+                  expertise API dédiée
                 </Link>{" "}
                 permet de découpler le front du back pour des architectures
                 headless performantes. Vous avez un

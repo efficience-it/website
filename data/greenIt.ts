@@ -43,6 +43,6 @@ export const greenPractices = [
   "Utilisation d'Ecosia comme moteur de recherche",
   "Zéro papier dans nos bureaux",
   "Éco-conception logicielle : travailler avec Symfony permet de partir d'une version minimaliste et de n'ajouter que les packages strictement nécessaires",
-  "Sites allégés, plus performants et plus respectueux de l'environnement",
+  "Sites allégés, plus efficientes et plus respectueux de l'environnement",
   "Compensation écologique à 100 % de nos journées travaillées via Reforest'Action",
 ];

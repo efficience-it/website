@@ -91,7 +91,7 @@ const faqItems = [
   {
     title: "Combien coûte un projet e-commerce Sylius ?",
     content:
-      "Le coût dépend de la complexité du projet : catalogue, intégrations, design sur mesure. Nous proposons un audit gratuit de 30 minutes pour évaluer vos besoins et vous fournir une estimation réaliste.",
+      "Le coût dépend de la complexité du projet : catalogue, intégrations, design personnalisé. Nous proposons un audit gratuit de 30 minutes pour évaluer vos besoins et vous fournir une estimation réaliste.",
   },
   {
     title: "Sylius supporte-t-il le multi-langue et le multi-devise ?",
@@ -126,7 +126,7 @@ const service = serviceJsonLd({
 });
 
 const webPage = webPageJsonLd({
-  name: "Développement e-commerce Sylius : votre boutique Symfony sur mesure",
+  name: "Développement e-commerce Sylius : votre boutique Symfony adaptée",
   description:
     "Efficience IT développe votre boutique e-commerce avec Sylius, la plateforme open source basée sur Symfony.",
   path: "/ecommerce-sylius",
@@ -200,7 +200,7 @@ export default function EcommerceSylius() {
                     href="/developpement-web-sur-mesure"
                     className="text-primary hover:underline"
                   >
-                    solutions e-commerce sur mesure
+                    solutions e-commerce dédiées
                   </Link>{" "}
                   avec Sylius pour des projets B2C, B2B et marketplace. Notre
                   expertise Symfony garantit un code maintenable, testé et
@@ -340,7 +340,7 @@ export default function EcommerceSylius() {
                       href="/developpement-web-sur-mesure"
                       className="text-primary hover:underline"
                     >
-                      applications web sur mesure
+                      applications web spécialisées
                     </Link>{" "}
                     qui répondent précisément à vos enjeux business.
                   </p>
