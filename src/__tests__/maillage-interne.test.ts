@@ -36,8 +36,13 @@ function countIncomingLinks(servicePath: string, mdxFiles: string[]): number {
   let count = 0;
   for (const file of mdxFiles) {
     const fullPath = path.join(CONTENT_DIR, file);
-    if (!fs.existsSync(fullPath)) continue;
-    const content = fs.readFileSync(fullPath, "utf-8");
+    let content: string;
+    try {
+      content = fs.readFileSync(fullPath, "utf-8");
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code === "ENOENT") continue;
+      throw error;
+    }
     if (content.includes(`(${servicePath})`) || content.includes(`"${servicePath}"`)) {
       count++;
     }

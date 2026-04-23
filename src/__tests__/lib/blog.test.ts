@@ -11,17 +11,8 @@ import {
   readingTime,
 } from "@/lib/blog";
 
-const BLOG_DIR = path.join(process.cwd(), "content/blog");
 const TEMP_SLUG = "__test-empty-frontmatter__";
-const TEMP_FILE = path.join(BLOG_DIR, `${TEMP_SLUG}.mdx`);
-
-beforeAll(() => {
-  fs.writeFileSync(TEMP_FILE, "---\n---\n");
-});
-
-afterAll(() => {
-  if (fs.existsSync(TEMP_FILE)) fs.unlinkSync(TEMP_FILE);
-});
+const BLOG_DIR = path.join(process.cwd(), "content/blog");
 
 describe("getPostBySlug", () => {
   it("returns a post for a valid slug", () => {
@@ -39,6 +30,17 @@ describe("getPostBySlug", () => {
   });
 
   it("defaults to empty strings when frontmatter fields are missing", () => {
+    const originalExistsSync = fs.existsSync.bind(fs);
+    const originalReadFileSync = fs.readFileSync.bind(fs);
+    const existsSpy = jest.spyOn(fs, "existsSync").mockImplementation((filePath) => {
+      if (String(filePath).endsWith(`${TEMP_SLUG}.mdx`)) return true;
+      return originalExistsSync(filePath);
+    });
+    const readSpy = jest.spyOn(fs, "readFileSync").mockImplementation((filePath, options) => {
+      if (String(filePath).endsWith(`${TEMP_SLUG}.mdx`)) return "---\n---\n";
+      return originalReadFileSync(filePath, options as never);
+    });
+
     const post = getPostBySlug(TEMP_SLUG);
     expect(post).toBeDefined();
     expect(post!.title).toBe("");
@@ -47,11 +49,30 @@ describe("getPostBySlug", () => {
     expect(post!.category).toBe("");
     expect(post!.excerpt).toBe("");
     expect(post!.wordCount).toBe(0);
+
+    existsSpy.mockRestore();
+    readSpy.mockRestore();
   });
 });
 
 describe("getAllPosts", () => {
   it("defaults to empty strings when frontmatter fields are missing", () => {
+    const originalReaddirSync = fs.readdirSync.bind(fs);
+    const originalReadFileSync = fs.readFileSync.bind(fs);
+    const readdirSpy = jest.spyOn(fs, "readdirSync").mockImplementation(
+      ((dirPath: fs.PathLike) => {
+        const files = originalReaddirSync(dirPath);
+        if (String(dirPath) === BLOG_DIR) {
+          return [...files, `${TEMP_SLUG}.mdx`];
+        }
+        return files;
+      }) as typeof fs.readdirSync,
+    );
+    const readSpy = jest.spyOn(fs, "readFileSync").mockImplementation((filePath, options) => {
+      if (String(filePath).endsWith(`${TEMP_SLUG}.mdx`)) return "---\n---\n";
+      return originalReadFileSync(filePath, options as never);
+    });
+
     const posts = getAllPosts();
     const tempPost = posts.find((p) => p.slug === TEMP_SLUG);
     expect(tempPost).toBeDefined();
@@ -61,6 +82,9 @@ describe("getAllPosts", () => {
     expect(tempPost!.category).toBe("");
     expect(tempPost!.excerpt).toBe("");
     expect(tempPost!.wordCount).toBe(0);
+
+    readdirSpy.mockRestore();
+    readSpy.mockRestore();
   });
 });
 

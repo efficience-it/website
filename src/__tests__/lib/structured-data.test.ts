@@ -79,9 +79,21 @@ describe("serviceJsonLd", () => {
     expect(result["@context"]).toBe("https://schema.org");
     expect(result["@type"]).toBe("Service");
     expect(result.name).toBe("Audit Symfony");
+    expect(result.description).toBe("Audit de code Symfony");
     expect(result.url).toBe(`${BASE_URL}/audit-code-php`);
-    expect(result.provider["@id"]).toBe(`${BASE_URL}/#localbusiness`);
-    expect(result.areaServed).toHaveLength(6);
+    expect(result.provider).toEqual({
+      "@type": "LocalBusiness",
+      "@id": `${BASE_URL}/#localbusiness`,
+      name: "Efficience IT",
+    });
+    expect(result.areaServed).toEqual([
+      { "@type": "Country", name: "France" },
+      { "@type": "Country", name: "Belgique" },
+      { "@type": "Country", name: "United Kingdom" },
+      { "@type": "Country", name: "Luxembourg" },
+      { "@type": "Country", name: "Spain" },
+      { "@type": "Country", name: "Germany" },
+    ]);
   });
 });
 
@@ -89,13 +101,23 @@ describe("reviewsJsonLd", () => {
   it("maps testimonials to Review schemas", () => {
     const result = reviewsJsonLd([
       { name: "Alice", role: "CTO", company: "Acme", quote: "Excellent accompagnement." },
-      { name: "Bob", role: "Lead Dev", company: "Beta", quote: "Equipe reactive." },
+      { name: "Bob", role: "Lead Dev", company: "Beta", quote: "Équipe réactive." },
     ]);
 
     expect(result).toHaveLength(2);
+    expect(result[0]["@context"]).toBe("https://schema.org");
     expect(result[0]["@type"]).toBe("Review");
     expect(result[0].author.name).toBe("Alice");
-    expect(result[1].reviewBody).toBe("Equipe reactive.");
+    expect(result[0].itemReviewed).toEqual({
+      "@type": "Organization",
+      name: "Efficience IT",
+    });
+    expect(result[1]["@context"]).toBe("https://schema.org");
+    expect(result[1].reviewBody).toBe("Équipe réactive.");
+    expect(result[1].itemReviewed).toEqual({
+      "@type": "Organization",
+      name: "Efficience IT",
+    });
   });
 });
 
@@ -140,7 +162,15 @@ describe("webPageJsonLd", () => {
     });
 
     expect(result["@type"]).toBe("WebPage");
+    expect(result.name).toBe("Nom");
+    expect(result.description).toBe("Description");
     expect(result.url).toBe(`${BASE_URL}/contact`);
+    expect(result.inLanguage).toBe("fr-FR");
+    expect(result.isPartOf).toEqual({
+      "@type": "WebSite",
+      name: "Efficience IT",
+      url: BASE_URL,
+    });
     expect(result).not.toHaveProperty("datePublished");
     expect(result).not.toHaveProperty("dateModified");
   });
@@ -156,6 +186,15 @@ describe("webPageJsonLd", () => {
     });
 
     expect(result["@type"]).toBe("CollectionPage");
+    expect(result.name).toBe("Blog");
+    expect(result.description).toBe("Page blog");
+    expect(result.url).toBe(`${BASE_URL}/blog`);
+    expect(result.inLanguage).toBe("fr-FR");
+    expect(result.isPartOf).toEqual({
+      "@type": "WebSite",
+      name: "Efficience IT",
+      url: BASE_URL,
+    });
     expect(result.datePublished).toBe("2026-01-01");
     expect(result.dateModified).toBe("2026-02-01");
   });
