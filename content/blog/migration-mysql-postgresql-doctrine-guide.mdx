@@ -28,7 +28,7 @@ PostgreSQL apporte des réponses concrètes à ces points. Notre accompagnement 
 
 Trois signaux indiquent qu'une migration vaut l'investissement. Le premier : votre application stocke du JSON en base et vous avez besoin de le filtrer ou de l'indexer. MySQL force à parser le JSON à chaque requête, PostgreSQL l'indexe nativement. Le deuxième : vous utilisez Symfony Messenger avec le transport Doctrine et vous subissez des deadlocks sous charge. PostgreSQL avec `SKIP LOCKED` résout ce problème. Le troisième : votre schéma exploite des types que MySQL gère mal (arrays, ranges, types composites).
 
-En revanche, si votre application fait du CRUD classique sans requêtes complexes, MySQL reste parfaitement adapté. Le coût de migration ne se justifie pas par principe.
+En revanche, si votre application fait du CRUD classique sans requêtes complexes, MySQL reste parfaitement adapté. Le coût de migration ne se justifie pas par principe. Quand le besoin est confirmé, notre offre de [migration Symfony clé en main](/migration-symfony) cadre le chantier, de l'audit initial à la bascule finale sans interruption de service.
 
 ## Préparer la migration côté Doctrine
 

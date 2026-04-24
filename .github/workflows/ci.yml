@@ -99,6 +99,18 @@ jobs:
             --accept 200,204,301,302,403,429
             content/blog/*.mdx
 
+  blog-service-linking:
+    needs: changes
+    if: needs.changes.outputs.blog == 'true'
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npx -y tsx@4 scripts/audit-blog-to-service-linking.ts
+
   build:
     needs: install
     runs-on: ubuntu-latest

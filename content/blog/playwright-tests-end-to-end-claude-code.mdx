@@ -161,7 +161,7 @@ Les tests E2E couvrent les scénarios métier, pas l'exhaustivité fonctionnelle
 
 ### Utiliser les sélecteurs sémantiques
 
-Préférer `getByRole('button', { name: 'Valider' })` à `page.locator('.btn-primary.mt-4')`. Le premier résiste à un changement de design, le second casse à la première refonte CSS. Playwright encourage cette approche avec ses [conventions de codage](/article/coding-conventions) de sélecteurs, et le mode strict qui échoue si un sélecteur matche plusieurs éléments.
+Préférer `getByRole('button', { name: 'Valider' })` à `page.locator('.btn-primary.mt-4')`. Le premier résiste à un changement de design, le second casse à la première refonte CSS. Playwright encourage cette approche avec ses [conventions de codage](/article/coding-conventions) de sélecteurs, et le mode strict qui échoue si un sélecteur matche plusieurs éléments. Pour une suite E2E qui s'intègre à une stratégie complète, notre offre de [tests automatisés PHP](/tests-automatises-php) couvre à la fois Playwright côté navigateur et PHPUnit côté backend.
 
 ## Pour aller plus loin
 

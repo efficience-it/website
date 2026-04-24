@@ -183,7 +183,7 @@ Cette complétude du système de types a des conséquences architecturales direc
 
 PHPStan devient alors une forme de documentation vivante. Contrairement à un commentaire ou un wiki, un type PHPStan est vérifié à chaque exécution de la CI. Il ne peut pas dériver du code réel. Pour un architecte, c'est un levier puissant : les décisions de design (séparation des couches, contrats entre modules, structures de données partagées) sont encodées dans les types et appliquées automatiquement.
 
-Imposer le niveau 10 sur l'ensemble d'un projet revient à dire : chaque interaction entre composants est explicite et vérifiée. Combiné à des [conventions de codage](/article/coding-conventions) strictes, c'est un investissement initial significatif, mais le retour se mesure en bugs évités, en onboarding accéléré et en refactorings sécurisés. Pour évaluer la maturité de votre codebase avant cette montée en niveau, un [audit de code PHP](/audit-code-php) permet de cartographier les zones critiques.
+Imposer le niveau 10 sur l'ensemble d'un projet revient à dire : chaque interaction entre composants est explicite et vérifiée. Combiné à des [conventions de codage](/article/coding-conventions) strictes, c'est un investissement initial significatif, mais le retour se mesure en bugs évités, en onboarding accéléré et en refactorings sécurisés. Pour évaluer la maturité de votre codebase avant cette montée en niveau, un [audit de code PHP](/audit-code-php) permet de cartographier les zones critiques. Et pour verrouiller ces garanties dans la durée, nos [tests automatisés PHP](/tests-automatises-php) intègrent PHPStan à une stratégie de couverture complète.
 
 ## Pour aller plus loin
 
