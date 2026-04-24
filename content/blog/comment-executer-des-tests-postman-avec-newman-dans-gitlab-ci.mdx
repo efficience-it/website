@@ -83,7 +83,7 @@ Sur un projet avec des dizaines de endpoints, le temps d'exécution du job Newma
 
 La parallélisation est le plus efficace. L'option `--folder` de Newman permet de cibler un dossier spécifique de la collection. On découpe alors le job unique en plusieurs jobs parallèles, chacun responsable d'un sous-ensemble fonctionnel. GitLab exécute ces jobs simultanément, et le temps total est celui du job le plus long plutôt que la somme de tous.
 
-La mise en cache des dépendances Node.js évite de réinstaller Newman à chaque exécution. Un cache GitLab CI sur le répertoire global npm réduit le `before_script` de 15 secondes à moins de 2. Les runners GitLab CI fonctionnent souvent dans des conteneurs : [pourquoi Docker est indispensable en production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) explique comment bien configurer cet environnement d'exécution.
+La mise en cache des dépendances Node.js évite de réinstaller Newman à chaque exécution. Un cache GitLab CI sur le répertoire global npm réduit le `before_script` de 15 secondes à moins de 2. Les runners GitLab CI fonctionnent souvent dans des conteneurs : [pourquoi Docker est indispensable en production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) explique comment bien configurer cet environnement d'exécution. Pour des projets plus ambitieux, notre [accompagnement cloud et DevOps](/cloud-et-devops) couvre l'industrialisation complète de ce type de pipeline.
 
 Les Pipeline Schedules de GitLab permettent de séparer les exécutions par fréquence. Les tests critiques tournent sur chaque merge request avec `--bail` pour un feedback rapide. La suite complète, plus lente, tourne chaque nuit sur l'environnement de staging via un schedule planifié.
 
