@@ -4,13 +4,20 @@ import crypto from "node:crypto";
 const BASE_URL = "https://www.itefficience.com";
 const HOST = "www.itefficience.com";
 
+const ZERO_SHA = "0000000000000000000000000000000000000000";
+
 function getChangedFiles(): string[] {
   const previousSha = process.env.PREVIOUS_SHA;
-  const range = previousSha ? `${previousSha}..HEAD` : "HEAD~1..HEAD";
+  const hasValidPrevious = previousSha && previousSha !== ZERO_SHA;
+  const range = hasValidPrevious ? `${previousSha}..HEAD` : "HEAD~1..HEAD";
+  console.log(`Diff range: ${range}`);
   try {
     const out = execSync(`git diff --name-only ${range}`, { encoding: "utf8" });
-    return out.split("\n").filter(Boolean);
-  } catch {
+    const files = out.split("\n").filter(Boolean);
+    console.log(`Files changed: ${files.length}`);
+    return files;
+  } catch (err) {
+    console.error(`git diff failed: ${(err as Error).message}`);
     return [];
   }
 }
@@ -54,10 +61,21 @@ async function pingIndexNow(urls: string[], key: string): Promise<void> {
   });
   const body = await res.text();
   console.log(`IndexNow: ${res.status} ${res.statusText} ${body}`);
+  if (!res.ok) {
+    throw new Error(`IndexNow ping failed with status ${res.status}`);
+  }
+}
+
+interface ServiceAccountCreds {
+  client_email: string;
+  private_key: string;
 }
 
 async function getGoogleAccessToken(serviceAccountJson: string): Promise<string> {
-  const creds = JSON.parse(serviceAccountJson);
+  const creds = JSON.parse(serviceAccountJson) as ServiceAccountCreds;
+  if (!creds.client_email || !creds.private_key) {
+    throw new Error("GOOGLE_SERVICE_ACCOUNT_JSON missing client_email or private_key");
+  }
   const header = base64url(JSON.stringify({ alg: "RS256", typ: "JWT" }));
   const iat = Math.floor(Date.now() / 1000);
   const payload = base64url(
@@ -96,19 +114,32 @@ async function getGoogleAccessToken(serviceAccountJson: string): Promise<string>
 
 async function pingGoogle(urls: string[], serviceAccountJson: string): Promise<void> {
   const token = await getGoogleAccessToken(serviceAccountJson);
+  let success = 0;
+  let failure = 0;
   for (const url of urls) {
-    const res = await fetch(
-      "https://indexing.googleapis.com/v3/urlNotifications:publish",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+    try {
+      const res = await fetch(
+        "https://indexing.googleapis.com/v3/urlNotifications:publish",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ url, type: "URL_UPDATED" }),
         },
-        body: JSON.stringify({ url, type: "URL_UPDATED" }),
-      },
-    );
-    console.log(`Google [${url}]: ${res.status} ${res.statusText}`);
+      );
+      console.log(`Google [${url}]: ${res.status} ${res.statusText}`);
+      if (res.ok) success++;
+      else failure++;
+    } catch (err) {
+      console.error(`Google [${url}]: ${(err as Error).message}`);
+      failure++;
+    }
+  }
+  console.log(`Google summary: ${success} ok, ${failure} failed`);
+  if (failure > 0) {
+    throw new Error(`Google Indexing: ${failure}/${urls.length} URL(s) failed`);
   }
 }
 
@@ -122,18 +153,32 @@ async function main(): Promise<void> {
   console.log(`Pinging ${urls.length} URL(s):`);
   for (const u of urls) console.log(`  ${u}`);
 
+  const errors: string[] = [];
+
   const indexNowKey = process.env.INDEXNOW_KEY;
   if (indexNowKey) {
-    await pingIndexNow(urls, indexNowKey);
+    try {
+      await pingIndexNow(urls, indexNowKey);
+    } catch (err) {
+      errors.push(`IndexNow: ${(err as Error).message}`);
+    }
   } else {
     console.log("INDEXNOW_KEY not set, skipping IndexNow.");
   }
 
   const googleCreds = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
   if (googleCreds) {
-    await pingGoogle(urls, googleCreds);
+    try {
+      await pingGoogle(urls, googleCreds);
+    } catch (err) {
+      errors.push(`Google: ${(err as Error).message}`);
+    }
   } else {
     console.log("GOOGLE_SERVICE_ACCOUNT_JSON not set, skipping Google Indexing.");
+  }
+
+  if (errors.length > 0) {
+    throw new Error(errors.join("; "));
   }
 }
 
