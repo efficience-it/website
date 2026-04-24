@@ -139,7 +139,8 @@ const courseJsonLd = {
     "Formation Symfony adaptée aux équipes de développement : fondamentaux, architecture hexagonale, API Platform, PHPStan. Présentiel à Lille ou à distance.",
   url: `${BASE_URL}/formation-symfony-entreprise`,
   provider: {
-    "@type": "Organization",
+    "@type": "ProfessionalService",
+    "@id": `${BASE_URL}/#organization`,
     name: "Efficience IT",
     url: BASE_URL,
   },
@@ -162,7 +163,8 @@ const courseJsonLd = {
       },
       courseWorkload: "PT8H",
       instructor: {
-        "@type": "Organization",
+        "@type": "ProfessionalService",
+        "@id": `${BASE_URL}/#organization`,
         name: "Efficience IT",
         url: BASE_URL,
       },

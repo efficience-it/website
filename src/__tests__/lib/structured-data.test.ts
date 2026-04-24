@@ -1,4 +1,4 @@
-import { howToJsonLd, localBusinessJsonLd } from "@/lib/structured-data";
+import { howToJsonLd, reviewsJsonLd, serviceJsonLd } from "@/lib/structured-data";
 import { categorySlugMap } from "@/lib/blog";
 
 describe("howToJsonLd", () => {
@@ -29,13 +29,29 @@ describe("howToJsonLd", () => {
   });
 });
 
-describe("localBusinessJsonLd", () => {
-  it("is a valid LocalBusiness schema", () => {
-    expect(localBusinessJsonLd["@context"]).toBe("https://schema.org");
-    expect(localBusinessJsonLd["@type"]).toBe("LocalBusiness");
-    expect(localBusinessJsonLd.name).toBe("Efficience IT");
-    expect(localBusinessJsonLd.address).toBeDefined();
-    expect(localBusinessJsonLd.geo).toBeDefined();
+describe("serviceJsonLd", () => {
+  it("links provider to the canonical organization @id", () => {
+    const result = serviceJsonLd({
+      name: "Service",
+      description: "Description",
+      path: "/service",
+    });
+    expect(result.provider["@id"]).toBe(
+      "https://www.itefficience.com/#organization",
+    );
+    expect(result.provider["@type"]).toBe("ProfessionalService");
+  });
+});
+
+describe("reviewsJsonLd", () => {
+  it("links itemReviewed to the canonical organization @id", () => {
+    const result = reviewsJsonLd([
+      { name: "X", role: "CEO", company: "Acme", quote: "Great" },
+    ]);
+    expect(result[0].itemReviewed["@id"]).toBe(
+      "https://www.itefficience.com/#organization",
+    );
+    expect(result[0].itemReviewed["@type"]).toBe("ProfessionalService");
   });
 });
 
