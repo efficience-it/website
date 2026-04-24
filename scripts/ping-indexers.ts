@@ -2,7 +2,7 @@ import { execSync } from "node:child_process";
 import crypto from "node:crypto";
 
 const BASE_URL = "https://www.itefficience.com";
-const HOST = "www.itefficience.com";
+const HOST = new URL(BASE_URL).host;
 
 const ZERO_SHA = "0000000000000000000000000000000000000000";
 
@@ -15,6 +15,8 @@ function getChangedFiles(): string[] {
     const out = execSync(`git diff --name-only ${range}`, { encoding: "utf8" });
     const files = out.split("\n").filter(Boolean);
     console.log(`Files changed: ${files.length}`);
+    for (const f of files.slice(0, 50)) console.log(`  ${f}`);
+    if (files.length > 50) console.log(`  ... (${files.length - 50} more)`);
     return files;
   } catch (err) {
     console.error(`git diff failed: ${(err as Error).message}`);
@@ -116,6 +118,7 @@ async function pingGoogle(urls: string[], serviceAccountJson: string): Promise<v
   const token = await getGoogleAccessToken(serviceAccountJson);
   let success = 0;
   let failure = 0;
+  let rateLimited = 0;
   for (const url of urls) {
     try {
       const res = await fetch(
@@ -131,13 +134,16 @@ async function pingGoogle(urls: string[], serviceAccountJson: string): Promise<v
       );
       console.log(`Google [${url}]: ${res.status} ${res.statusText}`);
       if (res.ok) success++;
+      else if (res.status === 429) rateLimited++;
       else failure++;
     } catch (err) {
       console.error(`Google [${url}]: ${(err as Error).message}`);
       failure++;
     }
   }
-  console.log(`Google summary: ${success} ok, ${failure} failed`);
+  console.log(
+    `Google summary: ${success} ok, ${rateLimited} rate-limited, ${failure} failed`,
+  );
   if (failure > 0) {
     throw new Error(`Google Indexing: ${failure}/${urls.length} URL(s) failed`);
   }

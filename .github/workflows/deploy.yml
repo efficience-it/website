@@ -46,6 +46,8 @@ jobs:
   ping-indexers:
     needs: deploy
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
         with:
@@ -53,7 +55,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: npx -y tsx scripts/ping-indexers.ts
+      - run: npx -y tsx@4 scripts/ping-indexers.ts
         env:
           PREVIOUS_SHA: ${{ github.event.before }}
           INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
