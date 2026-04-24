@@ -4,7 +4,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import GoogleAnalytics from "@/components/ui/GoogleAnalytics";
 import CookieConsent from "@/components/ui/CookieConsent";
-import { localBusinessJsonLd } from "@/lib/structured-data";
+import { BASE_URL } from "@/lib/metadata";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -18,12 +18,14 @@ export const metadata: Metadata = {
     "Agence spécialisée Symfony et PHP, Efficience IT conçoit et développe des applications web sur mesure, robustes et adaptées aux enjeux métiers.",
 };
 
-const organizationJsonLd = {
+const professionalServiceJsonLd = {
   "@context": "https://schema.org",
-  "@type": "Organization",
+  "@type": "ProfessionalService",
+  "@id": `${BASE_URL}/#organization`,
   name: "Efficience IT",
-  url: "https://www.itefficience.com",
-  logo: "https://www.itefficience.com/images/logo/logo-bleu.webp",
+  url: BASE_URL,
+  logo: `${BASE_URL}/images/logo/logo-bleu.webp`,
+  image: `${BASE_URL}/images/logo/logo-bleu.webp`,
   description:
     "Agence spécialisée Symfony et PHP, Efficience IT conçoit et développe des applications web sur mesure.",
   address: {
@@ -33,12 +35,18 @@ const organizationJsonLd = {
     postalCode: "59800",
     addressCountry: "FR",
   },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 50.6292,
+    longitude: 3.0573,
+  },
   email: "contact@itefficience.com",
   foundingDate: "2018",
   numberOfEmployees: {
     "@type": "QuantitativeValue",
     value: 15,
   },
+  priceRange: "$$",
   contactPoint: {
     "@type": "ContactPoint",
     email: "contact@itefficience.com",
@@ -55,6 +63,30 @@ const organizationJsonLd = {
     "Docker",
     "Node.js",
   ],
+  areaServed: [
+    { "@type": "Country", name: "France" },
+    { "@type": "Country", name: "Belgique" },
+    { "@type": "Country", name: "United Kingdom" },
+    { "@type": "Country", name: "Luxembourg" },
+    { "@type": "Country", name: "Spain" },
+    { "@type": "Country", name: "Germany" },
+  ],
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "5",
+    bestRating: "5",
+    worstRating: "1",
+    ratingCount: "32",
+    reviewCount: "32",
+  },
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "09:00",
+      closes: "18:00",
+    },
+  ],
   sameAs: [
     "https://github.com/efficience-it",
     "https://www.linkedin.com/company/efficience-it",
@@ -65,7 +97,7 @@ const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: "Efficience IT",
-  url: "https://www.itefficience.com",
+  url: BASE_URL,
 };
 
 export default function RootLayout({
@@ -84,19 +116,13 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationJsonLd),
+            __html: JSON.stringify(professionalServiceJsonLd),
           }}
         />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(websiteJsonLd),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(localBusinessJsonLd),
           }}
         />
         <GoogleAnalytics />

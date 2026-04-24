@@ -107,7 +107,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     image: post.image ? `${BASE_URL}${post.image}` : undefined,
     genre: post.category,
     publisher: {
-      "@type": "Organization",
+      "@type": "ProfessionalService",
+      "@id": `${BASE_URL}/#organization`,
       name: SITE_NAME,
       url: BASE_URL,
       logo: {
