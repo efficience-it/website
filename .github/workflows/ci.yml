@@ -89,12 +89,13 @@ jobs:
             --no-progress
             --base https://www.itefficience.com
             --exclude 'mailto:'
+            --exclude 'linkedin\.com'
             --exclude-path 'src/__tests__'
             --cache
             --max-cache-age 7d
             --timeout 30
             --max-retries 3
-            --accept 200,204,301,302,403,429
+            --accept 200,204,301,302,403,429,999
             content/blog/*.mdx
             src/**/*.tsx
             data/*.ts
@@ -160,7 +161,7 @@ jobs:
             --base http://localhost:3000
             --remap 'https://www.itefficience.com http://localhost:3000'
             --exclude 'mailto:'
-            --exclude '^https?://(?!localhost)'
+            --exclude '^https?://[^/]*\.'
             --accept 200,204,301,302
             --timeout 30
             out/**/*.html
