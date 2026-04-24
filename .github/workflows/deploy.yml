@@ -42,3 +42,18 @@ jobs:
     steps:
       - uses: actions/deploy-pages@v4
         id: deployment
+
+  ping-indexers:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npx -y tsx scripts/ping-indexers.ts
+        env:
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
