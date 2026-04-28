@@ -1,0 +1,234 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`structured-data snapshots blogItemListJsonLd 1`] = `
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "name": "Premier article",
+      "position": 1,
+      "url": "https://www.itefficience.com/article/first-post",
+    },
+    {
+      "@type": "ListItem",
+      "name": "Deuxième article",
+      "position": 2,
+      "url": "https://www.itefficience.com/article/second-post",
+    },
+  ],
+}
+`;
+
+exports[`structured-data snapshots breadcrumbJsonLd 1`] = `
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "item": "https://www.itefficience.com",
+      "name": "Accueil",
+      "position": 1,
+    },
+    {
+      "@type": "ListItem",
+      "item": "https://www.itefficience.com/blog",
+      "name": "Blog",
+      "position": 2,
+    },
+    {
+      "@type": "ListItem",
+      "item": "https://www.itefficience.com/article/test",
+      "name": "Article test",
+      "position": 3,
+    },
+  ],
+}
+`;
+
+exports[`structured-data snapshots breadcrumbJsonLd with a single item 1`] = `
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "item": "https://www.itefficience.com",
+      "name": "Accueil",
+      "position": 1,
+    },
+    {
+      "@type": "ListItem",
+      "item": "https://www.itefficience.com/contact",
+      "name": "Contact",
+      "position": 2,
+    },
+  ],
+}
+`;
+
+exports[`structured-data snapshots eventJsonLd 1`] = `
+{
+  "@context": "https://schema.org",
+  "@type": "BusinessEvent",
+  "endDate": "2024-05-24",
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "location": {
+    "@type": "Place",
+    "address": "204 rue Solférino, 59000 Lille, France",
+    "name": "Théâtre de la Comédie de Lille",
+  },
+  "name": "AFUP Day 2024 Lille",
+  "organizer": {
+    "@type": "Organization",
+    "name": "AFUP",
+    "url": "https://afup.org",
+  },
+  "startDate": "2024-05-24",
+  "url": "https://event.afup.org/afup-day-2024/",
+}
+`;
+
+exports[`structured-data snapshots howToJsonLd 1`] = `
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "description": "Description",
+  "name": "Déployer",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Étape 1",
+      "position": 1,
+      "text": "Faire ceci",
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Étape 2",
+      "position": 2,
+      "text": "Faire cela",
+    },
+  ],
+}
+`;
+
+exports[`structured-data snapshots howToJsonLd with no steps 1`] = `
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "description": "Sans étape",
+  "name": "Vide",
+  "step": [],
+}
+`;
+
+exports[`structured-data snapshots reviewsJsonLd 1`] = `
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "Review",
+    "author": {
+      "@type": "Person",
+      "name": "Alice",
+    },
+    "itemReviewed": {
+      "@id": "https://www.itefficience.com/#organization",
+      "@type": "ProfessionalService",
+      "name": "Efficience IT",
+    },
+    "reviewBody": "Excellent.",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Review",
+    "author": {
+      "@type": "Person",
+      "name": "Bob",
+    },
+    "itemReviewed": {
+      "@id": "https://www.itefficience.com/#organization",
+      "@type": "ProfessionalService",
+      "name": "Efficience IT",
+    },
+    "reviewBody": "Très réactif.",
+  },
+]
+`;
+
+exports[`structured-data snapshots serviceJsonLd 1`] = `
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "areaServed": [
+    {
+      "@type": "Country",
+      "name": "France",
+    },
+    {
+      "@type": "Country",
+      "name": "Belgique",
+    },
+    {
+      "@type": "Country",
+      "name": "United Kingdom",
+    },
+    {
+      "@type": "Country",
+      "name": "Luxembourg",
+    },
+    {
+      "@type": "Country",
+      "name": "Spain",
+    },
+    {
+      "@type": "Country",
+      "name": "Germany",
+    },
+  ],
+  "description": "Audit technique gratuit de votre code Symfony.",
+  "name": "Audit Symfony",
+  "provider": {
+    "@id": "https://www.itefficience.com/#organization",
+    "@type": "ProfessionalService",
+    "name": "Efficience IT",
+  },
+  "url": "https://www.itefficience.com/audit-symfony-gratuit",
+}
+`;
+
+exports[`structured-data snapshots webPageJsonLd minimal 1`] = `
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "description": "Contactez-nous.",
+  "inLanguage": "fr-FR",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Efficience IT",
+    "url": "https://www.itefficience.com",
+  },
+  "name": "Contact",
+  "url": "https://www.itefficience.com/contact",
+}
+`;
+
+exports[`structured-data snapshots webPageJsonLd with type and dates 1`] = `
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "dateModified": "2026-04-28",
+  "datePublished": "2024-01-01",
+  "description": "Tous les articles.",
+  "inLanguage": "fr-FR",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Efficience IT",
+    "url": "https://www.itefficience.com",
+  },
+  "name": "Blog",
+  "url": "https://www.itefficience.com/blog",
+}
+`;
