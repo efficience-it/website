@@ -43,6 +43,7 @@ export default function StickyArticleCta({
   return (
     <div
       aria-hidden={!visible}
+      inert={!visible}
       className={`fixed inset-x-0 bottom-0 z-50 border-t border-white/20 bg-primary/95 px-4 py-4 text-center backdrop-blur-sm transition-transform duration-300 md:inset-x-auto md:right-6 md:bottom-6 md:w-auto md:max-w-xs md:rounded-lg md:border md:px-5 md:py-4 md:shadow-lg ${
         visible
           ? "translate-y-0 md:translate-x-0"

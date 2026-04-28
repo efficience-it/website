@@ -39,6 +39,13 @@ describe("StickyArticleCta", () => {
     expect(screen.getByRole("link", { name: "Parler de votre projet" })).toHaveAttribute("href", "/contact");
   });
 
+  it("renders a custom label when provided", () => {
+    render(<StickyArticleCta href="/audit-symfony-gratuit" label="Demander un audit gratuit" />);
+    expect(
+      screen.getByRole("link", { name: "Demander un audit gratuit" }),
+    ).toHaveAttribute("href", "/audit-symfony-gratuit");
+  });
+
   it("is visible by default", () => {
     render(<StickyArticleCta href="/contact" />);
     const container = screen.getByText("Besoin d'un regard externe sur votre projet ?").parentElement;

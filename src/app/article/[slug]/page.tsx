@@ -168,7 +168,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       )}
       <ScrollDepthTracker slug={slug} />
       {shouldShowStickyCta && (
-        <StickyArticleCta href={stickyCtaConfig.href} slug={slug} />
+        <StickyArticleCta
+          href={stickyCtaConfig.href}
+          label={stickyCtaConfig.buttonLabel}
+          slug={slug}
+        />
       )}
       <main>
         <article className={`py-16 ${shouldShowStickyCta ? "pb-32 md:pb-16" : ""}`}>
