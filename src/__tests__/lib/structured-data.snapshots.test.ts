@@ -45,6 +45,16 @@ describe("structured-data snapshots", () => {
     });
   });
 
+  it("pageGraphJsonLd flattens arrays passed as items", () => {
+    const reviews = reviewsJsonLd([
+      { name: "A", role: "CTO", company: "X", quote: "Q1" },
+      { name: "B", role: "Dev", company: "Y", quote: "Q2" },
+    ]);
+    const result = pageGraphJsonLd(reviews);
+    expect(result["@graph"]).toHaveLength(2);
+    expect(result["@graph"][0]).not.toHaveProperty("@context");
+  });
+
   it("breadcrumbJsonLd", () => {
     expect(
       breadcrumbJsonLd([

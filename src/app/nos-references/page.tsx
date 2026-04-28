@@ -118,7 +118,7 @@ const referencesRelatedLinks: RelatedLink[] = [
 export default function NosReferences() {
   return (
     <>
-    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageGraphJsonLd(breadcrumb, webPage, ...reviews)) }} />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageGraphJsonLd(breadcrumb, webPage, reviews)) }} />
     <main>
       <section className="bg-light-gray py-8 md:py-12">
         <Container className="text-center">

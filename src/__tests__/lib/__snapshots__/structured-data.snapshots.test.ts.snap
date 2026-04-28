@@ -450,13 +450,15 @@ exports[`structured-data snapshots pageGraphJsonLd strips @context and wraps in 
   "@context": "https://schema.org",
   "@graph": [
     {
+      "@id": "https://www.itefficience.com/test#webpage",
       "@type": "WebPage",
+      "about": {
+        "@id": "https://www.itefficience.com/#organization",
+      },
       "description": "Test page",
       "inLanguage": "fr-FR",
       "isPartOf": {
-        "@type": "WebSite",
-        "name": "Efficience IT",
-        "url": "https://www.itefficience.com",
+        "@id": "https://www.itefficience.com/#website",
       },
       "name": "Test",
       "url": "https://www.itefficience.com/test",
@@ -493,8 +495,6 @@ exports[`structured-data snapshots reviewsJsonLd 1`] = `
     },
     "itemReviewed": {
       "@id": "https://www.itefficience.com/#organization",
-      "@type": "ProfessionalService",
-      "name": "Efficience IT",
     },
     "reviewBody": "Excellent.",
   },
@@ -507,8 +507,6 @@ exports[`structured-data snapshots reviewsJsonLd 1`] = `
     },
     "itemReviewed": {
       "@id": "https://www.itefficience.com/#organization",
-      "@type": "ProfessionalService",
-      "name": "Efficience IT",
     },
     "reviewBody": "Très réactif.",
   },
@@ -549,8 +547,6 @@ exports[`structured-data snapshots serviceJsonLd 1`] = `
   "name": "Audit Symfony",
   "provider": {
     "@id": "https://www.itefficience.com/#organization",
-    "@type": "ProfessionalService",
-    "name": "Efficience IT",
   },
   "url": "https://www.itefficience.com/audit-symfony-gratuit",
 }
@@ -559,13 +555,15 @@ exports[`structured-data snapshots serviceJsonLd 1`] = `
 exports[`structured-data snapshots webPageJsonLd minimal 1`] = `
 {
   "@context": "https://schema.org",
+  "@id": "https://www.itefficience.com/contact#webpage",
   "@type": "WebPage",
+  "about": {
+    "@id": "https://www.itefficience.com/#organization",
+  },
   "description": "Contactez-nous.",
   "inLanguage": "fr-FR",
   "isPartOf": {
-    "@type": "WebSite",
-    "name": "Efficience IT",
-    "url": "https://www.itefficience.com",
+    "@id": "https://www.itefficience.com/#website",
   },
   "name": "Contact",
   "url": "https://www.itefficience.com/contact",
@@ -575,15 +573,17 @@ exports[`structured-data snapshots webPageJsonLd minimal 1`] = `
 exports[`structured-data snapshots webPageJsonLd with type and dates 1`] = `
 {
   "@context": "https://schema.org",
+  "@id": "https://www.itefficience.com/blog#webpage",
   "@type": "CollectionPage",
+  "about": {
+    "@id": "https://www.itefficience.com/#organization",
+  },
   "dateModified": "2026-04-28",
   "datePublished": "2024-01-01",
   "description": "Tous les articles.",
   "inLanguage": "fr-FR",
   "isPartOf": {
-    "@type": "WebSite",
-    "name": "Efficience IT",
-    "url": "https://www.itefficience.com",
+    "@id": "https://www.itefficience.com/#website",
   },
   "name": "Blog",
   "url": "https://www.itefficience.com/blog",

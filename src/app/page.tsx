@@ -45,7 +45,7 @@ const webPage = webPageJsonLd({
 export default function Home() {
   return (
     <>
-    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageGraphJsonLd(webPage, ...reviews)) }} />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageGraphJsonLd(webPage, reviews)) }} />
     <main>
       <Hero />
       <FadeIn>

@@ -119,26 +119,21 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     { name: post.title, path: `/article/${slug}` },
   ]);
 
-  const articleGraphItems: Array<Record<string, unknown>> = [jsonLd, breadcrumb];
-  if (post.event) {
-    articleGraphItems.push(eventJsonLd(post.event));
-  }
-  if (post.howTo && post.howTo.steps.length > 0) {
-    articleGraphItems.push(
-      howToJsonLd(post.howTo.name, post.howTo.description, post.howTo.steps),
-    );
-  }
-  if (post.faq && post.faq.length > 0) {
-    articleGraphItems.push(faqPageJsonLd(post.faq));
-  }
+  const graph = pageGraphJsonLd(
+    jsonLd,
+    breadcrumb,
+    ...(post.event ? [eventJsonLd(post.event)] : []),
+    ...(post.howTo && post.howTo.steps.length > 0
+      ? [howToJsonLd(post.howTo.name, post.howTo.description, post.howTo.steps)]
+      : []),
+    ...(post.faq && post.faq.length > 0 ? [faqPageJsonLd(post.faq)] : []),
+  );
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(pageGraphJsonLd(...articleGraphItems)),
-        }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(graph) }}
       />
       <ScrollDepthTracker slug={slug} />
       <main>

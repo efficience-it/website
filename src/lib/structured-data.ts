@@ -96,10 +96,13 @@ export const globalGraphJsonLd = {
   "@graph": [organizationEntity, websiteEntity],
 };
 
+type GraphItem = Record<string, unknown>;
+
 export function pageGraphJsonLd(
-  ...items: Array<Record<string, unknown>>
-): { "@context": string; "@graph": Array<Record<string, unknown>> } {
-  const stripped = items.map((item) => {
+  ...items: Array<GraphItem | GraphItem[]>
+): { "@context": string; "@graph": GraphItem[] } {
+  const flat = items.flat();
+  const stripped = flat.map((item) => {
     const copy = { ...item };
     delete copy["@context"];
     return copy;
@@ -144,11 +147,7 @@ export function serviceJsonLd({ name, description, path }: ServiceSchemaProps) {
     name,
     description,
     url: `${BASE_URL}${path}`,
-    provider: {
-      "@type": "ProfessionalService",
-      "@id": `${BASE_URL}/#organization`,
-      name: "Efficience IT",
-    },
+    provider: { "@id": `${BASE_URL}/#organization` },
     areaServed: [
       { "@type": "Country", name: "France" },
       { "@type": "Country", name: "Belgique" },
@@ -171,11 +170,7 @@ export function reviewsJsonLd(testimonials: Testimonial[]) {
       name: t.name,
     },
     reviewBody: t.quote,
-    itemReviewed: {
-      "@type": "ProfessionalService",
-      "@id": `${BASE_URL}/#organization`,
-      name: "Efficience IT",
-    },
+    itemReviewed: { "@id": `${BASE_URL}/#organization` },
   }));
 }
 
@@ -216,15 +211,13 @@ export function webPageJsonLd({
   return {
     "@context": "https://schema.org",
     "@type": type,
+    "@id": `${BASE_URL}${path}#webpage`,
     name,
     description,
     url: `${BASE_URL}${path}`,
     inLanguage: "fr-FR",
-    isPartOf: {
-      "@type": "WebSite",
-      name: "Efficience IT",
-      url: BASE_URL,
-    },
+    isPartOf: { "@id": `${BASE_URL}/#website` },
+    about: { "@id": `${BASE_URL}/#organization` },
     ...(datePublished && { datePublished }),
     ...(dateModified && { dateModified }),
   };
