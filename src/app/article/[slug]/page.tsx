@@ -18,6 +18,7 @@ import {
   eventJsonLd,
   faqPageJsonLd,
   howToJsonLd,
+  pageGraphJsonLd,
 } from "@/lib/structured-data";
 import { getAuthorSchema } from "@/data/authors";
 import FadeIn from "@/components/ui/FadeIn";
@@ -118,46 +119,22 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     { name: post.title, path: `/article/${slug}` },
   ]);
 
+  const graph = pageGraphJsonLd(
+    jsonLd,
+    breadcrumb,
+    ...(post.event ? [eventJsonLd(post.event)] : []),
+    ...(post.howTo && post.howTo.steps.length > 0
+      ? [howToJsonLd(post.howTo.name, post.howTo.description, post.howTo.steps)]
+      : []),
+    ...(post.faq && post.faq.length > 0 ? [faqPageJsonLd(post.faq)] : []),
+  );
+
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(graph) }}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
-      />
-      {post.event && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(eventJsonLd(post.event)),
-          }}
-        />
-      )}
-      {post.howTo && post.howTo.steps.length > 0 && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(
-              howToJsonLd(
-                post.howTo.name,
-                post.howTo.description,
-                post.howTo.steps,
-              ),
-            ),
-          }}
-        />
-      )}
-      {post.faq && post.faq.length > 0 && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(faqPageJsonLd(post.faq)),
-          }}
-        />
-      )}
       <ScrollDepthTracker slug={slug} />
       <main>
         <article className="py-16">

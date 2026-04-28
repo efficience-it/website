@@ -11,7 +11,7 @@ import {
 } from "@/lib/blog";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { breadcrumbJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import FadeIn from "@/components/ui/FadeIn";
 import CallToAction from "@/components/sections/CallToAction";
 
@@ -90,7 +90,7 @@ export default async function BlogCategoryPage({
     <>
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(pageGraphJsonLd(breadcrumb)) }}
     />
     <main>
       <section className="bg-light-gray py-16 md:py-24">
