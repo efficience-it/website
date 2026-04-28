@@ -5,7 +5,8 @@ import { getAllPosts, getPostBySlug, getCategorySlug, getPostsByCategory, extrac
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import MarkdownContent from "@/components/ui/MarkdownContent";
-import ArticleCta from "@/components/sections/ArticleCta";
+import ArticleCta, { getArticleCtaConfig } from "@/components/sections/ArticleCta";
+import StickyArticleCta from "@/components/sections/StickyArticleCta";
 import Accordion from "@/components/ui/Accordion";
 import SectionTitle from "@/components/ui/SectionTitle";
 import BlogCard from "@/components/cards/BlogCard";
@@ -18,10 +19,13 @@ import {
   eventJsonLd,
   faqPageJsonLd,
   howToJsonLd,
+  pageGraphJsonLd,
 } from "@/lib/structured-data";
 import { getAuthorSchema } from "@/data/authors";
 import FadeIn from "@/components/ui/FadeIn";
 import ScrollDepthTracker from "@/components/ui/ScrollDepthTracker";
+
+const STICKY_CTA_MIN_WORDS = 1500;
 
 function splitContentAfterThirdH2(content: string): [string, string] | null {
   const h2Regex = /^## /gm;
@@ -88,6 +92,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   const url = `${BASE_URL}/article/${slug}`;
 
+  const shouldShowStickyCta = post.wordCount > STICKY_CTA_MIN_WORDS;
+  const stickyCtaConfig = getArticleCtaConfig(post.category, slug);
   const isTech = isTechCategory(post.category);
 
   const headings = extractHeadings(post.content);
@@ -118,49 +124,32 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     { name: post.title, path: `/article/${slug}` },
   ]);
 
+  const graph = pageGraphJsonLd(
+    jsonLd,
+    breadcrumb,
+    ...(post.event ? [eventJsonLd(post.event)] : []),
+    ...(post.howTo && post.howTo.steps.length > 0
+      ? [howToJsonLd(post.howTo.name, post.howTo.description, post.howTo.steps)]
+      : []),
+    ...(post.faq && post.faq.length > 0 ? [faqPageJsonLd(post.faq)] : []),
+  );
+
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(graph) }}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
-      />
-      {post.event && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(eventJsonLd(post.event)),
-          }}
-        />
-      )}
-      {post.howTo && post.howTo.steps.length > 0 && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(
-              howToJsonLd(
-                post.howTo.name,
-                post.howTo.description,
-                post.howTo.steps,
-              ),
-            ),
-          }}
-        />
-      )}
-      {post.faq && post.faq.length > 0 && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(faqPageJsonLd(post.faq)),
-          }}
-        />
-      )}
       <ScrollDepthTracker slug={slug} />
+      {shouldShowStickyCta && (
+        <StickyArticleCta
+          href={stickyCtaConfig.href}
+          label={stickyCtaConfig.buttonLabel}
+          slug={slug}
+        />
+      )}
       <main>
-        <article className="py-16">
+        <article className={`py-16 ${shouldShowStickyCta ? "pb-32 md:pb-16" : ""}`}>
           <Container className="mx-auto max-w-3xl">
             <header className="mb-16">
               <div className="flex flex-col gap-8 xl:flex-row xl:items-center xl:justify-between">
@@ -242,7 +231,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   return (
                     <>
                       <MarkdownContent content={firstPart} />
-                      <div className="my-8 rounded-lg bg-primary/5 p-6 text-center">
+                      <div data-cta-section className="my-8 rounded-lg bg-primary/5 p-6 text-center">
                         <p className="font-display text-lg font-semibold text-dark">
                           {wantsSymfonyAudit
                             ? "Besoin d'un regard expert sur votre code Symfony ?"

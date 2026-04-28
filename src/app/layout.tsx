@@ -4,7 +4,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import GoogleAnalytics from "@/components/ui/GoogleAnalytics";
 import CookieConsent from "@/components/ui/CookieConsent";
-import { organizationJsonLd, websiteJsonLd } from "@/lib/structured-data";
+import { globalGraphJsonLd } from "@/lib/structured-data";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -38,13 +38,7 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationJsonLd),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(websiteJsonLd),
+            __html: JSON.stringify(globalGraphJsonLd),
           }}
         />
         <GoogleAnalytics />
