@@ -5,6 +5,25 @@ export interface FaqItem {
   answer: string;
 }
 
+export interface EventLocation {
+  name: string;
+  address: string;
+}
+
+export interface EventOrganizer {
+  name: string;
+  url: string;
+}
+
+export interface EventSchema {
+  name: string;
+  startDate: string;
+  endDate: string;
+  location: EventLocation;
+  organizer: EventOrganizer;
+  url: string;
+}
+
 export interface BlogPost {
   slug: string;
   title: string;
@@ -16,6 +35,7 @@ export interface BlogPost {
   image?: string;
   proficiencyLevel?: ProficiencyLevel;
   faq?: FaqItem[];
+  event?: EventSchema;
   content: string;
   wordCount: number;
 }
