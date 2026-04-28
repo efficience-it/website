@@ -5,11 +5,11 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "prebuild": "tsx scripts/generate-image-variants.ts",
+    "prebuild": "npx -y tsx@4 scripts/generate-image-variants.ts",
     "start": "next start",
     "lint": "eslint",
     "test": "jest",
-    "generate:image-variants": "tsx scripts/generate-image-variants.ts"
+    "generate:image-variants": "npx -y tsx@4 scripts/generate-image-variants.ts"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.19",
