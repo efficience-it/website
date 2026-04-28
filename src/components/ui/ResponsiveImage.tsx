@@ -1,3 +1,5 @@
+import variantsManifest from "@/data/blog-image-variants.json";
+
 interface ResponsiveImageProps {
   src: string;
   alt: string;
@@ -9,7 +11,7 @@ interface ResponsiveImageProps {
   fetchPriority?: "high" | "low" | "auto";
 }
 
-const WIDTHS = [400, 800, 1200];
+const manifest: Record<string, number[]> = variantsManifest;
 
 export default function ResponsiveImage({
   src,
@@ -22,7 +24,9 @@ export default function ResponsiveImage({
   fetchPriority,
 }: Readonly<ResponsiveImageProps>) {
   const blogMatch = src.match(/^\/images\/blog\/(.+)\.webp$/);
-  if (!blogMatch) {
+  const widths = blogMatch ? manifest[blogMatch[1]] ?? [] : [];
+
+  if (widths.length === 0) {
     return (
       <img
         src={src}
@@ -38,9 +42,9 @@ export default function ResponsiveImage({
     );
   }
 
-  const baseName = blogMatch[1];
+  const baseName = blogMatch![1];
   const srcset = (format: "webp" | "avif") =>
-    WIDTHS.map((w) => `/images/blog/responsive/${baseName}-${w}w.${format} ${w}w`).join(", ");
+    widths.map((w) => `/images/blog/responsive/${baseName}-${w}w.${format} ${w}w`).join(", ");
 
   return (
     <picture>

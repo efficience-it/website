@@ -1,10 +1,11 @@
 import fs from "node:fs";
 import path from "node:path";
 import sharp from "sharp";
+import { RESPONSIVE_WIDTHS } from "../src/lib/image-config";
 
 const SRC_DIR = path.join(process.cwd(), "public/images/blog");
 const OUT_DIR = path.join(SRC_DIR, "responsive");
-const WIDTHS = [400, 800, 1200];
+const MANIFEST_PATH = path.join(process.cwd(), "src/data/blog-image-variants.json");
 
 async function main(): Promise<void> {
   if (!fs.existsSync(OUT_DIR)) {
@@ -15,8 +16,10 @@ async function main(): Promise<void> {
     .readdirSync(SRC_DIR)
     .filter((f) => f.endsWith(".webp") && !fs.statSync(path.join(SRC_DIR, f)).isDirectory());
 
+  const manifest: Record<string, number[]> = {};
   let generated = 0;
   let skipped = 0;
+
   for (const file of files) {
     const srcPath = path.join(SRC_DIR, file);
     const baseName = path.basename(file, ".webp");
@@ -29,8 +32,10 @@ async function main(): Promise<void> {
       continue;
     }
 
-    for (const width of WIDTHS) {
+    const widthsForFile: number[] = [];
+    for (const width of RESPONSIVE_WIDTHS) {
       if (width >= srcWidth) continue;
+      widthsForFile.push(width);
       for (const format of ["webp", "avif"] as const) {
         const outPath = path.join(OUT_DIR, `${baseName}-${width}w.${format}`);
         if (fs.existsSync(outPath)) {
@@ -44,8 +49,15 @@ async function main(): Promise<void> {
         generated++;
       }
     }
+    if (widthsForFile.length > 0) {
+      manifest[baseName] = widthsForFile;
+    }
   }
-  console.log(`Generated ${generated} variants, skipped ${skipped} existing.`);
+
+  fs.writeFileSync(MANIFEST_PATH, JSON.stringify(manifest, null, 2) + "\n");
+  console.log(
+    `Generated ${generated} variants, skipped ${skipped} existing. Manifest: ${Object.keys(manifest).length} entries.`,
+  );
 }
 
 main().catch((err) => {
