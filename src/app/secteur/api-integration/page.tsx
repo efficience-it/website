@@ -16,7 +16,7 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured
 
 export const metadata = pageMetadata({
   title:
-    "Développement d'API et intégration SI avec Symfony et API Platform",
+    "Développement API & intégration SI  Symfony et API Platform",
   description:
     "Efficience IT conçoit des API REST et GraphQL avec Symfony et API Platform : intégration SI, connecteurs spécifiques et flux asynchrones fiables.",
   path: "/secteur/api-integration",

@@ -48,7 +48,7 @@ const reactRelatedLinks: RelatedLink[] = [
 ];
 
 export const metadata = pageMetadata({
-  title: "Développement React dédié : applications rapides et maintenables",
+  title: "Développement React – Applications rapides & maintenables",
   description:
     "Efficience IT développe des applications React et TypeScript personnalisées : SPA, dashboards, backoffices. Connectées à vos APIs Symfony ou Node.js.",
   path: "/developpement-react",

@@ -14,7 +14,7 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title: "Audit technique approfondi de code PHP : rapport détaillé et plan d'action",
+  title: "Audit de code PHP – Rapport détaillé & plan d'action",
   description:
     "Audit technique de votre code PHP : analyse statique PHPStan niveau max, revue par un développeur senior, rapport détaillé avec plan d'action. Sous 48h.",
   path: "/audit-code-php",

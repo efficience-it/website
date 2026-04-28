@@ -16,7 +16,7 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured
 
 export const metadata = pageMetadata({
   title:
-    "Développement d'applications métier pensées pour votre activité avec Symfony",
+    "Développement d'applications métier avec Symfony",
   description:
     "Efficience IT développe des applications métier spécifiques avec Symfony : digitalisation de processus, outils internes et logiciels de gestion adaptés à votre activité.",
   path: "/secteur/application-metier",
@@ -59,7 +59,7 @@ const faqItems = [
   {
     title: "Quelle est la différence entre un progiciel et une application dédiée ?",
     content:
-      "Un progiciel (ERP, CRM) est un logiciel standard paramétrable. Une application conçue pour votre métier est développée spécifiquement pour votre métier. Le progiciel convient quand vos processus sont standards. L'application sur mesure s'impose quand vos processus sont votre avantage compétitif et qu'aucun logiciel du marché ne les couvre correctement.",
+      "Un progiciel (ERP, CRM) est un logiciel standard paramétrable. Une application sur mesure est développée spécifiquement pour votre métier. Le progiciel convient quand vos processus sont standards. L'application sur mesure s'impose quand vos processus sont votre avantage compétitif et qu'aucun logiciel du marché ne les couvre correctement.",
   },
   {
     title: "Comment cadrer le besoin avant de développer ?",

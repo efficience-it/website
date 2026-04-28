@@ -23,7 +23,7 @@ const modernisationRelatedLinks: RelatedLink[] = [
 
 export const metadata = pageMetadata({
   title:
-    "Modernisation d'application PHP : réduire la dette technique et remettre aux normes",
+    "Modernisation PHP – Dette technique et remise aux normes",
   description:
     "Modernisez votre application PHP obsolète : réduction de la dette technique, refactoring progressif, mise aux normes PHP 8 et migration vers Symfony.",
   path: "/modernisation-application-php",

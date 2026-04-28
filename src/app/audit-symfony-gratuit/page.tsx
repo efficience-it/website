@@ -13,7 +13,7 @@ import { breadcrumbJsonLd, howToJsonLd, webPageJsonLd } from "@/lib/structured-d
 import CodeIllustration from "@/components/illustrations/CodeIllustration";
 
 export const metadata = pageMetadata({
-  title: "Diagnostic Symfony gratuit de 30 minutes : premier état des lieux",
+  title: "Diagnostic Symfony gratuit – État des lieux en 30 min",
   description:
     "Diagnostic gratuit de 30 minutes pour votre application Symfony : état des lieux technique, identification des points critiques et pistes d'amélioration.",
   path: "/audit-symfony-gratuit",

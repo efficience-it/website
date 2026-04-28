@@ -16,7 +16,7 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured
 
 export const metadata = pageMetadata({
   title:
-    "Agence e-commerce Symfony et Sylius : développement sur mesure",
+    "Agence e-commerce Symfony et Sylius : développement adapté",
   description:
     "Efficience IT développe des plateformes e-commerce performantes avec Symfony et Sylius : catalogue produit, API headless et intégration PIM/ERP.",
   path: "/secteur/e-commerce",

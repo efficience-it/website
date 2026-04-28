@@ -49,7 +49,7 @@ const frontendRelatedLinks: RelatedLink[] = [
 ];
 
 export const metadata = pageMetadata({
-  title: "Développement frontend React, Vue.js et TypeScript personnalisé",
+  title: "Développement frontend React, Vue.js & TypeScript",
   description:
     "Efficience IT conçoit des interfaces frontend performantes avec React, Vue.js, Next.js et TypeScript. Applications connectées à vos APIs Symfony.",
   path: "/developpement-frontend",
