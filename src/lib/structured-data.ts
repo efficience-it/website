@@ -1,9 +1,85 @@
-import { BASE_URL } from "@/lib/metadata";
+import { BASE_URL, SITE_NAME } from "@/lib/metadata";
+import type { AuthorSchema } from "@/data/authors";
+import type { FaqItem, ProficiencyLevel } from "@/types/blog";
 
 interface BreadcrumbItem {
   name: string;
   path: string;
 }
+
+export const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": `${BASE_URL}/#organization`,
+  name: "Efficience IT",
+  url: BASE_URL,
+  logo: `${BASE_URL}/images/logo/logo-bleu.webp`,
+  image: `${BASE_URL}/images/logo/logo-bleu.webp`,
+  description:
+    "Agence spécialisée Symfony et PHP, Efficience IT conçoit et développe des applications web sur mesure.",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "677 Avenue de la République",
+    addressLocality: "Lille",
+    postalCode: "59800",
+    addressCountry: "FR",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 50.6292,
+    longitude: 3.0573,
+  },
+  email: "contact@itefficience.com",
+  foundingDate: "2018",
+  numberOfEmployees: {
+    "@type": "QuantitativeValue",
+    value: 15,
+  },
+  priceRange: "$$",
+  contactPoint: {
+    "@type": "ContactPoint",
+    email: "contact@itefficience.com",
+    contactType: "customer service",
+    availableLanguage: ["French", "English"],
+  },
+  knowsAbout: [
+    "Symfony",
+    "PHP",
+    "Architecture hexagonale",
+    "Domain-Driven Design",
+    "API Platform",
+    "DevOps",
+    "Docker",
+    "Node.js",
+  ],
+  areaServed: [
+    { "@type": "Country", name: "France" },
+    { "@type": "Country", name: "Belgique" },
+    { "@type": "Country", name: "United Kingdom" },
+    { "@type": "Country", name: "Luxembourg" },
+    { "@type": "Country", name: "Spain" },
+    { "@type": "Country", name: "Germany" },
+  ],
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "09:00",
+      closes: "18:00",
+    },
+  ],
+  sameAs: [
+    "https://github.com/efficience-it",
+    "https://www.linkedin.com/company/efficience-it",
+  ],
+};
+
+export const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Efficience IT",
+  url: BASE_URL,
+};
 
 export function breadcrumbJsonLd(items: BreadcrumbItem[]) {
   return {
@@ -146,6 +222,75 @@ export function howToJsonLd(name: string, description: string, steps: HowToStep[
 }
 
 import { EventSchema } from "@/types/blog";
+
+interface ArticleJsonLdInput {
+  url: string;
+  isTech: boolean;
+  title: string;
+  excerpt: string;
+  author: AuthorSchema;
+  imagePath?: string;
+  category: string;
+  date: string;
+  updatedAt?: string;
+  wordCount: number;
+  timeRequiredMinutes: number;
+  proficiencyLevel?: ProficiencyLevel;
+}
+
+export function articleJsonLd(input: ArticleJsonLdInput) {
+  return {
+    "@context": "https://schema.org",
+    "@type": input.isTech ? "TechArticle" : "BlogPosting",
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": input.url,
+    },
+    headline: input.title,
+    description: input.excerpt,
+    author: input.author,
+    image: input.imagePath ? `${BASE_URL}${input.imagePath}` : undefined,
+    genre: input.category,
+    publisher: {
+      "@type": "ProfessionalService",
+      "@id": `${BASE_URL}/#organization`,
+      name: SITE_NAME,
+      url: BASE_URL,
+      logo: {
+        "@type": "ImageObject",
+        url: `${BASE_URL}/images/logo/logo-og.webp`,
+      },
+    },
+    datePublished: input.date,
+    dateModified: input.updatedAt ?? input.date,
+    url: input.url,
+    wordCount: input.wordCount,
+    timeRequired: `PT${input.timeRequiredMinutes}M`,
+    inLanguage: "fr-FR",
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: ["h1", "article > p:first-of-type"],
+    },
+    ...(input.isTech && {
+      proficiencyLevel: input.proficiencyLevel ?? "Intermediate",
+    }),
+  };
+}
+
+export function faqPageJsonLd(items: FaqItem[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
+}
 
 export function eventJsonLd(event: EventSchema) {
   return {

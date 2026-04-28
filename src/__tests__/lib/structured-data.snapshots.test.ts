@@ -1,15 +1,27 @@
 import {
+  articleJsonLd,
   blogItemListJsonLd,
   breadcrumbJsonLd,
   eventJsonLd,
+  faqPageJsonLd,
   howToJsonLd,
+  organizationJsonLd,
   reviewsJsonLd,
   serviceJsonLd,
   webPageJsonLd,
+  websiteJsonLd,
 } from "@/lib/structured-data";
 import type { BlogPost } from "@/types/blog";
 
 describe("structured-data snapshots", () => {
+  it("organizationJsonLd", () => {
+    expect(organizationJsonLd).toMatchSnapshot();
+  });
+
+  it("websiteJsonLd", () => {
+    expect(websiteJsonLd).toMatchSnapshot();
+  });
+
   it("breadcrumbJsonLd", () => {
     expect(
       breadcrumbJsonLd([
@@ -120,6 +132,106 @@ describe("structured-data snapshots", () => {
         },
         url: "https://event.afup.org/afup-day-2024/",
       }),
+    ).toMatchSnapshot();
+  });
+
+  it("articleJsonLd as BlogPosting", () => {
+    expect(
+      articleJsonLd({
+        url: "https://www.itefficience.com/article/test",
+        isTech: false,
+        title: "Article test",
+        excerpt: "Un excerpt de test.",
+        author: {
+          "@type": "Person",
+          name: "Louis-Arnaud Catoire",
+          jobTitle: "CTO",
+          url: "https://www.itefficience.com/la-team",
+          sameAs: ["https://linkedin.com/in/lac"],
+        },
+        imagePath: "/images/blog/test.webp",
+        category: "Symfony",
+        date: "2024-01-15",
+        updatedAt: "2024-02-20",
+        wordCount: 1200,
+        timeRequiredMinutes: 6,
+      }),
+    ).toMatchSnapshot();
+  });
+
+  it("articleJsonLd as TechArticle with proficiency", () => {
+    expect(
+      articleJsonLd({
+        url: "https://www.itefficience.com/article/tech",
+        isTech: true,
+        title: "Tech article",
+        excerpt: "Tech excerpt.",
+        author: {
+          "@type": "ProfessionalService",
+          "@id": "https://www.itefficience.com/#organization",
+          name: "Efficience IT",
+          url: "https://www.itefficience.com",
+        },
+        category: "Outils",
+        date: "2024-03-10",
+        wordCount: 800,
+        timeRequiredMinutes: 4,
+        proficiencyLevel: "Expert",
+      }),
+    ).toMatchSnapshot();
+  });
+
+  it("articleJsonLd as TechArticle defaults proficiencyLevel to Intermediate", () => {
+    const result = articleJsonLd({
+      url: "https://www.itefficience.com/article/tech-default",
+      isTech: true,
+      title: "Tech default",
+      excerpt: "Excerpt.",
+      author: {
+        "@type": "Person",
+        name: "Auteur",
+        jobTitle: "Dev",
+        url: "https://www.itefficience.com/la-team",
+        sameAs: [],
+      },
+      category: "Outils",
+      date: "2024-04-01",
+      wordCount: 600,
+      timeRequiredMinutes: 3,
+    });
+    expect((result as { proficiencyLevel: string }).proficiencyLevel).toBe(
+      "Intermediate",
+    );
+  });
+
+  it("articleJsonLd without image falls back to undefined", () => {
+    const result = articleJsonLd({
+      url: "https://www.itefficience.com/article/no-image",
+      isTech: false,
+      title: "Sans image",
+      excerpt: "Pas d'image.",
+      author: {
+        "@type": "Person",
+        name: "Auteur",
+        jobTitle: "Dev",
+        url: "https://www.itefficience.com/la-team",
+        sameAs: [],
+      },
+      category: "Projet",
+      date: "2024-01-01",
+      wordCount: 500,
+      timeRequiredMinutes: 3,
+    });
+    expect(result.image).toBeUndefined();
+    expect(result.dateModified).toBe("2024-01-01");
+  });
+
+  it("faqPageJsonLd", () => {
+    expect(
+      faqPageJsonLd([
+        { question: "Q1 ?", answer: "A1." },
+        { question: "Q2 ?", answer: "A2." },
+      ]),
     ).toMatchSnapshot();
   });
 });
