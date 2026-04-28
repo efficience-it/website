@@ -7,6 +7,20 @@ category: "Symfony"
 excerpt: "Migrer de MySQL vers PostgreSQL avec Doctrine sur un projet Symfony. Différences de typage, génération du schéma et migration des données."
 image: "/images/blog/migration-mysql-postgresql.webp"
 proficiencyLevel: "Expert"
+howTo:
+  name: "Migrer une base MySQL vers PostgreSQL avec Doctrine"
+  description: "Étapes pour migrer un projet Symfony de MySQL vers PostgreSQL en s'appuyant sur Doctrine, sans interruption de service."
+  steps:
+    - name: "Préparer Doctrine pour PostgreSQL"
+      text: "Mettre à jour la DATABASE_URL et l'option server_version dans doctrine.yaml, puis adapter les types Doctrine spécifiques à MySQL (json, datetime, enum)."
+    - name: "Générer et valider le schéma cible"
+      text: "Lancer doctrine:schema:validate puis doctrine:migrations:diff pour produire la migration PostgreSQL et vérifier la correspondance avec les entités."
+    - name: "Migrer les données"
+      text: "Utiliser pgloader ou un script applicatif pour copier les données de MySQL vers PostgreSQL en respectant les conversions de type (TINYINT, ENUM, JSON)."
+    - name: "Corriger les pièges courants"
+      text: "Ajuster les requêtes natives sensibles à la casse, les fonctions GROUP BY strictes et les comportements de timezone propres à PostgreSQL."
+    - name: "Basculer la production en dual-write"
+      text: "Activer une phase de double écriture sur les deux bases, valider PostgreSQL en lecture, puis couper MySQL une fois la cohérence vérifiée."
 faq:
   - question: "Peut-on migrer de MySQL vers PostgreSQL sans interruption de service ?"
     answer: "Oui, avec une stratégie de dual-write et une bascule progressive. L'application écrit dans les deux bases pendant la phase de transition, puis on coupe MySQL une fois que PostgreSQL a été validé en conditions réelles. Le temps d'indisponibilité se réduit à quelques secondes lors du switch final."
@@ -28,7 +42,7 @@ PostgreSQL apporte des réponses concrètes à ces points. Notre accompagnement 
 
 Trois signaux indiquent qu'une migration vaut l'investissement. Le premier : votre application stocke du JSON en base et vous avez besoin de le filtrer ou de l'indexer. MySQL force à parser le JSON à chaque requête, PostgreSQL l'indexe nativement. Le deuxième : vous utilisez Symfony Messenger avec le transport Doctrine et vous subissez des deadlocks sous charge. PostgreSQL avec `SKIP LOCKED` résout ce problème. Le troisième : votre schéma exploite des types que MySQL gère mal (arrays, ranges, types composites).
 
-En revanche, si votre application fait du CRUD classique sans requêtes complexes, MySQL reste parfaitement adapté. Le coût de migration ne se justifie pas par principe.
+En revanche, si votre application fait du CRUD classique sans requêtes complexes, MySQL reste parfaitement adapté. Le coût de migration ne se justifie pas par principe. Quand le besoin est confirmé, notre offre de [migration Symfony clé en main](/migration-symfony) cadre le chantier, de l'audit initial à la bascule finale sans interruption de service.
 
 ## Préparer la migration côté Doctrine
 

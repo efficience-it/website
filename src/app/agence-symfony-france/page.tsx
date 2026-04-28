@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
-import { BASE_URL } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
 import Card from "@/components/ui/Card";
@@ -12,7 +11,7 @@ import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import Accordion from "@/components/ui/Accordion";
-import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title:
@@ -91,26 +90,6 @@ const faqJsonLd = {
   })),
 };
 
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  "@id": `${BASE_URL}/#organization`,
-  name: "Efficience IT",
-  url: BASE_URL,
-  logo: `${BASE_URL}/images/logo/logo-bleu.webp`,
-  image: `${BASE_URL}/images/logo/logo-bleu.webp`,
-  description:
-    "Prestataire Symfony en France, Efficience IT accompagne les entreprises dans le développement, la migration et la maintenance de leurs applications PHP et Symfony.",
-  email: "contact@itefficience.com",
-  knowsAbout: ["Symfony", "PHP", "API Platform", "Doctrine", "DevOps"],
-  areaServed: { "@type": "Country", name: "France" },
-  priceRange: "$$",
-  sameAs: [
-    "https://github.com/efficience-it",
-    "https://www.linkedin.com/company/efficience-it",
-  ],
-};
-
 const breadcrumb = breadcrumbJsonLd([
   { name: "Prestataire Symfony France", path: "/agence-symfony-france" },
 ]);
@@ -179,24 +158,7 @@ const relatedLinks: RelatedLink[] = [
 export default function AgenceSymfonyFrance() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(organizationJsonLd),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageGraphJsonLd(breadcrumb, webPage, faqJsonLd)) }} />
       <main>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>

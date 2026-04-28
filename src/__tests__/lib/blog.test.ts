@@ -7,6 +7,8 @@ import {
   getCategories,
   getPostsByCategory,
   extractHeadings,
+  isSymfonyAuditCategory,
+  isTechCategory,
   readingTime,
 } from "@/lib/blog";
 
@@ -67,6 +69,17 @@ describe("getAllPosts", () => {
       readFileSpy.mockRestore();
       readdirSpy.mockRestore();
     }
+  });
+
+  it("exposes howTo when present in the frontmatter", () => {
+    const posts = getAllPosts();
+    const post = posts.find(
+      (p) => p.slug === "deployer-nuxtjs-avec-gitlab-ci-s3-et-cloudfront",
+    );
+    expect(post?.howTo).toBeDefined();
+    expect(post?.howTo?.steps.length).toBeGreaterThan(0);
+    expect(post?.howTo?.steps[0]).toHaveProperty("name");
+    expect(post?.howTo?.steps[0]).toHaveProperty("text");
   });
 });
 
@@ -145,6 +158,44 @@ describe("extractHeadings", () => {
     expect(headings).toHaveLength(1);
     expect(headings[0].text).toBe("Valid");
   });
+});
+
+describe("isTechCategory", () => {
+  it.each([
+    "Symfony",
+    "PHP",
+    "Architecture",
+    "DevOps",
+    "Qualité de code",
+    "Sécurité",
+    "IA",
+    "JavaScript",
+  ])("classifies %s as tech", (category) => {
+    expect(isTechCategory(category)).toBe(true);
+  });
+
+  it.each(["Formation", "Projet", "Green IT", "Agence", ""])(
+    "classifies %s as non-tech",
+    (category) => {
+      expect(isTechCategory(category)).toBe(false);
+    },
+  );
+});
+
+describe("isSymfonyAuditCategory", () => {
+  it.each(["Symfony", "PHP", "Architecture", "Qualité de code"])(
+    "matches %s",
+    (category) => {
+      expect(isSymfonyAuditCategory(category)).toBe(true);
+    },
+  );
+
+  it.each(["IA", "JavaScript", "DevOps", "Sécurité", "Formation", "Projet", ""])(
+    "does not match %s",
+    (category) => {
+      expect(isSymfonyAuditCategory(category)).toBe(false);
+    },
+  );
 });
 
 describe("readingTime", () => {

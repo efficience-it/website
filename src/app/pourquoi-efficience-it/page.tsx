@@ -15,7 +15,7 @@ import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { clients } from "@/../data/clients";
 import { testimonials } from "@/../data/testimonials";
-import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "Pourquoi choisir Efficience IT pour vos projets Symfony",
@@ -147,18 +147,7 @@ const comparisonData = [
 export default function PourquoiEfficienceIt() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageGraphJsonLd(breadcrumb, faqJsonLd, webPage)) }} />
       <main>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>

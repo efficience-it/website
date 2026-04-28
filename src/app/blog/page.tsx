@@ -5,7 +5,7 @@ import { getAllPosts, getCategories, getCategorySlug } from "@/lib/blog";
 import Link from "next/link";
 import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
-import { breadcrumbJsonLd, blogItemListJsonLd, webPageJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, blogItemListJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import CallToAction from "@/components/sections/CallToAction";
 
 export const metadata = pageMetadata({
@@ -33,18 +33,7 @@ export default function BlogPage() {
 
   return (
     <>
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
-    />
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(itemList) }}
-    />
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
-    />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageGraphJsonLd(breadcrumb, itemList, webPage)) }} />
     <main>
       <section className="bg-light-gray py-16 md:py-24">
         <Container className="text-center">

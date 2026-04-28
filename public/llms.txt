@@ -107,4 +107,4 @@ Clients : Decathlon, Crédit Agricole, Carter Cash, Schneider Electric, Groupe A
 
 ## Pour plus d'informations
 
-Pour une version complète avec la liste des articles de blog et le détail des services, consultez [llms-full.txt](https://www.itefficience.com/.well-known/llms-full.txt).
+Pour une version complète avec la liste des articles de blog et le détail des services, consultez [llms-full.txt](https://www.itefficience.com/llms-full.txt).

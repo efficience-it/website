@@ -110,6 +110,11 @@ export default function Footer() {
               email={footerNav.contact.email}
               className="text-sm text-gray-300 transition-colors hover:text-white"
             />
+            <address className="mt-4 text-sm not-italic text-gray-300">
+              Efficience IT<br />
+              677 Avenue de la République<br />
+              59800 Lille, France
+            </address>
             <Link
               href={footerNav.contact.cta.href}
               className="mt-2 inline-block text-sm font-semibold text-primary-light transition-colors hover:text-white"
