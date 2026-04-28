@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { getAllPosts, getPostBySlug, getCategorySlug, getPostsByCategory, extractHeadings, readingTime } from "@/lib/blog";
+import { getAllPosts, getPostBySlug, getCategorySlug, getPostsByCategory, extractHeadings, isTechCategory, readingTime } from "@/lib/blog";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import MarkdownContent from "@/components/ui/MarkdownContent";
@@ -22,17 +22,6 @@ import {
 import { getAuthorSchema } from "@/data/authors";
 import FadeIn from "@/components/ui/FadeIn";
 import ScrollDepthTracker from "@/components/ui/ScrollDepthTracker";
-
-const TECH_CATEGORIES = [
-  "Symfony",
-  "PHP",
-  "Architecture",
-  "DevOps",
-  "Qualité de code",
-  "Sécurité",
-  "IA",
-  "JavaScript",
-];
 
 function splitContentAfterThirdH2(content: string): [string, string] | null {
   const h2Regex = /^## /gm;
@@ -99,7 +88,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   const url = `${BASE_URL}/article/${slug}`;
 
-  const isTech = TECH_CATEGORIES.includes(post.category);
+  const isTech = isTechCategory(post.category);
 
   const headings = extractHeadings(post.content);
 
@@ -249,25 +238,26 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                     return <MarkdownContent content={post.content} />;
                   }
                   const [firstPart, secondPart] = parts;
-                  const isSymfony =
-                    post.category && TECH_CATEGORIES.includes(post.category);
+                  const wantsSymfonyAudit = ["Symfony", "PHP", "Architecture", "Qualité de code"].includes(
+                    post.category,
+                  );
                   return (
                     <>
                       <MarkdownContent content={firstPart} />
                       <div className="my-8 rounded-lg bg-primary/5 p-6 text-center">
                         <p className="font-display text-lg font-semibold text-dark">
-                          {isSymfony
+                          {wantsSymfonyAudit
                             ? "Besoin d'un regard expert sur votre code Symfony ?"
                             : "Besoin d'accompagnement sur votre projet ?"}
                         </p>
                         <Button
                           href={
-                            isSymfony ? "/audit-symfony-gratuit" : "/contact"
+                            wantsSymfonyAudit ? "/audit-symfony-gratuit" : "/contact"
                           }
                           className="mt-3"
                           variant="outline"
                         >
-                          {isSymfony
+                          {wantsSymfonyAudit
                             ? "Demander un audit gratuit"
                             : "Parlons-en"}
                         </Button>
