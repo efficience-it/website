@@ -23,7 +23,16 @@ import { getAuthorSchema } from "@/data/authors";
 import FadeIn from "@/components/ui/FadeIn";
 import ScrollDepthTracker from "@/components/ui/ScrollDepthTracker";
 
-const TECH_CATEGORIES = ["Outils", "Formation", "Projet", "Green IT"];
+const TECH_CATEGORIES = [
+  "Symfony",
+  "PHP",
+  "Architecture",
+  "DevOps",
+  "Qualité de code",
+  "Sécurité",
+  "IA",
+  "JavaScript",
+];
 
 function splitContentAfterThirdH2(content: string): [string, string] | null {
   const h2Regex = /^## /gm;
