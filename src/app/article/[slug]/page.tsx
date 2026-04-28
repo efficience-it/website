@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { getAllPosts, getPostBySlug, getCategorySlug, getPostsByCategory, extractHeadings, isTechCategory, readingTime } from "@/lib/blog";
+import { getAllPosts, getPostBySlug, getCategorySlug, getPostsByCategory, extractHeadings, isSymfonyAuditCategory, isTechCategory, readingTime } from "@/lib/blog";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import MarkdownContent from "@/components/ui/MarkdownContent";
@@ -238,9 +238,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                     return <MarkdownContent content={post.content} />;
                   }
                   const [firstPart, secondPart] = parts;
-                  const wantsSymfonyAudit = ["Symfony", "PHP", "Architecture", "Qualité de code"].includes(
-                    post.category,
-                  );
+                  const wantsSymfonyAudit = isSymfonyAuditCategory(post.category);
                   return (
                     <>
                       <MarkdownContent content={firstPart} />

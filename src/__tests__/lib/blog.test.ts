@@ -8,6 +8,7 @@ import {
   getCategories,
   getPostsByCategory,
   extractHeadings,
+  isSymfonyAuditCategory,
   isTechCategory,
   readingTime,
 } from "@/lib/blog";
@@ -171,6 +172,22 @@ describe("isTechCategory", () => {
     "classifies %s as non-tech",
     (category) => {
       expect(isTechCategory(category)).toBe(false);
+    },
+  );
+});
+
+describe("isSymfonyAuditCategory", () => {
+  it.each(["Symfony", "PHP", "Architecture", "Qualité de code"])(
+    "matches %s",
+    (category) => {
+      expect(isSymfonyAuditCategory(category)).toBe(true);
+    },
+  );
+
+  it.each(["IA", "JavaScript", "DevOps", "Sécurité", "Formation", "Projet", ""])(
+    "does not match %s",
+    (category) => {
+      expect(isSymfonyAuditCategory(category)).toBe(false);
     },
   );
 });
