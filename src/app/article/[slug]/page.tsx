@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import Image from "next/image";
+import ResponsiveImage from "@/components/ui/ResponsiveImage";
 import Link from "next/link";
 import { getAllPosts, getPostBySlug, getCategorySlug, getPostsByCategory, extractHeadings, isSymfonyAuditCategory, isTechCategory, readingTime } from "@/lib/blog";
 import Container from "@/components/ui/Container";
@@ -190,13 +190,14 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 </div>
                 {post.image && (
                   <div className="mt-6 shrink-0 self-center xl:mt-0 xl:ml-8 xl:self-start">
-                    <Image
+                    <ResponsiveImage
                       src={post.image}
                       alt={post.title}
                       width={720}
                       height={405}
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 28rem, (max-width: 1280px) 32rem, 36rem"
                       className="h-auto w-full max-w-full rounded-md object-contain sm:max-w-md lg:max-w-lg xl:max-w-xl"
-                      priority
+                      loading="eager"
                       fetchPriority="high"
                     />
                   </div>
