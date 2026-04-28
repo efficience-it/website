@@ -93,6 +93,32 @@ export const categorySlugMap: Record<string, string> = {
   "Sécurité": "securite",
 };
 
+const TECH_CATEGORIES = new Set([
+  "Symfony",
+  "PHP",
+  "Architecture",
+  "DevOps",
+  "Qualité de code",
+  "Sécurité",
+  "IA",
+  "JavaScript",
+]);
+
+const SYMFONY_AUDIT_CATEGORIES = new Set([
+  "Symfony",
+  "PHP",
+  "Architecture",
+  "Qualité de code",
+]);
+
+export function isTechCategory(category: string): boolean {
+  return TECH_CATEGORIES.has(category);
+}
+
+export function isSymfonyAuditCategory(category: string): boolean {
+  return SYMFONY_AUDIT_CATEGORIES.has(category);
+}
+
 const slugToCategoryMap: Record<string, string> = Object.fromEntries(
   Object.entries(categorySlugMap).map(([name, slug]) => [slug, name]),
 );
