@@ -8,7 +8,7 @@ export const mainNav: NavItem[] = [
       {
         label: "Développement PHP",
         href: "/developpement-php",
-        description: "Applications Symfony personnalisée, solides et maintenables",
+        description: "Applications Symfony personnalisées, solides et maintenables",
       },
       {
         label: "Modernisation applicative",

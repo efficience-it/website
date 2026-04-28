@@ -6,6 +6,18 @@ category: "JavaScript"
 excerpt: "Ce guide montre comment publier un site Vue.js ou Nuxt.js sur Amazon S3 avec le cache CDN CloudFront, le tout automatisé via GitLab CI/CD."
 image: "/images/blog/deployer-nuxtjs.webp"
 updatedAt: "2026-01-13"
+howTo:
+  name: "Déployer Nuxt.js avec GitLab CI, S3 et CloudFront"
+  description: "Publier un site Nuxt.js sur AWS S3 avec distribution CloudFront, automatisé via une pipeline GitLab CI."
+  steps:
+    - name: "Préparer le socle AWS S3 et CloudFront"
+      text: "Créer un bucket S3 pour héberger les fichiers statiques et configurer une distribution CloudFront en amont, avec un utilisateur IAM dédié pour GitLab CI."
+    - name: "Construire la pipeline GitLab CI"
+      text: "Écrire un .gitlab-ci.yml qui installe les dépendances, génère la version statique avec nuxt generate, puis synchronise le dossier dist sur S3."
+    - name: "Configurer le déploiement multi-environnement"
+      text: "Définir des règles only/except par branche pour pousser sur des buckets distincts (preview, staging, production) selon le contexte."
+    - name: "Mettre en place l'invalidation de cache CloudFront"
+      text: "Déclencher une invalidation CloudFront en fin de pipeline pour purger les fichiers HTML modifiés tout en conservant le cache long sur les assets fingerprintés."
 ---
 
 Déployer un site statique généré par Nuxt.js sur une infrastructure AWS ne se résume pas à pousser des fichiers sur un bucket. Derrière cette apparente simplicité se cachent des décisions d'architecture qui impactent la performance, la sécurité, le coût et la résilience de votre plateforme. Cet article parcourt le chemin complet : de la mise en place initiale S3 + CloudFront jusqu'aux stratégies de déploiement multi-environnement, en passant par les considérations d'architecture CDN à grande échelle.

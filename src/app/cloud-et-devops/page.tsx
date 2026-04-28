@@ -379,7 +379,7 @@ export default function CloudEtDevops() {
                 Expertise reconnue
               </h3>
               <p className="mt-2 text-gray">
-                Une expertise éprouvée en solutions IT conçu pour répondre
+                Une expertise éprouvée en solutions IT conçues pour répondre
                 aux enjeux spécifiques de votre secteur.
               </p>
             </Card>

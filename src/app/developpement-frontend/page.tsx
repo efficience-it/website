@@ -168,7 +168,7 @@ const breadcrumb = breadcrumbJsonLd([
 const service = serviceJsonLd({
   name: "Développement frontend React, Vue.js et TypeScript",
   description:
-    "Conception et développement d'interfaces frontend adapté avec React, Vue.js, Next.js et TypeScript. Applications connectées à vos APIs Symfony ou Node.js.",
+    "Conception et développement d'interfaces frontend adaptées avec React, Vue.js, Next.js et TypeScript. Applications connectées à vos APIs Symfony ou Node.js.",
   path: "/developpement-frontend",
 });
 
@@ -207,7 +207,7 @@ export default function DeveloppementFrontend() {
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">
-                  Développement frontend dédiées
+                  Développement frontend dédié
                 </p>
                 <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
                   Développement frontend React, Vue.js et TypeScript personnalisé

@@ -34,6 +34,6 @@ export const testimonials: Testimonial[] = [
     role: "Directeur Général",
     company: "Glasseo",
     quote:
-      "Efficience IT a su rapidement comprendre nos problématiques. Leur compréhension approfondie de Symfony a permis une API réactive et fiable.",
+      "Efficience IT a su rapidement comprendre nos problématiques. Leur compréhension approfondie de Symfony a permis une API performante et fiable.",
   },
 ];

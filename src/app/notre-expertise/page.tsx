@@ -196,9 +196,9 @@ export default function NotreExpertise() {
               <h3 className="font-display text-lg font-bold text-dark">Développement et API</h3>
               <ul className="mt-3 space-y-2 text-gray">
                 <li><Link href="/developpement-php" className="text-primary hover:underline">Développement PHP</Link> : applications sur mesure avec PHP 8 et Symfony</li>
-                <li><Link href="/developpement-web-sur-mesure" className="text-primary hover:underline">Développement web personnalisée</Link></li>
+                <li><Link href="/developpement-web-sur-mesure" className="text-primary hover:underline">Développement web personnalisé</Link></li>
                 <li><Link href="/developpement-frontend" className="text-primary hover:underline">Développement frontend</Link> : <Link href="/developpement-react" className="text-primary hover:underline">React</Link>, <Link href="/developpement-vuejs" className="text-primary hover:underline">Vue.js</Link>, <Link href="/developpement-typescript" className="text-primary hover:underline">TypeScript</Link></li>
-                <li><Link href="/api-sur-mesure-symfony" className="text-primary hover:underline">API dédié Symfony</Link></li>
+                <li><Link href="/api-sur-mesure-symfony" className="text-primary hover:underline">API dédiée Symfony</Link></li>
                 <li><Link href="/cloud-et-devops" className="text-primary hover:underline">Cloud et DevOps</Link></li>
                 <li><Link href="/integration-docker-symfony" className="text-primary hover:underline">Docker et Symfony</Link> : conteneurisation et déploiement</li>
                 <li><Link href="/base-de-donnees-postgresql-symfony" className="text-primary hover:underline">PostgreSQL et Symfony</Link> : base de données performante</li>
