@@ -27,6 +27,8 @@ export default function RootLayout({
     <html lang="fr-FR">
       <head>
         <link rel="ai-metadata" href="/llms.txt" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
       </head>
       <body
         className={`${montserrat.variable} ${exo.variable} font-sans antialiased`}
