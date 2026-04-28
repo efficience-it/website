@@ -7,8 +7,7 @@ interface BreadcrumbItem {
   path: string;
 }
 
-export const organizationJsonLd = {
-  "@context": "https://schema.org",
+const organizationEntity = {
   "@type": "ProfessionalService",
   "@id": `${BASE_URL}/#organization`,
   name: "Efficience IT",
@@ -74,12 +73,42 @@ export const organizationJsonLd = {
   ],
 };
 
-export const websiteJsonLd = {
-  "@context": "https://schema.org",
+const websiteEntity = {
   "@type": "WebSite",
+  "@id": `${BASE_URL}/#website`,
   name: "Efficience IT",
   url: BASE_URL,
+  publisher: { "@id": `${BASE_URL}/#organization` },
 };
+
+export const organizationJsonLd = {
+  "@context": "https://schema.org",
+  ...organizationEntity,
+};
+
+export const websiteJsonLd = {
+  "@context": "https://schema.org",
+  ...websiteEntity,
+};
+
+export const globalGraphJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [organizationEntity, websiteEntity],
+};
+
+export function pageGraphJsonLd(
+  ...items: Array<Record<string, unknown>>
+): { "@context": string; "@graph": Array<Record<string, unknown>> } {
+  const stripped = items.map((item) => {
+    const copy = { ...item };
+    delete copy["@context"];
+    return copy;
+  });
+  return {
+    "@context": "https://schema.org",
+    "@graph": stripped,
+  };
+}
 
 export function breadcrumbJsonLd(items: BreadcrumbItem[]) {
   return {

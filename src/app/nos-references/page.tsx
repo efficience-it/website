@@ -7,7 +7,7 @@ import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
-import { breadcrumbJsonLd, webPageJsonLd, reviewsJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, webPageJsonLd, reviewsJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import CallToAction from "@/components/sections/CallToAction";
 import { testimonials } from "@/../data/testimonials";
 
@@ -118,18 +118,7 @@ const referencesRelatedLinks: RelatedLink[] = [
 export default function NosReferences() {
   return (
     <>
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
-    />
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
-    />
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(reviews) }}
-    />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageGraphJsonLd(breadcrumb, webPage, ...reviews)) }} />
     <main>
       <section className="bg-light-gray py-8 md:py-12">
         <Container className="text-center">

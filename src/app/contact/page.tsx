@@ -7,7 +7,7 @@ import ContactForm from "@/components/sections/ContactForm";
 import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { faqItems } from "@/../data/faq";
-import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "Contact | Agence web Symfony – Efficience IT",
@@ -44,18 +44,7 @@ const webPage = webPageJsonLd({
 export default function Contact() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageGraphJsonLd(jsonLd, breadcrumb, webPage)) }} />
       <main>
         <section className="bg-light-gray py-16 md:py-24">
           <Container className="text-center">

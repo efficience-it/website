@@ -4,8 +4,10 @@ import {
   breadcrumbJsonLd,
   eventJsonLd,
   faqPageJsonLd,
+  globalGraphJsonLd,
   howToJsonLd,
   organizationJsonLd,
+  pageGraphJsonLd,
   reviewsJsonLd,
   serviceJsonLd,
   webPageJsonLd,
@@ -20,6 +22,27 @@ describe("structured-data snapshots", () => {
 
   it("websiteJsonLd", () => {
     expect(websiteJsonLd).toMatchSnapshot();
+  });
+
+  it("globalGraphJsonLd", () => {
+    expect(globalGraphJsonLd).toMatchSnapshot();
+  });
+
+  it("pageGraphJsonLd strips @context and wraps in @graph", () => {
+    const webPage = webPageJsonLd({
+      name: "Test",
+      description: "Test page",
+      path: "/test",
+    });
+    const breadcrumb = breadcrumbJsonLd([{ name: "Test", path: "/test" }]);
+    expect(pageGraphJsonLd(webPage, breadcrumb)).toMatchSnapshot();
+  });
+
+  it("pageGraphJsonLd with no items returns empty graph", () => {
+    expect(pageGraphJsonLd()).toEqual({
+      "@context": "https://schema.org",
+      "@graph": [],
+    });
   });
 
   it("breadcrumbJsonLd", () => {
