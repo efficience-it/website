@@ -24,6 +24,17 @@ export interface EventSchema {
   url: string;
 }
 
+export interface HowToStep {
+  name: string;
+  text: string;
+}
+
+export interface HowToSchema {
+  name: string;
+  description: string;
+  steps: HowToStep[];
+}
+
 export interface BlogPost {
   slug: string;
   title: string;
@@ -36,6 +47,7 @@ export interface BlogPost {
   proficiencyLevel?: ProficiencyLevel;
   faq?: FaqItem[];
   event?: EventSchema;
+  howTo?: HowToSchema;
   content: string;
   wordCount: number;
 }

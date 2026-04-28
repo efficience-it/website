@@ -62,6 +62,17 @@ describe("getAllPosts", () => {
     expect(tempPost!.excerpt).toBe("");
     expect(tempPost!.wordCount).toBe(0);
   });
+
+  it("exposes howTo when present in the frontmatter", () => {
+    const posts = getAllPosts();
+    const post = posts.find(
+      (p) => p.slug === "deployer-nuxtjs-avec-gitlab-ci-s3-et-cloudfront",
+    );
+    expect(post?.howTo).toBeDefined();
+    expect(post?.howTo?.steps.length).toBeGreaterThan(0);
+    expect(post?.howTo?.steps[0]).toHaveProperty("name");
+    expect(post?.howTo?.steps[0]).toHaveProperty("text");
+  });
 });
 
 describe("getCategoryBySlug", () => {

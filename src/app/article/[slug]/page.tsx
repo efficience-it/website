@@ -12,7 +12,7 @@ import BlogCard from "@/components/cards/BlogCard";
 import TableOfContents from "@/components/ui/TableOfContents";
 import type { Metadata } from "next";
 import { BASE_URL, SITE_NAME, pageMetadata } from "@/lib/metadata";
-import { breadcrumbJsonLd, eventJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, eventJsonLd, howToJsonLd } from "@/lib/structured-data";
 import { getAuthorSchema } from "@/data/authors";
 import FadeIn from "@/components/ui/FadeIn";
 import ScrollDepthTracker from "@/components/ui/ScrollDepthTracker";
@@ -149,6 +149,20 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(eventJsonLd(post.event)),
+          }}
+        />
+      )}
+      {post.howTo && post.howTo.steps.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(
+              howToJsonLd(
+                post.howTo.name,
+                post.howTo.description,
+                post.howTo.steps,
+              ),
+            ),
           }}
         />
       )}

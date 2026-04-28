@@ -6,6 +6,20 @@ category: "DevOps"
 excerpt: "Découvrez comment industrialiser l'exécution de vos tests Postman avec Newman dans un pipeline GitLab CI/CD pour automatiser vos tests d'API."
 image: "/images/blog/postman-newman.webp"
 updatedAt: "2026-01-13"
+howTo:
+  name: "Exécuter des tests Postman avec Newman dans GitLab CI"
+  description: "Automatiser l'exécution d'une collection Postman dans une pipeline GitLab CI grâce au runner Newman."
+  steps:
+    - name: "Exporter la collection Postman et l'environnement"
+      text: "Depuis Postman, exporter la collection en v2.1 et l'environnement associé, puis les versionner dans le dépôt sous tests/postman/."
+    - name: "Ajouter un job Newman dans .gitlab-ci.yml"
+      text: "Créer un stage de test qui lance newman run sur la collection exportée avec l'image officielle postman/newman."
+    - name: "Injecter les secrets via les variables GitLab"
+      text: "Définir les tokens et URLs d'environnement comme variables protégées dans les paramètres CI/CD du projet plutôt que dans le fichier d'environnement."
+    - name: "Activer le data-driven testing"
+      text: "Passer un fichier CSV ou JSON via l'option --iteration-data pour exécuter la collection sur plusieurs jeux de données."
+    - name: "Publier les rapports en artefacts"
+      text: "Générer un rapport HTML avec --reporters htmlextra et l'exposer comme artefact GitLab pour faciliter le débogage des échecs."
 ---
 
 Tester une API manuellement fonctionne au début d'un projet. Mais dès que l'on adopte les [conventions de codage](/article/coding-conventions) en équipe, l'automatisation des tests devient une nécessité. Dès que l'équipe grandit, que les endpoints se multiplient et que les déploiements s'accélèrent, l'absence de tests automatisés devient un risque concret : régressions silencieuses, contrats cassés, intégrations fragiles. Newman, le runner CLI de Postman, permet de transformer des collections de requêtes en suite de tests exécutable dans un pipeline GitLab CI. Voici comment mettre cela en place, puis comment aller au-delà d'une configuration basique.
