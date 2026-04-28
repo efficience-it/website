@@ -42,6 +42,8 @@ export function getAllPosts(): BlogPost[] {
       image: data.image,
       proficiencyLevel: data.proficiencyLevel,
       faq: data.faq,
+      event: data.event,
+      howTo: data.howTo,
       content,
       wordCount: countWords(content),
     };
@@ -70,6 +72,8 @@ export function getPostBySlug(slug: string): BlogPost | undefined {
     image: data.image,
     proficiencyLevel: data.proficiencyLevel,
     faq: data.faq,
+    event: data.event,
+    howTo: data.howTo,
     content,
     wordCount: countWords(content),
   };

@@ -11,8 +11,14 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import BlogCard from "@/components/cards/BlogCard";
 import TableOfContents from "@/components/ui/TableOfContents";
 import type { Metadata } from "next";
-import { BASE_URL, SITE_NAME, pageMetadata } from "@/lib/metadata";
-import { breadcrumbJsonLd } from "@/lib/structured-data";
+import { BASE_URL, pageMetadata } from "@/lib/metadata";
+import {
+  articleJsonLd,
+  breadcrumbJsonLd,
+  eventJsonLd,
+  faqPageJsonLd,
+  howToJsonLd,
+} from "@/lib/structured-data";
 import { getAuthorSchema } from "@/data/authors";
 import FadeIn from "@/components/ui/FadeIn";
 import ScrollDepthTracker from "@/components/ui/ScrollDepthTracker";
@@ -94,39 +100,20 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         .slice(0, 3)
     : [];
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": isTech ? "TechArticle" : "BlogPosting",
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": url,
-    },
-    headline: post.title,
-    description: post.excerpt,
-    author: getAuthorSchema(post.author),
-    image: post.image ? `${BASE_URL}${post.image}` : undefined,
-    genre: post.category,
-    publisher: {
-      "@type": "Organization",
-      name: SITE_NAME,
-      url: BASE_URL,
-      logo: {
-        "@type": "ImageObject",
-        url: `${BASE_URL}/images/logo/logo-og.webp`,
-      },
-    },
-    datePublished: post.date,
-    dateModified: post.updatedAt ?? post.date,
+  const jsonLd = articleJsonLd({
     url,
+    isTech,
+    title: post.title,
+    excerpt: post.excerpt,
+    author: getAuthorSchema(post.author),
+    imagePath: post.image,
+    category: post.category,
+    date: post.date,
+    updatedAt: post.updatedAt,
     wordCount: post.wordCount,
-    timeRequired: `PT${readingTime(post.wordCount)}M`,
-    inLanguage: "fr-FR",
-    speakable: {
-      "@type": "SpeakableSpecification",
-      cssSelector: ["h1", "article > p:first-of-type"],
-    },
-    ...(isTech && { proficiencyLevel: post.proficiencyLevel ?? "Intermediate" }),
-  };
+    timeRequiredMinutes: readingTime(post.wordCount),
+    proficiencyLevel: post.proficiencyLevel,
+  });
 
   const breadcrumb = breadcrumbJsonLd([
     { name: "Blog", path: "/blog" },
@@ -143,22 +130,33 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
       />
+      {post.event && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(eventJsonLd(post.event)),
+          }}
+        />
+      )}
+      {post.howTo && post.howTo.steps.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(
+              howToJsonLd(
+                post.howTo.name,
+                post.howTo.description,
+                post.howTo.steps,
+              ),
+            ),
+          }}
+        />
+      )}
       {post.faq && post.faq.length > 0 && (
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "FAQPage",
-              mainEntity: post.faq.map((item) => ({
-                "@type": "Question",
-                name: item.question,
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: item.answer,
-                },
-              })),
-            }),
+            __html: JSON.stringify(faqPageJsonLd(post.faq)),
           }}
         />
       )}

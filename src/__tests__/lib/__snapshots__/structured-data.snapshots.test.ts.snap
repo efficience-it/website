@@ -1,0 +1,455 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`structured-data snapshots articleJsonLd as BlogPosting 1`] = `
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "author": {
+    "@type": "Person",
+    "jobTitle": "CTO",
+    "name": "Louis-Arnaud Catoire",
+    "sameAs": [
+      "https://linkedin.com/in/lac",
+    ],
+    "url": "https://www.itefficience.com/la-team",
+  },
+  "dateModified": "2024-02-20",
+  "datePublished": "2024-01-15",
+  "description": "Un excerpt de test.",
+  "genre": "Symfony",
+  "headline": "Article test",
+  "image": "https://www.itefficience.com/images/blog/test.webp",
+  "inLanguage": "fr-FR",
+  "mainEntityOfPage": {
+    "@id": "https://www.itefficience.com/article/test",
+    "@type": "WebPage",
+  },
+  "publisher": {
+    "@id": "https://www.itefficience.com/#organization",
+    "@type": "ProfessionalService",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.itefficience.com/images/logo/logo-og.webp",
+    },
+    "name": "Efficience IT",
+    "url": "https://www.itefficience.com",
+  },
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+      "h1",
+      "article > p:first-of-type",
+    ],
+  },
+  "timeRequired": "PT6M",
+  "url": "https://www.itefficience.com/article/test",
+  "wordCount": 1200,
+}
+`;
+
+exports[`structured-data snapshots articleJsonLd as TechArticle with proficiency 1`] = `
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "author": {
+    "@id": "https://www.itefficience.com/#organization",
+    "@type": "ProfessionalService",
+    "name": "Efficience IT",
+    "url": "https://www.itefficience.com",
+  },
+  "dateModified": "2024-03-10",
+  "datePublished": "2024-03-10",
+  "description": "Tech excerpt.",
+  "genre": "Outils",
+  "headline": "Tech article",
+  "image": undefined,
+  "inLanguage": "fr-FR",
+  "mainEntityOfPage": {
+    "@id": "https://www.itefficience.com/article/tech",
+    "@type": "WebPage",
+  },
+  "proficiencyLevel": "Expert",
+  "publisher": {
+    "@id": "https://www.itefficience.com/#organization",
+    "@type": "ProfessionalService",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.itefficience.com/images/logo/logo-og.webp",
+    },
+    "name": "Efficience IT",
+    "url": "https://www.itefficience.com",
+  },
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+      "h1",
+      "article > p:first-of-type",
+    ],
+  },
+  "timeRequired": "PT4M",
+  "url": "https://www.itefficience.com/article/tech",
+  "wordCount": 800,
+}
+`;
+
+exports[`structured-data snapshots blogItemListJsonLd 1`] = `
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "name": "Premier article",
+      "position": 1,
+      "url": "https://www.itefficience.com/article/first-post",
+    },
+    {
+      "@type": "ListItem",
+      "name": "Deuxième article",
+      "position": 2,
+      "url": "https://www.itefficience.com/article/second-post",
+    },
+  ],
+}
+`;
+
+exports[`structured-data snapshots breadcrumbJsonLd 1`] = `
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "item": "https://www.itefficience.com",
+      "name": "Accueil",
+      "position": 1,
+    },
+    {
+      "@type": "ListItem",
+      "item": "https://www.itefficience.com/blog",
+      "name": "Blog",
+      "position": 2,
+    },
+    {
+      "@type": "ListItem",
+      "item": "https://www.itefficience.com/article/test",
+      "name": "Article test",
+      "position": 3,
+    },
+  ],
+}
+`;
+
+exports[`structured-data snapshots breadcrumbJsonLd with a single item 1`] = `
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "item": "https://www.itefficience.com",
+      "name": "Accueil",
+      "position": 1,
+    },
+    {
+      "@type": "ListItem",
+      "item": "https://www.itefficience.com/contact",
+      "name": "Contact",
+      "position": 2,
+    },
+  ],
+}
+`;
+
+exports[`structured-data snapshots eventJsonLd 1`] = `
+{
+  "@context": "https://schema.org",
+  "@type": "BusinessEvent",
+  "endDate": "2024-05-24",
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "location": {
+    "@type": "Place",
+    "address": "204 rue Solférino, 59000 Lille, France",
+    "name": "Théâtre de la Comédie de Lille",
+  },
+  "name": "AFUP Day 2024 Lille",
+  "organizer": {
+    "@type": "Organization",
+    "name": "AFUP",
+    "url": "https://afup.org",
+  },
+  "startDate": "2024-05-24",
+  "url": "https://event.afup.org/afup-day-2024/",
+}
+`;
+
+exports[`structured-data snapshots faqPageJsonLd 1`] = `
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A1.",
+      },
+      "name": "Q1 ?",
+    },
+    {
+      "@type": "Question",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A2.",
+      },
+      "name": "Q2 ?",
+    },
+  ],
+}
+`;
+
+exports[`structured-data snapshots howToJsonLd 1`] = `
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "description": "Description",
+  "name": "Déployer",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Étape 1",
+      "position": 1,
+      "text": "Faire ceci",
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Étape 2",
+      "position": 2,
+      "text": "Faire cela",
+    },
+  ],
+}
+`;
+
+exports[`structured-data snapshots howToJsonLd with no steps 1`] = `
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "description": "Sans étape",
+  "name": "Vide",
+  "step": [],
+}
+`;
+
+exports[`structured-data snapshots organizationJsonLd 1`] = `
+{
+  "@context": "https://schema.org",
+  "@id": "https://www.itefficience.com/#organization",
+  "@type": "ProfessionalService",
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "FR",
+    "addressLocality": "Lille",
+    "postalCode": "59800",
+    "streetAddress": "677 Avenue de la République",
+  },
+  "areaServed": [
+    {
+      "@type": "Country",
+      "name": "France",
+    },
+    {
+      "@type": "Country",
+      "name": "Belgique",
+    },
+    {
+      "@type": "Country",
+      "name": "United Kingdom",
+    },
+    {
+      "@type": "Country",
+      "name": "Luxembourg",
+    },
+    {
+      "@type": "Country",
+      "name": "Spain",
+    },
+    {
+      "@type": "Country",
+      "name": "Germany",
+    },
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "availableLanguage": [
+      "French",
+      "English",
+    ],
+    "contactType": "customer service",
+    "email": "contact@itefficience.com",
+  },
+  "description": "Agence spécialisée Symfony et PHP, Efficience IT conçoit et développe des applications web sur mesure.",
+  "email": "contact@itefficience.com",
+  "foundingDate": "2018",
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 50.6292,
+    "longitude": 3.0573,
+  },
+  "image": "https://www.itefficience.com/images/logo/logo-bleu.webp",
+  "knowsAbout": [
+    "Symfony",
+    "PHP",
+    "Architecture hexagonale",
+    "Domain-Driven Design",
+    "API Platform",
+    "DevOps",
+    "Docker",
+    "Node.js",
+  ],
+  "logo": "https://www.itefficience.com/images/logo/logo-bleu.webp",
+  "name": "Efficience IT",
+  "numberOfEmployees": {
+    "@type": "QuantitativeValue",
+    "value": 15,
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "closes": "18:00",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+      ],
+      "opens": "09:00",
+    },
+  ],
+  "priceRange": "$$",
+  "sameAs": [
+    "https://github.com/efficience-it",
+    "https://www.linkedin.com/company/efficience-it",
+  ],
+  "url": "https://www.itefficience.com",
+}
+`;
+
+exports[`structured-data snapshots reviewsJsonLd 1`] = `
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "Review",
+    "author": {
+      "@type": "Person",
+      "name": "Alice",
+    },
+    "itemReviewed": {
+      "@id": "https://www.itefficience.com/#organization",
+      "@type": "ProfessionalService",
+      "name": "Efficience IT",
+    },
+    "reviewBody": "Excellent.",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Review",
+    "author": {
+      "@type": "Person",
+      "name": "Bob",
+    },
+    "itemReviewed": {
+      "@id": "https://www.itefficience.com/#organization",
+      "@type": "ProfessionalService",
+      "name": "Efficience IT",
+    },
+    "reviewBody": "Très réactif.",
+  },
+]
+`;
+
+exports[`structured-data snapshots serviceJsonLd 1`] = `
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "areaServed": [
+    {
+      "@type": "Country",
+      "name": "France",
+    },
+    {
+      "@type": "Country",
+      "name": "Belgique",
+    },
+    {
+      "@type": "Country",
+      "name": "United Kingdom",
+    },
+    {
+      "@type": "Country",
+      "name": "Luxembourg",
+    },
+    {
+      "@type": "Country",
+      "name": "Spain",
+    },
+    {
+      "@type": "Country",
+      "name": "Germany",
+    },
+  ],
+  "description": "Audit technique gratuit de votre code Symfony.",
+  "name": "Audit Symfony",
+  "provider": {
+    "@id": "https://www.itefficience.com/#organization",
+    "@type": "ProfessionalService",
+    "name": "Efficience IT",
+  },
+  "url": "https://www.itefficience.com/audit-symfony-gratuit",
+}
+`;
+
+exports[`structured-data snapshots webPageJsonLd minimal 1`] = `
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "description": "Contactez-nous.",
+  "inLanguage": "fr-FR",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Efficience IT",
+    "url": "https://www.itefficience.com",
+  },
+  "name": "Contact",
+  "url": "https://www.itefficience.com/contact",
+}
+`;
+
+exports[`structured-data snapshots webPageJsonLd with type and dates 1`] = `
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "dateModified": "2026-04-28",
+  "datePublished": "2024-01-01",
+  "description": "Tous les articles.",
+  "inLanguage": "fr-FR",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Efficience IT",
+    "url": "https://www.itefficience.com",
+  },
+  "name": "Blog",
+  "url": "https://www.itefficience.com/blog",
+}
+`;
+
+exports[`structured-data snapshots websiteJsonLd 1`] = `
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Efficience IT",
+  "url": "https://www.itefficience.com",
+}
+`;

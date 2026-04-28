@@ -9,7 +9,8 @@ interface AuthorPerson {
 }
 
 interface AuthorOrganization {
-  "@type": "Organization";
+  "@type": "ProfessionalService";
+  "@id": string;
   name: string;
   url: string;
 }
@@ -37,7 +38,8 @@ const knownAuthors: Record<string, AuthorPerson> = {
 };
 
 const organizationAuthor: AuthorOrganization = {
-  "@type": "Organization",
+  "@type": "ProfessionalService",
+  "@id": `${BASE_URL}/#organization`,
   name: "Efficience IT",
   url: BASE_URL,
 };
