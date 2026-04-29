@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getAllPosts } from "@/lib/blog";
+import { BASE_URL } from "@/lib/metadata";
 import {
-  BASE_URL,
   getStaticRoutes,
   getCategoryRoutes,
   getBlogRoutes,

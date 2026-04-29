@@ -1,7 +1,5 @@
-import { getAllPosts, categorySlugMap } from "@/lib/blog";
+import { categorySlugMap } from "@/lib/blog";
 import type { BlogPost } from "@/types/blog";
-
-export { BASE_URL } from "@/lib/metadata";
 
 type ChangeFrequency = "weekly" | "monthly" | "yearly";
 
