@@ -7,7 +7,7 @@ import { jobs, domains, spontaneousEmail } from "@/../data/jobs";
 import Link from "next/link";
 import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
-import { breadcrumbJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, webPageJsonLd, pageGraphJsonLd, jobPostingJsonLd } from "@/lib/structured-data";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import CallToAction from "@/components/sections/CallToAction";
@@ -43,6 +43,13 @@ export default function TaCarriere() {
   return (
     <>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageGraphJsonLd(breadcrumb, webPage)) }} />
+    {jobs.map((job) => (
+      <script
+        key={job.slug}
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jobPostingJsonLd(job)) }}
+      />
+    ))}
     <main>
       <section className="bg-light-gray py-16 md:py-24">
         <Container className="text-center">
@@ -83,7 +90,7 @@ export default function TaCarriere() {
           {jobs.length > 0 ? (
             <div className="grid gap-6 md:grid-cols-2">
               {jobs.map((job) => (
-                <JobCard key={job.title} job={job} />
+                <JobCard key={job.slug} job={job} />
               ))}
             </div>
           ) : (

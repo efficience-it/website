@@ -1,4 +1,16 @@
-import { getJobsByDomain, domains, jobs, spontaneousEmail } from "../../../data/jobs";
+import { getJobsByDomain, domains, jobs, spontaneousEmail, type Job } from "../../../data/jobs";
+
+const sampleJob = (overrides: Partial<Job> = {}): Job => ({
+  slug: "dev-symfony",
+  title: "Dev Symfony",
+  category: "CDI",
+  domain: "developpement",
+  description: "desc",
+  datePosted: "2026-04-01",
+  employmentType: "FULL_TIME",
+  jobLocation: { addressLocality: "Lille", addressCountry: "FR" },
+  ...overrides,
+});
 
 describe("getJobsByDomain", () => {
   it("returns an empty array for an unknown domain", () => {
@@ -11,8 +23,8 @@ describe("getJobsByDomain", () => {
 
   it("filters jobs matching the domain slug", () => {
     jobs.push(
-      { title: "Dev Symfony", category: "CDI", domain: "developpement", description: "desc" },
-      { title: "Commercial", category: "CDI", domain: "business", description: "desc" },
+      sampleJob({ slug: "dev-symfony", title: "Dev Symfony", domain: "developpement" }),
+      sampleJob({ slug: "commercial", title: "Commercial", domain: "business" }),
     );
     const result = getJobsByDomain("developpement");
     expect(result).toHaveLength(1);

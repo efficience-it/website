@@ -3,10 +3,14 @@ import JobCard from "@/components/cards/JobCard";
 import { Job } from "@/../data/jobs";
 
 const mockJob: Job = {
+  slug: "dev-symfony",
   title: "Dev Symfony",
   category: "Développement",
   domain: "developpement",
   description: "Poste de dev Symfony senior.",
+  datePosted: "2026-04-01",
+  employmentType: "FULL_TIME",
+  jobLocation: { addressLocality: "Lille", addressCountry: "FR" },
 };
 
 describe("JobCard", () => {

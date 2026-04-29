@@ -161,7 +161,9 @@ jest.mock("@/../data/jobs", () => ({
   },
 }));
 
-let mockJobs: Array<{ title: string; contract: string; location: string; domain: string; url: string }> | null = null;
+import type { Job } from "@/../data/jobs";
+
+let mockJobs: Job[] | null = null;
 
 describe("Ta carrière with jobs", () => {
   afterEach(() => {
@@ -169,8 +171,55 @@ describe("Ta carrière with jobs", () => {
   });
 
   it("renders job cards when jobs exist", () => {
-    mockJobs = [{ title: "Dev Symfony", contract: "CDI", location: "Lille", domain: "dev", url: "/job/dev" }];
+    mockJobs = [
+      {
+        slug: "dev-symfony",
+        title: "Dev Symfony",
+        category: "CDI",
+        domain: "developpement",
+        description: "Rejoignez une équipe Symfony senior à Lille.",
+        datePosted: "2026-04-01",
+        employmentType: "FULL_TIME",
+        jobLocation: { addressLocality: "Lille", addressCountry: "FR" },
+      },
+    ];
     render(<TaCarriere />);
     expect(screen.getByText("Dev Symfony")).toBeInTheDocument();
+  });
+
+  it("emits a JobPosting JSON-LD when jobs exist", () => {
+    mockJobs = [
+      {
+        slug: "dev-symfony",
+        title: "Dev Symfony",
+        category: "CDI",
+        domain: "developpement",
+        description: "Rejoignez une équipe Symfony senior à Lille.",
+        datePosted: "2026-04-01",
+        validThrough: "2026-10-01",
+        employmentType: "FULL_TIME",
+        jobLocation: { addressLocality: "Lille", addressCountry: "FR" },
+        skills: ["Symfony", "PHP"],
+      },
+    ];
+    const { container } = render(<TaCarriere />);
+    const scripts = container.querySelectorAll('script[type="application/ld+json"]');
+    const jobPosting = Array.from(scripts)
+      .map((s) => JSON.parse(s.innerHTML))
+      .find((json) => json["@type"] === "JobPosting");
+    expect(jobPosting).toBeDefined();
+    expect(jobPosting.title).toBe("Dev Symfony");
+    expect(jobPosting.validThrough).toBe("2026-10-01");
+    expect(jobPosting.skills).toBe("Symfony, PHP");
+  });
+
+  it("emits no JobPosting when jobs list is empty", () => {
+    mockJobs = [];
+    const { container } = render(<TaCarriere />);
+    const scripts = container.querySelectorAll('script[type="application/ld+json"]');
+    const jobPosting = Array.from(scripts)
+      .map((s) => JSON.parse(s.innerHTML))
+      .find((json) => json["@type"] === "JobPosting");
+    expect(jobPosting).toBeUndefined();
   });
 });
