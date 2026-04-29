@@ -5,7 +5,8 @@ import { getAllPosts, getPostBySlug, getCategorySlug, getPostsByCategory, extrac
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import MarkdownContent from "@/components/ui/MarkdownContent";
-import ArticleCta from "@/components/sections/ArticleCta";
+import ArticleCta, { getArticleCtaConfig } from "@/components/sections/ArticleCta";
+import StickyArticleCta from "@/components/sections/StickyArticleCta";
 import Accordion from "@/components/ui/Accordion";
 import SectionTitle from "@/components/ui/SectionTitle";
 import BlogCard from "@/components/cards/BlogCard";
@@ -23,6 +24,9 @@ import {
 import { getAuthorSchema } from "@/data/authors";
 import FadeIn from "@/components/ui/FadeIn";
 import ScrollDepthTracker from "@/components/ui/ScrollDepthTracker";
+import ArticleShareButtons from "@/components/ui/ArticleShareButtons";
+
+const STICKY_CTA_MIN_WORDS = 1500;
 
 function splitContentAfterThirdH2(content: string): [string, string] | null {
   const h2Regex = /^## /gm;
@@ -89,6 +93,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   const url = `${BASE_URL}/article/${slug}`;
 
+  const shouldShowStickyCta = post.wordCount > STICKY_CTA_MIN_WORDS;
+  const stickyCtaConfig = getArticleCtaConfig(post.category, slug);
   const isTech = isTechCategory(post.category);
 
   const headings = extractHeadings(post.content);
@@ -136,8 +142,15 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(graph) }}
       />
       <ScrollDepthTracker slug={slug} />
+      {shouldShowStickyCta && (
+        <StickyArticleCta
+          href={stickyCtaConfig.href}
+          label={stickyCtaConfig.buttonLabel}
+          slug={slug}
+        />
+      )}
       <main>
-        <article className="py-16">
+        <article className={`py-16 ${shouldShowStickyCta ? "pb-32 md:pb-16" : ""}`}>
           <Container className="mx-auto max-w-3xl">
             <header className="mb-16">
               <div className="flex flex-col gap-8 xl:flex-row xl:items-center xl:justify-between">
@@ -172,21 +185,24 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   <h1 className="font-display text-3xl font-bold text-dark md:text-4xl">
                     {post.title}
                   </h1>
-                  {post.author && (
-                    <p className="mt-4 text-gray">Par {post.author}</p>
-                  )}
-                  {post.updatedAt && (
-                    <p className="mt-2 text-sm text-gray">
-                      Mis à jour le{" "}
-                      <time dateTime={post.updatedAt}>
-                        {new Date(post.updatedAt).toLocaleDateString("fr-FR", {
-                          day: "numeric",
-                          month: "long",
-                          year: "numeric",
-                        })}
-                      </time>
-                    </p>
-                  )}
+                  <div className="mt-4 flex flex-wrap items-start gap-4 min-[520px]:justify-between">
+                    <div className="space-y-2">
+                      {post.author && <p className="text-gray">Par {post.author}</p>}
+                      {post.updatedAt && (
+                        <p className="text-sm text-gray">
+                          Mis à jour le{" "}
+                          <time dateTime={post.updatedAt}>
+                            {new Date(post.updatedAt).toLocaleDateString("fr-FR", {
+                              day: "numeric",
+                              month: "long",
+                              year: "numeric",
+                            })}
+                          </time>
+                        </p>
+                      )}
+                    </div>
+                    <ArticleShareButtons url={url} title={post.title} articleSlug={slug} />
+                  </div>
                 </div>
                 {post.image && (
                   <div className="mt-6 shrink-0 self-center xl:mt-0 xl:ml-8 xl:self-start">
@@ -220,7 +236,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   return (
                     <>
                       <MarkdownContent content={firstPart} />
-                      <div className="my-8 rounded-lg bg-primary/5 p-6 text-center">
+                      <div data-cta-section className="my-8 rounded-lg bg-primary/5 p-6 text-center">
                         <p className="font-display text-lg font-semibold text-dark">
                           {wantsSymfonyAudit
                             ? "Besoin d'un regard expert sur votre code Symfony ?"

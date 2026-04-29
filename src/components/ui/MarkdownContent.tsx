@@ -30,7 +30,7 @@ function generateId(text: string): string {
 
 export default function MarkdownContent({ content }: MarkdownContentProps) {
   return (
-    <div className="prose prose-lg max-w-none prose-headings:font-display prose-headings:text-dark prose-a:text-primary">
+    <div className="prose prose-lg max-w-none prose-headings:font-display prose-headings:text-dark prose-p:text-gray prose-li:text-gray prose-strong:text-dark prose-a:text-primary dark:prose-invert dark:prose-headings:text-dark dark:prose-p:text-gray dark:prose-li:text-gray dark:prose-strong:text-dark dark:prose-a:text-primary-light">
       <Markdown
         remarkPlugins={[remarkGfm]}
         components={{

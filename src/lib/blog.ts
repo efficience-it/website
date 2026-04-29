@@ -7,6 +7,7 @@ const BLOG_DIR = path.join(process.cwd(), "content/blog");
 
 function countWords(markdown: string): number {
   const text = markdown
+    .replace(/`` ` ``/g, '')
     .replace(/```[\s\S]*?```/g, "")
     .replace(/`[^`]*`/g, "")
     .replace(/!?\[.*?\]\(.*?\)/g, "")
@@ -141,7 +142,7 @@ export function getPostsByCategory(category: string): BlogPost[] {
   return getAllPosts().filter((p) => p.category === category);
 }
 
-export interface HeadingItem {
+interface HeadingItem {
   id: string;
   text: string;
   level: number;

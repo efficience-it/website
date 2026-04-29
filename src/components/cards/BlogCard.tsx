@@ -13,7 +13,7 @@ export default function BlogCard({ post, headingLevel = 3, priorityImage = false
   const Tag = `h${headingLevel}` as keyof JSX.IntrinsicElements;
 
   return (
-    <article className="overflow-hidden rounded-lg border-t-2 border-transparent bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-lg">
+    <article className="overflow-hidden rounded-lg border-t-2 border-transparent bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-lg dark:bg-light-gray dark:shadow-black/30">
       {post.image && (
         <Link href={`/article/${post.slug}`}>
           <ResponsiveImage

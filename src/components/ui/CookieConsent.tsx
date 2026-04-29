@@ -39,7 +39,7 @@ export default function CookieConsent() {
     <div
       role="dialog"
       aria-label="Gestion des cookies"
-      className="fixed inset-x-0 bottom-0 z-[60] border-t border-border bg-white p-4 shadow-lg sm:flex sm:items-center sm:justify-between sm:gap-4 sm:px-8"
+      className="fixed inset-x-0 bottom-0 z-[60] border-t border-border bg-white p-4 shadow-lg sm:flex sm:items-center sm:justify-between sm:gap-4 sm:px-8 dark:bg-light-gray dark:shadow-black/40"
     >
       <p className="text-sm text-gray">
         Nous utilisons des cookies pour mesurer l&apos;audience de notre site

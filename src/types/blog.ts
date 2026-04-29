@@ -5,12 +5,12 @@ export interface FaqItem {
   answer: string;
 }
 
-export interface EventLocation {
+interface EventLocation {
   name: string;
   address: string;
 }
 
-export interface EventOrganizer {
+interface EventOrganizer {
   name: string;
   url: string;
 }
@@ -24,12 +24,12 @@ export interface EventSchema {
   url: string;
 }
 
-export interface HowToStep {
+interface HowToStep {
   name: string;
   text: string;
 }
 
-export interface HowToSchema {
+interface HowToSchema {
   name: string;
   description: string;
   steps: HowToStep[];

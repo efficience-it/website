@@ -39,7 +39,7 @@ export default function RelatedLinks({ links, className = "" }: RelatedLinksProp
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group rounded-lg border-t-2 border-transparent bg-white p-5 shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-lg"
+                  className="group rounded-lg border-t-2 border-transparent bg-white p-5 shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-lg dark:bg-light-gray dark:shadow-black/30"
                 >
                   {content}
                   <span className="mt-3 inline-block text-sm font-medium text-primary">
@@ -53,7 +53,7 @@ export default function RelatedLinks({ links, className = "" }: RelatedLinksProp
               <Link
                 key={link.href}
                 href={link.href}
-                className="group rounded-lg border-t-2 border-transparent bg-white p-5 shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-lg"
+                className="group rounded-lg border-t-2 border-transparent bg-white p-5 shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-lg dark:bg-light-gray dark:shadow-black/30"
               >
                 {content}
                 <span className="mt-3 inline-block text-sm font-medium text-primary">
