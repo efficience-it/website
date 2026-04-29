@@ -7,6 +7,7 @@ const BLOG_DIR = path.join(process.cwd(), "content/blog");
 
 function countWords(markdown: string): number {
   const text = markdown
+    .replace(/`` ` ``/g, '')
     .replace(/```[\s\S]*?```/g, "")
     .replace(/`[^`]*`/g, "")
     .replace(/!?\[.*?\]\(.*?\)/g, "")
