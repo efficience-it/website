@@ -7,7 +7,7 @@ import { jobs, domains, spontaneousEmail } from "@/../data/jobs";
 import Link from "next/link";
 import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
-import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import CallToAction from "@/components/sections/CallToAction";
@@ -21,7 +21,7 @@ const relatedLinks: RelatedLink[] = [
 ];
 
 export const metadata = pageMetadata({
-  title: "On recrute – Opportunités de carrière",
+  title: "On recrute | Efficience IT – Opportunités de carrière",
   description:
     "Découvrez les opportunités de carrière chez Efficience IT : développement, business et communication au sein d'une agence web spécialisée Symfony.",
   path: "/votre-carriere",
@@ -41,14 +41,7 @@ const webPage = webPageJsonLd({
 export default function VotreCarriere() {
   return (
     <>
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
-    />
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
-    />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageGraphJsonLd(breadcrumb, webPage)) }} />
     <main>
       <section className="bg-light-gray py-16 md:py-24">
         <Container className="text-center">

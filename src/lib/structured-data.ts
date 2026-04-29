@@ -15,7 +15,7 @@ const organizationEntity = {
   logo: `${BASE_URL}/images/logo/logo-bleu.webp`,
   image: `${BASE_URL}/images/logo/logo-bleu.webp`,
   description:
-    "Agence spécialisée Symfony et PHP, Efficience IT conçoit et développe des applications web adaptées pour vos enjeux métiers.",
+    "Agence spécialisée Symfony et PHP, Efficience IT conçoit et développe des applications web sur mesure.",
   address: {
     "@type": "PostalAddress",
     streetAddress: "677 Avenue de la République",

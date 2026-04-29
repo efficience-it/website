@@ -50,6 +50,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.6,
     },
     {
+      url: `${BASE_URL}/ta-carriere`,
+      lastModified: "2026-04-29",
+      changeFrequency: "yearly",
+      priority: 0.6,
+    },
+    {
       url: `${BASE_URL}/votre-carriere`,
       lastModified: "2025-09-01",
       changeFrequency: "monthly",
