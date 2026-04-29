@@ -23,7 +23,7 @@ const VALID_CATEGORIES = [
 function getBlogFiles(): string[] {
   return fs
     .readdirSync(CONTENT_DIR)
-    .filter((f) => f.endsWith(".mdx") && !f.startsWith("__test"));
+    .filter((f) => f.endsWith(".mdx") && !f.startsWith("__test-"));
 }
 
 describe("Blog front matter", () => {
@@ -60,6 +60,14 @@ describe("Blog front matter", () => {
     const { data } = matter(content);
 
     expect(String(data.date)).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+  });
+
+  it.each(files)("%s has an updatedAt in YYYY-MM-DD format", (file) => {
+    const content = fs.readFileSync(path.join(CONTENT_DIR, file), "utf-8");
+    const { data } = matter(content);
+
+    expect(data.updatedAt).toBeDefined();
+    expect(String(data.updatedAt)).toMatch(/^\d{4}-\d{2}-\d{2}$/);
   });
 
   it.each(files)("%s has a non-empty title", (file) => {

@@ -19,8 +19,7 @@ global.IntersectionObserver = class IntersectionObserver {
   readonly rootMargin: string = "";
   readonly thresholds: ReadonlyArray<number> = [];
   private callback: IntersectionObserverCallback;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  constructor(callback: IntersectionObserverCallback, init?: IntersectionObserverInit) {
+  constructor(callback: IntersectionObserverCallback) {
     this.callback = callback;
     setTimeout(() => {
       this.callback(

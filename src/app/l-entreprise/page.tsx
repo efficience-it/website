@@ -3,14 +3,14 @@ import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
-import TimelineItem from "@/components/cards/TimelineItem";
 import Button from "@/components/ui/Button";
 import CallToAction from "@/components/sections/CallToAction";
 import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
-import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
+import EnterpriseTimeline from "@/components/sections/EnterpriseTimeline";
 
 const enterpriseRelatedLinks: RelatedLink[] = [
   { title: "L'équipe Efficience IT", description: "Les profils qui composent l'agence", href: "/la-team" },
@@ -139,14 +139,7 @@ const webPage = webPageJsonLd({
 export default function LEntreprise() {
   return (
     <>
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
-    />
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
-    />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageGraphJsonLd(breadcrumb, webPage)) }} />
     <main>
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
@@ -188,22 +181,7 @@ export default function LEntreprise() {
         </Container>
       </section>
 
-      <FadeIn>
-      <section className="py-16">
-        <Container>
-          <div className="mx-auto max-w-2xl">
-            {timeline.map((item, i) => (
-              <TimelineItem
-                key={`${item.year}-${i}`}
-                year={item.year}
-                title={item.title}
-                description={item.description}
-              />
-            ))}
-          </div>
-        </Container>
-      </section>
-      </FadeIn>
+      <EnterpriseTimeline items={timeline} />
 
       <FadeIn>
       <section className="bg-white py-16">

@@ -182,8 +182,8 @@ describe("Internal links", () => {
   });
 
   it("all service pages with page.tsx are in the sitemap", () => {
-    const sitemapContent = fs.readFileSync(
-      path.join(SRC_DIR, "app/sitemap.ts"),
+    const routesContent = fs.readFileSync(
+      path.join(SRC_DIR, "lib/routes.ts"),
       "utf-8"
     );
 
@@ -207,7 +207,7 @@ describe("Internal links", () => {
 
     const missing: string[] = [];
     for (const dir of serviceDirs) {
-      if (!sitemapContent.includes(`/${dir}`)) {
+      if (!routesContent.includes(`/${dir}`)) {
         missing.push(`/${dir}`);
       }
     }

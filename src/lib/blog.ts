@@ -7,6 +7,7 @@ const BLOG_DIR = path.join(process.cwd(), "content/blog");
 
 function countWords(markdown: string): number {
   const text = markdown
+    .replace(/`` ` ``/g, '')
     .replace(/```[\s\S]*?```/g, "")
     .replace(/`[^`]*`/g, "")
     .replace(/!?\[.*?\]\(.*?\)/g, "")
@@ -41,6 +42,8 @@ export function getAllPosts(): BlogPost[] {
       image: data.image,
       proficiencyLevel: data.proficiencyLevel,
       faq: data.faq,
+      event: data.event,
+      howTo: data.howTo,
       content,
       wordCount: countWords(content),
     };
@@ -69,6 +72,8 @@ export function getPostBySlug(slug: string): BlogPost | undefined {
     image: data.image,
     proficiencyLevel: data.proficiencyLevel,
     faq: data.faq,
+    event: data.event,
+    howTo: data.howTo,
     content,
     wordCount: countWords(content),
   };
@@ -88,6 +93,32 @@ export const categorySlugMap: Record<string, string> = {
   Symfony: "symfony",
   "Sécurité": "securite",
 };
+
+const TECH_CATEGORIES = new Set([
+  "Symfony",
+  "PHP",
+  "Architecture",
+  "DevOps",
+  "Qualité de code",
+  "Sécurité",
+  "IA",
+  "JavaScript",
+]);
+
+const SYMFONY_AUDIT_CATEGORIES = new Set([
+  "Symfony",
+  "PHP",
+  "Architecture",
+  "Qualité de code",
+]);
+
+export function isTechCategory(category: string): boolean {
+  return TECH_CATEGORIES.has(category);
+}
+
+export function isSymfonyAuditCategory(category: string): boolean {
+  return SYMFONY_AUDIT_CATEGORIES.has(category);
+}
 
 const slugToCategoryMap: Record<string, string> = Object.fromEntries(
   Object.entries(categorySlugMap).map(([name, slug]) => [slug, name]),
@@ -111,7 +142,7 @@ export function getPostsByCategory(category: string): BlogPost[] {
   return getAllPosts().filter((p) => p.category === category);
 }
 
-export interface HeadingItem {
+interface HeadingItem {
   id: string;
   text: string;
   level: number;

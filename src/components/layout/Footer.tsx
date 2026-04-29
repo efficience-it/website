@@ -110,6 +110,11 @@ export default function Footer() {
               email={footerNav.contact.email}
               className="text-sm text-[#d1d5db] visited:text-[#d1d5db] transition-colors hover:text-[#ffffff]!"
             />
+            <address className="mt-4 text-sm not-italic text-gray-300">
+              Efficience IT<br />
+              677 Avenue de la République<br />
+              59800 Lille, France
+            </address>
             <Link
               href={footerNav.contact.cta.href}
               className="mt-2 inline-block text-sm font-semibold text-primary-light transition-colors hover:text-[#ffffff]!"
@@ -154,8 +159,11 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 border-t border-gray-700 pt-8 text-center text-sm text-gray-400">
-          Copyright &copy; {currentYear} Efficience IT
+        <div className="mt-12 flex flex-col items-center gap-2 border-t border-gray-700 pt-8 text-center text-sm text-gray-400">
+          <span>Copyright &copy; {currentYear} Efficience IT</span>
+          <Link href="/plan-du-site" className="hover:text-white">
+            Plan du site
+          </Link>
         </div>
       </Container>
     </footer>

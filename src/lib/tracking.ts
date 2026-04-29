@@ -11,6 +11,7 @@ type GtagEvent = {
   scroll_percent?: string;
   page_category?: string;
   article_slug?: string;
+  method?: string;
 };
 
 declare global {

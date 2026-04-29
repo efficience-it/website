@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import ArticleCta from "@/components/sections/ArticleCta";
+import ArticleCta, { getArticleCtaConfig } from "@/components/sections/ArticleCta";
 
 describe("ArticleCta", () => {
   let savedGtag: typeof window.gtag;
@@ -61,5 +61,10 @@ describe("ArticleCta", () => {
       cta_text: "Contactez-nous",
       article_slug: "mon-article",
     });
+  });
+
+  it("supports config generation without slug argument", () => {
+    const config = getArticleCtaConfig("Formation");
+    expect(config.href).toBe("/audit-symfony-gratuit");
   });
 });
