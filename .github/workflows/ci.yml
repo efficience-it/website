@@ -91,6 +91,8 @@ jobs:
             --base https://www.itefficience.com
             --exclude 'mailto:'
             --exclude 'linkedin\.com'
+            --exclude 'googletagmanager\.com'
+            --exclude 'google-analytics\.com'
             --exclude-path 'src/__tests__'
             --cache
             --max-cache-age 7d
