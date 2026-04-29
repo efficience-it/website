@@ -5,10 +5,12 @@
   "scripts": {
     "dev": "next dev --webpack",
     "build": "next build",
+    "prebuild": "npx -y tsx@4 scripts/generate-image-variants.ts",
     "start": "next start",
     "lint": "eslint",
     "knip": "knip",
-    "test": "jest"
+    "test": "jest",
+    "generate:image-variants": "npx -y tsx@4 scripts/generate-image-variants.ts"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.19",

@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import ResponsiveImage from "@/components/ui/ResponsiveImage";
 import { BlogPost } from "@/types/blog";
 import { JSX } from "react";
 
@@ -16,13 +16,15 @@ export default function BlogCard({ post, headingLevel = 3, priorityImage = false
     <article className="overflow-hidden rounded-lg border-t-2 border-transparent bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-lg dark:bg-light-gray dark:shadow-black/30">
       {post.image && (
         <Link href={`/article/${post.slug}`}>
-          <Image
+          <ResponsiveImage
             src={post.image}
             alt={post.title}
             width={400}
             height={220}
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="h-48 w-full object-cover"
-            {...(priorityImage && { priority: true })}
+            loading={priorityImage ? "eager" : "lazy"}
+            fetchPriority={priorityImage ? "high" : undefined}
           />
         </Link>
       )}
