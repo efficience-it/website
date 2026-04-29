@@ -1,6 +1,7 @@
-import { getAllPosts, getPostsByCategory, categorySlugMap } from "@/lib/blog";
-import { BASE_URL } from "@/lib/metadata";
+import { getAllPosts, categorySlugMap } from "@/lib/blog";
 import type { BlogPost } from "@/types/blog";
+
+export { BASE_URL } from "@/lib/metadata";
 
 type ChangeFrequency = "weekly" | "monthly" | "yearly";
 
@@ -126,11 +127,9 @@ export function getStaticRoutes(): SiteRoute[] {
   return STATIC_SILOS.flatMap((silo) => silo.routes);
 }
 
-export function getCategoryRoutes(posts?: BlogPost[]): SiteRoute[] {
-  const allPosts = posts ?? getAllPosts();
+export function getCategoryRoutes(posts: BlogPost[]): SiteRoute[] {
   return Object.entries(categorySlugMap).map(([name, slug]) => {
-    const categoryPosts = posts ? allPosts.filter((p) => p.category === name) : getPostsByCategory(name);
-    const latest = categoryPosts[0];
+    const latest = posts.find((p) => p.category === name);
     return {
       path: `/blog/${slug}`,
       label: name,
@@ -141,8 +140,8 @@ export function getCategoryRoutes(posts?: BlogPost[]): SiteRoute[] {
   });
 }
 
-export function getBlogRoutes(posts?: BlogPost[]): BlogSiteRoute[] {
-  return (posts ?? getAllPosts()).map((post) => ({
+export function getBlogRoutes(posts: BlogPost[]): BlogSiteRoute[] {
+  return posts.map((post) => ({
     path: `/article/${post.slug}`,
     label: post.title,
     lastModified: post.updatedAt ?? post.date,
@@ -151,5 +150,3 @@ export function getBlogRoutes(posts?: BlogPost[]): BlogSiteRoute[] {
     image: post.image,
   }));
 }
-
-export { BASE_URL };

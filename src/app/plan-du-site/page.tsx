@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import Container from "@/components/ui/Container";
+import { getAllPosts } from "@/lib/blog";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
 import {
@@ -19,8 +20,9 @@ export const metadata = pageMetadata({
 const breadcrumb = breadcrumbJsonLd([{ name: "Plan du site", path: "/plan-du-site" }]);
 
 export default function PlanDuSitePage() {
-  const categories = getCategoryRoutes();
-  const articles = getBlogRoutes();
+  const posts = getAllPosts();
+  const categories = getCategoryRoutes(posts);
+  const articles = getBlogRoutes(posts);
 
   return (
     <>
