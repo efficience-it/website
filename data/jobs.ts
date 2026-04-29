@@ -5,7 +5,7 @@ export interface Job {
   description: string;
 }
 
-export interface Domain {
+interface Domain {
   slug: string;
   name: string;
   description: string;
