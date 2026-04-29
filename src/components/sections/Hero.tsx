@@ -1,7 +1,7 @@
-import Image from "next/image";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import RotatingKeywords from "@/components/ui/RotatingKeywords";
+import SourceCodeIllustration from "@/components/illustrations/SourceCodeIllustration";
 
 const keywords = [
   "Migration",
@@ -14,7 +14,7 @@ const keywords = [
 
 export default function Hero() {
   return (
-    <section className="bg-gradient-to-br from-light-gray via-white to-primary/5 py-20 md:py-32">
+    <section className="bg-linear-to-br from-light-gray via-white to-primary/5 py-20 md:py-32 dark:to-primary/10">
       <Container>
         <div className="grid items-center gap-12 md:grid-cols-2">
           <div>
@@ -40,13 +40,10 @@ export default function Hero() {
               </Button>
             </div>
           </div>
-          <div className="hidden md:flex justify-center">
-            <Image
-              src="/images/illustrations/source-code.svg"
-              alt="Illustration d'écran de code source représentant le développement web sur mesure"
-              width={500}
-              height={400}
-              className="w-full max-w-md"
+          <div className="hidden justify-center md:flex">
+            <SourceCodeIllustration
+              className="h-96 w-full"
+              aria-label="Illustration d'écran de code source représentant le développement web sur mesure"
             />
           </div>
         </div>
