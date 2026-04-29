@@ -159,8 +159,11 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 border-t border-gray-700 pt-8 text-center text-sm text-gray-400">
-          Copyright &copy; {currentYear} Efficience IT
+        <div className="mt-12 flex flex-col items-center gap-2 border-t border-gray-700 pt-8 text-center text-sm text-gray-400">
+          <span>Copyright &copy; {currentYear} Efficience IT</span>
+          <Link href="/plan-du-site" className="hover:text-white">
+            Plan du site
+          </Link>
         </div>
       </Container>
     </footer>

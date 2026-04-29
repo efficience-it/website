@@ -12,6 +12,7 @@ import NosReferences, { metadata as nosReferencesMetadata } from "@/app/nos-refe
 import BlogPage, { metadata as blogMetadata } from "@/app/blog/page";
 import Contact, { metadata as contactMetadata } from "@/app/contact/page";
 import MentionsLegales, { metadata as mentionsLegalesMetadata } from "@/app/mentions-legales/page";
+import PlanDuSite, { metadata as planDuSiteMetadata } from "@/app/plan-du-site/page";
 
 describe("Service pages", () => {
   it("renders Notre expertise", () => {
@@ -77,6 +78,13 @@ describe("Blog & other pages", () => {
     render(<MentionsLegales />);
     expect(screen.getByRole("heading", { name: /mentions légales/i })).toBeInTheDocument();
   });
+
+  it("renders Plan du site", () => {
+    render(<PlanDuSite />);
+    expect(screen.getByRole("heading", { level: 1, name: /plan du site/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 2, name: /agence et entreprise/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 2, name: /articles du blog/i })).toBeInTheDocument();
+  });
 });
 
 describe("Page metadata exports", () => {
@@ -138,6 +146,11 @@ describe("Page metadata exports", () => {
   it("exports metadata for Mentions légales", () => {
     expect(mentionsLegalesMetadata).toBeDefined();
     expect(mentionsLegalesMetadata.description).toBeTruthy();
+  });
+
+  it("exports metadata for Plan du site", () => {
+    expect(planDuSiteMetadata).toBeDefined();
+    expect(planDuSiteMetadata.description).toBeTruthy();
   });
 });
 
