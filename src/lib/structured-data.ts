@@ -7,8 +7,7 @@ interface BreadcrumbItem {
   path: string;
 }
 
-export const organizationJsonLd = {
-  "@context": "https://schema.org",
+const organizationEntity = {
   "@type": "ProfessionalService",
   "@id": `${BASE_URL}/#organization`,
   name: "Efficience IT",
@@ -74,12 +73,45 @@ export const organizationJsonLd = {
   ],
 };
 
-export const websiteJsonLd = {
-  "@context": "https://schema.org",
+const websiteEntity = {
   "@type": "WebSite",
+  "@id": `${BASE_URL}/#website`,
   name: "Efficience IT",
   url: BASE_URL,
+  publisher: { "@id": `${BASE_URL}/#organization` },
 };
+
+export const organizationJsonLd = {
+  "@context": "https://schema.org",
+  ...organizationEntity,
+};
+
+export const websiteJsonLd = {
+  "@context": "https://schema.org",
+  ...websiteEntity,
+};
+
+export const globalGraphJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [organizationEntity, websiteEntity],
+};
+
+type GraphItem = Record<string, unknown>;
+
+export function pageGraphJsonLd(
+  ...items: Array<GraphItem | GraphItem[]>
+): { "@context": string; "@graph": GraphItem[] } {
+  const flat = items.flat();
+  const stripped = flat.map((item) => {
+    const copy = { ...item };
+    delete copy["@context"];
+    return copy;
+  });
+  return {
+    "@context": "https://schema.org",
+    "@graph": stripped,
+  };
+}
 
 export function breadcrumbJsonLd(items: BreadcrumbItem[]) {
   return {
@@ -115,11 +147,7 @@ export function serviceJsonLd({ name, description, path }: ServiceSchemaProps) {
     name,
     description,
     url: `${BASE_URL}${path}`,
-    provider: {
-      "@type": "ProfessionalService",
-      "@id": `${BASE_URL}/#organization`,
-      name: "Efficience IT",
-    },
+    provider: { "@id": `${BASE_URL}/#organization` },
     areaServed: [
       { "@type": "Country", name: "France" },
       { "@type": "Country", name: "Belgique" },
@@ -142,11 +170,7 @@ export function reviewsJsonLd(testimonials: Testimonial[]) {
       name: t.name,
     },
     reviewBody: t.quote,
-    itemReviewed: {
-      "@type": "ProfessionalService",
-      "@id": `${BASE_URL}/#organization`,
-      name: "Efficience IT",
-    },
+    itemReviewed: { "@id": `${BASE_URL}/#organization` },
   }));
 }
 
@@ -187,15 +211,13 @@ export function webPageJsonLd({
   return {
     "@context": "https://schema.org",
     "@type": type,
+    "@id": `${BASE_URL}${path}#webpage`,
     name,
     description,
     url: `${BASE_URL}${path}`,
     inLanguage: "fr-FR",
-    isPartOf: {
-      "@type": "WebSite",
-      name: "Efficience IT",
-      url: BASE_URL,
-    },
+    isPartOf: { "@id": `${BASE_URL}/#website` },
+    about: { "@id": `${BASE_URL}/#organization` },
     ...(datePublished && { datePublished }),
     ...(dateModified && { dateModified }),
   };

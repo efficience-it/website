@@ -30,6 +30,7 @@ Le site attire du trafic via le blog (79 articles) et les pages service. Sans tr
 | `cta_click` | TrackedArticleButton | `src/components/sections/TrackedArticleButton.tsx` | `cta_location: "article_body"`, `cta_text`, `article_slug` |
 | `cta_click` | Footer email | `src/components/layout/Footer.tsx` | `cta_location: "footer"`, `cta_text: "email_contact"` |
 | `scroll_depth` | ScrollDepthTracker | `src/components/ui/ScrollDepthTracker.tsx` | `event_label: slug`, `scroll_percent: "25%/50%/75%/100%"` |
+| `share` | ArticleShareButtons | `src/components/ui/ArticleShareButtons.tsx` | `method: "linkedin" / "twitter" / "copy_link"`, `article_slug` |
 
 ### Fichiers cles
 
@@ -38,6 +39,7 @@ Le site attire du trafic via le blog (79 articles) et les pages service. Sans tr
 - `src/components/sections/TrackedArticleButton.tsx` : wrapper client pour le CTA dans les articles
 - `src/components/ui/ScrollDepthTracker.tsx` : composant client, observe le scroll avec throttle rAF
 - `src/components/ui/TrackedEmailLink.tsx` : wrapper pour les liens mailto avec tracking
+- `src/components/ui/ArticleShareButtons.tsx` : boutons de partage social sous le titre des articles
 
 ## Guide
 

@@ -36,10 +36,9 @@ describe("serviceJsonLd", () => {
       description: "Description",
       path: "/service",
     });
-    expect(result.provider["@id"]).toBe(
-      "https://www.itefficience.com/#organization",
-    );
-    expect(result.provider["@type"]).toBe("ProfessionalService");
+    expect(result.provider).toEqual({
+      "@id": "https://www.itefficience.com/#organization",
+    });
   });
 });
 
@@ -48,10 +47,9 @@ describe("reviewsJsonLd", () => {
     const result = reviewsJsonLd([
       { name: "X", role: "CEO", company: "Acme", quote: "Great" },
     ]);
-    expect(result[0].itemReviewed["@id"]).toBe(
-      "https://www.itefficience.com/#organization",
-    );
-    expect(result[0].itemReviewed["@type"]).toBe("ProfessionalService");
+    expect(result[0].itemReviewed).toEqual({
+      "@id": "https://www.itefficience.com/#organization",
+    });
   });
 });
 

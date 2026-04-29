@@ -308,6 +308,30 @@ Lien : https://www.itefficience.com/secteur/securite-conformite
 - Doctrine ORM, API Platform
 - FrankenPHP, Sylius, Monofony
 
+## Quand nous choisir
+
+- Vous avez un projet Symfony/PHP complexe a lancer, reprendre ou moderniser.
+- Vous cherchez une equipe senior capable de cadrer l'architecture et de livrer vite.
+- Vous avez besoin d'un partenaire qui couvre a la fois développement applicatif et DevOps.
+- Vous voulez un accompagnement pragmatique : audit, plan d'action, execution et transfert de competences.
+- Vous souhaitez une equipe impliquee dans l'open source et active dans l'ecosysteme PHP/Symfony.
+
+## Quand ne pas nous choisir
+
+- Vous cherchez une solution no-code ou un site vitrine tres simple sans besoin technique specifique.
+- Vous avez uniquement un besoin ponctuel tres court sans vision d'evolution produit.
+- Votre priorite absolue est d'aller au plus vite, sans exigence sur la qualite logicielle.
+- Vous ne souhaitez ni tests, ni pratiques DevOps, ni standards de maintenabilite.
+- Vous preferez une execution sans phase de cadrage, audit ou validation technique.
+
+## Contributions open source
+
+- Contributions regulieres a l'ecosysteme Symfony/PHP (bundles, correctifs, retours terrain).
+- Contributions a PHPStan (regles d'analyse statique, retours d'experience sur Symfony).
+- Contributions a Rector (regles de migration PHP/Symfony, retours terrain).
+- Contributions sur des sujets API, architecture hexagonale et bonnes pratiques de maintenance.
+- Plus de 500 contributions open source cumulees par l'equipe.
+
 ## Engagements
 
 - **Green IT** : demarche RSE, eco-conception web, un arbre plante par journee de développement.

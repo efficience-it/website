@@ -6,7 +6,7 @@ interface TestimonialCardProps {
 
 export default function TestimonialCard({ testimonial }: TestimonialCardProps) {
   return (
-    <div className="relative rounded-lg border-l-4 border-l-amber-400 bg-white p-6 shadow-md">
+    <div className="relative rounded-lg border-l-4 border-l-amber-400 bg-white p-6 shadow-md dark:bg-light-gray dark:shadow-black/30">
       <span className="absolute -top-3 left-4 text-5xl leading-none text-amber-400">
         &ldquo;
       </span>

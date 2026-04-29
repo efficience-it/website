@@ -1,5 +1,4 @@
 import fs from "fs";
-import path from "path";
 import {
   getAllPosts,
   getPostBySlug,
@@ -8,20 +7,13 @@ import {
   getCategories,
   getPostsByCategory,
   extractHeadings,
+  isSymfonyAuditCategory,
+  isTechCategory,
   readingTime,
 } from "@/lib/blog";
 
-const BLOG_DIR = path.join(process.cwd(), "content/blog");
 const TEMP_SLUG = "__test-empty-frontmatter__";
-const TEMP_FILE = path.join(BLOG_DIR, `${TEMP_SLUG}.mdx`);
-
-beforeAll(() => {
-  fs.writeFileSync(TEMP_FILE, "---\n---\n");
-});
-
-afterAll(() => {
-  if (fs.existsSync(TEMP_FILE)) fs.unlinkSync(TEMP_FILE);
-});
+const EMPTY_FRONTMATTER = "---\n---\n";
 
 describe("getPostBySlug", () => {
   it("returns a post for a valid slug", () => {
@@ -39,28 +31,44 @@ describe("getPostBySlug", () => {
   });
 
   it("defaults to empty strings when frontmatter fields are missing", () => {
-    const post = getPostBySlug(TEMP_SLUG);
-    expect(post).toBeDefined();
-    expect(post!.title).toBe("");
-    expect(post!.date).toBe("");
-    expect(post!.author).toBe("");
-    expect(post!.category).toBe("");
-    expect(post!.excerpt).toBe("");
-    expect(post!.wordCount).toBe(0);
+    const existsSpy = jest.spyOn(fs, "existsSync").mockReturnValue(true);
+    const readFileSpy = jest.spyOn(fs, "readFileSync").mockReturnValue(EMPTY_FRONTMATTER as never);
+
+    try {
+      const post = getPostBySlug(TEMP_SLUG);
+      expect(post).toBeDefined();
+      expect(post!.title).toBe("");
+      expect(post!.date).toBe("");
+      expect(post!.author).toBe("");
+      expect(post!.category).toBe("");
+      expect(post!.excerpt).toBe("");
+      expect(post!.wordCount).toBe(0);
+    } finally {
+      readFileSpy.mockRestore();
+      existsSpy.mockRestore();
+    }
   });
 });
 
 describe("getAllPosts", () => {
   it("defaults to empty strings when frontmatter fields are missing", () => {
-    const posts = getAllPosts();
-    const tempPost = posts.find((p) => p.slug === TEMP_SLUG);
-    expect(tempPost).toBeDefined();
-    expect(tempPost!.title).toBe("");
-    expect(tempPost!.date).toBe("");
-    expect(tempPost!.author).toBe("");
-    expect(tempPost!.category).toBe("");
-    expect(tempPost!.excerpt).toBe("");
-    expect(tempPost!.wordCount).toBe(0);
+    const readdirSpy = jest.spyOn(fs, "readdirSync").mockReturnValue([`${TEMP_SLUG}.mdx`] as never);
+    const readFileSpy = jest.spyOn(fs, "readFileSync").mockReturnValue(EMPTY_FRONTMATTER as never);
+
+    try {
+      const posts = getAllPosts();
+      const tempPost = posts.find((p) => p.slug === TEMP_SLUG);
+      expect(tempPost).toBeDefined();
+      expect(tempPost!.title).toBe("");
+      expect(tempPost!.date).toBe("");
+      expect(tempPost!.author).toBe("");
+      expect(tempPost!.category).toBe("");
+      expect(tempPost!.excerpt).toBe("");
+      expect(tempPost!.wordCount).toBe(0);
+    } finally {
+      readFileSpy.mockRestore();
+      readdirSpy.mockRestore();
+    }
   });
 
   it("exposes howTo when present in the frontmatter", () => {
@@ -150,6 +158,44 @@ describe("extractHeadings", () => {
     expect(headings).toHaveLength(1);
     expect(headings[0].text).toBe("Valid");
   });
+});
+
+describe("isTechCategory", () => {
+  it.each([
+    "Symfony",
+    "PHP",
+    "Architecture",
+    "DevOps",
+    "Qualité de code",
+    "Sécurité",
+    "IA",
+    "JavaScript",
+  ])("classifies %s as tech", (category) => {
+    expect(isTechCategory(category)).toBe(true);
+  });
+
+  it.each(["Formation", "Projet", "Green IT", "Agence", ""])(
+    "classifies %s as non-tech",
+    (category) => {
+      expect(isTechCategory(category)).toBe(false);
+    },
+  );
+});
+
+describe("isSymfonyAuditCategory", () => {
+  it.each(["Symfony", "PHP", "Architecture", "Qualité de code"])(
+    "matches %s",
+    (category) => {
+      expect(isSymfonyAuditCategory(category)).toBe(true);
+    },
+  );
+
+  it.each(["IA", "JavaScript", "DevOps", "Sécurité", "Formation", "Projet", ""])(
+    "does not match %s",
+    (category) => {
+      expect(isSymfonyAuditCategory(category)).toBe(false);
+    },
+  );
 });
 
 describe("readingTime", () => {

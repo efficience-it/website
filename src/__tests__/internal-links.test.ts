@@ -24,7 +24,7 @@ function getValidRoutes(): Set<string> {
 
   const blogFiles = fs
     .readdirSync(CONTENT_DIR)
-    .filter((f) => f.endsWith(".mdx"));
+    .filter((f) => f.endsWith(".mdx") && !f.startsWith("__test"));
   for (const file of blogFiles) {
     routes.add(`/article/${file.replace(/\.mdx$/, "")}`);
   }
@@ -62,6 +62,7 @@ function getAllFiles(dir: string, ext: string): string[] {
   function walk(d: string) {
     const entries = fs.readdirSync(d, { withFileTypes: true });
     for (const entry of entries) {
+      if (entry.name.startsWith("__test")) continue;
       const fullPath = path.join(d, entry.name);
       if (entry.isDirectory()) {
         walk(fullPath);
@@ -181,8 +182,8 @@ describe("Internal links", () => {
   });
 
   it("all service pages with page.tsx are in the sitemap", () => {
-    const sitemapContent = fs.readFileSync(
-      path.join(SRC_DIR, "app/sitemap.ts"),
+    const routesContent = fs.readFileSync(
+      path.join(SRC_DIR, "lib/routes.ts"),
       "utf-8"
     );
 
@@ -206,7 +207,7 @@ describe("Internal links", () => {
 
     const missing: string[] = [];
     for (const dir of serviceDirs) {
-      if (!sitemapContent.includes(`/${dir}`)) {
+      if (!routesContent.includes(`/${dir}`)) {
         missing.push(`/${dir}`);
       }
     }
