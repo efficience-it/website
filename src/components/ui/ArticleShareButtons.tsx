@@ -60,11 +60,9 @@ export default function ArticleShareButtons({ url, title }: ArticleShareButtonsP
   };
 
   const handleCopy = async () => {
-    const articleUrl = globalThis.location?.href || url;
-
     try {
       if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(articleUrl);
+        await navigator.clipboard.writeText(url);
         setCopied(true);
         setTimeout(() => setCopied(false), 1800);
         return;
@@ -73,7 +71,7 @@ export default function ArticleShareButtons({ url, title }: ArticleShareButtonsP
       // Fallback pour les contextes où l'API Clipboard n'est pas disponible.
     }
 
-    copyWithFallback(articleUrl);
+    copyWithFallback(url);
     setCopied(true);
     setTimeout(() => setCopied(false), 1800);
   };
