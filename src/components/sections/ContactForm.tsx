@@ -25,7 +25,8 @@ export default function ContactForm() {
     const body = `Nom: ${data.get("name")}\nEntreprise: ${data.get("company")}\nTéléphone: ${data.get("phone")}\nEmail: ${data.get("email")}\n\n${data.get("message")}`;
 
     trackEvent("form_submit", {
-      form_type: "contact",
+      form_name: "contact",
+      source_page: window.location.pathname,
       subject,
     });
 

@@ -48,8 +48,9 @@ export default function AuditForm() {
       `${data.get("message") || ""}`,
     ].join("\n");
 
-    trackEvent("form_submit", {
-      form_type: "audit",
+    trackEvent("audit_requested", {
+      form_name: "audit",
+      source_page: window.location.pathname,
       symfony_version: data.get("symfonyVersion") as string,
       team_size: data.get("teamSize") as string,
       problem: data.get("problem") as string,
