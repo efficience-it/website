@@ -1,15 +1,19 @@
 import { getAllPosts, getPostsByCategory, categorySlugMap } from "@/lib/blog";
-
-export const BASE_URL = "https://www.itefficience.com";
+import { BASE_URL } from "@/lib/metadata";
+import type { BlogPost } from "@/types/blog";
 
 type ChangeFrequency = "weekly" | "monthly" | "yearly";
 
-interface SiteRoute {
+export interface SiteRoute {
   path: string;
   label: string;
   lastModified: string;
   changeFrequency: ChangeFrequency;
   priority: number;
+}
+
+export interface BlogSiteRoute extends SiteRoute {
+  image?: string;
 }
 
 interface RouteSilo {
@@ -122,10 +126,11 @@ export function getStaticRoutes(): SiteRoute[] {
   return STATIC_SILOS.flatMap((silo) => silo.routes);
 }
 
-export function getCategoryRoutes(): SiteRoute[] {
+export function getCategoryRoutes(posts?: BlogPost[]): SiteRoute[] {
+  const allPosts = posts ?? getAllPosts();
   return Object.entries(categorySlugMap).map(([name, slug]) => {
-    const posts = getPostsByCategory(name);
-    const latest = posts[0];
+    const categoryPosts = posts ? allPosts.filter((p) => p.category === name) : getPostsByCategory(name);
+    const latest = categoryPosts[0];
     return {
       path: `/blog/${slug}`,
       label: name,
@@ -136,12 +141,15 @@ export function getCategoryRoutes(): SiteRoute[] {
   });
 }
 
-export function getBlogRoutes(): SiteRoute[] {
-  return getAllPosts().map((post) => ({
+export function getBlogRoutes(posts?: BlogPost[]): BlogSiteRoute[] {
+  return (posts ?? getAllPosts()).map((post) => ({
     path: `/article/${post.slug}`,
     label: post.title,
     lastModified: post.updatedAt ?? post.date,
     changeFrequency: "monthly",
     priority: 0.6,
+    image: post.image,
   }));
 }
+
+export { BASE_URL };
