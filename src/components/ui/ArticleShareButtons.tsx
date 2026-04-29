@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { trackEvent } from "@/lib/tracking";
 
 interface ArticleShareButtonsProps {
   readonly url: string;
   readonly title: string;
+  readonly articleSlug: string;
 }
 
 function buildShareUrl(base: string, params: Record<string, string>) {
@@ -12,14 +14,16 @@ function buildShareUrl(base: string, params: Record<string, string>) {
   return `${base}?${searchParams.toString()}`;
 }
 
-export default function ArticleShareButtons({ url, title }: ArticleShareButtonsProps) {
+export default function ArticleShareButtons({ url, title, articleSlug }: ArticleShareButtonsProps) {
   const [copied, setCopied] = useState(false);
+  const copyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const interactionClasses =
     "transition-all duration-200 hover:scale-105 active:scale-95 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2";
 
   const links = [
     {
       label: "LinkedIn",
+      method: "linkedin",
       color: "#0A66C2",
       href: buildShareUrl("https://www.linkedin.com/sharing/share-offsite/", {
         url,
@@ -34,8 +38,9 @@ export default function ArticleShareButtons({ url, title }: ArticleShareButtonsP
     },
     {
       label: "X",
+      method: "twitter",
       color: "#000000",
-      href: buildShareUrl("https://twitter.com/intent/tweet", {
+      href: buildShareUrl("https://x.com/intent/tweet", {
         url,
         text: title,
       }),
@@ -55,25 +60,33 @@ export default function ArticleShareButtons({ url, title }: ArticleShareButtonsP
     textarea.style.top = "-9999px";
     document.body.appendChild(textarea);
     textarea.select();
-    document.execCommand("copy");
+    const ok = document.execCommand("copy");
     textarea.remove();
+    return ok;
+  };
+
+  const flashCopied = () => {
+    setCopied(true);
+    if (copyTimeoutRef.current) clearTimeout(copyTimeoutRef.current);
+    copyTimeoutRef.current = setTimeout(() => setCopied(false), 1800);
   };
 
   const handleCopy = async () => {
     try {
       if (navigator.clipboard?.writeText) {
         await navigator.clipboard.writeText(url);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 1800);
+        flashCopied();
+        trackEvent("share", { method: "copy_link", article_slug: articleSlug });
         return;
       }
     } catch {
-      // Fallback pour les contextes où l'API Clipboard n'est pas disponible.
+      /* empty */
     }
 
-    copyWithFallback(url);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1800);
+    if (copyWithFallback(url)) {
+      flashCopied();
+      trackEvent("share", { method: "copy_link", article_slug: articleSlug });
+    }
   };
 
   return (
@@ -87,11 +100,11 @@ export default function ArticleShareButtons({ url, title }: ArticleShareButtonsP
             rel="noopener noreferrer"
             aria-label={`Partager sur ${link.label}`}
             title={`Partager sur ${link.label}`}
-            className={`inline-flex h-8 w-16 cursor-pointer! items-center justify-center rounded-md border px-3 text-sm font-medium text-white ${interactionClasses}`}
+            onClick={() => trackEvent("share", { method: link.method, article_slug: articleSlug })}
+            className={`inline-flex h-8 w-16 cursor-pointer items-center justify-center rounded-md border px-3 text-sm font-medium text-white ${interactionClasses}`}
             style={{
               backgroundColor: link.color,
               borderColor: link.color,
-              cursor: "pointer",
             }}
           >
             {link.icon}
@@ -102,12 +115,7 @@ export default function ArticleShareButtons({ url, title }: ArticleShareButtonsP
           onClick={handleCopy}
           aria-label={copied ? "Lien copié" : "Copier le lien"}
           title={copied ? "Lien copié" : "Copier le lien de l'article"}
-          className={`relative inline-flex h-8 w-16 cursor-pointer! items-center justify-center rounded-md border px-3 text-sm font-medium text-white ${interactionClasses}`}
-          style={{
-            backgroundColor: "#475569",
-            borderColor: "#475569",
-            cursor: "pointer",
-          }}
+          className={`relative inline-flex h-8 w-16 cursor-pointer items-center justify-center rounded-md border border-slate-600 bg-slate-600 px-3 text-sm font-medium text-white ${interactionClasses}`}
         >
           <span className="relative h-4 w-4 pointer-events-none">
             <svg
@@ -133,6 +141,9 @@ export default function ArticleShareButtons({ url, title }: ArticleShareButtonsP
             >
               <path fillRule="evenodd" d="M16.704 5.29a1 1 0 0 1 .006 1.414l-7 7a1 1 0 0 1-1.42 0l-3-3A1 1 0 1 1 6.704 9.29L9 11.586l6.296-6.296a1 1 0 0 1 1.408 0Z" clipRule="evenodd" />
             </svg>
+          </span>
+          <span aria-live="polite" className="sr-only">
+            {copied ? "Lien copié" : ""}
           </span>
         </button>
       </div>

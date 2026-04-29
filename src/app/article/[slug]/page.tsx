@@ -216,7 +216,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                         </p>
                       )}
                     </div>
-                    <ArticleShareButtons url={url} title={post.title} />
+                    <ArticleShareButtons url={url} title={post.title} articleSlug={slug} />
                   </div>
                 </div>
                 {post.image && (
