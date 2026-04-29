@@ -38,6 +38,7 @@ jobs:
           key: node-modules-${{ hashFiles('package-lock.json') }}
       - run: npm run lint
       - run: npx tsc --noEmit
+      - run: npm run knip
       - run: npm test -- --coverage
       - name: Generate coverage badge
         if: github.ref == 'refs/heads/main'

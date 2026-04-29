@@ -141,7 +141,7 @@ export function getPostsByCategory(category: string): BlogPost[] {
   return getAllPosts().filter((p) => p.category === category);
 }
 
-export interface HeadingItem {
+interface HeadingItem {
   id: string;
   text: string;
   level: number;
