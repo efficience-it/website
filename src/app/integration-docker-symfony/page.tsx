@@ -163,6 +163,7 @@ const service = serviceJsonLd({
   description:
     "Conteneurisation et déploiement d'applications Symfony avec Docker. Dockerfile optimisé, Docker Compose, CI/CD et monitoring en production.",
   path: "/integration-docker-symfony",
+  mainTech: ["docker","symfony","php"],
 });
 
 const webPage = webPageJsonLd({

@@ -164,6 +164,7 @@ const service = serviceJsonLd({
   description:
     "Conception et développement d'applications Vue.js et Nuxt sur mesure. Interfaces légères, intégration Symfony native et montée en charge progressive.",
   path: "/developpement-vuejs",
+  mainTech: ["vuejs","typescript"],
 });
 
 const webPage = webPageJsonLd({

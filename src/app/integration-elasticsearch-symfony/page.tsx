@@ -157,6 +157,7 @@ const service = serviceJsonLd({
   description:
     "Intégration d'Elasticsearch dans vos projets Symfony. Indexation, recherche full-text, filtres à facettes et suggestions pour une expérience utilisateur fluide.",
   path: "/integration-elasticsearch-symfony",
+  mainTech: ["elasticsearch","symfony","php"],
 });
 
 const webPage = webPageJsonLd({

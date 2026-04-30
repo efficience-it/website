@@ -163,6 +163,7 @@ const service = serviceJsonLd({
   description:
     "Conception et développement d'API performantes avec NestJS et Node.js : microservices, GraphQL, temps réel, architecture hexagonale.",
   path: "/api-nodejs-nestjs",
+  mainTech: ["nodejs","typescript"],
 });
 
 const webPage = webPageJsonLd({

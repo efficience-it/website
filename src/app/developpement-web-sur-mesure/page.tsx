@@ -99,6 +99,7 @@ const service = serviceJsonLd({
   description:
     "Conception et développement d'applications web avec Symfony, Sylius et les technologies PHP modernes.",
   path: "/developpement-web-sur-mesure",
+  mainTech: ["php","symfony"],
 });
 
 const webPage = webPageJsonLd({

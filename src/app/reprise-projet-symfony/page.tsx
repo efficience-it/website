@@ -150,6 +150,7 @@ const service = serviceJsonLd({
   description:
     "Audit, stabilisation, documentation et maintenance d'applications Symfony reprises en cours de vie : nous prenons le relais de votre prestataire et assurons la continuité de votre projet.",
   path: "/reprise-projet-symfony",
+  mainTech: ["symfony","php"],
 });
 
 const webPage = webPageJsonLd({

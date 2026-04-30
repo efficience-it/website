@@ -46,6 +46,7 @@ const service = serviceJsonLd({
   name: "Modernisation applicative",
   description: "Parcours structuré de modernisation d'applications PHP et Symfony : audit technique, refactoring progressif, migration architecturale et maintenance continue.",
   path: "/modernisation-applicative",
+  mainTech: ["php","symfony"],
 });
 
 const situations = [

@@ -43,6 +43,52 @@ describe("getPostBySlug", () => {
       expect(post!.category).toBe("");
       expect(post!.excerpt).toBe("");
       expect(post!.wordCount).toBe(0);
+      expect(post!.mainTech).toBeUndefined();
+    } finally {
+      readFileSpy.mockRestore();
+      existsSpy.mockRestore();
+    }
+  });
+
+  it("parses mainTech array, filtering unknown keys", () => {
+    const existsSpy = jest.spyOn(fs, "existsSync").mockReturnValue(true);
+    const readFileSpy = jest
+      .spyOn(fs, "readFileSync")
+      .mockReturnValue("---\nmainTech: [\"symfony\", \"unknown-tech\", 42]\n---\n" as never);
+
+    try {
+      const post = getPostBySlug(TEMP_SLUG);
+      expect(post!.mainTech).toEqual(["symfony"]);
+    } finally {
+      readFileSpy.mockRestore();
+      existsSpy.mockRestore();
+    }
+  });
+
+  it("returns undefined mainTech when frontmatter has only unknown keys", () => {
+    const existsSpy = jest.spyOn(fs, "existsSync").mockReturnValue(true);
+    const readFileSpy = jest
+      .spyOn(fs, "readFileSync")
+      .mockReturnValue("---\nmainTech: [\"unknown\"]\n---\n" as never);
+
+    try {
+      const post = getPostBySlug(TEMP_SLUG);
+      expect(post!.mainTech).toBeUndefined();
+    } finally {
+      readFileSpy.mockRestore();
+      existsSpy.mockRestore();
+    }
+  });
+
+  it("returns undefined mainTech when frontmatter has a non-array value", () => {
+    const existsSpy = jest.spyOn(fs, "existsSync").mockReturnValue(true);
+    const readFileSpy = jest
+      .spyOn(fs, "readFileSync")
+      .mockReturnValue("---\nmainTech: symfony\n---\n" as never);
+
+    try {
+      const post = getPostBySlug(TEMP_SLUG);
+      expect(post!.mainTech).toBeUndefined();
     } finally {
       readFileSpy.mockRestore();
       existsSpy.mockRestore();

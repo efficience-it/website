@@ -171,6 +171,7 @@ const service = serviceJsonLd({
   description:
     "Conception et développement d'applications React et TypeScript sur mesure : SPA, dashboards, backoffices. Connectées à vos APIs Symfony ou Node.js.",
   path: "/developpement-react",
+  mainTech: ["react","typescript"],
 });
 
 const webPage = webPageJsonLd({

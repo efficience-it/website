@@ -163,6 +163,7 @@ const service = serviceJsonLd({
   description:
     "Intégration de PostgreSQL dans vos projets Symfony avec Doctrine. Optimisation des requêtes, migration depuis MySQL, types avancés et indexation.",
   path: "/base-de-donnees-postgresql-symfony",
+  mainTech: ["postgresql","symfony","php"],
 });
 
 const webPage = webPageJsonLd({

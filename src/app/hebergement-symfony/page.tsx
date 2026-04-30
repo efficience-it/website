@@ -123,6 +123,7 @@ const service = serviceJsonLd({
   description:
     "Hébergement cloud, déploiement CI/CD et monitoring pour les applications Symfony.",
   path: "/hebergement-symfony",
+  mainTech: ["symfony","php"],
 });
 
 const webPage = webPageJsonLd({

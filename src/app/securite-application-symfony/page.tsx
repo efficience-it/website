@@ -163,6 +163,7 @@ const service = serviceJsonLd({
   description:
     "Audit de vulnérabilités, protection OWASP, conformité RGPD et mise en place de bonnes pratiques de sécurité pour vos applications Symfony.",
   path: "/securite-application-symfony",
+  mainTech: ["symfony","php"],
 });
 
 const webPage = webPageJsonLd({

@@ -118,6 +118,7 @@ const service = serviceJsonLd({
   description:
     "Mise en place de stratégies de tests automatisés pour applications PHP et Symfony : tests unitaires, intégration, fonctionnels et e2e, avec intégration CI/CD pour sécuriser chaque livraison.",
   path: "/tests-automatises-php",
+  mainTech: ["php","symfony"],
 });
 
 const webPage = webPageJsonLd({

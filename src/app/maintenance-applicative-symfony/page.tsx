@@ -174,6 +174,7 @@ const service = serviceJsonLd({
   description:
     "Maintenance corrective, évolutive et préventive de vos applications Symfony : correction de bugs, évolutions fonctionnelles, mises à jour de sécurité, monitoring et SLA sur mesure.",
   path: "/maintenance-applicative-symfony",
+  mainTech: ["symfony","php"],
 });
 
 const webPage = webPageJsonLd({

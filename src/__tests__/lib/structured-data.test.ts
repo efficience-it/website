@@ -1,4 +1,4 @@
-import { howToJsonLd, reviewsJsonLd, serviceJsonLd, eventJsonLd, jobPostingJsonLd } from "@/lib/structured-data";
+import { howToJsonLd, reviewsJsonLd, serviceJsonLd, eventJsonLd, jobPostingJsonLd, articleJsonLd, TECH_ENTITIES, type TechKey } from "@/lib/structured-data";
 import { categorySlugMap } from "@/lib/blog";
 import type { Job } from "@/../data/jobs";
 
@@ -139,5 +139,79 @@ describe("jobPostingJsonLd", () => {
   it("omits skills when array is empty", () => {
     const result = jobPostingJsonLd({ ...baseJob, skills: [] });
     expect(result.skills).toBeUndefined();
+  });
+});
+
+describe("TECH_ENTITIES", () => {
+  it("exposes Wikidata entity links for known frameworks", () => {
+    expect(TECH_ENTITIES.symfony.sameAs).toContain("https://www.wikidata.org/wiki/Q2063468");
+    expect(TECH_ENTITIES.php.sameAs).toContain("https://www.wikidata.org/wiki/Q59");
+  });
+});
+
+describe("entity linking via mainTech", () => {
+  const articleInput = {
+    url: "https://www.itefficience.com/article/test",
+    isTech: true,
+    title: "Test",
+    excerpt: "Excerpt",
+    author: { "@type": "Person" as const, name: "Auteur", url: "https://example.com", jobTitle: "Author", sameAs: [] },
+    category: "Symfony",
+    date: "2026-04-01",
+    wordCount: 1200,
+    timeRequiredMinutes: 6,
+  };
+
+  it("serviceJsonLd emits about[] from known mainTech keys", () => {
+    const result = serviceJsonLd({
+      name: "Service",
+      description: "Description",
+      path: "/foo",
+      mainTech: ["symfony", "php"],
+    });
+    expect(Array.isArray(result.about)).toBe(true);
+    expect(result.about).toHaveLength(2);
+    expect(result.about?.[0]).toMatchObject({
+      "@type": "Thing",
+      name: "Symfony",
+      sameAs: expect.arrayContaining(["https://www.wikidata.org/wiki/Q2063468"]),
+    });
+  });
+
+  it("serviceJsonLd omits about when mainTech is missing", () => {
+    const result = serviceJsonLd({ name: "Service", description: "Description", path: "/foo" });
+    expect(result.about).toBeUndefined();
+  });
+
+  it("filters out unknown tech keys passed at runtime", () => {
+    const result = serviceJsonLd({
+      name: "Service",
+      description: "Description",
+      path: "/foo",
+      mainTech: ["symfony", "unknown-tech" as unknown as TechKey],
+    });
+    expect(result.about).toHaveLength(1);
+    expect(result.about?.[0].name).toBe("Symfony");
+  });
+
+  it("returns no about when all mainTech keys are unknown at runtime", () => {
+    const result = serviceJsonLd({
+      name: "Service",
+      description: "Description",
+      path: "/foo",
+      mainTech: ["nope", "also-nope"] as unknown as TechKey[],
+    });
+    expect(result.about).toBeUndefined();
+  });
+
+  it("articleJsonLd emits about when mainTech is provided", () => {
+    const result = articleJsonLd({ ...articleInput, mainTech: ["symfony"] });
+    expect(result.about).toHaveLength(1);
+    expect(result.about?.[0].name).toBe("Symfony");
+  });
+
+  it("articleJsonLd omits about when mainTech is absent", () => {
+    const result = articleJsonLd(articleInput);
+    expect(result.about).toBeUndefined();
   });
 });

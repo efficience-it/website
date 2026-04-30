@@ -165,6 +165,7 @@ const service = serviceJsonLd({
   description:
     "Développement d'API REST et GraphQL sur mesure avec Symfony et API Platform : authentification OAuth2/JWT, documentation OpenAPI, TDD et monitoring.",
   path: "/api-sur-mesure-symfony",
+  mainTech: ["symfony","php"],
 });
 
 const webPage = webPageJsonLd({
