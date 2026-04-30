@@ -1,5 +1,6 @@
-import { howToJsonLd, reviewsJsonLd, serviceJsonLd, eventJsonLd } from "@/lib/structured-data";
+import { howToJsonLd, reviewsJsonLd, serviceJsonLd, eventJsonLd, jobPostingJsonLd } from "@/lib/structured-data";
 import { categorySlugMap } from "@/lib/blog";
+import type { Job } from "@/../data/jobs";
 
 describe("howToJsonLd", () => {
   it("returns correct schema with steps", () => {
@@ -83,5 +84,60 @@ describe("categorySlugMap", () => {
     expect(categorySlugMap["Symfony"]).toBe("symfony");
     expect(categorySlugMap["Green IT"]).toBe("green-it");
     expect(Object.keys(categorySlugMap).length).toBeGreaterThan(0);
+  });
+});
+
+describe("jobPostingJsonLd", () => {
+  const baseJob: Job = {
+    slug: "dev-symfony",
+    title: "Dev Symfony",
+    category: "CDI",
+    domain: "developpement",
+    description: "Rejoignez une équipe Symfony senior à Lille.",
+    datePosted: "2026-04-01",
+    employmentType: "FULL_TIME",
+    jobLocation: { addressLocality: "Lille", addressCountry: "FR" },
+  };
+
+  it("returns the minimal valid JobPosting schema", () => {
+    const result = jobPostingJsonLd(baseJob);
+    expect(result["@type"]).toBe("JobPosting");
+    expect(result.title).toBe("Dev Symfony");
+    expect(result.datePosted).toBe("2026-04-01");
+    expect(result.employmentType).toBe("FULL_TIME");
+    expect(result.url).toContain("/ta-carriere#dev-symfony");
+    expect(result.hiringOrganization).toEqual({ "@id": expect.stringContaining("/#organization") });
+    expect(result.directApply).toBeUndefined();
+    expect(result.validThrough).toBeUndefined();
+    expect(result.jobLocationType).toBeUndefined();
+    expect(result.experienceRequirements).toBeUndefined();
+    expect(result.educationRequirements).toBeUndefined();
+    expect(result.skills).toBeUndefined();
+  });
+
+  it("includes optional fields when provided", () => {
+    const result = jobPostingJsonLd({
+      ...baseJob,
+      validThrough: "2026-10-01",
+      jobLocationType: "TELECOMMUTE",
+      experienceRequirements: { monthsOfExperience: 36 },
+      educationRequirements: "Bac+5",
+      skills: ["Symfony", "PHP", "Doctrine"],
+      directApply: true,
+    });
+    expect(result.validThrough).toBe("2026-10-01");
+    expect(result.jobLocationType).toBe("TELECOMMUTE");
+    expect(result.experienceRequirements).toEqual({
+      "@type": "OccupationalExperienceRequirements",
+      monthsOfExperience: 36,
+    });
+    expect(result.educationRequirements).toBe("Bac+5");
+    expect(result.skills).toBe("Symfony, PHP, Doctrine");
+    expect(result.directApply).toBe(true);
+  });
+
+  it("omits skills when array is empty", () => {
+    const result = jobPostingJsonLd({ ...baseJob, skills: [] });
+    expect(result.skills).toBeUndefined();
   });
 });

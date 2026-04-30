@@ -7,7 +7,7 @@ interface JobCardProps {
 
 export default function JobCard({ job }: JobCardProps) {
   return (
-    <div className="rounded-lg border border-border bg-white p-6">
+    <div id={job.slug} className="rounded-lg border border-border bg-white p-6">
       <span className="text-xs font-medium uppercase text-primary">
         {job.category}
       </span>

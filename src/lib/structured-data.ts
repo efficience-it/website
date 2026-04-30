@@ -1,6 +1,7 @@
 import { BASE_URL, SITE_NAME } from "@/lib/metadata";
 import type { AuthorSchema } from "@/data/authors";
 import type { FaqItem, ProficiencyLevel } from "@/types/blog";
+import type { Job } from "@/../data/jobs";
 
 interface BreadcrumbItem {
   name: string;
@@ -334,5 +335,36 @@ export function eventJsonLd(event: EventSchema) {
       url: event.organizer.url,
     },
     url: event.url,
+  };
+}
+
+export function jobPostingJsonLd(job: Job) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "JobPosting",
+    title: job.title,
+    description: job.description,
+    datePosted: job.datePosted,
+    ...(job.validThrough && { validThrough: job.validThrough }),
+    employmentType: job.employmentType,
+    hiringOrganization: { "@id": `${BASE_URL}/#organization` },
+    jobLocation: {
+      "@type": "Place",
+      address: {
+        "@type": "PostalAddress",
+        ...job.jobLocation,
+      },
+    },
+    ...(job.jobLocationType && { jobLocationType: job.jobLocationType }),
+    ...(job.experienceRequirements && {
+      experienceRequirements: {
+        "@type": "OccupationalExperienceRequirements",
+        monthsOfExperience: job.experienceRequirements.monthsOfExperience,
+      },
+    }),
+    ...(job.educationRequirements && { educationRequirements: job.educationRequirements }),
+    ...(job.skills && job.skills.length > 0 && { skills: job.skills.join(", ") }),
+    url: `${BASE_URL}/ta-carriere#${job.slug}`,
+    ...(job.directApply !== undefined && { directApply: job.directApply }),
   };
 }
