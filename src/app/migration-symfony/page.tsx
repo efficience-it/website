@@ -151,6 +151,7 @@ const service = serviceJsonLd({
   description:
     "Migration Symfony 4, 5, 6 vers Symfony 7 : montée de version progressive par paliers, sans interruption de service. Audit des dépréciations, refactoring Rector et validation continue.",
   path: "/migration-symfony",
+  mainTech: ["symfony","php"],
 });
 
 const webPage = webPageJsonLd({

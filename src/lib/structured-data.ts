@@ -135,13 +135,99 @@ export function breadcrumbJsonLd(items: BreadcrumbItem[]) {
   };
 }
 
+export const TECH_ENTITIES: Record<string, { name: string; sameAs: string[] }> = {
+  symfony: {
+    name: "Symfony",
+    sameAs: [
+      "https://www.wikidata.org/wiki/Q2063468",
+      "https://symfony.com",
+      "https://en.wikipedia.org/wiki/Symfony",
+    ],
+  },
+  php: {
+    name: "PHP",
+    sameAs: [
+      "https://www.wikidata.org/wiki/Q59",
+      "https://www.php.net",
+      "https://en.wikipedia.org/wiki/PHP",
+    ],
+  },
+  laravel: {
+    name: "Laravel",
+    sameAs: ["https://www.wikidata.org/wiki/Q6485503", "https://laravel.com"],
+  },
+  react: {
+    name: "React",
+    sameAs: ["https://www.wikidata.org/wiki/Q19399674", "https://react.dev"],
+  },
+  nodejs: {
+    name: "Node.js",
+    sameAs: ["https://www.wikidata.org/wiki/Q756100", "https://nodejs.org"],
+  },
+  typescript: {
+    name: "TypeScript",
+    sameAs: ["https://www.wikidata.org/wiki/Q978185", "https://www.typescriptlang.org"],
+  },
+  docker: {
+    name: "Docker",
+    sameAs: ["https://www.wikidata.org/wiki/Q15206305", "https://www.docker.com"],
+  },
+  postgresql: {
+    name: "PostgreSQL",
+    sameAs: ["https://www.wikidata.org/wiki/Q192490", "https://www.postgresql.org"],
+  },
+  redis: {
+    name: "Redis",
+    sameAs: ["https://www.wikidata.org/wiki/Q2136322", "https://redis.io"],
+  },
+  elasticsearch: {
+    name: "Elasticsearch",
+    sameAs: ["https://www.wikidata.org/wiki/Q3050461", "https://www.elastic.co/elasticsearch/"],
+  },
+  rabbitmq: {
+    name: "RabbitMQ",
+    sameAs: ["https://www.wikidata.org/wiki/Q1727422", "https://www.rabbitmq.com"],
+  },
+  doctrine: {
+    name: "Doctrine ORM",
+    sameAs: ["https://www.wikidata.org/wiki/Q3036524"],
+  },
+  vuejs: {
+    name: "Vue.js",
+    sameAs: ["https://www.wikidata.org/wiki/Q17205803", "https://vuejs.org"],
+  },
+  nextjs: {
+    name: "Next.js",
+    sameAs: ["https://www.wikidata.org/wiki/Q102083000", "https://nextjs.org"],
+  },
+  sylius: {
+    name: "Sylius",
+    sameAs: ["https://sylius.com"],
+  },
+};
+
+function aboutTechEntities(keys: string[] | undefined) {
+  if (!keys || keys.length === 0) return undefined;
+  const entities = keys
+    .map((key) => TECH_ENTITIES[key])
+    .filter((entity): entity is (typeof TECH_ENTITIES)[string] => Boolean(entity))
+    .map((entity) => ({
+      "@type": "Thing" as const,
+      name: entity.name,
+      sameAs: entity.sameAs,
+    }));
+  return entities.length > 0 ? entities : undefined;
+}
+
 interface ServiceSchemaProps {
   name: string;
   description: string;
   path: string;
+  mainTech?: string[];
 }
 
-export function serviceJsonLd({ name, description, path }: ServiceSchemaProps) {
+export function serviceJsonLd({ name, description, path, mainTech }: ServiceSchemaProps) {
+  const about = aboutTechEntities(mainTech);
   return {
     "@context": "https://schema.org",
     "@type": "Service",
@@ -157,6 +243,7 @@ export function serviceJsonLd({ name, description, path }: ServiceSchemaProps) {
       { "@type": "Country", name: "Spain" },
       { "@type": "Country", name: "Germany" },
     ],
+    ...(about && { about }),
   };
 }
 
@@ -259,9 +346,11 @@ interface ArticleJsonLdInput {
   wordCount: number;
   timeRequiredMinutes: number;
   proficiencyLevel?: ProficiencyLevel;
+  mainTech?: string[];
 }
 
 export function articleJsonLd(input: ArticleJsonLdInput) {
+  const about = aboutTechEntities(input.mainTech);
   return {
     "@context": "https://schema.org",
     "@type": input.isTech ? "TechArticle" : "BlogPosting",
@@ -297,6 +386,7 @@ export function articleJsonLd(input: ArticleJsonLdInput) {
     ...(input.isTech && {
       proficiencyLevel: input.proficiencyLevel ?? "Intermediate",
     }),
+    ...(about && { about }),
   };
 }
 

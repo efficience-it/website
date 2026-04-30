@@ -118,6 +118,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     wordCount: post.wordCount,
     timeRequiredMinutes: readingTime(post.wordCount),
     proficiencyLevel: post.proficiencyLevel,
+    mainTech: post.mainTech,
   });
 
   const breadcrumb = breadcrumbJsonLd([

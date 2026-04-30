@@ -123,6 +123,7 @@ const service = serviceJsonLd({
   description:
     "Développement de boutiques e-commerce avec Sylius, la plateforme open source basée sur Symfony.",
   path: "/ecommerce-sylius",
+  mainTech: ["sylius","symfony","php"],
 });
 
 const webPage = webPageJsonLd({

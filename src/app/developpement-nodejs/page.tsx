@@ -130,6 +130,7 @@ const service = serviceJsonLd({
   description:
     "Conception et développement d'applications Node.js sur mesure : APIs REST et GraphQL, temps réel, microservices et BFF avec NestJS, TypeScript et les meilleures pratiques d'architecture.",
   path: "/developpement-nodejs",
+  mainTech: ["nodejs","typescript"],
 });
 
 const webPage = webPageJsonLd({

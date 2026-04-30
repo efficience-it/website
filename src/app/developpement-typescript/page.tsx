@@ -177,6 +177,7 @@ const service = serviceJsonLd({
   description:
     "Développement d'applications typées et maintenables en TypeScript. Migration JavaScript, applications React et Node.js, configuration et outillage.",
   path: "/developpement-typescript",
+  mainTech: ["typescript"],
 });
 
 const webPage = webPageJsonLd({

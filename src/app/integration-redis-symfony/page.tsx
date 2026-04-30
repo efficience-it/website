@@ -158,6 +158,7 @@ const service = serviceJsonLd({
   description:
     "Intégration de Redis dans vos applications Symfony pour le cache, les sessions, les files d'attente Messenger et l'amélioration des performances.",
   path: "/integration-redis-symfony",
+  mainTech: ["redis","symfony","php"],
 });
 
 const webPage = webPageJsonLd({

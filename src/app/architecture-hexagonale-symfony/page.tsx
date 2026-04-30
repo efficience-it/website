@@ -176,6 +176,7 @@ const service = serviceJsonLd({
   description:
     "Conception et migration d'applications Symfony vers l'architecture hexagonale et le Domain-Driven Design : domaine isolé, ports et adaptateurs, testabilité et évolutivité.",
   path: "/architecture-hexagonale-symfony",
+  mainTech: ["symfony","php"],
 });
 
 const webPage = webPageJsonLd({

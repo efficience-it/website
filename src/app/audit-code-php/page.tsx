@@ -149,6 +149,7 @@ const service = serviceJsonLd({
   description:
     "Audit technique approfondi de votre code PHP : analyse statique PHPStan niveau max, revue manuelle, rapport détaillé avec plan d'action priorisé et recommandations concrètement actionnables.",
   path: "/audit-code-php",
+  mainTech: ["php","symfony"],
 });
 
 const webPage = webPageJsonLd({

@@ -170,6 +170,7 @@ const service = serviceJsonLd({
   description:
     "Conception et développement d'interfaces frontend sur mesure avec React, Vue.js, Next.js et TypeScript. Applications connectées à vos APIs Symfony ou Node.js.",
   path: "/developpement-frontend",
+  mainTech: ["typescript","react","vuejs"],
 });
 
 const webPage = webPageJsonLd({

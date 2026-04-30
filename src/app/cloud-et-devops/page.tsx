@@ -117,6 +117,7 @@ const service = serviceJsonLd({
   description:
     "Hébergement cloud, automatisation DevOps, migration d'infrastructure et CI/CD pour les projets web professionnels.",
   path: "/cloud-et-devops",
+  mainTech: ["docker"],
 });
 
 const webPage = webPageJsonLd({

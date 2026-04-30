@@ -48,6 +48,7 @@ export interface BlogPost {
   faq?: FaqItem[];
   event?: EventSchema;
   howTo?: HowToSchema;
+  mainTech?: string[];
   content: string;
   wordCount: number;
 }

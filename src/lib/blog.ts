@@ -44,6 +44,7 @@ export function getAllPosts(): BlogPost[] {
       faq: data.faq,
       event: data.event,
       howTo: data.howTo,
+      mainTech: data.mainTech,
       content,
       wordCount: countWords(content),
     };
@@ -74,6 +75,7 @@ export function getPostBySlug(slug: string): BlogPost | undefined {
     faq: data.faq,
     event: data.event,
     howTo: data.howTo,
+    mainTech: data.mainTech,
     content,
     wordCount: countWords(content),
   };

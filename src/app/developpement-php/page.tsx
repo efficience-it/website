@@ -192,6 +192,7 @@ const service = serviceJsonLd({
   description:
     "Conception et développement d'applications web PHP sur mesure avec PHP 8, Symfony, Doctrine et les meilleures pratiques d'architecture logicielle.",
   path: "/developpement-php",
+  mainTech: ["php","symfony"],
 });
 
 const webPage = webPageJsonLd({

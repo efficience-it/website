@@ -185,6 +185,7 @@ const service = serviceJsonLd({
   description:
     "Migration et modernisation d'applications PHP obsolètes vers Symfony : audit technique, refactoring progressif, mise en place de tests et déploiement continu.",
   path: "/modernisation-application-php",
+  mainTech: ["php","symfony"],
 });
 
 const webPage = webPageJsonLd({
