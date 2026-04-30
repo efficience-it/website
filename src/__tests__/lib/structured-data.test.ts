@@ -1,4 +1,4 @@
-import { howToJsonLd, reviewsJsonLd, serviceJsonLd, eventJsonLd, jobPostingJsonLd, articleJsonLd, TECH_ENTITIES } from "@/lib/structured-data";
+import { howToJsonLd, reviewsJsonLd, serviceJsonLd, eventJsonLd, jobPostingJsonLd, articleJsonLd, TECH_ENTITIES, type TechKey } from "@/lib/structured-data";
 import { categorySlugMap } from "@/lib/blog";
 import type { Job } from "@/../data/jobs";
 
@@ -183,23 +183,23 @@ describe("entity linking via mainTech", () => {
     expect(result.about).toBeUndefined();
   });
 
-  it("filters out unknown tech keys", () => {
+  it("filters out unknown tech keys passed at runtime", () => {
     const result = serviceJsonLd({
       name: "Service",
       description: "Description",
       path: "/foo",
-      mainTech: ["symfony", "unknown-tech"],
+      mainTech: ["symfony", "unknown-tech" as unknown as TechKey],
     });
     expect(result.about).toHaveLength(1);
     expect(result.about?.[0].name).toBe("Symfony");
   });
 
-  it("returns no about when all mainTech keys are unknown", () => {
+  it("returns no about when all mainTech keys are unknown at runtime", () => {
     const result = serviceJsonLd({
       name: "Service",
       description: "Description",
       path: "/foo",
-      mainTech: ["nope", "also-nope"],
+      mainTech: ["nope", "also-nope"] as unknown as TechKey[],
     });
     expect(result.about).toBeUndefined();
   });

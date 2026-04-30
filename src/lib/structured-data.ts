@@ -135,7 +135,7 @@ export function breadcrumbJsonLd(items: BreadcrumbItem[]) {
   };
 }
 
-export const TECH_ENTITIES: Record<string, { name: string; sameAs: string[] }> = {
+export const TECH_ENTITIES = {
   symfony: {
     name: "Symfony",
     sameAs: [
@@ -202,20 +202,26 @@ export const TECH_ENTITIES: Record<string, { name: string; sameAs: string[] }> =
   },
   sylius: {
     name: "Sylius",
-    sameAs: ["https://sylius.com"],
+    sameAs: ["https://www.wikidata.org/wiki/Q47561527", "https://sylius.com"],
   },
-};
+} as const;
 
-function aboutTechEntities(keys: string[] | undefined) {
+export type TechKey = keyof typeof TECH_ENTITIES;
+
+const TECH_KEYS = new Set<string>(Object.keys(TECH_ENTITIES));
+
+function aboutTechEntities(keys: readonly TechKey[] | undefined) {
   if (!keys || keys.length === 0) return undefined;
   const entities = keys
-    .map((key) => TECH_ENTITIES[key])
-    .filter((entity): entity is (typeof TECH_ENTITIES)[string] => Boolean(entity))
-    .map((entity) => ({
-      "@type": "Thing" as const,
-      name: entity.name,
-      sameAs: entity.sameAs,
-    }));
+    .filter((key): key is TechKey => TECH_KEYS.has(key))
+    .map((key) => {
+      const entity = TECH_ENTITIES[key];
+      return {
+        "@type": "Thing" as const,
+        name: entity.name,
+        sameAs: [...entity.sameAs],
+      };
+    });
   return entities.length > 0 ? entities : undefined;
 }
 
@@ -223,7 +229,7 @@ interface ServiceSchemaProps {
   name: string;
   description: string;
   path: string;
-  mainTech?: string[];
+  mainTech?: readonly TechKey[];
 }
 
 export function serviceJsonLd({ name, description, path, mainTech }: ServiceSchemaProps) {
@@ -346,7 +352,7 @@ interface ArticleJsonLdInput {
   wordCount: number;
   timeRequiredMinutes: number;
   proficiencyLevel?: ProficiencyLevel;
-  mainTech?: string[];
+  mainTech?: readonly TechKey[];
 }
 
 export function articleJsonLd(input: ArticleJsonLdInput) {

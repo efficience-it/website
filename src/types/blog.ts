@@ -1,3 +1,5 @@
+import type { TechKey } from "@/lib/structured-data";
+
 export type ProficiencyLevel = "Beginner" | "Intermediate" | "Expert";
 
 export interface FaqItem {
@@ -48,7 +50,7 @@ export interface BlogPost {
   faq?: FaqItem[];
   event?: EventSchema;
   howTo?: HowToSchema;
-  mainTech?: string[];
+  mainTech?: readonly TechKey[];
   content: string;
   wordCount: number;
 }
