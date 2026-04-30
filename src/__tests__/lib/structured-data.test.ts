@@ -106,7 +106,8 @@ describe("jobPostingJsonLd", () => {
     expect(result.datePosted).toBe("2026-04-01");
     expect(result.employmentType).toBe("FULL_TIME");
     expect(result.url).toContain("/ta-carriere#dev-symfony");
-    expect(result.directApply).toBe(false);
+    expect(result.hiringOrganization).toEqual({ "@id": expect.stringContaining("/#organization") });
+    expect(result.directApply).toBeUndefined();
     expect(result.validThrough).toBeUndefined();
     expect(result.jobLocationType).toBeUndefined();
     expect(result.experienceRequirements).toBeUndefined();
@@ -119,7 +120,7 @@ describe("jobPostingJsonLd", () => {
       ...baseJob,
       validThrough: "2026-10-01",
       jobLocationType: "TELECOMMUTE",
-      experienceMonths: 36,
+      experienceRequirements: { monthsOfExperience: 36 },
       educationRequirements: "Bac+5",
       skills: ["Symfony", "PHP", "Doctrine"],
       directApply: true,

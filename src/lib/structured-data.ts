@@ -347,12 +347,7 @@ export function jobPostingJsonLd(job: Job) {
     datePosted: job.datePosted,
     ...(job.validThrough && { validThrough: job.validThrough }),
     employmentType: job.employmentType,
-    hiringOrganization: {
-      "@type": "Organization",
-      name: "Efficience IT",
-      sameAs: BASE_URL,
-      logo: `${BASE_URL}/images/logo/logo-og.webp`,
-    },
+    hiringOrganization: { "@id": `${BASE_URL}/#organization` },
     jobLocation: {
       "@type": "Place",
       address: {
@@ -361,15 +356,15 @@ export function jobPostingJsonLd(job: Job) {
       },
     },
     ...(job.jobLocationType && { jobLocationType: job.jobLocationType }),
-    ...(job.experienceMonths !== undefined && {
+    ...(job.experienceRequirements && {
       experienceRequirements: {
         "@type": "OccupationalExperienceRequirements",
-        monthsOfExperience: job.experienceMonths,
+        monthsOfExperience: job.experienceRequirements.monthsOfExperience,
       },
     }),
     ...(job.educationRequirements && { educationRequirements: job.educationRequirements }),
     ...(job.skills && job.skills.length > 0 && { skills: job.skills.join(", ") }),
     url: `${BASE_URL}/ta-carriere#${job.slug}`,
-    directApply: job.directApply ?? false,
+    ...(job.directApply !== undefined && { directApply: job.directApply }),
   };
 }

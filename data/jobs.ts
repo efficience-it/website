@@ -19,7 +19,7 @@ export interface Job {
   jobLocation: JobLocation;
   jobLocationType?: "TELECOMMUTE";
   directApply?: boolean;
-  experienceMonths?: number;
+  experienceRequirements?: { monthsOfExperience: number };
   educationRequirements?: string;
   skills?: string[];
 }
