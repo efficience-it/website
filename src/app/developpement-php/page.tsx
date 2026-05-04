@@ -9,11 +9,9 @@ import CallToAction from "@/components/sections/CallToAction";
 import StickyMobileCta from "@/components/sections/StickyMobileCta";
 import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
-import {
-  breadcrumbJsonLd,
+import { breadcrumbJsonLd,
   serviceJsonLd,
-  webPageJsonLd,
-} from "@/lib/structured-data";
+  webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import ProgrammingIllustration from "@/components/illustrations/ProgrammingIllustration";
@@ -194,6 +192,7 @@ const service = serviceJsonLd({
   description:
     "Conception et développement d'applications web PHP sur mesure avec PHP 8, Symfony, Doctrine et les meilleures pratiques d'architecture logicielle.",
   path: "/developpement-php",
+  mainTech: ["php","symfony"],
 });
 
 const webPage = webPageJsonLd({
@@ -208,22 +207,7 @@ const webPage = webPageJsonLd({
 export default function DeveloppementPhp() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(service) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageGraphJsonLd(breadcrumb, service, faqJsonLd, webPage)) }} />
       <main>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
-import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
 import Card from "@/components/ui/Card";
@@ -139,7 +139,8 @@ const courseJsonLd = {
     "Formation Symfony adaptée aux équipes de développement : fondamentaux, architecture hexagonale, API Platform, PHPStan. Présentiel à Lille ou à distance.",
   url: `${BASE_URL}/formation-symfony-entreprise`,
   provider: {
-    "@type": "Organization",
+    "@type": "ProfessionalService",
+    "@id": `${BASE_URL}/#organization`,
     name: "Efficience IT",
     url: BASE_URL,
   },
@@ -162,7 +163,8 @@ const courseJsonLd = {
       },
       courseWorkload: "PT8H",
       instructor: {
-        "@type": "Organization",
+        "@type": "ProfessionalService",
+        "@id": `${BASE_URL}/#organization`,
         name: "Efficience IT",
         url: BASE_URL,
       },
@@ -193,22 +195,7 @@ const formationRelatedLinks: RelatedLink[] = [
 export default function FormationSymfonyEntreprise() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(courseJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageGraphJsonLd(breadcrumb, courseJsonLd, faqJsonLd, webPage)) }} />
       <main>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>

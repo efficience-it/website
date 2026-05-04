@@ -12,19 +12,19 @@ interface CtaConfig {
   href: string;
 }
 
-const MIGRATION_SLUGS = [
+const MIGRATION_SLUGS = new Set([
   "guide-de-migration-dans-un-projet-symfony",
   "migration-symfony-architecture-hexagonale-retour-mission",
   "la-dette-technique-faut-il-vraiment-en-avoir-peur",
   "claude-assistant-architecture-symfony-legacy",
   "symfony-ai-projet-legacy-retour-experience",
   "rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony",
-];
+]);
 
-const REPRISE_SLUGS = [
+const REPRISE_SLUGS = new Set([
   "claude-assistant-architecture-symfony-legacy",
   "symfony-ai-projet-legacy-retour-experience",
-];
+]);
 
 const CODE_QUALITY_SLUGS = [
   "phpstan",
@@ -49,10 +49,8 @@ function matchesSlugKeywords(slug: string, keywords: string[]): boolean {
   return keywords.some((kw) => slug.includes(kw));
 }
 
-function getCtaConfig(category?: string, slug?: string): CtaConfig {
-  const s = slug ?? "";
-
-  if (REPRISE_SLUGS.includes(s)) {
+export function getArticleCtaConfig(category?: string, slug = ""): CtaConfig {
+  if (REPRISE_SLUGS.has(slug)) {
     return {
       heading: "Vous faites face à un projet legacy ou une migration PHP ?",
       description:
@@ -62,7 +60,7 @@ function getCtaConfig(category?: string, slug?: string): CtaConfig {
     };
   }
 
-  if (MIGRATION_SLUGS.includes(s)) {
+  if (MIGRATION_SLUGS.has(slug)) {
     return {
       heading: "Vous faites face à un projet legacy ou une migration PHP ?",
       description:
@@ -72,7 +70,7 @@ function getCtaConfig(category?: string, slug?: string): CtaConfig {
     };
   }
 
-  if (matchesSlugKeywords(s, CODE_QUALITY_SLUGS)) {
+  if (matchesSlugKeywords(slug, CODE_QUALITY_SLUGS)) {
     return {
       heading: "Faites auditer votre code PHP",
       description:
@@ -82,7 +80,7 @@ function getCtaConfig(category?: string, slug?: string): CtaConfig {
     };
   }
 
-  if (matchesSlugKeywords(s, PERFORMANCE_DOCKER_SLUGS)) {
+  if (matchesSlugKeywords(slug, PERFORMANCE_DOCKER_SLUGS)) {
     return {
       heading: "Optimisez les performances de votre application",
       description:
@@ -92,7 +90,7 @@ function getCtaConfig(category?: string, slug?: string): CtaConfig {
     };
   }
 
-  if (matchesSlugKeywords(s, AI_SLUGS)) {
+  if (matchesSlugKeywords(slug, AI_SLUGS)) {
     return {
       heading: "Intégrez l'IA dans votre projet",
       description:
@@ -122,11 +120,11 @@ function getCtaConfig(category?: string, slug?: string): CtaConfig {
   };
 }
 
-export default function ArticleCta({ category, slug }: ArticleCtaProps) {
-  const cta = getCtaConfig(category, slug);
+export default function ArticleCta({ category, slug }: Readonly<ArticleCtaProps>) {
+  const cta = getArticleCtaConfig(category, slug);
 
   return (
-    <div className="mt-12 border-l-4 border-primary bg-primary/5 px-6 py-6">
+    <div data-cta-section className="mt-12 border-l-4 border-primary bg-primary/5 px-6 py-6">
       <p className="font-display text-lg font-bold text-dark">{cta.heading}</p>
       <p className="mt-2 text-gray">{cta.description}</p>
       <TrackedArticleButton href={cta.href} label={cta.buttonLabel} slug={slug} />

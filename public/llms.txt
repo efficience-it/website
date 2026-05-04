@@ -1,58 +1,58 @@
 # Efficience IT
 
-> Agence web et cloud basee a Lille, specialisee en developpement Symfony, DevOps et conseil IT. Nous accompagnons les PME et grandes entreprises dans leurs projets digitaux sur mesure.
+> Agence web et cloud basée à Lille, spécialisée en développement Symfony, DevOps et conseil IT. Nous accompagnons les PME et grandes entreprises dans leurs projets digitaux sur mesure.
 
-## Chiffres cles
+## Chiffres clés
 
-- 10+ ans d'experience
-- 150+ projets livres
+- 10+ ans d'expérience
+- 150+ projets livrés
 - 40+ clients actifs
 - 500+ contributions open source
 
 ## Services
 
-- **Developpement web sur mesure** : Applications metiers, intranets, progiciels et sites complexes avec Symfony et PHP.
+- **Développement web sur mesure** : Applications métiers, intranets, progiciels et sites complexes avec Symfony et PHP.
 - **Cloud & DevOps** : Infrastructure cloud, CI/CD, automatisation, monitoring et deploiement continu.
 - **Accompagnement et conseil** : Gestion de projet agile, audit IT, transformation digitale, coaching et formation Symfony.
 
 ## Expertises techniques
 
-- Symfony (developpeurs certifies)
+- Symfony (développeurs certifiés)
 - PHP, JavaScript, TypeScript
 - API REST / SOAP
 - Docker, Kubernetes, CI/CD
 - AWS, GCP, infrastructure cloud
-- Methodes agiles (Scrum, Kanban)
+- Méthodes agiles (Scrum, Kanban)
 
 ## Engagements
 
-- **Green IT** : demarche RSE, eco-conception web, un arbre plante par journee de developpement.
-- **Qualite** : membre de l'AFUP, veille technologique continue, conformite aux standards du secteur.
-- **Diversite** : signataire de la charte de diversite, parite entre 40 et 60 %.
+- **Green IT** : démarche RSE, éco-conception web, un arbre planté par journée de développement.
+- **Qualité** : membre de l'AFUP, veille technologique continue, conformité aux standards du secteur.
+- **Diversité** : signataire de la charte de diversité, parité entre 40 et 60 %.
 
-## References
+## Références
 
 Nous travaillons avec des entreprises de toutes tailles dans divers secteurs : e-commerce, industrie, SaaS, finance, services.
 
-Clients : Decathlon, Credit Agricole, Carter Cash, Schneider Electric, Groupe Atlantic, Ministere de la Transition Ecologique.
+Clients : Decathlon, Crédit Agricole, Carter Cash, Schneider Electric, Groupe Atlantic, Ministère de la Transition Écologique.
 
 ## Contact
 
 - Site : https://www.itefficience.com
 - Email : contact@itefficience.com
-- Telephone : +33 9 79 32 05 08
-- Adresse : 677 Avenue de la Republique, 59800 Lille, France
+- Téléphone : +33 9 79 32 05 08
+- Adresse : 677 Avenue de la République, 59800 Lille, France
 - LinkedIn : https://www.linkedin.com/company/efficience-it
 - GitHub : https://github.com/efficience-it
 
 ## Liens utiles
 
 - [Nos expertises](https://www.itefficience.com/notre-expertise)
-- [Developpement web sur mesure](https://www.itefficience.com/developpement-web-sur-mesure)
+- [Développement web sur mesure](https://www.itefficience.com/developpement-web-sur-mesure)
 - [Cloud & DevOps](https://www.itefficience.com/cloud-et-devops)
 - [Accompagnement et conseil](https://www.itefficience.com/accompagnement-et-conseil)
 - [Green IT](https://www.itefficience.com/green-it)
-- [Nos references](https://www.itefficience.com/nos-references)
+- [Nos références](https://www.itefficience.com/nos-references)
 - [Blog](https://www.itefficience.com/blog)
 - [Contact](https://www.itefficience.com/contact)
 
@@ -65,12 +65,12 @@ Clients : Decathlon, Credit Agricole, Carter Cash, Schneider Electric, Groupe At
 - [Prestataire Symfony en France](https://www.itefficience.com/agence-symfony-france)
 - [API sur mesure Symfony](https://www.itefficience.com/api-sur-mesure-symfony)
 - [API Node.js NestJS](https://www.itefficience.com/api-nodejs-nestjs)
-- [Developpement Node.js](https://www.itefficience.com/developpement-nodejs)
-- [Developpement PHP](https://www.itefficience.com/developpement-php)
-- [Developpement frontend](https://www.itefficience.com/developpement-frontend)
-- [Developpement React](https://www.itefficience.com/developpement-react)
-- [Developpement Vue.js](https://www.itefficience.com/developpement-vuejs)
-- [Developpement TypeScript](https://www.itefficience.com/developpement-typescript)
+- [Développement Node.js](https://www.itefficience.com/developpement-nodejs)
+- [Développement PHP](https://www.itefficience.com/developpement-php)
+- [Développement frontend](https://www.itefficience.com/developpement-frontend)
+- [Développement React](https://www.itefficience.com/developpement-react)
+- [Développement Vue.js](https://www.itefficience.com/developpement-vuejs)
+- [Développement TypeScript](https://www.itefficience.com/developpement-typescript)
 - [E-commerce Sylius](https://www.itefficience.com/ecommerce-sylius)
 - [Audit Symfony gratuit](https://www.itefficience.com/audit-symfony-gratuit)
 - [Audit de code PHP](https://www.itefficience.com/audit-code-php)
@@ -85,13 +85,13 @@ Clients : Decathlon, Credit Agricole, Carter Cash, Schneider Electric, Groupe At
 - [GEO et optimisation IA](https://www.itefficience.com/geo-optimisation-ia)
 - [Expertise IA](https://www.itefficience.com/expertise-ia)
 - [Hebergement Symfony](https://www.itefficience.com/hebergement-symfony)
-- [Integration Docker Symfony](https://www.itefficience.com/integration-docker-symfony)
-- [Securite application Symfony](https://www.itefficience.com/securite-application-symfony)
-- [Base de donnees PostgreSQL Symfony](https://www.itefficience.com/base-de-donnees-postgresql-symfony)
-- [Integration Redis Symfony](https://www.itefficience.com/integration-redis-symfony)
-- [Integration Elasticsearch Symfony](https://www.itefficience.com/integration-elasticsearch-symfony)
+- [Intégration Docker Symfony](https://www.itefficience.com/integration-docker-symfony)
+- [Sécurité application Symfony](https://www.itefficience.com/securite-application-symfony)
+- [Base de données PostgreSQL Symfony](https://www.itefficience.com/base-de-donnees-postgresql-symfony)
+- [Intégration Redis Symfony](https://www.itefficience.com/integration-redis-symfony)
+- [Intégration Elasticsearch Symfony](https://www.itefficience.com/integration-elasticsearch-symfony)
 
-## Secteurs d'activite
+## Secteurs d'activité
 
 - [Tous les secteurs](https://www.itefficience.com/secteur)
 - [E-commerce](https://www.itefficience.com/secteur/e-commerce)
@@ -100,11 +100,11 @@ Clients : Decathlon, Credit Agricole, Carter Cash, Schneider Electric, Groupe At
 - [Finance](https://www.itefficience.com/secteur/finance)
 - [Migration legacy](https://www.itefficience.com/secteur/migration-legacy)
 - [Renfort d'equipe](https://www.itefficience.com/secteur/renfort-equipe)
-- [Application metier](https://www.itefficience.com/secteur/application-metier)
+- [Application métier](https://www.itefficience.com/secteur/application-metier)
 - [Maintenance applicative](https://www.itefficience.com/secteur/maintenance-applicative)
 - [API et integration](https://www.itefficience.com/secteur/api-integration)
-- [Securite et conformite](https://www.itefficience.com/secteur/securite-conformite)
+- [Sécurité et conformité](https://www.itefficience.com/secteur/securite-conformite)
 
 ## Pour plus d'informations
 
-Pour une version complete avec la liste des articles de blog et le detail des services, consultez [llms-full.txt](https://www.itefficience.com/.well-known/llms-full.txt).
+Pour une version complète avec la liste des articles de blog et le détail des services, consultez [llms-full.txt](https://www.itefficience.com/llms-full.txt).

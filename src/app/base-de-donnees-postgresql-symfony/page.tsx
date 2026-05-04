@@ -9,7 +9,7 @@ import CallToAction from "@/components/sections/CallToAction";
 import StickyMobileCta from "@/components/sections/StickyMobileCta";
 import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
-import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 
@@ -163,6 +163,7 @@ const service = serviceJsonLd({
   description:
     "Intégration de PostgreSQL dans vos projets Symfony avec Doctrine. Optimisation des requêtes, migration depuis MySQL, types avancés et indexation.",
   path: "/base-de-donnees-postgresql-symfony",
+  mainTech: ["postgresql","symfony","php"],
 });
 
 const webPage = webPageJsonLd({
@@ -177,22 +178,7 @@ const webPage = webPageJsonLd({
 export default function BaseDeDonneesPostgresqlSymfony() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(service) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageGraphJsonLd(breadcrumb, service, faqJsonLd, webPage)) }} />
       <main>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>

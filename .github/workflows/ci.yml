@@ -38,6 +38,7 @@ jobs:
           key: node-modules-${{ hashFiles('package-lock.json') }}
       - run: npm run lint
       - run: npx tsc --noEmit
+      - run: npm run knip
       - run: npm test -- --coverage
       - name: Generate coverage badge
         if: github.ref == 'refs/heads/main'
@@ -75,15 +76,13 @@ jobs:
               - 'content/blog/**'
 
   links:
-    needs: changes
-    if: needs.changes.outputs.blog == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/cache@v4
         with:
           path: .lycheecache
-          key: lychee-${{ hashFiles('content/blog/*.mdx') }}
+          key: lychee-${{ hashFiles('content/blog/*.mdx', 'src/**/*.tsx', 'data/*.ts', 'src/data/*.ts') }}
           restore-keys: lychee-
       - uses: lycheeverse/lychee-action@v2
         with:
@@ -91,13 +90,35 @@ jobs:
             --no-progress
             --base https://www.itefficience.com
             --exclude 'mailto:'
-            --exclude 'itefficience\.com'
+            --exclude 'linkedin\.com'
+            --exclude 'googletagmanager\.com'
+            --exclude 'google-analytics\.com'
+            --exclude-path 'src/__tests__'
             --cache
             --max-cache-age 7d
             --timeout 30
             --max-retries 3
-            --accept 200,204,301,302,403,429
+            --accept 200,204,301,302,403,429,999
             content/blog/*.mdx
+            src/**/*.tsx
+            data/*.ts
+            src/data/*.ts
+
+  blog-service-linking:
+    needs: [install, changes]
+    if: needs.changes.outputs.blog == 'true'
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/cache/restore@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('package-lock.json') }}
+      - run: npx -y tsx@4 scripts/audit-blog-to-service-linking.ts
 
   build:
     needs: install
@@ -117,3 +138,57 @@ jobs:
           key: nextjs-${{ hashFiles('package-lock.json') }}-${{ hashFiles('**/*.ts', '**/*.tsx') }}
           restore-keys: nextjs-${{ hashFiles('package-lock.json') }}-
       - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: static-out
+          path: out
+
+  internal-links:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/download-artifact@v4
+        with:
+          name: static-out
+          path: out
+      - run: npx -y serve out -l 3000 &
+      - run: sleep 3
+      - uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --no-progress
+            --base http://localhost:3000
+            --remap 'https://www.itefficience.com http://localhost:3000'
+            --exclude 'mailto:'
+            --exclude '^https?://[^/]*\.'
+            --accept 200,204,301,302
+            --timeout 30
+            out/**/*.html
+
+  lighthouse:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/cache/restore@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('package-lock.json') }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: static-out
+          path: out
+      - run: npx lhci autorun
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-report
+          path: .lighthouseci
+          if-no-files-found: warn

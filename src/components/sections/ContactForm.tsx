@@ -25,7 +25,8 @@ export default function ContactForm() {
     const body = `Nom: ${data.get("name")}\nEntreprise: ${data.get("company")}\nTéléphone: ${data.get("phone")}\nEmail: ${data.get("email")}\n\n${data.get("message")}`;
 
     trackEvent("form_submit", {
-      form_type: "contact",
+      form_name: "contact",
+      source_page: window.location.pathname,
       subject,
     });
 
@@ -61,7 +62,7 @@ export default function ContactForm() {
             id="name"
             name="name"
             required
-            className="mt-1 w-full rounded-md border border-border px-4 py-2 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+            className="mt-1 w-full rounded-md border border-border bg-white px-4 py-2 text-dark focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:bg-light-gray dark:text-dark"
           />
         </div>
         <div>
@@ -75,7 +76,7 @@ export default function ContactForm() {
             type="text"
             id="company"
             name="company"
-            className="mt-1 w-full rounded-md border border-border px-4 py-2 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+            className="mt-1 w-full rounded-md border border-border bg-white px-4 py-2 text-dark focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:bg-light-gray dark:text-dark"
           />
         </div>
         <div>
@@ -89,7 +90,7 @@ export default function ContactForm() {
             type="tel"
             id="phone"
             name="phone"
-            className="mt-1 w-full rounded-md border border-border px-4 py-2 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+            className="mt-1 w-full rounded-md border border-border bg-white px-4 py-2 text-dark focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:bg-light-gray dark:text-dark"
           />
         </div>
         <div>
@@ -104,7 +105,7 @@ export default function ContactForm() {
             id="email"
             name="email"
             required
-            className="mt-1 w-full rounded-md border border-border px-4 py-2 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+            className="mt-1 w-full rounded-md border border-border bg-white px-4 py-2 text-dark focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:bg-light-gray dark:text-dark"
           />
         </div>
       </div>
@@ -119,11 +120,26 @@ export default function ContactForm() {
           id="subject"
           name="subject"
           required
-          className="mt-1 w-full rounded-md border border-border px-4 py-2 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+          className="mt-1 w-full rounded-md border border-border bg-white px-4 py-2 text-dark focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:bg-light-gray dark:text-dark"
         >
-          <option value="">Sélectionnez</option>
+          <option
+            style={{
+              backgroundColor: "var(--color-light-gray)",
+              color: "var(--color-dark)",
+            }}
+            value=""
+          >
+            Sélectionnez
+          </option>
           {subjects.map((s) => (
-            <option key={s} value={s}>
+            <option
+              key={s}
+              style={{
+                backgroundColor: "var(--color-light-gray)",
+                color: "var(--color-dark)",
+              }}
+              value={s}
+            >
               {s}
             </option>
           ))}
@@ -141,7 +157,7 @@ export default function ContactForm() {
           name="message"
           rows={5}
           required
-          className="mt-1 w-full rounded-md border border-border px-4 py-2 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+          className="mt-1 w-full rounded-md border border-border bg-white px-4 py-2 text-dark focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:bg-light-gray dark:text-dark"
         />
       </div>
       <Button type="submit">Envoyer ma demande</Button>

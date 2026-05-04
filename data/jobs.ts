@@ -1,11 +1,30 @@
+type EmploymentType = "FULL_TIME" | "PART_TIME" | "CONTRACTOR" | "INTERN";
+
+interface JobLocation {
+  addressLocality: string;
+  addressRegion?: string;
+  postalCode?: string;
+  addressCountry: string;
+}
+
 export interface Job {
+  slug: string;
   title: string;
   category: string;
   domain: string;
   description: string;
+  datePosted: string;
+  validThrough?: string;
+  employmentType: EmploymentType;
+  jobLocation: JobLocation;
+  jobLocationType?: "TELECOMMUTE";
+  directApply?: boolean;
+  experienceRequirements?: { monthsOfExperience: number };
+  educationRequirements?: string;
+  skills?: string[];
 }
 
-export interface Domain {
+interface Domain {
   slug: string;
   name: string;
   description: string;

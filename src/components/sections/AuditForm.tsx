@@ -48,8 +48,9 @@ export default function AuditForm() {
       `${data.get("message") || ""}`,
     ].join("\n");
 
-    trackEvent("form_submit", {
-      form_type: "audit",
+    trackEvent("audit_requested", {
+      form_name: "audit",
+      source_page: window.location.pathname,
       symfony_version: data.get("symfonyVersion") as string,
       team_size: data.get("teamSize") as string,
       problem: data.get("problem") as string,
@@ -91,7 +92,7 @@ export default function AuditForm() {
             id="name"
             name="name"
             required
-            className="mt-1 w-full rounded-md border border-border px-4 py-2 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+            className="mt-1 w-full rounded-md border border-border bg-white px-4 py-2 text-dark focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:bg-light-gray dark:text-dark"
           />
         </div>
         <div>
@@ -106,7 +107,7 @@ export default function AuditForm() {
             id="email"
             name="email"
             required
-            className="mt-1 w-full rounded-md border border-border px-4 py-2 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+            className="mt-1 w-full rounded-md border border-border bg-white px-4 py-2 text-dark focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:bg-light-gray dark:text-dark"
           />
         </div>
       </div>
@@ -122,11 +123,26 @@ export default function AuditForm() {
             id="symfonyVersion"
             name="symfonyVersion"
             required
-            className="mt-1 w-full rounded-md border border-border px-4 py-2 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+            className="mt-1 w-full rounded-md border border-border bg-white px-4 py-2 text-dark focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:bg-light-gray dark:text-dark"
           >
-            <option value="">Sélectionnez</option>
+            <option
+              style={{
+                backgroundColor: "var(--color-light-gray)",
+                color: "var(--color-dark)",
+              }}
+              value=""
+            >
+              Sélectionnez
+            </option>
             {symfonyVersions.map((v) => (
-              <option key={v} value={v}>
+              <option
+                key={v}
+                style={{
+                  backgroundColor: "var(--color-light-gray)",
+                  color: "var(--color-dark)",
+                }}
+                value={v}
+              >
                 {v}
               </option>
             ))}
@@ -143,11 +159,26 @@ export default function AuditForm() {
             id="teamSize"
             name="teamSize"
             required
-            className="mt-1 w-full rounded-md border border-border px-4 py-2 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+            className="mt-1 w-full rounded-md border border-border bg-white px-4 py-2 text-dark focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:bg-light-gray dark:text-dark"
           >
-            <option value="">Sélectionnez</option>
+            <option
+              style={{
+                backgroundColor: "var(--color-light-gray)",
+                color: "var(--color-dark)",
+              }}
+              value=""
+            >
+              Sélectionnez
+            </option>
             {teamSizes.map((s) => (
-              <option key={s} value={s}>
+              <option
+                key={s}
+                style={{
+                  backgroundColor: "var(--color-light-gray)",
+                  color: "var(--color-dark)",
+                }}
+                value={s}
+              >
                 {s}
               </option>
             ))}
@@ -165,11 +196,26 @@ export default function AuditForm() {
           id="problem"
           name="problem"
           required
-          className="mt-1 w-full rounded-md border border-border px-4 py-2 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+          className="mt-1 w-full rounded-md border border-border bg-white px-4 py-2 text-dark focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:bg-light-gray dark:text-dark"
         >
-          <option value="">Sélectionnez</option>
+          <option
+            style={{
+              backgroundColor: "var(--color-light-gray)",
+              color: "var(--color-dark)",
+            }}
+            value=""
+          >
+            Sélectionnez
+          </option>
           {problems.map((p) => (
-            <option key={p} value={p}>
+            <option
+              key={p}
+              style={{
+                backgroundColor: "var(--color-light-gray)",
+                color: "var(--color-dark)",
+              }}
+              value={p}
+            >
               {p}
             </option>
           ))}
@@ -187,7 +233,7 @@ export default function AuditForm() {
           name="message"
           rows={4}
           placeholder="Décrivez brièvement votre projet, les difficultés rencontrées ou toute information utile pour préparer l'audit."
-          className="mt-1 w-full rounded-md border border-border px-4 py-2 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+          className="mt-1 w-full rounded-md border border-border bg-white px-4 py-2 text-dark focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:bg-light-gray dark:text-dark"
         />
       </div>
       <Button type="submit">Demander mon audit gratuit</Button>

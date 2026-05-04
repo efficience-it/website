@@ -9,7 +9,7 @@ import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
-import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import {
   greenMetrics,
   greenPrinciple,
@@ -65,14 +65,7 @@ const greenItRelatedLinks: RelatedLink[] = [
 export default function GreenIt() {
   return (
     <>
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
-    />
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
-    />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageGraphJsonLd(breadcrumb, webPage)) }} />
     <main>
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
@@ -115,7 +108,7 @@ export default function GreenIt() {
             <div className="flex justify-center">
               <Image
                 src="/images/illustrations/greenit.svg"
-                alt="Green IT"
+                alt="Illustration symbolisant l'éco-conception logicielle et la sobriété numérique"
                 width={400}
                 height={300}
                 className="w-full max-w-md"
@@ -178,7 +171,7 @@ export default function GreenIt() {
             <div className="flex justify-center">
               <Image
                 src="/images/green-it/objectifs.webp"
-                alt="Objectifs Green IT Efficience IT"
+                alt="Schéma des objectifs Green IT et engagements environnementaux d'Efficience IT"
                 width={500}
                 height={250}
                 className="w-full rounded-lg"

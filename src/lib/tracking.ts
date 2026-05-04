@@ -1,7 +1,9 @@
 type GtagEvent = {
   event_category?: string;
   event_label?: string;
-  form_type?: string;
+  form_name?: string;
+  source_page?: string;
+  source_location?: string;
   cta_location?: string;
   cta_text?: string;
   subject?: string;
@@ -11,6 +13,7 @@ type GtagEvent = {
   scroll_percent?: string;
   page_category?: string;
   article_slug?: string;
+  method?: string;
 };
 
 declare global {

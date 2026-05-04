@@ -1,0 +1,334 @@
+{
+  "afup-day-2023": [
+    400
+  ],
+  "afup-day-2024": [
+    400,
+    800
+  ],
+  "afup-day-2025": [
+    400,
+    800,
+    1200
+  ],
+  "alice-faker": [
+    400
+  ],
+  "api-rest": [
+    400
+  ],
+  "archi-hexagonale": [
+    400,
+    800
+  ],
+  "audit-efficience-it": [
+    400
+  ],
+  "bruno": [
+    400,
+    800
+  ],
+  "bundles-symfony": [
+    400
+  ],
+  "cahier-des-charges-application-web": [
+    400,
+    800
+  ],
+  "cahier-des-charges": [
+    400,
+    800
+  ],
+  "canard-plastique": [
+    400
+  ],
+  "certifications-symfony": [
+    400,
+    800
+  ],
+  "chocoblast": [
+    400
+  ],
+  "choisir-prestataire-symfony": [
+    400,
+    800
+  ],
+  "claude-symfony": [
+    400,
+    800
+  ],
+  "code-mort": [
+    400,
+    800
+  ],
+  "commandes-invocables-symfony": [
+    400,
+    800
+  ],
+  "composer-symfony": [
+    400
+  ],
+  "contributions-open-source": [
+    400
+  ],
+  "conventions-codage": [
+    400,
+    800,
+    1200
+  ],
+  "copilot-vs-chatgpt": [
+    400,
+    800
+  ],
+  "core-team": [
+    400,
+    800
+  ],
+  "cve": [
+    400,
+    800
+  ],
+  "dbtoolsbundle": [
+    400
+  ],
+  "deployer-nuxtjs": [
+    400,
+    800,
+    1200
+  ],
+  "dette-technique": [
+    400,
+    800,
+    1200
+  ],
+  "diataxis-symfony": [
+    400
+  ],
+  "doctavis": [
+    400,
+    800,
+    1200
+  ],
+  "doctrine-orm-3": [
+    400
+  ],
+  "documentation-technique": [
+    400
+  ],
+  "domain-symfony": [
+    400,
+    800
+  ],
+  "easyadmin-vs-forestadmin": [
+    400
+  ],
+  "eco-conception": [
+    400,
+    800
+  ],
+  "ecosia": [
+    400,
+    800,
+    1200
+  ],
+  "editeur-code": [
+    400,
+    800
+  ],
+  "elasticsearch-algolia": [
+    400
+  ],
+  "evenements-2025": [
+    400,
+    800
+  ],
+  "fondation-php": [
+    400
+  ],
+  "forum-php-2024": [
+    400,
+    800
+  ],
+  "framework-javascript": [
+    400
+  ],
+  "frankenphp": [
+    400
+  ],
+  "ia-generatives": [
+    400,
+    800
+  ],
+  "int-uuid-ulid": [
+    400,
+    800,
+    1200
+  ],
+  "json-streamer": [
+    400,
+    800
+  ],
+  "louis-arnaud-catoire": [
+    400,
+    800
+  ],
+  "maintenance-applicative": [
+    400
+  ],
+  "manifeste-applications-web": [
+    400
+  ],
+  "messenger-vs-enqueue": [
+    400
+  ],
+  "microservices-monolithe": [
+    400
+  ],
+  "migration-mysql-postgresql": [
+    400,
+    800,
+    1200
+  ],
+  "migration-symfony": [
+    400,
+    800,
+    1200
+  ],
+  "mise-en-cache": [
+    400
+  ],
+  "moderniser-application-php-legacy": [
+    400,
+    800
+  ],
+  "monofony": [
+    400,
+    800,
+    1200
+  ],
+  "monter-competences-symfony": [
+    400,
+    800
+  ],
+  "monter-en-competence-claude-code": [
+    400,
+    800
+  ],
+  "mysql-max-id": [
+    400,
+    800,
+    1200
+  ],
+  "nodejs-frameworks": [
+    400,
+    800
+  ],
+  "normes-rgaa": [
+    400,
+    800,
+    1200
+  ],
+  "pexels-tech": [
+    400
+  ],
+  "php-9": [
+    400
+  ],
+  "php-vs-nodejs": [
+    400,
+    800
+  ],
+  "phpstan-2": [
+    400
+  ],
+  "phpstan-symfony": [
+    400,
+    800
+  ],
+  "playwright": [
+    400,
+    800
+  ],
+  "postman-newman": [
+    400,
+    800
+  ],
+  "pourquoi-symfony": [
+    400,
+    800,
+    1200
+  ],
+  "progiciel": [
+    400
+  ],
+  "psr-php": [
+    400,
+    800
+  ],
+  "rag-symfony": [
+    400,
+    800
+  ],
+  "rector": [
+    400
+  ],
+  "rejoindre-efficience-it": [
+    400
+  ],
+  "securite-informatique": [
+    400
+  ],
+  "seo-ai": [
+    400
+  ],
+  "serveurs-mcp-symfony": [
+    400,
+    800
+  ],
+  "skills-claude-code-equipe-symfony": [
+    400,
+    800
+  ],
+  "sylius-ecommerce": [
+    400,
+    800
+  ],
+  "sylius-vs-prestashop": [
+    400,
+    800
+  ],
+  "symfony-ai": [
+    400,
+    800
+  ],
+  "symfony-insight": [
+    400
+  ],
+  "symfony-messenger": [
+    400,
+    800
+  ],
+  "symfony-moldus": [
+    400
+  ],
+  "symfony-vs-laravel": [
+    400,
+    800
+  ],
+  "twig-4": [
+    400
+  ],
+  "unsplash-tech": [
+    400,
+    800,
+    1200
+  ],
+  "vivatech-2025": [
+    400,
+    800
+  ],
+  "vocabulaire-dev-web": [
+    400,
+    800
+  ]
+}

@@ -39,7 +39,7 @@ export default function CookieConsent() {
     <div
       role="dialog"
       aria-label="Gestion des cookies"
-      className="fixed inset-x-0 bottom-0 z-[60] border-t border-border bg-white p-4 shadow-lg sm:flex sm:items-center sm:justify-between sm:gap-4 sm:px-8"
+      className="fixed inset-x-0 bottom-0 z-[60] border-t border-border bg-white p-4 shadow-lg sm:flex sm:items-center sm:justify-between sm:gap-4 sm:px-8 dark:bg-light-gray dark:shadow-black/40"
     >
       <p className="text-sm text-gray">
         Nous utilisons des cookies pour mesurer l&apos;audience de notre site
@@ -54,13 +54,13 @@ export default function CookieConsent() {
       <div className="mt-3 flex gap-3 sm:mt-0 sm:shrink-0">
         <button
           onClick={refuse}
-          className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-gray transition-colors hover:bg-light-gray"
+          className="min-h-[44px] rounded-lg border border-border px-4 py-2 text-sm font-medium text-gray transition-colors hover:bg-light-gray"
         >
           Refuser
         </button>
         <button
           onClick={accept}
-          className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-dark"
+          className="min-h-[44px] rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-dark"
         >
           Accepter
         </button>

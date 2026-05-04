@@ -29,6 +29,8 @@ export default function GoogleAnalytics() {
 
   return (
     <>
+      <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
+      <link rel="preconnect" href="https://www.google-analytics.com" crossOrigin="anonymous" />
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
         strategy="afterInteractive"

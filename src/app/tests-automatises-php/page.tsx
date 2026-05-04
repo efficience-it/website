@@ -11,7 +11,7 @@ import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
-import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title:
@@ -118,6 +118,7 @@ const service = serviceJsonLd({
   description:
     "Mise en place de stratégies de tests automatisés pour applications PHP et Symfony : tests unitaires, intégration, fonctionnels et e2e, avec intégration CI/CD pour sécuriser chaque livraison.",
   path: "/tests-automatises-php",
+  mainTech: ["php","symfony"],
 });
 
 const webPage = webPageJsonLd({
@@ -141,22 +142,7 @@ const testsRelatedLinks: RelatedLink[] = [
 export default function TestsAutomatisesPhp() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(service) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageGraphJsonLd(breadcrumb, service, faqJsonLd, webPage)) }} />
       <main>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>

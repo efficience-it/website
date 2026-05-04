@@ -1,23 +1,32 @@
 import { notFound } from "next/navigation";
-import Image from "next/image";
+import ResponsiveImage from "@/components/ui/ResponsiveImage";
 import Link from "next/link";
-import { getAllPosts, getPostBySlug, getCategorySlug, getPostsByCategory, extractHeadings, readingTime } from "@/lib/blog";
+import { getAllPosts, getPostBySlug, getCategorySlug, getPostsByCategory, extractHeadings, isSymfonyAuditCategory, isTechCategory, readingTime } from "@/lib/blog";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import MarkdownContent from "@/components/ui/MarkdownContent";
-import ArticleCta from "@/components/sections/ArticleCta";
+import ArticleCta, { getArticleCtaConfig } from "@/components/sections/ArticleCta";
+import StickyArticleCta from "@/components/sections/StickyArticleCta";
 import Accordion from "@/components/ui/Accordion";
 import SectionTitle from "@/components/ui/SectionTitle";
 import BlogCard from "@/components/cards/BlogCard";
 import TableOfContents from "@/components/ui/TableOfContents";
 import type { Metadata } from "next";
-import { BASE_URL, SITE_NAME, pageMetadata } from "@/lib/metadata";
-import { breadcrumbJsonLd } from "@/lib/structured-data";
+import { BASE_URL, pageMetadata } from "@/lib/metadata";
+import {
+  articleJsonLd,
+  breadcrumbJsonLd,
+  eventJsonLd,
+  faqPageJsonLd,
+  howToJsonLd,
+  pageGraphJsonLd,
+} from "@/lib/structured-data";
 import { getAuthorSchema } from "@/data/authors";
 import FadeIn from "@/components/ui/FadeIn";
 import ScrollDepthTracker from "@/components/ui/ScrollDepthTracker";
+import ArticleShareButtons from "@/components/ui/ArticleShareButtons";
 
-const TECH_CATEGORIES = ["Outils", "Formation", "Projet", "Green IT"];
+const STICKY_CTA_MIN_WORDS = 1500;
 
 function splitContentAfterThirdH2(content: string): [string, string] | null {
   const h2Regex = /^## /gm;
@@ -84,7 +93,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   const url = `${BASE_URL}/article/${slug}`;
 
-  const isTech = TECH_CATEGORIES.includes(post.category);
+  const shouldShowStickyCta = post.wordCount > STICKY_CTA_MIN_WORDS;
+  const stickyCtaConfig = getArticleCtaConfig(post.category, slug);
+  const isTech = isTechCategory(post.category);
 
   const headings = extractHeadings(post.content);
 
@@ -94,77 +105,53 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         .slice(0, 3)
     : [];
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": isTech ? "TechArticle" : "BlogPosting",
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": url,
-    },
-    headline: post.title,
-    description: post.excerpt,
-    author: getAuthorSchema(post.author),
-    image: post.image ? `${BASE_URL}${post.image}` : undefined,
-    genre: post.category,
-    publisher: {
-      "@type": "Organization",
-      name: SITE_NAME,
-      url: BASE_URL,
-      logo: {
-        "@type": "ImageObject",
-        url: `${BASE_URL}/images/logo/logo-og.webp`,
-      },
-    },
-    datePublished: post.date,
-    dateModified: post.updatedAt ?? post.date,
+  const jsonLd = articleJsonLd({
     url,
+    isTech,
+    title: post.title,
+    excerpt: post.excerpt,
+    author: getAuthorSchema(post.author),
+    imagePath: post.image,
+    category: post.category,
+    date: post.date,
+    updatedAt: post.updatedAt,
     wordCount: post.wordCount,
-    timeRequired: `PT${readingTime(post.wordCount)}M`,
-    inLanguage: "fr-FR",
-    speakable: {
-      "@type": "SpeakableSpecification",
-      cssSelector: ["h1", "article > p:first-of-type"],
-    },
-    ...(isTech && { proficiencyLevel: post.proficiencyLevel ?? "Intermediate" }),
-  };
+    timeRequiredMinutes: readingTime(post.wordCount),
+    proficiencyLevel: post.proficiencyLevel,
+    mainTech: post.mainTech,
+  });
 
   const breadcrumb = breadcrumbJsonLd([
     { name: "Blog", path: "/blog" },
     { name: post.title, path: `/article/${slug}` },
   ]);
 
+  const graph = pageGraphJsonLd(
+    jsonLd,
+    breadcrumb,
+    ...(post.event ? [eventJsonLd(post.event)] : []),
+    ...(post.howTo && post.howTo.steps.length > 0
+      ? [howToJsonLd(post.howTo.name, post.howTo.description, post.howTo.steps)]
+      : []),
+    ...(post.faq && post.faq.length > 0 ? [faqPageJsonLd(post.faq)] : []),
+  );
+
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(graph) }}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
-      />
-      {post.faq && post.faq.length > 0 && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "FAQPage",
-              mainEntity: post.faq.map((item) => ({
-                "@type": "Question",
-                name: item.question,
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: item.answer,
-                },
-              })),
-            }),
-          }}
+      <ScrollDepthTracker slug={slug} />
+      {shouldShowStickyCta && (
+        <StickyArticleCta
+          href={stickyCtaConfig.href}
+          label={stickyCtaConfig.buttonLabel}
+          slug={slug}
         />
       )}
-      <ScrollDepthTracker slug={slug} />
       <main>
-        <article className="py-16">
+        <article className={`py-16 ${shouldShowStickyCta ? "pb-32 md:pb-16" : ""}`}>
           <Container className="mx-auto max-w-3xl">
             <header className="mb-16">
               <div className="flex flex-col gap-8 xl:flex-row xl:items-center xl:justify-between">
@@ -199,31 +186,35 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   <h1 className="font-display text-3xl font-bold text-dark md:text-4xl">
                     {post.title}
                   </h1>
-                  {post.author && (
-                    <p className="mt-4 text-gray">Par {post.author}</p>
-                  )}
-                  {post.updatedAt && (
-                    <p className="mt-2 text-sm text-gray">
-                      Mis à jour le{" "}
-                      <time dateTime={post.updatedAt}>
-                        {new Date(post.updatedAt).toLocaleDateString("fr-FR", {
-                          day: "numeric",
-                          month: "long",
-                          year: "numeric",
-                        })}
-                      </time>
-                    </p>
-                  )}
+                  <div className="mt-4 flex flex-wrap items-start gap-4 min-[520px]:justify-between">
+                    <div className="space-y-2">
+                      {post.author && <p className="text-gray">Par {post.author}</p>}
+                      {post.updatedAt && (
+                        <p className="text-sm text-gray">
+                          Mis à jour le{" "}
+                          <time dateTime={post.updatedAt}>
+                            {new Date(post.updatedAt).toLocaleDateString("fr-FR", {
+                              day: "numeric",
+                              month: "long",
+                              year: "numeric",
+                            })}
+                          </time>
+                        </p>
+                      )}
+                    </div>
+                    <ArticleShareButtons url={url} title={post.title} articleSlug={slug} />
+                  </div>
                 </div>
                 {post.image && (
                   <div className="mt-6 shrink-0 self-center xl:mt-0 xl:ml-8 xl:self-start">
-                    <Image
+                    <ResponsiveImage
                       src={post.image}
                       alt={post.title}
                       width={720}
                       height={405}
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 28rem, (max-width: 1280px) 32rem, 36rem"
                       className="h-auto w-full max-w-full rounded-md object-contain sm:max-w-md lg:max-w-lg xl:max-w-xl"
-                      priority
+                      loading="eager"
                       fetchPriority="high"
                     />
                   </div>
@@ -242,25 +233,24 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                     return <MarkdownContent content={post.content} />;
                   }
                   const [firstPart, secondPart] = parts;
-                  const isSymfony =
-                    post.category && TECH_CATEGORIES.includes(post.category);
+                  const wantsSymfonyAudit = isSymfonyAuditCategory(post.category);
                   return (
                     <>
                       <MarkdownContent content={firstPart} />
-                      <div className="my-8 rounded-lg bg-primary/5 p-6 text-center">
+                      <div data-cta-section className="my-8 rounded-lg bg-primary/5 p-6 text-center">
                         <p className="font-display text-lg font-semibold text-dark">
-                          {isSymfony
+                          {wantsSymfonyAudit
                             ? "Besoin d'un regard expert sur votre code Symfony ?"
                             : "Besoin d'accompagnement sur votre projet ?"}
                         </p>
                         <Button
                           href={
-                            isSymfony ? "/audit-symfony-gratuit" : "/contact"
+                            wantsSymfonyAudit ? "/audit-symfony-gratuit" : "/contact"
                           }
                           className="mt-3"
                           variant="outline"
                         >
-                          {isSymfony
+                          {wantsSymfonyAudit
                             ? "Demander un audit gratuit"
                             : "Parlons-en"}
                         </Button>

@@ -37,9 +37,20 @@ describe("TrackedEmailLink", () => {
     render(<TrackedEmailLink email="test@example.com" />);
     fireEvent.click(screen.getByText("test@example.com"));
 
-    expect(gtagSpy).toHaveBeenCalledWith("event", "cta_click", {
-      cta_location: "footer",
-      cta_text: "email_contact",
+    expect(gtagSpy).toHaveBeenCalledWith("event", "email_clicked", {
+      source_location: "footer",
+    });
+  });
+
+  it("uses the provided sourceLocation prop", () => {
+    const gtagSpy = jest.fn();
+    window.gtag = gtagSpy;
+
+    render(<TrackedEmailLink email="test@example.com" sourceLocation="header" />);
+    fireEvent.click(screen.getByText("test@example.com"));
+
+    expect(gtagSpy).toHaveBeenCalledWith("event", "email_clicked", {
+      source_location: "header",
     });
   });
 });

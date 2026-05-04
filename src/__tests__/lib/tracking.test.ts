@@ -15,10 +15,10 @@ describe("trackEvent", () => {
     const gtagSpy = jest.fn();
     window.gtag = gtagSpy;
 
-    trackEvent("form_submit", { form_type: "contact" });
+    trackEvent("form_submit", { form_name: "contact" });
 
     expect(gtagSpy).toHaveBeenCalledWith("event", "form_submit", {
-      form_type: "contact",
+      form_name: "contact",
     });
   });
 
@@ -31,15 +31,15 @@ describe("trackEvent", () => {
     const gtagSpy = jest.fn();
     window.gtag = gtagSpy;
 
-    trackEvent("form_submit", {
-      form_type: "audit",
+    trackEvent("audit_requested", {
+      form_name: "audit",
       symfony_version: "7.x",
       team_size: "3-5",
       problem: "Performance",
     });
 
-    expect(gtagSpy).toHaveBeenCalledWith("event", "form_submit", {
-      form_type: "audit",
+    expect(gtagSpy).toHaveBeenCalledWith("event", "audit_requested", {
+      form_name: "audit",
       symfony_version: "7.x",
       team_size: "3-5",
       problem: "Performance",

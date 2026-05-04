@@ -15,6 +15,7 @@ const StrategyIllustration = (props: StrategyIllustrationProps) => (
     xmlnsXlink="http://www.w3.org/1999/xlink"
     {...props}
   >
+    <style>{`.dark .strategy-link-dark{fill:#fff}`}</style>
     <g id="Group_309" data-name="Group 309" transform="translate(-407 -291)">
       <g id="Group_100" data-name="Group 100" transform="translate(375 238)">
         <path
@@ -46,6 +47,7 @@ const StrategyIllustration = (props: StrategyIllustrationProps) => (
           d="M914.753,353.252H730.1a3.7,3.7,0,0,1-3.695-3.695v-34.8h1.478v34.8a2.219,2.219,0,0,0,2.217,2.217H914.753a2.219,2.219,0,0,0,2.217-2.217V314.51h1.478v35.047A3.7,3.7,0,0,1,914.753,353.252Z"
           transform="translate(226.139 40.257)"
           fill="#3f3d56"
+          className="strategy-link-dark"
         />
         <rect
           id="Rectangle_1044"
@@ -54,6 +56,7 @@ const StrategyIllustration = (props: StrategyIllustrationProps) => (
           height={1.478}
           transform="translate(773.917 354.272)"
           fill="#3f3d56"
+          className="strategy-link-dark"
         />
         <circle
           id="Ellipse_264"
@@ -148,6 +151,7 @@ const StrategyIllustration = (props: StrategyIllustrationProps) => (
           d="M537.79,301.386a.739.739,0,0,1-.739-.739V264.172a3.7,3.7,0,0,1,3.695-3.695h35.967a.739.739,0,1,1,0,1.478H540.746a2.219,2.219,0,0,0-2.217,2.217v36.475a.739.739,0,0,1-.739.739Z"
           transform="translate(275.574 54.363)"
           fill="#3f3d56"
+          className="strategy-link-dark"
         />
         <circle
           id="Ellipse_265"
@@ -164,6 +168,7 @@ const StrategyIllustration = (props: StrategyIllustrationProps) => (
           d="M922.529,300.647h-1.478V264.172a3.7,3.7,0,0,1,3.695-3.695h35.967v1.478H924.746a2.219,2.219,0,0,0-2.217,2.217Z"
           transform="translate(175.323 54.363)"
           fill="#3f3d56"
+          className="strategy-link-dark"
         />
         <circle
           id="Ellipse_265-2"

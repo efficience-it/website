@@ -10,7 +10,7 @@ import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
-import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import FittingPieceIllustration from "@/components/illustrations/FittingPieceIllustration";
 
 export const metadata = pageMetadata({
@@ -150,6 +150,7 @@ const service = serviceJsonLd({
   description:
     "Audit, stabilisation, documentation et maintenance d'applications Symfony reprises en cours de vie : nous prenons le relais de votre prestataire et assurons la continuité de votre projet.",
   path: "/reprise-projet-symfony",
+  mainTech: ["symfony","php"],
 });
 
 const webPage = webPageJsonLd({
@@ -174,22 +175,7 @@ const repriseRelatedLinks: RelatedLink[] = [
 export default function RepriseProjetSymfony() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(service) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageGraphJsonLd(breadcrumb, service, faqJsonLd, webPage)) }} />
       <main>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>

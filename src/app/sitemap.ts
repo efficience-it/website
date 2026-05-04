@@ -2,10 +2,9 @@ import type { MetadataRoute } from "next";
 import fs from "node:fs";
 import path from "node:path";
 import { getAllPosts, getPostsByCategory, categorySlugMap } from "@/lib/blog";
+import { BASE_URL } from "@/lib/metadata";
 
 export const dynamic = "force-static";
-
-const BASE_URL = "https://www.itefficience.com";
 
 type StaticPageConfig = {
   path: string;
@@ -237,6 +236,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   });
 
   const posts = getAllPosts();
+
   const blogPages: MetadataRoute.Sitemap = posts.map((post) => {
     const postFilePath = path.join(BLOG_CONTENT_DIR, `${post.slug}.mdx`);
     return {

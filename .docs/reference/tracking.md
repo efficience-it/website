@@ -21,15 +21,16 @@ Le site attire du trafic via le blog (79 articles) et les pages service. Sans tr
 
 | Event | Composant | Fichier | Parametres |
 |-------|-----------|---------|------------|
-| `form_submit` | ContactForm | `src/components/sections/ContactForm.tsx` | `form_type: "contact"`, `subject` |
-| `form_submit` | AuditForm | `src/components/sections/AuditForm.tsx` | `form_type: "audit"`, `symfony_version`, `team_size`, `problem` |
+| `form_submit` | ContactForm | `src/components/sections/ContactForm.tsx` | `form_name: "contact"`, `source_page`, `subject` |
+| `audit_requested` | AuditForm | `src/components/sections/AuditForm.tsx` | `form_name: "audit"`, `source_page`, `symfony_version`, `team_size`, `problem` |
+| `email_clicked` | TrackedEmailLink | `src/components/ui/TrackedEmailLink.tsx` | `source_location: "footer"` (par defaut) |
 | `cta_click` | CallToAction | `src/components/sections/CallToAction.tsx` | `cta_location: "footer_cta"`, `cta_text` |
 | `cta_click` | StickyMobileCta | `src/components/sections/StickyMobileCta.tsx` | `cta_location: "sticky_mobile"`, `cta_text` |
 | `cta_click` | MobileMenu | `src/components/layout/MobileMenu.tsx` | `cta_location: "header_mobile"`, `cta_text` |
 | `cta_click` | HeaderCtas | `src/components/layout/HeaderCtas.tsx` | `cta_location: "header_desktop"`, `cta_text` |
 | `cta_click` | TrackedArticleButton | `src/components/sections/TrackedArticleButton.tsx` | `cta_location: "article_body"`, `cta_text`, `article_slug` |
-| `cta_click` | Footer email | `src/components/layout/Footer.tsx` | `cta_location: "footer"`, `cta_text: "email_contact"` |
 | `scroll_depth` | ScrollDepthTracker | `src/components/ui/ScrollDepthTracker.tsx` | `event_label: slug`, `scroll_percent: "25%/50%/75%/100%"` |
+| `share` | ArticleShareButtons | `src/components/ui/ArticleShareButtons.tsx` | `method: "linkedin" / "twitter" / "copy_link"`, `article_slug` |
 
 ### Fichiers cles
 
@@ -38,6 +39,7 @@ Le site attire du trafic via le blog (79 articles) et les pages service. Sans tr
 - `src/components/sections/TrackedArticleButton.tsx` : wrapper client pour le CTA dans les articles
 - `src/components/ui/ScrollDepthTracker.tsx` : composant client, observe le scroll avec throttle rAF
 - `src/components/ui/TrackedEmailLink.tsx` : wrapper pour les liens mailto avec tracking
+- `src/components/ui/ArticleShareButtons.tsx` : boutons de partage social sous le titre des articles
 
 ## Guide
 
@@ -58,11 +60,12 @@ Le site attire du trafic via le blog (79 articles) et les pages service. Sans tr
 ### Conventions de nommage
 
 - Noms d'events en `snake_case`
-- `form_submit` pour les soumissions de formulaire
-- `cta_click` pour les clics sur les boutons d'action
-- `scroll_depth` pour le suivi de lecture
-- `cta_location` identifie ou se trouve le CTA (header, footer, sticky, etc.)
-- `cta_text` reprend le texte visible du bouton
+- Conversion grade : `form_submit`, `audit_requested`, `email_clicked` (a marquer comme "conversions cles" dans GA4 admin)
+- Engagement : `cta_click`, `scroll_depth`, `share`
+- `form_name` identifie le formulaire concerne (`contact`, `audit`)
+- `source_page` capture `window.location.pathname` au moment de la soumission
+- `source_location` identifie ou se trouve l'element (footer, header, etc.)
+- `cta_location` / `cta_text` pour les clics CTA
 
 ## Explication
 
@@ -76,7 +79,7 @@ ArticleCta reste un server component. Seul le bouton est un client component (`T
 
 ### Limites actuelles
 
-- Les formulaires utilisent `mailto:` : le tracking fire avant l'ouverture du client mail, mais ne garantit pas que l'email est effectivement envoye.
+- Les formulaires utilisent `mailto:` : le tracking fire avant l'ouverture du client mail, mais ne garantit pas que l'email est effectivement envoye. `form_submit` et `audit_requested` mesurent donc une intention de soumission, pas un succes d'envoi confirme. A migrer vers du tracking backend-confirmed quand le backend des formulaires sera en place.
 
 ### Evolutions possibles
 
