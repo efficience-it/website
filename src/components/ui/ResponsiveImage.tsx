@@ -1,3 +1,4 @@
+import Image from "next/image";
 import variantsManifest from "@/data/blog-image-variants.json";
 
 interface ResponsiveImageProps {
@@ -28,15 +29,14 @@ export default function ResponsiveImage({
 
   if (widths.length === 0) {
     return (
-      <img
+      <Image
         src={src}
         alt={alt}
         width={width}
         height={height}
-        sizes={sizes}
         className={className}
         loading={loading}
-        decoding="async"
+        sizes={sizes}
         fetchPriority={fetchPriority}
       />
     );
