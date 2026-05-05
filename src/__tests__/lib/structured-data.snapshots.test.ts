@@ -95,6 +95,7 @@ describe("structured-data snapshots", () => {
         date: "2026-01-01",
         author: "Auteur",
         category: "Symfony",
+        kind: "blog",
         excerpt: "Excerpt 1",
         content: "",
         wordCount: 0,
@@ -105,6 +106,7 @@ describe("structured-data snapshots", () => {
         date: "2026-01-02",
         author: "Auteur",
         category: "DevOps",
+        kind: "blog",
         excerpt: "Excerpt 2",
         content: "",
         wordCount: 0,
@@ -172,7 +174,7 @@ describe("structured-data snapshots", () => {
     expect(
       articleJsonLd({
         url: "https://www.itefficience.com/article/test",
-        isTech: false,
+        kind: "blog",
         title: "Article test",
         excerpt: "Un excerpt de test.",
         author: {
@@ -196,7 +198,7 @@ describe("structured-data snapshots", () => {
     expect(
       articleJsonLd({
         url: "https://www.itefficience.com/article/tech",
-        isTech: true,
+        kind: "tech",
         title: "Tech article",
         excerpt: "Tech excerpt.",
         author: {
@@ -217,7 +219,7 @@ describe("structured-data snapshots", () => {
   it("articleJsonLd as TechArticle defaults proficiencyLevel to Intermediate", () => {
     const result = articleJsonLd({
       url: "https://www.itefficience.com/article/tech-default",
-      isTech: true,
+      kind: "tech",
       title: "Tech default",
       excerpt: "Excerpt.",
       author: {
@@ -240,7 +242,7 @@ describe("structured-data snapshots", () => {
   it("articleJsonLd without image falls back to undefined", () => {
     const result = articleJsonLd({
       url: "https://www.itefficience.com/article/no-image",
-      isTech: false,
+      kind: "blog",
       title: "Sans image",
       excerpt: "Pas d'image.",
       author: {
@@ -257,6 +259,28 @@ describe("structured-data snapshots", () => {
     });
     expect(result.image).toBeUndefined();
     expect(result.dateModified).toBe("2024-01-01");
+  });
+
+  it("articleJsonLd as NewsArticle", () => {
+    const result = articleJsonLd({
+      url: "https://www.itefficience.com/article/news",
+      kind: "news",
+      title: "News article",
+      excerpt: "News excerpt.",
+      author: {
+        "@type": "Person",
+        name: "Auteur",
+        jobTitle: "Dev",
+        url: "https://www.itefficience.com/la-team",
+        sameAs: [],
+      },
+      category: "Formation",
+      date: "2024-01-01",
+      wordCount: 500,
+      timeRequiredMinutes: 3,
+    });
+    expect(result["@type"]).toBe("NewsArticle");
+    expect((result as { proficiencyLevel?: string }).proficiencyLevel).toBeUndefined();
   });
 
   it("faqPageJsonLd", () => {

@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import { BlogPost } from "@/types/blog";
+import { type ArticleKind, type BlogPost } from "@/types/blog";
 import { TECH_ENTITIES, type TechKey } from "@/lib/structured-data";
 
 const BLOG_DIR = path.join(process.cwd(), "content/blog");
@@ -10,6 +10,13 @@ function parseMainTech(value: unknown): TechKey[] | undefined {
   if (!Array.isArray(value)) return undefined;
   const valid = value.filter((v): v is TechKey => typeof v === "string" && v in TECH_ENTITIES);
   return valid.length > 0 ? valid : undefined;
+}
+
+function parseArticleKind(value: unknown): ArticleKind {
+  if (value === "news" || value === "tech" || value === "blog") {
+    return value;
+  }
+  return "blog";
 }
 
 function countWords(markdown: string): number {
@@ -44,6 +51,7 @@ export function getAllPosts(): BlogPost[] {
       date: data.date ?? "",
       author: data.author ?? "",
       category: data.category ?? "",
+      kind: parseArticleKind(data.kind),
       excerpt: data.excerpt ?? "",
       updatedAt: data.updatedAt,
       image: data.image,
@@ -75,6 +83,7 @@ export function getPostBySlug(slug: string): BlogPost | undefined {
     date: data.date ?? "",
     author: data.author ?? "",
     category: data.category ?? "",
+    kind: parseArticleKind(data.kind),
     excerpt: data.excerpt ?? "",
     updatedAt: data.updatedAt,
     image: data.image,

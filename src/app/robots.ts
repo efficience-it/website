@@ -18,6 +18,9 @@ export default function robots(): MetadataRoute.Robots {
       { userAgent: "Google-Extended", allow: "/" },
       { userAgent: "CCBot", allow: "/" },
     ],
-    sitemap: "https://www.itefficience.com/sitemap.xml",
+    sitemap: [
+      "https://www.itefficience.com/sitemap.xml",
+      "https://www.itefficience.com/sitemap-news.xml",
+    ],
   };
 }

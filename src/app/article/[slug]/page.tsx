@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import ResponsiveImage from "@/components/ui/ResponsiveImage";
 import Link from "next/link";
-import { getAllPosts, getPostBySlug, getCategorySlug, getPostsByCategory, extractHeadings, isSymfonyAuditCategory, isTechCategory, readingTime } from "@/lib/blog";
+import { getAllPosts, getPostBySlug, getCategorySlug, getPostsByCategory, extractHeadings, isSymfonyAuditCategory, readingTime } from "@/lib/blog";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import MarkdownContent from "@/components/ui/MarkdownContent";
@@ -95,7 +95,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   const shouldShowStickyCta = post.wordCount > STICKY_CTA_MIN_WORDS;
   const stickyCtaConfig = getArticleCtaConfig(post.category, slug);
-  const isTech = isTechCategory(post.category);
 
   const headings = extractHeadings(post.content);
 
@@ -107,7 +106,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   const jsonLd = articleJsonLd({
     url,
-    isTech,
+    kind: post.kind,
     title: post.title,
     excerpt: post.excerpt,
     author: getAuthorSchema(post.author),

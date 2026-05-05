@@ -152,7 +152,7 @@ describe("TECH_ENTITIES", () => {
 describe("entity linking via mainTech", () => {
   const articleInput = {
     url: "https://www.itefficience.com/article/test",
-    isTech: true,
+    kind: "tech" as const,
     title: "Test",
     excerpt: "Excerpt",
     author: { "@type": "Person" as const, name: "Auteur", url: "https://example.com", jobTitle: "Author", sameAs: [] },
