@@ -41,6 +41,7 @@ describe("getPostBySlug", () => {
       expect(post!.date).toBe("");
       expect(post!.author).toBe("");
       expect(post!.category).toBe("");
+      expect(post!.kind).toBe("blog");
       expect(post!.excerpt).toBe("");
       expect(post!.wordCount).toBe(0);
       expect(post!.mainTech).toBeUndefined();
@@ -94,6 +95,39 @@ describe("getPostBySlug", () => {
       existsSpy.mockRestore();
     }
   });
+
+  it("defaults kind to blog when frontmatter is missing kind", () => {
+    const existsSpy = jest.spyOn(fs, "existsSync").mockReturnValue(true);
+    const readFileSpy = jest.spyOn(fs, "readFileSync").mockReturnValue("---\ntitle: Test\n---\n" as never);
+
+    try {
+      const post = getPostBySlug(TEMP_SLUG);
+      expect(post!.kind).toBe("blog");
+    } finally {
+      readFileSpy.mockRestore();
+      existsSpy.mockRestore();
+    }
+  });
+
+  it("accepts kind news and rejects unknown values", () => {
+    const existsSpy = jest.spyOn(fs, "existsSync").mockReturnValue(true);
+    try {
+      const readFileSpy = jest
+        .spyOn(fs, "readFileSync")
+        .mockReturnValue("---\nkind: news\n---\n" as never);
+      const post = getPostBySlug(TEMP_SLUG);
+      expect(post!.kind).toBe("news");
+      readFileSpy.mockRestore();
+      const readInvalidKindSpy = jest
+        .spyOn(fs, "readFileSync")
+        .mockReturnValue("---\nkind: unknown\n---\n" as never);
+      const fallbackPost = getPostBySlug(TEMP_SLUG);
+      expect(fallbackPost!.kind).toBe("blog");
+      readInvalidKindSpy.mockRestore();
+    } finally {
+      existsSpy.mockRestore();
+    }
+  });
 });
 
 describe("getAllPosts", () => {
@@ -109,6 +143,7 @@ describe("getAllPosts", () => {
       expect(tempPost!.date).toBe("");
       expect(tempPost!.author).toBe("");
       expect(tempPost!.category).toBe("");
+      expect(tempPost!.kind).toBe("blog");
       expect(tempPost!.excerpt).toBe("");
       expect(tempPost!.wordCount).toBe(0);
     } finally {

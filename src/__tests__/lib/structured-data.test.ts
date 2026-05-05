@@ -152,7 +152,7 @@ describe("TECH_ENTITIES", () => {
 describe("entity linking via mainTech", () => {
   const articleInput = {
     url: "https://www.itefficience.com/article/test",
-    isTech: true,
+    kind: "tech" as const,
     title: "Test",
     excerpt: "Excerpt",
     author: { "@type": "Person" as const, name: "Auteur", url: "https://example.com", jobTitle: "Author", sameAs: [] },
@@ -213,5 +213,11 @@ describe("entity linking via mainTech", () => {
   it("articleJsonLd omits about when mainTech is absent", () => {
     const result = articleJsonLd(articleInput);
     expect(result.about).toBeUndefined();
+  });
+
+  it("articleJsonLd defaults kind to blog when not provided", () => {
+    const { kind: _kind, ...inputWithoutKind } = articleInput;
+    const result = articleJsonLd(inputWithoutKind);
+    expect(result["@type"]).toBe("BlogPosting");
   });
 });

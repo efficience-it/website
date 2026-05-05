@@ -12,6 +12,7 @@ function makePost(overrides: Partial<BlogPost> = {}): BlogPost {
     content: "content",
     wordCount: 100,
     ...overrides,
+    kind: overrides.kind ?? "blog",
   };
 }
 

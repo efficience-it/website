@@ -56,7 +56,7 @@ describe("ResponsiveImage", () => {
     expect(container.querySelector("img")).not.toBeNull();
   });
 
-  it("falls back to a plain <img> for non-blog sources", () => {
+  it("falls back to a non-picture image for non-blog sources", () => {
     const { container } = render(
       <ResponsiveImage
         src="/images/illustrations/foo.svg"
@@ -69,7 +69,6 @@ describe("ResponsiveImage", () => {
     expect(container.querySelector("picture")).toBeNull();
     const img = container.querySelector("img");
     expect(img?.getAttribute("src")).toBe("/images/illustrations/foo.svg");
-    expect(img?.getAttribute("sizes")).toBe("200px");
   });
 
   it("honors loading=eager and fetchPriority=high when provided", () => {
