@@ -214,4 +214,10 @@ describe("entity linking via mainTech", () => {
     const result = articleJsonLd(articleInput);
     expect(result.about).toBeUndefined();
   });
+
+  it("articleJsonLd defaults kind to blog when not provided", () => {
+    const { kind: _kind, ...inputWithoutKind } = articleInput;
+    const result = articleJsonLd(inputWithoutKind);
+    expect(result["@type"]).toBe("BlogPosting");
+  });
 });

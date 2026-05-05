@@ -1,6 +1,6 @@
 /** @jest-environment jsdom */
 
-import { GET } from "@/app/sitemap-news.xml/route";
+import { GET, dynamic } from "@/app/sitemap-news.xml/route";
 import { getAllPosts } from "@/lib/blog";
 import type { BlogPost } from "@/types/blog";
 
@@ -24,6 +24,10 @@ function makePost(overrides: Partial<BlogPost>): BlogPost {
 }
 
 describe("sitemap-news.xml route", () => {
+  it("uses force-static rendering", () => {
+    expect(dynamic).toBe("force-static");
+  });
+
   beforeAll(() => {
     class TestResponse {
       private readonly body: string;
@@ -105,5 +109,36 @@ describe("sitemap-news.xml route", () => {
     expect(xml).toContain(
       "<news:title>Titre &amp; &lt;test&gt; &quot;quote&quot; &apos;apostrophe&apos;</news:title>",
     );
+  });
+
+  it("skips news posts with invalid or future publication dates", async () => {
+    const mockedGetAllPosts = getAllPosts as jest.MockedFunction<typeof getAllPosts>;
+    mockedGetAllPosts.mockReturnValue([
+      makePost({
+        slug: "news-invalid",
+        title: "Date invalide",
+        kind: "news",
+        date: "not-a-date",
+      }),
+      makePost({
+        slug: "news-future",
+        title: "Date future",
+        kind: "news",
+        date: "2026-05-05T13:00:00.000Z",
+      }),
+      makePost({
+        slug: "news-valid",
+        title: "Date valide",
+        kind: "news",
+        date: "2026-05-05T11:00:00.000Z",
+      }),
+    ]);
+
+    const response = GET();
+    const xml = await response.text();
+
+    expect(xml).toContain("<loc>https://www.itefficience.com/article/news-valid</loc>");
+    expect(xml).not.toContain("news-invalid");
+    expect(xml).not.toContain("news-future");
   });
 });
