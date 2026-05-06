@@ -22,7 +22,8 @@ jest.mock("@/lib/blog", () => ({
 }));
 
 const getAllPostsMock = getAllPosts as jest.MockedFunction<typeof getAllPosts>;
-const { GET } = jest.requireActual("@/app/sitemap-images.xml/route");
+const routeModule = jest.requireActual("@/app/sitemap-images.xml/route");
+const { GET, dynamic } = routeModule;
 
 describe("GET /sitemap-images.xml", () => {
   beforeEach(() => {
@@ -86,5 +87,9 @@ describe("GET /sitemap-images.xml", () => {
     expect(article2Block).not.toContain("<image:caption>");
     expect(xml).not.toContain(`${BASE_URL}/article/article-sans-image`);
     expect(xml).toContain(`${BASE_URL}/images/illustrations/source-code.svg`);
+  });
+
+  it('exports "force-static" dynamic mode', () => {
+    expect(dynamic).toBe("force-static");
   });
 });
