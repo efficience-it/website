@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { getAllPosts } from "@/lib/blog";
 import { BASE_URL } from "@/lib/metadata";
 
+export const dynamic = "force-static";
+
 type SitemapImage = {
   loc: string;
   title: string;
