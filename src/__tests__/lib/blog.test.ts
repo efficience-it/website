@@ -65,6 +65,25 @@ describe("getPostBySlug", () => {
     }
   });
 
+  it("exposes image metadata fields when present in frontmatter", () => {
+    const existsSpy = jest.spyOn(fs, "existsSync").mockReturnValue(true);
+    const readFileSpy = jest
+      .spyOn(fs, "readFileSync")
+      .mockReturnValue(
+        "---\nimage: /images/blog/test.webp\nimageCaption: Une image test\nimageGeoLocation: Lille, France\n---\n" as never,
+      );
+
+    try {
+      const post = getPostBySlug(TEMP_SLUG);
+      expect(post?.image).toBe("/images/blog/test.webp");
+      expect(post?.imageCaption).toBe("Une image test");
+      expect(post?.imageGeoLocation).toBe("Lille, France");
+    } finally {
+      readFileSpy.mockRestore();
+      existsSpy.mockRestore();
+    }
+  });
+
   it("returns undefined mainTech when frontmatter has only unknown keys", () => {
     const existsSpy = jest.spyOn(fs, "existsSync").mockReturnValue(true);
     const readFileSpy = jest

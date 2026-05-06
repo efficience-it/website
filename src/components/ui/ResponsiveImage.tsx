@@ -1,4 +1,5 @@
 import variantsManifest from "@/data/blog-image-variants.json";
+import Image from "next/image";
 
 interface ResponsiveImageProps {
   src: string;
@@ -28,7 +29,7 @@ export default function ResponsiveImage({
 
   if (widths.length === 0) {
     return (
-      <img
+      <Image
         src={src}
         alt={alt}
         width={width}
@@ -36,8 +37,8 @@ export default function ResponsiveImage({
         sizes={sizes}
         className={className}
         loading={loading}
-        decoding="async"
         fetchPriority={fetchPriority}
+        unoptimized
       />
     );
   }
@@ -50,7 +51,7 @@ export default function ResponsiveImage({
     <picture>
       <source type="image/avif" srcSet={srcset("avif")} sizes={sizes} />
       <source type="image/webp" srcSet={srcset("webp")} sizes={sizes} />
-      <img
+      <Image
         src={src}
         alt={alt}
         width={width}
@@ -58,8 +59,8 @@ export default function ResponsiveImage({
         sizes={sizes}
         className={className}
         loading={loading}
-        decoding="async"
         fetchPriority={fetchPriority}
+        unoptimized
       />
     </picture>
   );
