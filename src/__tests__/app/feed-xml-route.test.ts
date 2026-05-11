@@ -1,5 +1,6 @@
 import { BASE_URL } from "@/lib/metadata";
 import { getAllPosts } from "@/lib/blog";
+import type { BlogPost } from "@/types/blog";
 
 jest.mock("next/server", () => ({
   NextResponse: class {
@@ -25,7 +26,7 @@ const getAllPostsMock = getAllPosts as jest.MockedFunction<typeof getAllPosts>;
 const routeModule = jest.requireActual("@/app/feed.xml/route");
 const { GET, dynamic } = routeModule;
 
-const MOCK_POSTS = [
+const MOCK_POSTS: BlogPost[] = [
   {
     slug: "article-symfony",
     title: "Guide Symfony & PHP",
@@ -36,7 +37,7 @@ const MOCK_POSTS = [
     excerpt: "Un guide complet sur Symfony",
     content: "## Introduction\n\nContenu de l'article.",
     wordCount: 5,
-    mainTech: ["symfony", "php"],
+    mainTech: ["symfony", "php"] as const,
   },
   {
     slug: "article-sans-updated-at",

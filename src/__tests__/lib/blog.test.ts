@@ -32,7 +32,9 @@ describe("getPostBySlug", () => {
 
   it("defaults to empty strings when frontmatter fields are missing", () => {
     const existsSpy = jest.spyOn(fs, "existsSync").mockReturnValue(true);
-    const readFileSpy = jest.spyOn(fs, "readFileSync").mockReturnValue(EMPTY_FRONTMATTER as never);
+    const readFileSpy = jest
+      .spyOn(fs, "readFileSync")
+      .mockReturnValue(EMPTY_FRONTMATTER as never);
 
     try {
       const post = getPostBySlug(TEMP_SLUG);
@@ -54,7 +56,9 @@ describe("getPostBySlug", () => {
     const existsSpy = jest.spyOn(fs, "existsSync").mockReturnValue(true);
     const readFileSpy = jest
       .spyOn(fs, "readFileSync")
-      .mockReturnValue("---\nmainTech: [\"symfony\", \"unknown-tech\", 42]\n---\n" as never);
+      .mockReturnValue(
+        '---\nmainTech: ["symfony", "unknown-tech", 42]\n---\n' as never,
+      );
 
     try {
       const post = getPostBySlug(TEMP_SLUG);
@@ -65,11 +69,30 @@ describe("getPostBySlug", () => {
     }
   });
 
+  it("exposes image metadata fields when present in frontmatter", () => {
+    const existsSpy = jest.spyOn(fs, "existsSync").mockReturnValue(true);
+    const readFileSpy = jest
+      .spyOn(fs, "readFileSync")
+      .mockReturnValue(
+        "---\nimage: /images/blog/test.webp\nimageCaption: Une image test\nimageGeoLocation: Lille, France\n---\n" as never,
+      );
+
+    try {
+      const post = getPostBySlug(TEMP_SLUG);
+      expect(post?.image).toBe("/images/blog/test.webp");
+      expect(post?.imageCaption).toBe("Une image test");
+      expect(post?.imageGeoLocation).toBe("Lille, France");
+    } finally {
+      readFileSpy.mockRestore();
+      existsSpy.mockRestore();
+    }
+  });
+
   it("returns undefined mainTech when frontmatter has only unknown keys", () => {
     const existsSpy = jest.spyOn(fs, "existsSync").mockReturnValue(true);
     const readFileSpy = jest
       .spyOn(fs, "readFileSync")
-      .mockReturnValue("---\nmainTech: [\"unknown\"]\n---\n" as never);
+      .mockReturnValue('---\nmainTech: ["unknown"]\n---\n' as never);
 
     try {
       const post = getPostBySlug(TEMP_SLUG);
@@ -98,8 +121,12 @@ describe("getPostBySlug", () => {
 
 describe("getAllPosts", () => {
   it("defaults to empty strings when frontmatter fields are missing", () => {
-    const readdirSpy = jest.spyOn(fs, "readdirSync").mockReturnValue([`${TEMP_SLUG}.mdx`] as never);
-    const readFileSpy = jest.spyOn(fs, "readFileSync").mockReturnValue(EMPTY_FRONTMATTER as never);
+    const readdirSpy = jest
+      .spyOn(fs, "readdirSync")
+      .mockReturnValue([`${TEMP_SLUG}.mdx`] as never);
+    const readFileSpy = jest
+      .spyOn(fs, "readFileSync")
+      .mockReturnValue(EMPTY_FRONTMATTER as never);
 
     try {
       const posts = getAllPosts();
@@ -178,11 +205,20 @@ describe("getPostsByCategory", () => {
 
 describe("extractHeadings", () => {
   it("extracts ## headings from markdown", () => {
-    const content = "## Introduction\n\nSome text\n\n## Getting Started\n\nMore text";
+    const content =
+      "## Introduction\n\nSome text\n\n## Getting Started\n\nMore text";
     const headings = extractHeadings(content);
     expect(headings).toHaveLength(2);
-    expect(headings[0]).toEqual({ id: "introduction", text: "Introduction", level: 2 });
-    expect(headings[1]).toEqual({ id: "getting-started", text: "Getting Started", level: 2 });
+    expect(headings[0]).toEqual({
+      id: "introduction",
+      text: "Introduction",
+      level: 2,
+    });
+    expect(headings[1]).toEqual({
+      id: "getting-started",
+      text: "Getting Started",
+      level: 2,
+    });
   });
 
   it("returns an empty array when there are no headings", () => {
@@ -236,12 +272,17 @@ describe("isSymfonyAuditCategory", () => {
     },
   );
 
-  it.each(["IA", "JavaScript", "DevOps", "Sécurité", "Formation", "Projet", ""])(
-    "does not match %s",
-    (category) => {
-      expect(isSymfonyAuditCategory(category)).toBe(false);
-    },
-  );
+  it.each([
+    "IA",
+    "JavaScript",
+    "DevOps",
+    "Sécurité",
+    "Formation",
+    "Projet",
+    "",
+  ])("does not match %s", (category) => {
+    expect(isSymfonyAuditCategory(category)).toBe(false);
+  });
 });
 
 describe("readingTime", () => {
