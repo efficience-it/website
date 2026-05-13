@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="Rapport de due diligence Symfony note 76 sur 100 avec scores par axe : Code 82, Architecture 74, Securite 68, Ops 85, Equipe 71">
+  <rect width="1200" height="630" fill="#f5f5f5"/>
+  <circle cx="100" cy="100" r="140" fill="#0066cc" opacity="0.06"/>
+  <circle cx="1100" cy="560" r="180" fill="#0066cc" opacity="0.05"/>
+
+  <g transform="translate(120, 80)">
+    <rect x="6" y="10" width="960" height="470" rx="14" fill="#0f1722" opacity="0.10"/>
+    <rect width="960" height="470" rx="14" fill="#ffffff"/>
+    <rect width="960" height="470" rx="14" fill="none" stroke="#e8e8e8" stroke-width="1"/>
+
+    <path d="M0 14 a14 14 0 0 1 14 -14 h932 a14 14 0 0 1 14 14 v54 h-960 z" fill="#0066cc"/>
+    <text x="32" y="42" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#ffffff" letter-spacing="2.5">RAPPORT DE DUE DILIGENCE</text>
+    <text x="928" y="42" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="500" fill="#ffffff" opacity="0.85" text-anchor="end">Audit pré-acquisition · 5 axes</text>
+
+    <g transform="translate(80, 130)">
+      <circle cx="130" cy="130" r="108" fill="none" stroke="#e8e8e8" stroke-width="22"/>
+      <circle cx="130" cy="130" r="108" fill="none" stroke="#0066cc" stroke-width="22" stroke-linecap="round" stroke-dasharray="678.58" stroke-dashoffset="162.86" transform="rotate(-90 130 130)"/>
+      <text x="130" y="128" font-family="Arial, Helvetica, sans-serif" font-size="76" font-weight="700" fill="#333333" text-anchor="middle">76</text>
+      <text x="130" y="160" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="500" fill="#595959" text-anchor="middle">/ 100</text>
+      <text x="130" y="280" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#595959" text-anchor="middle" letter-spacing="3">SCORE GLOBAL</text>
+    </g>
+
+    <g transform="translate(420, 130)">
+      <g>
+        <text x="0" y="14" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#333333">Code</text>
+        <text x="460" y="14" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#0066cc" text-anchor="end">82</text>
+        <rect x="0" y="24" width="460" height="10" rx="5" fill="#e8e8e8"/>
+        <rect x="0" y="24" width="377" height="10" rx="5" fill="#0066cc"/>
+      </g>
+      <g transform="translate(0, 50)">
+        <text x="0" y="14" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#333333">Architecture</text>
+        <text x="460" y="14" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#0066cc" text-anchor="end">74</text>
+        <rect x="0" y="24" width="460" height="10" rx="5" fill="#e8e8e8"/>
+        <rect x="0" y="24" width="340" height="10" rx="5" fill="#0066cc"/>
+      </g>
+      <g transform="translate(0, 100)">
+        <text x="0" y="14" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#333333">Sécurité</text>
+        <text x="460" y="14" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#0066cc" text-anchor="end">68</text>
+        <rect x="0" y="24" width="460" height="10" rx="5" fill="#e8e8e8"/>
+        <rect x="0" y="24" width="313" height="10" rx="5" fill="#0066cc"/>
+      </g>
+      <g transform="translate(0, 150)">
+        <text x="0" y="14" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#333333">Ops</text>
+        <text x="460" y="14" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#0066cc" text-anchor="end">85</text>
+        <rect x="0" y="24" width="460" height="10" rx="5" fill="#e8e8e8"/>
+        <rect x="0" y="24" width="391" height="10" rx="5" fill="#0066cc"/>
+      </g>
+      <g transform="translate(0, 200)">
+        <text x="0" y="14" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#333333">Équipe</text>
+        <text x="460" y="14" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#0066cc" text-anchor="end">71</text>
+        <rect x="0" y="24" width="460" height="10" rx="5" fill="#e8e8e8"/>
+        <rect x="0" y="24" width="327" height="10" rx="5" fill="#0066cc"/>
+      </g>
+    </g>
+  </g>
+</svg>
