@@ -21,7 +21,7 @@ faq:
   - question: "Une version PHP en phase security-only est-elle suffisamment sûre pour rester en production ?"
     answer: "Oui, à condition de suivre le calendrier. La phase security-only (la dernière année du cycle) ne reçoit plus de correctifs de bugs fonctionnels, mais continue à recevoir les patchs de sécurité critiques. Une production sur PHP 8.2 en 2026 reste légitime jusqu'à fin décembre 2026. Au-delà, il faut basculer. La règle pratique consiste à planifier la migration vers la version suivante pendant la phase security-only, pas après, pour éviter une bascule en urgence."
   - question: "Faut-il systématiquement passer en LTS ou peut-on suivre les versions standard de Symfony ?"
-    answer: "Les versions standard de Symfony ont un cycle court (huit mois de bug fixes, huit mois de security fixes). Suivre les versions standard impose une montée de version tous les six à huit mois, ce qui n'est tenable qu'avec une couverture de tests solide et une pipeline CI/CD mature. Les LTS sont le choix raisonnable pour la majorité des applications métier. Les versions standard ont du sens pour des produits SaaS qui veulent profiter rapidement des nouvelles fonctionnalités et qui ont l'organisation pour le faire."
+    answer: "Les versions standard de Symfony ont un cycle court (environ huit mois de support actif sur le cycle 7.x, sans phase publique de security fixes). Suivre les versions standard impose une montée de version tous les six à huit mois, ce qui n'est tenable qu'avec une couverture de tests solide et une pipeline CI/CD mature. Les LTS sont le choix raisonnable pour la majorité des applications métier. Les versions standard ont du sens pour des produits SaaS qui veulent profiter rapidement des nouvelles fonctionnalités et qui ont l'organisation pour le faire."
   - question: "Que faire si mon application dépend de bundles ou de bibliothèques abandonnées ?"
     answer: "C'est un cas fréquent et souvent plus bloquant que la version du framework lui-même. Trois options : trouver un fork maintenu, internaliser le composant, ou réécrire la fonctionnalité avec une dépendance moderne. L'analyse `composer outdated -D` et la vérification du statut du dépôt source de chaque dépendance critique permettent d'établir la liste. Cette cartographie est un prérequis à toute migration : tenter une montée de version sans avoir résolu les dépendances abandonnées garantit l'échec."
   - question: "Quelle est la durée typique d'une migration majeure Symfony ?"
@@ -49,21 +49,23 @@ Le tableau ci-dessous synthétise les dates clés. Il est actualisé à la date 
 | Version | Statut au 13 mai 2026 | Fin du support actif | Fin du support sécurité |
 | --- | --- | --- | --- |
 | Symfony 4.4 LTS | EOL | nov 2022 | nov 2023 |
-| Symfony 5.4 LTS | EOL | nov 2023 | nov 2024 |
+| Symfony 5.4 LTS | EOL | nov 2024 | nov 2025 |
 | Symfony 6.4 LTS | Support actif | nov 2026 | nov 2027 |
-| Symfony 7.0 | EOL | janv 2024 | juil 2024 |
-| Symfony 7.1 | EOL | juil 2024 | janv 2025 |
-| Symfony 7.2 | EOL | janv 2025 | juil 2025 |
-| Symfony 7.3 | Sécurité seulement | janv 2026 | juil 2026 |
-| Symfony 7.4 LTS | Support actif | nov 2027 | nov 2028 |
+| Symfony 7.0 | EOL | juil 2024 | juil 2024 |
+| Symfony 7.1 | EOL | janv 2025 | janv 2025 |
+| Symfony 7.2 | EOL | juil 2025 | juil 2025 |
+| Symfony 7.3 | EOL | janv 2026 | janv 2026 |
+| Symfony 7.4 LTS | Support actif | nov 2028 | nov 2029 |
 | PHP 7.4 | EOL | nov 2021 | nov 2022 |
 | PHP 8.0 | EOL | nov 2022 | nov 2023 |
 | PHP 8.1 | EOL | nov 2023 | déc 2025 |
 | PHP 8.2 | Sécurité seulement | déc 2024 | déc 2026 |
-| PHP 8.3 | Support actif | déc 2025 | déc 2027 |
+| PHP 8.3 | Sécurité seulement | déc 2025 | déc 2027 |
 | PHP 8.4 | Support actif | déc 2026 | déc 2028 |
 
-Lecture pratique. Toute application encore exécutée sur Symfony 4.4, 5.4, 7.0, 7.1 ou 7.2 est en exposition active : aucune CVE publiée depuis l'EOL n'est patchée. Idem sur PHP 7.4, 8.0 ou 8.1. Les versions Symfony 6.4 LTS et 7.4 LTS sont les deux cibles raisonnables pour les douze prochains mois. Sur PHP, 8.3 ou 8.4 est le standard de marché en 2026.
+Les versions standard du cycle 7.x n'ont pas de phase publique de support sécurité : à la fin du support actif, la version est immédiatement EOL. Symfony 5.4 LTS bénéficie d'un programme commercial de support étendu jusqu'à fév 2029, indépendant du support communautaire libre.
+
+Lecture pratique. Toute application encore exécutée sur Symfony 4.4, 5.4, 7.0, 7.1, 7.2 ou 7.3 est en exposition active : aucune CVE publiée depuis l'EOL n'est patchée. Idem sur PHP 7.4, 8.0 ou 8.1. Les versions Symfony 6.4 LTS et 7.4 LTS sont les deux cibles raisonnables pour les douze prochains mois. Sur PHP, 8.4 est désormais la version en support actif, 8.3 reste acceptable jusqu'à fin 2027 en phase sécurité.
 
 ## Conséquences réelles d'une version en fin de support
 
