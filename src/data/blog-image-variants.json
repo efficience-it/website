@@ -338,5 +338,9 @@
   "vocabulaire-dev-web": [
     400,
     800
+  ],
+  "wasm-vs-container": [
+    400,
+    800
   ]
 }

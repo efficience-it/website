@@ -1,0 +1,153 @@
+---
+title: "WASM ou Container : que choisir en 2026 ?"
+date: "2026-05-15"
+updatedAt: "2026-05-15"
+author: "Louis-Arnaud Catoire"
+category: "DevOps"
+excerpt: "WASM côté serveur a quitté la zone expérimentale. Comparatif honnête face au container Docker en 2026 : cold start, densité, sécurité, et où ces deux mondes cohabitent dans une stack Symfony moderne."
+image: "/images/blog/wasm-vs-container.webp"
+proficiencyLevel: "Avancé"
+howTo:
+  name: "Choisir entre WASM et Container côté serveur"
+  description: "Méthode d'arbitrage en cinq étapes pour décider quand utiliser WASM, quand garder Docker et où les faire coexister dans une architecture moderne."
+  steps:
+    - name: "Cadrer le profil d'exécution"
+      text: "Mesurer la fréquence d'invocation, la durée d'exécution moyenne et la sensibilité au cold start. WASM s'impose sur le très court et le très fréquent, le container sur le long et le stable."
+    - name: "Lister les dépendances système"
+      text: "Identifier les binaires natifs, les drivers, les clients de base de données et les bibliothèques C/C++ critiques. Toute dépendance lourde non portable vers WASI tranche pour le container."
+    - name: "Évaluer la densité cible"
+      text: "Calculer le nombre d'instances par hôte attendu en pic. Au-delà de quelques milliers d'instances simultanées sur un seul nœud, WASM devient une option économiquement décisive."
+    - name: "Vérifier le modèle de sécurité"
+      text: "Confronter le modèle d'isolation requis aux capacités WASI et aux primitives container. Les charges multi-tenant non strictement isolées tirent vers le sandbox WASM par défaut."
+    - name: "Planifier la coexistence"
+      text: "Définir le périmètre WASM (edge functions, plugins de proxy, transformations courtes) et le périmètre container (cœur applicatif, état, jobs longs), puis tracer les interfaces entre les deux."
+faq:
+  - question: "WASM peut-il faire tourner une application Symfony en production ?"
+    answer: "Pas une application Symfony complète en 2026. Des projets comme php-wasm ou wasm-php permettent d'exécuter du PHP dans un runtime WASM, mais l'écosystème Symfony dépend d'extensions natives, de clients de base de données et d'un cycle de vie qui ne sont pas pleinement supportés. En revanche, on peut placer des fonctions WASM en amont d'un Symfony containerisé pour intercepter, transformer ou router le trafic à l'edge."
+  - question: "Faut-il abandonner Docker pour passer à WASM ?"
+    answer: "Non. Docker reste l'unité de déploiement standard pour 95 % des charges en 2026. WASM s'ajoute en complément sur des cas précis : edge functions, plugins de service mesh, fonctions ultra-éphémères. Les deux technologies coexistent même au sein d'un orchestrateur comme Kubernetes via des shims runtime qui chargent un module WASM dans un pod."
+  - question: "Comment WASM accède-t-il à une base de données ?"
+    answer: "WASM n'a pas d'accès direct au réseau ni au disque sans capability explicite. L'accès BDD passe soit par un client compilé en WASM si la cible est supportée (PostgreSQL via pg-wasm, MySQL via certains forks), soit par un proxy HTTP exposé par l'orchestrateur. Pour les charges qui doivent ouvrir des connexions persistantes ou utiliser des drivers natifs, le container reste plus simple."
+  - question: "Le cold start WASM est-il vraiment de l'ordre de la milliseconde ?"
+    answer: "Oui pour les modules typiques, à condition d'utiliser un runtime AOT comme Wasmtime ou Spin avec pré-compilation. On parle de 0,5 à 5 ms entre l'appel et la première instruction exécutée, contre 200 ms à 2 secondes pour démarrer un container. Cet écart change radicalement la viabilité du modèle pay-per-millisecond chez les cloud providers."
+  - question: "Quels langages compilent vers WASM côté serveur en 2026 ?"
+    answer: "Rust et Go ont la meilleure maturité. JavaScript et TypeScript via SpiderMonkey ou QuickJS compilés en WASM. Python via Pyodide, encore lent au démarrage. C et C++ via emscripten. Java via TeaVM ou CheerpJ, en progression. PHP reste expérimental. Le choix du langage conditionne fortement la faisabilité d'une migration."
+  - question: "WASM est-il plus sécurisé qu'un container ?"
+    answer: "Sur le modèle d'isolation, oui. WASM est sandboxé par défaut au niveau du bytecode : aucun appel système n'est autorisé sans capability explicite via WASI. Un container repose sur les namespaces et cgroups du noyau Linux, dont la surface d'attaque reste plus large. En pratique, container bien configuré et WASM offrent une sécurité comparable, mais WASM est plus sûr par défaut, ce qui compte dans un contexte multi-tenant."
+  - question: "SpinKube ou Krustlet pour orchestrer du WASM en 2026 ?"
+    answer: "SpinKube est la voie active. Krustlet, lancé par Microsoft, a été archivé. SpinKube s'intègre comme un runtime alternatif dans Kubernetes via containerd-shim-spin, ce qui permet de planifier des modules WASM dans des pods aux côtés de containers classiques. C'est aujourd'hui la solution la plus mature pour exécuter du WASM dans un cluster existant."
+  - question: "À partir de quand intégrer WASM dans une stack Symfony ?"
+    answer: "Quand un besoin concret apparaît : A/B testing à l'edge, géoblocage, signature de tokens, transformation de requêtes, plugin de service mesh, inférence ML légère. Inutile d'introduire WASM dans une stack qui n'a pas ces besoins. Notre conseil : garder Symfony en container, puis ajouter une couche d'edge functions WASM dès que la latence ou la densité deviennent un goulot d'étranglement."
+---
+
+Le débat WASM contre container revient à chaque cycle d'innovation infra, mais 2026 est la première année où la question se pose vraiment côté serveur. WebAssembly est sorti du navigateur, WASI Preview 2 a stabilisé l'interface système, et des plateformes comme [Fermyon Spin](https://www.fermyon.com/), Docker WASM ou [Cloudflare Workers](https://developers.cloudflare.com/workers/) ont fait passer la techno du démonstrateur au workload production. Dans le même temps, le container Docker reste l'unité de déploiement par défaut, soutenu par dix ans de maturité, un écosystème écrasant et des pratiques d'ops solidement ancrées.
+
+Cet article tranche la question pour 2026, pour une équipe qui doit choisir ou faire coexister les deux modèles. Pas de prophétie, pas de remplacement annoncé, juste un comparatif honnête et une grille de décision applicable dès demain sur vos projets Symfony, Node.js ou polyglottes.
+
+## Pourquoi le débat refait surface maintenant
+
+Trois forces convergent. La première est économique : les cloud providers facturent à la milliseconde, ce qui rend tout cold start container long financièrement visible. La seconde est architecturale : l'edge computing pousse les fonctions au plus près de l'utilisateur, ce qui rend la densité par nœud critique. La troisième est sécuritaire : la multiplication des charges multi-tenant exige un modèle d'isolation strict par défaut, dimension où WASM brille structurellement.
+
+Solomon Hykes, créateur de Docker, le résumait ainsi en 2019 : si WASM et WASI avaient existé en 2008, créer Docker n'aurait probablement pas été nécessaire. La citation est devenue virale, mais elle décrit un monde alternatif, pas le réel de 2026. Aujourd'hui, Docker porte le poids de l'existant et WASM apporte une efficacité nouvelle sur des charges spécifiques. Le sujet n'est pas de choisir un camp, c'est de savoir où couper.
+
+## Ce que résout chaque technologie
+
+### Le container : un OS embarqué portable
+
+Un [container Docker en production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) embarque un système d'exploitation minimal, une stack applicative complète et tout ce dont elle dépend. L'isolation s'appuie sur les namespaces et les cgroups du noyau Linux. La compatibilité est quasi totale : tout ce qui tourne sur Linux peut tourner dans un container. C'est le modèle qui a permis à des frameworks comme Symfony, Rails ou Django de passer du serveur dédié à l'orchestrateur sans réécriture.
+
+La contrepartie est le poids. Une image Docker pèse typiquement entre 50 et 500 Mo, démarre en 200 ms à 2 secondes selon la stack, et consomme de la mémoire dès le boot. Sur des charges éphémères, ce coût d'amorçage domine.
+
+### WASM côté serveur : un bytecode portable, sandboxé par défaut
+
+WebAssembly est un format binaire portable, exécuté dans un runtime hôte comme [Wasmtime](https://wasmtime.dev/), Wasmer ou V8 isolate. Il ne porte pas d'OS. Aucun appel système n'est autorisé sans une capability explicite, exposée via l'interface [WASI](https://webassembly.org/). Le code compilé en WASM s'exécute en quelques millisecondes, occupe quelques mégaoctets et s'isole structurellement du runtime hôte.
+
+La contrepartie est l'écosystème. WASI Preview 2, sorti en 2024, couvre l'essentiel du réseau, du fichier et de la cryptographie, mais l'accès aux bases de données, aux drivers natifs ou aux librairies C/C++ critiques reste limité. Tout n'est pas portable, et certaines stacks lourdes ne se compilent pas en WASM sans réécriture.
+
+## Comparatif technique 2026
+
+Le tableau ci-dessous synthétise les critères qui pèsent le plus dans une décision réelle. Les valeurs reflètent l'état observé en mai 2026 sur les runtimes les plus matures.
+
+| Critère | Container (Docker) | WASM (Wasmtime / Spin) |
+| --- | --- | --- |
+| Cold start | 200 ms à 2 s | 0,5 à 5 ms |
+| Taille moyenne | 50 à 500 Mo | 1 à 10 Mo |
+| Densité par hôte | 50 à 200 instances | 5 000 à 50 000 modules |
+| Isolation | Namespaces et cgroups | Sandbox bytecode + WASI |
+| Maturité écosystème | Très élevée, 10 ans | En croissance, 3 ans |
+| Couverture langages | Tous | Rust, Go, JS, partiellement Python et PHP |
+| Accès système | Complet | Capabilities WASI explicites |
+| Outillage CI/CD | Standardisé | Émergent |
+
+Cette table n'est pas un classement. Chaque ligne pointe vers un cas d'usage où l'un des deux modèles est structurellement supérieur. La décision se construit en croisant ces lignes avec votre charge réelle.
+
+## Quand le container reste le bon choix
+
+Le container gagne dès que la charge embarque une stack lourde. Une application Symfony complète avec son ORM Doctrine, ses extensions PHP, ses outils d'image et son client de base de données fonctionne nativement dans un container et marginalement dans WASM. L'[intégration Docker côté Symfony](/integration-docker-symfony) reste le standard pour packager ce type de workload.
+
+Le container gagne aussi sur les processus longs. Un worker Symfony Messenger qui traite des messages pendant des heures, un job de calcul batch, un serveur Node.js bâti sur [Express, Fastify ou Hono](/article/express-fastify-hono-quel-framework-nodejs-choisir) avec connexions persistantes : tous bénéficient d'un environnement chargé une fois pour toutes. Le cold start est amorti, l'OS sous-jacent rend service, et la portabilité WASI n'apporte rien de visible.
+
+Enfin, le container reste imbattable sur les dépendances binaires natives. ImageMagick, FFmpeg, drivers GPU, bibliothèques scientifiques compilées : autant de briques qui ne se portent pas vers WASM sans effort disproportionné. Pour ces charges, la question ne se pose pas.
+
+## Quand WASM change la donne
+
+WASM s'impose sur les charges qui combinent forte fréquence d'invocation et durée courte. Edge functions devant un CDN, transformation de requêtes HTTP, A/B testing, signature de tokens, géoblocage, routage dynamique : autant de scénarios où le cold start container devient le facteur limitant et où WASM exécute des milliers de fois plus de requêtes pour le même coût matériel.
+
+WASM brille aussi sur les plugins de data plane. Envoy et Linkerd exposent des points d'extension WASM dans leur proxy. Un module WASM peut être injecté à chaud sans recompiler le proxy, sans redémarrer les pods, sans risque pour le runtime hôte. C'est devenu le standard pour étendre un service mesh sans toucher au code C++.
+
+Enfin, WASM est pertinent dès qu'on a besoin d'inférence machine learning légère à l'edge. Les modèles compacts compilés en WASM tournent dans le navigateur et côté serveur avec le même artefact, ce qui ouvre des architectures d'[expertise IA](/expertise-ia) où l'inférence se fait localement et la BDD vectorielle au cœur.
+
+## Cas hybrides et patterns réels en 2026
+
+L'architecture qui domine en 2026 n'oppose pas WASM et container, elle les compose. Trois patterns reviennent.
+
+Le premier est Docker avec un runtime WASM. Depuis l'intégration native de Wasm dans Docker, on peut lancer un module WASM via un shim containerd dédié (Wasmtime, WasmEdge ou Spin selon la cible) en passant un drapeau `--runtime` au démarrage. Le module reste packagé comme une image OCI, distribué via les mêmes registries, déployé avec les mêmes pipelines. La transition est invisible pour l'ops, l'exécution est radicalement plus dense.
+
+Le second est Kubernetes avec SpinKube. Le projet, sorti en 2024 et intégré à la CNCF en sandbox, permet d'exécuter des modules WASM aux côtés de pods classiques dans le même cluster. SpinKube remplace définitivement Krustlet, archivé par Microsoft. Une équipe qui maîtrise déjà Kubernetes peut introduire WASM progressivement sur un namespace, sans repenser sa [stack cloud et DevOps](/cloud-et-devops).
+
+Le troisième est l'edge function devant un cœur container. Pattern réaliste pour une plateforme Symfony : Symfony tourne en container avec FrankenPHP ou PHP-FPM, et une couche Cloudflare Workers ou Fastly Compute exécute du WASM au CDN pour filtrer, normaliser, signer et router avant de toucher le cœur applicatif. Le cœur reste lourd mais voit son trafic réduit d'un facteur deux ou trois.
+
+## Le cas Symfony et PHP en 2026
+
+Symfony et PHP restent un cas particulier. Le PHP est conçu pour vivre dans un processus persistant ou un cycle request-response classique au sens du [HttpKernel Symfony](https://symfony.com/doc/current/components/http_kernel.html), et son écosystème d'extensions natives ne se compile pas trivialement vers WASM. Les projets php-wasm et wasm-php existent et progressent, mais ils restent expérimentaux pour un usage Symfony production. Notre lecture de [FrankenPHP](/article/concretement-cest-quoi-frankenphp) montre que la voie d'optimisation réaliste passe par un runtime PHP performant en container avant d'envisager WASM.
+
+En revanche, placer une couche d'edge functions WASM en amont d'une application Symfony est une stratégie crédible dès aujourd'hui. Les fonctions WASM normalisent les URL, gèrent les redirections SEO, signent des tokens éphémères, exécutent du A/B testing ou rejettent les bots malveillants. Symfony ne traite plus que les requêtes utiles, ce qui libère de la capacité côté cœur et améliore les temps de réponse perçus.
+
+Cette répartition s'inscrit naturellement dans une démarche de [modernisation applicative PHP](/modernisation-application-php) : on conserve le cœur métier mature, on ajoute une couche d'edge légère et on instrumente la frontière. Le découpage est progressif, mesurable et réversible.
+
+## Tableau de décision rapide
+
+Pour clore la question, voici la grille que nous appliquons sur les missions de cadrage.
+
+| Critère dominant | Choix recommandé |
+| --- | --- |
+| Charge ultra-éphémère, forte volumétrie | WASM |
+| Stack lourde, dépendances natives | Container |
+| Multi-tenant strict, isolation par défaut | WASM |
+| Workers longs, état persistant | Container |
+| Plugin de service mesh ou proxy | WASM |
+| Job batch, cron applicatif | Container |
+| Inférence ML légère à l'edge | WASM |
+| API REST métier classique | Container |
+
+Aucun projet réel n'a une seule case cochée. La décision finale combine les lignes pondérées par le poids business de chaque charge.
+
+## Trois mythes à casser avant de décider
+
+Le premier mythe est que WASM va remplacer Docker. Faux. Les volumes de containers ne baissent pas, ils augmentent, et WASM occupe un sous-ensemble de cas où le container était mal adapté. Les deux modèles vont coexister pendant la décennie.
+
+Le deuxième mythe est que WASM est forcément plus rapide. Faux sur les charges CPU-intensives longues, où le runtime container a tout le temps d'amortir son démarrage et d'utiliser des optimisations OS natives. Vrai sur les charges courtes où le cold start domine, ce qui couvre justement les cas où WASM est utilisé.
+
+Le troisième mythe est que WASM est moins sécurisé. Faux. Le bytecode WASM est sandboxé par défaut, sans accès système sans capability explicite, ce qui en fait structurellement un meilleur point de départ que le container pour les charges multi-tenant. Le débat sécurité se déplace désormais vers la maturité de l'écosystème WASI, la qualité d'audit des runtimes et le suivi des [CVE des dépendances embarquées](/article/cve-comprendre-les-failles-pour-mieux-se-proteger), pas vers le modèle d'isolation lui-même.
+
+## Roadmap d'adoption progressive
+
+Pour une équipe en 2026, la séquence pragmatique est claire. Commencer par identifier une charge éphémère et fréquente : transformation de requête, A/B testing, signature de token. La porter en WASM via Cloudflare Workers ou Fermyon Spin, mesurer l'écart en latence et en coût. Étendre ensuite aux plugins de service mesh si le périmètre s'y prête. Garder le cœur applicatif en container tant que la valeur d'une réécriture n'est pas démontrée. Documenter la frontière entre les deux mondes avec autant de rigueur que les couches d'une [architecture hexagonale Symfony](/architecture-hexagonale-symfony).
+
+Cette approche découple la décision technique de la pression hype. Vous mesurez, vous arbitrez, vous progressez. Le risque est borné, le bénéfice est cumulatif.
+
+## Conclusion
+
+Le débat WASM contre container n'a pas de gagnant en 2026, il a une grille de répartition. Le container reste l'unité de déploiement par défaut pour 95 % des charges. WASM s'ajoute en complément sur les fonctions courtes, les plugins de proxy, les edge functions et les contextes multi-tenant exigeants. L'architecture qui gagne est mixte, et l'erreur stratégique consiste à choisir un camp par dogme plutôt que par mesure.
+
+Si vous préparez une évolution de stack en 2026 et que vous hésitez sur la frontière entre Symfony container et edge WASM, prenez 30 minutes pour cadrer le périmètre avec un expert. Le [pré-audit Symfony de 30 minutes](/audit-symfony-gratuit) sert exactement à ça : poser la grille de décision sur votre charge réelle avant d'engager des sprints.
