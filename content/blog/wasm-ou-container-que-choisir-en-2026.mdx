@@ -101,7 +101,7 @@ Enfin, WASM est pertinent dès qu'on a besoin d'inférence machine learning lég
 
 L'architecture qui domine en 2026 n'oppose pas WASM et container, elle les compose. Trois patterns reviennent.
 
-Le premier est Docker avec un runtime WASM. Depuis Docker Desktop 4.15, on peut lancer un module WASM via `--runtime=io.containerd.wasmtime.v1`. Le module reste packagé comme une image OCI, distribué via les mêmes registries, déployé avec les mêmes pipelines. La transition est invisible pour l'ops, l'exécution est radicalement plus dense.
+Le premier est Docker avec un runtime WASM. Depuis l'intégration native de Wasm dans Docker, on peut lancer un module WASM via un shim containerd dédié (Wasmtime, WasmEdge ou Spin selon la cible) en passant un drapeau `--runtime` au démarrage. Le module reste packagé comme une image OCI, distribué via les mêmes registries, déployé avec les mêmes pipelines. La transition est invisible pour l'ops, l'exécution est radicalement plus dense.
 
 Le second est Kubernetes avec SpinKube. Le projet, sorti en 2024 et intégré à la CNCF en sandbox, permet d'exécuter des modules WASM aux côtés de pods classiques dans le même cluster. SpinKube remplace définitivement Krustlet, archivé par Microsoft. Une équipe qui maîtrise déjà Kubernetes peut introduire WASM progressivement sur un namespace, sans repenser sa [stack cloud et DevOps](/cloud-et-devops).
 
@@ -109,7 +109,7 @@ Le troisième est l'edge function devant un cœur container. Pattern réaliste p
 
 ## Le cas Symfony et PHP en 2026
 
-Symfony et PHP restent un cas particulier. Le PHP est conçu pour vivre dans un processus persistant ou un cycle request-response classique, et son écosystème d'extensions natives ne se compile pas trivialement vers WASM. Les projets php-wasm et wasm-php existent et progressent, mais ils restent expérimentaux pour un usage Symfony production. Notre lecture de [FrankenPHP](/article/concretement-cest-quoi-frankenphp) montre que la voie d'optimisation réaliste passe par un runtime PHP performant en container avant d'envisager WASM.
+Symfony et PHP restent un cas particulier. Le PHP est conçu pour vivre dans un processus persistant ou un cycle request-response classique au sens du [HttpKernel Symfony](https://symfony.com/doc/current/components/http_kernel.html), et son écosystème d'extensions natives ne se compile pas trivialement vers WASM. Les projets php-wasm et wasm-php existent et progressent, mais ils restent expérimentaux pour un usage Symfony production. Notre lecture de [FrankenPHP](/article/concretement-cest-quoi-frankenphp) montre que la voie d'optimisation réaliste passe par un runtime PHP performant en container avant d'envisager WASM.
 
 En revanche, placer une couche d'edge functions WASM en amont d'une application Symfony est une stratégie crédible dès aujourd'hui. Les fonctions WASM normalisent les URL, gèrent les redirections SEO, signent des tokens éphémères, exécutent du A/B testing ou rejettent les bots malveillants. Symfony ne traite plus que les requêtes utiles, ce qui libère de la capacité côté cœur et améliore les temps de réponse perçus.
 
