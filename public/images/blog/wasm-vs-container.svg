@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="Comparatif WASM vs Container en 2026 : cold start, taille, densité, isolation">
+  <rect width="1200" height="630" fill="#f5f5f5"/>
+  <circle cx="100" cy="100" r="140" fill="#0066cc" opacity="0.06"/>
+  <circle cx="1100" cy="560" r="180" fill="#0066cc" opacity="0.05"/>
+
+  <text x="600" y="56" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#0f1722" text-anchor="middle">WASM ou Container : que choisir en 2026 ?</text>
+  <text x="600" y="84" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="500" fill="#595959" text-anchor="middle" letter-spacing="2">COMPARATIF TECHNIQUE · ÉTAT DE L'ART DEVOPS</text>
+
+  <g transform="translate(80, 130)">
+    <rect x="6" y="10" width="490" height="440" rx="14" fill="#0f1722" opacity="0.10"/>
+    <rect width="490" height="440" rx="14" fill="#ffffff"/>
+    <rect width="490" height="440" rx="14" fill="none" stroke="#e8e8e8" stroke-width="1"/>
+
+    <path d="M0 14 a14 14 0 0 1 14 -14 h462 a14 14 0 0 1 14 14 v54 h-490 z" fill="#0066cc"/>
+    <text x="32" y="42" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#ffffff" letter-spacing="2">CONTAINER</text>
+    <text x="458" y="42" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#ffffff" opacity="0.85" text-anchor="end">Docker · 10 ans de production</text>
+
+    <g transform="translate(32, 100)">
+      <text x="0" y="0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#595959" letter-spacing="1.5">COLD START</text>
+      <text x="0" y="28" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#0f1722">200 ms à 2 s</text>
+    </g>
+    <g transform="translate(250, 100)">
+      <text x="0" y="0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#595959" letter-spacing="1.5">TAILLE IMAGE</text>
+      <text x="0" y="28" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#0f1722">50 à 500 Mo</text>
+    </g>
+    <g transform="translate(32, 180)">
+      <text x="0" y="0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#595959" letter-spacing="1.5">DENSITÉ PAR HÔTE</text>
+      <text x="0" y="28" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#0f1722">50 à 200</text>
+    </g>
+    <g transform="translate(250, 180)">
+      <text x="0" y="0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#595959" letter-spacing="1.5">ISOLATION</text>
+      <text x="0" y="28" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#0f1722">Namespaces + cgroups</text>
+    </g>
+
+    <line x1="32" y1="260" x2="458" y2="260" stroke="#e8e8e8" stroke-width="1"/>
+
+    <text x="32" y="290" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#0066cc" letter-spacing="1.5">QUAND L'UTILISER</text>
+    <text x="32" y="320" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="500" fill="#333333">• Stack lourde (Symfony, Rails, Django)</text>
+    <text x="32" y="345" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="500" fill="#333333">• Dépendances natives (FFmpeg, GPU)</text>
+    <text x="32" y="370" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="500" fill="#333333">• Workers longs, état persistant</text>
+    <text x="32" y="395" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="500" fill="#333333">• API REST métier classique</text>
+  </g>
+
+  <g transform="translate(620, 130)">
+    <rect x="6" y="10" width="500" height="440" rx="14" fill="#0f1722" opacity="0.10"/>
+    <rect width="500" height="440" rx="14" fill="#ffffff"/>
+    <rect width="500" height="440" rx="14" fill="none" stroke="#e8e8e8" stroke-width="1"/>
+
+    <path d="M0 14 a14 14 0 0 1 14 -14 h472 a14 14 0 0 1 14 14 v54 h-500 z" fill="#0f1722"/>
+    <text x="32" y="42" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#ffffff" letter-spacing="2">WASM</text>
+    <text x="468" y="42" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#ffffff" opacity="0.85" text-anchor="end">WASI Preview 2 · production-ready</text>
+
+    <g transform="translate(32, 100)">
+      <text x="0" y="0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#595959" letter-spacing="1.5">COLD START</text>
+      <text x="0" y="28" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#0066cc">0,5 à 5 ms</text>
+    </g>
+    <g transform="translate(260, 100)">
+      <text x="0" y="0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#595959" letter-spacing="1.5">TAILLE MODULE</text>
+      <text x="0" y="28" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#0066cc">1 à 10 Mo</text>
+    </g>
+    <g transform="translate(32, 180)">
+      <text x="0" y="0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#595959" letter-spacing="1.5">DENSITÉ PAR HÔTE</text>
+      <text x="0" y="28" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#0066cc">5 000 à 50 000</text>
+    </g>
+    <g transform="translate(260, 180)">
+      <text x="0" y="0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#595959" letter-spacing="1.5">ISOLATION</text>
+      <text x="0" y="28" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#0066cc">Sandbox + WASI caps</text>
+    </g>
+
+    <line x1="32" y1="260" x2="468" y2="260" stroke="#e8e8e8" stroke-width="1"/>
+
+    <text x="32" y="290" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#0066cc" letter-spacing="1.5">QUAND L'UTILISER</text>
+    <text x="32" y="320" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="500" fill="#333333">• Edge functions (CDN, A/B testing)</text>
+    <text x="32" y="345" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="500" fill="#333333">• Plugins de service mesh (Envoy)</text>
+    <text x="32" y="370" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="500" fill="#333333">• Multi-tenant strict, sandbox par défaut</text>
+    <text x="32" y="395" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="500" fill="#333333">• Inférence ML légère à l'edge</text>
+  </g>
+
+  <text x="600" y="510" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f1722" text-anchor="middle">Verdict 2026 : pas de remplacement, coexistence</text>
+  <text x="600" y="534" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="500" fill="#595959" text-anchor="middle">Container = unité de déploiement par défaut · WASM = unité d'exécution pour le court et le dense</text>
+</svg>
