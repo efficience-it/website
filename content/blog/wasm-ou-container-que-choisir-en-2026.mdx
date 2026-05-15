@@ -85,7 +85,7 @@ Cette table n'est pas un classement. Chaque ligne pointe vers un cas d'usage où
 
 Le container gagne dès que la charge embarque une stack lourde. Une application Symfony complète avec son ORM Doctrine, ses extensions PHP, ses outils d'image et son client de base de données fonctionne nativement dans un container et marginalement dans WASM. L'[intégration Docker côté Symfony](/integration-docker-symfony) reste le standard pour packager ce type de workload.
 
-Le container gagne aussi sur les processus longs. Un worker Symfony Messenger qui traite des messages pendant des heures, un job de calcul batch, un serveur Node.js avec connexions persistantes : tous bénéficient d'un environnement chargé une fois pour toutes. Le cold start est amorti, l'OS sous-jacent rend service, et la portabilité WASI n'apporte rien de visible.
+Le container gagne aussi sur les processus longs. Un worker Symfony Messenger qui traite des messages pendant des heures, un job de calcul batch, un serveur Node.js bâti sur [Express, Fastify ou Hono](/article/express-fastify-hono-quel-framework-nodejs-choisir) avec connexions persistantes : tous bénéficient d'un environnement chargé une fois pour toutes. Le cold start est amorti, l'OS sous-jacent rend service, et la portabilité WASI n'apporte rien de visible.
 
 Enfin, le container reste imbattable sur les dépendances binaires natives. ImageMagick, FFmpeg, drivers GPU, bibliothèques scientifiques compilées : autant de briques qui ne se portent pas vers WASM sans effort disproportionné. Pour ces charges, la question ne se pose pas.
 
@@ -138,7 +138,7 @@ Le premier mythe est que WASM va remplacer Docker. Faux. Les volumes de containe
 
 Le deuxième mythe est que WASM est forcément plus rapide. Faux sur les charges CPU-intensives longues, où le runtime container a tout le temps d'amortir son démarrage et d'utiliser des optimisations OS natives. Vrai sur les charges courtes où le cold start domine, ce qui couvre justement les cas où WASM est utilisé.
 
-Le troisième mythe est que WASM est moins sécurisé. Faux. Le bytecode WASM est sandboxé par défaut, sans accès système sans capability explicite, ce qui en fait structurellement un meilleur point de départ que le container pour les charges multi-tenant. Le débat sécurité se déplace désormais vers la maturité de l'écosystème WASI et la qualité d'audit des runtimes, pas vers le modèle d'isolation lui-même.
+Le troisième mythe est que WASM est moins sécurisé. Faux. Le bytecode WASM est sandboxé par défaut, sans accès système sans capability explicite, ce qui en fait structurellement un meilleur point de départ que le container pour les charges multi-tenant. Le débat sécurité se déplace désormais vers la maturité de l'écosystème WASI, la qualité d'audit des runtimes et le suivi des [CVE des dépendances embarquées](/article/cve-comprendre-les-failles-pour-mieux-se-proteger), pas vers le modèle d'isolation lui-même.
 
 ## Roadmap d'adoption progressive
 
