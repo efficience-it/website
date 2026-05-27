@@ -101,10 +101,11 @@ export default function ArticleShareButtons({ url, title, articleSlug }: Article
             aria-label={`Partager sur ${link.label}`}
             title={`Partager sur ${link.label}`}
             onClick={() => trackEvent("share", { method: link.method, article_slug: articleSlug })}
-            className={`inline-flex h-8 w-16 cursor-pointer items-center justify-center rounded-md border px-3 text-sm font-medium text-white ${interactionClasses}`}
+            className={`inline-flex h-8 w-16 cursor-pointer items-center justify-center rounded-md border px-3 text-sm font-medium ${interactionClasses}`}
             style={{
               backgroundColor: link.color,
               borderColor: link.color,
+              color: "#fff",
             }}
           >
             {link.icon}
@@ -115,7 +116,8 @@ export default function ArticleShareButtons({ url, title, articleSlug }: Article
           onClick={handleCopy}
           aria-label={copied ? "Lien copié" : "Copier le lien"}
           title={copied ? "Lien copié" : "Copier le lien de l'article"}
-          className={`relative inline-flex h-8 w-16 cursor-pointer items-center justify-center rounded-md border border-slate-600 bg-slate-600 px-3 text-sm font-medium text-white ${interactionClasses}`}
+          className={`relative inline-flex h-8 w-16 cursor-pointer items-center justify-center rounded-md border border-slate-600 bg-slate-600 px-3 text-sm font-medium ${interactionClasses}`}
+          style={{ color: "#fff" }}
         >
           <span className="relative h-4 w-4 pointer-events-none">
             <svg
