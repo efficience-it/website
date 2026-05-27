@@ -9,8 +9,16 @@ import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
-import { breadcrumbJsonLd, howToJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
+import {
+  breadcrumbJsonLd,
+  howToJsonLd,
+  webPageJsonLd,
+  pageGraphJsonLd,
+} from "@/lib/structured-data";
 import CodeIllustration from "@/components/illustrations/CodeIllustration";
+import { formatDate } from "@/lib/dates";
+
+const DATE_MODIFIED = "2026-02-01";
 
 export const metadata = pageMetadata({
   title: "Diagnostic Symfony gratuit de 30 minutes : premier état des lieux",
@@ -113,10 +121,11 @@ const howTo = howToJsonLd(
 
 const webPage = webPageJsonLd({
   name: "Diagnostic Symfony gratuit de 30 minutes : premier état des lieux",
-  description: "Diagnostic gratuit de 30 minutes pour votre application Symfony : premier état des lieux technique, identification des points critiques et pistes d'amélioration. Sans engagement.",
+  description:
+    "Diagnostic gratuit de 30 minutes pour votre application Symfony : premier état des lieux technique, identification des points critiques et pistes d'amélioration. Sans engagement.",
   path: "/audit-symfony-gratuit",
   datePublished: "2025-09-01",
-  dateModified: "2026-02-01",
+  dateModified: DATE_MODIFIED,
 });
 
 const auditRelatedLinks: RelatedLink[] = [
@@ -156,7 +165,14 @@ const auditRelatedLinks: RelatedLink[] = [
 export default function AuditSymfonyGratuit() {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageGraphJsonLd(breadcrumb, howTo, faqJsonLd, webPage)) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            pageGraphJsonLd(breadcrumb, howTo, faqJsonLd, webPage),
+          ),
+        }}
+      />
       <main>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
@@ -167,7 +183,8 @@ export default function AuditSymfonyGratuit() {
                   Gratuit et sans engagement
                 </p>
                 <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                  Diagnostic Symfony gratuit de 30 minutes : premier état des lieux
+                  Diagnostic Symfony gratuit de 30 minutes : premier état des
+                  lieux
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
                   Votre application Symfony a plus de 3 ans ? Vous accumulez de
@@ -177,9 +194,9 @@ export default function AuditSymfonyGratuit() {
                   Nous vous proposons un{" "}
                   <strong>audit technique gratuit de 30 minutes</strong> pour
                   identifier les points critiques de votre application et vous
-                  donner des pistes d&apos;amélioration concrètes.
-                  Pour un audit technique complet avec analyse PHPStan niveau max,
-                  revue manuelle et rapport détaillé sous 48h, découvrez notre{" "}
+                  donner des pistes d&apos;amélioration concrètes. Pour un audit
+                  technique complet avec analyse PHPStan niveau max, revue
+                  manuelle et rapport détaillé sous 48h, découvrez notre{" "}
                   <Link
                     href="/audit-code-php"
                     className="text-primary hover:underline"
@@ -191,6 +208,12 @@ export default function AuditSymfonyGratuit() {
                 <p className="mt-6 text-lg font-semibold text-dark">
                   Un appel visio de 30 min, un compte-rendu écrit sous 48h.
                 </p>
+                <p className="mt-6 text-xs text-gray">
+                  Page mise à jour le{" "}
+                  <time dateTime={DATE_MODIFIED}>
+                    {formatDate(DATE_MODIFIED)}
+                  </time>
+                </p>
               </div>
               <div className="flex justify-center">
                 <CodeIllustration className="h-96 w-full text-primary" />
@@ -200,284 +223,318 @@ export default function AuditSymfonyGratuit() {
         </section>
 
         <FadeIn>
-        <section className="py-16 md:py-24">
-          <Container>
-            <SectionTitle>Ce que couvre l&apos;audit</SectionTitle>
-            <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-              En 30 minutes, nous passons en revue les points essentiels de
-              votre application Symfony pour vous donner une vision claire de
-              son état technique.
-            </p>
-            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {auditTopics.map((topic) => (
-                <Card key={topic.title}>
-                  <h3 className="font-display text-lg font-bold text-dark">
-                    {topic.title}
-                  </h3>
-                  <p className="mt-2 text-gray">{topic.description}</p>
+          <section className="py-16 md:py-24">
+            <Container>
+              <SectionTitle>Ce que couvre l&apos;audit</SectionTitle>
+              <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+                En 30 minutes, nous passons en revue les points essentiels de
+                votre application Symfony pour vous donner une vision claire de
+                son état technique.
+              </p>
+              <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {auditTopics.map((topic) => (
+                  <Card key={topic.title}>
+                    <h3 className="font-display text-lg font-bold text-dark">
+                      {topic.title}
+                    </h3>
+                    <p className="mt-2 text-gray">{topic.description}</p>
+                  </Card>
+                ))}
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="py-16 md:py-24">
+            <Container>
+              <SectionTitle>Résultats concrets</SectionTitle>
+              <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
+                Quelques exemples de résultats obtenus lors de nos audits
+                Symfony auprès de clients aux profils variés.
+              </p>
+              <div className="mt-10 grid gap-6 sm:grid-cols-3">
+                <Card>
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100 text-green-600">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={2}
+                      stroke="currentColor"
+                      className="h-6 w-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M4.5 12.75l6 6 9-13.5"
+                      />
+                    </svg>
+                  </div>
+                  <p className="mt-4 font-display text-3xl font-bold text-primary">
+                    -40%
+                  </p>
+                  <p className="mt-2 text-gray">
+                    Réduction de 40% du temps de chargement après optimisation
+                    des requêtes Doctrine
+                  </p>
                 </Card>
-              ))}
-            </div>
-          </Container>
-        </section>
-        </FadeIn>
-
-        <FadeIn>
-        <section className="py-16 md:py-24">
-          <Container>
-            <SectionTitle>Résultats concrets</SectionTitle>
-            <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-              Quelques exemples de résultats obtenus lors de nos audits Symfony
-              auprès de clients aux profils variés.
-            </p>
-            <div className="mt-10 grid gap-6 sm:grid-cols-3">
-              <Card>
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100 text-green-600">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2}
-                    stroke="currentColor"
-                    className="h-6 w-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M4.5 12.75l6 6 9-13.5"
-                    />
-                  </svg>
-                </div>
-                <p className="mt-4 font-display text-3xl font-bold text-primary">
-                  -40%
-                </p>
-                <p className="mt-2 text-gray">
-                  Réduction de 40% du temps de chargement après optimisation des
-                  requêtes Doctrine
-                </p>
-              </Card>
-              <Card>
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100 text-green-600">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2}
-                    stroke="currentColor"
-                    className="h-6 w-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M4.5 12.75l6 6 9-13.5"
-                    />
-                  </svg>
-                </div>
-                <p className="mt-4 font-display text-3xl font-bold text-primary">
-                  12 failles
-                </p>
-                <p className="mt-2 text-gray">
-                  Détection de 12 failles de sécurité critiques sur une
-                  application e-commerce
-                </p>
-              </Card>
-              <Card>
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100 text-green-600">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2}
-                    stroke="currentColor"
-                    className="h-6 w-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M4.5 12.75l6 6 9-13.5"
-                    />
-                  </svg>
-                </div>
-                <p className="mt-4 font-display text-3xl font-bold text-primary">
-                  3 sprints
-                </p>
-                <p className="mt-2 text-gray">
-                  Migration de Symfony 4.4 à 6.4 planifiée et exécutée en 3
-                  sprints
-                </p>
-              </Card>
-            </div>
-          </Container>
-        </section>
-        </FadeIn>
-
-        <FadeIn>
-        <section className="bg-light-gray py-16 md:py-24">
-          <Container>
-            <SectionTitle>Ce que nos clients en disent</SectionTitle>
-            <div className="mx-auto mt-10 grid max-w-4xl gap-8 md:grid-cols-2">
-              <Card>
-                <blockquote className="text-lg italic text-gray">
-                  &laquo;&nbsp;L&apos;audit nous a permis d&apos;identifier des
-                  problèmes de performance que nous n&apos;avions pas détectés.
-                  En 30 minutes, nous avions une feuille de route
-                  claire.&nbsp;&raquo;
-                </blockquote>
-                <p className="mt-4 font-semibold text-dark">
-                  CTO, PME e-commerce
-                </p>
-              </Card>
-              <Card>
-                <blockquote className="text-lg italic text-gray">
-                  &laquo;&nbsp;Pragmatique et sans jargon. L&apos;équipe a su
-                  vulgariser les enjeux techniques pour notre
-                  direction.&nbsp;&raquo;
-                </blockquote>
-                <p className="mt-4 font-semibold text-dark">
-                  Responsable projet, groupe industriel
-                </p>
-              </Card>
-            </div>
-          </Container>
-        </section>
-        </FadeIn>
-
-        <FadeIn>
-        <section className="bg-light-gray py-16 md:py-24">
-          <Container>
-            <SectionTitle>Comment ça se passe</SectionTitle>
-            <div className="mt-10 grid gap-6 sm:grid-cols-3">
-              <div className="text-center">
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary text-lg font-bold text-white">
-                  1
-                </div>
-                <h3 className="mt-4 font-display text-lg font-bold text-dark">
-                  Vous remplissez le formulaire
-                </h3>
-                <p className="mt-2 text-gray">
-                  Quelques informations sur votre projet pour que nous puissions
-                  préparer l&apos;audit en amont.
-                </p>
+                <Card>
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100 text-green-600">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={2}
+                      stroke="currentColor"
+                      className="h-6 w-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M4.5 12.75l6 6 9-13.5"
+                      />
+                    </svg>
+                  </div>
+                  <p className="mt-4 font-display text-3xl font-bold text-primary">
+                    12 failles
+                  </p>
+                  <p className="mt-2 text-gray">
+                    Détection de 12 failles de sécurité critiques sur une
+                    application e-commerce
+                  </p>
+                </Card>
+                <Card>
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100 text-green-600">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={2}
+                      stroke="currentColor"
+                      className="h-6 w-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M4.5 12.75l6 6 9-13.5"
+                      />
+                    </svg>
+                  </div>
+                  <p className="mt-4 font-display text-3xl font-bold text-primary">
+                    3 sprints
+                  </p>
+                  <p className="mt-2 text-gray">
+                    Migration de Symfony 4.4 à 6.4 planifiée et exécutée en 3
+                    sprints
+                  </p>
+                </Card>
               </div>
-              <div className="text-center">
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary text-lg font-bold text-white">
-                  2
-                </div>
-                <h3 className="mt-4 font-display text-lg font-bold text-dark">
-                  Appel visio de 30 min
-                </h3>
-                <p className="mt-2 text-gray">
-                  Nous analysons ensemble votre application. Si vous pouvez
-                  partager un accès en lecture au repo, c&apos;est encore mieux.
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary text-lg font-bold text-white">
-                  3
-                </div>
-                <h3 className="mt-4 font-display text-lg font-bold text-dark">
-                  Compte-rendu sous 48h
-                </h3>
-                <p className="mt-2 text-gray">
-                  Vous recevez une synthèse écrite avec nos constats et
-                  recommandations. Sans engagement. Pour en savoir plus sur{" "}
-                  <Link href="/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede" className="text-primary hover:underline">
-                    notre méthodologie d&apos;audit
-                  </Link>
-                  , consultez notre article dédié.
-                </p>
-              </div>
-            </div>
-          </Container>
-        </section>
+            </Container>
+          </section>
         </FadeIn>
 
         <FadeIn>
-        <section id="formulaire" className="py-16 md:py-24">
-          <Container>
-            <SectionTitle>Demander votre audit gratuit</SectionTitle>
-            <div className="mx-auto mt-10 grid max-w-5xl items-start gap-12 lg:grid-cols-5">
-              <div className="lg:col-span-2">
-                <div className="rounded-lg bg-light-gray p-6">
+          <section className="bg-light-gray py-16 md:py-24">
+            <Container>
+              <SectionTitle>Ce que nos clients en disent</SectionTitle>
+              <div className="mx-auto mt-10 grid max-w-4xl gap-8 md:grid-cols-2">
+                <Card>
                   <blockquote className="text-lg italic text-gray">
-                    &laquo;&nbsp;Efficience IT a su rapidement comprendre nos
-                    problématiques. Leur compréhension approfondie de Symfony a
-                    permis une API performante et fiable.&nbsp;&raquo;
+                    &laquo;&nbsp;L&apos;audit nous a permis d&apos;identifier
+                    des problèmes de performance que nous n&apos;avions pas
+                    détectés. En 30 minutes, nous avions une feuille de route
+                    claire.&nbsp;&raquo;
                   </blockquote>
-                  <div className="mt-4">
-                    <p className="font-semibold text-dark">Luc Delbreuil</p>
-                    <p className="text-sm text-gray">
-                      Directeur Général, Glasseo
-                    </p>
+                  <p className="mt-4 font-semibold text-dark">
+                    CTO, PME e-commerce
+                  </p>
+                </Card>
+                <Card>
+                  <blockquote className="text-lg italic text-gray">
+                    &laquo;&nbsp;Pragmatique et sans jargon. L&apos;équipe a su
+                    vulgariser les enjeux techniques pour notre
+                    direction.&nbsp;&raquo;
+                  </blockquote>
+                  <p className="mt-4 font-semibold text-dark">
+                    Responsable projet, groupe industriel
+                  </p>
+                </Card>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="bg-light-gray py-16 md:py-24">
+            <Container>
+              <SectionTitle>Comment ça se passe</SectionTitle>
+              <div className="mt-10 grid gap-6 sm:grid-cols-3">
+                <div className="text-center">
+                  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary text-lg font-bold text-white">
+                    1
+                  </div>
+                  <h3 className="mt-4 font-display text-lg font-bold text-dark">
+                    Vous remplissez le formulaire
+                  </h3>
+                  <p className="mt-2 text-gray">
+                    Quelques informations sur votre projet pour que nous
+                    puissions préparer l&apos;audit en amont.
+                  </p>
+                </div>
+                <div className="text-center">
+                  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary text-lg font-bold text-white">
+                    2
+                  </div>
+                  <h3 className="mt-4 font-display text-lg font-bold text-dark">
+                    Appel visio de 30 min
+                  </h3>
+                  <p className="mt-2 text-gray">
+                    Nous analysons ensemble votre application. Si vous pouvez
+                    partager un accès en lecture au repo, c&apos;est encore
+                    mieux.
+                  </p>
+                </div>
+                <div className="text-center">
+                  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary text-lg font-bold text-white">
+                    3
+                  </div>
+                  <h3 className="mt-4 font-display text-lg font-bold text-dark">
+                    Compte-rendu sous 48h
+                  </h3>
+                  <p className="mt-2 text-gray">
+                    Vous recevez une synthèse écrite avec nos constats et
+                    recommandations. Sans engagement. Pour en savoir plus sur{" "}
+                    <Link
+                      href="/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede"
+                      className="text-primary hover:underline"
+                    >
+                      notre méthodologie d&apos;audit
+                    </Link>
+                    , consultez notre article dédié.
+                  </p>
+                </div>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section id="formulaire" className="py-16 md:py-24">
+            <Container>
+              <SectionTitle>Demander votre audit gratuit</SectionTitle>
+              <div className="mx-auto mt-10 grid max-w-5xl items-start gap-12 lg:grid-cols-5">
+                <div className="lg:col-span-2">
+                  <div className="rounded-lg bg-light-gray p-6">
+                    <blockquote className="text-lg italic text-gray">
+                      &laquo;&nbsp;Efficience IT a su rapidement comprendre nos
+                      problématiques. Leur compréhension approfondie de Symfony
+                      a permis une API performante et fiable.&nbsp;&raquo;
+                    </blockquote>
+                    <div className="mt-4">
+                      <p className="font-semibold text-dark">Luc Delbreuil</p>
+                      <p className="text-sm text-gray">
+                        Directeur Général, Glasseo
+                      </p>
+                    </div>
+                  </div>
+                  <div className="mt-6 rounded-lg bg-light-gray p-6">
+                    <blockquote className="text-lg italic text-gray">
+                      &laquo;&nbsp;Collaboration avec Efficience IT très
+                      appréciée ! Proximité technique et flexibilité ont produit
+                      qualité en temps record.&nbsp;&raquo;
+                    </blockquote>
+                    <div className="mt-4">
+                      <p className="font-semibold text-dark">Viktor Toldov</p>
+                      <p className="text-sm text-gray">CTO, Lituus</p>
+                    </div>
                   </div>
                 </div>
-                <div className="mt-6 rounded-lg bg-light-gray p-6">
-                  <blockquote className="text-lg italic text-gray">
-                    &laquo;&nbsp;Collaboration avec Efficience IT très appréciée !
-                    Proximité technique et flexibilité ont produit qualité en
-                    temps record.&nbsp;&raquo;
-                  </blockquote>
-                  <div className="mt-4">
-                    <p className="font-semibold text-dark">Viktor Toldov</p>
-                    <p className="text-sm text-gray">CTO, Lituus</p>
+                <div className="lg:col-span-3">
+                  <AuditForm />
+                  <div className="mt-6 flex flex-wrap justify-center gap-6 text-sm text-gray">
+                    <span className="flex items-center gap-1.5">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2}
+                        stroke="currentColor"
+                        className="h-4 w-4 text-green-600"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M4.5 12.75l6 6 9-13.5"
+                        />
+                      </svg>
+                      Réponse sous 48h
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2}
+                        stroke="currentColor"
+                        className="h-4 w-4 text-green-600"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M4.5 12.75l6 6 9-13.5"
+                        />
+                      </svg>
+                      NDA possible
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2}
+                        stroke="currentColor"
+                        className="h-4 w-4 text-green-600"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M4.5 12.75l6 6 9-13.5"
+                        />
+                      </svg>
+                      0 obligation
+                    </span>
                   </div>
+                  <p className="mt-6 text-center text-gray">
+                    Vous n&apos;êtes pas sûr que l&apos;audit soit adapté à
+                    votre situation ?{" "}
+                    <Link
+                      href="/contact"
+                      className="text-primary hover:underline"
+                    >
+                      Contactez-nous pour en discuter
+                    </Link>
+                    , sans engagement.
+                  </p>
                 </div>
               </div>
-              <div className="lg:col-span-3">
-                <AuditForm />
-                <div className="mt-6 flex flex-wrap justify-center gap-6 text-sm text-gray">
-                  <span className="flex items-center gap-1.5">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="h-4 w-4 text-green-600">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                    </svg>
-                    Réponse sous 48h
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="h-4 w-4 text-green-600">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                    </svg>
-                    NDA possible
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="h-4 w-4 text-green-600">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                    </svg>
-                    0 obligation
-                  </span>
-                </div>
-                <p className="mt-6 text-center text-gray">
-                  Vous n&apos;êtes pas sûr que l&apos;audit soit adapté à votre
-                  situation ?{" "}
-                  <Link
-                    href="/contact"
-                    className="text-primary hover:underline"
-                  >
-                    Contactez-nous pour en discuter
-                  </Link>
-                  , sans engagement.
-                </p>
-              </div>
-            </div>
-          </Container>
-        </section>
+            </Container>
+          </section>
         </FadeIn>
 
         <FadeIn>
-        <section className="py-16 md:py-24">
-          <Container>
-            <SectionTitle>Questions fréquentes</SectionTitle>
-            <div className="mx-auto max-w-2xl">
-              <Accordion items={faqItems} />
-            </div>
-          </Container>
-        </section>
+          <section className="py-16 md:py-24">
+            <Container>
+              <SectionTitle>Questions fréquentes</SectionTitle>
+              <div className="mx-auto max-w-2xl">
+                <Accordion items={faqItems} />
+              </div>
+            </Container>
+          </section>
         </FadeIn>
 
         <FadeIn>
-        <RelatedLinks
-          links={auditRelatedLinks}
-          className="bg-light-gray"
-        />
+          <RelatedLinks links={auditRelatedLinks} className="bg-light-gray" />
         </FadeIn>
       </main>
     </>

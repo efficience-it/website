@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { formatDate } from "@/lib/dates";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import Container from "@/components/ui/Container";
@@ -13,6 +14,8 @@ import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { BASE_URL } from "@/lib/metadata";
 import UserInterfaceIllustration from "@/components/illustrations/UserInterfaceIllustration";
+
+const DATE_MODIFIED = "2026-01-13";
 
 export const metadata = pageMetadata({
   title: "Formation Symfony pour les entreprises à Lille et à distance",
@@ -181,7 +184,7 @@ const webPage = webPageJsonLd({
   description: "Formation Symfony adaptée aux entreprises, à Lille et à distance. Fondamentaux, architecture hexagonale, API Platform, PHPStan. Groupes de 2 à 8 personnes, formateurs praticiens.",
   path: "/formation-symfony-entreprise",
   datePublished: "2026-01-13",
-  dateModified: "2026-01-13",
+  dateModified: DATE_MODIFIED,
 });
 
 const formationRelatedLinks: RelatedLink[] = [
@@ -401,6 +404,10 @@ export default function FormationSymfonyEntreprise() {
         <RelatedLinks links={formationRelatedLinks} className="bg-light-gray" />
         <StickyMobileCta />
         </FadeIn>
+      
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
       </main>
     </>
   );

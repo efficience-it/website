@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { formatDate } from "@/lib/dates";
 import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
@@ -13,6 +14,8 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
+
+const DATE_MODIFIED = "2026-03-12";
 
 export const metadata = pageMetadata({
   title:
@@ -107,7 +110,7 @@ const webPage = webPageJsonLd({
     "Efficience IT conçoit des applications SaaS robustes avec Symfony : architecture multi-tenant, API REST/GraphQL, scalabilité et CI/CD.",
   path: "/secteur/saas",
   datePublished: "2026-03-12",
-  dateModified: "2026-03-12",
+  dateModified: DATE_MODIFIED,
 });
 
 const relatedLinks: RelatedLink[] = [
@@ -390,6 +393,10 @@ export default function SecteurSaas() {
         <CallToAction />
         <StickyMobileCta />
         </FadeIn>
+      
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
       </main>
     </>
   );

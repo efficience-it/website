@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { formatDate } from "@/lib/dates";
 import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
@@ -17,6 +18,8 @@ import { clients } from "@/../data/clients";
 import { testimonials } from "@/../data/testimonials";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import GrowthIllustration from "@/components/illustrations/GrowthIllustration";
+
+const DATE_MODIFIED = "2026-03-10";
 
 export const metadata = pageMetadata({
   title: "Cloud & DevOps : infrastructure et automatisation",
@@ -126,7 +129,7 @@ const webPage = webPageJsonLd({
     "Expertise Cloud et DevOps : Efficience IT accompagne la mise en place d'infrastructures, d'automatisation et de pratiques DevOps adaptées aux projets web.",
   path: "/cloud-et-devops",
   datePublished: "2025-09-01",
-  dateModified: "2026-03-10",
+  dateModified: DATE_MODIFIED,
 });
 
 const cloudRelatedLinks: RelatedLink[] = [
@@ -492,7 +495,11 @@ export default function CloudEtDevops() {
       <CallToAction />
       <StickyMobileCta />
       </FadeIn>
-    </main>
+    
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
+      </main>
     </>
   );
 }

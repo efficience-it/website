@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { formatDate } from "@/lib/dates";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -12,6 +13,8 @@ import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
+
+const DATE_MODIFIED = "2026-03-12";
 
 export const metadata = pageMetadata({
   title: "Audit technique approfondi de code PHP : rapport détaillé et plan d'action",
@@ -158,7 +161,7 @@ const webPage = webPageJsonLd({
     "Audit technique de votre code PHP : analyse statique PHPStan niveau max, revue par un développeur senior, rapport détaillé avec plan d'action. Sous 48h.",
   path: "/audit-code-php",
   datePublished: "2026-03-12",
-  dateModified: "2026-03-12",
+  dateModified: DATE_MODIFIED,
 });
 
 const auditRelatedLinks: RelatedLink[] = [
@@ -432,6 +435,10 @@ export default function AuditCodePhp() {
         <CallToAction />
         <StickyMobileCta />
         </FadeIn>
+      
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
       </main>
     </>
   );

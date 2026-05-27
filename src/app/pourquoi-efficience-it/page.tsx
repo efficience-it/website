@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { formatDate } from "@/lib/dates";
 import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
@@ -16,6 +17,8 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import { clients } from "@/../data/clients";
 import { testimonials } from "@/../data/testimonials";
 import { breadcrumbJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
+
+const DATE_MODIFIED = "2026-04-03";
 
 export const metadata = pageMetadata({
   title: "Pourquoi choisir Efficience IT pour vos projets Symfony",
@@ -75,7 +78,7 @@ const webPage = webPageJsonLd({
     "Agence Symfony vs freelance, ESN ou agence web : pourquoi choisir Efficience IT pour vos projets PHP et Symfony.",
   path: "/pourquoi-efficience-it",
   datePublished: "2026-04-03",
-  dateModified: "2026-04-03",
+  dateModified: DATE_MODIFIED,
 });
 
 const relatedLinks: RelatedLink[] = [
@@ -471,6 +474,10 @@ export default function PourquoiEfficienceIt() {
           <CallToAction />
           <StickyMobileCta />
         </FadeIn>
+      
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
       </main>
     </>
   );

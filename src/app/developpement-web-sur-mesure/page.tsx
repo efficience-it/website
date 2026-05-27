@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { formatDate } from "@/lib/dates";
 import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
@@ -16,6 +17,8 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import { clients } from "@/../data/clients";
 import { testimonials } from "@/../data/testimonials";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
+
+const DATE_MODIFIED = "2026-03-10";
 
 export const metadata = pageMetadata({
   title: "Développement web sur mesure | Expertise Symfony – Efficience IT",
@@ -107,7 +110,7 @@ const webPage = webPageJsonLd({
   description: "Efficience IT accompagne des projets applicatifs, notamment basés sur Symfony, de la conception à la mise en œuvre.",
   path: "/developpement-web-sur-mesure",
   datePublished: "2025-09-01",
-  dateModified: "2026-03-10",
+  dateModified: DATE_MODIFIED,
 });
 
 const devWebRelatedLinks: RelatedLink[] = [
@@ -680,7 +683,11 @@ export default function DeveloppementWeb() {
       <CallToAction />
       <StickyMobileCta />
       </FadeIn>
-    </main>
+    
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
+      </main>
     </>
   );
 }

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { formatDate } from "@/lib/dates";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -12,6 +13,8 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import TaskIllustration from "@/components/illustrations/TaskIllustration";
+
+const DATE_MODIFIED = "2026-03-16";
 
 const relatedLinks: RelatedLink[] = [
   { title: "La dette technique : faut-il vraiment en avoir peur ?", description: "comprendre et anticiper l'accumulation de dette", href: "/article/la-dette-technique-faut-il-vraiment-en-avoir-peur" },
@@ -39,7 +42,7 @@ const webPage = webPageJsonLd({
     "Parcours complet de modernisation applicative : diagnostic, audit de dette technique, refactoring progressif et migration architecturale.",
   path: "/modernisation-applicative",
   datePublished: "2026-03-16",
-  dateModified: "2026-03-16",
+  dateModified: DATE_MODIFIED,
 });
 
 const service = serviceJsonLd({
@@ -487,6 +490,10 @@ export default function ModernisationApplicative() {
         <RelatedLinks links={relatedLinks} className="bg-light-gray" />
         <StickyMobileCta />
         </FadeIn>
+      
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
       </main>
     </>
   );

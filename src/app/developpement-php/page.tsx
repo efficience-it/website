@@ -15,6 +15,9 @@ import { breadcrumbJsonLd,
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import ProgrammingIllustration from "@/components/illustrations/ProgrammingIllustration";
+import { formatDate } from "@/lib/dates";
+
+const DATE_MODIFIED = "2026-03-17";
 
 const phpRelatedLinks: RelatedLink[] = [
   {
@@ -201,7 +204,7 @@ const webPage = webPageJsonLd({
     "Agence de développement PHP sur mesure. Efficience IT conçoit des applications web avec PHP 8, Symfony, Doctrine et les bonnes pratiques.",
   path: "/developpement-php",
   datePublished: "2026-03-17",
-  dateModified: "2026-03-17",
+  dateModified: DATE_MODIFIED,
 });
 
 export default function DeveloppementPhp() {
@@ -259,6 +262,9 @@ export default function DeveloppementPhp() {
                     Audit gratuit 30 min
                   </Button>
                 </div>
+                <p className="mt-6 text-xs text-gray">
+                  Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+                </p>
               </div>
               <div className="hidden md:flex justify-center">
                 <ProgrammingIllustration className="h-96 w-full text-primary" />

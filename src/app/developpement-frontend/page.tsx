@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { formatDate } from "@/lib/dates";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -13,6 +14,8 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from 
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import CreativeIllustration from "@/components/illustrations/CreativeIllustration";
+
+const DATE_MODIFIED = "2026-03-17";
 
 const frontendRelatedLinks: RelatedLink[] = [
   {
@@ -179,7 +182,7 @@ const webPage = webPageJsonLd({
     "Efficience IT conçoit des interfaces frontend performantes avec React, Vue.js, Next.js et TypeScript. Applications connectées à vos APIs Symfony.",
   path: "/developpement-frontend",
   datePublished: "2026-03-17",
-  dateModified: "2026-03-17",
+  dateModified: DATE_MODIFIED,
 });
 
 export default function DeveloppementFrontend() {
@@ -412,6 +415,10 @@ export default function DeveloppementFrontend() {
           <CallToAction />
           <StickyMobileCta />
         </FadeIn>
+      
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
       </main>
     </>
   );

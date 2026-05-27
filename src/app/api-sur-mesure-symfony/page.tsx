@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { formatDate } from "@/lib/dates";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -11,6 +12,8 @@ import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
+
+const DATE_MODIFIED = "2026-03-11";
 
 export const metadata = pageMetadata({
   title: "API sur mesure avec Symfony et API Platform",
@@ -173,7 +176,7 @@ const webPage = webPageJsonLd({
   description: "Développement API Symfony sur mesure : REST, GraphQL, OAuth2/JWT, OpenAPI. Nous concevons des API robustes et performantes pour vos applications mobiles, SaaS et interconnexions SI.",
   path: "/api-sur-mesure-symfony",
   datePublished: "2026-03-11",
-  dateModified: "2026-03-11",
+  dateModified: DATE_MODIFIED,
 });
 
 const apiRelatedLinks: RelatedLink[] = [
@@ -470,6 +473,10 @@ export default function ApiSurMesureSymfony() {
         />
         <StickyMobileCta />
         </FadeIn>
+      
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
       </main>
     </>
   );

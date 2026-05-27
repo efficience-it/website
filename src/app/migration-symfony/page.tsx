@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { formatDate } from "@/lib/dates";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -13,6 +14,8 @@ import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import StrategyIllustration from "@/components/illustrations/StrategyIllustration";
+
+const DATE_MODIFIED = "2026-03-12";
 
 export const metadata = pageMetadata({
   title:
@@ -160,7 +163,7 @@ const webPage = webPageJsonLd({
     "Migration Symfony 4, 5, 6 vers Symfony 7 : montée de version progressive, sans interruption de service. Expertise certifiée et outillage Rector.",
   path: "/migration-symfony",
   datePublished: "2026-03-12",
-  dateModified: "2026-03-12",
+  dateModified: DATE_MODIFIED,
 });
 
 const migrationRelatedLinks: RelatedLink[] = [
@@ -418,6 +421,10 @@ export default function MigrationSymfony() {
         <CallToAction />
         <StickyMobileCta />
         </FadeIn>
+      
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
       </main>
     </>
   );

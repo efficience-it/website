@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { formatDate } from "@/lib/dates";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -12,6 +13,8 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
+
+const DATE_MODIFIED = "2026-03-11";
 
 const nestjsRelatedLinks: RelatedLink[] = [
   { title: "REST vs GraphQL : quel protocole choisir pour votre API ?", description: "une comparaison technique pour orienter vos choix d'architecture", href: "/article/que-vaut-rest-face-a-son-nouveau-challenger-graphql" },
@@ -171,7 +174,7 @@ const webPage = webPageJsonLd({
   description: "Conception et développement d'API NestJS sur mesure : microservices, GraphQL, temps réel. Votre partenaire pour le développement API Node.js robuste et scalable.",
   path: "/api-nodejs-nestjs",
   datePublished: "2026-03-11",
-  dateModified: "2026-03-11",
+  dateModified: DATE_MODIFIED,
 });
 
 export default function ApiNodejsNestjs() {
@@ -489,6 +492,10 @@ export default function ApiNodejsNestjs() {
         <CallToAction />
         <StickyMobileCta />
         </FadeIn>
+      
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
       </main>
     </>
   );

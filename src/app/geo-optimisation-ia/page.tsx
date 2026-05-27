@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { formatDate } from "@/lib/dates";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -12,6 +13,8 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
+
+const DATE_MODIFIED = "2026-03-12";
 
 export const metadata = pageMetadata({
   title: "GEO : optimisez votre visibilité dans les moteurs IA",
@@ -134,7 +137,7 @@ const webPage = webPageJsonLd({
     "Generative Engine Optimization (GEO) : rendez votre site visible dans ChatGPT, Perplexity et les AI Overviews de Google. Données structurées et llms.txt.",
   path: "/geo-optimisation-ia",
   datePublished: "2026-03-12",
-  dateModified: "2026-03-12",
+  dateModified: DATE_MODIFIED,
 });
 
 const geoRelatedLinks: RelatedLink[] = [
@@ -453,6 +456,10 @@ export default function GeoOptimisationIa() {
         <CallToAction />
         <StickyMobileCta />
         </FadeIn>
+      
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
       </main>
     </>
   );

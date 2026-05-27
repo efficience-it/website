@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { formatDate } from "@/lib/dates";
 import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
@@ -10,6 +11,8 @@ import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import PresentationIllustration from "@/components/illustrations/PresentationIllustration";
+
+const DATE_MODIFIED = "2025-09-01";
 
 export const metadata = pageMetadata({
   title: "L'équipe Efficience IT | Agence web et technique",
@@ -27,7 +30,7 @@ const webPage = webPageJsonLd({
     "Découvrez l'équipe d'Efficience IT : développeurs, profils techniques et métiers engagés dans la réalisation de projets web et applicatifs.",
   path: "/la-team",
   datePublished: "2025-09-01",
-  dateModified: "2025-09-01",
+  dateModified: DATE_MODIFIED,
 });
 
 const teamRelatedLinks: RelatedLink[] = [
@@ -236,7 +239,11 @@ export default function LaTeam() {
       <FadeIn>
       <CallToAction />
       </FadeIn>
-    </main>
+    
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
+      </main>
     </>
   );
 }

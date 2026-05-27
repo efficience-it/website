@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { formatDate } from "@/lib/dates";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -8,6 +9,8 @@ import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { faqItems } from "@/../data/faq";
 import { breadcrumbJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
+
+const DATE_MODIFIED = "2025-09-01";
 
 export const metadata = pageMetadata({
   title: "Contact | Agence web Symfony – Efficience IT",
@@ -38,7 +41,7 @@ const webPage = webPageJsonLd({
   path: "/contact",
   type: "ContactPage",
   datePublished: "2025-09-01",
-  dateModified: "2025-09-01",
+  dateModified: DATE_MODIFIED,
 });
 
 export default function Contact() {
@@ -121,6 +124,10 @@ export default function Contact() {
           </Container>
         </section>
         </FadeIn>
+      
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
       </main>
     </>
   );

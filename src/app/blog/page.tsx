@@ -1,4 +1,5 @@
 import { pageMetadata } from "@/lib/metadata";
+import { formatDate } from "@/lib/dates";
 import Container from "@/components/ui/Container";
 import BlogCard from "@/components/cards/BlogCard";
 import { getAllPosts, getCategories, getCategorySlug } from "@/lib/blog";
@@ -7,6 +8,8 @@ import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, blogItemListJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import CallToAction from "@/components/sections/CallToAction";
+
+const DATE_MODIFIED = "2026-03-11";
 
 export const metadata = pageMetadata({
   title: "Blog Efficience IT | Symfony, PHP et développement web",
@@ -28,7 +31,7 @@ export default function BlogPage() {
     path: "/blog",
     type: "CollectionPage",
     datePublished: "2025-09-01",
-    dateModified: "2026-03-11",
+    dateModified: DATE_MODIFIED,
   });
 
   return (
@@ -88,7 +91,11 @@ export default function BlogPage() {
       </section>
       </FadeIn>
       <CallToAction />
-    </main>
+    
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
+      </main>
     </>
   );
 }

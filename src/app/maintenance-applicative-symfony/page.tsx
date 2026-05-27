@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { formatDate } from "@/lib/dates";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -13,6 +14,8 @@ import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import ReviewIllustration from "@/components/illustrations/ReviewIllustration";
+
+const DATE_MODIFIED = "2026-03-12";
 
 export const metadata = pageMetadata({
   title: "Maintenance applicative Symfony (TMA) : corrective, évolutive, préventive",
@@ -183,7 +186,7 @@ const webPage = webPageJsonLd({
     "Efficience IT assure la maintenance de vos projets Symfony : correction de bugs, évolutions fonctionnelles, mises à jour de sécurité et SLA.",
   path: "/maintenance-applicative-symfony",
   datePublished: "2026-03-12",
-  dateModified: "2026-03-12",
+  dateModified: DATE_MODIFIED,
 });
 
 const maintenanceRelatedLinks: RelatedLink[] = [
@@ -481,6 +484,10 @@ export default function MaintenanceApplicativeSymfony() {
         <CallToAction />
         <StickyMobileCta />
         </FadeIn>
+      
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
       </main>
     </>
   );

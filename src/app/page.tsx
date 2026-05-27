@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { formatDate } from "@/lib/dates";
 import Hero from "@/components/sections/Hero";
 import ExpertiseCards from "@/components/sections/ExpertiseCards";
 import AboutPreview from "@/components/sections/AboutPreview";
@@ -16,6 +17,8 @@ import { pageMetadata } from "@/lib/metadata";
 import { webPageJsonLd, reviewsJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import { testimonials } from "@/../data/testimonials";
 import type { Metadata } from "next";
+
+const DATE_MODIFIED = "2026-03-11";
 
 const reviews = reviewsJsonLd(testimonials);
 
@@ -39,7 +42,7 @@ const webPage = webPageJsonLd({
     "Agence spécialisée Symfony et PHP, Efficience IT conçoit et développe des applications web robustes, pensées pour vos enjeux métiers.",
   path: "/",
   datePublished: "2025-09-01",
-  dateModified: "2026-03-11",
+  dateModified: DATE_MODIFIED,
 });
 
 export default function Home() {
@@ -139,7 +142,11 @@ export default function Home() {
       <FadeIn>
         <CallToAction />
       </FadeIn>
-    </main>
+    
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
+      </main>
     </>
   );
 }

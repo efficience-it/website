@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { formatDate } from "@/lib/dates";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -11,6 +12,8 @@ import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
+
+const DATE_MODIFIED = "2026-02-01";
 
 const modernisationRelatedLinks: RelatedLink[] = [
   { title: "Modernisation applicative", description: "le parcours complet du diagnostic à la maintenance", href: "/modernisation-applicative" },
@@ -193,7 +196,7 @@ const webPage = webPageJsonLd({
   description: "Modernisez votre application PHP obsolète : réduction de la dette technique, refactoring progressif, mise aux normes PHP 8 et migration vers Symfony. PHP natif, CodeIgniter, Zend ou Laravel.",
   path: "/modernisation-application-php",
   datePublished: "2026-02-01",
-  dateModified: "2026-02-01",
+  dateModified: DATE_MODIFIED,
 });
 
 export default function ModernisationApplicationPhp() {
@@ -486,6 +489,10 @@ export default function ModernisationApplicationPhp() {
         <RelatedLinks links={modernisationRelatedLinks} className="bg-light-gray" />
         <StickyMobileCta />
         </FadeIn>
+      
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
       </main>
     </>
   );

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { formatDate } from "@/lib/dates";
 import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
@@ -17,6 +18,8 @@ import {
   greenPractices,
 } from "@/../data/greenIt";
 
+const DATE_MODIFIED = "2025-09-01";
+
 export const metadata = pageMetadata({
   title: "Green IT | Démarche numérique responsable – Efficience IT",
   description:
@@ -33,7 +36,7 @@ const webPage = webPageJsonLd({
     "Efficience IT s'engage dans une démarche Green IT pour réduire l'impact environnemental du numérique via des pratiques techniques responsables.",
   path: "/green-it",
   datePublished: "2025-09-01",
-  dateModified: "2025-09-01",
+  dateModified: DATE_MODIFIED,
 });
 
 const greenItRelatedLinks: RelatedLink[] = [
@@ -236,7 +239,11 @@ export default function GreenIt() {
       <CallToAction />
       <StickyMobileCta />
       </FadeIn>
-    </main>
+    
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
+      </main>
     </>
   );
 }

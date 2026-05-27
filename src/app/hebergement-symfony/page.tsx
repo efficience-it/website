@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { formatDate } from "@/lib/dates";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -12,6 +13,8 @@ import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
+
+const DATE_MODIFIED = "2026-03-13";
 
 export const metadata = pageMetadata({
   title:
@@ -132,7 +135,7 @@ const webPage = webPageJsonLd({
     "Efficience IT héberge et déploie vos applications Symfony sur le cloud. CI/CD, monitoring, haute disponibilité et sécurité.",
   path: "/hebergement-symfony",
   datePublished: "2026-03-13",
-  dateModified: "2026-03-13",
+  dateModified: DATE_MODIFIED,
 });
 
 const relatedLinks: RelatedLink[] = [
@@ -374,6 +377,10 @@ export default function HebergementSymfony() {
           <CallToAction />
           <StickyMobileCta />
         </FadeIn>
+      
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
       </main>
     </>
   );

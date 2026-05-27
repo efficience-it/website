@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { formatDate } from "@/lib/dates";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -13,6 +14,8 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from 
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import DashboardIllustration from "@/components/illustrations/DashboardIllustration";
+
+const DATE_MODIFIED = "2026-03-11";
 
 const nodejsRelatedLinks: RelatedLink[] = [
   { title: "Les bonnes pratiques des APIs REST", description: "pour concevoir des interfaces performantes et maintenables", href: "/article/api-rest-les-bonnes-pratiques" },
@@ -138,7 +141,7 @@ const webPage = webPageJsonLd({
   description: "Agence Node.js spécialisée : API REST, GraphQL, microservices, temps réel et BFF. Développement Node.js avec NestJS, TypeScript et les meilleures pratiques d'architecture.",
   path: "/developpement-nodejs",
   datePublished: "2025-09-01",
-  dateModified: "2026-03-11",
+  dateModified: DATE_MODIFIED,
 });
 
 export default function DeveloppementNodejs() {
@@ -452,6 +455,10 @@ export default function DeveloppementNodejs() {
         <CallToAction />
         <StickyMobileCta />
         </FadeIn>
+      
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
       </main>
     </>
   );

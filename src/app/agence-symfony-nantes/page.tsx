@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { formatDate } from "@/lib/dates";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -12,6 +13,8 @@ import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import Accordion from "@/components/ui/Accordion";
 import { breadcrumbJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
+
+const DATE_MODIFIED = "2026-04-10";
 
 export const metadata = pageMetadata({
   title: "Agence Symfony à Nantes : développement PHP et expertise technique",
@@ -104,7 +107,7 @@ const webPage = webPageJsonLd({
     "Efficience IT, agence Symfony pour Nantes et les Pays de la Loire. Développement sur mesure, audit, migration et maintenance de vos applications PHP.",
   path: "/agence-symfony-nantes",
   datePublished: "2026-03-20",
-  dateModified: "2026-04-10",
+  dateModified: DATE_MODIFIED,
 });
 
 const relatedLinks: RelatedLink[] = [
@@ -573,6 +576,10 @@ export default function AgenceSymfonyNantes() {
 
         <CallToAction />
         <StickyMobileCta />
+      
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
       </main>
     </>
   );

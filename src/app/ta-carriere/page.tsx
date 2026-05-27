@@ -1,4 +1,5 @@
 import { pageMetadata } from "@/lib/metadata";
+import { formatDate } from "@/lib/dates";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
 import Button from "@/components/ui/Button";
@@ -11,6 +12,8 @@ import { breadcrumbJsonLd, webPageJsonLd, pageGraphJsonLd, jobPostingJsonLd } fr
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import CallToAction from "@/components/sections/CallToAction";
+
+const DATE_MODIFIED = "2025-09-01";
 
 const relatedLinks: RelatedLink[] = [
   { title: "7 bonnes raisons de rejoindre Efficience IT", description: "notre culture et nos valeurs", href: "/article/7-bonnes-raisons-de-rejoindre-efficience-it" },
@@ -36,7 +39,7 @@ const webPage = webPageJsonLd({
     "Découvrez les opportunités de carrière chez Efficience IT : développement, business et communication au sein d'une agence web spécialisée Symfony.",
   path: "/ta-carriere",
   datePublished: "2025-09-01",
-  dateModified: "2025-09-01",
+  dateModified: DATE_MODIFIED,
 });
 
 export default function TaCarriere() {
@@ -142,7 +145,11 @@ export default function TaCarriere() {
           },
         ]}
       />
-    </main>
+    
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
+      </main>
     </>
   );
 }

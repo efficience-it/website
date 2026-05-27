@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { formatDate } from "@/lib/dates";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -13,6 +14,8 @@ import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import TechnologiesGrid from "@/components/sections/TechnologiesGrid";
 import SharingIllustration from "@/components/illustrations/SharingIllustration";
+
+const DATE_MODIFIED = "2026-01-15";
 
 export const metadata = pageMetadata({
   title: "Expertise Symfony de référence",
@@ -29,7 +32,7 @@ const webPage = webPageJsonLd({
     "Expertise Symfony de référence : Efficience IT conçoit, développe et maintient des applications web professionnelles et orientées production.",
   path: "/notre-expertise",
   datePublished: "2025-09-01",
-  dateModified: "2026-01-15",
+  dateModified: DATE_MODIFIED,
 });
 
 const expertiseRelatedLinks: RelatedLink[] = [
@@ -299,7 +302,11 @@ export default function NotreExpertise() {
       <FadeIn>
       <CallToAction />
       </FadeIn>
-    </main>
+    
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
+      </main>
     </>
   );
 }

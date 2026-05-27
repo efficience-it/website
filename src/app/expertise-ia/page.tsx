@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { formatDate } from "@/lib/dates";
 import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
@@ -17,6 +18,8 @@ import { clients } from "@/../data/clients";
 import { testimonials } from "@/../data/testimonials";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import ResearchIllustration from "@/components/illustrations/ResearchIllustration";
+
+const DATE_MODIFIED = "2026-03-13";
 
 export const metadata = pageMetadata({
   title: "Expertise IA : intégrez l'intelligence artificielle dans vos projets Symfony",
@@ -135,7 +138,7 @@ const webPage = webPageJsonLd({
     "Efficience IT vous accompagne dans l'intégration de l'IA dans vos projets Symfony : LLM, RAG, assistants IA, GEO et modernisation d'applications legacy.",
   path: "/expertise-ia",
   datePublished: "2026-03-13",
-  dateModified: "2026-03-13",
+  dateModified: DATE_MODIFIED,
 });
 
 const expertiseIaRelatedLinks: RelatedLink[] = [
@@ -468,7 +471,11 @@ export default function ExpertiseIa() {
       <CallToAction />
       <StickyMobileCta />
       </FadeIn>
-    </main>
+    
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
+      </main>
     </>
   );
 }

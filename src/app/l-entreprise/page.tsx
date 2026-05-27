@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { formatDate } from "@/lib/dates";
 import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
@@ -11,6 +12,8 @@ import { breadcrumbJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structur
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import EnterpriseTimeline from "@/components/sections/EnterpriseTimeline";
+
+const DATE_MODIFIED = "2025-09-01";
 
 const enterpriseRelatedLinks: RelatedLink[] = [
   { title: "L'équipe Efficience IT", description: "Les profils qui composent l'agence", href: "/la-team" },
@@ -133,7 +136,7 @@ const webPage = webPageJsonLd({
   path: "/l-entreprise",
   type: "AboutPage",
   datePublished: "2025-09-01",
-  dateModified: "2025-09-01",
+  dateModified: DATE_MODIFIED,
 });
 
 export default function LEntreprise() {
@@ -242,7 +245,11 @@ export default function LEntreprise() {
       <FadeIn>
       <CallToAction />
       </FadeIn>
-    </main>
+    
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
+      </main>
     </>
   );
 }

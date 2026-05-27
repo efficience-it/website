@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { formatDate } from "@/lib/dates";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -12,6 +13,8 @@ import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
+
+const DATE_MODIFIED = "2026-04-10";
 
 export const metadata = pageMetadata({
   title: "Agence Symfony à Lille, votre partenaire développement web",
@@ -57,7 +60,7 @@ const webPage = webPageJsonLd({
   description: "Efficience IT, agence Symfony à Lille : développement sur mesure, maintenance, migration et audit. Proximité, réactivité et expertise technique au service de vos projets.",
   path: "/agence-symfony-lille",
   datePublished: "2026-03-11",
-  dateModified: "2026-04-10",
+  dateModified: DATE_MODIFIED,
 });
 
 const faqItems = [
@@ -609,6 +612,10 @@ export default function AgenceSymfonyLille() {
 
         <CallToAction />
         <StickyMobileCta />
+      
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
       </main>
     </>
   );

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { formatDate } from "@/lib/dates";
 import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
@@ -16,6 +17,8 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import { clients } from "@/../data/clients";
 import { testimonials } from "@/../data/testimonials";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
+
+const DATE_MODIFIED = "2026-03-10";
 
 export const metadata = pageMetadata({
   title: "Conseil et coaching technique Symfony pour vos équipes",
@@ -133,7 +136,7 @@ const webPage = webPageJsonLd({
     "Efficience IT accompagne les équipes sur l'organisation, le conseil, le coaching et la formation autour de Symfony et des projets web professionnels.",
   path: "/accompagnement-et-conseil",
   datePublished: "2025-09-01",
-  dateModified: "2026-03-10",
+  dateModified: DATE_MODIFIED,
 });
 
 const accompagnementRelatedLinks: RelatedLink[] = [
@@ -474,7 +477,11 @@ export default function AccompagnementEtConseil() {
       <CallToAction />
       <StickyMobileCta />
       </FadeIn>
-    </main>
+    
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
+      </main>
     </>
   );
 }

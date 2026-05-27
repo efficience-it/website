@@ -75,6 +75,21 @@ jobs:
             blog:
               - 'content/blog/**'
 
+  refresh-reminder:
+    needs: install
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/cache/restore@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('package-lock.json') }}
+      - run: npm run check-stale
+
   links:
     runs-on: ubuntu-latest
     steps:

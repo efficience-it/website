@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { formatDate } from "@/lib/dates";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -12,6 +13,8 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
+
+const DATE_MODIFIED = "2026-03-17";
 
 const elasticsearchRelatedLinks: RelatedLink[] = [
   {
@@ -166,7 +169,7 @@ const webPage = webPageJsonLd({
     "Efficience IT intègre Elasticsearch dans vos projets Symfony. Indexation, recherche full-text, filtres à facettes et suggestions en temps réel.",
   path: "/integration-elasticsearch-symfony",
   datePublished: "2026-03-17",
-  dateModified: "2026-03-17",
+  dateModified: DATE_MODIFIED,
 });
 
 export default function IntegrationElasticsearchSymfony() {
@@ -413,6 +416,10 @@ export default function IntegrationElasticsearchSymfony() {
           <CallToAction />
           <StickyMobileCta />
         </FadeIn>
+      
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
       </main>
     </>
   );

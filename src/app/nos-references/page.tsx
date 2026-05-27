@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { formatDate } from "@/lib/dates";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -10,6 +11,8 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, webPageJsonLd, reviewsJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import CallToAction from "@/components/sections/CallToAction";
 import { testimonials } from "@/../data/testimonials";
+
+const DATE_MODIFIED = "2025-09-01";
 
 const reviews = reviewsJsonLd(testimonials);
 
@@ -76,7 +79,7 @@ const webPage = webPageJsonLd({
   path: "/nos-references",
   type: "CollectionPage",
   datePublished: "2025-09-01",
-  dateModified: "2025-09-01",
+  dateModified: DATE_MODIFIED,
 });
 
 const referencesRelatedLinks: RelatedLink[] = [
@@ -211,7 +214,11 @@ export default function NosReferences() {
       <Testimonials />
       </FadeIn>
       <CallToAction />
-    </main>
+    
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
+      </main>
     </>
   );
 }

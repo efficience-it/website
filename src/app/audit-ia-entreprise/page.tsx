@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { formatDate } from "@/lib/dates";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -13,6 +14,8 @@ import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import StrategyIllustration from "@/components/illustrations/StrategyIllustration";
+
+const DATE_MODIFIED = "2026-04-09";
 
 export const metadata = pageMetadata({
   title:
@@ -164,7 +167,7 @@ const webPage = webPageJsonLd({
     "Efficience IT audite vos processus pour identifier les cas d'usage IA pertinents, vous accompagne dans la mise en place des outils et forme vos équipes à l'intelligence artificielle.",
   path: "/audit-ia-entreprise",
   datePublished: "2026-04-09",
-  dateModified: "2026-04-09",
+  dateModified: DATE_MODIFIED,
 });
 
 const auditIaRelatedLinks: RelatedLink[] = [
@@ -527,6 +530,10 @@ export default function AuditIaEntreprise() {
           <CallToAction />
           <StickyMobileCta />
         </FadeIn>
+      
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
       </main>
     </>
   );

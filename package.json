@@ -10,7 +10,9 @@
     "lint": "eslint",
     "knip": "knip",
     "test": "jest",
-    "generate:image-variants": "npx -y tsx@4 scripts/generate-image-variants.ts"
+    "generate:image-variants": "npx -y tsx@4 scripts/generate-image-variants.ts",
+    "check-stale": "npx -y tsx@4 scripts/check-stale-articles.ts",
+    "list-missing-updatedAt": "npx -y tsx@4 scripts/list-missing-updatedAt.ts"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.19",

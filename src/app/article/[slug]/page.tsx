@@ -25,6 +25,8 @@ import { getAuthorSchema } from "@/data/authors";
 import FadeIn from "@/components/ui/FadeIn";
 import ScrollDepthTracker from "@/components/ui/ScrollDepthTracker";
 import ArticleShareButtons from "@/components/ui/ArticleShareButtons";
+import { formatDate, isRecentlyUpdated } from "@/lib/dates";
+import ArticleDate from "@/components/ui/ArticleDate";
 
 const STICKY_CTA_MIN_WORDS = 1500;
 
@@ -161,13 +163,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                       &larr; Retour au blog
                     </Button>
                   </div>
-                  <div className="mb-4 flex items-center gap-3 text-sm text-gray">
+                  <div className="mb-4 flex flex-wrap items-center gap-3 text-sm text-gray">
                     <time dateTime={post.date}>
-                      {new Date(post.date).toLocaleDateString("fr-FR", {
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric",
-                      })}
+                      {formatDate(post.date)}
                     </time>
                     <span>&middot;</span>
                     <span>{readingTime(post.wordCount)} min de lecture</span>
@@ -182,6 +180,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                         </Link>
                       </>
                     )}
+                    {post.updatedAt && isRecentlyUpdated(post.updatedAt, 90) && (
+                      <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+                        Mis à jour récemment
+                      </span>
+                    )}
                   </div>
                   <h1 className="font-display text-3xl font-bold text-dark md:text-4xl">
                     {post.title}
@@ -189,18 +192,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   <div className="mt-4 flex flex-wrap items-start gap-4 min-[520px]:justify-between">
                     <div className="space-y-2">
                       {post.author && <p className="text-gray">Par {post.author}</p>}
-                      {post.updatedAt && (
-                        <p className="text-sm text-gray">
-                          Mis à jour le{" "}
-                          <time dateTime={post.updatedAt}>
-                            {new Date(post.updatedAt).toLocaleDateString("fr-FR", {
-                              day: "numeric",
-                              month: "long",
-                              year: "numeric",
-                            })}
-                          </time>
-                        </p>
-                      )}
+                      <ArticleDate date={post.date} updatedAt={post.updatedAt} />
                     </div>
                     <ArticleShareButtons url={url} title={post.title} articleSlug={slug} />
                   </div>

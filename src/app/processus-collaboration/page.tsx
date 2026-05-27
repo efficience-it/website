@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { formatDate } from "@/lib/dates";
 import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
@@ -13,6 +14,8 @@ import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import Button from "@/components/ui/Button";
 import { breadcrumbJsonLd, howToJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
+
+const DATE_MODIFIED = "2026-04-03";
 
 export const metadata = pageMetadata({
   title:
@@ -185,7 +188,7 @@ const webPage = webPageJsonLd({
     "Découvrez comment se déroule un projet avec Efficience IT : audit gratuit, cadrage, développement itératif, revue de code et mise en production.",
   path: "/processus-collaboration",
   datePublished: "2026-04-03",
-  dateModified: "2026-04-03",
+  dateModified: DATE_MODIFIED,
 });
 
 const relatedLinks: RelatedLink[] = [
@@ -508,6 +511,10 @@ export default function ProcessusCollaboration() {
         </FadeIn>
 
         <StickyMobileCta />
+      
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
       </main>
     </>
   );

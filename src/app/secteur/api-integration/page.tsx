@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { formatDate } from "@/lib/dates";
 import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
@@ -13,6 +14,8 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
+
+const DATE_MODIFIED = "2026-03-30";
 
 export const metadata = pageMetadata({
   title:
@@ -108,7 +111,7 @@ const webPage = webPageJsonLd({
     "Efficience IT conçoit des API REST et GraphQL avec Symfony et API Platform : intégration SI, connecteurs sur mesure et flux asynchrones fiables.",
   path: "/secteur/api-integration",
   datePublished: "2026-03-30",
-  dateModified: "2026-03-30",
+  dateModified: DATE_MODIFIED,
 });
 
 const relatedLinks: RelatedLink[] = [
@@ -392,6 +395,10 @@ export default function SecteurApiIntegration() {
         <CallToAction />
         <StickyMobileCta />
         </FadeIn>
+      
+        <div className="py-8 text-center text-xs text-gray">
+          Page mise à jour le <time dateTime={DATE_MODIFIED}>{formatDate(DATE_MODIFIED)}</time>
+        </div>
       </main>
     </>
   );
