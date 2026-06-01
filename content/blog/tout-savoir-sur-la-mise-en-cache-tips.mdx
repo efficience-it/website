@@ -70,7 +70,7 @@ Les CDN et les reverse proxies exposent des API de purge qui permettent d'invali
 
 ### Edge Side Includes (ESI)
 
-ESI permet de composer une page à partir de fragments indépendants, chacun ayant sa propre politique de cache. Le bandeau de navigation, mis à jour une fois par jour, peut être mis en cache pendant 24 heures, tandis que le contenu principal est revalidé à chaque requête. Symfony supporte nativement ESI via son composant HttpCache, et Varnish l'implémente de manière transparente. Cette granularité est essentielle pour les applications où certaines parties de la page sont personnalisées et d'autres sont communes à tous les utilisateurs.
+ESI permet de composer une page à partir de fragments indépendants, chacun ayant sa propre politique de cache. Le bandeau de navigation, mis à jour une fois par jour, peut être mis en cache pendant 24 heures, tandis que le contenu principal est revalidé à chaque requête. Symfony supporte nativement ESI via son composant HttpCache, et Varnish l'implémente de manière transparente. Cette granularité est essentielle pour les applications où certaines parties de la page sont personnalisées et d'autres sont communes à tous les utilisateurs. Les pages de résultats issues d'un [moteur de recherche Elasticsearch ou Algolia](/article/elasticsearch-ou-algolia-moteur-de-recherche-symfony) profitent elles aussi d'une mise en cache fine, qui évite de solliciter l'index à chaque requête identique.
 
 ## Cohérence du cache en architecture distribuée
 

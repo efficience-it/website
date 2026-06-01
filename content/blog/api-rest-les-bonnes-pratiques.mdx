@@ -75,7 +75,7 @@ Moins répandue, elle utilise le header HTTP `Range` pour demander un sous-ensem
 
 Une API exposée sans limitation de débit est une API vulnérable. Le rate limiting protège contre les abus, les boucles infinies côté client et les pics de charge imprévus.
 
-Les headers standardisés `RateLimit-Limit`, `RateLimit-Remaining` et `RateLimit-Reset` (draft IETF) informent le consommateur de son quota en temps réel. La protection de l'API passe aussi par une bonne compréhension des [failles CVE](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) qui peuvent affecter les dépendances utilisées. Lorsque le quota est dépassé, un `429 Too Many Requests` avec un header `Retry-After` indique quand le client peut relancer.
+Les headers standardisés `RateLimit-Limit`, `RateLimit-Remaining` et `RateLimit-Reset` (draft IETF) informent le consommateur de son quota en temps réel. La protection de l'API passe aussi par une bonne compréhension des [failles CVE](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) qui peuvent affecter les dépendances utilisées, et par une validation systématique des contrats à l'aide d'un [client de test d'API comme Bruno](/article/bruno-alternative-open-source-postman-tester-api). Lorsque le quota est dépassé, un `429 Too Many Requests` avec un header `Retry-After` indique quand le client peut relancer.
 
 Les stratégies de rate limiting varient selon le contexte : fenêtre fixe (100 requêtes par minute), fenêtre glissante (lissage des pics), ou token bucket (autorisation de rafales courtes). En production, ces contrôles se positionnent au niveau du reverse proxy (Nginx, Traefik) ou de l'API gateway plutôt que dans le code applicatif.
 

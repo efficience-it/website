@@ -138,7 +138,7 @@ SQS est le choix naturel sur AWS. Zéro maintenance, scaling automatique, dead l
 
 ### Kafka via des transports communautaires
 
-Enqueue était souvent choisi pour son support natif de Kafka. Aujourd'hui, des packages communautaires comme `koco/messenger-kafka` fournissent un transport Kafka pour Messenger. L'intégration est directe et bénéficie du pipeline de middlewares de Messenger. Pour les cas où le volume de données exige une recherche performante, l'[intégration d'Elasticsearch avec Symfony](/integration-elasticsearch-symfony) complète naturellement Messenger pour indexer les résultats de manière asynchrone.
+Enqueue était souvent choisi pour son support natif de Kafka. Aujourd'hui, des packages communautaires comme `koco/messenger-kafka` fournissent un transport Kafka pour Messenger. L'intégration est directe et bénéficie du pipeline de middlewares de Messenger. Pour les cas où le volume de données exige une recherche performante, l'[intégration d'Elasticsearch avec Symfony](/integration-elasticsearch-symfony) complète naturellement Messenger pour indexer les résultats de manière asynchrone. Le choix du moteur n'est pas neutre : notre [comparatif entre Elasticsearch et Algolia](/article/elasticsearch-ou-algolia-moteur-de-recherche-symfony) oppose le contrôle d'un index auto-hébergé à la simplicité d'un service managé.
 
 ## Stratégies de retry et gestion des échecs
 
