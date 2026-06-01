@@ -407,6 +407,113 @@ export default function SecuriteApplicationSymfony() {
         <FadeIn>
           <section className="bg-light-gray py-16 md:py-24">
             <Container>
+              <div className="mx-auto max-w-3xl space-y-12">
+                <div>
+                  <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                    OWASP Top 10 appliqué à Symfony
+                  </h2>
+                  <p className="mt-4 text-lg text-gray">
+                    L&apos;OWASP Top 10 recense les risques de sécurité les plus
+                    répandus : injection, défaillances d&apos;authentification,
+                    exposition de données sensibles, mauvaises configurations.
+                    Symfony fournit des protections natives contre la plupart
+                    d&apos;entre eux (requêtes préparées via Doctrine, protection
+                    CSRF des formulaires, échappement automatique de Twig), mais
+                    aucune n&apos;est efficace si elle est contournée ou mal
+                    configurée. Nous auditons chaque catégorie du Top 10 sur votre
+                    application, du contrôle d&apos;accès aux dépendances
+                    vulnérables. La sensibilisation des équipes fait partie du
+                    dispositif : notre article sur{" "}
+                    <Link
+                      href="/article/comment-former-vos-equipes-a-la-securite-informatique-en-toute-simplicite"
+                      className="text-primary hover:underline"
+                    >
+                      comment former vos équipes à la sécurité informatique
+                    </Link>{" "}
+                    explique comment ancrer ces réflexes au quotidien.
+                  </p>
+                </div>
+                <div>
+                  <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                    Gestion des CVE et politique de patch
+                  </h2>
+                  <p className="mt-4 text-lg text-gray">
+                    Une application n&apos;est jamais figée : les failles sont
+                    découvertes en continu dans les dépendances que vous utilisez.
+                    Sans politique de patch, une CVE publiée devient une porte
+                    ouverte pendant des mois. Nous mettons en place une veille
+                    automatisée (composer audit, alertes de sécurité) et un
+                    processus de mise à jour priorisé selon la criticité réelle,
+                    pas seulement le score CVSS. Chaque correctif est validé par la
+                    suite de tests avant déploiement, pour ne pas troquer une
+                    faille contre une régression. Pour comprendre le cycle de vie
+                    d&apos;une vulnérabilité, notre article sur{" "}
+                    <Link
+                      href="/article/cve-comprendre-les-failles-pour-mieux-se-proteger"
+                      className="text-primary hover:underline"
+                    >
+                      les CVE et comment s&apos;en protéger
+                    </Link>{" "}
+                    pose les bases.
+                  </p>
+                </div>
+                <div>
+                  <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                    RGPD et logs applicatifs
+                  </h2>
+                  <p className="mt-4 text-lg text-gray">
+                    Les logs sont précieux pour le débogage, mais ils deviennent un
+                    risque dès qu&apos;ils contiennent des données personnelles :
+                    e-mails, identifiants, adresses IP. La conformité RGPD impose de
+                    minimiser ces données, de les anonymiser et de borner leur
+                    durée de conservation. Nous configurons Monolog pour filtrer
+                    les informations sensibles à la source, et nous mettons en place
+                    une rotation et une purge maîtrisées. Pour les environnements de
+                    test et de pré-production, l&apos;anonymisation des bases est
+                    indispensable : notre article sur{" "}
+                    <Link
+                      href="/article/dbtoolsbundle-anonymiser-vos-bases-de-donnees"
+                      className="text-primary hover:underline"
+                    >
+                      anonymiser vos bases de données avec DbToolsBundle
+                    </Link>{" "}
+                    montre comment travailler sur des données réalistes sans
+                    exposer de données réelles.
+                  </p>
+                </div>
+                <div>
+                  <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                    Authentification forte et passkeys WebAuthn
+                  </h2>
+                  <p className="mt-4 text-lg text-gray">
+                    Le mot de passe seul ne suffit plus. L&apos;authentification
+                    forte combine plusieurs facteurs, et les passkeys basées sur le
+                    standard WebAuthn permettent une connexion sans mot de passe,
+                    résistante au phishing, adossée au matériel de l&apos;utilisateur
+                    (empreinte, clé physique). Le composant Security de Symfony
+                    s&apos;intègre avec ces mécanismes via des authenticators
+                    personnalisés et la double authentification. Nous concevons des
+                    parcours de connexion qui élèvent le niveau de sécurité sans
+                    dégrader l&apos;expérience utilisateur. Sécuriser l&apos;accès
+                    n&apos;est qu&apos;un volet : un{" "}
+                    <Link
+                      href="/audit-code-php"
+                      className="text-primary hover:underline"
+                    >
+                      audit de code PHP
+                    </Link>{" "}
+                    complet vérifie aussi la robustesse de la logique
+                    d&apos;autorisation derrière l&apos;authentification.
+                  </p>
+                </div>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="bg-light-gray py-16 md:py-24">
+            <Container>
               <SectionTitle>Questions fréquentes</SectionTitle>
               <div className="mx-auto max-w-2xl">
                 <Accordion items={faqItems} />

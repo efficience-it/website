@@ -537,6 +537,134 @@ export default function AgenceSymfonyParis() {
         <FadeIn>
           <section className="bg-light-gray py-16 md:py-24">
             <Container>
+              <div className="mx-auto max-w-3xl space-y-12">
+                <div>
+                  <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                    API Platform à Paris : intégration et migration
+                  </h2>
+                  <p className="mt-4 text-lg text-gray">
+                    API Platform est notre socle pour exposer des API REST et
+                    GraphQL sur Symfony. Le framework génère la documentation
+                    OpenAPI, gère la pagination, le filtrage et la sérialisation à
+                    partir de simples attributs sur les entités. Pour les équipes
+                    parisiennes qui partent d&apos;un contrôleur fait main ou
+                    d&apos;une ancienne version, nous migrons progressivement vers
+                    API Platform sans casser les contrats existants, en versionnant
+                    les endpoints. La conception reste guidée par les bonnes
+                    pratiques : notre article sur{" "}
+                    <Link
+                      href="/article/api-rest-les-bonnes-pratiques"
+                      className="text-primary hover:underline"
+                    >
+                      les bonnes pratiques des API REST
+                    </Link>{" "}
+                    détaille le nommage des ressources, les codes de statut et la
+                    gestion des erreurs. Le résultat : une{" "}
+                    <Link
+                      href="/api-sur-mesure-symfony"
+                      className="text-primary hover:underline"
+                    >
+                      API sur mesure Symfony
+                    </Link>{" "}
+                    documentée, testable et prête pour vos applications mobiles
+                    comme pour vos partenaires.
+                  </p>
+                </div>
+                <div>
+                  <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                    Docker et conteneurisation pour applications Symfony
+                  </h2>
+                  <p className="mt-4 text-lg text-gray">
+                    Nous livrons chaque projet parisien avec un environnement
+                    Docker reproductible, identique du poste développeur à la
+                    production. Les versions de PHP, des extensions et des services
+                    (PostgreSQL, Redis, RabbitMQ) sont figées dans des images
+                    versionnées. Cette parité réduit les bugs d&apos;intégration et
+                    accélère l&apos;arrivée d&apos;un nouveau développeur sur le
+                    projet, qui démarre en une commande. En production, la
+                    conteneurisation simplifie le déploiement et le scaling
+                    horizontal. Pour comprendre pourquoi cette approche est devenue
+                    un standard, lisez{" "}
+                    <Link
+                      href="/article/pourquoi-docker-est-indispensable-en-production-aujourdhui"
+                      className="text-primary hover:underline"
+                    >
+                      pourquoi Docker est indispensable en production
+                    </Link>
+                    . Nous détaillons notre démarche sur la page dédiée à
+                    l&apos;{" "}
+                    <Link
+                      href="/integration-docker-symfony"
+                      className="text-primary hover:underline"
+                    >
+                      intégration de Docker avec Symfony
+                    </Link>
+                    .
+                  </p>
+                </div>
+                <div>
+                  <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                    PostgreSQL et Symfony : performance et tuning
+                  </h2>
+                  <p className="mt-4 text-lg text-gray">
+                    PostgreSQL est notre base de données de prédilection pour les
+                    projets exigeants. Au-delà de l&apos;installation, nous tirons
+                    parti de ses fonctionnalités avancées : index partiels et index
+                    GIN, type JSONB pour les données semi-structurées, recherche
+                    full-text native et requêtes fenêtrées. Côté Doctrine, le
+                    tuning passe par l&apos;élimination des requêtes N+1, le choix
+                    des bons modes de fetch et l&apos;usage raisonné du cache de
+                    second niveau. Pour les applications qui quittent MySQL, notre{" "}
+                    <Link
+                      href="/article/migration-mysql-postgresql-doctrine-guide"
+                      className="text-primary hover:underline"
+                    >
+                      guide de migration de MySQL vers PostgreSQL avec Doctrine
+                    </Link>{" "}
+                    couvre les pièges de typage et de portabilité SQL.
+                    L&apos;ensemble de notre savoir-faire est présenté sur la page{" "}
+                    <Link
+                      href="/base-de-donnees-postgresql-symfony"
+                      className="text-primary hover:underline"
+                    >
+                      base de données PostgreSQL et Symfony
+                    </Link>
+                    .
+                  </p>
+                </div>
+                <div>
+                  <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                    Stack technique des projets parisiens
+                  </h2>
+                  <p className="mt-4 text-lg text-gray">
+                    Nos projets parisiens reposent sur une stack éprouvée et
+                    homogène : Symfony et PHP 8 pour le back-end, Doctrine pour la
+                    persistance, Messenger pour l&apos;asynchrone, le tout outillé
+                    par PHPStan au niveau maximal et une suite de tests
+                    automatisés. Selon les besoins, nous ajoutons une couche de
+                    recherche Elasticsearch, du cache Redis ou un front-end
+                    découplé en React ou Vue. Ce socle commun garantit que nos
+                    équipes sont interchangeables et que votre application reste
+                    maintenable sur la durée, sans dépendance à un développeur
+                    unique. Pour un panorama complet de nos compétences techniques,
+                    consultez{" "}
+                    <Link
+                      href="/notre-expertise"
+                      className="text-primary hover:underline"
+                    >
+                      notre expertise
+                    </Link>
+                    .
+                  </p>
+                </div>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="bg-light-gray py-16 md:py-24">
+            <Container>
               <SectionTitle>Questions fréquentes</SectionTitle>
               <div className="mx-auto max-w-2xl">
                 <Accordion items={faqItems} />
