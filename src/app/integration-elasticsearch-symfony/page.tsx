@@ -25,6 +25,11 @@ const elasticsearchRelatedLinks: RelatedLink[] = [
     href: "/api-sur-mesure-symfony",
   },
   {
+    title: "Elasticsearch ou Algolia : quel moteur de recherche ?",
+    description: "Comparatif pour choisir entre index auto-hébergé et solution SaaS",
+    href: "/article/elasticsearch-ou-algolia-moteur-de-recherche-symfony",
+  },
+  {
     title: "Elasticsearch, documentation officielle",
     description: "La référence pour le moteur de recherche distribué",
     href: "https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html",

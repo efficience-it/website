@@ -135,6 +135,8 @@ const testsRelatedLinks: RelatedLink[] = [
   { title: "Audit Symfony gratuit", description: "30 minutes pour évaluer l'état de votre application", href: "/audit-symfony-gratuit" },
   { title: "Comment PHPStan peut vous aider à améliorer la qualité de votre code PHP", description: "analyse statique pour compléter vos tests", href: "/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php" },
   { title: "Exécuter des tests Postman avec Newman dans GitLab CI", description: "automatiser les tests d'API dans votre pipeline", href: "/article/comment-executer-des-tests-postman-avec-newman-dans-gitlab-ci" },
+  { title: "Playwright et Claude Code pour les tests end-to-end", description: "générer et maintenir des tests E2E avec l'IA", href: "/article/playwright-tests-end-to-end-claude-code" },
+  { title: "Bruno, l'alternative open source à Postman", description: "tester ses API REST avec des collections versionnées dans Git", href: "/article/bruno-alternative-open-source-postman-tester-api" },
   { title: "Conventions de code", description: "un socle indispensable pour des tests maintenables", href: "/article/coding-conventions" },
   { title: "Documentation officielle PHPUnit", description: "référence pour la configuration et l'écriture de tests", href: "https://docs.phpunit.de/", external: true },
 ];
