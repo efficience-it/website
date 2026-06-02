@@ -26,6 +26,10 @@ describe("isRecentlyUpdated", () => {
     expect(isRecentlyUpdated(undefined, 90)).toBe(false);
   });
 
+  it("returns false for an invalid date string", () => {
+    expect(isRecentlyUpdated("not-a-date", 90)).toBe(false);
+  });
+
   it("returns false for a future date", () => {
     expect(isRecentlyUpdated(daysAgo(-5), 90)).toBe(false);
   });
