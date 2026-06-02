@@ -1,0 +1,66 @@
+---
+title: "Conformité NIS2 : préparer techniquement votre application Symfony"
+date: "2026-06-02"
+author: "Louis-Arnaud Catoire"
+category: "Sécurité"
+excerpt: "La directive NIS2 élargit les obligations de cybersécurité à des milliers d'entités. Voici comment préparer techniquement une application Symfony : hardening, MFA, journalisation et gestion des dépendances."
+image: "/images/blog/conformite-nis2.webp"
+updatedAt: "2026-06-02"
+faq:
+  - question: "NIS2 impose-t-elle des technologies précises ?"
+    answer: "Non. NIS2 fixe une obligation de moyens proportionnée au risque, pas une liste d'outils. Elle exige une gestion des risques, des mesures techniques minimales (contrôle d'accès, chiffrement, journalisation) et la notification des incidents significatifs. La traduction concrète de ces exigences dépend de votre architecture applicative."
+  - question: "Une PME éditrice de SaaS est-elle concernée par NIS2 ?"
+    answer: "Potentiellement oui. Le périmètre de NIS2 est beaucoup plus large que celui de NIS1 et inclut de nombreux fournisseurs de services numériques au-delà d'un certain seuil de taille, ainsi que les sous-traitants d'entités essentielles. Une cartographie de vos services et de vos clients est le premier pas pour déterminer votre statut."
+  - question: "Pouvez-vous délivrer une certification NIS2 ?"
+    answer: "Non. Nous préparons techniquement votre application pour qu'elle franchisse un audit sans écart majeur, mais nous ne délivrons pas d'attestation officielle. La qualification d'un auditeur relève en France du dispositif PASSI piloté par l'ANSSI. Nous intervenons en complément d'un partenaire PASSI lorsqu'une attestation formelle est exigée."
+---
+
+**La directive NIS2 ne concerne plus seulement les opérateurs d'importance vitale.** Elle étend les obligations de cybersécurité à des milliers d'entités européennes, dont une grande partie n'a jamais formalisé sa posture de sécurité. Pour une application web construite avec Symfony, se préparer à NIS2 n'est pas un projet réglementaire abstrait : c'est une série de chantiers techniques concrets, mesurables et outillables.
+
+## NIS2, de quoi parle-t-on
+
+La [directive (UE) 2022/2555](https://eur-lex.europa.eu/eli/dir/2022/2555/oj), dite NIS2, remplace la première directive NIS de 2016. Elle impose aux entités concernées une gestion des risques de cybersécurité, des mesures techniques minimales et une obligation de notification des incidents significatifs sous 24 à 72 heures. En France, sa transposition est pilotée par l'[ANSSI](https://cyber.gouv.fr/), qui précise le périmètre des entités essentielles et importantes.
+
+Contrairement à une idée répandue, NIS2 ne fournit pas une checklist technique figée. Elle impose une obligation de moyens proportionnée au risque. C'est précisément là que l'expertise applicative entre en jeu : traduire des exigences de haut niveau en décisions d'architecture et en lignes de code vérifiables, plutôt qu'en documents qui dorment dans un classeur.
+
+## Êtes-vous concerné par NIS2
+
+Le périmètre s'est considérablement élargi. Sont visées les entités de secteurs jugés critiques ou importants : énergie, transport, santé, eau, infrastructures numériques, services informatiques managés, administration publique, mais aussi la fabrication, l'agroalimentaire ou les fournisseurs de services numériques au-delà d'un certain seuil de taille.
+
+Concrètement, une PME ou une ETI qui édite un logiciel SaaS, héberge des données sensibles ou fournit un service numérique à une entité essentielle peut tomber dans le champ d'application, directement ou par effet de chaîne de sous-traitance. Si vous n'êtes pas certain de votre statut, le premier réflexe est de cartographier vos services, vos flux de données et vos clients avant d'engager des chantiers techniques. Cette cartographie évite de sur-investir sur un périmètre flou.
+
+## Ce que nous couvrons techniquement
+
+Notre intervention porte sur la couche applicative et son environnement immédiat. Elle complète le travail d'un RSSI ou d'un cabinet spécialisé, sans le remplacer.
+
+### Durcissement de l'application
+
+Le durcissement commence par la configuration : désactivation du mode debug en production, headers de sécurité (CSP, HSTS, X-Content-Type-Options), gestion stricte des sessions et des cookies, et séparation nette des secrets via Symfony Secrets ou un coffre dédié. Nous appliquons le principe de moindre privilège à chaque couche, du conteneur jusqu'aux droits de la base de données. Beaucoup de ces points recoupent les bonnes pratiques de protection contre l'OWASP Top 10, que nous traitons lors de la [sécurisation d'une application Symfony](/securite-application-symfony).
+
+### Authentification multifacteur
+
+NIS2 insiste sur le contrôle d'accès. L'authentification multifacteur (MFA) n'est plus une option pour les comptes à privilèges. Le composant Security de Symfony s'intègre avec les mécanismes TOTP, les clés physiques et, de plus en plus, les passkeys WebAuthn résistantes au phishing. Nous concevons des parcours d'authentification forte qui élèvent le niveau de sécurité sans dégrader l'expérience des utilisateurs légitimes, ce qui reste la condition pour qu'une mesure soit réellement adoptée.
+
+### Journalisation et détection
+
+Sans journaux exploitables, l'obligation de notification d'incident est intenable : on ne peut pas déclarer ce qu'on ne voit pas. Nous structurons la journalisation applicative avec Monolog, en distinguant les événements de sécurité (connexions, échecs d'authentification, élévations de privilèges) du bruit applicatif. Ces journaux doivent rester exploitables tout en respectant le RGPD, ce qui suppose de filtrer les données personnelles à la source et de borner leur conservation. La centralisation vers une stack d'observabilité permet ensuite la corrélation et l'alerte en temps quasi réel.
+
+### Gestion des dépendances et des vulnérabilités
+
+Une application Symfony moderne embarque des dizaines de dépendances Composer. Chacune est une porte d'entrée potentielle. Nous mettons en place une veille automatisée (composer audit, alertes de sécurité) et une politique de mise à jour priorisée selon la criticité réelle, pas seulement le score brut. Comprendre le cycle de vie d'une faille est indispensable : notre article sur [les CVE et comment s'en protéger](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) détaille cette mécanique. La [sensibilisation des équipes à la sécurité](/article/comment-former-vos-equipes-a-la-securite-informatique-en-toute-simplicite) complète le dispositif, car la majorité des incidents commencent par une erreur humaine plutôt que par une faille zero-day.
+
+## La notification d'incident, une obligation opérationnelle
+
+L'une des exigences les plus structurantes de NIS2 est la notification des incidents significatifs dans des délais courts : une alerte précoce sous 24 heures, puis une notification plus complète sous 72 heures. Cette contrainte a des conséquences directes sur l'architecture. Il faut être capable de qualifier un incident rapidement, d'en mesurer l'ampleur et de reconstituer la chronologie des événements. Sans journalisation structurée et horodatée, ni procédure d'escalade définie à l'avance, ce délai est intenable. Nous aidons les équipes à mettre en place ce qu'il faut en amont : des journaux exploitables, des tableaux de bord qui font remonter les signaux faibles, et un plan de réponse documenté que l'on peut suivre sous pression plutôt que d'improviser le jour de l'incident.
+
+## Ce que nous ne signons pas
+
+Soyons clairs sur le périmètre. Nous ne délivrons pas de certification officielle NIS2 et nous ne nous substituons pas à un audit réglementaire. La qualification d'un prestataire d'audit de sécurité relève en France du dispositif PASSI piloté par l'ANSSI. Notre rôle est de préparer votre application pour qu'elle franchisse ces audits sans mauvaise surprise, et de corriger en amont les écarts techniques. Nous travaillons en complément d'un partenaire PASSI lorsqu'une attestation formelle est requise par votre donneur d'ordre.
+
+## Par où commencer
+
+La préparation NIS2 d'une application Symfony se mène par étapes, comme une mise en conformité progressive plutôt qu'un grand chantier bloquant. Un audit de sécurité applicatif fournit la cartographie initiale : il identifie les écarts, les priorise et chiffre l'effort. Cette base sert ensuite de feuille de route, partagée avec vos équipes et vos éventuels partenaires d'audit.
+
+Les chantiers de résilience opérationnelle se recoupent largement avec ceux exigés par le règlement [DORA pour la résilience des applications financières](/article/conformite-dora-resilience-symfony), et avec les obligations d'accessibilité du [RGAA pour le secteur public et les délégataires de service public](/article/normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous). Aborder ces cadres ensemble évite de refaire trois fois le même travail de fond sur la journalisation, les tests et la gestion des dépendances.
+
+Pour évaluer votre exposition et bâtir un plan d'action concret, commencez par un [audit de sécurité de votre application Symfony](/audit-symfony-gratuit) ou [échangez directement avec notre équipe](/contact).
