@@ -12,6 +12,7 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
+import LastUpdated from "@/components/ui/LastUpdated";
 
 const nestjsRelatedLinks: RelatedLink[] = [
   { title: "REST vs GraphQL : quel protocole choisir pour votre API ?", description: "une comparaison technique pour orienter vos choix d'architecture", href: "/article/que-vaut-rest-face-a-son-nouveau-challenger-graphql" },
@@ -182,6 +183,7 @@ export default function ApiNodejsNestjs() {
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <Breadcrumb items={[{ label: "API Node.js NestJS" }]} />
+            <LastUpdated path="/api-nodejs-nestjs" />
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">

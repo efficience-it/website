@@ -17,6 +17,7 @@ import { clients } from "@/../data/clients";
 import { testimonials } from "@/../data/testimonials";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import ResearchIllustration from "@/components/illustrations/ResearchIllustration";
+import LastUpdated from "@/components/ui/LastUpdated";
 
 export const metadata = pageMetadata({
   title: "Expertise IA : intégrez l'intelligence artificielle dans vos projets Symfony",
@@ -155,6 +156,7 @@ export default function ExpertiseIa() {
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
           <Breadcrumb items={[{ label: "Nos expertises", href: "/notre-expertise" }, { label: "Expertise IA" }]} />
+          <LastUpdated path="/expertise-ia" />
           <div className="grid items-center gap-12 md:grid-cols-2">
             <div>
               <p className="text-sm font-semibold uppercase tracking-wider text-primary">

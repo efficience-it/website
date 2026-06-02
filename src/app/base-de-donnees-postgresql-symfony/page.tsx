@@ -12,6 +12,7 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
+import LastUpdated from "@/components/ui/LastUpdated";
 
 const postgresqlRelatedLinks: RelatedLink[] = [
   {
@@ -183,6 +184,7 @@ export default function BaseDeDonneesPostgresqlSymfony() {
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <Breadcrumb items={[{ label: "Nos expertises", href: "/notre-expertise" }, { label: "PostgreSQL et Symfony" }]} />
+            <LastUpdated path="/base-de-donnees-postgresql-symfony" />
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">

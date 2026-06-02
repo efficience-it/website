@@ -13,6 +13,7 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from 
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import CreativeIllustration from "@/components/illustrations/CreativeIllustration";
+import LastUpdated from "@/components/ui/LastUpdated";
 
 const frontendRelatedLinks: RelatedLink[] = [
   {
@@ -190,6 +191,7 @@ export default function DeveloppementFrontend() {
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <Breadcrumb items={[{ label: "Développement frontend" }]} />
+            <LastUpdated path="/developpement-frontend" />
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">

@@ -12,6 +12,7 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
+import LastUpdated from "@/components/ui/LastUpdated";
 
 const typescriptRelatedLinks: RelatedLink[] = [
   {
@@ -208,6 +209,7 @@ export default function DeveloppementTypescript() {
                 { label: "Développement TypeScript" },
               ]}
             />
+            <LastUpdated path="/developpement-typescript" />
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">

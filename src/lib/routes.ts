@@ -126,6 +126,10 @@ export function getStaticRoutes(): SiteRoute[] {
   return STATIC_SILOS.flatMap((silo) => silo.routes);
 }
 
+export function getRouteLastModified(path: string): string | undefined {
+  return getStaticRoutes().find((route) => route.path === path)?.lastModified;
+}
+
 export function getCategoryRoutes(posts: BlogPost[]): SiteRoute[] {
   return Object.entries(categorySlugMap).map(([name, slug]) => {
     const latest = posts.find((p) => p.category === name);

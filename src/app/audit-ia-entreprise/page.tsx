@@ -13,6 +13,7 @@ import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import StrategyIllustration from "@/components/illustrations/StrategyIllustration";
+import LastUpdated from "@/components/ui/LastUpdated";
 
 export const metadata = pageMetadata({
   title:
@@ -217,6 +218,7 @@ export default function AuditIaEntreprise() {
                 { label: "Audit IA en entreprise" },
               ]}
             />
+            <LastUpdated path="/audit-ia-entreprise" />
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">
