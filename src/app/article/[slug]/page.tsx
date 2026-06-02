@@ -177,7 +177,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                         </Link>
                       </>
                     )}
-                    {isRecentlyUpdated(post.updatedAt, 90) && (
+                    {post.updatedAt !== post.date && isRecentlyUpdated(post.updatedAt, 90) && (
                       <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">
                         Mis à jour récemment
                       </span>
