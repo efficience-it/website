@@ -10,6 +10,7 @@ import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import CallToAction from "@/components/sections/CallToAction";
 import Nis2Assessment from "@/components/sections/Nis2Assessment";
 import { breadcrumbJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
+import { BASE_URL } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
   title: "Évaluation NIS2 Symfony - outil gratuit",
@@ -83,16 +84,16 @@ const webPage = webPageJsonLd({
 
 const webApplication = {
   "@type": "WebApplication",
-  "@id": "https://www.itefficience.com/outil-evaluation-nis2-symfony#app",
+  "@id": `${BASE_URL}/outil-evaluation-nis2-symfony#app`,
   name: "Évaluation NIS2 Symfony",
   description:
     "Outil d'auto-évaluation technique de la conformité NIS2 pour une application Symfony. 15 questions, score sur 100 et rapport téléchargeable, calcul 100% côté navigateur.",
-  url: "https://www.itefficience.com/outil-evaluation-nis2-symfony",
+  url: `${BASE_URL}/outil-evaluation-nis2-symfony`,
   applicationCategory: "SecurityApplication",
   operatingSystem: "Web",
   inLanguage: "fr-FR",
   isAccessibleForFree: true,
-  provider: { "@id": "https://www.itefficience.com/#organization" },
+  provider: { "@id": `${BASE_URL}/#organization` },
 };
 
 export default function OutilEvaluationNis2Symfony() {
