@@ -68,6 +68,14 @@
   "composer-symfony": [
     400
   ],
+  "conformite-dora": [
+    400,
+    800
+  ],
+  "conformite-nis2": [
+    400,
+    800
+  ],
   "contributions-open-source": [
     400
   ],
@@ -116,6 +124,10 @@
     400
   ],
   "domain-symfony": [
+    400,
+    800
+  ],
+  "dora-fintech-symfony": [
     400,
     800
   ],

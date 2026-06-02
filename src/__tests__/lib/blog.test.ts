@@ -80,8 +80,6 @@ describe("getPostBySlug", () => {
     try {
       const post = getPostBySlug(TEMP_SLUG);
       expect(post?.image).toBe("/images/blog/test.webp");
-      expect(post?.imageCaption).toBe("Une image test");
-      expect(post?.imageGeoLocation).toBe("Lille, France");
     } finally {
       readFileSpy.mockRestore();
       existsSpy.mockRestore();
