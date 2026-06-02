@@ -1,0 +1,79 @@
+---
+title: "RGAA : remédiation technique sur Symfony"
+date: "2026-06-02"
+author: "Louis-Arnaud Catoire"
+category: "Qualité de code"
+excerpt: "Depuis l'European Accessibility Act, le périmètre RGAA s'est élargi à l'e-commerce et à la formation. Voici la remédiation technique d'une application Symfony : Twig sémantique, ARIA, composants accessibles et tests automatisés."
+image: "/images/blog/rgaa-symfony.webp"
+proficiencyLevel: "Intermediate"
+updatedAt: "2026-06-02"
+faq:
+  - question: "Mon site e-commerce est-il concerné par le RGAA ?"
+    answer: "Depuis l'entrée en application de l'European Accessibility Act le 28 juin 2025, l'obligation d'accessibilité s'étend bien au-delà du seul secteur public. De nombreux acteurs de l'e-commerce, des services bancaires, du transport et de la billetterie en ligne sont désormais concernés. Le RGAA reste le référentiel technique de référence en France pour démontrer cette conformité."
+  - question: "Faites-vous l'audit officiel d'accessibilité ?"
+    answer: "Non. Nous réalisons la remédiation technique : corriger le code pour atteindre la conformité. L'audit de conformité officiel, qui produit l'attestation et le taux de conformité, relève d'auditeurs spécialisés et agréés (Atalan, Access42, Tanaguru). Nous travaillons en partenariat avec eux : ils auditent, nous corrigeons, ils revérifient."
+  - question: "Combien de temps prend une remédiation RGAA sur une application Symfony ?"
+    answer: "Cela dépend du volume de templates et de la dette d'accessibilité. Les corrections à fort impact (structure sémantique, navigation clavier, contrastes, alternatives textuelles) se traitent souvent en quelques semaines. Les composants interactifs complexes et l'industrialisation dans le design system s'étalent ensuite sur plusieurs sprints, avec des tests automatisés pour éviter les régressions."
+  - question: "Que risque une organisation non conforme ?"
+    answer: "La DGCCRF peut prononcer des sanctions administratives en cas de non-respect des obligations d'accessibilité, avec des amendes par service non conforme et la publication des manquements. Au-delà de la sanction, l'inaccessibilité exclut une part réelle d'utilisateurs et dégrade le SEO comme le taux de conversion."
+---
+
+**L'accessibilité numérique a changé de périmètre.** Avec l'European Accessibility Act (EAA), applicable depuis le 28 juin 2025, l'obligation ne concerne plus seulement les services publics : e-commerce, banque en ligne, billetterie, plateformes de formation entrent dans le champ. Beaucoup ont raté la deadline et cherchent désormais à se mettre en conformité. Sur une application Symfony, cela passe par une remédiation technique méthodique. Cet article décrit notre approche, complémentaire de notre article de fond sur [les normes RGAA et l'accessibilité](/article/normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous), centré ici sur le chantier de correction.
+
+## Audit officiel ou remédiation : deux métiers
+
+Une confusion fréquente bloque les projets : croire qu'un prestataire technique peut délivrer l'attestation de conformité RGAA. Ce n'est pas le cas, et c'est une distinction importante. L'audit de conformité officiel, qui calcule le taux de conformité et produit la déclaration opposable, relève d'auditeurs spécialisés et agréés comme Atalan, Access42 ou Tanaguru. La remédiation, elle, consiste à corriger le code pour atteindre ce niveau de conformité.
+
+Notre positionnement est clair : nous faisons la remédiation, en partenariat avec un auditeur agréé. L'auditeur identifie les non-conformités, nous corrigeons le code Symfony et les templates Twig, puis l'auditeur revérifie. Cette répartition évite le conflit d'intérêts (auditer son propre travail) tout en garantissant que les corrections sont réelles et durables.
+
+Concrètement, un projet de mise en conformité s'organise en boucle : audit initial qui dresse la liste des écarts critère par critère, remédiation priorisée, puis contre-audit qui valide le taux de conformité atteint. Notre valeur ajoutée se situe entre les deux : traduire un rapport d'audit (souvent rédigé en termes de critères RGAA) en interventions précises dans le code, et le faire d'une manière qui ne se dégrade pas à la prochaine évolution. C'est cette pérennité qui distingue une remédiation sérieuse d'un rattrapage cosmétique qui repart en non-conformité au sprint suivant.
+
+## 30 points contrôlés concrètement sur Symfony
+
+Le RGAA 4.1 compte 106 critères. En pratique, sur une application Symfony, la remédiation se concentre sur une trentaine de points techniques récurrents que nous vérifions systématiquement.
+
+### Sémantique Twig
+
+La base de l'accessibilité est une structure HTML correcte. Nous vérifions la hiérarchie des titres (`h1` à `h3`), l'usage des balises sémantiques (`header`, `nav`, `main`, `section`, `article`, `footer`), la présence de landmarks, la langue de la page (`lang="fr"`) et la cohérence du `title`. Un template Twig visuellement correct mais sémantiquement plat est inaccessible pour un lecteur d'écran. Ces règles rejoignent les [conventions de code](/article/coding-conventions) que nous appliquons pour garder des templates lisibles et homogènes.
+
+### ARIA, focus et contraste
+
+Nous contrôlons la navigation au clavier complète (chaque élément interactif atteignable via `Tab`, activable, avec un focus visible en permanence), l'absence de pièges de focus, les ratios de contraste (4.5:1 pour le texte standard), le zoom à 200% sans perte de contenu et la taille des zones tactiles. Les attributs ARIA ne sont ajoutés que lorsque le HTML natif ne suffit pas : un `button` natif vaut toujours mieux qu'un `div` avec `role="button"`. La règle d'or de la spécification, "no ARIA is better than bad ARIA", guide chacune de nos décisions : un ARIA mal posé est souvent pire que pas d'ARIA du tout.
+
+### Composants accessibles
+
+Les composants interactifs concentrent l'essentiel des non-conformités : modales (gestion du focus, fermeture via `Escape`), systèmes d'onglets (`role="tablist"`, navigation aux flèches), accordéons (`aria-expanded`), menus déroulants et surtout formulaires. Chaque champ doit avoir un `label` associé, les erreurs doivent être annoncées (`aria-describedby`, `aria-invalid`) et les regroupements structurés avec `fieldset` et `legend`.
+
+Dans un projet Symfony, les formulaires sont souvent générés par le composant Form et son moteur de rendu Twig. C'est une bonne nouvelle : corriger le thème de formulaire (form theme) propage l'accessibilité à tous les formulaires du site d'un coup. Nous personnalisons ce thème pour produire un balisage accessible par défaut (labels liés, messages d'erreur reliés au champ, attributs `required` et `aria-*` cohérents), ce qui transforme une correction unitaire en correction systémique.
+
+### axe-core et pa11y dans la CI
+
+La conformité ne tient pas sans automatisation. Nous intégrons axe-core et pa11y dans le pipeline d'intégration continue pour détecter les régressions à chaque modification. Ces outils captent environ 40% des problèmes automatiquement : insuffisant pour une conformité complète, mais indispensable comme filet de sécurité. Cette démarche s'inscrit dans notre pratique de [tests automatisés](/tests-automatises-php) appliquée au front-end.
+
+Concrètement, nous ajoutons un job d'accessibilité au pipeline qui échoue si une règle critique régresse, et nous configurons des seuils adaptés au contexte du projet pour éviter le bruit. Les 60% restants relèvent du test manuel et de l'audit humain (parcours au lecteur d'écran, vérification du sens des alternatives textuelles, cohérence de l'ordre de tabulation), ce qui justifie pleinement le partenariat avec un auditeur agréé. L'automatisation ne remplace pas l'expertise : elle garantit que les acquis ne sont pas perdus entre deux audits.
+
+La liste détaillée des 30 points est disponible dans notre [check-list RGAA technique pour Symfony (PDF)](/documents/checklist-rgaa-symfony.pdf), prête à être utilisée comme support de remédiation.
+
+## Refactoring des templates : méthodologie
+
+Corriger l'accessibilité d'une application existante ne se fait pas au hasard. Nous procédons en trois temps. D'abord les fondations à fort ratio impact/effort : structure sémantique, navigation clavier, contrastes, alternatives textuelles. Ces corrections touchent souvent des templates Twig partagés (layout, header, footer) et profitent immédiatement à toutes les pages.
+
+Vient ensuite le traitement des composants interactifs, mutualisés autant que possible. Plutôt que de corriger dix formulaires un par un, nous corrigeons le composant de formulaire réutilisable. Enfin, les cas complexes : contenus riches, applications monopages, contenus générés par les utilisateurs. À chaque étape, les tests automatisés figent le comportement obtenu pour éviter toute régression lors des évolutions futures. Cette approche progressive et outillée est au cœur de notre [processus de collaboration](/processus-collaboration).
+
+L'objectif final est d'encoder l'accessibilité dans le design system plutôt que de la laisser reposer sur la vigilance de chaque développeur. Les tokens de couleur respectent les ratios de contraste, les composants partagés embarquent les bons rôles et la gestion du clavier, et chaque nouvelle page hérite automatiquement d'un socle conforme. C'est ce passage d'une accessibilité corrigée à une accessibilité native qui rend la conformité tenable dans la durée, sans repayer la dette à chaque refonte.
+
+## La déclaration d'accessibilité
+
+La conformité ne se limite pas au code : le RGAA impose la publication d'une déclaration d'accessibilité, mise à jour annuellement. Elle indique le taux de conformité, les contenus non accessibles, les dérogations éventuelles et un moyen de contact pour signaler un défaut. Nous aidons à produire ce document à partir des résultats de l'audit, et à mettre en place la page dédiée ainsi que le mécanisme de signalement. C'est une obligation souvent oubliée, alors qu'elle est l'un des premiers éléments vérifiés en cas de contrôle.
+
+Techniquement, cette page est un livrable comme un autre : une route Symfony dédiée, un contenu structuré et accessible (elle se doit d'être exemplaire), et un schéma d'état qui reflète le taux de conformité réel. Nous recommandons de la générer à partir d'une source unique, afin qu'une nouvelle campagne d'audit mette à jour la déclaration sans réécriture manuelle. Le mécanisme de signalement, lui, doit aboutir à une boîte réellement surveillée : une déclaration qui pointe vers une adresse morte est un signal négatif autant qu'un risque juridique.
+
+## Sanctions et enjeux
+
+Le non-respect des obligations d'accessibilité expose à des sanctions administratives prononcées par la DGCCRF, avec des amendes par service non conforme et la publication des manquements. Mais la sanction n'est qu'une partie de l'enjeu. Une application inaccessible exclut concrètement une part significative d'utilisateurs, dégrade le référencement naturel (les critères d'accessibilité recoupent largement les signaux SEO et les Core Web Vitals) et réduit le taux de conversion. L'accessibilité bien menée améliore l'expérience de tous, comme nous l'expliquons à propos du [manifeste des applications web modernes](/article/ameliorer-lexperience-utilisateur-grace-au-manifeste-des-applications-web).
+
+## Conclusion
+
+La mise en conformité RGAA d'une application Symfony est un chantier technique cadré, pas une couche de vernis ajoutée en fin de projet. La clé est de séparer clairement l'audit officiel (auditeur agréé) de la remédiation (notre rôle), de prioriser par impact et d'industrialiser la non-régression. Traitée ainsi, l'accessibilité devient un atout de qualité durable plutôt qu'une contrainte subie.
+
+Pour évaluer l'état d'accessibilité de votre application et bâtir un plan de remédiation, appuyez-vous sur notre expertise en [développement frontend](/developpement-frontend) et notre approche du [développement web sur mesure](/developpement-web-sur-mesure), ou commencez par un [audit Symfony gratuit](/audit-symfony-gratuit).
