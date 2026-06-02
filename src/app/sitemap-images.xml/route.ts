@@ -78,7 +78,7 @@ const STATIC_IMAGE_URLS: SitemapImageUrl[] = [
       {
         loc: `${BASE_URL}/images/illustrations/greenit.svg`,
         title: "Green IT",
-        caption: "Illustration d'eco-conception et de sobriete numerique",
+        caption: "Illustration d'éco-conception et de sobriété numérique",
         geoLocation: "Lille, France",
       },
     ],

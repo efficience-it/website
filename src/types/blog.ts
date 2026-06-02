@@ -2,6 +2,8 @@ import type { TechKey } from "@/lib/structured-data";
 
 export type ProficiencyLevel = "Beginner" | "Intermediate" | "Expert";
 
+export type ArticleKind = "blog" | "news" | "tech";
+
 export interface FaqItem {
   question: string;
   answer: string;
@@ -43,6 +45,7 @@ export interface BlogPost {
   date: string;
   author: string;
   category: string;
+  kind: ArticleKind;
   excerpt: string;
   updatedAt?: string;
   image?: string;

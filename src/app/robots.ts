@@ -21,6 +21,7 @@ export default function robots(): MetadataRoute.Robots {
     sitemap: [
       "https://www.itefficience.com/sitemap.xml",
       "https://www.itefficience.com/sitemap-images.xml",
+      "https://www.itefficience.com/sitemap-news.xml",
     ],
   };
 }
