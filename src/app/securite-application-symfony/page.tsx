@@ -45,6 +45,11 @@ const securiteRelatedLinks: RelatedLink[] = [
     href: "/article/conformite-dora-resilience-symfony",
   },
   {
+    title: "DORA pour fintech : check-list Symfony",
+    description: "Check-list, clauses contractuelles et sanctions pour acteurs financiers",
+    href: "/article/dora-fintech-resilience-technique-symfony",
+  },
+  {
     title: "Symfony Security, documentation officielle",
     description: "Le composant de sécurité du framework Symfony",
     href: "https://symfony.com/doc/current/security.html",
