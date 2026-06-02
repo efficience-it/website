@@ -98,7 +98,7 @@ jobs:
             --max-cache-age 7d
             --timeout 30
             --max-retries 3
-            --accept 200,204,301,302,403,429,999
+            --accept 200,202,204,301,302,403,429,999
             content/blog/*.mdx
             src/**/*.tsx
             data/*.ts
