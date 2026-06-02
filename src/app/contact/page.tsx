@@ -8,6 +8,7 @@ import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { faqItems } from "@/../data/faq";
 import { breadcrumbJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
+import LastUpdated from "@/components/ui/LastUpdated";
 
 export const metadata = pageMetadata({
   title: "Contact | Agence web Symfony – Efficience IT",
@@ -49,6 +50,7 @@ export default function Contact() {
         <section className="bg-light-gray py-16 md:py-24">
           <Container className="text-center">
             <Breadcrumb items={[{ label: "Contact" }]} />
+            <LastUpdated path="/contact" />
             <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
               Contactez-nous
             </h1>

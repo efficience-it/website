@@ -9,6 +9,7 @@ import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
+import LastUpdated from "@/components/ui/LastUpdated";
 import { breadcrumbJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import {
   greenMetrics,
@@ -70,6 +71,7 @@ export default function GreenIt() {
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
           <Breadcrumb items={[{ label: "Green IT" }]} />
+          <LastUpdated path="/green-it" />
           <div className="grid items-center gap-12 md:grid-cols-2">
             <div>
               <p className="text-sm font-semibold uppercase tracking-wider text-primary">

@@ -10,6 +10,7 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, webPageJsonLd, reviewsJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import CallToAction from "@/components/sections/CallToAction";
 import { testimonials } from "@/../data/testimonials";
+import LastUpdated from "@/components/ui/LastUpdated";
 
 const reviews = reviewsJsonLd(testimonials);
 
@@ -123,6 +124,7 @@ export default function NosReferences() {
       <section className="bg-light-gray py-8 md:py-12">
         <Container className="text-center">
           <Breadcrumb items={[{ label: "Références" }]} />
+          <LastUpdated path="/nos-references" />
           <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
             Nos réalisations et contributions open source
           </h1>

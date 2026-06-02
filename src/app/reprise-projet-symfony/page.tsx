@@ -12,6 +12,7 @@ import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import FittingPieceIllustration from "@/components/illustrations/FittingPieceIllustration";
+import LastUpdated from "@/components/ui/LastUpdated";
 
 export const metadata = pageMetadata({
   title: "Reprise de projet Symfony : changement de prestataire, nous prenons le relais",
@@ -180,6 +181,7 @@ export default function RepriseProjetSymfony() {
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <Breadcrumb items={[{ label: "Modernisation applicative", href: "/modernisation-applicative" }, { label: "Reprise de projet Symfony" }]} />
+            <LastUpdated path="/reprise-projet-symfony" />
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">

@@ -13,6 +13,7 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from 
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import DashboardIllustration from "@/components/illustrations/DashboardIllustration";
+import LastUpdated from "@/components/ui/LastUpdated";
 
 const nodejsRelatedLinks: RelatedLink[] = [
   { title: "Les bonnes pratiques des APIs REST", description: "pour concevoir des interfaces performantes et maintenables", href: "/article/api-rest-les-bonnes-pratiques" },
@@ -149,6 +150,7 @@ export default function DeveloppementNodejs() {
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <Breadcrumb items={[{ label: "Développement Node.js" }]} />
+            <LastUpdated path="/developpement-nodejs" />
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">

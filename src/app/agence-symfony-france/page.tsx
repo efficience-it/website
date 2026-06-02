@@ -12,6 +12,7 @@ import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import Accordion from "@/components/ui/Accordion";
 import { breadcrumbJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
+import LastUpdated from "@/components/ui/LastUpdated";
 
 export const metadata = pageMetadata({
   title:
@@ -165,6 +166,7 @@ export default function AgenceSymfonyFrance() {
             <Breadcrumb
               items={[{ label: "Prestataire Symfony France" }]}
             />
+            <LastUpdated path="/agence-symfony-france" />
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">

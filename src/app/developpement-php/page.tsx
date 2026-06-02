@@ -15,6 +15,7 @@ import { breadcrumbJsonLd,
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import ProgrammingIllustration from "@/components/illustrations/ProgrammingIllustration";
+import LastUpdated from "@/components/ui/LastUpdated";
 
 const phpRelatedLinks: RelatedLink[] = [
   {
@@ -217,6 +218,7 @@ export default function DeveloppementPhp() {
                 { label: "Développement PHP" },
               ]}
             />
+            <LastUpdated path="/developpement-php" />
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">

@@ -16,6 +16,7 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import { clients } from "@/../data/clients";
 import { testimonials } from "@/../data/testimonials";
 import { breadcrumbJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
+import LastUpdated from "@/components/ui/LastUpdated";
 
 export const metadata = pageMetadata({
   title: "Pourquoi choisir Efficience IT pour vos projets Symfony",
@@ -152,6 +153,7 @@ export default function PourquoiEfficienceIt() {
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <Breadcrumb items={[{ label: "Pourquoi Efficience IT" }]} />
+            <LastUpdated path="/pourquoi-efficience-it" />
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">

@@ -13,6 +13,7 @@ import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import StrategyIllustration from "@/components/illustrations/StrategyIllustration";
+import LastUpdated from "@/components/ui/LastUpdated";
 
 export const metadata = pageMetadata({
   title:
@@ -182,6 +183,7 @@ export default function MigrationSymfony() {
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <Breadcrumb items={[{ label: "Modernisation applicative", href: "/modernisation-applicative" }, { label: "Migration Symfony" }]} />
+            <LastUpdated path="/migration-symfony" />
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">

@@ -1,6 +1,7 @@
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
+import LastUpdated from "@/components/ui/LastUpdated";
 
 export const metadata = pageMetadata({
   title: "Mentions légales",
@@ -14,6 +15,7 @@ export default function MentionsLegales() {
     <main className="py-16">
       <Container className="mx-auto max-w-3xl">
         <Breadcrumb items={[{ label: "Mentions légales" }]} />
+        <LastUpdated path="/mentions-legales" />
         <h1 className="font-display text-3xl font-bold text-dark md:text-4xl">
           Mentions légales
         </h1>

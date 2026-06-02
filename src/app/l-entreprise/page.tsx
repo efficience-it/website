@@ -11,6 +11,7 @@ import { breadcrumbJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structur
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import EnterpriseTimeline from "@/components/sections/EnterpriseTimeline";
+import LastUpdated from "@/components/ui/LastUpdated";
 
 const enterpriseRelatedLinks: RelatedLink[] = [
   { title: "L'équipe Efficience IT", description: "Les profils qui composent l'agence", href: "/la-team" },
@@ -144,6 +145,7 @@ export default function LEntreprise() {
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
           <Breadcrumb items={[{ label: "Notre histoire" }]} />
+          <LastUpdated path="/l-entreprise" />
           <div className="grid items-center gap-12 md:grid-cols-2">
             <div>
               <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">

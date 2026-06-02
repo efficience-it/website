@@ -22,6 +22,7 @@ import {
   pageGraphJsonLd,
 } from "@/lib/structured-data";
 import { getAuthorSchema } from "@/data/authors";
+import { formatDate, isRecentlyUpdated } from "@/lib/dates";
 import FadeIn from "@/components/ui/FadeIn";
 import ScrollDepthTracker from "@/components/ui/ScrollDepthTracker";
 import ArticleShareButtons from "@/components/ui/ArticleShareButtons";
@@ -162,13 +163,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                     </Button>
                   </div>
                   <div className="mb-4 flex items-center gap-3 text-sm text-gray">
-                    <time dateTime={post.date}>
-                      {new Date(post.date).toLocaleDateString("fr-FR", {
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric",
-                      })}
-                    </time>
+                    <time dateTime={post.date}>{formatDate(post.date)}</time>
                     <span>&middot;</span>
                     <span>{readingTime(post.wordCount)} min de lecture</span>
                     {post.category && (
@@ -182,6 +177,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                         </Link>
                       </>
                     )}
+                    {isRecentlyUpdated(post.updatedAt, 90) && (
+                      <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">
+                        Mis à jour récemment
+                      </span>
+                    )}
                   </div>
                   <h1 className="font-display text-3xl font-bold text-dark md:text-4xl">
                     {post.title}
@@ -189,15 +189,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   <div className="mt-4 flex flex-wrap items-start gap-4 min-[520px]:justify-between">
                     <div className="space-y-2">
                       {post.author && <p className="text-gray">Par {post.author}</p>}
-                      {post.updatedAt && (
+                      {post.updatedAt && post.updatedAt !== post.date && (
                         <p className="text-sm text-gray">
                           Mis à jour le{" "}
                           <time dateTime={post.updatedAt}>
-                            {new Date(post.updatedAt).toLocaleDateString("fr-FR", {
-                              day: "numeric",
-                              month: "long",
-                              year: "numeric",
-                            })}
+                            {formatDate(post.updatedAt)}
                           </time>
                         </p>
                       )}

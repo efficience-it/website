@@ -10,6 +10,7 @@ import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { breadcrumbJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import PresentationIllustration from "@/components/illustrations/PresentationIllustration";
+import LastUpdated from "@/components/ui/LastUpdated";
 
 export const metadata = pageMetadata({
   title: "L'équipe Efficience IT | Agence web et technique",
@@ -58,6 +59,7 @@ export default function LaTeam() {
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
           <Breadcrumb items={[{ label: "La team" }]} />
+          <LastUpdated path="/la-team" />
           <div className="grid items-center gap-12 md:grid-cols-2">
             <div>
               <p className="text-sm font-semibold uppercase tracking-wider text-primary">
