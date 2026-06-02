@@ -17,7 +17,7 @@ faq:
 
 ## L'analyse statique : un compilateur pour PHP
 
-PHP est un langage interprété. Contrairement à Java ou Go, aucune phase de compilation ne vérifie la cohérence des types avant l'exécution. Pendant des années, les développeurs PHP ont découvert leurs erreurs de typage en production, à travers des `TypeError` ou des `null` inattendus. L'analyse statique comble ce vide : elle simule une compilation en parcourant l'AST (Abstract Syntax Tree) du code source, sans jamais l'exécuter.
+PHP est un langage interprété. Contrairement à Java ou Go, aucune phase de compilation ne vérifie la cohérence des types avant l'exécution. Pendant des années, les développeurs PHP ont découvert leurs erreurs de typage en production, à travers des `TypeError` ou des `null` inattendus, là où [TypeScript](/developpement-typescript) apporte cette rigueur de typage côté JavaScript. L'analyse statique comble ce vide : elle simule une compilation en parcourant l'AST (Abstract Syntax Tree) du code source, sans jamais l'exécuter.
 
 [PHPStan](https://phpstan.org/) est l'outil de référence dans cet espace. Il parse votre code, reconstruit un graphe de types et applique des règles de vérification sur ce graphe. Là où les tests unitaires vérifient des comportements, PHPStan vérifie des invariants structurels : cohérence des signatures, nullabilité, exhaustivité des unions. Les deux approches sont complémentaires et non substituables.
 

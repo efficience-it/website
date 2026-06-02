@@ -25,6 +25,21 @@ const vuejsRelatedLinks: RelatedLink[] = [
     href: "/api-sur-mesure-symfony",
   },
   {
+    title: "Développement React",
+    description: "L'autre grand framework front pour vos interfaces",
+    href: "/developpement-react",
+  },
+  {
+    title: "Développement TypeScript",
+    description: "Typer vos composants Vue 3 et la Composition API",
+    href: "/developpement-typescript",
+  },
+  {
+    title: "Développement Node.js",
+    description: "Backend JavaScript et SSR pour vos applications Vue",
+    href: "/developpement-nodejs",
+  },
+  {
     title: "Quel framework JavaScript choisir",
     description: "Comparatif Node.js, React, Vue.js et Angular pour votre projet",
     href: "/article/quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular",

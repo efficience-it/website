@@ -76,7 +76,7 @@ Elasticsearch peut atteindre des performances similaires, mais cela demande du t
 
 ### API et recherche front-end
 
-Algolia brille côté front-end. Les librairies InstantSearch fournissent des composants React, Vue.js et vanilla JS pour construire une interface de recherche complète en quelques heures. Les requêtes sont envoyées directement depuis le navigateur vers l'API Algolia, ce qui élimine le passage par votre serveur Symfony et réduit la latence.
+Algolia brille côté front-end. Les librairies InstantSearch fournissent des composants [React](/developpement-react), [Vue.js](/developpement-vuejs) et vanilla JS pour construire une interface de recherche complète en quelques heures. Les requêtes sont envoyées directement depuis le navigateur vers l'API Algolia, ce qui élimine le passage par votre serveur Symfony et réduit la latence.
 
 Avec Elasticsearch, la recherche transite par votre backend. Vous exposez un endpoint Symfony qui interroge Elasticsearch et renvoie les résultats. Cette approche donne un contrôle total sur la logique de filtrage et de sécurité, mais ajoute une étape réseau. Pour les [API REST bien structurées](/article/api-rest-les-bonnes-pratiques), ce pattern s'intègre naturellement dans l'architecture existante.
 

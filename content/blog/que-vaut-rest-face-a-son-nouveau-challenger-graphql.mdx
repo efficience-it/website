@@ -92,7 +92,7 @@ En pratique, les équipes expérimentées adoptent un schema-first approach, com
 
 ### Le pattern BFF (Backend for Frontend)
 
-Le Backend for Frontend consiste à placer une couche d'agrégation entre les clients et les microservices. Un BFF GraphQL peut agréger les données de plusieurs API REST internes, offrant au client une interface unifiée tout en conservant la simplicité de REST pour les services backend. Côté serveur, des [frameworks Node.js comme Express, Fastify ou Hono](/article/express-fastify-hono-quel-framework-nodejs-choisir) sont des choix courants pour implémenter cette couche d'agrégation. Cette architecture est particulièrement pertinente lorsque plusieurs clients (web, mobile, IoT) consomment les mêmes services avec des besoins de données très différents.
+Le Backend for Frontend consiste à placer une couche d'agrégation entre les clients et les microservices. Un BFF GraphQL peut agréger les données de plusieurs API REST internes, offrant au client une interface unifiée tout en conservant la simplicité de REST pour les services backend. Côté serveur, un [framework Node.js structuré comme NestJS](/api-nodejs-nestjs) ou des options plus légères comme [Express, Fastify ou Hono](/article/express-fastify-hono-quel-framework-nodejs-choisir) sont des choix courants pour implémenter cette couche d'agrégation. Cette architecture est particulièrement pertinente lorsque plusieurs clients (web, mobile, IoT) consomment les mêmes services avec des besoins de données très différents.
 
 ### Performance à grande échelle
 
