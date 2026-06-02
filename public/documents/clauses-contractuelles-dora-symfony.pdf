@@ -1,0 +1,483 @@
+%PDF-1.3
+%ºß¬à
+3 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 595.2799999999999727 841.8899999999999864]
+/Contents 4 0 R
+>>
+endobj
+4 0 obj
+<<
+/Length 4886
+>>
+stream
+0.200025 w
+0 G
+0. 0.4 0.8 rg
+0. 841.8899999999999864 595.2799999999999727 -8. re
+f
+BT
+/F2 22 Tf
+25.2999999999999972 TL
+0.059 0.09 0.133 rg
+56. 771.8899999999999864 Td
+(Clauses contractuelles DORA) Tj
+ET
+BT
+/F2 14 Tf
+16.0999999999999979 TL
+0.357 0.392 0.439 rg
+56. 743.8899999999999864 Td
+(Check-list à exiger d’un prestataire IT - applications Symfony) Tj
+ET
+BT
+/F1 10.5 Tf
+12.0749999999999993 TL
+0.235 g
+56. 713.8899999999999864 Td
+(Le règlement DORA \(UE\) 2022/2554 déplace une partie de la responsabilité sur la relation contractuelle) Tj
+T* (avec les prestataires informatiques. Voici les clauses essentielles à vérifier ou à exiger. Chaque) Tj
+T* (engagement écrit doit correspondre à une capacité technique réelle et démontrable.) Tj
+ET
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0. 0.4 0.8 rg
+56. 657.8899999999999864 Td
+(1.) Tj
+ET
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0.059 0.09 0.133 rg
+78. 657.8899999999999864 Td
+(Droit d’audit et d’accès à l’information) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.275 g
+78. 642.8899999999999864 Td
+(Pouvoir auditer les pratiques de sécurité et obtenir les preuves \(logs, rapports de tests, journaux) Tj
+T* (d’incident\).) Tj
+ET
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0. 0.4 0.8 rg
+56. 604.8899999999999864 Td
+(2.) Tj
+ET
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0.059 0.09 0.133 rg
+78. 604.8899999999999864 Td
+(SLA mesurables et pénalités) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.275 g
+78. 589.8899999999999864 Td
+(Niveaux de service chiffrés \(disponibilité, temps de rétablissement\), instrumentés et assortis de) Tj
+T* (pénalités.) Tj
+ET
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0. 0.4 0.8 rg
+56. 551.8899999999999864 Td
+(3.) Tj
+ET
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0.059 0.09 0.133 rg
+78. 551.8899999999999864 Td
+(Notification et coopération en cas d’incident) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.275 g
+78. 536.8899999999999864 Td
+(Obligation d’alerter sans délai, de coopérer et de respecter les délais de notification DORA.) Tj
+ET
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0. 0.4 0.8 rg
+56. 511.8899999999999864 Td
+(4.) Tj
+ET
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0.059 0.09 0.133 rg
+78. 511.8899999999999864 Td
+(Stratégie de sortie et réversibilité) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.275 g
+78. 496.8899999999999864 Td
+(Plan de sortie documenté : période de transition, assistance, restitution sans dépendance irréversible.) Tj
+ET
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0. 0.4 0.8 rg
+56. 471.8899999999999864 Td
+(5.) Tj
+ET
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0.059 0.09 0.133 rg
+78. 471.8899999999999864 Td
+(Restitution du code et des données) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.275 g
+78. 456.8899999999999864 Td
+(Export dans des formats ouverts et exploitables, conteneurisation et infrastructure as code.) Tj
+ET
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0. 0.4 0.8 rg
+56. 431.8899999999999864 Td
+(6.) Tj
+ET
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0.059 0.09 0.133 rg
+78. 431.8899999999999864 Td
+(Encadrement de la sous-traitance) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.275 g
+78. 416.8899999999999864 Td
+(Transparence et contrôle sur la chaîne de prestataires en aval \(sous-traitants critiques\).) Tj
+ET
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0. 0.4 0.8 rg
+56. 391.8899999999999864 Td
+(7.) Tj
+ET
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0.059 0.09 0.133 rg
+78. 391.8899999999999864 Td
+(Localisation des données et traitements) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.275 g
+78. 376.8899999999999864 Td
+(Localisation connue et maîtrisée des données et des environnements de traitement.) Tj
+ET
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0. 0.4 0.8 rg
+56. 351.8899999999999864 Td
+(8.) Tj
+ET
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0.059 0.09 0.133 rg
+78. 351.8899999999999864 Td
+(Sécurité et conformité) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.275 g
+78. 336.8899999999999864 Td
+(Chiffrement des données sensibles, gestion des accès, MFA, conformité RGPD des journaux.) Tj
+ET
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0. 0.4 0.8 rg
+56. 311.8899999999999864 Td
+(9.) Tj
+ET
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0.059 0.09 0.133 rg
+78. 311.8899999999999864 Td
+(Tests de résilience et continuité) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.275 g
+78. 296.8899999999999864 Td
+(Sauvegardes testées \(RTO/RPO\), continuité éprouvée, participation aux tests de résilience.) Tj
+ET
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0. 0.4 0.8 rg
+56. 271.8899999999999864 Td
+(10.) Tj
+ET
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0.059 0.09 0.133 rg
+78. 271.8899999999999864 Td
+(Traçabilité et intégrité du code) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.275 g
+78. 256.8899999999999864 Td
+(Signature des commits et des artefacts, pipeline CI/CD reproductible et auditable.) Tj
+ET
+0.86 G
+56. 225.8899999999999864 m
+539.2799999999999727 225.8899999999999864 l
+S
+BT
+/F3 9 Tf
+10.3499999999999996 TL
+0.471 g
+56. 207.8899999999999864 Td
+(Document indicatif fourni par Efficience IT à titre d’information. Il ne constitue pas un conseil juridique. Pour un) Tj
+T* (accompagnement technique : contact@itefficience.com - www.itefficience.com) Tj
+ET
+endstream
+endobj
+1 0 obj
+<</Type /Pages
+/Kids [3 0 R ]
+/Count 1
+>>
+endobj
+5 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+6 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica-Bold
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+7 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica-Oblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+8 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica-BoldOblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+9 0 obj
+<<
+/Type /Font
+/BaseFont /Courier
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+10 0 obj
+<<
+/Type /Font
+/BaseFont /Courier-Bold
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+11 0 obj
+<<
+/Type /Font
+/BaseFont /Courier-Oblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+12 0 obj
+<<
+/Type /Font
+/BaseFont /Courier-BoldOblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+13 0 obj
+<<
+/Type /Font
+/BaseFont /Times-Roman
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+14 0 obj
+<<
+/Type /Font
+/BaseFont /Times-Bold
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+15 0 obj
+<<
+/Type /Font
+/BaseFont /Times-Italic
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+16 0 obj
+<<
+/Type /Font
+/BaseFont /Times-BoldItalic
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+17 0 obj
+<<
+/Type /Font
+/BaseFont /ZapfDingbats
+/Subtype /Type1
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+18 0 obj
+<<
+/Type /Font
+/BaseFont /Symbol
+/Subtype /Type1
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+2 0 obj
+<<
+/ProcSet [/PDF /Text /ImageB /ImageC /ImageI]
+/Font <<
+/F1 5 0 R
+/F2 6 0 R
+/F3 7 0 R
+/F4 8 0 R
+/F5 9 0 R
+/F6 10 0 R
+/F7 11 0 R
+/F8 12 0 R
+/F9 13 0 R
+/F10 14 0 R
+/F11 15 0 R
+/F12 16 0 R
+/F13 17 0 R
+/F14 18 0 R
+>>
+/XObject <<
+>>
+>>
+endobj
+19 0 obj
+<<
+/Producer (jsPDF 4.2.1)
+/CreationDate (D:20260602151941+02'00')
+>>
+endobj
+20 0 obj
+<<
+/Type /Catalog
+/Pages 1 0 R
+/OpenAction [3 0 R /FitH null]
+/PageLayout /OneColumn
+>>
+endobj
+xref
+0 21
+0000000000 65535 f 
+0000005090 00000 n 
+0000006907 00000 n 
+0000000015 00000 n 
+0000000152 00000 n 
+0000005147 00000 n 
+0000005272 00000 n 
+0000005402 00000 n 
+0000005535 00000 n 
+0000005672 00000 n 
+0000005795 00000 n 
+0000005924 00000 n 
+0000006056 00000 n 
+0000006192 00000 n 
+0000006320 00000 n 
+0000006447 00000 n 
+0000006576 00000 n 
+0000006709 00000 n 
+0000006811 00000 n 
+0000007155 00000 n 
+0000007241 00000 n 
+trailer
+<<
+/Size 21
+/Root 20 0 R
+/Info 19 0 R
+/ID [ <9D7125949AD300E00A0FA0E24EEA9BDA> <9D7125949AD300E00A0FA0E24EEA9BDA> ]
+>>
+startxref
+7345
+%%EOF

@@ -93,7 +93,13 @@ describe("Internal links", () => {
     if (clean.startsWith("/#")) return true;
     if (clean.startsWith("/.well-known/")) return true;
     if (clean === "/llms.txt") return true;
-    const withoutHash = clean.split("#")[0];
+    const withoutHash = clean.split("#")[0].split("?")[0];
+    if (
+      path.extname(withoutHash) &&
+      fs.existsSync(path.join(process.cwd(), "public", withoutHash))
+    ) {
+      return true;
+    }
     return validRoutes.has(withoutHash);
   }
 
