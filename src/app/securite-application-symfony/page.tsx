@@ -35,6 +35,16 @@ const securiteRelatedLinks: RelatedLink[] = [
     href: "/article/dbtoolsbundle-anonymiser-vos-bases-de-donnees",
   },
   {
+    title: "Conformité NIS2 : préparer votre application Symfony",
+    description: "Hardening, MFA, journalisation et gestion des dépendances",
+    href: "/article/conformite-nis2-application-symfony",
+  },
+  {
+    title: "Conformité DORA : résilience applicative",
+    description: "Traçabilité, continuité, réversibilité et observabilité",
+    href: "/article/conformite-dora-resilience-symfony",
+  },
+  {
     title: "Symfony Security, documentation officielle",
     description: "Le composant de sécurité du framework Symfony",
     href: "https://symfony.com/doc/current/security.html",
@@ -137,6 +147,21 @@ const faqItems = [
     title: "Que livrez-vous concrètement à la fin d'un audit ?",
     content:
       "Un rapport détaillé avec la liste des vulnérabilités classées par criticité (CVSS), pour chacune : l'extrait de code concerné, la preuve d'exploitation quand c'est pertinent, le correctif recommandé et l'effort estimé. Nous livrons aussi un plan de remédiation priorisé et, sur demande, nous accompagnons la mise en œuvre des correctifs avec votre équipe.",
+  },
+  {
+    title: "Mon application Symfony est-elle concernée par NIS2 ?",
+    content:
+      "Le périmètre de la directive NIS2 est beaucoup plus large que celui de NIS1. Il inclut de nombreuses entités essentielles et importantes, ainsi que leurs sous-traitants et fournisseurs de services numériques au-delà d'un certain seuil de taille. Une PME ou une ETI qui édite un SaaS ou sert une entité essentielle peut être concernée. Nous préparons techniquement votre application (hardening, MFA, journalisation, dépendances) sans nous substituer à un auditeur PASSI.",
+  },
+  {
+    title: "Quelle est la différence entre NIS2 et DORA ?",
+    content:
+      "NIS2 est une directive transverse qui couvre de nombreux secteurs critiques. DORA est un règlement spécifique au secteur financier (banques, assurances, fintechs et leurs prestataires) centré sur la résilience opérationnelle numérique. Pour une entité financière, DORA prime sur NIS2 sur les sujets qu'il couvre. Les deux partagent une logique commune de gestion des risques, de journalisation et de notification d'incidents, ce qui permet de mutualiser une grande partie des chantiers techniques.",
+  },
+  {
+    title: "Le RGAA s'applique-t-il à mon site e-commerce ?",
+    content:
+      "Le RGAA concerne le secteur public et ses délégataires, mais l'accessibilité numérique s'impose aussi à de nombreux acteurs privés de l'e-commerce et de la formation, sous l'effet de la réglementation européenne. Nous intervenons sur la remédiation technique (Twig sémantique, ARIA, navigation clavier, tests axe-core en CI) et la déclaration d'accessibilité. Pour l'audit de conformité officiel, nous travaillons avec un auditeur agréé.",
   },
 ];
 
@@ -399,6 +424,121 @@ export default function SecuriteApplicationSymfony() {
                     <p className="mt-2 text-gray">{useCase.description}</p>
                   </Card>
                 ))}
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="bg-light-gray py-16 md:py-24">
+            <Container>
+              <SectionTitle>Conformité NIS2 : préparation technique</SectionTitle>
+              <div className="mx-auto max-w-3xl space-y-4 text-lg text-gray">
+                <p>
+                  La directive NIS2 élargit les obligations de cybersécurité à de
+                  nombreuses entités essentielles et importantes, ainsi qu&apos;à
+                  leurs sous-traitants. Côté application Symfony, nous couvrons les
+                  chantiers techniques concrets : durcissement de la
+                  configuration, authentification multifacteur, journalisation
+                  exploitable et gestion des dépendances vulnérables.
+                </p>
+                <p>
+                  Nous ne délivrons pas l&apos;attestation officielle, qui relève
+                  d&apos;un auditeur PASSI : nous préparons votre application pour
+                  franchir cet audit sans écart majeur, en complément de votre
+                  partenaire. Pour aller plus loin, consultez notre guide pour{" "}
+                  <Link
+                    href="/article/conformite-nis2-application-symfony"
+                    className="text-primary hover:underline"
+                  >
+                    préparer techniquement votre application à NIS2
+                  </Link>{" "}
+                  ou commencez par un{" "}
+                  <Link
+                    href="/audit-symfony-gratuit"
+                    className="text-primary hover:underline"
+                  >
+                    audit de sécurité gratuit
+                  </Link>
+                  .
+                </p>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="py-16 md:py-24">
+            <Container>
+              <SectionTitle>Conformité DORA : résilience applicative</SectionTitle>
+              <div className="mx-auto max-w-3xl space-y-4 text-lg text-gray">
+                <p>
+                  Le règlement DORA impose au secteur financier une résilience
+                  opérationnelle numérique : banques, assurances, fintechs et
+                  leurs prestataires informatiques critiques. Sur vos projets
+                  Symfony, nous travaillons la traçabilité du code (signatures Git,
+                  builds reproductibles), le plan de continuité et de reprise, la
+                  stratégie de sortie vis-à-vis du cloud et l&apos;observabilité
+                  avec OpenTelemetry.
+                </p>
+                <p>
+                  L&apos;objectif n&apos;est pas de promettre l&apos;absence de
+                  panne, mais de prouver que le système encaisse un incident et se
+                  rétablit. Découvrez notre approche détaillée de la{" "}
+                  <Link
+                    href="/article/conformite-dora-resilience-symfony"
+                    className="text-primary hover:underline"
+                  >
+                    résilience applicative pour DORA
+                  </Link>{" "}
+                  ou{" "}
+                  <Link
+                    href="/contact"
+                    className="text-primary hover:underline"
+                  >
+                    échangez avec notre équipe
+                  </Link>
+                  .
+                </p>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="bg-light-gray py-16 md:py-24">
+            <Container>
+              <SectionTitle>Accessibilité RGAA : remédiation</SectionTitle>
+              <div className="mx-auto max-w-3xl space-y-4 text-lg text-gray">
+                <p>
+                  Le RGAA encadre l&apos;accessibilité numérique pour le secteur
+                  public et ses délégataires, mais l&apos;accessibilité s&apos;impose
+                  aussi à de nombreux acteurs de l&apos;e-commerce et de la
+                  formation. Nous intervenons sur la remédiation technique : Twig
+                  sémantique, attributs ARIA pertinents, navigation au clavier,
+                  contrastes, et intégration de tests automatisés axe-core dans la
+                  CI pour prévenir les régressions. Nous aidons aussi à rédiger la
+                  déclaration d&apos;accessibilité.
+                </p>
+                <p>
+                  Pour l&apos;audit de conformité réglementaire, nous travaillons
+                  en partenariat avec un auditeur agréé. Pour comprendre le cadre,
+                  lisez notre article sur{" "}
+                  <Link
+                    href="/article/normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous"
+                    className="text-primary hover:underline"
+                  >
+                    les normes RGAA et l&apos;accessibilité numérique
+                  </Link>{" "}
+                  ou{" "}
+                  <Link
+                    href="/contact"
+                    className="text-primary hover:underline"
+                  >
+                    contactez-nous
+                  </Link>{" "}
+                  pour un plan de remédiation.
+                </p>
               </div>
             </Container>
           </section>
