@@ -108,7 +108,7 @@ Mais la véritable rupture se situe ailleurs. L'écosystème Symfony UX a introd
 
 Cette syntaxe n'est pas qu'un ajout cosmétique. Elle introduit un modèle mental différent : le template ne se conçoit plus comme une hiérarchie de blocs hérités, mais comme un assemblage de composants autonomes. Chaque composant encapsule son rendu, potentiellement ses styles, et définit une API claire (ses attributs).
 
-Pour les développeurs habitués à React, Vue ou Svelte, le concept est immédiatement familier. Pour les architectes Symfony, il soulève des questions intéressantes : comment organiser une bibliothèque de composants partagée entre plusieurs applications ? Comment versionner un design system basé sur Twig Components ? Comment gérer la frontière entre composants serveur (Twig) et composants client (Stimulus, Turbo) ?
+Pour les développeurs habitués à [React](/developpement-react), Vue ou Svelte, le concept est immédiatement familier. Pour les architectes Symfony, il soulève des questions intéressantes : comment organiser une bibliothèque de composants partagée entre plusieurs applications ? Comment versionner un design system basé sur Twig Components ? Comment gérer la frontière entre composants serveur (Twig) et composants client (Stimulus, Turbo) ?
 
 L'ajout de nouveaux points d'extension entre l'analyseur et le lexer faciliterait par ailleurs la maintenance de LiveComponent, le pendant interactif des Twig Components. La synergie entre ces deux couches dessine un modèle hybride où le serveur reste maître du rendu initial, mais délègue l'interactivité au client de manière granulaire.
 

@@ -30,6 +30,11 @@ const typescriptRelatedLinks: RelatedLink[] = [
     href: "/developpement-vuejs",
   },
   {
+    title: "Développement React",
+    description: "Composants et hooks React typés avec TypeScript",
+    href: "/developpement-react",
+  },
+  {
     title: "TypeScript, documentation officielle",
     description: "La référence pour le langage TypeScript et son écosystème",
     href: "https://www.typescriptlang.org/",

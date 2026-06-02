@@ -85,7 +85,7 @@ Cette table n'est pas un classement. Chaque ligne pointe vers un cas d'usage où
 
 Le container gagne dès que la charge embarque une stack lourde. Une application Symfony complète avec son ORM Doctrine, ses extensions PHP, ses outils d'image et son client de base de données fonctionne nativement dans un container et marginalement dans WASM. L'[intégration Docker côté Symfony](/integration-docker-symfony) reste le standard pour packager ce type de workload.
 
-Le container gagne aussi sur les processus longs. Un worker Symfony Messenger qui traite des messages pendant des heures, un job de calcul batch, un serveur Node.js bâti sur [Express, Fastify ou Hono](/article/express-fastify-hono-quel-framework-nodejs-choisir) avec connexions persistantes : tous bénéficient d'un environnement chargé une fois pour toutes. Le cold start est amorti, l'OS sous-jacent rend service, et la portabilité WASI n'apporte rien de visible.
+Le container gagne aussi sur les processus longs. Un worker Symfony Messenger qui traite des messages pendant des heures, un job de calcul batch, un [serveur Node.js](/developpement-nodejs) bâti sur [Express, Fastify ou Hono](/article/express-fastify-hono-quel-framework-nodejs-choisir) avec connexions persistantes : tous bénéficient d'un environnement chargé une fois pour toutes. Le cold start est amorti, l'OS sous-jacent rend service, et la portabilité WASI n'apporte rien de visible.
 
 Enfin, le container reste imbattable sur les dépendances binaires natives. ImageMagick, FFmpeg, drivers GPU, bibliothèques scientifiques compilées : autant de briques qui ne se portent pas vers WASM sans effort disproportionné. Pour ces charges, la question ne se pose pas.
 

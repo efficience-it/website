@@ -12,7 +12,7 @@ En 2026, Express reste le framework Node.js le plus téléchargé au monde, avec
 
 ## Express : le vétéran incontournable
 
-Sorti en 2010, Express est le plus vieux des frameworks Node.js encore massivement utilisés. Sa longévité n'est pas un hasard : il a posé les bases de la majorité des patterns utilisés dans tout l'écosystème Node.js. Chaque tutoriel, chaque formation, chaque bootcamp commence par Express. Cette omniprésence est à la fois sa plus grande force et un indice de son relatif immobilisme.
+Sorti en 2010, Express est le plus vieux des [frameworks Node.js](/developpement-nodejs) encore massivement utilisés. Sa longévité n'est pas un hasard : il a posé les bases de la majorité des patterns utilisés dans tout l'écosystème Node.js. Chaque tutoriel, chaque formation, chaque bootcamp commence par Express. Cette omniprésence est à la fois sa plus grande force et un indice de son relatif immobilisme.
 
 ### Forces
 
@@ -22,7 +22,7 @@ Pour les projets qui doivent intégrer des outils tiers ou s'appuyer sur des bib
 
 ### Limites
 
-Express ne gère pas nativement TypeScript. Il faut ajouter les types `@types/express` et configurer une chaîne de build séparée. Le modèle de gestion des erreurs repose sur des callbacks à quatre paramètres `(err, req, res, next)`, un pattern qui date de 2010 et qui tranche avec les pratiques modernes basées sur `async/await` et les Promises. Les performances sont honorables pour des usages courants, mais Express perd nettement face à Fastify sur les benchmarks de requêtes à haut débit.
+Express ne gère pas nativement [TypeScript](/developpement-typescript). Il faut ajouter les types `@types/express` et configurer une chaîne de build séparée. Le modèle de gestion des erreurs repose sur des callbacks à quatre paramètres `(err, req, res, next)`, un pattern qui date de 2010 et qui tranche avec les pratiques modernes basées sur `async/await` et les Promises. Les performances sont honorables pour des usages courants, mais Express perd nettement face à Fastify sur les benchmarks de requêtes à haut débit.
 
 Express convient parfaitement aux prototypes, aux APIs de taille modeste et aux projets qui ont besoin d'une compatibilité maximale avec l'écosystème npm existant. Pour un projet neuf à haute criticité de performance, il faut regarder ailleurs.
 
