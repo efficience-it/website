@@ -63,20 +63,20 @@ describe("GET /feed.xml", () => {
 
   it("returns Atom 1.0 XML with correct Content-Type", async () => {
     getAllPostsMock.mockReturnValue([]);
-    const response = GET();
+    const response = await GET();
     expect(response.headers.get("Content-Type")).toContain("application/atom+xml");
   });
 
   it("includes correct Cache-Control header", async () => {
     getAllPostsMock.mockReturnValue([]);
-    const response = GET();
+    const response = await GET();
     expect(response.headers.get("Cache-Control")).toContain("s-maxage=3600");
     expect(response.headers.get("Cache-Control")).toContain("stale-while-revalidate=86400");
   });
 
   it("generates a valid Atom feed structure", async () => {
     getAllPostsMock.mockReturnValue(MOCK_POSTS);
-    const response = GET();
+    const response = await GET();
     const xml = await response.text();
 
     expect(xml).toContain('<?xml version="1.0" encoding="UTF-8"?>');
@@ -91,7 +91,7 @@ describe("GET /feed.xml", () => {
 
   it("uses updatedAt as feed <updated> when available", async () => {
     getAllPostsMock.mockReturnValue(MOCK_POSTS);
-    const response = GET();
+    const response = await GET();
     const xml = await response.text();
 
     // The first post has updatedAt, so the feed <updated> should use it
@@ -100,7 +100,7 @@ describe("GET /feed.xml", () => {
 
   it("falls back to date for feed <updated> when updatedAt is missing", async () => {
     getAllPostsMock.mockReturnValue([MOCK_POSTS[1]]);
-    const response = GET();
+    const response = await GET();
     const xml = await response.text();
 
     expect(xml).toContain("<updated>2026-01-01T00:00:00.000Z</updated>");
@@ -108,7 +108,7 @@ describe("GET /feed.xml", () => {
 
   it("generates an <entry> per post with correct fields", async () => {
     getAllPostsMock.mockReturnValue(MOCK_POSTS);
-    const response = GET();
+    const response = await GET();
     const xml = await response.text();
 
     expect(xml).toContain(`<link href="${BASE_URL}/article/article-symfony" />`);
@@ -121,7 +121,7 @@ describe("GET /feed.xml", () => {
 
   it("escapes XML special characters in title", async () => {
     getAllPostsMock.mockReturnValue([MOCK_POSTS[1]]);
-    const response = GET();
+    const response = await GET();
     const xml = await response.text();
 
     expect(xml).toContain("<title>Article &lt;sans&gt; updatedAt &amp; spéciaux</title>");
@@ -129,7 +129,7 @@ describe("GET /feed.xml", () => {
 
   it("falls back to title when excerpt is empty", async () => {
     getAllPostsMock.mockReturnValue([MOCK_POSTS[1]]);
-    const response = GET();
+    const response = await GET();
     const xml = await response.text();
 
     expect(xml).toContain(
@@ -150,7 +150,7 @@ describe("GET /feed.xml", () => {
         wordCount: 1,
       },
     ]);
-    const response = GET();
+    const response = await GET();
     const xml = await response.text();
 
     expect(xml).toContain("<name>Efficience IT</name>");
@@ -158,7 +158,7 @@ describe("GET /feed.xml", () => {
 
   it("includes <category> tags from mainTech and category", async () => {
     getAllPostsMock.mockReturnValue([MOCK_POSTS[0]]);
-    const response = GET();
+    const response = await GET();
     const xml = await response.text();
 
     expect(xml).toContain('<category term="symfony" />');
@@ -173,7 +173,7 @@ describe("GET /feed.xml", () => {
         mainTech: ["symfony"],
       },
     ]);
-    const response = GET();
+    const response = await GET();
     const xml = await response.text();
 
     const matches = xml.match(/<category term="symfony" \/>/g);
@@ -192,7 +192,7 @@ describe("GET /feed.xml", () => {
       wordCount: 1,
     }));
     getAllPostsMock.mockReturnValue(manyPosts);
-    const response = GET();
+    const response = await GET();
     const xml = await response.text();
 
     const entryCount = (xml.match(/<entry>/g) ?? []).length;
@@ -201,7 +201,7 @@ describe("GET /feed.xml", () => {
 
   it("renders an empty feed when there are no posts", async () => {
     getAllPostsMock.mockReturnValue([]);
-    const response = GET();
+    const response = await GET();
     const xml = await response.text();
 
     expect(xml).toContain('<feed xmlns="http://www.w3.org/2005/Atom">');
@@ -221,11 +221,11 @@ describe("GET /feed.xml", () => {
         wordCount: 5,
       },
     ]);
-    const response = GET();
+    const response = await GET();
     const xml = await response.text();
 
     expect(xml).toContain("<![CDATA[");
-    expect(xml).toContain("<h2>");
+    expect(xml).toContain("<h2 id=\"titre\">Titre</h2>");
     expect(xml).toContain("<strong>gras</strong>");
     expect(xml).toContain("<em>italique</em>");
   });
@@ -244,15 +244,35 @@ describe("GET /feed.xml", () => {
         wordCount: 10,
       },
     ]);
-    const response = GET();
+    const response = await GET();
     const xml = await response.text();
 
-    expect(xml).toContain("<h1>");
-    expect(xml).toContain("<h3>");
+    expect(xml).toContain("<h1 id=\"titre-h1\">Titre H1</h1>");
+    expect(xml).toContain("<h3 id=\"titre-h3\">Titre H3</h3>");
     expect(xml).toContain("<ul>");
     expect(xml).toContain("<li>Item un</li>");
     expect(xml).toContain("<li>Item deux</li>");
     expect(xml).toContain("<code>code</code>");
     expect(xml).toContain('<a href="https://example.com">lien</a>');
+  });
+
+  it("renders fenced code blocks correctly without exposing markdown syntax", async () => {
+    getAllPostsMock.mockReturnValue([
+      {
+        slug: "article-code-block",
+        title: "Code Block Test",
+        date: "2026-01-10T00:00:00.000Z",
+        author: "Auteur",
+        category: "TS",
+        excerpt: "Desc",
+        content: "```ts\nconst x = 42;\nconsole.log(x);\n```",
+        wordCount: 10,
+      },
+    ]);
+    const response = await GET();
+    const xml = await response.text();
+
+    expect(xml).toContain('<pre><code class="language-ts">const x = 42;\nconsole.log(x);\n</code></pre>');
+    expect(xml).not.toContain("```ts");
   });
 });
