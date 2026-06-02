@@ -91,7 +91,7 @@ Les pre-request scripts permettent de chaîner les appels. Un script d'authentif
 
 ## Bruno au-delà de PHP : API Node.js et multi-stack
 
-Bruno est agnostique vis-à-vis du backend. La même collection teste indifféremment une API Symfony, une API [Express, Fastify ou Hono](/article/express-fastify-hono-quel-framework-nodejs-choisir), ou n'importe quel service exposant des endpoints HTTP. C'est un avantage concret pour les équipes qui travaillent sur des architectures polyglotes.
+Bruno est agnostique vis-à-vis du backend. La même collection teste indifféremment une API Symfony, une [API NestJS](/api-nodejs-nestjs), une API [Express, Fastify ou Hono](/article/express-fastify-hono-quel-framework-nodejs-choisir), ou n'importe quel service exposant des endpoints HTTP. C'est un avantage concret pour les équipes qui travaillent sur des architectures polyglotes.
 
 Sur un projet combinant un backend Symfony et des microservices Node.js, une seule collection Bruno couvre l'ensemble des tests d'intégration. Les environnements gèrent les URLs de chaque service, et les assertions vérifient les contrats d'interface entre eux. Cette approche unifie l'outillage de test là où chaque stack aurait autrement son propre framework de test HTTP.
 

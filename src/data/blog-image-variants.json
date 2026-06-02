@@ -119,6 +119,10 @@
     400,
     800
   ],
+  "due-diligence-symfony": [
+    400,
+    800
+  ],
   "easyadmin-vs-forestadmin": [
     400
   ],
@@ -139,6 +143,10 @@
     400
   ],
   "evenements-2025": [
+    400,
+    800
+  ],
+  "fin-de-support-symfony-php": [
     400,
     800
   ],
@@ -328,6 +336,10 @@
     800
   ],
   "vocabulaire-dev-web": [
+    400,
+    800
+  ],
+  "wasm-vs-container": [
     400,
     800
   ]

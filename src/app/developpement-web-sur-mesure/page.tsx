@@ -116,6 +116,11 @@ const devWebRelatedLinks: RelatedLink[] = [
   { title: "Symfony, site officiel", description: "Le framework PHP pour les applications web", href: "https://symfony.com/", external: true },
   { title: "Sylius, site officiel", description: "La plateforme e-commerce basée sur Symfony", href: "https://sylius.com/", external: true },
   { title: "API Platform", description: "Créer des API modernes en PHP", href: "https://api-platform.com/", external: true },
+  { title: "Développement Node.js", description: "API performantes et applications temps réel en Node.js", href: "/developpement-nodejs" },
+  { title: "API Node.js avec NestJS", description: "APIs structurées REST et GraphQL avec NestJS", href: "/api-nodejs-nestjs" },
+  { title: "Développement React", description: "Interfaces réactives et applications front modernes", href: "/developpement-react" },
+  { title: "Développement Vue.js", description: "SPA et interfaces avec Vue 3 et Nuxt", href: "/developpement-vuejs" },
+  { title: "Développement TypeScript", description: "Type-safety du front au back JavaScript", href: "/developpement-typescript" },
   { title: "Pourquoi choisir Efficience IT", description: "Agence vs freelance, ESN ou agence générique : notre comparatif", href: "/pourquoi-efficience-it" },
 ];
 

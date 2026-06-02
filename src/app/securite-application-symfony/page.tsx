@@ -35,6 +35,21 @@ const securiteRelatedLinks: RelatedLink[] = [
     href: "/article/dbtoolsbundle-anonymiser-vos-bases-de-donnees",
   },
   {
+    title: "Conformité NIS2 : préparer votre application Symfony",
+    description: "Hardening, MFA, journalisation et gestion des dépendances",
+    href: "/article/conformite-nis2-application-symfony",
+  },
+  {
+    title: "Conformité DORA : résilience applicative",
+    description: "Traçabilité, continuité, réversibilité et observabilité",
+    href: "/article/conformite-dora-resilience-symfony",
+  },
+  {
+    title: "DORA pour fintech : check-list Symfony",
+    description: "Check-list, clauses contractuelles et sanctions pour acteurs financiers",
+    href: "/article/dora-fintech-resilience-technique-symfony",
+  },
+  {
     title: "Symfony Security, documentation officielle",
     description: "Le composant de sécurité du framework Symfony",
     href: "https://symfony.com/doc/current/security.html",
@@ -137,6 +152,21 @@ const faqItems = [
     title: "Que livrez-vous concrètement à la fin d'un audit ?",
     content:
       "Un rapport détaillé avec la liste des vulnérabilités classées par criticité (CVSS), pour chacune : l'extrait de code concerné, la preuve d'exploitation quand c'est pertinent, le correctif recommandé et l'effort estimé. Nous livrons aussi un plan de remédiation priorisé et, sur demande, nous accompagnons la mise en œuvre des correctifs avec votre équipe.",
+  },
+  {
+    title: "Mon application Symfony est-elle concernée par NIS2 ?",
+    content:
+      "Le périmètre de la directive NIS2 est beaucoup plus large que celui de NIS1. Il inclut de nombreuses entités essentielles et importantes, ainsi que leurs sous-traitants et fournisseurs de services numériques au-delà d'un certain seuil de taille. Une PME ou une ETI qui édite un SaaS ou sert une entité essentielle peut être concernée. Nous préparons techniquement votre application (hardening, MFA, journalisation, dépendances) sans nous substituer à un auditeur PASSI.",
+  },
+  {
+    title: "Quelle est la différence entre NIS2 et DORA ?",
+    content:
+      "NIS2 est une directive transverse qui couvre de nombreux secteurs critiques. DORA est un règlement spécifique au secteur financier (banques, assurances, fintechs et leurs prestataires) centré sur la résilience opérationnelle numérique. Pour une entité financière, DORA prime sur NIS2 sur les sujets qu'il couvre. Les deux partagent une logique commune de gestion des risques, de journalisation et de notification d'incidents, ce qui permet de mutualiser une grande partie des chantiers techniques.",
+  },
+  {
+    title: "Le RGAA s'applique-t-il à mon site e-commerce ?",
+    content:
+      "Le RGAA concerne le secteur public et ses délégataires, mais l'accessibilité numérique s'impose aussi à de nombreux acteurs privés de l'e-commerce et de la formation, sous l'effet de la réglementation européenne. Nous intervenons sur la remédiation technique (Twig sémantique, ARIA, navigation clavier, tests axe-core en CI) et la déclaration d'accessibilité. Pour l'audit de conformité officiel, nous travaillons avec un auditeur agréé.",
   },
 ];
 
@@ -399,6 +429,228 @@ export default function SecuriteApplicationSymfony() {
                     <p className="mt-2 text-gray">{useCase.description}</p>
                   </Card>
                 ))}
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="bg-light-gray py-16 md:py-24">
+            <Container>
+              <div className="mx-auto max-w-3xl space-y-12">
+                <div>
+                  <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                    OWASP Top 10 appliqué à Symfony
+                  </h2>
+                  <p className="mt-4 text-lg text-gray">
+                    L&apos;OWASP Top 10 recense les risques de sécurité les plus
+                    répandus : injection, défaillances d&apos;authentification,
+                    exposition de données sensibles, mauvaises configurations.
+                    Symfony fournit des protections natives contre la plupart
+                    d&apos;entre eux (requêtes préparées via Doctrine, protection
+                    CSRF des formulaires, échappement automatique de Twig), mais
+                    aucune n&apos;est efficace si elle est contournée ou mal
+                    configurée. Nous auditons chaque catégorie du Top 10 sur votre
+                    application, du contrôle d&apos;accès aux dépendances
+                    vulnérables. La sensibilisation des équipes fait partie du
+                    dispositif : notre article sur{" "}
+                    <Link
+                      href="/article/comment-former-vos-equipes-a-la-securite-informatique-en-toute-simplicite"
+                      className="text-primary hover:underline"
+                    >
+                      comment former vos équipes à la sécurité informatique
+                    </Link>{" "}
+                    explique comment ancrer ces réflexes au quotidien.
+                  </p>
+                </div>
+                <div>
+                  <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                    Gestion des CVE et politique de patch
+                  </h2>
+                  <p className="mt-4 text-lg text-gray">
+                    Une application n&apos;est jamais figée : les failles sont
+                    découvertes en continu dans les dépendances que vous utilisez.
+                    Sans politique de patch, une CVE publiée devient une porte
+                    ouverte pendant des mois. Nous mettons en place une veille
+                    automatisée (composer audit, alertes de sécurité) et un
+                    processus de mise à jour priorisé selon la criticité réelle,
+                    pas seulement le score CVSS. Chaque correctif est validé par la
+                    suite de tests avant déploiement, pour ne pas troquer une
+                    faille contre une régression. Pour comprendre le cycle de vie
+                    d&apos;une vulnérabilité, notre article sur{" "}
+                    <Link
+                      href="/article/cve-comprendre-les-failles-pour-mieux-se-proteger"
+                      className="text-primary hover:underline"
+                    >
+                      les CVE et comment s&apos;en protéger
+                    </Link>{" "}
+                    pose les bases.
+                  </p>
+                </div>
+                <div>
+                  <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                    RGPD et logs applicatifs
+                  </h2>
+                  <p className="mt-4 text-lg text-gray">
+                    Les logs sont précieux pour le débogage, mais ils deviennent un
+                    risque dès qu&apos;ils contiennent des données personnelles :
+                    e-mails, identifiants, adresses IP. La conformité RGPD impose de
+                    minimiser ces données, de les anonymiser et de borner leur
+                    durée de conservation. Nous configurons Monolog pour filtrer
+                    les informations sensibles à la source, et nous mettons en place
+                    une rotation et une purge maîtrisées. Pour les environnements de
+                    test et de pré-production, l&apos;anonymisation des bases est
+                    indispensable : notre article sur{" "}
+                    <Link
+                      href="/article/dbtoolsbundle-anonymiser-vos-bases-de-donnees"
+                      className="text-primary hover:underline"
+                    >
+                      anonymiser vos bases de données avec DbToolsBundle
+                    </Link>{" "}
+                    montre comment travailler sur des données réalistes sans
+                    exposer de données réelles.
+                  </p>
+                </div>
+                <div>
+                  <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                    Authentification forte et passkeys WebAuthn
+                  </h2>
+                  <p className="mt-4 text-lg text-gray">
+                    Le mot de passe seul ne suffit plus. L&apos;authentification
+                    forte combine plusieurs facteurs, et les passkeys basées sur le
+                    standard WebAuthn permettent une connexion sans mot de passe,
+                    résistante au phishing, adossée au matériel de l&apos;utilisateur
+                    (empreinte, clé physique). Le composant Security de Symfony
+                    s&apos;intègre avec ces mécanismes via des authenticators
+                    personnalisés et la double authentification. Nous concevons des
+                    parcours de connexion qui élèvent le niveau de sécurité sans
+                    dégrader l&apos;expérience utilisateur. Sécuriser l&apos;accès
+                    n&apos;est qu&apos;un volet : un{" "}
+                    <Link
+                      href="/audit-code-php"
+                      className="text-primary hover:underline"
+                    >
+                      audit de code PHP
+                    </Link>{" "}
+                    complet vérifie aussi la robustesse de la logique
+                    d&apos;autorisation derrière l&apos;authentification.
+                  </p>
+                </div>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="py-16 md:py-24">
+            <Container>
+              <SectionTitle>Conformité NIS2 : préparation technique</SectionTitle>
+              <div className="mx-auto max-w-3xl space-y-4 text-lg text-gray">
+                <p>
+                  La directive NIS2 élargit les obligations de cybersécurité à de
+                  nombreuses entités essentielles et importantes, ainsi qu&apos;à
+                  leurs sous-traitants. Côté application Symfony, nous couvrons les
+                  chantiers techniques concrets : durcissement de la
+                  configuration, authentification multifacteur, journalisation
+                  exploitable et gestion des dépendances vulnérables.
+                </p>
+                <p>
+                  Nous ne délivrons pas l&apos;attestation officielle, qui relève
+                  d&apos;un auditeur PASSI : nous préparons votre application pour
+                  franchir cet audit sans écart majeur, en complément de votre
+                  partenaire. Pour aller plus loin, consultez notre guide pour{" "}
+                  <Link
+                    href="/article/conformite-nis2-application-symfony"
+                    className="text-primary hover:underline"
+                  >
+                    préparer techniquement votre application à NIS2
+                  </Link>{" "}
+                  ou commencez par un{" "}
+                  <Link
+                    href="/audit-symfony-gratuit"
+                    className="text-primary hover:underline"
+                  >
+                    audit de sécurité gratuit
+                  </Link>
+                  .
+                </p>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="bg-light-gray py-16 md:py-24">
+            <Container>
+              <SectionTitle>Conformité DORA : résilience applicative</SectionTitle>
+              <div className="mx-auto max-w-3xl space-y-4 text-lg text-gray">
+                <p>
+                  Le règlement DORA impose au secteur financier une résilience
+                  opérationnelle numérique : banques, assurances, fintechs et
+                  leurs prestataires informatiques critiques. Sur vos projets
+                  Symfony, nous travaillons la traçabilité du code (signatures Git,
+                  builds reproductibles), le plan de continuité et de reprise, la
+                  stratégie de sortie vis-à-vis du cloud et l&apos;observabilité
+                  avec OpenTelemetry.
+                </p>
+                <p>
+                  L&apos;objectif n&apos;est pas de promettre l&apos;absence de
+                  panne, mais de prouver que le système encaisse un incident et se
+                  rétablit. Découvrez notre approche détaillée de la{" "}
+                  <Link
+                    href="/article/conformite-dora-resilience-symfony"
+                    className="text-primary hover:underline"
+                  >
+                    résilience applicative pour DORA
+                  </Link>{" "}
+                  ou{" "}
+                  <Link
+                    href="/contact"
+                    className="text-primary hover:underline"
+                  >
+                    échangez avec notre équipe
+                  </Link>
+                  .
+                </p>
+              </div>
+            </Container>
+          </section>
+        </FadeIn>
+
+        <FadeIn>
+          <section className="py-16 md:py-24">
+            <Container>
+              <SectionTitle>Accessibilité RGAA : remédiation</SectionTitle>
+              <div className="mx-auto max-w-3xl space-y-4 text-lg text-gray">
+                <p>
+                  Le RGAA encadre l&apos;accessibilité numérique pour le secteur
+                  public et ses délégataires, mais l&apos;accessibilité s&apos;impose
+                  aussi à de nombreux acteurs de l&apos;e-commerce et de la
+                  formation. Nous intervenons sur la remédiation technique : Twig
+                  sémantique, attributs ARIA pertinents, navigation au clavier,
+                  contrastes, et intégration de tests automatisés axe-core dans la
+                  CI pour prévenir les régressions. Nous aidons aussi à rédiger la
+                  déclaration d&apos;accessibilité.
+                </p>
+                <p>
+                  Pour l&apos;audit de conformité réglementaire, nous travaillons
+                  en partenariat avec un auditeur agréé. Pour comprendre le cadre,
+                  lisez notre article sur{" "}
+                  <Link
+                    href="/article/normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous"
+                    className="text-primary hover:underline"
+                  >
+                    les normes RGAA et l&apos;accessibilité numérique
+                  </Link>{" "}
+                  ou{" "}
+                  <Link
+                    href="/contact"
+                    className="text-primary hover:underline"
+                  >
+                    contactez-nous
+                  </Link>{" "}
+                  pour un plan de remédiation.
+                </p>
               </div>
             </Container>
           </section>

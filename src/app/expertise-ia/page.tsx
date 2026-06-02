@@ -344,6 +344,115 @@ export default function ExpertiseIa() {
       </FadeIn>
 
       <FadeIn>
+      <section className="bg-light-gray py-16 md:py-24">
+        <Container>
+          <div className="mx-auto max-w-3xl space-y-12">
+            <div>
+              <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                RAG sur données Doctrine : architecture
+              </h2>
+              <p className="mt-4 text-lg text-gray">
+                Le RAG (Retrieval-Augmented Generation) permet à un modèle de
+                langage de répondre à partir de vos données métier plutôt que de
+                ses seules connaissances généralistes. Concrètement, nous indexons
+                vos entités Doctrine dans une base vectorielle, puis nous injectons
+                les passages les plus pertinents dans le prompt au moment de la
+                requête. L&apos;enjeu est autant fonctionnel (qualité du chunking,
+                fraîcheur de l&apos;index) que technique (synchronisation via
+                Messenger, choix du vector store). Notre retour d&apos;expérience
+                détaillé sur{" "}
+                <Link
+                  href="/article/rag-symfony-ai-doctrine-indexer-base-metier"
+                  className="text-primary hover:underline"
+                >
+                  le RAG avec Symfony AI et Doctrine pour indexer une base métier
+                </Link>{" "}
+                montre une architecture complète, du parsing des documents
+                jusqu&apos;à la génération de la réponse citée.
+              </p>
+            </div>
+            <div>
+              <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                LLM et intégration dans une application Symfony
+              </h2>
+              <p className="mt-4 text-lg text-gray">
+                Brancher un LLM sur une application Symfony ne se limite pas à
+                appeler une API externe. Il faut gérer les coûts par token, la
+                latence, le streaming des réponses, la mise en cache des appels et
+                les garde-fous contre les hallucinations. Nous encapsulons ces
+                préoccupations dans des services dédiés, testables et remplaçables,
+                pour ne jamais coupler votre code métier à un fournisseur précis.
+                Cette approche découplée facilite le passage d&apos;un modèle à un
+                autre selon le rapport qualité/coût. Notre{" "}
+                <Link
+                  href="/article/symfony-ai-projet-legacy-retour-experience"
+                  className="text-primary hover:underline"
+                >
+                  retour d&apos;expérience sur l&apos;intégration de l&apos;IA dans
+                  un projet legacy Symfony
+                </Link>{" "}
+                illustre comment ajouter ces capacités sans réécrire
+                l&apos;existant.
+              </p>
+            </div>
+            <div>
+              <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                Assistants IA et agents conversationnels
+              </h2>
+              <p className="mt-4 text-lg text-gray">
+                Au-delà du simple chatbot, un agent conversationnel peut interroger
+                vos données, déclencher des actions et enchaîner des étapes en
+                autonomie. La difficulté n&apos;est pas de générer du texte, mais
+                de cadrer l&apos;agent : définir ses outils, borner ses droits et
+                tracer ses décisions. Nous concevons des assistants ancrés dans
+                votre domaine métier, avec une supervision humaine sur les actions
+                sensibles. Le choix du modèle dépend de l&apos;usage : notre
+                comparatif pour{" "}
+                <Link
+                  href="/article/quel-assistant-ia-choisir-pour-coder"
+                  className="text-primary hover:underline"
+                >
+                  choisir le bon assistant IA pour coder
+                </Link>{" "}
+                et notre analyse des{" "}
+                <Link
+                  href="/article/forces-et-faiblesses-des-ia-generatives-les-plus-utilisees"
+                  className="text-primary hover:underline"
+                >
+                  forces et faiblesses des IA génératives les plus utilisées
+                </Link>{" "}
+                aident à arbitrer entre fluidité, fiabilité et coût.
+              </p>
+            </div>
+            <div>
+              <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                MCP et exposition de l&apos;API Symfony
+              </h2>
+              <p className="mt-4 text-lg text-gray">
+                Le Model Context Protocol (MCP) standardise la façon dont un
+                assistant IA accède à des outils et des données externes. En
+                exposant votre application Symfony via un serveur MCP, vous
+                permettez à un agent d&apos;interroger vos endpoints de manière
+                contrôlée, sans lui donner un accès brut à la base. C&apos;est une
+                brique clé pour transformer une API existante en source
+                d&apos;actions pour l&apos;IA, tout en gardant l&apos;authentification
+                et les autorisations Symfony. Notre article sur{" "}
+                <Link
+                  href="/article/serveurs-mcp-claude-code-developpeurs-symfony"
+                  className="text-primary hover:underline"
+                >
+                  les serveurs MCP avec Claude Code pour les développeurs Symfony
+                </Link>{" "}
+                montre comment mettre en place cette passerelle et quels
+                garde-fous prévoir.
+              </p>
+            </div>
+          </div>
+        </Container>
+      </section>
+      </FadeIn>
+
+      <FadeIn>
       <RelatedLinks links={expertiseIaRelatedLinks} />
       </FadeIn>
 

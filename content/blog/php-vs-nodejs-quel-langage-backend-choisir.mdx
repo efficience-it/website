@@ -29,7 +29,7 @@ Avec PHP 8.x et les [JIT compiler](https://www.php.net/manual/fr/opcache.configu
 
 ### Node.js : event loop et I/O non bloquantes
 
-Node.js repose sur une event loop mono-thread avec des I/O non bloquantes. La [documentation officielle de Node.js](https://nodejs.org/en/docs) détaille ce modèle en profondeur. Ce modèle excelle pour les applications qui gèrent beaucoup de connexions simultanées avec peu de traitement CPU : websockets, streaming, notifications en temps réel.
+Node.js repose sur une event loop mono-thread avec des I/O non bloquantes. La [documentation officielle de Node.js](https://nodejs.org/en/docs) détaille ce modèle en profondeur. Ce modèle excelle pour les applications qui gèrent beaucoup de connexions simultanées avec peu de traitement CPU : websockets, streaming et [notifications en temps réel](/developpement-nodejs).
 
 Le revers : le code asynchrone est plus complexe à debugger, les erreurs non gérées peuvent crasher l'ensemble du processus, et le mono-thread impose l'utilisation de workers ou de clustering pour exploiter les CPU multi-cœurs.
 
@@ -91,7 +91,7 @@ Node.js est mature depuis une dizaine d'années, avec un cycle de release régul
 - Application temps réel (websockets, chat, notifications)
 - Équipe fullstack JavaScript/TypeScript
 - Micro-services légers et APIs à forte concurrence
-- SSR frontend (Next.js, Nuxt.js)
+- SSR frontend ([Next.js avec React](/developpement-react), [Nuxt.js avec Vue.js](/developpement-vuejs))
 - Prototypage rapide d'APIs
 
 ## L'approche hybride

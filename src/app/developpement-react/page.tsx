@@ -30,6 +30,16 @@ const reactRelatedLinks: RelatedLink[] = [
     href: "/developpement-nodejs",
   },
   {
+    title: "Développement TypeScript",
+    description: "Typer vos composants et hooks React pour un code plus sûr",
+    href: "/developpement-typescript",
+  },
+  {
+    title: "Développement Vue.js",
+    description: "L'alternative progressive à React pour vos interfaces",
+    href: "/developpement-vuejs",
+  },
+  {
     title: "Quel framework JavaScript choisir",
     description: "Comparatif Node.js, React, Vue.js et Angular pour votre projet",
     href: "/article/quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular",

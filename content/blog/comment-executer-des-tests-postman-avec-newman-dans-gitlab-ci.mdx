@@ -22,7 +22,7 @@ howTo:
       text: "Générer un rapport HTML avec --reporters htmlextra et l'exposer comme artefact GitLab pour faciliter le débogage des échecs."
 ---
 
-Tester une API manuellement fonctionne au début d'un projet. Mais dès que l'on adopte les [conventions de codage](/article/coding-conventions) en équipe, l'automatisation des tests devient une nécessité. Dès que l'équipe grandit, que les endpoints se multiplient et que les déploiements s'accélèrent, l'absence de tests automatisés devient un risque concret : régressions silencieuses, contrats cassés, intégrations fragiles. Newman, le runner CLI de Postman, permet de transformer des collections de requêtes en suite de tests exécutable dans un pipeline GitLab CI. Voici comment mettre cela en place, puis comment aller au-delà d'une configuration basique.
+Tester une API manuellement fonctionne au début d'un projet. Mais dès que l'on adopte les [conventions de codage](/article/coding-conventions) en équipe, l'automatisation des tests devient une nécessité. Dès que l'équipe grandit, que les endpoints se multiplient et que les déploiements s'accélèrent, l'absence de tests automatisés devient un risque concret : régressions silencieuses, contrats cassés, intégrations fragiles. Newman, le runner CLI de Postman, permet de transformer des collections de requêtes en suite de tests exécutable dans un pipeline GitLab CI. Les équipes qui versionnent tout dans Git regardent aussi du côté de [Bruno, l'alternative open source à Postman](/article/bruno-alternative-open-source-postman-tester-api), dont les collections sont stockées en fichiers texte. Voici comment mettre cela en place, puis comment aller au-delà d'une configuration basique.
 
 ## Postman et Newman : le tandem test d'API
 
