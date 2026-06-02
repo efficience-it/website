@@ -592,7 +592,7 @@ export default function AgenceSymfonyParis() {
                       pourquoi Docker est indispensable en production
                     </Link>
                     . Nous détaillons notre démarche sur la page dédiée à
-                    l&apos;{" "}
+                    l&apos;
                     <Link
                       href="/integration-docker-symfony"
                       className="text-primary hover:underline"
