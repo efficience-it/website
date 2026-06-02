@@ -379,6 +379,162 @@ export default function MigrationSymfony() {
         </FadeIn>
 
         <FadeIn>
+        <section className="bg-light-gray py-16 md:py-24">
+          <Container>
+            <div className="mx-auto max-w-3xl space-y-12">
+              <div>
+                <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                  Rector pour automatiser la migration Symfony
+                </h2>
+                <p className="mt-4 text-lg text-gray">
+                  Rector applique des règles de transformation qui réécrivent
+                  automatiquement le code obsolète : déprécations remplacées,
+                  annotations converties en attributs PHP 8, signatures de
+                  méthodes mises à jour. Sur une montée de version, il absorbe la
+                  part répétitive du travail et laisse l&apos;équipe se concentrer
+                  sur les changements qui demandent une vraie réflexion métier.
+                  Nous configurons des sets de règles ciblés par version puis
+                  relisons chaque diff, car l&apos;automatisation ne dispense
+                  jamais de la revue. Pour comprendre la mécanique et les limites
+                  de l&apos;outil, notre article sur{" "}
+                  <Link
+                    href="/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony"
+                    className="text-primary hover:underline"
+                  >
+                    Rector et ses capacités de transformation du code Symfony
+                  </Link>{" "}
+                  détaille les cas où il fait gagner des journées entières.
+                </p>
+              </div>
+              <div>
+                <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                  Tests automatisés pendant une migration de version
+                </h2>
+                <p className="mt-4 text-lg text-gray">
+                  Une migration sans filet de tests revient à changer un moteur
+                  en roulant. Avant de toucher au code, nous vérifions la
+                  couverture existante et complétons les zones critiques par des
+                  tests fonctionnels qui figent le comportement attendu. Chaque
+                  palier de version est validé contre cette suite : si un test
+                  casse, la régression est identifiée immédiatement, pas en
+                  production. Quand la base est trop peu testée, nous mettons en
+                  place une stratégie de{" "}
+                  <Link
+                    href="/tests-automatises-php"
+                    className="text-primary hover:underline"
+                  >
+                    tests automatisés PHP
+                  </Link>{" "}
+                  progressive, en priorisant les parcours métier les plus
+                  sensibles. PHPStan complète le dispositif en détectant
+                  statiquement les appels à des API supprimées entre deux
+                  versions.
+                </p>
+              </div>
+              <div>
+                <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                  Performance applicative après migration
+                </h2>
+                <p className="mt-4 text-lg text-gray">
+                  Monter de version n&apos;apporte pas seulement des correctifs de
+                  sécurité : chaque release majeure de Symfony améliore le
+                  conteneur de services, le routeur et le composant Cache. Encore
+                  faut-il en profiter. Après la migration, nous profilons
+                  l&apos;application pour mesurer les gains réels et traquer les
+                  régressions éventuelles, comme des services mal configurés en
+                  lazy ou un autowiring trop large. L&apos;optimisation passe
+                  souvent par une révision des stratégies de cache : notre guide
+                  pour{" "}
+                  <Link
+                    href="/article/tout-savoir-sur-la-mise-en-cache-tips"
+                    className="text-primary hover:underline"
+                  >
+                    maîtriser la mise en cache dans Symfony
+                  </Link>{" "}
+                  couvre le cache HTTP, le cache applicatif et l&apos;invalidation.
+                  Le résultat se mesure en temps de réponse et en consommation
+                  mémoire, pas en numéro de version.
+                </p>
+              </div>
+              <div>
+                <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                  Migration Symfony 4 vers 7 : étapes clés
+                </h2>
+                <p className="mt-4 text-lg text-gray">
+                  Passer de Symfony 4 à 7 ne se fait pas d&apos;un bloc. Le chemin
+                  recommandé suit les paliers LTS : 4.4, puis 5.4, puis 6.4, avant
+                  d&apos;atteindre 7. Chaque palier neutralise les déprécations
+                  avant qu&apos;elles ne deviennent des erreurs fatales à la
+                  version suivante. Les chantiers structurants concernent la
+                  configuration (passage au format attributs et au répertoire
+                  config/), le composant Security entièrement refondu en 5.x, et
+                  la montée de Doctrine. Nous traitons les déprécations version par
+                  version, en gardant une application livrable à chaque étape.
+                  Notre{" "}
+                  <Link
+                    href="/article/guide-de-migration-dans-un-projet-symfony"
+                    className="text-primary hover:underline"
+                  >
+                    guide de migration dans un projet Symfony
+                  </Link>{" "}
+                  décrit la démarche pas à pas.
+                </p>
+              </div>
+              <div>
+                <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                  Migration Symfony 5 vers 7 : étapes clés
+                </h2>
+                <p className="mt-4 text-lg text-gray">
+                  Depuis Symfony 5.4 LTS, la route vers la 7 passe par la 6.4. La
+                  principale rupture se situe entre 5 et 6 : montée à PHP 8.1
+                  minimum, généralisation des attributs, et refonte de plusieurs
+                  signatures dans les composants HttpFoundation et Security. La 6.4
+                  puis la 7 demandent surtout de nettoyer les dernières
+                  déprécations et d&apos;aligner les dépendances tierces
+                  compatibles. Le composant Doctrine mérite une attention
+                  particulière : la mise à jour de l&apos;ORM s&apos;accompagne
+                  souvent de changements de comportement sur les types et les
+                  requêtes. Pour anticiper ce volet, consultez notre retour sur{" "}
+                  <Link
+                    href="/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees"
+                    className="text-primary hover:underline"
+                  >
+                    la version majeure de Doctrine ORM 3.0
+                  </Link>
+                  .
+                </p>
+              </div>
+              <div>
+                <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                  Migration Symfony 6 vers 7 : étapes clés
+                </h2>
+                <p className="mt-4 text-lg text-gray">
+                  La migration de Symfony 6.4 vers 7 est la plus douce des trois.
+                  Comme 6.4 et 7.0 partagent la même base, l&apos;essentiel du
+                  travail consiste à supprimer tout usage de code déprécé signalé
+                  en 6.4 : le pont de dépréciations permet justement de tout
+                  corriger avant le saut. Une fois l&apos;application sans
+                  avertissement sous 6.4, le passage à 7 se résume à mettre à jour
+                  les contraintes de version dans composer.json et à relancer la
+                  suite de tests. C&apos;est le scénario idéal que nous visons pour
+                  toutes nos migrations : faire de chaque LTS un point d&apos;appui
+                  stable plutôt qu&apos;un grand saut risqué. Reporter ces mises à
+                  jour ne fait qu&apos;accroître la{" "}
+                  <Link
+                    href="/article/la-dette-technique-faut-il-vraiment-en-avoir-peur"
+                    className="text-primary hover:underline"
+                  >
+                    dette technique
+                  </Link>{" "}
+                  et la facture finale.
+                </p>
+              </div>
+            </div>
+          </Container>
+        </section>
+        </FadeIn>
+
+        <FadeIn>
         <section className="bg-primary py-16 text-center text-white">
           <div className="mx-auto max-w-3xl px-4">
             <h2 className="font-display text-3xl font-bold">
