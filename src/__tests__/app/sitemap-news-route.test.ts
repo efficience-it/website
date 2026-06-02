@@ -146,4 +146,39 @@ describe("sitemap-news.xml route", () => {
     expect(xml).not.toContain("news-invalid");
     expect(xml).not.toContain("news-future");
   });
+
+  it("handles news posts without images", async () => {
+    const mockedGetAllPosts = getAllPosts as jest.MockedFunction<typeof getAllPosts>;
+    mockedGetAllPosts.mockReturnValue([
+      makePost({
+        slug: "news-no-image",
+        title: "News sans image",
+        kind: "news",
+        date: "2026-05-05T11:00:00.000Z",
+        image: undefined,
+      }),
+    ]);
+
+    const response = GET();
+    const xml = await response.text();
+
+    expect(xml).toContain("<loc>https://www.itefficience.com/article/news-no-image</loc>");
+    expect(xml).not.toContain("<news:image>");
+  });
+
+  it("includes posts exactly 48 hours old", async () => {
+    const fortyEightHoursAgo = new Date(new Date("2026-05-05T12:00:00.000Z").getTime() - 48 * 60 * 60 * 1000).toISOString();
+    const mockedGetAllPosts = getAllPosts as jest.MockedFunction<typeof getAllPosts>;
+    mockedGetAllPosts.mockReturnValue([
+      makePost({
+        slug: "news-exactly-48h",
+        kind: "news",
+        date: fortyEightHoursAgo,
+      }),
+    ]);
+
+    const response = GET();
+    const xml = await response.text();
+    expect(xml).toContain("news-exactly-48h");
+  });
 });
