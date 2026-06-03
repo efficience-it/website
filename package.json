@@ -30,6 +30,8 @@
     "last 2 Edge versions"
   ],
   "devDependencies": {
+    "@emnapi/core": "^1.10.0",
+    "@emnapi/runtime": "^1.10.0",
     "@lhci/cli": "^0.15.1",
     "@tailwindcss/postcss": "^4",
     "@testing-library/dom": "^10.4.1",
