@@ -63,6 +63,19 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
               </pre>
             );
           },
+          img({ src, alt, title }) {
+            if (!src) return null;
+            return (
+              <img
+                src={src}
+                alt={alt ?? ""}
+                title={title}
+                loading="lazy"
+                decoding="async"
+                className="rounded-md aspect-video object-cover"
+              />
+            );
+          },
         }}
       >
         {content}
