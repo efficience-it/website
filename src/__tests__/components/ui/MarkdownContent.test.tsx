@@ -87,6 +87,8 @@ describe("MarkdownContent", () => {
     expect(img?.getAttribute("loading")).toBe("lazy");
     expect(img?.getAttribute("decoding")).toBe("async");
     expect(img?.classList.contains("rounded-md")).toBe(true);
+    expect(img?.classList.contains("object-cover")).toBe(false);
+    expect(img?.classList.contains("aspect-video")).toBe(false);
   });
 
   it("handles images without alt text (branch coverage)", () => {

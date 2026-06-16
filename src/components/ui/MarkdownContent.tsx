@@ -72,7 +72,7 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
                 title={title}
                 loading="lazy"
                 decoding="async"
-                className="rounded-md aspect-video object-cover"
+                className="rounded-md"
               />
             );
           },
