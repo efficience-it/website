@@ -1,0 +1,44 @@
+name: Perf
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lighthouse:
+    name: "Vitals"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --prefer-offline --no-audit --no-fund
+      - uses: actions/cache@v4
+        with:
+          path: public/images/blog/responsive
+          key: img-variants-${{ hashFiles('public/images/blog/*.webp', 'scripts/generate-image-variants.ts') }}
+          restore-keys: img-variants-
+      - uses: actions/cache@v4
+        with:
+          path: .next/cache
+          key: nextjs-${{ hashFiles('package-lock.json') }}-${{ hashFiles('**/*.ts', '**/*.tsx') }}
+          restore-keys: nextjs-${{ hashFiles('package-lock.json') }}-
+      - run: npm run build
+      - run: npx lhci autorun
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-report
+          path: .lighthouseci
+          if-no-files-found: warn
