@@ -5,6 +5,7 @@ import Footer from "@/components/layout/Footer";
 import GoogleAnalytics from "@/components/ui/GoogleAnalytics";
 import CookieConsent from "@/components/ui/CookieConsent";
 import { globalGraphJsonLd } from "@/lib/structured-data";
+import { BASE_URL } from "@/lib/metadata";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -33,6 +34,12 @@ export default function RootLayout({
     <html lang="fr-FR" suppressHydrationWarning>
       <head>
         <link rel="ai-metadata" href="/llms.txt" />
+        <link
+          rel="alternate"
+          type="application/atom+xml"
+          title="Efficience IT Blog"
+          href={`${BASE_URL}/feed.xml`}
+        />
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body
