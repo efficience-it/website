@@ -1,6 +1,6 @@
 import { BASE_URL, SITE_NAME } from "@/lib/metadata";
 import type { AuthorSchema } from "@/data/authors";
-import type { FaqItem, ProficiencyLevel } from "@/types/blog";
+import type { ArticleKind, EventSchema, FaqItem, ProficiencyLevel } from "@/types/blog";
 import type { Job } from "@/../data/jobs";
 
 interface BreadcrumbItem {
@@ -337,11 +337,9 @@ export function howToJsonLd(name: string, description: string, steps: HowToStep[
   };
 }
 
-import { EventSchema } from "@/types/blog";
-
 interface ArticleJsonLdInput {
   url: string;
-  isTech: boolean;
+  kind?: ArticleKind;
   title: string;
   excerpt: string;
   author: AuthorSchema;
@@ -355,11 +353,18 @@ interface ArticleJsonLdInput {
   mainTech?: readonly TechKey[];
 }
 
+const KIND_TO_TYPE: Record<ArticleKind, "NewsArticle" | "TechArticle" | "BlogPosting"> = {
+  news: "NewsArticle",
+  tech: "TechArticle",
+  blog: "BlogPosting",
+};
+
 export function articleJsonLd(input: ArticleJsonLdInput) {
+  const kind = input.kind ?? "blog";
   const about = aboutTechEntities(input.mainTech);
   return {
     "@context": "https://schema.org",
-    "@type": input.isTech ? "TechArticle" : "BlogPosting",
+    "@type": KIND_TO_TYPE[kind],
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": input.url,
@@ -389,7 +394,7 @@ export function articleJsonLd(input: ArticleJsonLdInput) {
       "@type": "SpeakableSpecification",
       cssSelector: ["h1", "article > p:first-of-type"],
     },
-    ...(input.isTech && {
+    ...(kind === "tech" && {
       proficiencyLevel: input.proficiencyLevel ?? "Intermediate",
     }),
     ...(about && { about }),

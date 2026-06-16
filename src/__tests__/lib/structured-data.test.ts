@@ -1,5 +1,5 @@
 import { howToJsonLd, reviewsJsonLd, serviceJsonLd, eventJsonLd, jobPostingJsonLd, articleJsonLd, TECH_ENTITIES, type TechKey } from "@/lib/structured-data";
-import { categorySlugMap } from "@/lib/blog";
+import { categorySlugMap, getPostBySlug } from "@/lib/blog";
 import type { Job } from "@/../data/jobs";
 
 describe("howToJsonLd", () => {
@@ -152,7 +152,7 @@ describe("TECH_ENTITIES", () => {
 describe("entity linking via mainTech", () => {
   const articleInput = {
     url: "https://www.itefficience.com/article/test",
-    isTech: true,
+    kind: "tech" as const,
     title: "Test",
     excerpt: "Excerpt",
     author: { "@type": "Person" as const, name: "Auteur", url: "https://example.com", jobTitle: "Author", sameAs: [] },
@@ -213,5 +213,41 @@ describe("entity linking via mainTech", () => {
   it("articleJsonLd omits about when mainTech is absent", () => {
     const result = articleJsonLd(articleInput);
     expect(result.about).toBeUndefined();
+  });
+
+  it("articleJsonLd defaults kind to blog when not provided", () => {
+    const inputWithoutKind = { ...articleInput };
+    delete (inputWithoutKind as { kind?: unknown }).kind;
+    const result = articleJsonLd(inputWithoutKind);
+    expect(result["@type"]).toBe("BlogPosting");
+  });
+
+  it("maps a real tech article to TechArticle through getPostBySlug", () => {
+    const post = getPostBySlug("api-rest-les-bonnes-pratiques");
+    expect(post).toBeDefined();
+    expect(post?.kind).toBe("tech");
+
+    const result = articleJsonLd({
+      url: "https://www.itefficience.com/article/api-rest-les-bonnes-pratiques",
+      kind: post!.kind,
+      title: post!.title,
+      excerpt: post!.excerpt,
+      author: {
+        "@type": "Person",
+        name: post!.author,
+        url: "https://www.itefficience.com",
+        jobTitle: "Author",
+        sameAs: [],
+      },
+      category: post!.category,
+      date: post!.date,
+      updatedAt: post!.updatedAt,
+      wordCount: post!.wordCount,
+      timeRequiredMinutes: 6,
+      imagePath: post!.image,
+      mainTech: post!.mainTech,
+    });
+
+    expect(result["@type"]).toBe("TechArticle");
   });
 });
