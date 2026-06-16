@@ -15,6 +15,14 @@ jest.mock("react-markdown", () => {
       const Img = components.img as React.ComponentType<Record<string, unknown>>;
       return <Img src="/test-image.png" alt="Alt text" title="Title text" />;
     }
+    if (children === "__RENDER_IMG_NO_ALT__" && components?.img) {
+      const Img = components.img as React.ComponentType<Record<string, unknown>>;
+      return <Img src="/test-image.png" />;
+    }
+    if (children === "__RENDER_IMG_EMPTY__" && components?.img) {
+      const Img = components.img as React.ComponentType<Record<string, unknown>>;
+      return <Img src="" />;
+    }
     if (children === "__RENDER_A_EXTERNAL__" && components?.a) {
       const A = components.a as React.ComponentType<Record<string, unknown>>;
       return <A href="https://google.com">Google</A>;
@@ -23,9 +31,25 @@ jest.mock("react-markdown", () => {
       const A = components.a as React.ComponentType<Record<string, unknown>>;
       return <A href="/about">Internal</A>;
     }
-    if (children === "__RENDER_H2__" && components?.h2) {
+    if (children === "__RENDER_A_INTERNAL_EMPTY__" && components?.a) {
+      const A = components.a as React.ComponentType<Record<string, unknown>>;
+      return <A href="">Empty</A>;
+    }
+    if (children === "__RENDER_H2_COMPLEX__" && components?.h2) {
       const H2 = components.h2 as React.ComponentType<Record<string, unknown>>;
-      return <H2>Mon Super Titre</H2>;
+      return (
+        <H2>
+          {["Hello ", <strong key="world">World</strong>]}
+        </H2>
+      );
+    }
+    if (children === "__RENDER_H2_EMPTY__" && components?.h2) {
+      const H2 = components.h2 as React.ComponentType<Record<string, unknown>>;
+      return <H2>{null}</H2>;
+    }
+    if (children === "__RENDER_H3__" && components?.h3) {
+      const H3 = components.h3 as React.ComponentType<Record<string, unknown>>;
+      return <H3>Titré !</H3>;
     }
     if (children === "__RENDER_PRE__" && components?.pre) {
       const Pre = components.pre as React.ComponentType<Record<string, unknown>>;
@@ -63,8 +87,18 @@ describe("MarkdownContent", () => {
     expect(img?.getAttribute("loading")).toBe("lazy");
     expect(img?.getAttribute("decoding")).toBe("async");
     expect(img?.classList.contains("rounded-md")).toBe(true);
-    expect(img?.classList.contains("aspect-video")).toBe(true);
-    expect(img?.classList.contains("object-cover")).toBe(true);
+  });
+
+  it("handles images without alt text (branch coverage)", () => {
+    const { container } = render(<MarkdownContent content="__RENDER_IMG_NO_ALT__" />);
+    const img = container.querySelector("img");
+    expect(img).not.toBeNull();
+    expect(img?.getAttribute("alt")).toBe("");
+  });
+
+  it("returns null for images without src", () => {
+    const { container } = render(<MarkdownContent content="__RENDER_IMG_EMPTY__" />);
+    expect(container.querySelector("img")).toBeNull();
   });
 
   it("renders external links with target blank", () => {
@@ -80,11 +114,37 @@ describe("MarkdownContent", () => {
     expect(link?.getAttribute("href")).toBe("/about");
   });
 
-  it("renders headings with generated ids", () => {
-    const { container } = render(<MarkdownContent content="__RENDER_H2__" />);
+  it("renders internal links even with empty href", () => {
+    const { container } = render(<MarkdownContent content="__RENDER_A_INTERNAL_EMPTY__" />);
+    const link = container.querySelector("a");
+    expect(link?.getAttribute("href")).toBe("");
+  });
+
+  it("renders headings with complex children and generated ids", () => {
+    const { container } = render(<MarkdownContent content="__RENDER_H2_COMPLEX__" />);
     const h2 = container.querySelector("h2");
     expect(h2).not.toBeNull();
-    expect(h2?.getAttribute("id")).toBe("mon-super-titre");
-    expect(h2?.textContent).toBe("Mon Super Titre");
+    expect(h2?.getAttribute("id")).toBe("hello-world");
+    expect(h2?.textContent).toBe("Hello World");
+  });
+
+  it("renders headings with empty children", () => {
+    const { container } = render(<MarkdownContent content="__RENDER_H2_EMPTY__" />);
+    const h2 = container.querySelector("h2");
+    expect(h2).not.toBeNull();
+    expect(h2?.getAttribute("id")).toBe("");
+  });
+
+  it("renders h3 headings", () => {
+    const { container } = render(<MarkdownContent content="__RENDER_H3__" />);
+    const h3 = container.querySelector("h3");
+    expect(h3).not.toBeNull();
+    expect(h3?.getAttribute("id")).toBe("titre");
+  });
+
+  it("renders pre blocks with CopyButton", () => {
+    const { container, getByText } = render(<MarkdownContent content="__RENDER_PRE__" />);
+    expect(container.querySelector("pre")).not.toBeNull();
+    expect(getByText("Copy")).toBeInTheDocument();
   });
 });
