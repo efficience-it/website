@@ -10,7 +10,8 @@
     "lint": "eslint",
     "knip": "knip",
     "test": "jest",
-    "generate:image-variants": "npx -y tsx@4 scripts/generate-image-variants.ts"
+    "generate:image-variants": "npx -y tsx@4 scripts/generate-image-variants.ts",
+    "audit:anchor-diversity": "npx -y tsx@4 scripts/audit-anchor-diversity.ts --all"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.19",

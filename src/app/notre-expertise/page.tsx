@@ -223,7 +223,7 @@ export default function NotreExpertise() {
               <ul className="mt-3 space-y-2 text-gray">
                 <li><Link href="/agence-symfony-lille" className="text-primary hover:underline">Agence Symfony à Lille</Link> : notre ancrage régional</li>
                 <li><Link href="/agence-symfony-france" className="text-primary hover:underline">Prestataire Symfony en France</Link></li>
-                <li><Link href="/accompagnement-et-conseil" className="text-primary hover:underline">Accompagnement et conseil</Link></li>
+                <li><Link href="/accompagnement-et-conseil" className="text-primary hover:underline">Aide à la prise de décision stratégique</Link></li>
               </ul>
             </Card>
           </div>
