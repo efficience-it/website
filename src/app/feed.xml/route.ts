@@ -22,8 +22,14 @@ function toIsoDate(value: string | undefined): string {
   return Number.isNaN(date.getTime()) ? FALLBACK_DATE : date.toISOString();
 }
 
+function absolutizeUrls(html: string): string {
+  return html
+    .replaceAll('src="/', `src="${BASE_URL}/`)
+    .replaceAll('href="/', `href="${BASE_URL}/`);
+}
+
 async function toCdataSafeHtml(markdown: string): Promise<string> {
-  const html = await marked.parse(markdown);
+  const html = absolutizeUrls(await marked.parse(markdown));
   return html.replaceAll("]]>", "]]]]><![CDATA[>");
 }
 
@@ -72,7 +78,6 @@ ${xmlEntries.join("\n")}
   return new NextResponse(xml, {
     headers: {
       "Content-Type": "application/atom+xml; charset=utf-8",
-      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
     },
   });
 }

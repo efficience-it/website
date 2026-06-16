@@ -34,8 +34,10 @@ const MOCK_POSTS: BlogPost[] = [
     updatedAt: "2026-02-01T00:00:00.000Z",
     author: "Jean Dupont",
     category: "Symfony",
+    kind: "tech",
     excerpt: "Un guide complet sur Symfony",
-    content: "## Introduction\n\nContenu de l'article.",
+    content:
+      "## Introduction\n\nContenu de l'article.\n\n![diagramme](/images/blog/diagramme.webp)\n\n[lien interne](/article/autre)",
     wordCount: 5,
     mainTech: ["symfony", "php"] as const,
   },
@@ -45,6 +47,7 @@ const MOCK_POSTS: BlogPost[] = [
     date: "2026-01-01T00:00:00.000Z",
     author: "Efficience IT",
     category: "PHP",
+    kind: "blog",
     excerpt: "",
     content: "Contenu simple.",
     wordCount: 2,
@@ -65,13 +68,6 @@ describe("GET /feed.xml", () => {
     getAllPostsMock.mockReturnValue([]);
     const response = await GET();
     expect(response.headers.get("Content-Type")).toContain("application/atom+xml");
-  });
-
-  it("includes correct Cache-Control header", async () => {
-    getAllPostsMock.mockReturnValue([]);
-    const response = await GET();
-    expect(response.headers.get("Cache-Control")).toContain("s-maxage=3600");
-    expect(response.headers.get("Cache-Control")).toContain("stale-while-revalidate=86400");
   });
 
   it("generates a valid Atom feed structure", async () => {
@@ -119,6 +115,16 @@ describe("GET /feed.xml", () => {
     expect(xml).toContain('<content type="html">');
   });
 
+  it("absolutizes relative image and link URLs in content", async () => {
+    getAllPostsMock.mockReturnValue([MOCK_POSTS[0]]);
+    const response = await GET();
+    const xml = await response.text();
+
+    expect(xml).toContain(`src="${BASE_URL}/images/blog/diagramme.webp"`);
+    expect(xml).toContain(`href="${BASE_URL}/article/autre"`);
+    expect(xml).not.toContain('src="/images/blog/diagramme.webp"');
+  });
+
   it("escapes XML special characters in title", async () => {
     getAllPostsMock.mockReturnValue([MOCK_POSTS[1]]);
     const response = await GET();
@@ -145,6 +151,7 @@ describe("GET /feed.xml", () => {
         date: "2026-01-10T00:00:00.000Z",
         author: "",
         category: "PHP",
+        kind: "blog",
         excerpt: "Desc",
         content: "Contenu.",
         wordCount: 1,
@@ -181,12 +188,13 @@ describe("GET /feed.xml", () => {
   });
 
   it("limits output to 50 posts", async () => {
-    const manyPosts = Array.from({ length: 60 }, (_, i) => ({
+    const manyPosts: BlogPost[] = Array.from({ length: 60 }, (_, i) => ({
       slug: `article-${i}`,
       title: `Article ${i}`,
       date: `2026-01-${String(i + 1).padStart(2, "0")}T00:00:00.000Z`,
       author: "Auteur",
       category: "PHP",
+      kind: "blog",
       excerpt: "Desc",
       content: "Contenu.",
       wordCount: 1,
@@ -216,6 +224,7 @@ describe("GET /feed.xml", () => {
         date: "2026-01-10T00:00:00.000Z",
         author: "Auteur",
         category: "PHP",
+        kind: "blog",
         excerpt: "Desc",
         content: "## Titre\n\nParagraphe avec **gras** et *italique*.",
         wordCount: 5,
@@ -238,6 +247,7 @@ describe("GET /feed.xml", () => {
         date: "2026-01-10T00:00:00.000Z",
         author: "Auteur",
         category: "PHP",
+        kind: "blog",
         excerpt: "Desc",
         content:
           "# Titre H1\n\n### Titre H3\n\n- Item un\n- Item deux\n\nTexte avec `code` et [lien](https://example.com).",
@@ -264,6 +274,7 @@ describe("GET /feed.xml", () => {
         date: "2026-01-10T00:00:00.000Z",
         author: "Auteur",
         category: "TS",
+        kind: "blog",
         excerpt: "Desc",
         content: "```ts\nconst x = 42;\nconsole.log(x);\n```",
         wordCount: 10,
