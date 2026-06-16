@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy
 
 on:
   push:
@@ -15,6 +15,7 @@ concurrency:
 
 jobs:
   build:
+    name: "Ship"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,7 +23,12 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - run: npm ci
+      - run: npm ci --prefer-offline --no-audit --no-fund
+      - uses: actions/cache@v4
+        with:
+          path: public/images/blog/responsive
+          key: img-variants-${{ hashFiles('public/images/blog/*.webp', 'scripts/generate-image-variants.ts') }}
+          restore-keys: img-variants-
       - uses: actions/cache@v4
         with:
           path: .next/cache
@@ -34,6 +40,7 @@ jobs:
           path: out
 
   deploy:
+    name: "Pages"
     needs: build
     runs-on: ubuntu-latest
     environment:
@@ -44,6 +51,7 @@ jobs:
         id: deployment
 
   ping-indexers:
+    name: "Ping"
     needs: deploy
     runs-on: ubuntu-latest
     permissions:

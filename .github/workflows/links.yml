@@ -1,0 +1,90 @@
+name: Links
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  liens:
+    name: "Health"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            blog:
+              - 'content/blog/**'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --prefer-offline --no-audit --no-fund
+      - uses: actions/cache@v4
+        with:
+          path: public/images/blog/responsive
+          key: img-variants-${{ hashFiles('public/images/blog/*.webp', 'scripts/generate-image-variants.ts') }}
+          restore-keys: img-variants-
+      - uses: actions/cache@v4
+        with:
+          path: .next/cache
+          key: nextjs-${{ hashFiles('package-lock.json') }}-${{ hashFiles('**/*.ts', '**/*.tsx') }}
+          restore-keys: nextjs-${{ hashFiles('package-lock.json') }}-
+      - run: npm run build
+      - run: npx -y serve out -l 3000 &
+      - run: sleep 3
+      - name: Internal links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --no-progress
+            --base http://localhost:3000
+            --remap 'https://www.itefficience.com http://localhost:3000'
+            --exclude 'mailto:'
+            --exclude '^https?://[^/]*\.'
+            --accept 200,204,301,302
+            --timeout 30
+            out/**/*.html
+      - uses: actions/cache@v4
+        with:
+          path: .lycheecache
+          key: lychee-${{ hashFiles('content/blog/*.mdx', 'src/**/*.tsx', 'data/*.ts', 'src/data/*.ts') }}
+          restore-keys: lychee-
+      - name: External links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --no-progress
+            --base https://www.itefficience.com
+            --exclude 'mailto:'
+            --exclude 'linkedin\.com'
+            --exclude 'googletagmanager\.com'
+            --exclude 'google-analytics\.com'
+            --exclude-path 'src/__tests__'
+            --cache
+            --max-cache-age 7d
+            --timeout 30
+            --max-retries 3
+            --accept 200,202,204,301,302,403,429,999
+            content/blog/*.mdx
+            src/**/*.tsx
+            data/*.ts
+            src/data/*.ts
+      - name: Maillage blog→service
+        if: steps.filter.outputs.blog == 'true'
+        continue-on-error: true
+        run: npx -y tsx@4 scripts/audit-blog-to-service-linking.ts
+      - name: Diversité des ancres
+        if: steps.filter.outputs.blog == 'true'
+        continue-on-error: true
+        run: npx -y tsx@4 scripts/audit-anchor-diversity.ts

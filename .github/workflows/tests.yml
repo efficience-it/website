@@ -1,0 +1,59 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    name: "Suite"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      security-events: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --prefer-offline --no-audit --no-fund
+      - run: npm run lint
+      - run: npx tsc --noEmit
+      - run: npm run knip
+      - run: npm test -- --coverage
+      - uses: github/codeql-action/analyze@v3
+      - name: Generate coverage badge
+        if: github.ref == 'refs/heads/main'
+        run: |
+          PCT=$(node -e "const c=require('./coverage/coverage-summary.json');console.log(c.total.statements.pct)")
+          if [ "$(echo "$PCT >= 80" | bc)" -eq 1 ]; then COLOR="brightgreen"
+          elif [ "$(echo "$PCT >= 60" | bc)" -eq 1 ]; then COLOR="yellow"
+          else COLOR="red"; fi
+          mkdir -p badge
+          echo "{\"schemaVersion\":1,\"label\":\"coverage\",\"message\":\"${PCT}%\",\"color\":\"${COLOR}\"}" > badge/coverage.json
+      - name: Push badge to gh-pages
+        if: github.ref == 'refs/heads/main'
+        run: |
+          cp badge/coverage.json /tmp/coverage.json
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin gh-pages
+          git checkout gh-pages
+          cp /tmp/coverage.json coverage.json
+          git add coverage.json
+          git diff --cached --quiet || git commit -m "update coverage badge"
+          git push origin gh-pages
