@@ -181,4 +181,23 @@ describe("sitemap-news.xml route", () => {
     const xml = await response.text();
     expect(xml).toContain("news-exactly-48h");
   });
+
+  it("keeps absolute image urls without prefixing the base url", async () => {
+    const mockedGetAllPosts = getAllPosts as jest.MockedFunction<typeof getAllPosts>;
+    mockedGetAllPosts.mockReturnValue([
+      makePost({
+        slug: "news-external-image",
+        kind: "news",
+        date: "2026-05-05T11:00:00.000Z",
+        image: "https://cdn.example.com/news.webp",
+      }),
+    ]);
+
+    const response = GET();
+    const xml = await response.text();
+    expect(xml).toContain(
+      "<news:image><news:loc>https://cdn.example.com/news.webp</news:loc></news:image>",
+    );
+    expect(xml).not.toContain("itefficience.comhttps://");
+  });
 });

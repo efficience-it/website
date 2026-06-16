@@ -37,8 +37,8 @@ export default function ResponsiveImage({
         sizes={sizes}
         className={className}
         loading={loading}
-        // @ts-expect-error - fetchPriority is not yet in React types
-        fetchpriority={fetchPriority}
+        decoding="async"
+        fetchPriority={fetchPriority}
       />
     );
   }
@@ -51,7 +51,6 @@ export default function ResponsiveImage({
     <picture>
       <source type="image/avif" srcSet={srcset("avif")} sizes={sizes} />
       <source type="image/webp" srcSet={srcset("webp")} sizes={sizes} />
-      { }
       <img
         src={src}
         alt={alt}
@@ -60,8 +59,8 @@ export default function ResponsiveImage({
         sizes={sizes}
         className={className}
         loading={loading}
-        // @ts-expect-error - fetchPriority is not yet in React types
-        fetchpriority={fetchPriority}
+        decoding="async"
+        fetchPriority={fetchPriority}
       />
     </picture>
   );

@@ -1,5 +1,6 @@
 import { getAllPosts } from "@/lib/blog";
 import { BASE_URL, SITE_NAME } from "@/lib/metadata";
+import { absoluteUrl, escapeXml } from "@/lib/sitemap";
 
 export const dynamic = "force-static";
 
@@ -8,15 +9,6 @@ const NEWS_WINDOW_HOURS = 48;
 function toIsoDate(value: string): string | null {
   const date = new Date(value);
   return Number.isNaN(date.getTime()) ? null : date.toISOString();
-}
-
-function escapeXml(value: string): string {
-  return value
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&apos;");
 }
 
 export function GET() {
@@ -34,7 +26,7 @@ export function GET() {
         url: `${BASE_URL}/article/${post.slug}`,
         publicationDate,
         title: post.title,
-        image: post.image ? `${BASE_URL}${post.image}` : undefined,
+        image: post.image ? absoluteUrl(post.image) : undefined,
       };
     })
     .filter((item): item is { url: string; publicationDate: string; title: string; image: string | undefined } => item !== null);
@@ -44,7 +36,7 @@ export function GET() {
 ${newsPosts
   .map(
     (post) => `  <url>
-    <loc>${post.url}</loc>
+    <loc>${escapeXml(post.url)}</loc>
     <news:news>
       <news:publication>
         <news:name>${SITE_NAME}</news:name>

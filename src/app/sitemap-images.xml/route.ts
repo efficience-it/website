@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getAllPosts } from "@/lib/blog";
 import { BASE_URL } from "@/lib/metadata";
+import { absoluteUrl, escapeXml } from "@/lib/sitemap";
 
 export const dynamic = "force-static";
 
@@ -85,19 +86,6 @@ const STATIC_IMAGE_URLS: SitemapImageUrl[] = [
   },
 ];
 
-function escapeXml(value: string): string {
-  return value
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&apos;");
-}
-
-function absoluteImageUrl(path: string): string {
-  return path.startsWith("http") ? path : `${BASE_URL}${path}`;
-}
-
 function toXml(urls: SitemapImageUrl[]): string {
   const body = urls
     .filter((url) => url.images.length > 0)
@@ -139,7 +127,7 @@ export function GET() {
     images: post.image
       ? [
           {
-            loc: absoluteImageUrl(post.image),
+            loc: absoluteUrl(post.image),
             title: post.title,
             caption: post.imageCaption ?? post.excerpt,
             geoLocation: post.imageGeoLocation,
