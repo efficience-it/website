@@ -46,3 +46,6 @@ yarn-error.log*
 next-env.d.ts
 chrome/
 public/images/blog/responsive/
+
+#revision plan
+/.docs/reference/anchor-revision-plan.md
