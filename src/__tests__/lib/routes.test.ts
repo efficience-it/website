@@ -8,6 +8,7 @@ function makePost(overrides: Partial<BlogPost> = {}): BlogPost {
     date: "2026-01-01",
     author: "Author",
     category: "Symfony",
+    kind: overrides.kind ?? "blog",
     excerpt: "excerpt",
     content: "content",
     wordCount: 100,

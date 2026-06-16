@@ -65,6 +65,25 @@ describe("getPostBySlug", () => {
     }
   });
 
+  it("exposes image metadata fields when present in frontmatter", () => {
+    const existsSpy = jest.spyOn(fs, "existsSync").mockReturnValue(true);
+    const readFileSpy = jest
+      .spyOn(fs, "readFileSync")
+      .mockReturnValue(
+        "---\nimage: /images/blog/test.webp\nimageCaption: Une image test\nimageGeoLocation: Lille, France\n---\n" as never,
+      );
+
+    try {
+      const post = getPostBySlug(TEMP_SLUG);
+      expect(post?.image).toBe("/images/blog/test.webp");
+      expect(post?.imageCaption).toBe("Une image test");
+      expect(post?.imageGeoLocation).toBe("Lille, France");
+    } finally {
+      readFileSpy.mockRestore();
+      existsSpy.mockRestore();
+    }
+  });
+
   it("returns undefined mainTech when frontmatter has only unknown keys", () => {
     const existsSpy = jest.spyOn(fs, "existsSync").mockReturnValue(true);
     const readFileSpy = jest
@@ -264,5 +283,54 @@ describe("readingTime", () => {
   it("rounds to nearest minute", () => {
     expect(readingTime(350)).toBe(2);
     expect(readingTime(250)).toBe(1);
+  });
+});
+
+describe("parseArticleKind (via getPostBySlug)", () => {
+  const TEMP_SLUG = "__test-kind-fallback__";
+
+  it("defaults to blog for non-tech categories without kind", () => {
+    const existsSpy = jest.spyOn(fs, "existsSync").mockReturnValue(true);
+    const readFileSpy = jest
+      .spyOn(fs, "readFileSync")
+      .mockReturnValue("---\ncategory: Agence\n---\n" as never);
+
+    try {
+      const post = getPostBySlug(TEMP_SLUG);
+      expect(post?.kind).toBe("blog");
+    } finally {
+      readFileSpy.mockRestore();
+      existsSpy.mockRestore();
+    }
+  });
+
+  it("auto-derives tech for tech categories without kind", () => {
+    const existsSpy = jest.spyOn(fs, "existsSync").mockReturnValue(true);
+    const readFileSpy = jest
+      .spyOn(fs, "readFileSync")
+      .mockReturnValue("---\ncategory: Symfony\n---\n" as never);
+
+    try {
+      const post = getPostBySlug(TEMP_SLUG);
+      expect(post?.kind).toBe("tech");
+    } finally {
+      readFileSpy.mockRestore();
+      existsSpy.mockRestore();
+    }
+  });
+
+  it("honors explicit kind in frontmatter", () => {
+    const existsSpy = jest.spyOn(fs, "existsSync").mockReturnValue(true);
+    const readFileSpy = jest
+      .spyOn(fs, "readFileSync")
+      .mockReturnValue("---\ncategory: Symfony\nkind: blog\n---\n" as never);
+
+    try {
+      const post = getPostBySlug(TEMP_SLUG);
+      expect(post?.kind).toBe("blog");
+    } finally {
+      readFileSpy.mockRestore();
+      existsSpy.mockRestore();
+    }
   });
 });
