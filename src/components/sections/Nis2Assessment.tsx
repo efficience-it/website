@@ -249,21 +249,19 @@ export default function Nis2Assessment() {
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [finished, setFinished] = useState(false);
-  const [leadSent, setLeadSent] = useState(false);
+  const [leadStatus, setLeadStatus] = useState<"idle" | "sending" | "sent" | "error">(
+    "idle",
+  );
 
   const result = useMemo(() => {
     const perAxis = AXES.map((axis) => {
       const axisQuestions = QUESTIONS.filter((q) => q.axisId === axis.id);
-      const answered = axisQuestions.filter((q) => answers[q.id] !== undefined);
       const sum = axisQuestions.reduce(
         (acc, q) => acc + (answers[q.id] ?? 0),
         0,
       );
-      const pct =
-        axisQuestions.length > 0
-          ? Math.round((sum / axisQuestions.length) * 100)
-          : 0;
-      return { axis, pct, level: levelOf(pct), answered: answered.length };
+      const pct = Math.round((sum / axisQuestions.length) * 100);
+      return { axis, pct, level: levelOf(pct) };
     });
     const globalSum = QUESTIONS.reduce(
       (acc, q) => acc + (answers[q.id] ?? 0),
@@ -287,14 +285,13 @@ export default function Nis2Assessment() {
       );
       trackEvent("nis2_assessment_completed", {
         event_label: String(score),
-        source_page:
-          typeof window !== "undefined" ? window.location.pathname : "",
+        source_page: window.location.pathname,
       });
     }
   };
 
   const back = () => {
-    if (current > 0) setCurrent(current - 1);
+    setCurrent(current - 1);
   };
 
   const restart = () => {
@@ -302,7 +299,7 @@ export default function Nis2Assessment() {
     setCurrent(0);
     setFinished(false);
     setStarted(true);
-    setLeadSent(false);
+    setLeadStatus("idle");
   };
 
   const downloadPdf = async () => {
@@ -375,16 +372,45 @@ export default function Nis2Assessment() {
     doc.save("evaluation-nis2-symfony.pdf");
     trackEvent("nis2_assessment_pdf", {
       event_label: String(result.global),
-      source_page:
-        typeof window !== "undefined" ? window.location.pathname : "",
+      source_page: window.location.pathname,
     });
   };
 
-  const sendLead = (e: React.FormEvent<HTMLFormElement>) => {
+  const sendLead = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    const email = data.get("email");
-    const company = data.get("company") || "";
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    const email = String(data.get("email"));
+    const company = String(data.get("company"));
+    const recap = result.perAxis
+      .map((r) => `${r.axis.title} : ${r.pct}/100 (${LEVEL_LABEL[r.level]})`)
+      .join("\n");
+    trackEvent("nis2_assessment_lead", {
+      event_label: String(result.global),
+      source_page: window.location.pathname,
+    });
+
+    const endpoint = process.env.NEXT_PUBLIC_FORMSPREE_NIS2_ENDPOINT;
+    if (endpoint) {
+      setLeadStatus("sending");
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: { Accept: "application/json" },
+          body: data,
+        });
+        if (response.ok) {
+          setLeadStatus("sent");
+          form.reset();
+        } else {
+          setLeadStatus("error");
+        }
+      } catch {
+        setLeadStatus("error");
+      }
+      return;
+    }
+
     const subject = "Évaluation NIS2 Symfony - demande d'accompagnement";
     const body = [
       `Email : ${email}`,
@@ -393,20 +419,13 @@ export default function Nis2Assessment() {
       `Score global : ${result.global}/100 (${LEVEL_LABEL[result.level]})`,
       "",
       "Détail par axe :",
-      ...result.perAxis.map(
-        (r) => `- ${r.axis.title} : ${r.pct}/100 (${LEVEL_LABEL[r.level]})`,
-      ),
+      recap,
     ].join("\n");
-    trackEvent("nis2_assessment_lead", {
-      event_label: String(result.global),
-      source_page:
-        typeof window !== "undefined" ? window.location.pathname : "",
-    });
     window.open(
       `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`,
       "_blank",
     );
-    setLeadSent(true);
+    setLeadStatus("sent");
   };
 
   if (!started) {
@@ -547,9 +566,9 @@ export default function Nis2Assessment() {
           .
         </p>
 
-        {leadSent ? (
+        {leadStatus === "sent" ? (
           <p className="mt-4 font-semibold text-green-700">
-            Merci ! Votre client mail va s&apos;ouvrir pour finaliser l&apos;envoi.
+            Merci ! Nous revenons vers vous rapidement pour vous accompagner.
           </p>
         ) : (
           <form
@@ -569,7 +588,35 @@ export default function Nis2Assessment() {
               placeholder="Entreprise (optionnel)"
               className="rounded-md border border-border bg-white px-4 py-2 text-dark focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
             />
-            <Button type="submit">Être accompagné</Button>
+            <input type="hidden" name="score" value={result.global} />
+            <input
+              type="hidden"
+              name="niveau"
+              value={LEVEL_LABEL[result.level]}
+            />
+            <input
+              type="hidden"
+              name="recap"
+              value={result.perAxis
+                .map(
+                  (r) =>
+                    `${r.axis.title} : ${r.pct}/100 (${LEVEL_LABEL[r.level]})`,
+                )
+                .join(" | ")}
+            />
+            <button
+              type="submit"
+              disabled={leadStatus === "sending"}
+              className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 font-semibold text-white transition hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {leadStatus === "sending" ? "Envoi en cours..." : "Être accompagné"}
+            </button>
+            {leadStatus === "error" && (
+              <p className="text-sm text-red-700 sm:col-span-3">
+                L&apos;envoi a échoué. Réessayez ou écrivez-nous à{" "}
+                {CONTACT_EMAIL}.
+              </p>
+            )}
           </form>
         )}
       </div>
