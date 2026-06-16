@@ -12,6 +12,7 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
+import LastUpdated from "@/components/ui/LastUpdated";
 
 const vuejsRelatedLinks: RelatedLink[] = [
   {
@@ -205,6 +206,7 @@ export default function DeveloppementVuejs() {
                 { label: "Développement Vue.js" },
               ]}
             />
+            <LastUpdated path="/developpement-vuejs" />
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">

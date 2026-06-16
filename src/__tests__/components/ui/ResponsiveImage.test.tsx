@@ -69,6 +69,7 @@ describe("ResponsiveImage", () => {
     expect(container.querySelector("picture")).toBeNull();
     const img = container.querySelector("img");
     expect(img?.getAttribute("src")).toBe("/images/illustrations/foo.svg");
+    expect(img?.getAttribute("alt")).toBe("Illustration");
     expect(img?.getAttribute("sizes")).toBe("200px");
   });
 

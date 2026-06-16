@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Breadcrumb from "@/components/ui/Breadcrumb";
+import LastUpdated from "@/components/ui/LastUpdated";
 import Container from "@/components/ui/Container";
 import { getAllPosts } from "@/lib/blog";
 import { pageMetadata } from "@/lib/metadata";
@@ -33,6 +34,7 @@ export default function PlanDuSitePage() {
       <main className="py-16">
         <Container className="mx-auto max-w-4xl">
           <Breadcrumb items={[{ label: "Plan du site" }]} />
+          <LastUpdated path="/plan-du-site" />
           <h1 className="font-display text-3xl font-bold text-dark md:text-4xl">
             Plan du site
           </h1>

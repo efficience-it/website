@@ -12,6 +12,7 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import TaskIllustration from "@/components/illustrations/TaskIllustration";
+import LastUpdated from "@/components/ui/LastUpdated";
 
 const relatedLinks: RelatedLink[] = [
   { title: "La dette technique : faut-il vraiment en avoir peur ?", description: "comprendre et anticiper l'accumulation de dette", href: "/article/la-dette-technique-faut-il-vraiment-en-avoir-peur" },
@@ -125,6 +126,7 @@ export default function ModernisationApplicative() {
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <Breadcrumb items={[{ label: "Modernisation applicative" }]} />
+            <LastUpdated path="/modernisation-applicative" />
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">

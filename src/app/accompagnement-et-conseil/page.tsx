@@ -16,6 +16,7 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import { clients } from "@/../data/clients";
 import { testimonials } from "@/../data/testimonials";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
+import LastUpdated from "@/components/ui/LastUpdated";
 
 export const metadata = pageMetadata({
   title: "Conseil et coaching technique Symfony pour vos équipes",
@@ -154,6 +155,7 @@ export default function AccompagnementEtConseil() {
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
           <Breadcrumb items={[{ label: "Accompagnement et Conseil" }]} />
+          <LastUpdated path="/accompagnement-et-conseil" />
           <div className="grid items-center gap-12 md:grid-cols-2">
             <div>
               <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">

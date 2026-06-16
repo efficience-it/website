@@ -11,6 +11,7 @@ import CallToAction from "@/components/sections/CallToAction";
 import Nis2Assessment from "@/components/sections/Nis2Assessment";
 import { breadcrumbJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import { BASE_URL } from "@/lib/metadata";
+import LastUpdated from "@/components/ui/LastUpdated";
 
 export const metadata = pageMetadata({
   title: "Évaluation NIS2 Symfony - outil gratuit",
@@ -111,6 +112,7 @@ export default function OutilEvaluationNis2Symfony() {
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <Breadcrumb items={[{ label: "Évaluation NIS2 Symfony" }]} />
+            <LastUpdated path="/outil-evaluation-nis2-symfony" />
             <div className="mx-auto max-w-3xl text-center">
               <p className="text-sm font-semibold uppercase tracking-wider text-primary">
                 Outil gratuit

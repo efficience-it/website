@@ -12,6 +12,7 @@ import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
+import LastUpdated from "@/components/ui/LastUpdated";
 
 export const metadata = pageMetadata({
   title:
@@ -167,6 +168,7 @@ export default function EcommerceSylius() {
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <Breadcrumb items={[{ label: "E-commerce Sylius" }]} />
+            <LastUpdated path="/ecommerce-sylius" />
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">

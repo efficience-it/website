@@ -17,6 +17,7 @@ import { clients } from "@/../data/clients";
 import { testimonials } from "@/../data/testimonials";
 import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import GrowthIllustration from "@/components/illustrations/GrowthIllustration";
+import LastUpdated from "@/components/ui/LastUpdated";
 
 export const metadata = pageMetadata({
   title: "Cloud & DevOps : infrastructure et automatisation",
@@ -145,6 +146,7 @@ export default function CloudEtDevops() {
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
           <Breadcrumb items={[{ label: "Cloud & DevOps" }]} />
+          <LastUpdated path="/cloud-et-devops" />
           <div className="grid items-center gap-12 md:grid-cols-2">
             <div>
               <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">

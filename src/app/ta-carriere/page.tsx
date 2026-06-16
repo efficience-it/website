@@ -11,6 +11,7 @@ import { breadcrumbJsonLd, webPageJsonLd, pageGraphJsonLd, jobPostingJsonLd } fr
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import CallToAction from "@/components/sections/CallToAction";
+import LastUpdated from "@/components/ui/LastUpdated";
 
 const relatedLinks: RelatedLink[] = [
   { title: "7 bonnes raisons de rejoindre Efficience IT", description: "notre culture et nos valeurs", href: "/article/7-bonnes-raisons-de-rejoindre-efficience-it" },
@@ -54,6 +55,7 @@ export default function TaCarriere() {
       <section className="bg-light-gray py-16 md:py-24">
         <Container className="text-center">
           <Breadcrumb items={[{ label: "Jobs" }]} />
+          <LastUpdated path="/ta-carriere" />
           <p className="font-display text-sm font-semibold uppercase tracking-wider text-primary">
             Un projet commun, une vision commune
           </p>

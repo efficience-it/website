@@ -13,6 +13,7 @@ import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import { BASE_URL } from "@/lib/metadata";
 import UserInterfaceIllustration from "@/components/illustrations/UserInterfaceIllustration";
+import LastUpdated from "@/components/ui/LastUpdated";
 
 export const metadata = pageMetadata({
   title: "Formation Symfony pour les entreprises à Lille et à distance",
@@ -200,6 +201,7 @@ export default function FormationSymfonyEntreprise() {
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <Breadcrumb items={[{ label: "Formation Symfony" }]} />
+            <LastUpdated path="/formation-symfony-entreprise" />
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">

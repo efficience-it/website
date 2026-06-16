@@ -36,7 +36,7 @@ export default function GonePage() {
                 href="/article/7-bonnes-raisons-de-rejoindre-efficience-it"
                 className="font-semibold text-primary hover:underline"
               >
-                7 bonnes raisons de rejoindre Efficience IT
+                7 raisons de rejoindre notre équipe
               </Link>
             </li>
             <li>
