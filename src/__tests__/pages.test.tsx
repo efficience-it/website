@@ -4,6 +4,7 @@ import NotreExpertise, { metadata as notreExpertiseMetadata } from "@/app/notre-
 import DeveloppementWeb, { metadata as developpementWebMetadata } from "@/app/developpement-web-sur-mesure/page";
 import CloudEtDevops, { metadata as cloudEtDevopsMetadata } from "@/app/cloud-et-devops/page";
 import AccompagnementEtConseil, { metadata as accompagnementEtConseilMetadata } from "@/app/accompagnement-et-conseil/page";
+import PreparationConformite, { metadata as preparationConformiteMetadata } from "@/app/preparation-conformite-symfony/page";
 import LEntreprise, { metadata as lEntrepriseMetadata } from "@/app/l-entreprise/page";
 import LaTeam, { metadata as laTeamMetadata } from "@/app/la-team/page";
 import TaCarriere, { metadata as taCarriereMetadata } from "@/app/ta-carriere/page";
@@ -33,6 +34,11 @@ describe("Service pages", () => {
   it("renders Accompagnement et Conseil", () => {
     render(<AccompagnementEtConseil />);
     expect(screen.getByRole("heading", { name: /conseil et coaching technique symfony/i })).toBeInTheDocument();
+  });
+
+  it("renders Préparation conformité NIS2 et DORA", () => {
+    render(<PreparationConformite />);
+    expect(screen.getByRole("heading", { level: 1, name: /préparation conformité nis2 et dora pour symfony/i })).toBeInTheDocument();
   });
 });
 
@@ -106,6 +112,11 @@ describe("Page metadata exports", () => {
   it("exports metadata for Accompagnement et Conseil", () => {
     expect(accompagnementEtConseilMetadata).toBeDefined();
     expect(accompagnementEtConseilMetadata.description).toBeTruthy();
+  });
+
+  it("exports metadata for Préparation conformité", () => {
+    expect(preparationConformiteMetadata).toBeDefined();
+    expect(preparationConformiteMetadata.description).toBeTruthy();
   });
 
   it("exports metadata for L'entreprise", () => {
