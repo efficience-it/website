@@ -52,7 +52,7 @@ export default function Contact() {
             <Breadcrumb items={[{ label: "Contact" }]} />
             <LastUpdated path="/contact" />
             <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
-              Contactez-nous
+              Contactez Efficience IT : parlons de votre projet Symfony
             </h1>
             <p className="mx-auto mt-6 max-w-3xl text-lg text-gray">
               Vous avez un projet ? Une question ? N&apos;hésitez pas à nous
