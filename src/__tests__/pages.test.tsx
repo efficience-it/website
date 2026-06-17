@@ -50,7 +50,7 @@ describe("Company pages", () => {
 
   it("renders La team", () => {
     render(<LaTeam />);
-    expect(screen.getByRole("heading", { name: /une équipe passionnée/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1, name: /une équipe symfony passionnée/i })).toBeInTheDocument();
   });
 
   it("renders Ta carrière", () => {
@@ -77,7 +77,7 @@ describe("Blog & other pages", () => {
 
   it("renders Contact", () => {
     render(<Contact />);
-    expect(screen.getByRole("heading", { name: /contactez-nous/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1, name: /contactez efficience it/i })).toBeInTheDocument();
   });
 
   it("renders Mentions légales", () => {
