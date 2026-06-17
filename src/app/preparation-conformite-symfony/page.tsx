@@ -9,7 +9,7 @@ import CallToAction from "@/components/sections/CallToAction";
 import StickyMobileCta from "@/components/sections/StickyMobileCta";
 import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
-import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd, faqPageJsonLd } from "@/lib/structured-data";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import LastUpdated from "@/components/ui/LastUpdated";
@@ -184,18 +184,9 @@ const conformiteRelatedLinks: RelatedLink[] = [
   },
 ];
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faqItems.map((item) => ({
-    "@type": "Question",
-    name: item.title,
-    acceptedAnswer: {
-      "@type": "Answer",
-      text: item.content,
-    },
-  })),
-};
+const faqJsonLd = faqPageJsonLd(
+  faqItems.map((item) => ({ question: item.title, answer: item.content })),
+);
 
 const breadcrumb = breadcrumbJsonLd([
   { name: "Sécurité applicative Symfony", path: "/securite-application-symfony" },
