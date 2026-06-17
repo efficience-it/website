@@ -15,6 +15,12 @@ npm install
 npm run dev
 ```
 
+## Configuration
+
+| Variable | Description |
+|----------|-------------|
+| `NEXT_PUBLIC_FORMSPREE_NIS2_ENDPOINT` | Endpoint Formspree de capture de lead pour l'outil d'évaluation NIS2. Non définie, le formulaire retombe sur un lien `mailto`. À renseigner dans l'environnement de build. |
+
 ## Scripts
 
 | Commande | Description |
