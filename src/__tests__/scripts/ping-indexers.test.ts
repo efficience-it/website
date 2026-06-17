@@ -5,6 +5,19 @@ jest.mock("node:child_process", () => ({
   execSync: jest.fn(),
 }));
 
+jest.mock("../../../src/app/sitemap", () => {
+  const BASE_URL = "https://www.itefficience.com";
+  return {
+    __esModule: true,
+    default: jest.fn(() => [
+      { url: `${BASE_URL}/` },
+      { url: `${BASE_URL}/article/mon-article` },
+      { url: `${BASE_URL}/agence-symfony-lille` },
+      { url: `${BASE_URL}/article/duplicate` },
+    ]),
+  };
+});
+
 const mockedExecSync = execSync as jest.MockedFunction<typeof execSync>;
 
 import {
@@ -58,14 +71,14 @@ afterEach(() => {
 describe("filesToUrls", () => {
   it.each<[string, string, string[]]>([
     [
-      "blog MDX article",
+      "blog MDX article (in sitemap)",
       "content/blog/mon-article.mdx",
       [`${BASE_URL}/article/mon-article`],
     ],
     [
-      "blog MDX with slashes in slug",
-      "content/blog/category/sub-article.mdx",
-      [`${BASE_URL}/article/category/sub-article`],
+      "blog MDX article (NOT in sitemap)",
+      "content/blog/not-in-sitemap.mdx",
+      [],
     ],
     [
       "root page",
@@ -73,38 +86,58 @@ describe("filesToUrls", () => {
       [`${BASE_URL}/`],
     ],
     [
-      "static page nested",
+      "static page (in sitemap)",
       "src/app/agence-symfony-lille/page.tsx",
       [`${BASE_URL}/agence-symfony-lille`],
     ],
     [
-      "deeply nested static page",
-      "src/app/blog/symfony/page.tsx",
-      [`${BASE_URL}/blog/symfony`],
+      "static page (NOT in sitemap)",
+      "src/app/unknown/page.tsx",
+      [],
     ],
     [
-      "dynamic route ignored",
+      "layout.tsx (global)",
+      "src/app/layout.tsx",
+      [
+        `${BASE_URL}/`,
+        `${BASE_URL}/article/mon-article`,
+        `${BASE_URL}/agence-symfony-lille`,
+        `${BASE_URL}/article/duplicate`,
+      ],
+    ],
+    [
+      "data file (global)",
+      "data/navigation.ts",
+      [
+        `${BASE_URL}/`,
+        `${BASE_URL}/article/mon-article`,
+        `${BASE_URL}/agence-symfony-lille`,
+        `${BASE_URL}/article/duplicate`,
+      ],
+    ],
+    [
+      "src/lib file (global)",
+      "src/lib/blog.ts",
+      [
+        `${BASE_URL}/`,
+        `${BASE_URL}/article/mon-article`,
+        `${BASE_URL}/agence-symfony-lille`,
+        `${BASE_URL}/article/duplicate`,
+      ],
+    ],
+    [
+      "article template (global)",
       "src/app/article/[slug]/page.tsx",
-      [],
-    ],
-    [
-      "route group ignored",
-      "src/app/(marketing)/page.tsx",
-      [],
-    ],
-    [
-      "non-page file in app ignored",
-      "src/app/agence-symfony-lille/layout.tsx",
-      [],
-    ],
-    [
-      "non-mdx blog file ignored",
-      "content/blog/draft.md",
-      [],
+      [
+        `${BASE_URL}/`,
+        `${BASE_URL}/article/mon-article`,
+        `${BASE_URL}/agence-symfony-lille`,
+        `${BASE_URL}/article/duplicate`,
+      ],
     ],
     [
       "unrelated file ignored",
-      "src/lib/blog.ts",
+      "README.md",
       [],
     ],
   ])("maps %s correctly", (_label, file, expected) => {
@@ -364,7 +397,7 @@ describe("run", () => {
   });
 
   it("skips both providers when env vars are not set", async () => {
-    mockedExecSync.mockReturnValue("content/blog/x.mdx\n");
+    mockedExecSync.mockReturnValue("content/blog/mon-article.mdx\n");
     const fetchMock = jest.fn();
     (globalThis as { fetch?: unknown }).fetch = fetchMock;
     const logSpy = jest.spyOn(console, "log");
@@ -381,7 +414,7 @@ describe("run", () => {
   });
 
   it("calls IndexNow when INDEXNOW_KEY is set", async () => {
-    mockedExecSync.mockReturnValue("content/blog/x.mdx\n");
+    mockedExecSync.mockReturnValue("content/blog/mon-article.mdx\n");
     process.env.INDEXNOW_KEY = "key-abc";
     const fetchMock = jest.fn(async () => mockResponse("OK"));
     (globalThis as { fetch?: unknown }).fetch = fetchMock;
@@ -395,7 +428,7 @@ describe("run", () => {
   });
 
   it("collects errors from both providers without throwing immediately", async () => {
-    mockedExecSync.mockReturnValue("content/blog/x.mdx\n");
+    mockedExecSync.mockReturnValue("content/blog/mon-article.mdx\n");
     process.env.INDEXNOW_KEY = "key-abc";
     process.env.GOOGLE_SERVICE_ACCOUNT_JSON = JSON.stringify({
       client_email: "svc@p.iam",
