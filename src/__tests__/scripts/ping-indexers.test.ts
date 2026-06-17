@@ -96,6 +96,16 @@ describe("filesToUrls", () => {
       [],
     ],
     [
+      "dynamic route ignored (not global)",
+      "src/app/other/[id]/page.tsx",
+      [],
+    ],
+    [
+      "route group ignored (not global)",
+      "src/app/(marketing)/page.tsx",
+      [],
+    ],
+    [
       "layout.tsx (global)",
       "src/app/layout.tsx",
       [
