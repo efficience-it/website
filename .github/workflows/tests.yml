@@ -23,6 +23,8 @@ jobs:
       actions: read
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: github/codeql-action/init@v3
         with:
           languages: javascript-typescript
@@ -30,6 +32,11 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      - name: Dates du sitemap
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: npm run check:route-dates
       - run: npm ci --prefer-offline --no-audit --no-fund
       - run: npm run lint
       - run: npx tsc --noEmit
