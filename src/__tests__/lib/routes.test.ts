@@ -27,6 +27,13 @@ describe("getStaticRoutes", () => {
   it("includes the home route", () => {
     expect(getStaticRoutes().some((r) => r.path === "/")).toBe(true);
   });
+
+  it("exposes a valid ISO lastModified date for every route", () => {
+    for (const route of getStaticRoutes()) {
+      expect(route.lastModified).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      expect(Number.isNaN(new Date(route.lastModified).getTime())).toBe(false);
+    }
+  });
 });
 
 describe("getCategoryRoutes", () => {

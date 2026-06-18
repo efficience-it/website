@@ -149,7 +149,7 @@ export default function LEntreprise() {
           <div className="grid items-center gap-12 md:grid-cols-2">
             <div>
               <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
-                Notre histoire
+                Notre histoire : agence Symfony depuis 2018
               </h1>
               <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
                 Experts en Symfony et en développement web

@@ -30,7 +30,7 @@ Le point clé pour une fintech en croissance : même si vous n'êtes pas vous-m�
 
 ## Ce que DORA exige concrètement
 
-DORA repose sur cinq piliers. Quatre ont un impact technique direct sur une application Symfony.
+[DORA](https://eur-lex.europa.eu/eli/reg/2022/2554/oj) repose sur cinq piliers. Quatre ont un impact technique direct sur une application Symfony.
 
 La **gestion des risques liés aux TIC** impose un cadre documenté : cartographie des actifs, des dépendances et des points de défaillance uniques. La **notification des incidents majeurs** exige de détecter, classifier et déclarer un incident dans des délais courts. Les **tests de résilience opérationnelle** vont du test de continuité classique jusqu'aux tests d'intrusion fondés sur la menace (TLPT, Threat-Led Penetration Testing) pour les entités les plus critiques. Enfin, la **gestion des risques liés aux prestataires tiers** impose une cartographie contractuelle et des stratégies de sortie documentées.
 
@@ -54,7 +54,7 @@ DORA exige de garantir l'intégrité des systèmes. Cela commence par la chaîne
 
 Un plan de continuité non testé n'est qu'une intention. DORA demande des tests réels. Au-delà des sauvegardes restaurées et des bascules documentées, le chaos engineering injecte des pannes contrôlées (perte d'un service, latence réseau, indisponibilité d'une base) pour vérifier le comportement réel du système en conditions dégradées. Une base solide de [tests automatisés](/tests-automatises-php) est le préalable indispensable avant d'introduire ces scénarios de panne.
 
-Pour les entités les plus critiques, DORA va plus loin avec les tests d'intrusion fondés sur la menace (TLPT). Contrairement à un pentest classique, un TLPT simule des scénarios d'attaque réalistes inspirés de la menace réelle pesant sur le secteur financier, sur les systèmes de production ou des environnements représentatifs. Préparer une application Symfony à ce type d'exercice suppose un durcissement sérieux en amont : segmentation des accès, gestion stricte des secrets, surveillance active. Mieux vaut découvrir ses faiblesses lors d'un exercice cadré que lors d'une attaque réelle.
+Pour les entités les plus critiques, DORA va plus loin avec les tests d'intrusion fondés sur la menace (TLPT). Contrairement à un pentest classique, un TLPT simule des scénarios d'attaque réalistes inspirés de la menace réelle pesant sur le secteur financier, sur les systèmes de production ou des environnements représentatifs. Préparer une application Symfony à ce type d'exercice suppose un durcissement sérieux en amont : segmentation des accès, [gestion stricte des secrets](https://symfony.com/doc/current/configuration/secrets.html), surveillance active. Mieux vaut découvrir ses faiblesses lors d'un exercice cadré que lors d'une attaque réelle.
 
 ### Réversibilité contractuelle et technique
 

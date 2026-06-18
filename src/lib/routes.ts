@@ -69,6 +69,7 @@ export const STATIC_SILOS: RouteSilo[] = [
       { path: "/hebergement-symfony", label: "Hébergement Symfony", lastModified: "2026-06-18", changeFrequency: "monthly", priority: 0.8 },
       { path: "/integration-docker-symfony", label: "Intégration Docker Symfony", lastModified: "2026-06-18", changeFrequency: "monthly", priority: 0.8 },
       { path: "/securite-application-symfony", label: "Sécurité d'application Symfony", lastModified: "2026-06-18", changeFrequency: "monthly", priority: 0.8 },
+      { path: "/preparation-conformite-symfony", label: "Préparation conformité NIS2 et DORA pour Symfony", lastModified: "2026-06-16", changeFrequency: "monthly", priority: 0.85 },
       { path: "/outil-evaluation-nis2-symfony", label: "Évaluation NIS2 Symfony", lastModified: "2026-06-02", changeFrequency: "monthly", priority: 0.8 },
       { path: "/base-de-donnees-postgresql-symfony", label: "Base de données PostgreSQL avec Symfony", lastModified: "2026-06-18", changeFrequency: "monthly", priority: 0.8 },
       { path: "/integration-redis-symfony", label: "Intégration Redis Symfony", lastModified: "2026-06-18", changeFrequency: "monthly", priority: 0.8 },

@@ -66,7 +66,7 @@ export default function LaTeam() {
                 La team
               </p>
               <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                Une équipe passionnée
+                Une équipe Symfony passionnée
               </h1>
               <p className="mt-6 max-w-3xl text-lg text-gray">
                 À taille humaine, notre équipe est à fond dans le digital et

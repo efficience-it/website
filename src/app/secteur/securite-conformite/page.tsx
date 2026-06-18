@@ -233,7 +233,7 @@ export default function SecteurSecuriteConformite() {
           <Container>
             <SectionTitle>Notre expertise sécurité</SectionTitle>
             <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-              De l&apos;audit a la remédiation, une approche complète de la
+              De l&apos;audit à la remédiation, une approche complète de la
               sécurité applicative.
             </p>
             <div className="mt-10 grid gap-6 sm:grid-cols-2">

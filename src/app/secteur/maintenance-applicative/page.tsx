@@ -265,7 +265,7 @@ export default function SecteurMaintenanceApplicative() {
             <SectionTitle>La maintenance, un investissement rentable</SectionTitle>
             <div className="mx-auto mt-8 max-w-3xl space-y-6 text-lg text-gray">
               <p>
-                Une application non maintenue, c&apos;est une bombe a
+                Une application non maintenue, c&apos;est une bombe à
                 retardement. Les{" "}
                 <Link
                   href="/article/cve-comprendre-les-failles-pour-mieux-se-proteger"

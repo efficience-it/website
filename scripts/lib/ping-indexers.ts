@@ -1,9 +1,24 @@
 import { execSync } from "node:child_process";
 import crypto from "node:crypto";
+import sitemap from "@/app/sitemap";
 
 export const BASE_URL = "https://www.itefficience.com";
 
 const ZERO_SHA = "0000000000000000000000000000000000000000";
+
+const GLOBAL_PATTERNS = [
+  /^src\/app\/layout\.tsx$/,
+  /^src\/app\/globals\.css$/,
+  /^src\/components\//,
+  /^src\/lib\//,
+  /^data\//,
+  /^src\/app\/article\/\[slug\]\//,
+  /^src\/app\/blog\/category\/\[category\]\//,
+  /^package\.json$/,
+  /^package-lock\.json$/,
+  /^next\.config\.(ts|js|mjs)$/,
+  /^tailwind\.config\.(ts|js|mjs)$/,
+];
 
 export function getChangedFiles(): string[] {
   const previousSha = process.env.PREVIOUS_SHA;
@@ -24,11 +39,24 @@ export function getChangedFiles(): string[] {
 }
 
 export function filesToUrls(files: string[]): string[] {
+  const allEntries = sitemap();
+  const allUrls = allEntries.map((e) => e.url);
+
+  const isGlobal = files.some((f) =>
+    GLOBAL_PATTERNS.some((pattern) => pattern.test(f))
+  );
+
+  if (isGlobal) {
+    console.log("Global change detected, pinging all URLs from sitemap.");
+    return allUrls;
+  }
+
   const urls = new Set<string>();
   for (const f of files) {
     const blogMatch = f.match(/^content\/blog\/(.+)\.mdx$/);
     if (blogMatch) {
-      urls.add(`${BASE_URL}/article/${blogMatch[1]}`);
+      const url = `${BASE_URL}/article/${blogMatch[1]}`;
+      if (allUrls.includes(url)) urls.add(url);
       continue;
     }
     if (f === "src/app/page.tsx") {
@@ -39,7 +67,8 @@ export function filesToUrls(files: string[]): string[] {
     if (pageMatch) {
       const segment = pageMatch[1];
       if (segment.includes("[") || segment.includes("(")) continue;
-      urls.add(`${BASE_URL}/${segment}`);
+      const url = `${BASE_URL}/${segment}`;
+      if (allUrls.includes(url)) urls.add(url);
     }
   }
   return [...urls];

@@ -78,7 +78,7 @@ export default function GreenIt() {
                 Notre engagement RSE
               </p>
               <h1 className="mt-2 font-display text-4xl font-bold text-dark md:text-5xl">
-                Green IT
+                Green IT : développement web éco-responsable
               </h1>
               <p className="mt-6 text-lg text-gray">
                 Efficience IT est engagée dans une démarche RSE, en particulier
