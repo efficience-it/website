@@ -15,7 +15,7 @@ import { breadcrumbJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structur
 import LastUpdated from "@/components/ui/LastUpdated";
 
 export const metadata = pageMetadata({
-  title: "Agence Symfony à Nantes : développement PHP et expertise technique",
+  title: "Agence Symfony à Nantes",
   description:
     "Efficience IT, agence Symfony pour Nantes et les Pays de la Loire. Développement sur mesure, audit, migration et maintenance de vos applications PHP.",
   path: "/agence-symfony-nantes",

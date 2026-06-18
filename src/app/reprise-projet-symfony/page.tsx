@@ -15,7 +15,7 @@ import FittingPieceIllustration from "@/components/illustrations/FittingPieceIll
 import LastUpdated from "@/components/ui/LastUpdated";
 
 export const metadata = pageMetadata({
-  title: "Reprise de projet Symfony : changement de prestataire, nous prenons le relais",
+  title: "Reprise de projet Symfony et changement de prestataire",
   description:
     "Changement de prestataire Symfony ? Projet abandonné ? Efficience IT reprend votre projet : audit du code hérité, stabilisation et maintenance.",
   path: "/reprise-projet-symfony",

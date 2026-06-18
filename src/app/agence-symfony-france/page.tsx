@@ -16,7 +16,7 @@ import LastUpdated from "@/components/ui/LastUpdated";
 
 export const metadata = pageMetadata({
   title:
-    "Prestataire Symfony en France : expertise PHP et accompagnement sur mesure",
+    "Agence Symfony en France : expertise PHP sur mesure",
   description:
     "Efficience IT, prestataire Symfony en France. Développement, migration, audit et maintenance de vos applications PHP et Symfony, en remote ou sur site.",
   path: "/agence-symfony-france",

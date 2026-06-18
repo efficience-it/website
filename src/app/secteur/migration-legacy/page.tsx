@@ -16,7 +16,7 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from 
 
 export const metadata = pageMetadata({
   title:
-    "Migration et modernisation d'applications legacy PHP avec Symfony",
+    "Migration d'applications legacy PHP vers Symfony",
   description:
     "Efficience IT modernise vos applications legacy PHP vers Symfony : migration progressive, zero downtime, Strangler Fig pattern et refactoring structurel.",
   path: "/secteur/migration-legacy",

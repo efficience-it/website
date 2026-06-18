@@ -15,7 +15,7 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from 
 import LastUpdated from "@/components/ui/LastUpdated";
 
 export const metadata = pageMetadata({
-  title: "Audit technique approfondi de code PHP : rapport détaillé et plan d'action",
+  title: "Audit technique de code PHP avec plan d'action",
   description:
     "Audit technique de votre code PHP : analyse statique PHPStan niveau max, revue par un développeur senior, rapport détaillé avec plan d'action. Sous 48h.",
   path: "/audit-code-php",

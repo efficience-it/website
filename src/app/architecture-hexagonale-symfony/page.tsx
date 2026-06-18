@@ -17,7 +17,7 @@ import LastUpdated from "@/components/ui/LastUpdated";
 
 export const metadata = pageMetadata({
   title:
-    "Architecture hexagonale avec Symfony : Domain-Driven Design appliqué",
+    "Architecture hexagonale avec Symfony (DDD)",
   description:
     "Structurez vos applications Symfony avec l'architecture hexagonale et le Domain-Driven Design. Principes, avantages et retours d'expérience.",
   path: "/architecture-hexagonale-symfony",

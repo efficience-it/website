@@ -16,7 +16,7 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from 
 
 export const metadata = pageMetadata({
   title:
-    "Développement SaaS avec Symfony : architecture multi-tenant et API",
+    "Développement SaaS multi-tenant avec Symfony",
   description:
     "Efficience IT conçoit des applications SaaS robustes avec Symfony : architecture multi-tenant, API REST/GraphQL, scalabilité et CI/CD.",
   path: "/secteur/saas",

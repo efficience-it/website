@@ -16,7 +16,7 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from 
 
 export const metadata = pageMetadata({
   title:
-    "Applications web pour la finance et la banque : sécurité et conformité avec Symfony",
+    "Applications Symfony pour la finance et la banque",
   description:
     "Efficience IT développe des applications web sécurisées pour la finance : banque, fintech, assurance. Conformité et haute disponibilité.",
   path: "/secteur/finance",
