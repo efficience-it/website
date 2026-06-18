@@ -71,7 +71,13 @@ export default function LaTeam() {
               <p className="mt-6 max-w-3xl text-lg text-gray">
                 À taille humaine, notre équipe est à fond dans le digital et
                 l&apos;agilité. Et avec le meilleur framework PHP, nous offrons
-                une expertise pointue pour répondre à vos besoins.
+                une expertise pointue pour répondre à vos besoins. Notre
+                fondateur compte{" "}
+                <a href="https://github.com/php/doc-fr/pulls?q=is%3Apr+author%3Alacatoire+is%3Amerged" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                  plus de 400 contributions intégrées à la documentation
+                  officielle de PHP en français
+                </a>
+                .
               </p>
               <Button href="/contact" className="mt-8">
                 Prenons contact !

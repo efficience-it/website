@@ -187,6 +187,18 @@ export default function NosReferences() {
       <section className="bg-light-gray py-16">
         <Container>
           <SectionTitle>Notre engagement open source</SectionTitle>
+          <p className="mx-auto mb-10 max-w-3xl text-center text-lg text-gray">
+            Au-delà des projets clients, notre engagement est concret : notre
+            fondateur a signé{" "}
+            <a href="https://github.com/php/doc-fr/pulls?q=is%3Apr+author%3Alacatoire+is%3Amerged" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+              plus de 400 contributions intégrées à la documentation officielle de PHP
+            </a>
+            , et nous publions nos propres{" "}
+            <a href="https://github.com/efficience-it" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+              outils open source
+            </a>
+            .
+          </p>
           <div className="grid grid-cols-3 gap-6 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8">
             {techStack.map((tech) => (
               <div key={tech.name} className="flex flex-col items-center gap-2">
