@@ -66,7 +66,11 @@ export default function Home() {
             <SectionTitle>Pourquoi Symfony pour vos projets métier</SectionTitle>
             <div className="mx-auto max-w-3xl space-y-4 text-lg text-gray">
               <p>
-                Symfony est le framework PHP de référence pour les applications métier complexes. Sa stabilité, son cycle de releases LTS et son écosystème mature en font le choix naturel des entreprises qui ont besoin d&apos;applications robustes et durables.
+                Symfony est le framework PHP de référence pour les applications métier complexes. Sa stabilité, son cycle de releases LTS et son écosystème mature en font le choix naturel des entreprises qui ont besoin d&apos;applications robustes et durables. Au-delà du code, nous contribuons à la{" "}
+                <a href="https://github.com/php/doc-en" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                  documentation officielle de PHP
+                </a>
+                , au cœur de l&apos;écosystème sur lequel repose Symfony.
               </p>
               <p>
                 Contrairement aux solutions généralistes, Symfony offre une{" "}
