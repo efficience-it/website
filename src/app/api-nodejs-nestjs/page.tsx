@@ -123,7 +123,7 @@ const faqItems = [
   {
     title: "Quelle est la différence entre NestJS et Express ?",
     content:
-      "Express est un micro-framework minimaliste : il fournit le routing HTTP et peu d'autre chose. NestJS est un framework applicatif complet construit par-dessus Express (ou Fastify). Il apporte l'injection de dépendances, la modularité, les guards, les interceptors, les pipes de validation et une structure opinâtée. Pour un projet d'entreprise, NestJS réduit considérablement la dette architecturale par rapport à un projet Express sans conventions.",
+      "Express est un micro-framework minimaliste : il fournit le routing HTTP et peu d'autre chose. NestJS est un framework applicatif complet construit par-dessus Express (ou Fastify). Il apporte l'injection de dépendances, la modularité, les guards, les interceptors, les pipes de validation et des conventions structurantes. Pour un projet d'entreprise, NestJS réduit considérablement la dette architecturale par rapport à un projet Express sans conventions.",
   },
   {
     title: "NestJS est-il adapté aux gros projets ?",
@@ -201,7 +201,7 @@ export default function ApiNodejsNestjs() {
                   >
                     développement Node.js
                   </Link>{" "}
-                  avec une architecture modulaire et opinâtée, pensée pour durer.
+                  avec une architecture modulaire et structurée, pensée pour durer.
                 </p>
                 <p className="mt-4 max-w-3xl text-lg text-gray">
                   Que vous ayez besoin d&apos;une{" "}
@@ -281,7 +281,7 @@ export default function ApiNodejsNestjs() {
               </p>
               <p>
                 Contrairement à Express, NestJS impose une{" "}
-                <strong>architecture opinâtée</strong> qui réduit les décisions
+                <strong>architecture structurée</strong> qui réduit les décisions
                 arbitraires et la dette technique. Chaque fonctionnalité a sa place.
                 Le code est prévisible, testable et transmissible à une nouvelle
                 équipe.

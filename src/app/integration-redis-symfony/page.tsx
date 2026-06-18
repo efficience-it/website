@@ -92,7 +92,7 @@ const whenNotToChoose = [
 
 const useCases = [
   {
-    title: "Cache de session distribuées",
+    title: "Cache de sessions distribuées",
     description:
       "Migration des sessions PHP file vers Redis pour une plateforme SaaS B2B, suppression du sticky session sur le load balancer et passage à une infrastructure scalable horizontalement.",
   },
