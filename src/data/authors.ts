@@ -25,7 +25,7 @@ const knownAuthors: Record<string, AuthorPerson> = {
     url: `${BASE_URL}/la-team`,
     sameAs: [
       "https://www.linkedin.com/in/louis-arnaud-catoire/",
-      "https://github.com/music-music",
+      "https://github.com/lacatoire",
     ],
   },
   "Florian Chenot": {
