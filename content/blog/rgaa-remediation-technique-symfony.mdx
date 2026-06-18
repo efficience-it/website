@@ -56,7 +56,7 @@ La liste détaillée des 30 points est disponible dans notre [check-list RGAA te
 
 ## Refactoring des templates : méthodologie
 
-Corriger l'accessibilité d'une application existante ne se fait pas au hasard. Nous procédons en trois temps. D'abord les fondations à fort ratio impact/effort : structure sémantique, navigation clavier, contrastes, alternatives textuelles. Ces corrections touchent souvent des templates Twig partagés (layout, header, footer) et profitent immédiatement à toutes les pages.
+Corriger l'accessibilité d'une application existante ne se fait pas au hasard. Nous procédons en trois temps. D'abord les fondations à fort ratio impact/effort : structure sémantique, navigation clavier, contrastes, alternatives textuelles. Ces corrections touchent souvent des [templates Twig](https://symfony.com/doc/current/templates.html) partagés (layout, header, footer) et profitent immédiatement à toutes les pages.
 
 Vient ensuite le traitement des composants interactifs, mutualisés autant que possible. Plutôt que de corriger dix formulaires un par un, nous corrigeons le composant de formulaire réutilisable. Enfin, les cas complexes : contenus riches, applications monopages, contenus générés par les utilisateurs. À chaque étape, les tests automatisés figent le comportement obtenu pour éviter toute régression lors des évolutions futures. Cette approche progressive et outillée est au cœur de notre [processus de collaboration](/processus-collaboration).
 
@@ -64,7 +64,7 @@ L'objectif final est d'encoder l'accessibilité dans le design system plutôt qu
 
 ## La déclaration d'accessibilité
 
-La conformité ne se limite pas au code : le RGAA impose la publication d'une déclaration d'accessibilité, mise à jour annuellement. Elle indique le taux de conformité, les contenus non accessibles, les dérogations éventuelles et un moyen de contact pour signaler un défaut. Nous aidons à produire ce document à partir des résultats de l'audit, et à mettre en place la page dédiée ainsi que le mécanisme de signalement. C'est une obligation souvent oubliée, alors qu'elle est l'un des premiers éléments vérifiés en cas de contrôle.
+La conformité ne se limite pas au code : le [RGAA](https://accessibilite.numerique.gouv.fr/) impose la publication d'une déclaration d'accessibilité, mise à jour annuellement. Elle indique le taux de conformité, les contenus non accessibles, les dérogations éventuelles et un moyen de contact pour signaler un défaut. Nous aidons à produire ce document à partir des résultats de l'audit, et à mettre en place la page dédiée ainsi que le mécanisme de signalement. C'est une obligation souvent oubliée, alors qu'elle est l'un des premiers éléments vérifiés en cas de contrôle.
 
 Techniquement, cette page est un livrable comme un autre : une route Symfony dédiée, un contenu structuré et accessible (elle se doit d'être exemplaire), et un schéma d'état qui reflète le taux de conformité réel. Nous recommandons de la générer à partir d'une source unique, afin qu'une nouvelle campagne d'audit mette à jour la déclaration sans réécriture manuelle. Le mécanisme de signalement, lui, doit aboutir à une boîte réellement surveillée : une déclaration qui pointe vers une adresse morte est un signal négatif autant qu'un risque juridique.
 

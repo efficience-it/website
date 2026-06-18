@@ -28,7 +28,7 @@ const defaultButtons: CallToActionButton[] = [
 
 export default function CallToAction({
   title = "Vous avez un projet en tête ?",
-  description = "Vous souhaitez réaliser un intranet, un progiciel, une application d&apos;entreprise ou un site internet complexe ? Efficience IT saura vous accompagner au mieux sur vos projets !",
+  description = "Vous souhaitez réaliser un intranet, un progiciel, une application d'entreprise ou un site internet complexe ? Efficience IT saura vous accompagner au mieux sur vos projets !",
   buttons = defaultButtons,
 }: Readonly<CallToActionProps>) {
   return (
