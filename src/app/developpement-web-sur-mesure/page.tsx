@@ -19,7 +19,7 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from 
 import LastUpdated from "@/components/ui/LastUpdated";
 
 export const metadata = pageMetadata({
-  title: "Développement web sur mesure | Expertise Symfony – Efficience IT",
+  title: "Développement web sur mesure avec Symfony",
   description:
     "Efficience IT accompagne vos projets de développement web, notamment basés sur Symfony, de la conception à la mise en œuvre.",
   path: "/developpement-web-sur-mesure",

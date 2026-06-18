@@ -20,7 +20,7 @@ import ResearchIllustration from "@/components/illustrations/ResearchIllustratio
 import LastUpdated from "@/components/ui/LastUpdated";
 
 export const metadata = pageMetadata({
-  title: "Expertise IA : intégrez l'intelligence artificielle dans vos projets Symfony",
+  title: "Expertise IA pour vos projets Symfony et PHP",
   description:
     "Efficience IT vous accompagne dans l'intégration de l'IA dans vos projets Symfony : LLM, RAG, assistants IA, GEO et modernisation d'applications legacy.",
   path: "/expertise-ia",

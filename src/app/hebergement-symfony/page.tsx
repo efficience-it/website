@@ -16,7 +16,7 @@ import LastUpdated from "@/components/ui/LastUpdated";
 
 export const metadata = pageMetadata({
   title:
-    "Hébergement Symfony : infrastructure cloud pour vos applications",
+    "Hébergement Symfony infogéré et cloud",
   description:
     "Efficience IT héberge et déploie vos applications Symfony sur le cloud (AWS, GCP, Azure). CI/CD, monitoring, haute disponibilité et sécurité.",
   path: "/hebergement-symfony",

@@ -17,7 +17,7 @@ import LastUpdated from "@/components/ui/LastUpdated";
 
 export const metadata = pageMetadata({
   title:
-    "Notre processus de collaboration : du premier contact à la production",
+    "Notre processus de collaboration projet",
   description:
     "Comment se déroule un projet avec Efficience IT : diagnostic gratuit, cadrage, développement agile, revue de code et mise en production Symfony.",
   path: "/processus-collaboration",

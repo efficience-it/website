@@ -59,7 +59,7 @@ const securiteRelatedLinks: RelatedLink[] = [
 ];
 
 export const metadata = pageMetadata({
-  title: "Sécurité applicative Symfony : audit, protection et conformité",
+  title: "Sécurité applicative Symfony : audit et protection",
   description:
     "Efficience IT sécurise vos applications Symfony : audit de vulnérabilités, protection OWASP, conformité RGPD et bonnes pratiques de sécurité.",
   path: "/securite-application-symfony",

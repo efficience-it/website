@@ -14,7 +14,7 @@ import CodeIllustration from "@/components/illustrations/CodeIllustration";
 import LastUpdated from "@/components/ui/LastUpdated";
 
 export const metadata = pageMetadata({
-  title: "Diagnostic Symfony gratuit de 30 minutes : premier état des lieux",
+  title: "Audit Symfony gratuit de 30 minutes",
   description:
     "Diagnostic gratuit de 30 minutes pour votre application Symfony : état des lieux technique, identification des points critiques et pistes d'amélioration.",
   path: "/audit-symfony-gratuit",

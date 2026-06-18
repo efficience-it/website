@@ -39,7 +39,7 @@ const postgresqlRelatedLinks: RelatedLink[] = [
 ];
 
 export const metadata = pageMetadata({
-  title: "PostgreSQL et Symfony : base de données performante pour vos applications",
+  title: "Base de données PostgreSQL avec Symfony",
   description:
     "Efficience IT intègre PostgreSQL dans vos projets Symfony avec Doctrine. Optimisation des requêtes, migration depuis MySQL, types avancés et indexation.",
   path: "/base-de-donnees-postgresql-symfony",

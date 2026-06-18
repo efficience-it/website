@@ -16,7 +16,7 @@ import { breadcrumbJsonLd, serviceJsonLd, webPageJsonLd, pageGraphJsonLd } from 
 
 export const metadata = pageMetadata({
   title:
-    "Applications métier pour l'industrie : outils sur mesure avec Symfony",
+    "Applications métier Symfony pour l'industrie",
   description:
     "Efficience IT développe des applications métier pour l'industrie : outils de production, interconnexion SI et modernisation d'applications legacy.",
   path: "/secteur/industrie",

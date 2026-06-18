@@ -17,7 +17,7 @@ import LastUpdated from "@/components/ui/LastUpdated";
 
 export const metadata = pageMetadata({
   title:
-    "Audit IA en entreprise : diagnostic, accompagnement et formation",
+    "Audit IA en entreprise et accompagnement",
   description:
     "Efficience IT audite vos processus pour identifier les cas d'usage IA pertinents, vous accompagne dans la mise en place des outils et forme vos équipes à l'intelligence artificielle.",
   path: "/audit-ia-entreprise",
