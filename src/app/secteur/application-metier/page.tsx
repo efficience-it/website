@@ -188,7 +188,7 @@ export default function SecteurApplicationMetier() {
                   >
                     progiciel dédié
                   </Link>{" "}
-                  a votre activité, conçu avec vos équipes et intégré dans
+                  à votre activité, conçu avec vos équipes et intégré dans
                   votre SI existant.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
