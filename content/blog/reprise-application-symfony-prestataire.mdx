@@ -1,0 +1,101 @@
+---
+title: "Reprendre une application Symfony mal codée par un autre prestataire : la méthode"
+date: "2026-06-26"
+updatedAt: "2026-06-26"
+author: "Louis-Arnaud Catoire"
+category: "Architecture"
+excerpt: "Vous avez hérité d'une application Symfony bancale livrée par un ancien prestataire ? La méthode en quatre phases pour reprendre le contrôle, stabiliser et faire évoluer sans tout réécrire."
+image: "/images/blog/reprise-application-symfony-prestataire.webp"
+proficiencyLevel: "Intermédiaire"
+howTo:
+  name: "Reprendre une application Symfony livrée par un autre prestataire"
+  description: "Méthode en quatre phases pour reprendre la main sur une application Symfony existante, mal documentée ou mal codée, sans la réécrire de zéro."
+  steps:
+    - name: "Reprendre le contrôle"
+      text: "Récupérer la propriété et les accès : dépôt Git, serveurs, DNS, registrar, secrets et comptes tiers. Sécuriser le minimum vital avec des sauvegardes vérifiées et une rotation des secrets."
+    - name: "Établir l'état des lieux technique"
+      text: "Mesurer la qualité avec l'analyse statique, évaluer la couverture de tests, scanner les dépendances et le code mort, et croiser les zones complexes avec l'historique Git pour situer le risque réel."
+    - name: "Stabiliser et documenter"
+      text: "Ajouter des tests de non-régression sur le cœur métier, mettre en place une pipeline CI/CD minimale, documenter l'architecture et réduire le bus factor pour rendre le projet transmissible."
+    - name: "Faire évoluer sereinement"
+      text: "Construire un plan de remédiation priorisé par la valeur métier plutôt que par la perfection technique, puis livrer les évolutions de façon incrémentale sur une base désormais sous contrôle."
+faq:
+  - question: "Mon ancien prestataire refuse de me donner les accès au code, que faire ?"
+    answer: "Le code développé sur commande vous appartient si votre contrat prévoit une cession des droits, ce qui est la norme dans une prestation de développement. Commencez par une demande écrite formelle listant les éléments attendus : dépôt Git complet, accès aux serveurs, identifiants des services tiers et documentation. En l'absence de réponse, une mise en demeure par votre conseil juridique débloque la plupart des situations. En parallèle, un prestataire repreneur peut souvent reconstituer une partie des accès à partir de ce dont vous disposez déjà, comme un accès d'hébergement ou une sauvegarde de base de données."
+  - question: "Faut-il auditer l'application avant de signer avec un nouveau prestataire ?"
+    answer: "Oui. Un pré-audit de quelques jours permet de cadrer l'effort réel et d'éviter de signer un forfait sur des hypothèses fausses. Il mesure la version de Symfony, la couverture de tests, la dette technique et les vulnérabilités, puis traduit ces constats en plan d'action chiffré. C'est aussi un test du prestataire lui-même : un partenaire sérieux propose un diagnostic avant de s'engager, là où un partenaire à fuir promet une réécriture complète dès le premier rendez-vous."
+  - question: "Combien de temps faut-il pour reprendre en main une application Symfony existante ?"
+    answer: "La phase de reprise de contrôle et d'état des lieux prend en général deux à quatre semaines pour un périmètre standard. La stabilisation, c'est-à-dire les premiers tests de non-régression et une pipeline de déploiement fiable, demande ensuite quelques semaines supplémentaires selon la taille de la base. L'objectif n'est pas de tout corriger d'un coup, mais d'être capable de déployer en confiance le plus tôt possible."
+  - question: "Reprendre ou réécrire : comment trancher ?"
+    answer: "La réécriture complète n'est justifiée que si le coût de remédiation dépasse la valeur résiduelle de l'application, ce qui est rare. Une application qui tourne en production contient des années de règles métier implicites qu'une réécriture risque de perdre. Dans la grande majorité des cas, une modernisation progressive est moins risquée, moins chère et plus rapide à rentabiliser qu'une remise à zéro."
+---
+
+Vous avez une application Symfony qui tourne, mais chaque évolution est une épreuve. Un seul développeur prétend la comprendre, les déploiements se font à la main et provoquent une montée d'angoisse, et personne n'ose toucher au cœur du code de peur de tout casser. Le prestataire qui l'a construite a disparu, ne répond plus, ou facture chaque correctif au prix fort. Vous héritez d'une base que personne n'a documentée et dont vous ne maîtrisez même pas tous les accès.
+
+C'est une situation extrêmement fréquente, et la bonne nouvelle est qu'elle se traite avec méthode. Contrairement à l'intuition, la solution n'est presque jamais de tout jeter pour repartir de zéro. Cet article décrit la méthode en quatre phases que nous appliquons sur les missions de reprise d'applications Symfony héritées d'un autre prestataire, pour reprendre le contrôle, stabiliser, puis faire évoluer sereinement.
+
+## Reconnaître une application Symfony mal livrée
+
+Avant de parler méthode, il faut savoir nommer le problème. Une application mal livrée ne se reconnaît pas à son apparence, qui peut être parfaitement soignée côté utilisateur, mais à une série de signaux côté ingénierie.
+
+Le premier signal est la concentration de la connaissance sur une seule personne, le fameux bus factor de 1. Si un seul individu sait comment l'application fonctionne, vous n'avez pas un actif, vous avez une dépendance. Le deuxième signal est l'absence de tests automatisés sur le cœur métier : sans filet de sécurité, chaque modification devient une roulette russe, ce qui explique la peur de toucher au code. Le troisième est un déploiement manuel, long et stressant, sans procédure reproductible.
+
+Viennent ensuite les signaux d'entretien négligé : une [version de Symfony en fin de support](/article/symfony-php-fin-de-support-eol-plan-action), exposée à des failles non corrigées et bloquant toute montée de version de l'écosystème, des dépendances Composer abandonnées, et une accumulation de [dette technique](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) qui ralentit chaque nouvelle fonctionnalité. Pris isolément, aucun de ces signaux n'est dramatique. Réunis, ils dessinent une application que vous subissez au lieu de la piloter.
+
+## Pourquoi la réécriture complète est presque toujours une erreur
+
+Face à ce constat, la tentation est grande de tout effacer pour repartir sur une base propre. C'est l'erreur la plus coûteuse possible, et le réflexe que tout prestataire sérieux devrait vous déconseiller.
+
+Une application qui tourne en production, même mal codée, contient des années de règles métier implicites. Des cas particuliers, des correctifs accumulés face à des problèmes réels, des comportements attendus par vos utilisateurs : tout cela est encodé dans le code existant, souvent sans documentation. Une réécriture intégrale repart de zéro sur cette connaissance et rejoue les mêmes bugs que la première version avait fini par corriger, pendant de longs mois durant lesquels vous payez une nouvelle équipe sans livrer la moindre valeur nouvelle à vos clients.
+
+Dans la quasi-totalité des cas, [moderniser une application PHP legacy sans tout réécrire](/article/moderniser-application-php-legacy-sans-tout-reecrire) est moins risqué, moins cher et plus rapide à rentabiliser. La réécriture ne se justifie que lorsque le coût de remédiation dépasse réellement la valeur résiduelle de l'application, ce qui reste exceptionnel. Notre approche de [modernisation progressive](/modernisation-application-php) part toujours de l'existant plutôt que de la page blanche.
+
+## Phase 1 : reprendre le contrôle avant d'écrire la moindre ligne
+
+La première phase ne contient aucune ligne de code. Elle consiste à reprendre la pleine possession de votre actif, ce qui est trop souvent négligé dans la précipitation.
+
+### Récupérer les accès et la propriété
+
+Faites l'inventaire complet de ce que vous possédez réellement. Le dépôt Git avec son historique, les accès aux serveurs ou à l'hébergement, la gestion du nom de domaine chez le registrar, les enregistrements DNS, les secrets applicatifs, et les comptes des services tiers que l'application utilise : paiement, envoi d'e-mails, stockage, supervision. Il n'est pas rare qu'un client découvre à cette étape qu'il ne possède pas le domaine sur lequel repose tout son chiffre d'affaires.
+
+Si l'ancien prestataire ne coopère pas, rappelez-vous que le code développé sur commande vous appartient dès lors que votre contrat prévoit la cession des droits, ce qui est la norme. Une demande écrite formelle, suivie si besoin d'une mise en demeure, débloque la majorité des situations. En parallèle, un repreneur compétent peut reconstituer une partie des accès à partir de ce dont vous disposez déjà.
+
+### Sécuriser le minimum vital
+
+Une fois les accès en main, on sécurise immédiatement. La première action est de vérifier qu'une sauvegarde récente et restaurable existe, et de la tester, car une sauvegarde jamais restaurée n'est qu'une hypothèse. La deuxième est la rotation des secrets, surtout si les relations avec l'ancien prestataire se sont mal terminées : changez les mots de passe, régénérez les clés d'API, révoquez les accès devenus inutiles. La troisième est un état rapide de la [sécurité de l'application](/securite-application-symfony), à commencer par la version de Symfony et de PHP et l'exposition à des vulnérabilités connues.
+
+## Phase 2 : l'état des lieux technique
+
+Le contrôle repris, on dresse un diagnostic objectif. Cette phase ressemble à un audit, mais avec un objectif opérationnel : décider quoi faire, dans quel ordre. Elle est plus légère qu'une [due diligence technique](/article/due-diligence-technique-application-symfony-checklist-repreneur) menée en contexte de rachat, dont l'enjeu est de valoriser un actif, mais elle en partage les outils.
+
+On part de l'analyse statique. [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) configuré au niveau le plus élevé que la base supporte révèle en quelques minutes l'ampleur des problèmes de typage et de cohérence. On mesure ensuite la couverture de [tests automatisés](/tests-automatises-php) réelle, en distinguant les tests qui protègent vraiment le métier du décor qui ne teste rien. On scanne les dépendances avec `composer audit`, on identifie le [code mort](/article/code-mort-mission-elimination) qui pollue la lecture, et on repère les anti-patterns structurels.
+
+Le point décisif est de croiser ces constats avec l'historique Git. Un module complexe mais stable, que personne ne modifie jamais, n'est pas une urgence. Un module complexe et constamment retouché est un point chaud qui concentre le risque. Cette priorisation par la fréquence de modification distingue un [audit de code PHP](/audit-code-php) utile d'une simple liste de défauts sans hiérarchie.
+
+## Phase 3 : stabiliser, documenter, réduire le bus factor
+
+Avec une cartographie claire, on stabilise avant d'ajouter quoi que ce soit de nouveau. L'objectif de cette phase est simple : être capable de déployer en confiance.
+
+On commence par poser des tests de non-régression sur les parcours métier critiques, ceux dont une panne coûte directement de l'argent ou des clients. Ces tests ne visent pas une couverture parfaite, mais un filet de sécurité sur ce qui compte vraiment. On met ensuite en place une pipeline d'intégration et de déploiement minimale, qui exécute l'analyse statique et les tests à chaque modification et automatise la mise en production, pour transformer le déploiement angoissant en non-événement.
+
+En parallèle, on s'attaque au bus factor en documentant l'essentiel. Une [documentation technique structurée selon l'approche Diátaxis](/article/comment-produire-la-documentation-sur-votre-projet-symfony-avec-lapproche-diataxis) suffit à rendre le projet transmissible : architecture générale, décisions structurantes, procédures d'exploitation. L'objectif n'est pas d'écrire un roman, mais de faire en sorte qu'un développeur Symfony senior puisse livrer une évolution non triviale en quelques jours, et non en quelques semaines de rétro-ingénierie.
+
+## Phase 4 : faire évoluer sereinement
+
+Une fois la base sous contrôle, l'évolution redevient possible sans angoisse. La règle d'or de cette phase est de prioriser la remédiation par la valeur métier, pas par la perfection technique.
+
+Toutes les imperfections d'une base héritée ne se valent pas. Certaines ralentissent réellement la roadmap ou exposent à un risque, d'autres sont seulement inélégantes et peuvent attendre. Un bon plan de remédiation séquence les chantiers en fonction de leur impact sur votre activité, et intègre les éventuelles montées de version dans un [guide de migration](/article/guide-de-migration-dans-un-projet-symfony) progressif plutôt que dans un grand saut risqué. La référence du [calendrier des versions Symfony](https://symfony.com/releases) sert de boussole pour planifier ces montées sans subir les fins de support.
+
+L'évolution se fait alors de façon incrémentale, chaque livraison s'appuyant sur le filet de tests et la pipeline mis en place à la phase précédente. Vous passez d'un mode défensif, où l'on évite de toucher au code, à un mode offensif, où l'on construit de nouveau de la valeur.
+
+## Choisir le bon prestataire pour la reprise
+
+La reprise d'un projet existant est un exercice différent du développement d'une application neuve, et tous les prestataires n'y sont pas à l'aise. [Choisir le bon prestataire Symfony](/article/comment-choisir-son-prestataire-symfony) pour cette mission demande de repérer quelques signaux.
+
+Le premier signal positif est la posture du diagnostic. Un partenaire sérieux veut comprendre l'existant avant de s'engager et propose un pré-audit. Le signal d'alarme inverse est celui qui, avant même d'avoir lu une ligne de votre code, vous recommande de tout réécrire : c'est souvent plus confortable pour lui que pour vous. Le second critère est la capacité à inscrire la reprise dans la durée, à travers une [tierce maintenance applicative](/maintenance-applicative-symfony) qui sécurise votre application au-delà du diagnostic initial. La [reprise de projet Symfony](/reprise-projet-symfony) n'est pas un acte ponctuel, c'est le début d'une relation de confiance retrouvée.
+
+## Conclusion
+
+Hériter d'une application Symfony mal codée par un autre prestataire n'est pas une fatalité, et encore moins une condamnation à tout réécrire. C'est un problème qui se traite avec méthode : reprendre le contrôle de ses accès, dresser un état des lieux objectif, stabiliser pour déployer en confiance, puis faire évoluer en priorisant la valeur. Chacune de ces phases réduit votre dépendance et augmente la valeur de votre actif.
+
+La première étape est toujours la plus simple : poser un diagnostic. Si vous reconnaissez votre situation dans cet article, prenez le temps d'un premier échange pour cadrer le périmètre. Notre [pré-audit Symfony](/audit-symfony-gratuit) identifie en quelques jours l'état réel de votre application et le plan d'action pour en reprendre la main, sans engagement.

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="Plan de reprise en main d'une application Symfony héritée en quatre phases : reprendre le contrôle (fait), état des lieux technique (fait), stabiliser et documenter (en cours), faire évoluer sereinement (à venir)">
+  <rect width="1200" height="630" fill="#f5f5f5"/>
+  <circle cx="100" cy="100" r="140" fill="#0066cc" opacity="0.06"/>
+  <circle cx="1100" cy="560" r="180" fill="#0066cc" opacity="0.05"/>
+
+  <g transform="translate(120, 80)">
+    <rect x="6" y="10" width="960" height="470" rx="14" fill="#0f1722" opacity="0.10"/>
+    <rect width="960" height="470" rx="14" fill="#ffffff"/>
+    <rect width="960" height="470" rx="14" fill="none" stroke="#e8e8e8" stroke-width="1"/>
+
+    <path d="M0 14 a14 14 0 0 1 14 -14 h932 a14 14 0 0 1 14 14 v54 h-960 z" fill="#0066cc"/>
+    <text x="32" y="42" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#ffffff" letter-spacing="2.5">PLAN DE REPRISE EN MAIN</text>
+    <text x="928" y="42" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="500" fill="#ffffff" opacity="0.85" text-anchor="end">Application Symfony héritée · 4 phases</text>
+
+    <g transform="translate(56, 104)">
+      <line x1="32" y1="24" x2="32" y2="300" stroke="#d7dde4" stroke-width="3"/>
+
+      <g>
+        <circle cx="32" cy="24" r="24" fill="#0066cc"/>
+        <text x="32" y="32" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#ffffff" text-anchor="middle">1</text>
+        <text x="78" y="18" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#333333">Reprendre le contrôle</text>
+        <text x="78" y="42" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="500" fill="#595959">Accès, dépôt Git, secrets, sauvegardes</text>
+        <rect x="700" y="6" width="120" height="30" rx="15" fill="#0066cc"/>
+        <text x="760" y="26" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle">Fait</text>
+      </g>
+
+      <g transform="translate(0, 92)">
+        <circle cx="32" cy="24" r="24" fill="#0066cc"/>
+        <text x="32" y="32" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#ffffff" text-anchor="middle">2</text>
+        <text x="78" y="18" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#333333">État des lieux technique</text>
+        <text x="78" y="42" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="500" fill="#595959">Analyse statique, tests, dette, zones à risque</text>
+        <rect x="700" y="6" width="120" height="30" rx="15" fill="#0066cc"/>
+        <text x="760" y="26" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle">Fait</text>
+      </g>
+
+      <g transform="translate(0, 184)">
+        <circle cx="32" cy="24" r="24" fill="#ffffff" stroke="#0066cc" stroke-width="3"/>
+        <text x="32" y="32" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#0066cc" text-anchor="middle">3</text>
+        <text x="78" y="18" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#333333">Stabiliser et documenter</text>
+        <text x="78" y="42" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="500" fill="#595959">Non-régression, CI/CD, documentation</text>
+        <rect x="688" y="6" width="132" height="30" rx="15" fill="#0066cc" opacity="0.12"/>
+        <text x="754" y="26" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#0066cc" text-anchor="middle">En cours</text>
+      </g>
+
+      <g transform="translate(0, 276)">
+        <circle cx="32" cy="24" r="24" fill="#eef1f4" stroke="#d7dde4" stroke-width="2"/>
+        <text x="32" y="32" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#9aa3ad" text-anchor="middle">4</text>
+        <text x="78" y="18" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#333333">Faire évoluer sereinement</text>
+        <text x="78" y="42" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="500" fill="#595959">Remédiation priorisée par la valeur métier</text>
+        <rect x="700" y="6" width="120" height="30" rx="15" fill="#eef1f4"/>
+        <text x="760" y="26" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#9aa3ad" text-anchor="middle">À venir</text>
+      </g>
+    </g>
+  </g>
+</svg>
