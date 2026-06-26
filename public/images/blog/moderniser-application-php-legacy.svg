@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <rect width="1200" height="630" fill="#f7f9fc"/>
+  <circle cx="950" cy="180" r="170" fill="#19c3b2" opacity="0.16"/>
+  <circle cx="820" cy="470" r="150" fill="#7c5cff" opacity="0.14"/>
+  <text x="80" y="250" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="800" fill="#1f2a37">Moderniser</text>
+  <text x="80" y="312" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="800" fill="#1f2a37">une application PHP</text>
+  <text x="80" y="374" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="800" fill="#0066cc">sans tout réécrire</text>
+  <rect x="80" y="410" width="220" height="48" rx="24" fill="#ffb547"/>
+  <text x="190" y="442" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#1f2a37" text-anchor="middle">Sans tout casser</text>
+  <g>
+    <rect x="650" y="150" width="430" height="300" rx="22" fill="#0f1722" opacity="0.10" transform="translate(8 12)"/>
+    <rect x="650" y="150" width="430" height="300" rx="22" fill="#ffffff" stroke="#e8e8e8"/>
+    <path d="M650 172 a22 22 0 0 1 22 -22 h386 a22 22 0 0 1 22 22 v26 h-430 z" fill="#eef3fb"/>
+    <circle cx="678" cy="174" r="7" fill="#ff6b5e"/>
+    <circle cx="702" cy="174" r="7" fill="#ffb547"/>
+    <circle cx="726" cy="174" r="7" fill="#19c3b2"/>
+    <rect x="684" y="232" width="150" height="16" rx="8" fill="#0066cc"/>
+    <rect x="684" y="266" width="320" height="12" rx="6" fill="#d7dde4"/>
+    <rect x="684" y="294" width="280" height="12" rx="6" fill="#d7dde4"/>
+    <rect x="684" y="322" width="300" height="12" rx="6" fill="#d7dde4"/>
+    <rect x="684" y="356" width="120" height="34" rx="17" fill="#19c3b2"/>
+    <circle cx="1058" cy="430" r="40" fill="#0066cc"/>
+    <path d="M1040 430 l12 13 l24 -26" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(1040 150)" fill="#7c5cff"><circle cx="0" cy="0" r="20"/><circle cx="0" cy="0" r="9" fill="#ffffff"/></g>
+    <g stroke="#ffb547" stroke-width="5" stroke-linecap="round"><line x1="612" y1="210" x2="612" y2="234"/><line x1="600" y1="222" x2="624" y2="222"/></g>
+    <g stroke="#ff6b5e" stroke-width="5" stroke-linecap="round"><line x1="1112" y1="300" x2="1112" y2="320"/><line x1="1102" y1="310" x2="1122" y2="310"/></g>
+  </g>
+</svg>
