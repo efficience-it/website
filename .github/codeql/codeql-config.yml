@@ -1,0 +1,5 @@
+name: "CodeQL config"
+
+paths-ignore:
+  - 'src/__tests__'
+  - 'scripts'
