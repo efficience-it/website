@@ -1,15 +1,15 @@
 ---
-title: "Réducteurs de tokens pour assistants IA de code : rtk et graphify, deux couches complémentaires"
+title: "Réduire les tokens des assistants IA de code : rtk et graphify"
 date: "2026-07-20"
 updatedAt: "2026-07-20"
 author: "Efficience IT"
 category: "IA"
-excerpt: "Comment réduire la consommation de tokens des assistants IA en CLI ? rtk compresse les sorties de commandes, graphify cible le contexte chargé. Deux approches qui s'empilent."
+excerpt: "Comment réduire la consommation de tokens des assistants IA en CLI ? rtk compresse les sorties de commandes, graphify cible le contexte chargé."
 image: "/images/blog/reducteurs-tokens-ia.webp"
 proficiencyLevel: "Intermediate"
 ---
 
-Les assistants IA en ligne de commande sont devenus des outils du quotidien pour beaucoup d'équipes de développement. Claude Code, GitHub Copilot en mode agent, Gemini CLI, Codex ou Cursor partagent tous la même mécanique : ils envoient du contexte au modèle, le modèle raisonne, puis renvoie du code ou une action. Le problème, c'est que ce contexte grossit vite. Chaque `git status`, chaque suite de tests, chaque fichier ouvert consomme des tokens, et cette consommation pèse à la fois sur la latence, sur la facture et sur la qualité des réponses.
+Les assistants IA en ligne de commande sont devenus des outils du quotidien pour beaucoup d'équipes de développement. Claude Code, GitHub Copilot en mode agent, Gemini CLI, Codex ou Cursor partagent tous la même mécanique : ils envoient du contexte au modèle, le modèle raisonne, puis renvoie du code ou une action. Le problème, c'est que ce contexte grossit vite. Chaque `git status`, chaque suite de tests, chaque fichier ouvert consomme des tokens, et cette consommation pèse à la fois sur la latence et sur la qualité des réponses.
 
 Un écosystème d'outils émerge justement pour réduire ce que l'on envoie au modèle. Deux d'entre eux illustrent parfaitement deux niveaux d'action différents : rtk compresse les sorties de commandes, graphify cible le contexte que l'assistant charge. Loin d'être concurrents, ils s'empilent.
 
@@ -17,7 +17,7 @@ Un écosystème d'outils émerge justement pour réduire ce que l'on envoie au m
 
 Un assistant IA de code n'est pertinent que s'il comprend votre projet. Pour cela, il a besoin de voir des fichiers, des logs, des résultats de tests, l'état du dépôt Git. Mais plus on lui donne de matière, plus trois problèmes apparaissent.
 
-D'abord la latence : une fenêtre de contexte pleine met plus de temps à être traitée. Ensuite le nombre de tokens consommés, qui grimpe à chaque interaction. Enfin, et c'est le plus contre-intuitif, la qualité se dégrade. Quand on noie le modèle sous des milliers de lignes de sortie non filtrées, il perd le signal utile dans le bruit. Une suite de tests qui affiche 25 000 tokens de logs verbeux pour un seul échec pertinent, c'est du gaspillage sur toute la ligne.
+D'abord la latence : une fenêtre de contexte pleine met plus de temps à être traitée. Ensuite le nombre de tokens consommés, qui grimpe à chaque interaction. Enfin, et c'est le plus contre-intuitif, la qualité se dégrade. Les [forces et faiblesses des IA génératives](/article/forces-et-faiblesses-des-ia-generatives-les-plus-utilisees) varient d'un modèle à l'autre, mais aucun ne raisonne bien quand on le noie sous des milliers de lignes de sortie non filtrées. Il perd le signal utile dans le bruit. Une suite de tests qui affiche 25 000 tokens de logs verbeux pour un seul échec pertinent, c'est du gaspillage sur toute la ligne.
 
 Réduire les tokens, ce n'est donc pas seulement une question d'optimisation. C'est aussi un levier de fiabilité. La question n'est pas de savoir quel [assistant IA choisir pour coder](/article/quel-assistant-ia-choisir-pour-coder), mais comment lui donner exactement ce dont il a besoin, ni plus ni moins.
 
@@ -45,11 +45,11 @@ Sur chaque type de commande, l'outil applique quatre stratégies : filtrage inte
 
 Les gains annoncés sur une session Claude Code de trente minutes sont parlants : environ 92 % économisés sur un `git push`, 90 % sur une suite de tests façon `cargo test` ou `npm test`, 80 % sur un `git status`. Cumulé, le README évoque un passage d'environ 118 000 à 24 000 tokens sur la session, soit près de 80 % de moins.
 
-rtk couvre plus de cent commandes : fichiers (`ls`, `cat`, `grep`, `find`, `diff`), Git, frameworks de test (Jest, Vitest, Playwright, pytest, cargo test), build et lint (ESLint, TypeScript, ruff, clippy), conteneurs (Docker, kubectl) et infrastructure (Pulumi, AWS CLI, GitHub CLI). L'installation se fait via Homebrew, un script d'installation ou `cargo install`, et l'outil s'intègre à une quinzaine d'assistants. Le code est disponible sur [le dépôt rtk-ai/rtk](https://github.com/rtk-ai/rtk).
+rtk couvre plus de cent commandes : fichiers (`ls`, `cat`, `grep`, `find`, `diff`), Git, frameworks de test (Jest, Vitest, Playwright, pytest, cargo test), build et lint (ESLint, TypeScript, ruff, clippy), conteneurs (Docker, kubectl) et infrastructure (Pulumi, AWS CLI, GitHub CLI). C'est particulièrement utile quand l'assistant pilote des [tests de bout en bout avec Claude Code](/article/playwright-tests-end-to-end-claude-code), dont les sorties sont vite volumineuses. L'installation se fait via Homebrew, un script d'installation ou `cargo install`, et l'outil s'intègre à une quinzaine d'assistants. Le code est disponible sur [le dépôt rtk-ai/rtk](https://github.com/rtk-ai/rtk).
 
 ## graphify en pratique
 
-graphify part d'un problème différent : comment éviter de charger des fichiers entiers juste pour comprendre comment les morceaux d'un projet s'articulent. Sa réponse est de transformer le dépôt en un graphe de connaissance interrogeable. C'est une skill que l'on invoque avec `/graphify .` dans Claude Code, Cursor et une vingtaine d'autres assistants, et qui produit trois artefacts : une visualisation HTML interactive, un rapport Markdown et le graphe brut au format JSON.
+graphify part d'un problème différent : comment éviter de charger des fichiers entiers juste pour comprendre comment les morceaux d'un projet s'articulent. C'est un enjeu clé quand on demande à un [assistant IA de reprendre une architecture Symfony legacy](/article/claude-assistant-architecture-symfony-legacy), où le contexte utile est éparpillé dans tout le code. Sa réponse est de transformer le dépôt en un graphe de connaissance interrogeable. C'est une skill que l'on invoque avec `/graphify .` dans Claude Code, Cursor et une vingtaine d'autres assistants, et qui produit trois artefacts : une visualisation HTML interactive, un rapport Markdown et le graphe brut au format JSON.
 
 La construction du graphe suit deux voies. Pour le code, graphify s'appuie sur tree-sitter en local : il parse l'arbre syntaxique sans appeler de LLM, de façon déterministe, sur plus de quarante langages. Il en extrait les fonctions, classes et variables ainsi que leurs relations, comme les appels, les imports et les héritages, sans que rien ne quitte la machine. Pour les documents, PDF, images ou vidéos, il utilise le modèle de l'assistant pour une passe sémantique.
 
@@ -73,15 +73,15 @@ rtk et graphify ne sont pas seuls. Plusieurs autres leviers agissent sur la cons
 
 ### Sur la couche récupération du contexte
 
-Du côté de la récupération ciblée, graphify a des cousins. Serena expose le code via le protocole LSP sous forme de serveur MCP : l'assistant navigue par symboles et ne lit que les définitions utiles au lieu de fichiers entiers. Aider popularise depuis longtemps sa repo map, une carte du dépôt construite avec tree-sitter qui donne au modèle une vue d'ensemble compacte. Plus généralement, tout serveur MCP d'indexation ou de recherche structurée sur le code relève de cette famille.
+Du côté de la récupération ciblée, graphify a des cousins. [Serena](https://github.com/oraios/serena) expose le code via le protocole LSP sous forme de serveur MCP : l'assistant navigue par symboles et ne lit que les définitions utiles au lieu de fichiers entiers. [Aider](https://github.com/Aider-AI/aider) popularise depuis longtemps sa repo map, une carte du dépôt construite avec tree-sitter qui donne au modèle une vue d'ensemble compacte. Plus généralement, tout serveur MCP d'indexation ou de recherche structurée sur le code relève de cette famille.
 
 ### Sur la couche contexte conversationnel
 
-Un autre levier agit sur l'historique de la conversation lui-même. Les mécanismes de compression intégrés, comme la compaction automatique de Claude Code, résument les échanges anciens pour libérer de la place. Des travaux comme LLMLingua, de Microsoft Research, vont plus loin en élaguant les tokens peu informatifs d'un prompt avant de l'envoyer au modèle. Enfin, les serveurs MCP donnent un accès structuré à des sources externes, base de données, documentation ou API, sans copier de gros blocs de texte, tandis que les skills encapsulent des comportements réutilisables et évitent de réexpliquer les mêmes procédures à chaque session.
+Un autre levier agit sur l'historique de la conversation lui-même. Les mécanismes de compression intégrés, comme la compaction automatique de Claude Code, résument les échanges anciens pour libérer de la place. Des travaux comme [LLMLingua](https://github.com/microsoft/LLMLingua), de Microsoft Research, vont plus loin en élaguant les tokens peu informatifs d'un prompt avant de l'envoyer au modèle. Enfin, les serveurs MCP donnent un accès structuré à des sources externes, base de données, documentation ou API, sans copier de gros blocs de texte, tandis que les skills encapsulent des comportements réutilisables et évitent de réexpliquer les mêmes procédures à chaque session.
 
 De bonnes pratiques de travail, comme découper les tâches et repartir d'un contexte propre, comptent autant que l'outillage.
 
-Chaque approche brille dans un cas précis. La compression de sortie brille sur les commandes bruyantes et répétées. La récupération ciblée brille sur les gros dépôts où charger des fichiers entiers coûte cher. Le MCP brille quand la donnée vit à l'extérieur du code. Bien maîtriser ces leviers fait partie de la démarche pour [monter en compétence sur Claude Code](/article/monter-en-competence-claude-code) et en tirer un vrai gain de productivité.
+Chaque approche brille dans un cas précis. La compression de sortie brille sur les commandes bruyantes et répétées. La récupération ciblée brille sur les gros dépôts où charger des fichiers entiers sature vite le contexte. Le MCP brille quand la donnée vit à l'extérieur du code. Bien maîtriser ces leviers fait partie de la démarche pour [monter en compétence sur Claude Code](/article/monter-en-competence-claude-code) et en tirer un vrai gain de productivité.
 
 ## Conclusion
 
