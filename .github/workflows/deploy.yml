@@ -63,6 +63,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - run: npm ci --prefer-offline --no-audit --no-fund
       - run: npx -y tsx@4 scripts/ping-indexers.ts
         env:
           PREVIOUS_SHA: ${{ github.event.before }}
