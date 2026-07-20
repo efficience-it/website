@@ -1,0 +1,81 @@
+---
+title: "Réducteurs de tokens pour assistants IA de code : rtk et graphify, deux couches complémentaires"
+date: "2026-07-20"
+author: "Efficience IT"
+category: "IA"
+excerpt: "Comment réduire la consommation de tokens des assistants IA en CLI ? rtk compresse les sorties de commandes, graphify cible le contexte chargé. Deux approches qui s'empilent."
+image: "/images/blog/reducteurs-tokens-ia.webp"
+proficiencyLevel: "Intermediate"
+---
+
+Les assistants IA en ligne de commande sont devenus des outils du quotidien pour beaucoup d'équipes de développement. Claude Code, GitHub Copilot en mode agent, Gemini CLI, Codex ou Cursor partagent tous la même mécanique : ils envoient du contexte au modèle, le modèle raisonne, puis renvoie du code ou une action. Le problème, c'est que ce contexte grossit vite. Chaque `git status`, chaque suite de tests, chaque fichier ouvert consomme des tokens, et cette consommation pèse à la fois sur la latence, sur la facture et sur la qualité des réponses.
+
+Un écosystème d'outils émerge justement pour réduire ce que l'on envoie au modèle. Deux d'entre eux illustrent parfaitement deux niveaux d'action différents : rtk compresse les sorties de commandes, graphify cible le contexte que l'assistant charge. Loin d'être concurrents, ils s'empilent.
+
+## Pourquoi le contexte est devenu le nerf de la guerre
+
+Un assistant IA de code n'est pertinent que s'il comprend votre projet. Pour cela, il a besoin de voir des fichiers, des logs, des résultats de tests, l'état du dépôt Git. Mais plus on lui donne de matière, plus trois problèmes apparaissent.
+
+D'abord la latence : une fenêtre de contexte pleine met plus de temps à être traitée. Ensuite le nombre de tokens consommés, qui grimpe à chaque interaction. Enfin, et c'est le plus contre-intuitif, la qualité se dégrade. Quand on noie le modèle sous des milliers de lignes de sortie non filtrées, il perd le signal utile dans le bruit. Une suite de tests qui affiche 25 000 tokens de logs verbeux pour un seul échec pertinent, c'est du gaspillage sur toute la ligne.
+
+Réduire les tokens, ce n'est donc pas seulement une question d'optimisation. C'est aussi un levier de fiabilité. La question n'est pas de savoir quel [assistant IA choisir pour coder](/article/quel-assistant-ia-choisir-pour-coder), mais comment lui donner exactement ce dont il a besoin, ni plus ni moins.
+
+## Deux familles de réducteurs de tokens
+
+On peut regrouper les outils de réduction de tokens en deux grandes familles, selon l'endroit où ils interviennent dans la boucle.
+
+### Compresser les sorties de commandes
+
+La première famille agit en aval : elle intercepte ce que les outils renvoient à l'assistant. Quand l'IA lance une commande, sa sortie brute est souvent verbeuse et répétitive. Filtrer le bruit, agréger les lignes similaires, tronquer intelligemment, dédupliquer : voilà comment on transforme une sortie de plusieurs milliers de tokens en un résumé exploitable. C'est le terrain de rtk.
+
+### Cibler le contexte chargé
+
+La seconde famille agit en amont : elle change ce que l'assistant décide de charger. Plutôt que d'ouvrir des fichiers entiers pour comprendre une dépendance, l'assistant interroge une représentation structurée du projet et ne récupère que les fragments pertinents. C'est le principe de graphify.
+
+Les deux familles ne visent pas la même chose. L'une réduit le poids de chaque réponse d'outil, l'autre réduit le volume de code que l'on charge pour raisonner.
+
+## rtk en pratique
+
+rtk, pour Rust Token Killer, est un proxy CLI distribué sous forme de binaire Rust unique, sans dépendance externe. Son objectif affiché est de réduire la consommation de tokens de 60 à 90 % en filtrant et comprimant les sorties de commandes avant qu'elles n'atteignent le contexte du modèle.
+
+Son fonctionnement repose sur deux modes. Le premier est un hook d'auto-réécriture : sur Claude Code, rtk s'installe comme hook `PreToolUse` et réécrit de façon transparente les commandes Bash, par exemple `git status` devient `rtk git status`. Le second est l'appel direct, quand on préfixe explicitement une commande par `rtk`.
+
+Sur chaque type de commande, l'outil applique quatre stratégies : filtrage intelligent pour supprimer le bruit, agrégation des éléments similaires, troncature qui conserve le contexte pertinent, et déduplication qui compte les lignes répétées plutôt que de toutes les afficher.
+
+Les gains annoncés sur une session Claude Code de trente minutes sont parlants : environ 92 % économisés sur un `git push`, 90 % sur une suite de tests façon `cargo test` ou `npm test`, 80 % sur un `git status`. Cumulé, le README évoque un passage d'environ 118 000 à 24 000 tokens sur la session, soit près de 80 % de moins.
+
+rtk couvre plus de cent commandes : fichiers (`ls`, `cat`, `grep`, `find`, `diff`), Git, frameworks de test (Jest, Vitest, Playwright, pytest, cargo test), build et lint (ESLint, TypeScript, ruff, clippy), conteneurs (Docker, kubectl) et infrastructure (Pulumi, AWS CLI, GitHub CLI). L'installation se fait via Homebrew, un script d'installation ou `cargo install`, et l'outil s'intègre à une quinzaine d'assistants. Le code est disponible sur [le dépôt rtk-ai/rtk](https://github.com/rtk-ai/rtk).
+
+## graphify en pratique
+
+graphify part d'un problème différent : comment éviter de charger des fichiers entiers juste pour comprendre comment les morceaux d'un projet s'articulent. Sa réponse est de transformer le dépôt en un graphe de connaissance interrogeable. C'est une skill que l'on invoque avec `/graphify .` dans Claude Code, Cursor et une vingtaine d'autres assistants, et qui produit trois artefacts : une visualisation HTML interactive, un rapport Markdown et le graphe brut au format JSON.
+
+La construction du graphe suit deux voies. Pour le code, graphify s'appuie sur tree-sitter en local : il parse l'arbre syntaxique sans appeler de LLM, de façon déterministe, sur plus de quarante langages. Il en extrait les fonctions, classes et variables ainsi que leurs relations, comme les appels, les imports et les héritages, sans que rien ne quitte la machine. Pour les documents, PDF, images ou vidéos, il utilise le modèle de l'assistant pour une passe sémantique.
+
+Point important : il ne s'agit pas de RAG vectoriel. graphify ne construit pas d'embeddings, il bâtit un vrai graphe que l'on peut traverser. On interroge la structure directement, avec trois commandes principales : `graphify query` pour obtenir un sous-graphe autour d'une question, `graphify path` pour trouver le chemin le plus court entre deux entités, et `graphify explain` pour détailler un nœud et ses connexions. Le graphe peut aussi être exposé comme [serveur MCP](/article/serveurs-mcp-claude-code-developpeurs-symfony), pour que l'assistant l'interroge sous forme d'outils structurés plutôt qu'en lisant des fichiers.
+
+L'installation passe par `uv tool install graphifyy` ou `pipx`, suivi de `graphify install` pour enregistrer la skill. Le fonctionnement en skill s'inscrit dans la même logique que les [skills de Claude Code en équipe](/article/skills-claude-code-equipe-symfony) : un comportement réutilisable, versionné, partagé. Le code est disponible sur [le dépôt safishamsi/graphify](https://github.com/safishamsi/graphify).
+
+## Pourquoi rtk et graphify sont complémentaires
+
+La tentation serait de choisir l'un ou l'autre. Ce serait passer à côté de l'essentiel : ils n'agissent pas sur la même couche.
+
+rtk optimise la couche commande et sortie. Il intervient quand l'assistant a déjà décidé de lancer une commande, et il réduit le volume de ce qui remonte. graphify optimise la couche contexte et récupération. Il intervient en amont, quand l'assistant se demande quoi charger pour comprendre le projet, et il remplace la lecture de fichiers entiers par une requête ciblée sur le graphe.
+
+Concrètement, dans une même session, l'assistant peut interroger graphify pour localiser précisément les trois fonctions concernées par un bug, sans charger tout le module, puis lancer les tests via rtk pour ne récupérer que l'échec pertinent au lieu de milliers de lignes de logs. Le premier réduit le contexte d'entrée, le second réduit le retour des outils. Les économies se cumulent sur toute la boucle, d'un bout à l'autre.
+
+C'est cette logique de couches empilées qui rend l'approche intéressante. Aucun des deux ne rend l'autre superflu, parce qu'aucun ne couvre le terrain de l'autre.
+
+## Situer l'écosystème : MCP, skills et compression
+
+rtk et graphify ne sont pas seuls. Plusieurs autres leviers agissent sur la consommation de tokens, chacun à sa manière.
+
+Les serveurs MCP donnent à l'assistant un accès structuré à des sources externes, base de données, documentation ou API, sans copier de gros blocs de texte dans le contexte. Les skills encapsulent des comportements réutilisables et évitent de réexpliquer les mêmes procédures à chaque session. Les mécanismes de compression de contexte, intégrés à certains assistants, résument automatiquement les échanges anciens pour libérer de la place. Et de bonnes pratiques de travail, comme découper les tâches et repartir d'un contexte propre, comptent autant que l'outillage.
+
+Chaque approche brille dans un cas précis. La compression de sortie brille sur les commandes bruyantes et répétées. La récupération ciblée brille sur les gros dépôts où charger des fichiers entiers coûte cher. Le MCP brille quand la donnée vit à l'extérieur du code. Bien maîtriser ces leviers fait partie de la démarche pour [monter en compétence sur Claude Code](/article/monter-en-competence-claude-code) et en tirer un vrai gain de productivité.
+
+## Conclusion
+
+La consommation de tokens n'est pas une fatalité. En comprenant où chaque outil intervient, on construit une chaîne cohérente : graphify pour ne charger que le contexte utile, rtk pour ne remonter que les sorties utiles, MCP et skills pour le reste. Ce ne sont pas des solutions concurrentes mais des couches qui se complètent, et c'est précisément leur combinaison qui fait la différence sur la durée d'un projet.
+
+Chez Efficience IT, nous intégrons ces outils dans nos pratiques de développement assisté par IA sur les projets Symfony et au-delà. Si vous souhaitez fiabiliser et rationaliser l'usage des assistants IA dans vos équipes, [parlons de votre contexte](/contact).

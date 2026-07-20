@@ -280,6 +280,10 @@
   "rector": [
     400
   ],
+  "reducteurs-tokens-ia": [
+    400,
+    800
+  ],
   "rejoindre-efficience-it": [
     400
   ],

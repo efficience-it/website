@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0066cc"/>
+      <stop offset="0.55" stop-color="#5b5cf0"/>
+      <stop offset="1" stop-color="#19c3b2"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#g)"/>
+  <circle cx="150" cy="140" r="120" fill="#ffffff" opacity="0.10"/>
+  <circle cx="1060" cy="500" r="160" fill="#ffffff" opacity="0.10"/>
+  <circle cx="1015" cy="115" r="58" fill="#ffb547" opacity="0.85"/>
+  <circle cx="200" cy="515" r="32" fill="#ff6b5e" opacity="0.9"/>
+  <rect x="160" y="150" width="880" height="230" rx="28" fill="#ffffff" opacity="0.12"/>
+  <rect x="160" y="150" width="880" height="230" rx="28" fill="none" stroke="#ffffff" stroke-opacity="0.45" stroke-width="1.5"/>
+  <text x="600" y="255" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="800" fill="#ffffff" text-anchor="middle">Réduire les tokens</text>
+  <text x="600" y="330" font-family="Arial, Helvetica, sans-serif" font-size="40" font-weight="700" fill="#ffffff" text-anchor="middle" opacity="0.92">des assistants IA de code</text>
+  <rect x="360" y="430" width="220" height="52" rx="26" fill="#ffffff"/>
+  <text x="470" y="464" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="800" fill="#0066cc" text-anchor="middle">rtk</text>
+  <rect x="620" y="430" width="220" height="52" rx="26" fill="#ffffff"/>
+  <text x="730" y="464" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="800" fill="#19c3b2" text-anchor="middle">graphify</text>
+  <text x="600" y="540" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="600" fill="#ffffff" text-anchor="middle" opacity="0.85">deux couches complémentaires</text>
+</svg>
