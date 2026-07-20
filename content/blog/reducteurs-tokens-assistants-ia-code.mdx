@@ -69,9 +69,17 @@ C'est cette logique de couches empilées qui rend l'approche intéressante. Aucu
 
 ## Situer l'écosystème : MCP, skills et compression
 
-rtk et graphify ne sont pas seuls. Plusieurs autres leviers agissent sur la consommation de tokens, chacun à sa manière.
+rtk et graphify ne sont pas seuls. Plusieurs autres leviers agissent sur la consommation de tokens, chacun à sa manière, et on peut les ranger dans les mêmes couches.
 
-Les serveurs MCP donnent à l'assistant un accès structuré à des sources externes, base de données, documentation ou API, sans copier de gros blocs de texte dans le contexte. Les skills encapsulent des comportements réutilisables et évitent de réexpliquer les mêmes procédures à chaque session. Les mécanismes de compression de contexte, intégrés à certains assistants, résument automatiquement les échanges anciens pour libérer de la place. Et de bonnes pratiques de travail, comme découper les tâches et repartir d'un contexte propre, comptent autant que l'outillage.
+### Sur la couche récupération du contexte
+
+Du côté de la récupération ciblée, graphify a des cousins. Serena expose le code via le protocole LSP sous forme de serveur MCP : l'assistant navigue par symboles et ne lit que les définitions utiles au lieu de fichiers entiers. Aider popularise depuis longtemps sa repo map, une carte du dépôt construite avec tree-sitter qui donne au modèle une vue d'ensemble compacte. Plus généralement, tout serveur MCP d'indexation ou de recherche structurée sur le code relève de cette famille.
+
+### Sur la couche contexte conversationnel
+
+Un autre levier agit sur l'historique de la conversation lui-même. Les mécanismes de compression intégrés, comme la compaction automatique de Claude Code, résument les échanges anciens pour libérer de la place. Des travaux comme LLMLingua, de Microsoft Research, vont plus loin en élaguant les tokens peu informatifs d'un prompt avant de l'envoyer au modèle. Enfin, les serveurs MCP donnent un accès structuré à des sources externes, base de données, documentation ou API, sans copier de gros blocs de texte, tandis que les skills encapsulent des comportements réutilisables et évitent de réexpliquer les mêmes procédures à chaque session.
+
+De bonnes pratiques de travail, comme découper les tâches et repartir d'un contexte propre, comptent autant que l'outillage.
 
 Chaque approche brille dans un cas précis. La compression de sortie brille sur les commandes bruyantes et répétées. La récupération ciblée brille sur les gros dépôts où charger des fichiers entiers coûte cher. Le MCP brille quand la donnée vit à l'extérieur du code. Bien maîtriser ces leviers fait partie de la démarche pour [monter en compétence sur Claude Code](/article/monter-en-competence-claude-code) et en tirer un vrai gain de productivité.
 
