@@ -1,7 +1,7 @@
+import Image from "next/image";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import RotatingKeywords from "@/components/ui/RotatingKeywords";
-import SourceCodeIllustration from "@/components/illustrations/SourceCodeIllustration";
 
 const keywords = [
   "Migration",
@@ -41,9 +41,14 @@ export default function Hero() {
             </div>
           </div>
           <div className="hidden justify-center md:flex">
-            <SourceCodeIllustration
+            <Image
+              src="/images/illustrations/source-code.svg"
+              alt="Illustration d'écran de code source représentant le développement web sur mesure"
+              width={500}
+              height={500}
               className="h-96 w-full"
-              aria-label="Illustration d'écran de code source représentant le développement web sur mesure"
+              priority
+              fetchPriority="high"
             />
           </div>
         </div>

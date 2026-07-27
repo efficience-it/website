@@ -68,6 +68,14 @@
   "composer-symfony": [
     400
   ],
+  "conformite-dora": [
+    400,
+    800
+  ],
+  "conformite-nis2": [
+    400,
+    800
+  ],
   "contributions-open-source": [
     400
   ],
@@ -116,6 +124,10 @@
     400
   ],
   "domain-symfony": [
+    400,
+    800
+  ],
+  "dora-fintech-symfony": [
     400,
     800
   ],
@@ -286,6 +298,18 @@
   ],
   "rejoindre-efficience-it": [
     400
+  ],
+  "reprise-application-symfony-prestataire": [
+    400,
+    800
+  ],
+  "rest-vs-graphql": [
+    400,
+    800
+  ],
+  "rgaa-symfony": [
+    400,
+    800
   ],
   "securite-informatique": [
     400
