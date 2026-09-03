@@ -224,7 +224,7 @@ Enqueue ne proposait pas cette abstraction. C'était un outil de queuing, pas un
 
 Si vous maintenez un projet qui utilise encore Enqueue, la migration vers Messenger est un investissement raisonnable. Les concepts se transposent : les `Producer` deviennent des appels à `MessageBusInterface::dispatch()`, les `Processor` deviennent des handlers marqués `#[AsMessageHandler]`, les topics et queues se mappent sur des transports Messenger.
 
-Le point d'attention principal est la coexistence pendant la migration. Si vos queues contiennent des messages au format Enqueue, vous devrez soit les vider avant de basculer, soit implémenter un serializer de transition qui comprend les deux formats. Privilégiez une migration progressive transport par transport plutôt qu'un big bang. La gestion des dépendances via [Composer](/article/utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques) est aussi un point d'attention : Enqueue et Messenger peuvent coexister temporairement dans le `composer.json` pendant la transition.
+Le point d'attention principal est la coexistence pendant la migration. Si vos queues contiennent des messages au format Enqueue, vous devrez soit les vider avant de basculer, soit implémenter un serializer de transition qui comprend les deux formats. Privilégiez une migration progressive transport par transport plutôt qu'un big bang. La gestion des dépendances via Composer est aussi un point d'attention : Enqueue et Messenger peuvent coexister temporairement dans le `composer.json` pendant la transition.
 
 ## Tableau comparatif Messenger vs Enqueue
 
@@ -253,8 +253,8 @@ Investissez dans un broker dédié dès que le volume dépasse quelques milliers
 
 Si vous souhaitez aller plus loin, nous mettons à disposition des développeurs spécialisés sur **Symfony** qui sauront intégrer Messenger dans vos projets. N'hésitez pas à nous contacter, ou à approfondir la [documentation officielle de Messenger](https://symfony.com/doc/current/messenger.html).
 
-- [Symfony Messenger : colonne vertébrale de l'architecture hexagonale](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale), aller plus loin avec Messenger
-- [Quelle architecture choisir : micro-service ou monolithe modulaire ?](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire), choix d'architecture
+- Symfony Messenger : colonne vertébrale de l'architecture hexagonale, aller plus loin avec Messenger
+- Quelle architecture choisir : micro-service ou monolithe modulaire ?, choix d'architecture
 - [Le domaine ne devrait jamais connaître Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony), isoler le domaine du framework
 - [Symfony Messenger : documentation officielle](https://symfony.com/doc/current/messenger.html), guide complet du composant
 - [RabbitMQ : site officiel](https://www.rabbitmq.com/), broker de messages

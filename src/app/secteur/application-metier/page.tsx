@@ -18,7 +18,7 @@ export const metadata = pageMetadata({
   title:
     "Développement d'applications métier sur mesure avec Symfony",
   description:
-    "Efficience IT développe des applications métier sur mesure avec Symfony : digitalisation de processus, outils internes et logiciels de gestion adaptés à votre activité.",
+    "Efficience IT développe des applications métier avec Symfony : digitalisation de processus, outils internes et logiciels de gestion.",
   path: "/secteur/application-metier",
 });
 
@@ -105,7 +105,7 @@ const service = serviceJsonLd({
 const webPage = webPageJsonLd({
   name: "Développement d'applications métier sur mesure avec Symfony",
   description:
-    "Efficience IT développe des applications métier sur mesure avec Symfony : digitalisation de processus, outils internes et logiciels de gestion adaptés à votre activité.",
+    "Efficience IT développe des applications métier avec Symfony : digitalisation de processus, outils internes et logiciels de gestion.",
   path: "/secteur/application-metier",
   datePublished: "2026-03-30",
   dateModified: "2026-03-30",
