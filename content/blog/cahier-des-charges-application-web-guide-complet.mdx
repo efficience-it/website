@@ -31,7 +31,7 @@ Un bon cahier des charges force à expliciter les choix, les priorités et les c
 
 Sans cahier des charges, chaque prestataire chiffre sa propre interprétation du besoin. Les devis sont incomparables et le moins cher n'est pas forcément le meilleur : il a peut-être simplement compris un périmètre plus restreint. Un document clair permet de comparer des propositions sur une base identique.
 
-Pour savoir comment évaluer les propositions, notre guide pour [choisir son prestataire Symfony](/article/comment-choisir-son-prestataire-symfony) détaille les critères. Et si votre projet concerne une application existante, notre article sur la [modernisation d'applications PHP legacy](/article/moderniser-application-php-legacy-sans-tout-reecrire) explique comment cadrer ce type de reprise.
+Pour savoir comment évaluer les propositions, notre guide pour [choisir son prestataire Symfony](/article/comment-choisir-son-prestataire-symfony) détaille les critères. Et si votre projet concerne une application existante, notre article sur la modernisation d'applications PHP legacy explique comment cadrer ce type de reprise.
 
 ## Structure d'un cahier des charges
 
@@ -47,19 +47,19 @@ Listez les fonctionnalités par ordre de priorité. Pour chaque fonctionnalité,
 
 Pour les projets complexes, les user stories sont un bon format : "En tant que [rôle], je veux [action] afin de [objectif]". Regroupez-les par module fonctionnel (gestion des utilisateurs, catalogue, commandes, reporting).
 
-Un [progiciel](/article/quels-sont-les-avantages-dun-progiciel-pour-votre-entreprise) métier aura des fonctionnalités très différentes d'une plateforme [e-commerce](/ecommerce-sylius) ou d'un outil [SaaS](/secteur/saas). Adaptez le niveau de détail à la complexité.
+Un [progiciel](/article/quels-sont-les-avantages-dun-progiciel-pour-votre-entreprise) métier aura des fonctionnalités très différentes d'une plateforme e-commerce ou d'un outil SaaS. Adaptez le niveau de détail à la complexité.
 
 ### Contraintes techniques
 
 Certaines contraintes techniques doivent être explicites dès le départ :
 
-- **Hébergement** : cloud, on-premise, [hébergement managé](/hebergement-symfony) ?
+- **Hébergement** : cloud, on-premise, hébergement managé ?
 - **Performance** : combien d'utilisateurs simultanés ? Quel temps de réponse cible ?
-- **Sécurité** : données sensibles ? Conformité RGPD ? [Sécurité applicative](/securite-application-symfony) spécifique ?
+- **Sécurité** : données sensibles ? Conformité RGPD ? Sécurité applicative spécifique ?
 - **Intégrations** : ERP, CRM, API tierces, système de paiement ?
-- **Accessibilité** : conformité [RGAA](/article/normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous) ?
+- **Accessibilité** : conformité RGAA ?
 
-Ces contraintes impactent directement l'architecture et le budget. Un prestataire Symfony spécialisé saura proposer les bonnes briques : [PostgreSQL](/base-de-donnees-postgresql-symfony) plutôt que MySQL pour les contraintes de performance, [Elasticsearch](/integration-elasticsearch-symfony) pour la recherche plein texte, [Redis](/integration-redis-symfony) pour le cache applicatif.
+Ces contraintes impactent directement l'architecture et le budget. Un prestataire Symfony spécialisé saura proposer les bonnes briques : PostgreSQL plutôt que MySQL pour les contraintes de performance, Elasticsearch pour la recherche plein texte, Redis pour le cache applicatif.
 
 ### Planning et budget
 
@@ -75,15 +75,15 @@ Un document trop détaillé est aussi problématique qu'un document trop vague. 
 
 ### Décrire la solution au lieu du besoin
 
-"Mettre un bouton vert en haut à droite qui ouvre une modale avec un tableau" n'est pas un besoin fonctionnel. C'est une spécification d'interface qui bride la créativité du prestataire. Décrivez le problème utilisateur, laissez le prestataire proposer la solution. La [dette technique](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) naît souvent de solutions imposées sans réflexion architecturale.
+"Mettre un bouton vert en haut à droite qui ouvre une modale avec un tableau" n'est pas un besoin fonctionnel. C'est une spécification d'interface qui bride la créativité du prestataire. Décrivez le problème utilisateur, laissez le prestataire proposer la solution. La dette technique naît souvent de solutions imposées sans réflexion architecturale.
 
 ### Ignorer la maintenance
 
-Le cahier des charges doit inclure une section sur la vie après la mise en production. Qui gère la [maintenance applicative](/maintenance-applicative-symfony) ? Quel est le processus pour les évolutions ? Quelle est la fréquence des [montées de version](/article/guide-de-migration-dans-un-projet-symfony) Symfony ? Anticiper ces questions évite les mauvaises surprises.
+Le cahier des charges doit inclure une section sur la vie après la mise en production. Qui gère la maintenance applicative ? Quel est le processus pour les évolutions ? Quelle est la fréquence des montées de version Symfony ? Anticiper ces questions évite les mauvaises surprises.
 
 ### Ne pas impliquer les utilisateurs finaux
 
-Les utilisateurs finaux sont les premiers concernés par l'application. Les exclure du cadrage, c'est prendre le risque de livrer un outil que personne n'utilise. L'[expérience utilisateur](/article/ameliorer-lexperience-utilisateur-grace-au-manifeste-des-applications-web) doit être au cœur de la réflexion dès le cahier des charges.
+Les utilisateurs finaux sont les premiers concernés par l'application. Les exclure du cadrage, c'est prendre le risque de livrer un outil que personne n'utilise. L'expérience utilisateur doit être au cœur de la réflexion dès le cahier des charges.
 
 ## Outils et ressources pour rédiger votre cahier des charges
 
@@ -93,7 +93,7 @@ Plusieurs approches peuvent vous aider à structurer votre réflexion :
 - **Ateliers fonctionnels** : des sessions de travail avec les parties prenantes pour cartographier les parcours utilisateurs, prioriser les fonctionnalités et identifier les contraintes. Ces ateliers sont plus productifs qu'un document rédigé en chambre.
 - **Prototypage** : des maquettes basse fidélité (wireframes) permettent de concrétiser le besoin et de valider l'ergonomie avant le développement. C'est un investissement modeste qui évite des remises en cause coûteuses en cours de projet.
 
-Pour les secteurs spécifiques, les contraintes métier varient fortement. Un projet [e-commerce](/secteur/e-commerce) n'a pas les mêmes exigences qu'une application [industrielle](/secteur/industrie) ou qu'un outil pour le [secteur financier](/secteur/finance). Le cahier des charges doit refléter ces spécificités.
+Pour les secteurs spécifiques, les contraintes métier varient fortement. Un projet e-commerce n'a pas les mêmes exigences qu'une application industrielle ou qu'un outil pour le secteur financier. Le cahier des charges doit refléter ces spécificités.
 
 ## Et si vous n'avez pas de cahier des charges ?
 
