@@ -25,9 +25,9 @@ La différence fondamentale entre Symfony et Laravel tient à leur philosophie. 
 
 ### Symfony : la rigueur au service de la maintenabilité
 
-Symfony repose sur des composants indépendants que l'on assemble selon les besoins du projet. La [documentation officielle de Symfony](https://symfony.com/doc/current/index.html) détaille cette approche modulaire. L'[injection de dépendances](/article/pourquoi-choisir-symfony-pour-vos-projets), le respect des [PSR](/article/qu-est-ce-que-les-psrs-et-a-quoi-servent-ils) et la séparation stricte des responsabilités sont au cœur du framework. Cette approche rend le code testable, maintenable et compréhensible par n'importe quel développeur qui rejoint le projet.
+Symfony repose sur des composants indépendants que l'on assemble selon les besoins du projet. La [documentation officielle de Symfony](https://symfony.com/doc/current/index.html) détaille cette approche modulaire. L'[injection de dépendances](/article/pourquoi-choisir-symfony-pour-vos-projets), le respect des PSR et la séparation stricte des responsabilités sont au cœur du framework. Cette approche rend le code testable, maintenable et compréhensible par n'importe quel développeur qui rejoint le projet.
 
-L'architecture hexagonale, le CQRS via [Symfony Messenger](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) et le Domain-Driven Design s'intègrent naturellement dans un projet Symfony. Ce n'est pas un hasard : le framework a été conçu pour les applications métier complexes qui vivent des années.
+L'architecture hexagonale, le CQRS via Symfony Messenger et le Domain-Driven Design s'intègrent naturellement dans un projet Symfony. Ce n'est pas un hasard : le framework a été conçu pour les applications métier complexes qui vivent des années.
 
 ### Laravel : la productivité avant tout
 
@@ -41,9 +41,9 @@ Symfony et Laravel partagent plus qu'on ne le pense. Laravel utilise en interne 
 
 ### ORM : Doctrine vs Eloquent
 
-Doctrine (Symfony) est un ORM de type Data Mapper : les entités sont de simples objets PHP, décorrélées de la base de données. Cela permet de respecter le principe de responsabilité unique et facilite les [tests automatisés](/tests-automatises-php). Le coût : une courbe d'apprentissage plus raide et une configuration plus verbeuse.
+Doctrine (Symfony) est un ORM de type Data Mapper : les entités sont de simples objets PHP, décorrélées de la base de données. Cela permet de respecter le principe de responsabilité unique et facilite les tests automatisés. Le coût : une courbe d'apprentissage plus raide et une configuration plus verbeuse.
 
-Eloquent (Laravel) est un ORM de type Active Record : chaque modèle hérite d'une classe qui porte à la fois la logique métier et l'accès aux données. C'est rapide à mettre en place, mais le couplage fort entre modèle et persistance rend le refactoring plus délicat quand l'application grandit. Pour approfondir les enjeux de choix de base de données, consultez notre [guide sur PostgreSQL et Symfony](/base-de-donnees-postgresql-symfony).
+Eloquent (Laravel) est un ORM de type Active Record : chaque modèle hérite d'une classe qui porte à la fois la logique métier et l'accès aux données. C'est rapide à mettre en place, mais le couplage fort entre modèle et persistance rend le refactoring plus délicat quand l'application grandit. Pour approfondir les enjeux de choix de base de données, consultez notre guide sur PostgreSQL et Symfony.
 
 ### Moteur de templates : Twig vs Blade
 
@@ -53,15 +53,15 @@ Twig (Symfony) impose une séparation stricte entre logique et présentation. Pa
 
 Les deux frameworks offrent des performances comparables pour la majorité des projets. La différence se joue sur l'optimisation fine et la scalabilité à grande échelle.
 
-Symfony dispose d'un système de cache multi-couches (HTTP, Doctrine, configuration) et s'intègre nativement avec [Redis](/integration-redis-symfony) et des reverse proxies comme Varnish. Notre article sur [la mise en cache](/article/tout-savoir-sur-la-mise-en-cache-tips) détaille ces stratégies.
+Symfony dispose d'un système de cache multi-couches (HTTP, Doctrine, configuration) et s'intègre nativement avec Redis et des reverse proxies comme Varnish. Notre article sur la mise en cache détaille ces stratégies.
 
 Laravel propose Octane (basé sur Swoole ou RoadRunner) pour les performances en temps réel, mais l'écosystème de cache et de scaling est moins mature que celui de Symfony pour les applications d'entreprise.
 
-Pour les projets qui nécessitent des performances extrêmes, les deux frameworks peuvent être couplés à [FrankenPHP](/article/concretement-cest-quoi-frankenphp) ou déployés dans des conteneurs [Docker](/integration-docker-symfony) optimisés.
+Pour les projets qui nécessitent des performances extrêmes, les deux frameworks peuvent être couplés à FrankenPHP ou déployés dans des conteneurs Docker optimisés.
 
 ## Tests et qualité de code
 
-La culture du test est profondément ancrée dans l'écosystème Symfony. PHPUnit est le standard, mais le framework encourage aussi les tests fonctionnels avec le WebTestCase, les tests de contrat API et les tests d'intégration avec Doctrine. Les outils d'analyse statique comme [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) et [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) complètent le dispositif.
+La culture du test est profondément ancrée dans l'écosystème Symfony. PHPUnit est le standard, mais le framework encourage aussi les tests fonctionnels avec le WebTestCase, les tests de contrat API et les tests d'intégration avec Doctrine. Les outils d'analyse statique comme PHPStan et Rector complètent le dispositif.
 
 Laravel propose aussi PHPUnit et un système de tests fonctionnels fluide. Les tests de feature sont bien intégrés et le système de factories facilite la création de données de test. La différence se joue surtout sur l'analyse statique : Laravel s'appuie moins sur des outils comme PHPStan, même si c'est techniquement possible.
 
@@ -79,8 +79,8 @@ Symfony est le bon choix quand :
 - L'équipe valorise la rigueur architecturale et les bonnes pratiques
 - L'application gère une logique métier complexe (DDD, CQRS, event sourcing)
 - La maintenabilité et la testabilité sont des priorités
-- Le projet nécessite une [architecture hexagonale](/architecture-hexagonale-symfony)
-- L'équipe prévoit des [montées de version régulières](/article/guide-de-migration-dans-un-projet-symfony)
+- Le projet nécessite une architecture hexagonale
+- L'équipe prévoit des montées de version régulières
 
 ## Quand choisir Laravel
 
@@ -94,7 +94,7 @@ Laravel est le bon choix quand :
 
 ## Et pour le e-commerce ?
 
-Pour les projets e-commerce, la comparaison se déplace vers les solutions spécialisées. Côté Symfony, [Sylius](/ecommerce-sylius) est la référence open source, construit nativement sur le framework. Côté Laravel, il n'existe pas d'équivalent aussi mature. Pour une comparaison détaillée des solutions e-commerce, consultez notre article [Sylius vs Prestashop](/article/sylius-vs-prestashop-quelle-solution-e-commerce-choisir).
+Pour les projets e-commerce, la comparaison se déplace vers les solutions spécialisées. Côté Symfony, Sylius est la référence open source, construit nativement sur le framework. Côté Laravel, il n'existe pas d'équivalent aussi mature. Pour une comparaison détaillée des solutions e-commerce, consultez notre article [Sylius vs Prestashop](/article/sylius-vs-prestashop-quelle-solution-e-commerce-choisir).
 
 Pour les projets qui comptent, ceux qui durent, qui évoluent et qui portent une logique métier exigeante, Symfony reste le choix le plus solide. La rigueur initiale paie sur le long terme : moins de dette technique, des montées de version fluides, un code que n'importe quel développeur senior peut reprendre sans documentation exhaustive. Laravel convient aux projets plus courts ou aux prototypes, mais quand la complexité arrive, les raccourcis du début deviennent des freins.
 

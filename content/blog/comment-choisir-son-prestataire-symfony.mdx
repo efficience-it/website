@@ -17,7 +17,7 @@ faq:
 
 Le choix d'un prestataire Symfony est l'une des décisions les plus structurantes d'un projet. Un bon prestataire livre un code maintenable, communique clairement et reste disponible dans la durée. Un mauvais prestataire génère de la dette technique, des retards et une facture qui explose. La différence n'est pas toujours visible au stade du devis.
 
-En tant qu'[agence Symfony spécialisée](/agence-symfony-france) depuis plus de dix ans, nous avons souvent été appelés pour [reprendre des projets](/reprise-projet-symfony) laissés par des prestataires inadaptés. Voici les critères qui comptent vraiment.
+En tant qu'[agence Symfony spécialisée](/agence-symfony-france) depuis plus de dix ans, nous avons souvent été appelés pour [reprendre des projets](/reprise-projet-symfony) laissés par des prestataires inadaptés. Voici les critères qui comptent vraiment. Si vous reprenez une application déjà construite, notre [checklist de due diligence technique](/article/due-diligence-technique-application-symfony-checklist-repreneur) complète cette grille.
 
 ## La spécialisation, premier critère
 
@@ -25,7 +25,7 @@ En tant qu'[agence Symfony spécialisée](/agence-symfony-france) depuis plus de
 
 Symfony est un framework puissant mais exigeant. Son écosystème (Doctrine, Messenger, API Platform, Twig, le composant Security) demande des années de pratique pour être maîtrisé. Un prestataire qui fait du Symfony "parmi d'autres technologies" n'a ni la profondeur technique ni les réflexes d'un spécialiste.
 
-Les conséquences d'un manque de spécialisation sont concrètes : des [conventions de code](/article/coding-conventions) non respectées, une architecture qui ne tire pas parti des composants Symfony, pas de [tests automatisés](/tests-automatises-php), pas d'analyse statique avec [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php). Le code fonctionne, mais il n'est ni maintenable ni évolutif.
+Les conséquences d'un manque de spécialisation sont concrètes : des conventions de code non respectées, une architecture qui ne tire pas parti des composants Symfony, pas de tests automatisés, pas d'analyse statique avec PHPStan. Le code fonctionne, mais il n'est ni maintenable ni évolutif.
 
 ### Les signaux de compétence
 
@@ -33,24 +33,24 @@ Plusieurs indicateurs permettent de jauger le niveau réel d'un prestataire Symf
 
 - **Contributions open source** : un prestataire qui contribue à l'écosystème Symfony (bundles, PRs, documentation) connaît le framework de l'intérieur. Les [contributions open source](/article/les-contributions-open-source-un-enjeu-de-taille-pour-les-developpeurs-et-les-projets) sont un signal fort.
 - **Certifications** : les [certifications Symfony et Sylius](/article/les-certifications-symfony-twig-symfony-sylius) délivrées par SensioLabs sont un gage de compétence technique vérifiable.
-- **Participation à la communauté** : présence aux [événements PHP et Symfony](/article/quels-evenements-suivre-dans-le-monde-de-symfony-php-quelles-differences-entre-eux) (Forum PHP, AFUP Day, SymfonyCon), publications techniques, meetups.
+- **Participation à la communauté** : présence aux événements PHP et Symfony (Forum PHP, AFUP Day, SymfonyCon), publications techniques, meetups.
 - **Qualité du code** : demandez un [audit de code](/audit-code-php) ou un extrait de projet anonymisé. La qualité se voit en quelques fichiers.
 
 ## L'approche technique
 
 ### Architecture et bonnes pratiques
 
-Un bon prestataire Symfony propose une architecture adaptée au projet, pas une architecture taille unique. Pour un MVP, un monolithe classique suffit. Pour une application métier complexe, une [architecture hexagonale](/architecture-hexagonale-symfony) ou un découpage en [monolithe modulaire](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) est plus pertinent.
+Un bon prestataire Symfony propose une architecture adaptée au projet, pas une architecture taille unique. Pour un MVP, un monolithe classique suffit. Pour une application métier complexe, une architecture hexagonale ou un découpage en monolithe modulaire est plus pertinent.
 
-Posez des questions sur l'approche : comment gèrent-ils l'[injection de dépendances](/article/pourquoi-choisir-symfony-pour-vos-projets) ? Utilisent-ils [Doctrine correctement](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) (Data Mapper, pas Active Record) ? Comment structurent-ils les [commandes console](/article/commandes-invocables-symfony-attributs-console) ? Les réponses révèlent le niveau réel.
+Posez des questions sur l'approche : comment gèrent-ils l'injection de dépendances ? Utilisent-ils Doctrine correctement (Data Mapper, pas Active Record) ? Comment structurent-ils les commandes console ? Les réponses révèlent le niveau réel.
 
 ### Tests et qualité
 
-Un prestataire sérieux livre du code testé. Les tests automatisés PHP ne sont pas un luxe : ils sont la condition de la maintenabilité. Demandez quel est le niveau de couverture cible, quels types de tests sont écrits (unitaires, fonctionnels, intégration), et si l'analyse statique ([PHPStan](/article/phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable), [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony)) fait partie du processus.
+Un prestataire sérieux livre du code testé. Les tests automatisés PHP ne sont pas un luxe : ils sont la condition de la maintenabilité. Demandez quel est le niveau de couverture cible, quels types de tests sont écrits (unitaires, fonctionnels, intégration), et si l'analyse statique (PHPStan, Rector) fait partie du processus.
 
 ### Gestion des montées de version
 
-Symfony publie une nouvelle version majeure tous les deux ans, avec des versions LTS supportées trois ans. Un prestataire sérieux planifie les [montées de version](/article/guide-de-migration-dans-un-projet-symfony) et les intègre au cycle de vie du projet. Demandez comment ils gèrent les migrations : automatisées avec Rector ? Progressives ? Documentées ?
+Symfony publie une nouvelle version majeure tous les deux ans, avec des versions LTS supportées trois ans. Un prestataire sérieux planifie les montées de version et les intègre au cycle de vie du projet. Demandez comment ils gèrent les migrations : automatisées avec Rector ? Progressives ? Documentées ?
 
 ## L'organisation et la communication
 
@@ -58,13 +58,13 @@ Symfony publie une nouvelle version majeure tous les deux ans, avec des versions
 
 La [méthodologie agile](/article/comment-rediger-un-cahier-de-charge-pour-un-projet-agile) (Scrum, Kanban) est devenue le standard, mais la qualité de l'exécution varie énormément. Un bon prestataire propose des sprints courts (2 semaines), des démos régulières, un backlog priorisé et une communication transparente sur les obstacles.
 
-L'[organisation en core team](/article/core-team-organisation-projet) avec des rôles clairs (Product Owner, tech lead, développeurs) est un signe de maturité organisationnelle. Méfiez-vous des prestataires qui ne nomment pas d'interlocuteur technique dédié : vous risquez de parler à un commercial qui traduit mal vos besoins, ce qui génère des écarts entre le brief et la livraison.
+L'organisation en core team avec des rôles clairs (Product Owner, tech lead, développeurs) est un signe de maturité organisationnelle. Méfiez-vous des prestataires qui ne nomment pas d'interlocuteur technique dédié : vous risquez de parler à un commercial qui traduit mal vos besoins, ce qui génère des écarts entre le brief et la livraison.
 
 La transparence sur les outils est aussi un bon indicateur. Un prestataire sérieux utilise un outil de gestion de projet (Jira, Linear, GitLab), un système de versioning (Git), une CI/CD automatisée et un processus de revue de code. Si ces pratiques ne sont pas en place, la qualité du code sera aléatoire.
 
 ### Continuité et disponibilité
 
-Un projet Symfony vit des années. La [maintenance applicative](/maintenance-applicative-symfony) est aussi importante que le développement initial. Vérifiez que le prestataire propose un contrat de TMA (Tierce Maintenance Applicative) et qu'il garantit la continuité des interlocuteurs.
+Un projet Symfony vit des années. La maintenance applicative est aussi importante que le développement initial. Vérifiez que le prestataire propose un contrat de TMA (Tierce Maintenance Applicative) et qu'il garantit la continuité des interlocuteurs.
 
 Un changement de prestataire en cours de projet est coûteux et risqué. Notre offre de reprise de projet Symfony existe pour faciliter ces transitions, mais l'idéal reste d'éviter le changement en choisissant bien dès le départ.
 
@@ -83,12 +83,12 @@ Le [site officiel de Symfony](https://symfony.com/) référence des agences cert
 Voici les questions qui font la différence lors d'un premier échange :
 
 - Quelle est votre expérience sur des projets similaires au nôtre ?
-- Comment gérez-vous la [dette technique](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) ?
+- Comment gérez-vous la dette technique ?
 - Quel est votre processus de revue de code ?
 - Comment gérez-vous les montées de version Symfony ?
-- Quelle est votre politique en matière de [sécurité applicative](/securite-application-symfony) ?
+- Quelle est votre politique en matière de sécurité applicative ?
 - Proposez-vous un audit technique avant de commencer ?
 
-Un dernier point souvent négligé : demandez des références clients dans un secteur proche du vôtre. Un prestataire qui a déjà livré des projets dans votre domaine (e-commerce, [finance](/secteur/finance), [industrie](/secteur/industrie), [SaaS](/secteur/saas)) comprendra vos contraintes métier sans phase d'apprentissage. Les problématiques de conformité, de performance et de scalabilité varient énormément d'un secteur à l'autre.
+Un dernier point souvent négligé : demandez des références clients dans un secteur proche du vôtre. Un prestataire qui a déjà livré des projets dans votre domaine (e-commerce, finance, industrie, SaaS) comprendra vos contraintes métier sans phase d'apprentissage. Les problématiques de conformité, de performance et de scalabilité varient énormément d'un secteur à l'autre.
 
-Chez Efficience IT, nous proposons un [audit Symfony gratuit de 30 minutes](/audit-symfony-gratuit) comme premier point de contact. C'est l'occasion de poser ces questions et de vérifier que le fit technique et humain est bon avant de s'engager. Si votre projet concerne une application existante, notre guide sur la [modernisation d'applications PHP legacy](/article/moderniser-application-php-legacy-sans-tout-reecrire) détaille l'approche à suivre.
+Chez Efficience IT, nous proposons un [audit Symfony gratuit de 30 minutes](/audit-symfony-gratuit) comme premier point de contact. C'est l'occasion de poser ces questions et de vérifier que le fit technique et humain est bon avant de s'engager. Si votre projet concerne une application existante, notre guide sur la modernisation d'applications PHP legacy détaille l'approche à suivre.

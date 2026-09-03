@@ -31,14 +31,14 @@ La bonne approche, c'est la modernisation progressive. On ne jette pas l'existan
 
 ## Étape 1 : diagnostiquer l'état réel
 
-Avant toute intervention, il faut comprendre où on met les pieds. Un [audit technique approfondi](/audit-code-php) cartographie la dette technique, identifie les risques et priorise les actions. Notre article sur [comment se passe un audit chez Efficience IT](/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede) détaille le processus.
+Avant toute intervention, il faut comprendre où on met les pieds. Un [audit technique approfondi](/audit-code-php) cartographie la dette technique, identifie les risques et priorise les actions. Notre article sur [comment se passe un audit chez Efficience IT](/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede) détaille le processus. Dans un contexte de rachat ou de reprise, la [checklist de due diligence technique](/article/due-diligence-technique-application-symfony-checklist-repreneur) liste les signaux à vérifier en priorité.
 
 Les points à évaluer en priorité :
 
 - **Version du framework** : Symfony 3, 4 ou 5 ? Laravel 5 ou 6 ? Pas de framework du tout ? Le [guide de migration Symfony](/article/guide-de-migration-dans-un-projet-symfony) détaille les implications de chaque version.
-- **Couverture de tests** : zéro test est courant dans les projets legacy. C'est le premier frein à toute évolution. Les [tests automatisés](/tests-automatises-php) sont la priorité numéro un.
-- **Qualité du code** : l'analyse statique avec [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) révèle les problèmes structurels invisibles à l'œil nu. Le [code mort](/article/code-mort-mission-elimination) accumulé est aussi un signal de dette.
-- **Infrastructure** : déploiements manuels, pas de CI/CD, serveur non maintenu ? Le passage à [Docker](/integration-docker-symfony) et à une pipeline d'intégration continue stabilise l'environnement avant même de toucher au code.
+- **Couverture de tests** : zéro test est courant dans les projets legacy. C'est le premier frein à toute évolution. Les tests automatisés sont la priorité numéro un.
+- **Qualité du code** : l'analyse statique avec PHPStan révèle les problèmes structurels invisibles à l'œil nu. Le code mort accumulé est aussi un signal de dette.
+- **Infrastructure** : déploiements manuels, pas de CI/CD, serveur non maintenu ? Le passage à Docker et à une pipeline d'intégration continue stabilise l'environnement avant même de toucher au code.
 
 L'[audit Symfony gratuit de 30 minutes](/audit-symfony-gratuit) est un bon point d'entrée pour une première évaluation.
 
@@ -56,7 +56,7 @@ Passer d'un déploiement manuel (FTP, SSH, "on fait attention") à une pipeline 
 
 ### Introduire l'analyse statique
 
-[PHPStan](/article/phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable) au niveau 1, puis progressivement monter. [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) pour automatiser les corrections de syntaxe et les mises à jour de code. Ces outils corrigent des centaines de problèmes sans intervention manuelle.
+PHPStan au niveau 1, puis progressivement monter. Rector pour automatiser les corrections de syntaxe et les mises à jour de code. Ces outils corrigent des centaines de problèmes sans intervention manuelle.
 
 ## Étape 3 : moderniser par modules
 
@@ -64,9 +64,9 @@ Une fois l'application stabilisée, la modernisation peut commencer. L'approche 
 
 ### L'approche Strangler Fig
 
-Inspirée du pattern [Strangler Fig](https://martinfowler.com/bliki/StranglerFigApplication.html) de Martin Fowler, cette stratégie consiste à construire les nouvelles fonctionnalités dans une architecture moderne (par exemple une [architecture hexagonale avec Symfony](/architecture-hexagonale-symfony)) tout en laissant l'ancien code en place. Progressivement, le nouveau code remplace l'ancien, module par module.
+Inspirée du pattern [Strangler Fig](https://martinfowler.com/bliki/StranglerFigApplication.html) de Martin Fowler, cette stratégie consiste à construire les nouvelles fonctionnalités dans une architecture moderne (par exemple une architecture hexagonale avec Symfony) tout en laissant l'ancien code en place. Progressivement, le nouveau code remplace l'ancien, module par module.
 
-Notre [retour d'expérience sur la migration vers une architecture hexagonale](/article/migration-symfony-architecture-hexagonale-retour-mission) détaille cette approche sur un cas concret. C'est la méthode que nous utilisons le plus souvent chez nos clients.
+Notre retour d'expérience sur la migration vers une architecture hexagonale détaille cette approche sur un cas concret. C'est la méthode que nous utilisons le plus souvent chez nos clients.
 
 ### Migrer le framework
 
@@ -74,7 +74,7 @@ Si l'application tourne sur un framework obsolète (Symfony 3, Zend Framework, C
 
 ### Extraire les services
 
-Les applications legacy sont souvent monolithiques : tout est dans le même code, sans séparation claire. L'extraction de services (authentification, notifications, calculs métier) dans des modules indépendants, reliés par [Symfony Messenger](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) ou des API internes, apporte de la flexibilité sans imposer une architecture micro-services complète. Notre article sur le [choix entre micro-services et monolithe modulaire](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) aide à trouver le bon équilibre.
+Les applications legacy sont souvent monolithiques : tout est dans le même code, sans séparation claire. L'extraction de services (authentification, notifications, calculs métier) dans des modules indépendants, reliés par Symfony Messenger ou des API internes, apporte de la flexibilité sans imposer une architecture micro-services complète. Notre article sur le choix entre micro-services et monolithe modulaire aide à trouver le bon équilibre.
 
 ## Étape 4 : sécuriser et pérenniser
 
@@ -82,13 +82,13 @@ La modernisation ne s'arrête pas à la refonte du code. Elle inclut la mise en 
 
 - **Pipeline CI/CD complète** : lint, analyse statique, tests, déploiement automatisé. Chaque PR est validée avant d'être mergée.
 - **Montées de version planifiées** : les [versions LTS de Symfony](https://symfony.com/releases) garantissent un support de 3 ans. Planifier les montées de version évite les ruptures.
-- **Documentation technique** : une documentation à jour, produite avec l'[approche Diataxis](/article/comment-produire-la-documentation-sur-votre-projet-symfony-avec-lapproche-diataxis), facilite l'onboarding des nouveaux développeurs et réduit la dépendance aux sachants.
-- **[Sécurité applicative](/securite-application-symfony)** : audit de sécurité, gestion des [CVE](/article/cve-comprendre-les-failles-pour-mieux-se-proteger), mises à jour régulières des dépendances.
+- **Documentation technique** : une documentation à jour, produite avec l'approche Diataxis, facilite l'onboarding des nouveaux développeurs et réduit la dépendance aux sachants.
+- **Sécurité applicative** : audit de sécurité, gestion des CVE, mises à jour régulières des dépendances.
 
 ## Faut-il internaliser ou externaliser ?
 
-La modernisation d'une application legacy demande des compétences pointues en Symfony, en architecture et en gestion de dette technique. Si votre équipe n'a pas ces compétences en interne, externaliser à un [prestataire spécialisé](/article/comment-choisir-son-prestataire-symfony) est souvent le choix le plus efficace.
+La modernisation d'une application legacy demande des compétences pointues en Symfony, en architecture et en gestion de dette technique. Si votre équipe n'a pas ces compétences en interne, externaliser à un prestataire spécialisé est souvent le choix le plus efficace.
 
-Notre offre de [reprise de projets Symfony](/reprise-projet-symfony) est conçue pour ces situations : nous prenons le relais sur des applications existantes, avec un audit honnête et une stabilisation progressive. Pour les équipes qui veulent monter en compétences en parallèle, nos [formations Symfony en entreprise](/formation-symfony-entreprise) combinent transfert de connaissances et travail sur le code réel du projet.
+Notre offre de [reprise de projets Symfony](/reprise-projet-symfony) est conçue pour ces situations : nous prenons le relais sur des applications existantes, avec un audit honnête et une stabilisation progressive. Pour les équipes qui veulent monter en compétences en parallèle, nos formations Symfony en entreprise combinent transfert de connaissances et travail sur le code réel du projet.
 
-La première étape, dans tous les cas, est un diagnostic. L'audit Symfony gratuit de 30 minutes permet d'évaluer la situation et de définir un plan d'action réaliste, sans engagement. Avant de rédiger un [cahier des charges](/article/cahier-des-charges-application-web-guide-complet), cet échange pose les bases du projet et évite de partir dans la mauvaise direction.
+La première étape, dans tous les cas, est un diagnostic. L'audit Symfony gratuit de 30 minutes permet d'évaluer la situation et de définir un plan d'action réaliste, sans engagement. Avant de rédiger un cahier des charges, cet échange pose les bases du projet et évite de partir dans la mauvaise direction.
