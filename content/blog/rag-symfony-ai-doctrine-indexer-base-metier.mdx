@@ -1,5 +1,5 @@
 ---
-title: "RAG avec Symfony AI et Doctrine : indexer sa base métier pour un agent IA"
+title: "RAG avec Symfony AI : indexer sa base métier"
 date: "2026-03-09"
 updatedAt: "2026-03-26"
 author: "Louis-Arnaud Catoire"
@@ -406,7 +406,7 @@ foreach ($batches as $batch) {
 }
 ```
 
-Le `$this->em->clear()` est essentiel pour libérer la mémoire entre chaque batch. Sans ça, Doctrine garde toutes les entités en mémoire et ton process explose sur un gros dataset. Les améliorations de [Doctrine ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) sur la gestion des entités rendent d'ailleurs ce type de traitement batch plus robuste.
+Le `$this->em->clear()` est essentiel pour libérer la mémoire entre chaque batch. Sans ça, Doctrine garde toutes les entités en mémoire et ton process explose sur un gros dataset. Les améliorations de Doctrine ORM 3.0 sur la gestion des entités rendent d'ailleurs ce type de traitement batch plus robuste.
 
 Pour l'indexation asynchrone, le handler Messenger :
 
@@ -534,7 +534,7 @@ Le RAG avec Symfony AI et Doctrine, c'est exactement le type de sujet qu'on ador
 
 - [Claude comme assistant d'architecture Symfony](/article/claude-assistant-architecture-symfony-legacy), IA et développement au quotidien
 - [Forces et faiblesses des IA génératives](/article/forces-et-faiblesses-des-ia-generatives-les-plus-utilisees), comparatif des modèles
-- [Symfony Messenger : colonne vertébrale de l'archi hexagonale](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale), gérer l'indexation asynchrone avec Messenger
+- Symfony Messenger : colonne vertébrale de l'archi hexagonale, gérer l'indexation asynchrone avec Messenger
 - [Le domaine ne devrait jamais connaître Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony), structurer les ports et adaptateurs autour du RAG
 - [Quel assistant IA choisir pour coder en 2026 ?](/article/quel-assistant-ia-choisir-pour-coder), choisir les LLM à connecter au pipeline RAG
 - [Serveurs MCP pour développeurs Symfony](/article/serveurs-mcp-claude-code-developpeurs-symfony), connecter Claude Code à sa base Doctrine via MCP

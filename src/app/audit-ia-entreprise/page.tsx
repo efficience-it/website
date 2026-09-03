@@ -19,7 +19,7 @@ export const metadata = pageMetadata({
   title:
     "Audit IA en entreprise et accompagnement",
   description:
-    "Efficience IT audite vos processus pour identifier les cas d'usage IA pertinents, vous accompagne dans la mise en place des outils et forme vos équipes à l'intelligence artificielle.",
+    "Efficience IT audite vos processus pour identifier les cas d'usage IA pertinents, déployer les outils et former vos équipes.",
   path: "/audit-ia-entreprise",
 });
 
@@ -162,7 +162,7 @@ const service = serviceJsonLd({
 const webPage = webPageJsonLd({
   name: "Audit IA en entreprise : diagnostic, accompagnement et formation",
   description:
-    "Efficience IT audite vos processus pour identifier les cas d'usage IA pertinents, vous accompagne dans la mise en place des outils et forme vos équipes à l'intelligence artificielle.",
+    "Efficience IT audite vos processus pour identifier les cas d'usage IA pertinents, déployer les outils et former vos équipes.",
   path: "/audit-ia-entreprise",
   datePublished: "2026-04-09",
   dateModified: "2026-04-09",

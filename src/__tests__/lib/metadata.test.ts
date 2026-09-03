@@ -89,8 +89,6 @@ describe("pageMetadata", () => {
     });
 
     const images = (result.openGraph as Record<string, unknown>).images;
-    expect(images).toEqual([
-      { url: "https://example.com/image.png", width: 1200, height: 630 },
-    ]);
+    expect(images).toEqual([{ url: "https://example.com/image.png" }]);
   });
 });
