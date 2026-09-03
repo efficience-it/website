@@ -23,15 +23,15 @@ En tant qu'[agence spécialisée Symfony et Sylius](/ecommerce-sylius), nous avo
 
 ### Sylius : Symfony natif
 
-Sylius est construit sur Symfony, comme le détaille la [documentation officielle de Sylius](https://docs.sylius.com/). Ce n'est pas un plugin ou une surcouche : c'est une application Symfony à part entière, avec toutes les implications que cela comporte. L'injection de dépendances, les events, le système de configuration, les [tests automatisés](/tests-automatises-php), tout est standard Symfony.
+Sylius est construit sur Symfony, comme le détaille la [documentation officielle de Sylius](https://docs.sylius.com/). Ce n'est pas un plugin ou une surcouche : c'est une application Symfony à part entière, avec toutes les implications que cela comporte. L'injection de dépendances, les events, le système de configuration, les tests automatisés, tout est standard Symfony.
 
-Pour un développeur Symfony, travailler sur Sylius ne demande aucune adaptation. Les [bonnes pratiques](/article/pourquoi-choisir-symfony-pour-vos-projets), les [bundles habituels](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony) et les outils de qualité ([PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php), PHPUnit) s'appliquent directement. L'architecture est pensée pour être étendue sans modifier le cœur : système de grilles, de ressources et de state machines configurables.
+Pour un développeur Symfony, travailler sur Sylius ne demande aucune adaptation. Les [bonnes pratiques](/article/pourquoi-choisir-symfony-pour-vos-projets), les bundles habituels et les outils de qualité (PHPStan, PHPUnit) s'appliquent directement. L'architecture est pensée pour être étendue sans modifier le cœur : système de grilles, de ressources et de state machines configurables.
 
 ### Prestashop : héritage et modernisation
 
 Prestashop a été créé avant l'adoption généralisée des frameworks PHP modernes. Le [projet Prestashop](https://github.com/PrestaShop/PrestaShop) est désormais open source sur GitHub, avec une communauté active de contributeurs. Son architecture historique mélange du code legacy, des controllers maison et un système de modules propre. Depuis la version 8, Prestashop intègre progressivement Symfony dans son back-office, mais le front-office et le cœur commercial restent sur l'architecture historique.
 
-Cette dualité rend le développement plus complexe : il faut connaître à la fois le système legacy de Prestashop et les composants Symfony du back-office. La [dette technique](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) accumulée est un frein réel pour les équipes qui souhaitent moderniser leur boutique.
+Cette dualité rend le développement plus complexe : il faut connaître à la fois le système legacy de Prestashop et les composants Symfony du back-office. La dette technique accumulée est un frein réel pour les équipes qui souhaitent moderniser leur boutique.
 
 ## Personnalisation et flexibilité
 
@@ -39,7 +39,7 @@ Cette dualité rend le développement plus complexe : il faut connaître à la f
 
 Sylius a été conçu pour les projets e-commerce atypiques. Son système de ressources permet de modifier n'importe quel comportement sans toucher au code source. Les promotions, les taxes, la gestion des stocks, le checkout : tout est configurable et extensible.
 
-Pour les entreprises qui ont des règles métier spécifiques (tarification complexe, workflows de validation, intégration avec un ERP), Sylius offre une flexibilité que Prestashop ne peut pas atteindre sans hacks. L'approche est similaire à celle d'une [architecture hexagonale](/architecture-hexagonale-symfony) : le métier est au centre, la technologie s'adapte.
+Pour les entreprises qui ont des règles métier spécifiques (tarification complexe, workflows de validation, intégration avec un ERP), Sylius offre une flexibilité que Prestashop ne peut pas atteindre sans hacks. L'approche est similaire à celle d'une architecture hexagonale : le métier est au centre, la technologie s'adapte.
 
 ### Prestashop : le marketplace de modules
 
@@ -49,13 +49,13 @@ Le revers : les modules sont souvent de qualité inégale, peu maintenus, et peu
 
 ## API et headless
 
-Sylius propose une API REST native (via [API Platform](/api-sur-mesure-symfony)) et supporte le mode headless de manière native. Le back-end gère le catalogue, les commandes et les paiements ; le front-end est libre (React, Vue.js, Next.js). Notre article sur le [développement frontend](/developpement-frontend) détaille les options disponibles.
+Sylius propose une API REST native (via API Platform) et supporte le mode headless de manière native. Le back-end gère le catalogue, les commandes et les paiements ; le front-end est libre (React, Vue.js, Next.js). Notre article sur le développement frontend détaille les options disponibles.
 
 Prestashop propose une API depuis la version 8, mais elle est moins mature et moins documentée que celle de Sylius. Le mode headless est possible mais demande plus de travail d'adaptation.
 
 ## Performance
 
-Les deux solutions sont performantes pour des catalogues de taille moyenne (quelques milliers de produits). Pour les gros catalogues, Sylius a l'avantage de pouvoir s'appuyer sur l'écosystème Symfony : [Elasticsearch pour la recherche](/integration-elasticsearch-symfony), [Redis pour le cache](/integration-redis-symfony), et un système de [mise en cache HTTP](/article/tout-savoir-sur-la-mise-en-cache-tips) éprouvé.
+Les deux solutions sont performantes pour des catalogues de taille moyenne (quelques milliers de produits). Pour les gros catalogues, Sylius a l'avantage de pouvoir s'appuyer sur l'écosystème Symfony : Elasticsearch pour la recherche, Redis pour le cache, et un système de mise en cache HTTP éprouvé.
 
 Prestashop peut aussi gérer de gros catalogues, mais les optimisations nécessitent souvent des modules payants ou du développement custom qui s'éloigne des standards du framework.
 
@@ -63,19 +63,19 @@ Prestashop peut aussi gérer de gros catalogues, mais les optimisations nécessi
 
 Prestashop bénéficie d'une communauté large et ancienne, avec des milliers de modules et d'agences partenaires. C'est un avantage pour trouver des ressources et de l'aide, mais la qualité est très variable.
 
-Sylius a une communauté plus petite mais plus technique, portée par l'écosystème Symfony. Les [conférences PHP et Symfony](/article/quels-evenements-suivre-dans-le-monde-de-symfony-php-quelles-differences-entre-eux) incluent régulièrement des présentations sur Sylius. La pérennité est assurée par l'adossement à Symfony, dont les versions LTS garantissent un support long terme.
+Sylius a une communauté plus petite mais plus technique, portée par l'écosystème Symfony. Les conférences PHP et Symfony incluent régulièrement des présentations sur Sylius. La pérennité est assurée par l'adossement à Symfony, dont les versions LTS garantissent un support long terme.
 
 ## Coût total de possession
 
 Le coût d'un projet e-commerce ne se limite pas au développement initial. Il inclut la maintenance, les mises à jour, les corrections de bugs et les évolutions fonctionnelles. C'est là que les deux solutions divergent le plus.
 
-Avec Sylius, le coût initial est généralement plus élevé car le développement est sur mesure. Mais la [maintenance applicative](/maintenance-applicative-symfony) est plus prévisible : le code est propre, testé, et les montées de version Symfony sont documentées. Le coût à 3-5 ans est souvent inférieur à celui de Prestashop.
+Avec Sylius, le coût initial est généralement plus élevé car le développement est sur mesure. Mais la maintenance applicative est plus prévisible : le code est propre, testé, et les montées de version Symfony sont documentées. Le coût à 3-5 ans est souvent inférieur à celui de Prestashop.
 
 Avec Prestashop, le coût initial est réduit grâce aux modules du marketplace. Mais les modules payants s'accumulent, les incompatibilités entre modules génèrent du support, et les mises à jour majeures cassent régulièrement des fonctionnalités. Le coût caché est réel et souvent sous-estimé lors du choix initial.
 
 ## Sécurité
 
-Sylius hérite de la sécurité de Symfony, qui est audité régulièrement et dispose d'un processus de [gestion des CVE](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) structuré. Les mises à jour de sécurité sont publiées rapidement et appliquées via Composer.
+Sylius hérite de la sécurité de Symfony, qui est audité régulièrement et dispose d'un processus de gestion des CVE structuré. Les mises à jour de sécurité sont publiées rapidement et appliquées via Composer.
 
 Prestashop a un historique de vulnérabilités plus chargé, en partie à cause de la surface d'attaque élargie par les modules tiers. Les modules du marketplace ne sont pas audités avec la même rigueur que le cœur du framework, ce qui crée des vecteurs d'attaque supplémentaires.
 
@@ -85,7 +85,7 @@ Prestashop a un historique de vulnérabilités plus chargé, en partie à cause 
 - Besoin d'un front headless ou d'une intégration API forte
 - Équipe Symfony existante ou volonté de capitaliser sur ce framework
 - Vision long terme avec exigences de maintenabilité
-- [Certifications Sylius](/article/les-certifications-symfony-twig-symfony-sylius) et expertise interne
+- Certifications Sylius et expertise interne
 
 ## Quand choisir Prestashop
 
