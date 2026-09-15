@@ -28,9 +28,6 @@
     400,
     800
   ],
-  "bundles-symfony": [
-    400
-  ],
   "cahier-des-charges-application-web": [
     400,
     800
@@ -58,9 +55,6 @@
     800
   ],
   "composer-symfony": [
-    400
-  ],
-  "contributions-open-source": [
     400
   ],
   "conventions-codage": [
@@ -153,6 +147,18 @@
     800
   ],
   "cover-normes-rgaa": [
+    400,
+    800
+  ],
+  "cover-bundles-symfony": [
+    400,
+    800
+  ],
+  "cover-contributions-open-source": [
+    400,
+    800
+  ],
+  "cover-vocabulaire-dev-web": [
     400,
     800
   ],
@@ -358,10 +364,6 @@
     1200
   ],
   "vivatech-2025": [
-    400,
-    800
-  ],
-  "vocabulaire-dev-web": [
     400,
     800
   ],
