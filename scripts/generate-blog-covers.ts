@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
-import sharp from "sharp";
+import sharp, { type Sharp } from "sharp";
 
 type Photo = {
   name: string;
@@ -117,7 +117,7 @@ async function loadPhoto(photo: Photo): Promise<Buffer> {
   return buffer;
 }
 
-async function focusCrop(source: sharp.Sharp, focusX: number, cropWidth: number): Promise<sharp.Sharp> {
+async function focusCrop(source: Sharp, focusX: number, cropWidth: number): Promise<Sharp> {
   const { width = 0, height = 0 } = await source.metadata();
   const scaledWidth = Math.max(cropWidth, Math.round((width * HEIGHT) / height));
   const visibleCenter = 120 + (WIDTH - PANEL) / 2;
