@@ -53,15 +53,7 @@
     400,
     800
   ],
-  "claude-symfony": [
-    400,
-    800
-  ],
   "code-mort": [
-    400,
-    800
-  ],
-  "commandes-invocables-symfony": [
     400,
     800
   ],
@@ -81,6 +73,18 @@
     800
   ],
   "core-team": [
+    400,
+    800
+  ],
+  "cover-claude-symfony": [
+    400,
+    800
+  ],
+  "cover-commandes-invocables-symfony": [
+    400,
+    800
+  ],
+  "cover-skills-claude-code": [
     400,
     800
   ],
@@ -294,10 +298,6 @@
     400
   ],
   "serveurs-mcp-symfony": [
-    400,
-    800
-  ],
-  "skills-claude-code-equipe-symfony": [
     400,
     800
   ],
