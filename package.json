@@ -12,6 +12,7 @@
     "knip:production": "knip --production",
     "test": "jest",
     "generate:image-variants": "npx -y tsx@4 scripts/generate-image-variants.ts",
+    "generate:blog-covers": "npx -y tsx@4 scripts/generate-blog-covers.ts",
     "audit:anchor-diversity": "npx -y tsx@4 scripts/audit-anchor-diversity.ts --all",
     "check:route-dates": "npx -y tsx@4 scripts/check-route-dates.ts",
     "check:unused-images": "npx -y tsx@4 .github/workflows/scripts/check-unused-images.ts"
