@@ -84,6 +84,18 @@
     400,
     800
   ],
+  "cover-dette-technique": [
+    400,
+    800
+  ],
+  "cover-fondation-php": [
+    400,
+    800
+  ],
+  "cover-migration-symfony": [
+    400,
+    800
+  ],
   "cve": [
     400,
     800
@@ -92,11 +104,6 @@
     400
   ],
   "deployer-nuxtjs": [
-    400,
-    800,
-    1200
-  ],
-  "dette-technique": [
     400,
     800,
     1200
@@ -150,9 +157,6 @@
     400,
     800
   ],
-  "fondation-php": [
-    400
-  ],
   "forum-php-2024": [
     400,
     800
@@ -193,11 +197,6 @@
     400
   ],
   "migration-mysql-postgresql": [
-    400,
-    800,
-    1200
-  ],
-  "migration-symfony": [
     400,
     800,
     1200
