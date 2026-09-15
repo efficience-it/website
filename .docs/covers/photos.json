@@ -160,7 +160,8 @@
     "file": "File:Spider web (54778527184).jpg",
     "license": "Public domain",
     "author": "U.S. Fish and Wildlife Service - Midwest Region",
-    "url": "https://commons.wikimedia.org/wiki/File:Spider_web_(54778527184).jpg"
+    "url": "https://commons.wikimedia.org/wiki/File:Spider_web_(54778527184).jpg",
+    "focusX": 0.53
   },
   "dbtoolsbundle-anonymiser-vos-bases-de-donnees": {
     "name": "dbtoolsbundle",
@@ -294,14 +295,16 @@
     "file": "File:Duck With Rings (Unsplash).jpg",
     "license": "CC0",
     "author": "Gary Bendig kris_ricepees",
-    "url": "https://commons.wikimedia.org/wiki/File:Duck_With_Rings_(Unsplash).jpg"
+    "url": "https://commons.wikimedia.org/wiki/File:Duck_With_Rings_(Unsplash).jpg",
+    "focusX": 0.47
   },
   "le-chocoblast-un-premier-pas-vers-la-securite-par-le-jeu": {
     "name": "chocoblast",
     "file": "File:Michał Grosicki 2017-04-14 (Unsplash).jpg",
     "license": "CC0",
     "author": "Michał Grosicki groosheck",
-    "url": "https://commons.wikimedia.org/wiki/File:Micha%C5%82_Grosicki_2017-04-14_(Unsplash).jpg"
+    "url": "https://commons.wikimedia.org/wiki/File:Micha%C5%82_Grosicki_2017-04-14_(Unsplash).jpg",
+    "focusX": 0.42
   },
   "les-6-etapes-pour-monter-en-competences-sur-symfony": {
     "name": "monter-competences-symfony",
@@ -526,7 +529,8 @@
     "file": "File:Honeycomb pattern in a facade (Unsplash).jpg",
     "license": "CC0",
     "author": "Fuse Brussels fusebrussels",
-    "url": "https://commons.wikimedia.org/wiki/File:Honeycomb_pattern_in_a_facade_(Unsplash).jpg"
+    "url": "https://commons.wikimedia.org/wiki/File:Honeycomb_pattern_in_a_facade_(Unsplash).jpg",
+    "focusX": 0.3
   },
   "rag-symfony-ai-doctrine-indexer-base-metier": {
     "name": "rag-symfony",
@@ -611,7 +615,8 @@
     "file": "File:Phare du Petit Minou, Plouzané, France (Unsplash).jpg",
     "license": "CC0",
     "author": "William Bout williambout",
-    "url": "https://commons.wikimedia.org/wiki/File:Phare_du_Petit_Minou,_Plouzan%C3%A9,_France_(Unsplash).jpg"
+    "url": "https://commons.wikimedia.org/wiki/File:Phare_du_Petit_Minou,_Plouzan%C3%A9,_France_(Unsplash).jpg",
+    "focusX": 0.5
   },
   "sylius-la-solution-e-commerce-du-framework-symfony": {
     "name": "sylius-ecommerce",
