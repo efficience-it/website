@@ -84,6 +84,18 @@
     400,
     800
   ],
+  "cover-doctavis": [
+    400,
+    800
+  ],
+  "cover-doctrine-orm-3": [
+    400,
+    800
+  ],
+  "cover-easyadmin-vs-forestadmin": [
+    400,
+    800
+  ],
   "cve": [
     400,
     800
@@ -104,14 +116,6 @@
   "diataxis-symfony": [
     400
   ],
-  "doctavis": [
-    400,
-    800,
-    1200
-  ],
-  "doctrine-orm-3": [
-    400
-  ],
   "documentation-technique": [
     400
   ],
@@ -122,9 +126,6 @@
   "due-diligence-symfony": [
     400,
     800
-  ],
-  "easyadmin-vs-forestadmin": [
-    400
   ],
   "eco-conception": [
     400,
