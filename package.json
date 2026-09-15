@@ -15,7 +15,7 @@
     "check:route-dates": "npx -y tsx@4 scripts/check-route-dates.ts"
   },
   "dependencies": {
-    "@tailwindcss/typography": "^0.5.19",
+    "@tailwindcss/typography": "^0.5.20",
     "gray-matter": "^4.0.3",
     "jspdf": "^4.2.1",
     "marked": "^4.3.0",
