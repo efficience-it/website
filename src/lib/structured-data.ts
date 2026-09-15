@@ -82,16 +82,6 @@ const websiteEntity = {
   publisher: { "@id": `${BASE_URL}/#organization` },
 };
 
-export const organizationJsonLd = {
-  "@context": "https://schema.org",
-  ...organizationEntity,
-};
-
-export const websiteJsonLd = {
-  "@context": "https://schema.org",
-  ...websiteEntity,
-};
-
 export const globalGraphJsonLd = {
   "@context": "https://schema.org",
   "@graph": [organizationEntity, websiteEntity],

@@ -137,7 +137,7 @@ const SYMFONY_AUDIT_CATEGORIES = new Set([
   "Qualité de code",
 ]);
 
-export function isTechCategory(category: string): boolean {
+function isTechCategory(category: string): boolean {
   return TECH_CATEGORIES.has(category);
 }
 

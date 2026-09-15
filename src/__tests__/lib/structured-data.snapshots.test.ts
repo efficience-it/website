@@ -6,24 +6,14 @@ import {
   faqPageJsonLd,
   globalGraphJsonLd,
   howToJsonLd,
-  organizationJsonLd,
   pageGraphJsonLd,
   reviewsJsonLd,
   serviceJsonLd,
   webPageJsonLd,
-  websiteJsonLd,
 } from "@/lib/structured-data";
 import type { BlogPost } from "@/types/blog";
 
 describe("structured-data snapshots", () => {
-  it("organizationJsonLd", () => {
-    expect(organizationJsonLd).toMatchSnapshot();
-  });
-
-  it("websiteJsonLd", () => {
-    expect(websiteJsonLd).toMatchSnapshot();
-  });
-
   it("globalGraphJsonLd", () => {
     expect(globalGraphJsonLd).toMatchSnapshot();
   });
