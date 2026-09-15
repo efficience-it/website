@@ -433,7 +433,8 @@
     "file": "File:Paintbrushes (Unsplash).jpg",
     "license": "CC0",
     "author": "Alex Mihis mcraftpix",
-    "url": "https://commons.wikimedia.org/wiki/File:Paintbrushes_(Unsplash).jpg"
+    "url": "https://commons.wikimedia.org/wiki/File:Paintbrushes_(Unsplash).jpg",
+    "focusX": 0.34
   },
   "playwright-tests-end-to-end-claude-code": {
     "name": "playwright",
