@@ -84,6 +84,18 @@
     400,
     800
   ],
+  "cover-conformite-dora": [
+    400,
+    800
+  ],
+  "cover-conformite-nis2": [
+    400,
+    800
+  ],
+  "cover-dora-fintech-symfony": [
+    400,
+    800
+  ],
   "cve": [
     400,
     800
