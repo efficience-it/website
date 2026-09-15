@@ -144,6 +144,18 @@
     400,
     800
   ],
+  "cover-docker-production": [
+    400,
+    800
+  ],
+  "cover-monofony": [
+    400,
+    800
+  ],
+  "cover-normes-rgaa": [
+    400,
+    800
+  ],
   "cve": [
     400,
     800
@@ -242,11 +254,6 @@
     400,
     800
   ],
-  "monofony": [
-    400,
-    800,
-    1200
-  ],
   "monter-competences-symfony": [
     400,
     800
@@ -263,14 +270,6 @@
   "nodejs-frameworks": [
     400,
     800
-  ],
-  "normes-rgaa": [
-    400,
-    800,
-    1200
-  ],
-  "pexels-tech": [
-    400
   ],
   "php-9": [
     400
