@@ -1,0 +1,695 @@
+{
+  "7-bonnes-raisons-de-rejoindre-efficience-it": {
+    "name": "rejoindre-efficience-it",
+    "file": "File:Wheeling, United States (Unsplash IMinUHfUs0).jpg",
+    "license": "CC0",
+    "author": "Matthew Clark matthewclarkrogers",
+    "url": "https://commons.wikimedia.org/wiki/File:Wheeling,_United_States_(Unsplash_IMinUHfUs0).jpg"
+  },
+  "ameliorer-lexperience-utilisateur-grace-au-manifeste-des-applications-web": {
+    "name": "manifeste-applications-web",
+    "file": "File:Orange flower bud (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Aaron Burden aaronburden",
+    "url": "https://commons.wikimedia.org/wiki/File:Orange_flower_bud_(Unsplash).jpg"
+  },
+  "api-rest-les-bonnes-pratiques": {
+    "name": "api-rest",
+    "file": "File:Abstract spiral pattern (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Samuel Zeller samuelzeller",
+    "url": "https://commons.wikimedia.org/wiki/File:Abstract_spiral_pattern_(Unsplash).jpg"
+  },
+  "arrives-au-max-des-id-int-2147483647": {
+    "name": "mysql-max-id",
+    "file": "File:Full moon partially obscured by atmosphere.jpg",
+    "license": "Public domain",
+    "author": "NASA",
+    "url": "https://commons.wikimedia.org/wiki/File:Full_moon_partially_obscured_by_atmosphere.jpg"
+  },
+  "bruno-alternative-open-source-postman-tester-api": {
+    "name": "bruno",
+    "file": "File:Water Drop Before It Hits The Water.jpg",
+    "license": "CC0",
+    "author": "Skitterphoto",
+    "url": "https://commons.wikimedia.org/wiki/File:Water_Drop_Before_It_Hits_The_Water.jpg"
+  },
+  "cahier-des-charges-application-web-guide-complet": {
+    "name": "cahier-des-charges-web",
+    "file": "File:Sunrise through the Pier (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Cassie Boca cassieboca",
+    "url": "https://commons.wikimedia.org/wiki/File:Sunrise_through_the_Pier_(Unsplash).jpg"
+  },
+  "claude-assistant-architecture-symfony-legacy": {
+    "name": "claude-symfony",
+    "file": "File:Tea bowl, Korea, Joseon dynasty, 16th century AD, Mishima-hakeme type, buncheong ware, stoneware with white engobe and translucent, greenish-gray glaze, gold lacquer - Ethnological Museum, Berlin - DSC02061.JPG",
+    "license": "CC0",
+    "author": "Daderot",
+    "url": "https://commons.wikimedia.org/wiki/File:Tea_bowl,_Korea,_Joseon_dynasty,_16th_century_AD,_Mishima-hakeme_type,_buncheong_ware,_stoneware_with_white_engobe_and_translucent,_greenish-gray_glaze,_gold_lacquer_-_Ethnological_Museum,_Berlin_-_DSC02061.JPG"
+  },
+  "code-mort-mission-elimination": {
+    "name": "code-mort",
+    "file": "File:Autumn forest floor (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Sérgio Rola sergio_rola",
+    "url": "https://commons.wikimedia.org/wiki/File:Autumn_forest_floor_(Unsplash).jpg"
+  },
+  "coding-conventions": {
+    "name": "conventions-codage",
+    "file": "File:Morning mist on lavender. Lavender Valley Farms, Oregon - Flickr - Bonnie Moreland (free images).jpg",
+    "license": "Public domain",
+    "author": "Bonnie Moreland from Oregon, United States",
+    "url": "https://commons.wikimedia.org/wiki/File:Morning_mist_on_lavender._Lavender_Valley_Farms,_Oregon_-_Flickr_-_Bonnie_Moreland_(free_images).jpg"
+  },
+  "commandes-invocables-symfony-attributs-console": {
+    "name": "commandes-invocables-symfony",
+    "file": "File:纽约, 美国 (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Yaoqi LAI yaoqiqiqilai",
+    "url": "https://commons.wikimedia.org/wiki/File:%E7%BA%BD%E7%BA%A6,_%E7%BE%8E%E5%9B%BD_(Unsplash).jpg"
+  },
+  "comment-choisir-son-prestataire-symfony": {
+    "name": "choisir-prestataire-symfony",
+    "file": "File:Stepping Stones, River Rothay, Under Loughriggs, Cumbria (44410834135).jpg",
+    "license": "Public domain",
+    "author": "Barry Marsh from London, England",
+    "url": "https://commons.wikimedia.org/wiki/File:Stepping_Stones,_River_Rothay,_Under_Loughriggs,_Cumbria_(44410834135).jpg"
+  },
+  "comment-executer-des-tests-postman-avec-newman-dans-gitlab-ci": {
+    "name": "postman-newman",
+    "file": "File:Aqueduct Segovia statue.jpg",
+    "license": "CC0",
+    "author": "Jebulon",
+    "url": "https://commons.wikimedia.org/wiki/File:Aqueduct_Segovia_statue.jpg"
+  },
+  "comment-former-vos-equipes-a-la-securite-informatique-en-toute-simplicite": {
+    "name": "securite-informatique",
+    "file": "File:Suricata suricatta suricatta 97088339.jpg",
+    "license": "CC0",
+    "author": "Dave Brown",
+    "url": "https://commons.wikimedia.org/wiki/File:Suricata_suricatta_suricatta_97088339.jpg"
+  },
+  "comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php": {
+    "name": "phpstan-qualite",
+    "file": "File:Snowflake macro (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Aaron Burden aaronburden",
+    "url": "https://commons.wikimedia.org/wiki/File:Snowflake_macro_(Unsplash).jpg"
+  },
+  "comment-produire-la-documentation-sur-votre-projet-symfony-avec-lapproche-diataxis": {
+    "name": "diataxis-symfony",
+    "file": "File:Spiral Staircase, Keck Center (U.S. National Academies).jpg",
+    "license": "CC0",
+    "author": "Jorge Mendoza",
+    "url": "https://commons.wikimedia.org/wiki/File:Spiral_Staircase,_Keck_Center_(U.S._National_Academies).jpg"
+  },
+  "comment-rediger-un-cahier-de-charge-pour-un-projet-agile": {
+    "name": "cahier-des-charges",
+    "file": "File:Rice terraces by ASAKAWA KOHJI.jpg",
+    "license": "CC0",
+    "author": "ASAKAWA KOHJI",
+    "url": "https://commons.wikimedia.org/wiki/File:Rice_terraces_by_ASAKAWA_KOHJI.jpg"
+  },
+  "comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede": {
+    "name": "audit-efficience-it",
+    "file": "File:Nautilus pompilius - Fernbank Museum of Natural History - DSC00294 cutted.JPG",
+    "license": "CC0",
+    "author": "User:Daderot",
+    "url": "https://commons.wikimedia.org/wiki/File:Nautilus_pompilius_-_Fernbank_Museum_of_Natural_History_-_DSC00294_cutted.JPG"
+  },
+  "comprendre-et-utiliser-le-bundle-alice-faker-dans-vos-projets-symfony": {
+    "name": "alice-faker",
+    "file": "File:Rocky Mountain National Park lake reflection.jpg",
+    "license": "Public domain",
+    "author": "National Park Service",
+    "url": "https://commons.wikimedia.org/wiki/File:Rocky_Mountain_National_Park_lake_reflection.jpg"
+  },
+  "concretement-cest-quoi-frankenphp": {
+    "name": "frankenphp",
+    "file": "File:Long exposure of plasma globe.jpg",
+    "license": "CC0",
+    "author": "Pixelmaniac pictures (Leave a reply)",
+    "url": "https://commons.wikimedia.org/wiki/File:Long_exposure_of_plasma_globe.jpg"
+  },
+  "conformite-dora-resilience-symfony": {
+    "name": "conformite-dora",
+    "file": "File:Pinus longaeva in snow Great Basin NP 1.jpg",
+    "license": "Public domain",
+    "author": "AnonymousUnknown author",
+    "url": "https://commons.wikimedia.org/wiki/File:Pinus_longaeva_in_snow_Great_Basin_NP_1.jpg"
+  },
+  "conformite-nis2-application-symfony": {
+    "name": "conformite-nis2",
+    "file": "File:Saint Nicolas Fort Rhodes Harbour night.jpg",
+    "license": "CC0",
+    "author": "Jebulon",
+    "url": "https://commons.wikimedia.org/wiki/File:Saint_Nicolas_Fort_Rhodes_Harbour_night.jpg"
+  },
+  "core-team-organisation-projet": {
+    "name": "core-team",
+    "file": "File:Jack mackerel school.jpg",
+    "license": "Public domain",
+    "author": "NMFS/Southwest Fisheries Science Center",
+    "url": "https://commons.wikimedia.org/wiki/File:Jack_mackerel_school.jpg"
+  },
+  "cve-comprendre-les-failles-pour-mieux-se-proteger": {
+    "name": "cve",
+    "file": "File:Spider web (54778527184).jpg",
+    "license": "Public domain",
+    "author": "U.S. Fish and Wildlife Service - Midwest Region",
+    "url": "https://commons.wikimedia.org/wiki/File:Spider_web_(54778527184).jpg"
+  },
+  "dbtoolsbundle-anonymiser-vos-bases-de-donnees": {
+    "name": "dbtoolsbundle",
+    "file": "File:Heavy fog above a forest (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Thomas Griesbeck jack_scorner",
+    "url": "https://commons.wikimedia.org/wiki/File:Heavy_fog_above_a_forest_(Unsplash).jpg"
+  },
+  "decouvrez-les-raisons-de-nous-confier-la-maintenance-de-vos-applications-web": {
+    "name": "maintenance-applicative",
+    "file": "File:Flat Garden - Portland Japanese Garden - Portland, Oregon - DSC08354.jpg",
+    "license": "CC0",
+    "author": "Daderot",
+    "url": "https://commons.wikimedia.org/wiki/File:Flat_Garden_-_Portland_Japanese_Garden_-_Portland,_Oregon_-_DSC08354.jpg"
+  },
+  "deployer-nuxtjs-avec-gitlab-ci-s3-et-cloudfront": {
+    "name": "deployer-nuxtjs",
+    "file": "File:International Space Station star trails - JSC2012E039800.jpg",
+    "license": "Public domain",
+    "author": "NASA/Don Pettit",
+    "url": "https://commons.wikimedia.org/wiki/File:International_Space_Station_star_trails_-_JSC2012E039800.jpg"
+  },
+  "doctavis-et-efficience-it-une-course-contre-la-montre-pour-sortir-un-mvp": {
+    "name": "doctavis",
+    "file": "File:Tucson - light trails.jpg",
+    "license": "CC0",
+    "author": "Thomas Elliott",
+    "url": "https://commons.wikimedia.org/wiki/File:Tucson_-_light_trails.jpg"
+  },
+  "doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees": {
+    "name": "doctrine-orm-3",
+    "file": "File:Sedimentary Rock Layers Zabriskie Point Death Valley USA.jpg",
+    "license": "CC0",
+    "author": "Brigitte Werner (werner22brigitte)",
+    "url": "https://commons.wikimedia.org/wiki/File:Sedimentary_Rock_Layers_Zabriskie_Point_Death_Valley_USA.jpg"
+  },
+  "domain-ne-devrait-jamais-connaitre-symfony": {
+    "name": "domain-symfony",
+    "file": "File:Lone tree Lake Wanaka. NZ (15479105003).jpg",
+    "license": "CC0",
+    "author": "Bernard Spragg. NZ from Christchurch, New Zealand",
+    "url": "https://commons.wikimedia.org/wiki/File:Lone_tree_Lake_Wanaka._NZ_(15479105003).jpg"
+  },
+  "dora-fintech-resilience-technique-symfony": {
+    "name": "dora-fintech-symfony",
+    "file": "File:Rough ocean crashing on beach (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Blair Fraser mrblairfraser",
+    "url": "https://commons.wikimedia.org/wiki/File:Rough_ocean_crashing_on_beach_(Unsplash).jpg"
+  },
+  "due-diligence-technique-application-symfony-checklist-repreneur": {
+    "name": "due-diligence-symfony",
+    "file": "File:Pyrolusite in moss agate (GeoDIL number - 41).jpg",
+    "license": "CC0",
+    "author": "Shannon Heinle",
+    "url": "https://commons.wikimedia.org/wiki/File:Pyrolusite_in_moss_agate_(GeoDIL_number_-_41).jpg"
+  },
+  "easy-admin-vs-forest-admin-differences-et-avantages": {
+    "name": "easyadmin-vs-forestadmin",
+    "file": "File:Menara Berkembar Petronas, Kuala Lumpur, Malaysia (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Vlad Shapochnikov vladshap",
+    "url": "https://commons.wikimedia.org/wiki/File:Menara_Berkembar_Petronas,_Kuala_Lumpur,_Malaysia_(Unsplash).jpg"
+  },
+  "eco-conception-un-ideal-en-marche-ou-une-illusion-durable": {
+    "name": "eco-conception",
+    "file": "File:Mossy Forest Floor (60670374).jpeg",
+    "license": "CC0",
+    "author": "Stefanie Leuker",
+    "url": "https://commons.wikimedia.org/wiki/File:Mossy_Forest_Floor_(60670374).jpeg"
+  },
+  "ecosia-preservateur-decologie": {
+    "name": "ecosia",
+    "file": "File:Magic light (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Ricardo Gomez Angel ripato",
+    "url": "https://commons.wikimedia.org/wiki/File:Magic_light_(Unsplash).jpg"
+  },
+  "elasticsearch-ou-algolia-moteur-de-recherche-symfony": {
+    "name": "elasticsearch-algolia",
+    "file": "File:Yukon Delta, Alaska.jpg",
+    "license": "Public domain",
+    "author": "Jesse Allen and Robert Simmon",
+    "url": "https://commons.wikimedia.org/wiki/File:Yukon_Delta,_Alaska.jpg"
+  },
+  "express-fastify-hono-quel-framework-nodejs-choisir": {
+    "name": "nodejs-frameworks",
+    "file": "File:Eugenes spectabilis in Costa Rica 01.jpg",
+    "license": "CC0",
+    "author": "Bernard Gagnon",
+    "url": "https://commons.wikimedia.org/wiki/File:Eugenes_spectabilis_in_Costa_Rica_01.jpg"
+  },
+  "forces-et-faiblesses-des-ia-generatives-les-plus-utilisees": {
+    "name": "ia-generatives",
+    "file": "File:Succulent center in macro (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Erol Ahmed erol",
+    "url": "https://commons.wikimedia.org/wiki/File:Succulent_center_in_macro_(Unsplash).jpg"
+  },
+  "geo-rendre-votre-application-symfony-visible-dans-les-moteurs-ia": {
+    "name": "geo-moteurs-ia",
+    "file": "File:Milky Way Glowworm Cave.jpg",
+    "license": "CC0",
+    "author": "Ian Fox at Waipu Caves Farm Park",
+    "url": "https://commons.wikimedia.org/wiki/File:Milky_Way_Glowworm_Cave.jpg"
+  },
+  "guide-de-migration-dans-un-projet-symfony": {
+    "name": "migration-symfony",
+    "file": "File:Migration (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Ethan Weil weilstyle",
+    "url": "https://commons.wikimedia.org/wiki/File:Migration_(Unsplash).jpg"
+  },
+  "la-dette-technique-faut-il-vraiment-en-avoir-peur": {
+    "name": "dette-technique",
+    "file": "File:Iceberg in North Star Bay, Greenland.jpg",
+    "license": "Public domain",
+    "author": "Jeremy Harbeck",
+    "url": "https://commons.wikimedia.org/wiki/File:Iceberg_in_North_Star_Bay,_Greenland.jpg"
+  },
+  "la-fondation-php-souffle-ses-trois-bougies": {
+    "name": "fondation-php",
+    "file": "File:2016-366-361 And We Are Three (31786939511).jpg",
+    "license": "CC0",
+    "author": "cogdogblog",
+    "url": "https://commons.wikimedia.org/wiki/File:2016-366-361_And_We_Are_Three_(31786939511).jpg"
+  },
+  "la-methode-du-canard-en-plastique-le-secret-des-developpeurs": {
+    "name": "canard-plastique",
+    "file": "File:Duck With Rings (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Gary Bendig kris_ricepees",
+    "url": "https://commons.wikimedia.org/wiki/File:Duck_With_Rings_(Unsplash).jpg"
+  },
+  "le-chocoblast-un-premier-pas-vers-la-securite-par-le-jeu": {
+    "name": "chocoblast",
+    "file": "File:Michał Grosicki 2017-04-14 (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Michał Grosicki groosheck",
+    "url": "https://commons.wikimedia.org/wiki/File:Micha%C5%82_Grosicki_2017-04-14_(Unsplash).jpg"
+  },
+  "les-6-etapes-pour-monter-en-competences-sur-symfony": {
+    "name": "monter-competences-symfony",
+    "file": "File:Gloomy staircase (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Boris Stefanik bstefanik",
+    "url": "https://commons.wikimedia.org/wiki/File:Gloomy_staircase_(Unsplash).jpg"
+  },
+  "les-bundles-les-plus-utilises-dans-les-projets-symfony": {
+    "name": "bundles-symfony",
+    "file": "File:Log pile in close-up (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Sven Scheuermeier sveninho",
+    "url": "https://commons.wikimedia.org/wiki/File:Log_pile_in_close-up_(Unsplash).jpg"
+  },
+  "les-certifications-symfony-twig-symfony-sylius": {
+    "name": "certifications-symfony",
+    "file": "File:Night falls on a Silverthorne mountain (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Nathan Anderson nathananderson",
+    "url": "https://commons.wikimedia.org/wiki/File:Night_falls_on_a_Silverthorne_mountain_(Unsplash).jpg"
+  },
+  "les-contributions-open-source-un-enjeu-de-taille-pour-les-developpeurs-et-les-projets": {
+    "name": "contributions-open-source",
+    "file": "File:Ants-sandy-ground (Unsplash).jpg",
+    "license": "CC0",
+    "author": "kazuend kazuend",
+    "url": "https://commons.wikimedia.org/wiki/File:Ants-sandy-ground_(Unsplash).jpg"
+  },
+  "les-evenements-incontournables-de-linnovation-2025": {
+    "name": "evenements-2025",
+    "file": "File:Spiral firework in mountains (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Wil Stewart wilstewart3",
+    "url": "https://commons.wikimedia.org/wiki/File:Spiral_firework_in_mountains_(Unsplash).jpg"
+  },
+  "llms-txt-le-nouveau-levier-seo-a-lere-de-lintelligence-artificielle": {
+    "name": "seo-ai",
+    "file": "File:Footprints on the sand beach (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Alex Wigan alwig64",
+    "url": "https://commons.wikimedia.org/wiki/File:Footprints_on_the_sand_beach_(Unsplash).jpg"
+  },
+  "mieux-comprendre-le-vocabulaire-des-developpeurs-web-guide-complet": {
+    "name": "vocabulaire-dev-web",
+    "file": "File:Chantilly library study (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Gabriel Ghnassia gabrielghnassia",
+    "url": "https://commons.wikimedia.org/wiki/File:Chantilly_library_study_(Unsplash).jpg"
+  },
+  "migration-mysql-postgresql-doctrine-guide": {
+    "name": "migration-mysql-postgresql",
+    "file": "File:Sandhill cranes in flight (26713772229).jpg",
+    "license": "Public domain",
+    "author": "USFWSAlaska",
+    "url": "https://commons.wikimedia.org/wiki/File:Sandhill_cranes_in_flight_(26713772229).jpg"
+  },
+  "migration-symfony-architecture-hexagonale-retour-mission": {
+    "name": "archi-hexagonale",
+    "file": "File:AEDC team members mark completion of 16S honeycomb (8205386).jpg",
+    "license": "Public domain",
+    "author": "U.S. Air Force photo by Staff Sgt. Keith Thornburgh",
+    "url": "https://commons.wikimedia.org/wiki/File:AEDC_team_members_mark_completion_of_16S_honeycomb_(8205386).jpg"
+  },
+  "migrer-du-serializer-vers-json-streamer-le-guide-honnete": {
+    "name": "json-streamer",
+    "file": "File:Quartzville Creek Wild and Scenic River (19737006398).jpg",
+    "license": "Public domain",
+    "author": "Bureau of Land Management Oregon and Washington",
+    "url": "https://commons.wikimedia.org/wiki/File:Quartzville_Creek_Wild_and_Scenic_River_(19737006398).jpg"
+  },
+  "moderniser-application-php-legacy-sans-tout-reecrire": {
+    "name": "php-legacy",
+    "file": "File:Restoration work Parthenon facade Acropolis Athens Greece.jpg",
+    "license": "CC0",
+    "author": "Jebulon",
+    "url": "https://commons.wikimedia.org/wiki/File:Restoration_work_Parthenon_facade_Acropolis_Athens_Greece.jpg"
+  },
+  "monofony-le-guide-ultime-pour-les-debutants": {
+    "name": "monofony",
+    "file": "File:Fern frond. (9572140631).jpg",
+    "license": "CC0",
+    "author": "Bernard Spragg. NZ from Christchurch, New Zealand",
+    "url": "https://commons.wikimedia.org/wiki/File:Fern_frond._(9572140631).jpg"
+  },
+  "monter-en-competence-claude-code": {
+    "name": "claude-code-competences",
+    "file": "File:Curving Dune Ridge (23991063297).jpg",
+    "license": "Public domain",
+    "author": "Great Sand Dunes National Park and Preserve",
+    "url": "https://commons.wikimedia.org/wiki/File:Curving_Dune_Ridge_(23991063297).jpg"
+  },
+  "normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous": {
+    "name": "normes-rgaa",
+    "file": "File:Curved walkways new york (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Pipe A. pipeaguileram",
+    "url": "https://commons.wikimedia.org/wiki/File:Curved_walkways_new_york_(Unsplash).jpg"
+  },
+  "php-9-0-devoile-ce-que-vous-devez-savoir-avant-la-sortie": {
+    "name": "php-9",
+    "file": "File:Fog Ocean Sunrise (26530071313).jpg",
+    "license": "Public domain",
+    "author": "Shenandoah  National Park from Virginia",
+    "url": "https://commons.wikimedia.org/wiki/File:Fog_Ocean_Sunrise_(26530071313).jpg"
+  },
+  "php-vs-nodejs-quel-langage-backend-choisir": {
+    "name": "php-vs-nodejs",
+    "file": "File:Nizina River and Chitistone River Confluence (21425729180).jpg",
+    "license": "Public domain",
+    "author": "National Park Service, Alaska Region",
+    "url": "https://commons.wikimedia.org/wiki/File:Nizina_River_and_Chitistone_River_Confluence_(21425729180).jpg"
+  },
+  "phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable": {
+    "name": "phpstan-2",
+    "file": "File:20240622 Matterhorn.jpg",
+    "license": "CC0",
+    "author": "風景写真が好き",
+    "url": "https://commons.wikimedia.org/wiki/File:20240622_Matterhorn.jpg"
+  },
+  "phpstan-niveau-max-symfony-10-erreurs": {
+    "name": "phpstan-symfony",
+    "file": "File:Ice Eye Watching Star (210072813).jpeg",
+    "license": "CC0",
+    "author": "Emma Liang",
+    "url": "https://commons.wikimedia.org/wiki/File:Ice_Eye_Watching_Star_(210072813).jpeg"
+  },
+  "phpstorm-vscode-sublimetext-netbeans-quel-editeur-de-code-choisir": {
+    "name": "editeur-code",
+    "file": "File:Paintbrushes (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Alex Mihis mcraftpix",
+    "url": "https://commons.wikimedia.org/wiki/File:Paintbrushes_(Unsplash).jpg"
+  },
+  "playwright-tests-end-to-end-claude-code": {
+    "name": "playwright",
+    "file": "File:Into the Light (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Chris B scorpkris",
+    "url": "https://commons.wikimedia.org/wiki/File:Into_the_Light_(Unsplash).jpg"
+  },
+  "pourquoi-choisir-symfony-pour-vos-projets": {
+    "name": "pourquoi-symfony",
+    "file": "File:Nave of Sagrada Família, Barcelona, 2023.jpg",
+    "license": "CC0",
+    "author": "Julian Lupyan",
+    "url": "https://commons.wikimedia.org/wiki/File:Nave_of_Sagrada_Fam%C3%ADlia,_Barcelona,_2023.jpg"
+  },
+  "pourquoi-docker-est-indispensable-en-production-aujourdhui": {
+    "name": "docker-production",
+    "file": "File:Zoomed up picture of pomogranate.jpg",
+    "license": "CC0",
+    "author": "Pxhere",
+    "url": "https://commons.wikimedia.org/wiki/File:Zoomed_up_picture_of_pomogranate.jpg"
+  },
+  "prendre-int-uuid-ou-ulid-pour-un-index-de-base-de-donnees": {
+    "name": "int-uuid-ulid",
+    "file": "File:Ancient stump (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Gabriel Jimenez gabrielj_photography",
+    "url": "https://commons.wikimedia.org/wiki/File:Ancient_stump_(Unsplash).jpg"
+  },
+  "qu-est-ce-que-les-psrs-et-a-quoi-servent-ils": {
+    "name": "psr-php",
+    "file": "File:Gieboldehausen, Gustav-Adolf-Kirche, Orgel Prospektpfeifen.jpg",
+    "license": "CC0",
+    "author": "Yannick Bode",
+    "url": "https://commons.wikimedia.org/wiki/File:Gieboldehausen,_Gustav-Adolf-Kirche,_Orgel_Prospektpfeifen.jpg"
+  },
+  "que-vaut-rest-face-a-son-nouveau-challenger-graphql": {
+    "name": "rest-vs-graphql",
+    "file": "File:Translucent leaf in macro 1 (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Rodion Kutsaev frostroomhead",
+    "url": "https://commons.wikimedia.org/wiki/File:Translucent_leaf_in_macro_1_(Unsplash).jpg"
+  },
+  "quel-assistant-ia-choisir-pour-coder": {
+    "name": "copilot-vs-chatgpt",
+    "file": "File:Dispersive prism.png",
+    "license": "CC0",
+    "author": "Kelvinsong",
+    "url": "https://commons.wikimedia.org/wiki/File:Dispersive_prism.png"
+  },
+  "quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular": {
+    "name": "framework-javascript",
+    "file": "File:Summer In The City (228529513).jpeg",
+    "license": "CC0",
+    "author": "Erwin Bosman",
+    "url": "https://commons.wikimedia.org/wiki/File:Summer_In_The_City_(228529513).jpeg"
+  },
+  "quel-outil-choisir-pour-votre-documentation-technique": {
+    "name": "documentation-technique",
+    "file": "File:Estantería de la Biblioteca Vasconcelos.jpg",
+    "license": "CC0",
+    "author": "Jorge Mendoza",
+    "url": "https://commons.wikimedia.org/wiki/File:Estanter%C3%ADa_de_la_Biblioteca_Vasconcelos.jpg"
+  },
+  "quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire": {
+    "name": "microservices-monolithe",
+    "file": "File:Montreal's Habitat 67 at sunset (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Liana Carbone liana_inthesky",
+    "url": "https://commons.wikimedia.org/wiki/File:Montreal%27s_Habitat_67_at_sunset_(Unsplash).jpg"
+  },
+  "quelles-sont-les-differences-entre-symfony-messenger-php-enqueue-quoi-utiliser": {
+    "name": "messenger-vs-enqueue",
+    "file": "File:Milliken Park artificial waterfall, June 2018.jpg",
+    "license": "CC0",
+    "author": "Jason Zhang",
+    "url": "https://commons.wikimedia.org/wiki/File:Milliken_Park_artificial_waterfall,_June_2018.jpg"
+  },
+  "quels-evenements-suivre-dans-le-monde-de-symfony-php-quelles-differences-entre-eux": {
+    "name": "evenements-symfony-php",
+    "file": "File:Detail of burning sparkler.jpg",
+    "license": "CC0",
+    "author": "Jenu Prasad jenuprasad",
+    "url": "https://commons.wikimedia.org/wiki/File:Detail_of_burning_sparkler.jpg"
+  },
+  "quels-sont-les-avantages-dun-progiciel-pour-votre-entreprise": {
+    "name": "progiciel",
+    "file": "File:Honeycomb pattern in a facade (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Fuse Brussels fusebrussels",
+    "url": "https://commons.wikimedia.org/wiki/File:Honeycomb_pattern_in_a_facade_(Unsplash).jpg"
+  },
+  "rag-symfony-ai-doctrine-indexer-base-metier": {
+    "name": "rag-symfony",
+    "file": "File:Milky Way from Simeon, Virginia.png",
+    "license": "CC0",
+    "author": "Brandon Ghany  / Horizon Productions SFL",
+    "url": "https://commons.wikimedia.org/wiki/File:Milky_Way_from_Simeon,_Virginia.png"
+  },
+  "rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony": {
+    "name": "rector",
+    "file": "File:Monarch butterfly drying out it's wings after emerging from chrysalis in Wisconsin (28027169922).jpg",
+    "license": "Public domain",
+    "author": "USFWSmidwest",
+    "url": "https://commons.wikimedia.org/wiki/File:Monarch_butterfly_drying_out_it%27s_wings_after_emerging_from_chrysalis_in_Wisconsin_(28027169922).jpg"
+  },
+  "reducteurs-tokens-assistants-ia-code": {
+    "name": "reducteurs-tokens-ia",
+    "file": "File:Sand Ripples and Lone Sunflower (52259662108).jpg",
+    "license": "Public domain",
+    "author": "Great Sand Dunes National Park and Preserve",
+    "url": "https://commons.wikimedia.org/wiki/File:Sand_Ripples_and_Lone_Sunflower_(52259662108).jpg"
+  },
+  "reprise-application-symfony-prestataire": {
+    "name": "reprise-symfony",
+    "file": "File:Boston ivy, railroad viaduct, South Side, 2021-10-23, 02.jpg",
+    "license": "CC0",
+    "author": "Cbaile19",
+    "url": "https://commons.wikimedia.org/wiki/File:Boston_ivy,_railroad_viaduct,_South_Side,_2021-10-23,_02.jpg"
+  },
+  "retour-sur-lafup-day-2023": {
+    "name": "afup-day-2023",
+    "file": "File:White ceiling architecture (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Jeremy Yap jeremyyappy",
+    "url": "https://commons.wikimedia.org/wiki/File:White_ceiling_architecture_(Unsplash).jpg"
+  },
+  "retour-sur-lafup-day-2024": {
+    "name": "afup-day-2024",
+    "file": "File:Empty concert hall in Katowice (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Radek Grzybowski rgrzybowski",
+    "url": "https://commons.wikimedia.org/wiki/File:Empty_concert_hall_in_Katowice_(Unsplash).jpg"
+  },
+  "retour-sur-lafup-day-2025-lille-php-a-lhonneur-communaute-au-coeur": {
+    "name": "afup-day-2025",
+    "file": "File:Hanging paper lanterns (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Alphacolor 13 duck58cth",
+    "url": "https://commons.wikimedia.org/wiki/File:Hanging_paper_lanterns_(Unsplash).jpg"
+  },
+  "retour-sur-le-forum-php-2024": {
+    "name": "forum-php-2024",
+    "file": "File:Balloons over Bagan (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Sven Scheuermeier sveninho",
+    "url": "https://commons.wikimedia.org/wiki/File:Balloons_over_Bagan_(Unsplash).jpg"
+  },
+  "rgaa-remediation-technique-symfony": {
+    "name": "rgaa-symfony",
+    "file": "File:Framed Arch and Stairs at AGO in Toronto (Unsplash).jpg",
+    "license": "CC0",
+    "author": "C.S. MacPherson csmacpherson",
+    "url": "https://commons.wikimedia.org/wiki/File:Framed_Arch_and_Stairs_at_AGO_in_Toronto_(Unsplash).jpg"
+  },
+  "serveurs-mcp-claude-code-developpeurs-symfony": {
+    "name": "serveurs-mcp-symfony",
+    "file": "File:Laguncularia racemosa (9103314756).jpg",
+    "license": "Public domain",
+    "author": "Everglades NPS from Homestead, Florida, United States",
+    "url": "https://commons.wikimedia.org/wiki/File:Laguncularia_racemosa_(9103314756).jpg"
+  },
+  "skills-claude-code-equipe-symfony": {
+    "name": "skills-claude-code",
+    "file": "File:Shaving wood (Unsplash).jpg",
+    "license": "CC0",
+    "author": "fireskystudios.com asthetik",
+    "url": "https://commons.wikimedia.org/wiki/File:Shaving_wood_(Unsplash).jpg"
+  },
+  "swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on": {
+    "name": "swagger-nelmio",
+    "file": "File:Phare du Petit Minou, Plouzané, France (Unsplash).jpg",
+    "license": "CC0",
+    "author": "William Bout williambout",
+    "url": "https://commons.wikimedia.org/wiki/File:Phare_du_Petit_Minou,_Plouzan%C3%A9,_France_(Unsplash).jpg"
+  },
+  "sylius-la-solution-e-commerce-du-framework-symfony": {
+    "name": "sylius-ecommerce",
+    "file": "File:Tlaquepaque Umbrellas.jpg",
+    "license": "CC0",
+    "author": "Luis Ramirez",
+    "url": "https://commons.wikimedia.org/wiki/File:Tlaquepaque_Umbrellas.jpg"
+  },
+  "symfony-ai-projet-legacy-retour-experience": {
+    "name": "symfony-ai",
+    "file": "File:Cabin Window (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Steinar Engeland steinart",
+    "url": "https://commons.wikimedia.org/wiki/File:Cabin_Window_(Unsplash).jpg"
+  },
+  "symfony-insight-a-quoi-ca-sert-et-comment-le-met-on-en-place": {
+    "name": "symfony-insight",
+    "file": "File:Blue-abstract-glass-balls (24243418471).jpg",
+    "license": "CC0",
+    "author": "www.Pixel.la Free Stock Photos",
+    "url": "https://commons.wikimedia.org/wiki/File:Blue-abstract-glass-balls_(24243418471).jpg"
+  },
+  "symfony-messenger-colonne-vertebrale-archi-hexagonale": {
+    "name": "symfony-messenger",
+    "file": "File:Giants Causeway (33163714898).jpg",
+    "license": "CC0",
+    "author": "Darren Shilson from St Stephen, UK, United Kingdom",
+    "url": "https://commons.wikimedia.org/wiki/File:Giants_Causeway_(33163714898).jpg"
+  },
+  "symfony-php-fin-de-support-eol-plan-action": {
+    "name": "fin-de-support-symfony-php",
+    "file": "File:Dandelion-wind-blown-seeds-333093.jpg",
+    "license": "CC0",
+    "author": "Michael Schwarzenberger",
+    "url": "https://commons.wikimedia.org/wiki/File:Dandelion-wind-blown-seeds-333093.jpg"
+  },
+  "symfony-pour-les-moldus": {
+    "name": "symfony-moldus",
+    "file": "File:Germany (Unsplash bi rAlI3xP4).jpg",
+    "license": "CC0",
+    "author": "Yasemin K. yasi",
+    "url": "https://commons.wikimedia.org/wiki/File:Germany_(Unsplash_bi_rAlI3xP4).jpg"
+  },
+  "symfony-vs-laravel-quel-framework-php-choisir": {
+    "name": "symfony-vs-laravel",
+    "file": "File:C R O W S (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Anton Darius | Sollers thesollers",
+    "url": "https://commons.wikimedia.org/wiki/File:C_R_O_W_S_(Unsplash).jpg"
+  },
+  "tout-savoir-sur-la-mise-en-cache-tips": {
+    "name": "mise-en-cache",
+    "file": "File:Jokulsarlon Ice Caves (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Adam Jang adamjang",
+    "url": "https://commons.wikimedia.org/wiki/File:Jokulsarlon_Ice_Caves_(Unsplash).jpg"
+  },
+  "twig-4-ce-que-lon-pourrait-attendre": {
+    "name": "twig-4",
+    "file": "File:Frosty Twig (50724126847).jpg",
+    "license": "Public domain",
+    "author": "USFWS Mountain Prairie",
+    "url": "https://commons.wikimedia.org/wiki/File:Frosty_Twig_(50724126847).jpg"
+  },
+  "utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques": {
+    "name": "composer-symfony",
+    "file": "File:Star- and Hexagonal-Tile Panel MET wb-37.40.26d.jpeg",
+    "license": "CC0",
+    "author": "",
+    "url": "https://commons.wikimedia.org/wiki/File:Star-_and_Hexagonal-Tile_Panel_MET_wb-37.40.26d.jpeg"
+  },
+  "vivatech-2025-linnovation-au-rendez-vous": {
+    "name": "vivatech-2025",
+    "file": "File:Dome Of Gardens (217288853).jpeg",
+    "license": "CC0",
+    "author": "Aditya Chinchure",
+    "url": "https://commons.wikimedia.org/wiki/File:Dome_Of_Gardens_(217288853).jpeg"
+  },
+  "wasm-ou-container-que-choisir-en-2026": {
+    "name": "wasm-vs-container",
+    "file": "File:Frozen soap bubble behind fir twigs (Unsplash BojuZpqw4zM).jpg",
+    "license": "CC0",
+    "author": "aaronburden Aaron Burden from Baltimore, Maryland, USA.",
+    "url": "https://commons.wikimedia.org/wiki/File:Frozen_soap_bubble_behind_fir_twigs_(Unsplash_BojuZpqw4zM).jpg"
+  }
+}
