@@ -9,6 +9,7 @@ type Photo = {
   license: string;
   author: string;
   url: string;
+  focusX?: number;
 };
 
 type Cover = {
@@ -116,9 +117,21 @@ async function loadPhoto(photo: Photo): Promise<Buffer> {
   return buffer;
 }
 
+async function focusCrop(source: sharp.Sharp, focusX: number, cropWidth: number): Promise<sharp.Sharp> {
+  const { width = 0, height = 0 } = await source.metadata();
+  const scaledWidth = Math.max(cropWidth, Math.round((width * HEIGHT) / height));
+  const visibleCenter = 120 + (WIDTH - PANEL) / 2;
+  const left = Math.min(Math.max(Math.round(focusX * scaledWidth - visibleCenter), 0), scaledWidth - cropWidth);
+  const resized = await source.resize(scaledWidth, HEIGHT, { fit: "cover" }).toBuffer();
+  return sharp(resized).extract({ left, top: 0, width: cropWidth, height: HEIGHT });
+}
+
 async function renderCover(cover: Cover, photo: Photo): Promise<Buffer> {
-  const base = await sharp(await loadPhoto(photo))
-    .resize(WIDTH - PANEL + 120, HEIGHT, { fit: "cover", position: sharp.strategy.attention })
+  const cropWidth = WIDTH - PANEL + 120;
+  const source = sharp(await loadPhoto(photo));
+  const base = await (photo.focusX === undefined
+    ? source.resize(cropWidth, HEIGHT, { fit: "cover", position: sharp.strategy.attention })
+    : await focusCrop(source, photo.focusX, cropWidth))
     .modulate({ saturation: 0.9 })
     .toBuffer();
   return sharp({ create: { width: WIDTH, height: HEIGHT, channels: 3, background: "#f5f7fa" } })

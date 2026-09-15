@@ -39,7 +39,8 @@
     "file": "File:Sunrise through the Pier (Unsplash).jpg",
     "license": "CC0",
     "author": "Cassie Boca cassieboca",
-    "url": "https://commons.wikimedia.org/wiki/File:Sunrise_through_the_Pier_(Unsplash).jpg"
+    "url": "https://commons.wikimedia.org/wiki/File:Sunrise_through_the_Pier_(Unsplash).jpg",
+    "focusX": 0.485
   },
   "claude-assistant-architecture-symfony-legacy": {
     "name": "claude-symfony",
