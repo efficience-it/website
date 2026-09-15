@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { findUnusedImages, run, walk } from "../../../scripts/lib/unused-images";
+import { findUnusedImages, run, walk } from "../../../.github/workflows/scripts/lib/unused-images";
 
 function writeFile(root: string, relativePath: string, content = ""): void {
   const fullPath = path.join(root, relativePath);

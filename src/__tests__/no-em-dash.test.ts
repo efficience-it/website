@@ -7,6 +7,7 @@ const ROOT = process.cwd();
 function getFiles(): string[] {
   return glob.sync("**/*.{tsx,ts,mdx}", {
     cwd: ROOT,
+    dot: true,
     ignore: ["node_modules/**", ".next/**", ".claude/**", "jest.setup.ts", "**/__test-empty-frontmatter__.mdx"],
   });
 }
