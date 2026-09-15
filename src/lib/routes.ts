@@ -108,7 +108,7 @@ export const STATIC_SILOS: RouteSilo[] = [
     id: "blog",
     title: "Blog",
     routes: [
-      { path: "/blog", label: "Tous les articles", lastModified: "2026-03-11", changeFrequency: "weekly", priority: 0.9 },
+      { path: "/blog", label: "Tous les articles", lastModified: "2026-09-15", changeFrequency: "weekly", priority: 0.9 },
     ],
   },
   {
