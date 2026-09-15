@@ -18,18 +18,18 @@ jobs:
     name: "Ship"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
       - run: npm ci --prefer-offline --no-audit --no-fund
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: public/images/blog/responsive
           key: img-variants-${{ hashFiles('public/images/blog/*.webp', 'scripts/generate-image-variants.ts') }}
           restore-keys: img-variants-
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: .next/cache
           key: nextjs-${{ hashFiles('package-lock.json') }}-${{ hashFiles('**/*.ts', '**/*.tsx') }}
@@ -47,7 +47,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/deploy-pages@v4
+      - uses: actions/deploy-pages@v5
         id: deployment
 
   ping-indexers:
@@ -57,7 +57,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - uses: actions/setup-node@v4
