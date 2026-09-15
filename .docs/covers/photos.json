@@ -625,6 +625,14 @@
     "author": "Luis Ramirez",
     "url": "https://commons.wikimedia.org/wiki/File:Tlaquepaque_Umbrellas.jpg"
   },
+  "sylius-vs-prestashop-quelle-solution-e-commerce-choisir": {
+    "name": "sylius-vs-prestashop",
+    "file": "File:Otisville river road sunset from above (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Aaron Burden aaronburden",
+    "url": "https://commons.wikimedia.org/wiki/File:Otisville_river_road_sunset_from_above_(Unsplash).jpg",
+    "focusX": 0.5
+  },
   "symfony-ai-projet-legacy-retour-experience": {
     "name": "symfony-ai",
     "file": "File:Cabin Window (Unsplash).jpg",
@@ -673,6 +681,13 @@
     "license": "CC0",
     "author": "Adam Jang adamjang",
     "url": "https://commons.wikimedia.org/wiki/File:Jokulsarlon_Ice_Caves_(Unsplash).jpg"
+  },
+  "traefik-ou-nginx-en-production": {
+    "name": "traefik-ou-nginx",
+    "file": "File:Nighttime Railroad Station (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Athena Lam thecupandtheroad",
+    "url": "https://commons.wikimedia.org/wiki/File:Nighttime_Railroad_Station_(Unsplash).jpg"
   },
   "twig-4-ce-que-lon-pourrait-attendre": {
     "name": "twig-4",
