@@ -84,6 +84,18 @@
     400,
     800
   ],
+  "cover-int-uuid-ulid": [
+    400,
+    800
+  ],
+  "cover-psr-php": [
+    400,
+    800
+  ],
+  "cover-rest-vs-graphql": [
+    400,
+    800
+  ],
   "cve": [
     400,
     800
@@ -166,11 +178,6 @@
   "ia-generatives": [
     400,
     800
-  ],
-  "int-uuid-ulid": [
-    400,
-    800,
-    1200
   ],
   "json-streamer": [
     400,
@@ -268,10 +275,6 @@
   ],
   "progiciel": [
     400
-  ],
-  "psr-php": [
-    400,
-    800
   ],
   "rag-symfony": [
     400,
