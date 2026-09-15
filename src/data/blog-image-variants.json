@@ -76,11 +76,19 @@
     800,
     1200
   ],
-  "copilot-vs-chatgpt": [
+  "core-team": [
     400,
     800
   ],
-  "core-team": [
+  "cover-copilot-vs-chatgpt": [
+    400,
+    800
+  ],
+  "cover-evenements-symfony-php": [
+    400,
+    800
+  ],
+  "cover-messenger-vs-enqueue": [
     400,
     800
   ],
@@ -184,9 +192,6 @@
     400
   ],
   "manifeste-applications-web": [
-    400
-  ],
-  "messenger-vs-enqueue": [
     400
   ],
   "microservices-monolithe": [
