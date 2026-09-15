@@ -84,6 +84,18 @@
     400,
     800
   ],
+  "cover-evenements-2025": [
+    400,
+    800
+  ],
+  "cover-phpstan-2": [
+    400,
+    800
+  ],
+  "cover-seo-ai": [
+    400,
+    800
+  ],
   "cve": [
     400,
     800
@@ -141,10 +153,6 @@
   ],
   "elasticsearch-algolia": [
     400
-  ],
-  "evenements-2025": [
-    400,
-    800
   ],
   "fin-de-support-symfony-php": [
     400,
@@ -246,9 +254,6 @@
     400,
     800
   ],
-  "phpstan-2": [
-    400
-  ],
   "phpstan-symfony": [
     400,
     800
@@ -288,9 +293,6 @@
     400
   ],
   "securite-informatique": [
-    400
-  ],
-  "seo-ai": [
     400
   ],
   "serveurs-mcp-symfony": [
