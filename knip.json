@@ -1,4 +1,7 @@
 {
   "$schema": "https://unpkg.com/knip@6/schema.json",
+  "entry": ["scripts/*.ts!", ".github/workflows/scripts/*.ts!"],
+  "project": ["**/*.{js,mjs,ts,tsx,css}!", "!jest.setup.ts!"],
+  "ignoreIssues": { "scripts/lib/**": ["exports"], ".github/workflows/scripts/lib/**": ["exports"] },
   "ignoreDependencies": ["postcss", "sharp"]
 }
