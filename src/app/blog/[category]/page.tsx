@@ -14,6 +14,7 @@ import type { Metadata } from "next";
 import { breadcrumbJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import FadeIn from "@/components/ui/FadeIn";
 import CallToAction from "@/components/sections/CallToAction";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 
 const categoryDescriptions: Record<string, string> = {
   Agence:
@@ -95,6 +96,7 @@ export default async function BlogCategoryPage({
     <main>
       <section className="bg-light-gray py-16 md:py-24">
         <Container className="text-center">
+          <Breadcrumb items={[{ label: "Blog", href: "/blog" }, { label: categoryName }]} />
           <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
             {categoryName}
           </h1>
