@@ -1,10 +1,28 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import { BlogPost, ArticleKind } from "@/types/blog";
+import { BlogPost, ArticleKind, BlogLanguage } from "@/types/blog";
 import { TECH_ENTITIES, type TechKey } from "@/lib/structured-data";
 
 const BLOG_DIR = path.join(process.cwd(), "content/blog");
+const BLOG_DIR_EN = path.join(BLOG_DIR, "en");
+
+const TRANSLATION_REQUIRED_FIELDS = [
+  "translationOf",
+  "translatedFromUpdatedAt",
+  "reviewedBy",
+  "reviewedAt",
+] as const;
+
+function postsDirectory(language: BlogLanguage): string {
+  return language === "en" ? BLOG_DIR_EN : BLOG_DIR;
+}
+
+function asString(value: unknown): string | undefined {
+  if (typeof value === "string") return value;
+  if (value instanceof Date) return value.toISOString().slice(0, 10);
+  return undefined;
+}
 
 function parseMainTech(value: unknown): TechKey[] | undefined {
   if (!Array.isArray(value)) return undefined;
@@ -39,36 +57,78 @@ export function readingTime(wordCount: number): number {
   return Math.max(1, Math.round(wordCount / 200));
 }
 
-export function getAllPosts(): BlogPost[] {
-  const files = fs.readdirSync(BLOG_DIR).filter((f) => f.endsWith(".mdx"));
+function parsePost(
+  slug: string,
+  language: BlogLanguage,
+  data: Record<string, unknown>,
+  content: string,
+): BlogPost {
+  return {
+    slug,
+    title: (data.title as string) ?? "",
+    date: (data.date as string) ?? "",
+    author: (data.author as string) ?? "",
+    category: (data.category as string) ?? "",
+    kind: parseArticleKind(data.category, data.kind),
+    language,
+    excerpt: (data.excerpt as string) ?? "",
+    updatedAt: data.updatedAt as string | undefined,
+    image: data.image as string | undefined,
+    imageCaption: data.imageCaption as string | undefined,
+    imageGeoLocation: data.imageGeoLocation as string | undefined,
+    translationOf: asString(data.translationOf),
+    translatedFromUpdatedAt: asString(data.translatedFromUpdatedAt),
+    reviewedBy: asString(data.reviewedBy),
+    reviewedAt: asString(data.reviewedAt),
+    proficiencyLevel: data.proficiencyLevel as BlogPost["proficiencyLevel"],
+    faq: data.faq as BlogPost["faq"],
+    event: data.event as BlogPost["event"],
+    howTo: data.howTo as BlogPost["howTo"],
+    mainTech: parseMainTech(data.mainTech),
+    content,
+    wordCount: countWords(content),
+  };
+}
+
+function validateTranslations(posts: BlogPost[]): void {
+  const frenchSlugs = new Set(
+    fs
+      .readdirSync(BLOG_DIR)
+      .filter((f) => f.endsWith(".mdx"))
+      .map((f) => f.replace(/\.mdx$/, "")),
+  );
+  const translated = new Set<string>();
+
+  for (const post of posts) {
+    const where = `content/blog/en/${post.slug}.mdx`;
+    for (const field of TRANSLATION_REQUIRED_FIELDS) {
+      if (!post[field]) throw new Error(`${where} : le champ ${field} est obligatoire.`);
+    }
+    const source = post.translationOf as string;
+    if (!frenchSlugs.has(source)) {
+      throw new Error(`${where} : l'article français "${source}" n'existe pas.`);
+    }
+    if (translated.has(source)) {
+      throw new Error(`${where} : l'article français "${source}" a déjà une traduction.`);
+    }
+    translated.add(source);
+  }
+}
+
+export function getAllPosts(language: BlogLanguage = "fr"): BlogPost[] {
+  const dir = postsDirectory(language);
+  if (!fs.existsSync(dir)) return [];
+
+  const files = fs.readdirSync(dir).filter((f) => f.endsWith(".mdx"));
 
   const posts = files.map((filename) => {
     const slug = filename.replace(/\.mdx$/, "");
-    const filePath = path.join(BLOG_DIR, filename);
-    const fileContent = fs.readFileSync(filePath, "utf-8");
+    const fileContent = fs.readFileSync(path.join(dir, filename), "utf-8");
     const { data, content } = matter(fileContent);
-
-    return {
-      slug,
-      title: data.title ?? "",
-      date: data.date ?? "",
-      author: data.author ?? "",
-      category: data.category ?? "",
-      kind: parseArticleKind(data.category, data.kind),
-      excerpt: data.excerpt ?? "",
-      updatedAt: data.updatedAt,
-      image: data.image,
-      imageCaption: data.imageCaption,
-      imageGeoLocation: data.imageGeoLocation,
-      proficiencyLevel: data.proficiencyLevel,
-      faq: data.faq,
-      event: data.event,
-      howTo: data.howTo,
-      mainTech: parseMainTech(data.mainTech),
-      content,
-      wordCount: countWords(content),
-    };
+    return parsePost(slug, language, data, content);
   });
+
+  if (language === "en") validateTranslations(posts);
 
   return posts.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
@@ -90,33 +150,19 @@ export function blogPagePath(page: number): string {
   return page === 1 ? "/blog" : `/blog/page/${page}`;
 }
 
-export function getPostBySlug(slug: string): BlogPost | undefined {
+export function getPostBySlug(slug: string, language: BlogLanguage = "fr"): BlogPost | undefined {
+  if (language === "en") return getAllPosts("en").find((p) => p.slug === slug);
+
   const filePath = path.join(BLOG_DIR, `${slug}.mdx`);
   if (!fs.existsSync(filePath)) return undefined;
 
-  const fileContent = fs.readFileSync(filePath, "utf-8");
-  const { data, content } = matter(fileContent);
+  const { data, content } = matter(fs.readFileSync(filePath, "utf-8"));
+  return parsePost(slug, "fr", data, content);
+}
 
-  return {
-    slug,
-    title: data.title ?? "",
-    date: data.date ?? "",
-    author: data.author ?? "",
-    category: data.category ?? "",
-    kind: parseArticleKind(data.category, data.kind),
-    excerpt: data.excerpt ?? "",
-    updatedAt: data.updatedAt,
-    image: data.image,
-    imageCaption: data.imageCaption,
-    imageGeoLocation: data.imageGeoLocation,
-    proficiencyLevel: data.proficiencyLevel,
-    faq: data.faq,
-    event: data.event,
-    howTo: data.howTo,
-    mainTech: parseMainTech(data.mainTech),
-    content,
-    wordCount: countWords(content),
-  };
+export function getTranslationOf(post: BlogPost): BlogPost | undefined {
+  if (post.language === "en") return getPostBySlug(post.translationOf as string);
+  return getAllPosts("en").find((p) => p.translationOf === post.slug);
 }
 
 export const categorySlugMap: Record<string, string> = {
