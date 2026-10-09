@@ -176,6 +176,17 @@ export default function NosReferences() {
               </div>
             ))}
           </div>
+          <div className="mt-10 rounded-lg border-l-4 border-primary bg-light-gray p-6 md:p-8">
+            <p className="text-sm font-semibold uppercase tracking-wider text-primary">
+              Institution européenne
+            </p>
+            <h3 className="mt-2 font-display text-2xl font-bold text-dark">
+              Parlement européen
+            </h3>
+            <p className="mt-3 text-lg text-gray">
+              Une institution de l&apos;Union européenne figure parmi nos clients.
+            </p>
+          </div>
         </Container>
       </section>
       </FadeIn>
