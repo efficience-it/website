@@ -61,6 +61,7 @@ export default function ContactForm() {
             type="text"
             id="name"
             name="name"
+            autoComplete="name"
             required
             className="mt-1 w-full rounded-md border border-border bg-white px-4 py-2 text-dark focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:bg-light-gray dark:text-dark"
           />
@@ -76,6 +77,7 @@ export default function ContactForm() {
             type="text"
             id="company"
             name="company"
+            autoComplete="organization"
             className="mt-1 w-full rounded-md border border-border bg-white px-4 py-2 text-dark focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:bg-light-gray dark:text-dark"
           />
         </div>
@@ -90,6 +92,7 @@ export default function ContactForm() {
             type="tel"
             id="phone"
             name="phone"
+            autoComplete="tel"
             className="mt-1 w-full rounded-md border border-border bg-white px-4 py-2 text-dark focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:bg-light-gray dark:text-dark"
           />
         </div>
@@ -104,6 +107,7 @@ export default function ContactForm() {
             type="email"
             id="email"
             name="email"
+            autoComplete="email"
             required
             className="mt-1 w-full rounded-md border border-border bg-white px-4 py-2 text-dark focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:bg-light-gray dark:text-dark"
           />
