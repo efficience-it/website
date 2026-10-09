@@ -53,7 +53,7 @@ export const STATIC_SILOS: RouteSilo[] = [
       { path: "/api-sur-mesure-symfony", label: "API sur mesure Symfony", lastModified: "2026-03-11", changeFrequency: "monthly", priority: 0.8 },
       { path: "/api-nodejs-nestjs", label: "API Node.js et NestJS", lastModified: "2026-03-11", changeFrequency: "monthly", priority: 0.8 },
       { path: "/architecture-hexagonale-symfony", label: "Architecture hexagonale Symfony", lastModified: "2026-06-18", changeFrequency: "monthly", priority: 0.8 },
-      { path: "/migration-symfony", label: "Migration Symfony", lastModified: "2026-03-12", changeFrequency: "monthly", priority: 0.8 },
+      { path: "/migration-symfony", label: "Migration Symfony", lastModified: "2026-10-09", changeFrequency: "monthly", priority: 0.8 },
       { path: "/modernisation-applicative", label: "Modernisation applicative", lastModified: "2026-03-16", changeFrequency: "monthly", priority: 0.85 },
       { path: "/modernisation-application-php", label: "Modernisation d'application PHP", lastModified: "2026-06-18", changeFrequency: "monthly", priority: 0.8 },
       { path: "/reprise-projet-symfony", label: "Reprise de projet Symfony", lastModified: "2026-06-18", changeFrequency: "monthly", priority: 0.8 },
