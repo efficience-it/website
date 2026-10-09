@@ -22,6 +22,10 @@ jest.mock("@/lib/blog", () => ({
 }));
 
 const getAllPostsMock = getAllPosts as jest.MockedFunction<typeof getAllPosts>;
+
+function mockPosts(french: ReturnType<typeof getAllPosts>, english: ReturnType<typeof getAllPosts> = []) {
+  getAllPostsMock.mockImplementation((language) => (language === "en" ? english : french));
+}
 const routeModule = jest.requireActual("@/app/sitemap-images.xml/route");
 const { GET, dynamic } = routeModule;
 
@@ -31,7 +35,7 @@ describe("GET /sitemap-images.xml", () => {
   });
 
   it("returns an image sitemap xml with static and blog images", async () => {
-    getAllPostsMock.mockReturnValue([
+    mockPosts([
       {
         slug: "article-1",
         title: "Article 1",
@@ -94,5 +98,31 @@ describe("GET /sitemap-images.xml", () => {
 
   it('exports "force-static" dynamic mode', () => {
     expect(dynamic).toBe("force-static");
+  });
+
+  it("lists English articles under /en/ with their own cover", async () => {
+    mockPosts(
+      [],
+      [
+        {
+          slug: "english-article",
+          title: "English article",
+          date: "2026-01-01",
+          author: "Author",
+          category: "Symfony",
+          kind: "tech",
+          language: "en",
+          excerpt: "English description",
+          image: "/images/blog/cover-english-en.webp",
+          content: "Body",
+          wordCount: 10,
+        },
+      ],
+    );
+
+    const xml = await GET().text();
+
+    expect(xml).toContain(`<loc>${BASE_URL}/en/article/english-article</loc>`);
+    expect(xml).toContain(`${BASE_URL}/images/blog/cover-english-en.webp`);
   });
 });

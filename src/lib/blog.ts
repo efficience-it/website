@@ -165,7 +165,7 @@ function getTranslationOf(post: BlogPost): BlogPost | undefined {
   return getAllPosts("en").find((p) => p.translationOf === post.slug);
 }
 
-function articlePath(post: BlogPost): string {
+export function articlePath(post: BlogPost): string {
   return post.language === "en" ? `/en/article/${post.slug}` : `/article/${post.slug}`;
 }
 
