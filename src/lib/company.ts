@@ -1,0 +1,5 @@
+export const FOUNDING_YEAR = 2018;
+export const TEAM_EXPERIENCE_YEARS = 10;
+export const PROJECTS_DELIVERED = 150;
+export const CLIENTS_SUPPORTED = 40;
+export const OPEN_SOURCE_CONTRIBUTIONS = 500;

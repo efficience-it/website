@@ -1,3 +1,9 @@
+import {
+  CLIENTS_SUPPORTED,
+  FOUNDING_YEAR,
+  PROJECTS_DELIVERED,
+  TEAM_EXPERIENCE_YEARS,
+} from "@/lib/company";
 import Image from "next/image";
 import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
@@ -21,7 +27,7 @@ import LastUpdated from "@/components/ui/LastUpdated";
 export const metadata = pageMetadata({
   title: "Pourquoi choisir Efficience IT pour vos projets Symfony",
   description:
-    "Agence Symfony vs freelance, ESN ou agence web : pourquoi choisir Efficience IT pour vos projets PHP. 10+ ans, 150+ projets, certifications Symfony.",
+    "Agence Symfony vs freelance, ESN ou agence web : pourquoi choisir Efficience IT pour vos projets PHP. Depuis 2018, 150+ projets, certifications Symfony.",
   path: "/pourquoi-efficience-it",
 });
 
@@ -76,7 +82,7 @@ const webPage = webPageJsonLd({
     "Agence Symfony vs freelance, ESN ou agence web : pourquoi choisir Efficience IT pour vos projets PHP et Symfony.",
   path: "/pourquoi-efficience-it",
   datePublished: "2026-04-03",
-  dateModified: "2026-04-03",
+  dateModified: "2026-10-09",
 });
 
 const relatedLinks: RelatedLink[] = [
@@ -176,7 +182,7 @@ export default function PourquoiEfficienceIt() {
                   >
                     agence 100 % spécialisée Symfony
                   </Link>
-                  . Depuis plus de 10 ans, nous concevons des applications web
+                  . Depuis {FOUNDING_YEAR}, nous concevons des applications web
                   robustes pour des PME et grands comptes exigeants.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -266,9 +272,9 @@ export default function PourquoiEfficienceIt() {
               </p>
               <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
                 <Card>
-                  <p className="font-display text-3xl font-bold text-primary">10+</p>
+                  <p className="font-display text-3xl font-bold text-primary">{TEAM_EXPERIENCE_YEARS}+</p>
                   <h3 className="mt-2 font-display text-lg font-bold text-dark">
-                    Années d&apos;expérience
+                    Années d&apos;expérience de l&apos;équipe
                   </h3>
                   <p className="mt-2 text-gray">
                     Une expertise forgée sur des projets{" "}
@@ -282,7 +288,7 @@ export default function PourquoiEfficienceIt() {
                   </p>
                 </Card>
                 <Card>
-                  <p className="font-display text-3xl font-bold text-primary">150+</p>
+                  <p className="font-display text-3xl font-bold text-primary">{PROJECTS_DELIVERED}+</p>
                   <h3 className="mt-2 font-display text-lg font-bold text-dark">
                     Projets livrés
                   </h3>
@@ -292,7 +298,7 @@ export default function PourquoiEfficienceIt() {
                   </p>
                 </Card>
                 <Card>
-                  <p className="font-display text-3xl font-bold text-primary">40+</p>
+                  <p className="font-display text-3xl font-bold text-primary">{CLIENTS_SUPPORTED}+</p>
                   <h3 className="mt-2 font-display text-lg font-bold text-dark">
                     Clients accompagnés
                   </h3>

@@ -27,13 +27,13 @@ export const STATIC_SILOS: RouteSilo[] = [
     title: "Agence et entreprise",
     routes: [
       { path: "/", label: "Accueil", lastModified: "2026-10-09", changeFrequency: "weekly", priority: 1.0 },
-      { path: "/l-entreprise", label: "Notre histoire", lastModified: "2025-09-01", changeFrequency: "monthly", priority: 0.7 },
+      { path: "/l-entreprise", label: "Notre histoire", lastModified: "2026-10-09", changeFrequency: "monthly", priority: 0.7 },
       { path: "/la-team", label: "La team", lastModified: "2026-06-18", changeFrequency: "monthly", priority: 0.6 },
       { path: "/ta-carriere", label: "Recrutement", lastModified: "2025-09-01", changeFrequency: "monthly", priority: 0.6 },
       { path: "/nos-references", label: "Nos références", lastModified: "2026-10-09", changeFrequency: "monthly", priority: 0.7 },
       { path: "/green-it", label: "Green IT", lastModified: "2025-09-01", changeFrequency: "monthly", priority: 0.7 },
       { path: "/processus-collaboration", label: "Processus de collaboration", lastModified: "2026-06-18", changeFrequency: "monthly", priority: 0.8 },
-      { path: "/pourquoi-efficience-it", label: "Pourquoi Efficience IT", lastModified: "2026-04-03", changeFrequency: "monthly", priority: 0.8 },
+      { path: "/pourquoi-efficience-it", label: "Pourquoi Efficience IT", lastModified: "2026-10-09", changeFrequency: "monthly", priority: 0.8 },
     ],
   },
   {
@@ -80,11 +80,11 @@ export const STATIC_SILOS: RouteSilo[] = [
     id: "villes",
     title: "Agences par ville",
     routes: [
-      { path: "/agence-symfony-france", label: "Agence Symfony en France", lastModified: "2026-06-18", changeFrequency: "monthly", priority: 0.8 },
-      { path: "/agence-symfony-lille", label: "Agence Symfony Lille", lastModified: "2026-03-11", changeFrequency: "monthly", priority: 0.8 },
-      { path: "/agence-symfony-paris", label: "Agence Symfony Paris", lastModified: "2026-03-20", changeFrequency: "monthly", priority: 0.8 },
-      { path: "/agence-symfony-lyon", label: "Agence Symfony Lyon", lastModified: "2026-06-18", changeFrequency: "monthly", priority: 0.8 },
-      { path: "/agence-symfony-nantes", label: "Agence Symfony Nantes", lastModified: "2026-06-18", changeFrequency: "monthly", priority: 0.8 },
+      { path: "/agence-symfony-france", label: "Agence Symfony en France", lastModified: "2026-10-09", changeFrequency: "monthly", priority: 0.8 },
+      { path: "/agence-symfony-lille", label: "Agence Symfony Lille", lastModified: "2026-10-09", changeFrequency: "monthly", priority: 0.8 },
+      { path: "/agence-symfony-paris", label: "Agence Symfony Paris", lastModified: "2026-10-09", changeFrequency: "monthly", priority: 0.8 },
+      { path: "/agence-symfony-lyon", label: "Agence Symfony Lyon", lastModified: "2026-10-09", changeFrequency: "monthly", priority: 0.8 },
+      { path: "/agence-symfony-nantes", label: "Agence Symfony Nantes", lastModified: "2026-10-09", changeFrequency: "monthly", priority: 0.8 },
     ],
   },
   {

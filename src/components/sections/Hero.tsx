@@ -1,3 +1,4 @@
+import { FOUNDING_YEAR } from "@/lib/company";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import RotatingKeywords from "@/components/ui/RotatingKeywords";
@@ -25,7 +26,7 @@ export default function Hero() {
               Votre application Symfony mérite mieux. On la stabilise, la migre et la rend maintenable.
             </p>
             <p className="mt-3 max-w-2xl text-base text-gray">
-              Depuis plus de 10 ans, nous accompagnons les PME, ETI et startups dans le développement, la modernisation et la maintenance de leurs applications PHP. Une équipe dédiée, un interlocuteur technique unique, des livraisons régulières.
+              Depuis {FOUNDING_YEAR}, nous accompagnons les PME, ETI et startups dans le développement, la modernisation et la maintenance de leurs applications PHP. Une équipe dédiée, un interlocuteur technique unique, des livraisons régulières.
             </p>
             <div className="mt-4 flex items-center gap-2 text-lg font-medium text-dark">
               <span className="inline-block h-2 w-2 rounded-full bg-primary" />
