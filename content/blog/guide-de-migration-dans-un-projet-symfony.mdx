@@ -6,19 +6,23 @@ category: "Symfony"
 excerpt: "Le framework Symfony est en constante évolution comme de nombreux aspects du développement web. Efficience IT surveille ces changements de près."
 image: "/images/blog/cover-migration-symfony.webp"
 proficiencyLevel: "Expert"
-updatedAt: "2026-01-13"
+updatedAt: "2026-10-09"
 faq:
   - question: "Combien de temps prend une migration Symfony ?"
     answer: "Ça dépend de la taille du projet et du nombre de versions à sauter. Une migration d'une version mineure (ex: 6.3 vers 6.4) prend quelques jours. Une migration majeure (ex: 4.4 vers 6.4) peut prendre plusieurs semaines. L'utilisation de Rector et PHPStan automatise 60 à 80% des changements et réduit considérablement le temps nécessaire."
   - question: "Peut-on migrer Symfony sans interruption de service ?"
     answer: "Oui, c'est l'approche que nous recommandons. En travaillant branche par branche et en résolvant les dépréciations progressivement, vous pouvez continuer à livrer des fonctionnalités pendant la migration. Les tests automatisés garantissent qu'aucune régression n'est introduite."
+  - question: "Faut-il passer à Symfony 8 ou rester sur la 7.4 LTS ?"
+    answer: "La 7.4 LTS est supportée jusqu'en novembre 2029 et reste le choix le plus stable pour une application métier. Symfony 8 exige PHP 8.4 et ses versions standard ne sont supportées qu'environ huit mois : la 8.0 n'est déjà plus maintenue, il faut viser la 8.1 ou plus récent."
   - question: "Que risque-t-on à rester sur une version Symfony non supportée ?"
     answer: "Les versions en fin de vie ne reçoivent plus de correctifs de sécurité. Votre application devient vulnérable aux failles connues (CVE). De plus, les nouvelles versions de PHP et des bundles tiers cessent de supporter les anciennes versions de Symfony, ce qui crée un effet domino sur tout l'écosystème."
 ---
 
 ## Comprendre le cycle de release Symfony
 
-Symfony suit un calendrier de publication prévisible qui structure toute stratégie de migration. Les versions mineures sortent deux fois par an, en mai et en novembre. Cette régularité s'inscrit dans la même logique que les [PSRs qui structurent l'écosystème PHP](/article/qu-est-ce-que-les-psrs-et-a-quoi-servent-ils) : des standards prévisibles qui facilitent la planification. Les versions majeures arrivent environ tous les deux ans. Chaque version mineure bénéficie de huit mois de corrections de bugs et de quatorze mois de correctifs de sécurité. Les versions LTS prolongent ce support à trois ans de corrections et quatre ans de sécurité.
+Symfony suit un calendrier de publication prévisible qui structure toute stratégie de migration. Les versions mineures sortent deux fois par an, en mai et en novembre. Cette régularité s'inscrit dans la même logique que les [PSRs qui structurent l'écosystème PHP](/article/qu-est-ce-que-les-psrs-et-a-quoi-servent-ils) : des standards prévisibles qui facilitent la planification. Les versions majeures arrivent environ tous les deux ans. Chaque version mineure standard bénéficie d'environ huit mois de support, corrections de bugs et sécurité comprises. Les versions LTS prolongent ce support à trois ans de corrections et quatre ans de sécurité.
+
+En octobre 2026, le [calendrier officiel des versions](https://symfony.com/releases) donne la situation suivante : la 6.4 LTS est supportée jusqu'en novembre 2027, la 7.4 LTS jusqu'en novembre 2029, la 8.1 jusqu'en janvier 2027, tandis que la 8.0 n'est plus maintenue. La 5.4 LTS ne reçoit plus que des correctifs de sécurité.
 
 Cette régularité a une conséquence directe : le coût d'une migration est proportionnel au temps écoulé depuis la dernière mise à jour. Un projet maintenu à jour sur chaque mineure absorbe des changements incrémentaux. Un projet figé sur Symfony 4.4 depuis 2019 affronte l'accumulation de trois versions majeures d'un coup. Passé la date de fin de support, le sujet change de nature : nous détaillons les conséquences et les stratégies de sortie dans notre [plan d'action fin de support Symfony et PHP](/article/symfony-php-fin-de-support-eol-plan-action).
 
@@ -26,7 +30,7 @@ Cette régularité a une conséquence directe : le coût d'une migration est pro
 
 Le contrat de Symfony est clair, comme le précise le [guide officiel de mise à jour majeure](https://symfony.com/doc/current/setup/upgrade_major.html) : aucune fonctionnalité n'est supprimée sans avoir été dépréciée au moins une version majeure à l'avance. Concrètement, une classe marquée `@deprecated` en 5.2 reste fonctionnelle dans toute la branche 5.x. Elle disparaît en 6.0.
 
-La dernière mineure avant une majeure (5.4 avant 6.0, 6.4 avant 7.0) joue un rôle pivot. Elle contient exactement les mêmes fonctionnalités que la majeure suivante, mais conserve la rétrocompatibilité. Migrer vers 5.4 et résoudre toutes les dépréciations revient à préparer le terrain pour un passage à 6.0 quasi transparent.
+La dernière mineure avant une majeure (5.4 avant 6.0, 6.4 avant 7.0, 7.4 avant 8.0) joue un rôle pivot. Elle contient exactement les mêmes fonctionnalités que la majeure suivante, mais conserve la rétrocompatibilité. Migrer vers 5.4 et résoudre toutes les dépréciations revient à préparer le terrain pour un passage à 6.0 quasi transparent.
 
 Le Profiler de Symfony expose un panneau dédié aux dépréciations. Exécuter la suite de tests avec la variable `SYMFONY_DEPRECATIONS_HELPER=max[direct]=0` force l'échec au moindre appel déprécié direct, transformant chaque dépréciation en signal immédiat.
 
@@ -72,7 +76,9 @@ Montez d'abord sur la dernière mineure de votre branche majeure actuelle. Si vo
 
 Une fois toutes les dépréciations éliminées en 5.4, le passage à 6.0 ne devrait introduire que des changements liés aux éléments dépréciés effectivement supprimés. Ajustez les contraintes dans `composer.json`, exécutez `composer update` et résolvez les conflits de dépendances un par un. Composer produit des messages d'erreur explicites qui guident la résolution.
 
-Vérifiez la version minimale de PHP requise. Symfony 6.0 exige PHP 8.0, Symfony 7.0 exige PHP 8.2. Un saut de version majeure Symfony implique souvent un saut de version PHP en parallèle, avec ses propres implications. Anticipez les [changements prévus pour PHP 9.0](/article/php-9-0-devoile-ce-que-vous-devez-savoir-avant-la-sortie) si vous planifiez à moyen terme.
+Vérifiez la version minimale de PHP requise. Symfony 6.0 exige PHP 8.0, Symfony 7.0 exige PHP 8.2 et Symfony 8.0 exige PHP 8.4. Un saut de version majeure Symfony implique souvent un saut de version PHP en parallèle, avec ses propres implications. Anticipez les [changements prévus pour PHP 9.0](/article/php-9-0-devoile-ce-que-vous-devez-savoir-avant-la-sortie) si vous planifiez à moyen terme.
+
+Le principe est le même de la 7.4 LTS vers Symfony 8 : traitez toutes les dépréciations signalées en 7.4, puis passez à la 8.x. Gardez en tête que les versions 8.x ne sont pas des LTS : la 8.0 n'est déjà plus maintenue, il faut viser la 8.1 ou plus récent, ou rester sur la 7.4 LTS si la stabilité prime.
 
 ### Phase 3 : validation et montée en version continue
 

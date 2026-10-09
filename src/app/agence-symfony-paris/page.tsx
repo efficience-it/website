@@ -1,3 +1,4 @@
+import { PROJECTS_DELIVERED } from "@/lib/company";
 import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
@@ -73,7 +74,7 @@ const faqItems = [
   {
     title: "Quel est votre avantage par rapport à une agence parisienne ?",
     content:
-      "Notre spécialisation exclusive sur Symfony et PHP nous distingue des agences généralistes parisiennes. Vous bénéficiez d'une expertise technique pointue, avec la réactivité d'une équipe dédiée. Notre implantation lilloise nous permet aussi d'attirer des profils techniques de haut niveau dans un bassin d'emploi moins saturé que Paris.",
+      "Notre spécialisation sur Symfony et PHP nous distingue des agences généralistes parisiennes. Vous bénéficiez d'une expertise technique pointue, avec la réactivité d'une équipe dédiée. Notre implantation lilloise nous permet aussi d'attirer des profils techniques de haut niveau dans un bassin d'emploi moins saturé que Paris.",
   },
   {
     title: "Gérez-vous des projets pour des grands comptes parisiens ?",
@@ -105,7 +106,7 @@ const webPage = webPageJsonLd({
     "Efficience IT, agence Symfony pour Paris et Île-de-France. Développement sur mesure, audit, migration et maintenance de vos applications PHP.",
   path: "/agence-symfony-paris",
   datePublished: "2026-03-20",
-  dateModified: "2026-04-10",
+  dateModified: "2026-10-09",
 });
 
 const relatedLinks: RelatedLink[] = [
@@ -214,10 +215,10 @@ export default function AgenceSymfonyParis() {
                 </div>
                 <div className="flex items-start gap-4">
                   <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary font-bold">
-                    50+
+                    {PROJECTS_DELIVERED}+
                   </span>
                   <div>
-                    <p className="font-semibold text-dark">Projets Symfony livrés</p>
+                    <p className="font-semibold text-dark">Projets livrés</p>
                     <p className="text-sm text-gray">
                       Applications métier, API, e-commerce, SaaS
                     </p>
@@ -256,7 +257,7 @@ export default function AgenceSymfonyParis() {
                     Expertise technique pointue
                   </h3>
                   <p className="mt-2 text-gray">
-                    Nos développeurs travaillent exclusivement avec Symfony et PHP.
+                    Nos développeurs sont spécialisés en Symfony et en PHP.
                     Cette spécialisation se traduit par des choix architecturaux plus
                     pertinents et un code de meilleure qualité, comme le détaille notre
                     article sur{" "}

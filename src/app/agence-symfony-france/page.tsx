@@ -1,3 +1,4 @@
+import { PROJECTS_DELIVERED } from "@/lib/company";
 import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
@@ -59,7 +60,7 @@ const faqItems = [
   {
     title: "Quelle est la différence entre un prestataire Symfony et une agence web classique ?",
     content:
-      "Une agence web classique couvre un large spectre (WordPress, Shopify, marketing, design). Un prestataire Symfony comme Efficience IT se concentre exclusivement sur le développement d'applications PHP et Symfony. Cette spécialisation garantit une expertise technique plus profonde et des choix architecturaux plus pertinents pour vos projets métier.",
+      "Une agence web classique couvre un large spectre (WordPress, Shopify, marketing, design). Un prestataire Symfony comme Efficience IT se concentre sur le développement d'applications PHP et Symfony. Cette spécialisation garantit une expertise technique plus profonde et des choix architecturaux plus pertinents pour vos projets métier.",
   },
   {
     title: "Dans quelles villes intervenez-vous le plus souvent ?",
@@ -101,7 +102,7 @@ const webPage = webPageJsonLd({
     "Efficience IT, prestataire Symfony en France. Développement, migration, audit et maintenance de vos applications PHP et Symfony, en remote ou sur site.",
   path: "/agence-symfony-france",
   datePublished: "2026-03-17",
-  dateModified: "2026-04-10",
+  dateModified: "2026-10-09",
 });
 
 const relatedLinks: RelatedLink[] = [
@@ -232,11 +233,11 @@ export default function AgenceSymfonyFrance() {
                 </div>
                 <div className="flex items-start gap-4">
                   <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary font-bold">
-                    50+
+                    {PROJECTS_DELIVERED}+
                   </span>
                   <div>
                     <p className="font-semibold text-dark">
-                      Projets Symfony livrés
+                      Projets livrés
                     </p>
                     <p className="text-sm text-gray">
                       Applications métier, API, e-commerce, SaaS

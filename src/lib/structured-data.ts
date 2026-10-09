@@ -1,3 +1,4 @@
+import { FOUNDING_YEAR } from "@/lib/company";
 import { BASE_URL, SITE_NAME } from "@/lib/metadata";
 import type { AuthorSchema } from "@/data/authors";
 import type { ArticleKind, EventSchema, FaqItem, ProficiencyLevel } from "@/types/blog";
@@ -30,7 +31,7 @@ const organizationEntity = {
     longitude: 3.0573,
   },
   email: "contact@itefficience.com",
-  foundingDate: "2018",
+  foundingDate: String(FOUNDING_YEAR),
   numberOfEmployees: {
     "@type": "QuantitativeValue",
     value: 15,
@@ -245,13 +246,13 @@ export function serviceJsonLd({ name, description, path, mainTech }: ServiceSche
 
 import { BlogPost } from "@/types/blog";
 
-export function blogItemListJsonLd(posts: BlogPost[]) {
+export function blogItemListJsonLd(posts: BlogPost[], startPosition = 1) {
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
     itemListElement: posts.map((post, i) => ({
       "@type": "ListItem",
-      position: i + 1,
+      position: startPosition + i,
       url: `${BASE_URL}/article/${post.slug}`,
       name: post.title,
     })),

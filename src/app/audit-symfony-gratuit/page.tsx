@@ -5,6 +5,7 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import Card from "@/components/ui/Card";
 import Accordion from "@/components/ui/Accordion";
 import AuditForm from "@/components/sections/AuditForm";
+import Button from "@/components/ui/Button";
 import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import FadeIn from "@/components/ui/FadeIn";
@@ -117,10 +118,15 @@ const webPage = webPageJsonLd({
   description: "Diagnostic gratuit de 30 minutes pour votre application Symfony : premier état des lieux technique, identification des points critiques et pistes d'amélioration. Sans engagement.",
   path: "/audit-symfony-gratuit",
   datePublished: "2025-09-01",
-  dateModified: "2026-02-01",
+  dateModified: "2026-10-09",
 });
 
 const auditRelatedLinks: RelatedLink[] = [
+  {
+    title: "Audit de code PHP approfondi",
+    description: "analyse PHPStan niveau max, revue manuelle et rapport détaillé sous 48h",
+    href: "/audit-code-php",
+  },
   {
     title: "Modernisation applicative",
     description: "le parcours complet après le diagnostic",
@@ -180,19 +186,15 @@ export default function AuditSymfonyGratuit() {
                   <strong>audit technique gratuit de 30 minutes</strong> pour
                   identifier les points critiques de votre application et vous
                   donner des pistes d&apos;amélioration concrètes.
-                  Pour un audit technique complet avec analyse PHPStan niveau max,
-                  revue manuelle et rapport détaillé sous 48h, découvrez notre{" "}
-                  <Link
-                    href="/audit-code-php"
-                    className="text-primary hover:underline"
-                  >
-                    prestation d&apos;audit approfondi
-                  </Link>
-                  .
                 </p>
                 <p className="mt-6 text-lg font-semibold text-dark">
                   Un appel visio de 30 min, un compte-rendu écrit sous 48h.
                 </p>
+                <div className="mt-6">
+                  <Button href="#formulaire" size="lg">
+                    Réserver mon diagnostic de 30 min
+                  </Button>
+                </div>
               </div>
               <div className="flex justify-center">
                 <CodeIllustration className="h-96 w-full text-primary" />

@@ -1,3 +1,9 @@
+import {
+  CLIENTS_SUPPORTED,
+  OPEN_SOURCE_CONTRIBUTIONS,
+  PROJECTS_DELIVERED,
+  TEAM_EXPERIENCE_YEARS,
+} from "@/lib/company";
 import Link from "next/link";
 import Hero from "@/components/sections/Hero";
 import ExpertiseCards from "@/components/sections/ExpertiseCards";
@@ -17,10 +23,10 @@ import { webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import type { Metadata } from "next";
 
 const keyFigures = [
-  { value: 10, suffix: "+", label: "Années d'expérience" },
-  { value: 150, suffix: "+", label: "Projets livrés" },
-  { value: 40, suffix: "+", label: "Clients accompagnés" },
-  { value: 500, suffix: "+", label: "Contributions open source" },
+  { value: TEAM_EXPERIENCE_YEARS, suffix: "+", label: "Années d'expérience de l'équipe" },
+  { value: PROJECTS_DELIVERED, suffix: "+", label: "Projets livrés" },
+  { value: CLIENTS_SUPPORTED, suffix: "+", label: "Clients accompagnés" },
+  { value: OPEN_SOURCE_CONTRIBUTIONS, suffix: "+", label: "Contributions open source" },
 ];
 
 export const metadata: Metadata = pageMetadata({

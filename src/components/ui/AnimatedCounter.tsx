@@ -28,7 +28,7 @@ export default function AnimatedCounter({
     getReducedMotion,
     () => false,
   );
-  const [count, setCount] = useState(prefersReducedMotion ? value : 0);
+  const [count, setCount] = useState(value);
   const ref = useRef<HTMLSpanElement>(null);
   const hasAnimated = useRef(false);
 
@@ -42,6 +42,7 @@ export default function AnimatedCounter({
           hasAnimated.current = true;
           observer.unobserve(el);
 
+          setCount(0);
           const startTime = performance.now();
 
           function animate(currentTime: number) {

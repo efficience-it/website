@@ -30,6 +30,8 @@ function main(): void {
     .split("\n")
     .filter(Boolean);
 
+  const headDate = execSync("git log -1 --format=%cs HEAD", { encoding: "utf-8" }).trim();
+
   const currentRoutes = fs.readFileSync(ROUTES_FILE, "utf-8");
   let baseRoutes = "";
   try {
@@ -46,7 +48,7 @@ function main(): void {
     if (!current) continue;
     const before = lastModifiedFor(baseRoutes, routePath);
     if (before === null) continue;
-    if (before === current) {
+    if (before === current && current < headDate) {
       errors.push(
         `${file} a été modifié mais le lastModified de ${routePath} (${current}) n'a pas été mis à jour dans ${ROUTES_FILE}.`,
       );

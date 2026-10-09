@@ -1,3 +1,4 @@
+import { PROJECTS_DELIVERED } from "@/lib/company";
 import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
@@ -105,7 +106,7 @@ const webPage = webPageJsonLd({
     "Efficience IT, agence Symfony pour Nantes et les Pays de la Loire. Développement sur mesure, audit, migration et maintenance de vos applications PHP.",
   path: "/agence-symfony-nantes",
   datePublished: "2026-03-20",
-  dateModified: "2026-04-10",
+  dateModified: "2026-10-09",
 });
 
 const relatedLinks: RelatedLink[] = [
@@ -217,10 +218,10 @@ export default function AgenceSymfonyNantes() {
                 </div>
                 <div className="flex items-start gap-4">
                   <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary font-bold">
-                    50+
+                    {PROJECTS_DELIVERED}+
                   </span>
                   <div>
-                    <p className="font-semibold text-dark">Projets Symfony livrés</p>
+                    <p className="font-semibold text-dark">Projets livrés</p>
                     <p className="text-sm text-gray">
                       Applications métier, API, e-commerce, SaaS
                     </p>
@@ -257,10 +258,10 @@ export default function AgenceSymfonyNantes() {
               <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 <Card>
                   <h3 className="font-display text-lg font-bold text-dark">
-                    Spécialisation Symfony exclusive
+                    Spécialisation Symfony
                   </h3>
                   <p className="mt-2 text-gray">
-                    Nous ne faisons que du PHP et du Symfony. Cette
+                    Notre cœur de métier est le PHP et Symfony. Cette
                     spécialisation nous permet de traiter les sujets techniques
                     avancés : architecture hexagonale, DDD, CQRS, event
                     sourcing. Découvrez{" "}
