@@ -7,12 +7,9 @@ import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
-import { breadcrumbJsonLd, webPageJsonLd, reviewsJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import CallToAction from "@/components/sections/CallToAction";
-import { testimonials } from "@/../data/testimonials";
 import LastUpdated from "@/components/ui/LastUpdated";
-
-const reviews = reviewsJsonLd(testimonials);
 
 export const metadata = pageMetadata({
   title: "Nos réalisations et contributions open source",
@@ -77,7 +74,7 @@ const webPage = webPageJsonLd({
   path: "/nos-references",
   type: "CollectionPage",
   datePublished: "2025-09-01",
-  dateModified: "2025-09-01",
+  dateModified: "2026-10-09",
 });
 
 const referencesRelatedLinks: RelatedLink[] = [
@@ -119,7 +116,7 @@ const referencesRelatedLinks: RelatedLink[] = [
 export default function NosReferences() {
   return (
     <>
-    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageGraphJsonLd(breadcrumb, webPage, reviews)) }} />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageGraphJsonLd(breadcrumb, webPage)) }} />
     <main>
       <section className="bg-light-gray py-8 md:py-12">
         <Container className="text-center">

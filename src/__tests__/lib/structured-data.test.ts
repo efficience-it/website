@@ -1,4 +1,4 @@
-import { howToJsonLd, reviewsJsonLd, serviceJsonLd, eventJsonLd, jobPostingJsonLd, articleJsonLd, TECH_ENTITIES, type TechKey } from "@/lib/structured-data";
+import { howToJsonLd, serviceJsonLd, eventJsonLd, jobPostingJsonLd, articleJsonLd, TECH_ENTITIES, type TechKey } from "@/lib/structured-data";
 import { categorySlugMap, getPostBySlug } from "@/lib/blog";
 import type { Job } from "@/../data/jobs";
 
@@ -38,17 +38,6 @@ describe("serviceJsonLd", () => {
       path: "/service",
     });
     expect(result.provider).toEqual({
-      "@id": "https://www.itefficience.com/#organization",
-    });
-  });
-});
-
-describe("reviewsJsonLd", () => {
-  it("links itemReviewed to the canonical organization @id", () => {
-    const result = reviewsJsonLd([
-      { name: "X", role: "CEO", company: "Acme", quote: "Great" },
-    ]);
-    expect(result[0].itemReviewed).toEqual({
       "@id": "https://www.itefficience.com/#organization",
     });
   });

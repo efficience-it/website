@@ -389,35 +389,6 @@ exports[`structured-data snapshots pageGraphJsonLd strips @context and wraps in 
 }
 `;
 
-exports[`structured-data snapshots reviewsJsonLd 1`] = `
-[
-  {
-    "@context": "https://schema.org",
-    "@type": "Review",
-    "author": {
-      "@type": "Person",
-      "name": "Alice",
-    },
-    "itemReviewed": {
-      "@id": "https://www.itefficience.com/#organization",
-    },
-    "reviewBody": "Excellent.",
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "Review",
-    "author": {
-      "@type": "Person",
-      "name": "Bob",
-    },
-    "itemReviewed": {
-      "@id": "https://www.itefficience.com/#organization",
-    },
-    "reviewBody": "Très réactif.",
-  },
-]
-`;
-
 exports[`structured-data snapshots serviceJsonLd 1`] = `
 {
   "@context": "https://schema.org",

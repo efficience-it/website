@@ -243,21 +243,6 @@ export function serviceJsonLd({ name, description, path, mainTech }: ServiceSche
   };
 }
 
-import { Testimonial } from "@/types/testimonial";
-
-export function reviewsJsonLd(testimonials: Testimonial[]) {
-  return testimonials.map((t) => ({
-    "@context": "https://schema.org",
-    "@type": "Review",
-    author: {
-      "@type": "Person",
-      name: t.name,
-    },
-    reviewBody: t.quote,
-    itemReviewed: { "@id": `${BASE_URL}/#organization` },
-  }));
-}
-
 import { BlogPost } from "@/types/blog";
 
 export function blogItemListJsonLd(posts: BlogPost[]) {

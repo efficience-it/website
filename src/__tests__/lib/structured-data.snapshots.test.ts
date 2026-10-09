@@ -7,7 +7,6 @@ import {
   globalGraphJsonLd,
   howToJsonLd,
   pageGraphJsonLd,
-  reviewsJsonLd,
   serviceJsonLd,
   webPageJsonLd,
 } from "@/lib/structured-data";
@@ -36,11 +35,11 @@ describe("structured-data snapshots", () => {
   });
 
   it("pageGraphJsonLd flattens arrays passed as items", () => {
-    const reviews = reviewsJsonLd([
-      { name: "A", role: "CTO", company: "X", quote: "Q1" },
-      { name: "B", role: "Dev", company: "Y", quote: "Q2" },
-    ]);
-    const result = pageGraphJsonLd(reviews);
+    const items = [
+      { "@context": "https://schema.org", "@type": "Thing", name: "A" },
+      { "@context": "https://schema.org", "@type": "Thing", name: "B" },
+    ];
+    const result = pageGraphJsonLd(items);
     expect(result["@graph"]).toHaveLength(2);
     expect(result["@graph"][0]).not.toHaveProperty("@context");
   });
@@ -65,15 +64,6 @@ describe("structured-data snapshots", () => {
         description: "Audit technique gratuit de votre code Symfony.",
         path: "/audit-symfony-gratuit",
       }),
-    ).toMatchSnapshot();
-  });
-
-  it("reviewsJsonLd", () => {
-    expect(
-      reviewsJsonLd([
-        { name: "Alice", role: "CTO", company: "Acme", quote: "Excellent." },
-        { name: "Bob", role: "Lead Dev", company: "Beta", quote: "Très réactif." },
-      ]),
     ).toMatchSnapshot();
   });
 
