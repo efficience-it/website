@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import ResponsiveImage from "@/components/ui/ResponsiveImage";
 import Link from "next/link";
-import { categorySlugMap, getAllPosts, getLanguageSwitchTarget, getPostBySlug, getCategorySlug, getPostsByCategory, extractHeadings, isSymfonyAuditCategory, readingTime } from "@/lib/blog";
+import { categorySlugMap, getAllPosts, getLanguageSwitchTarget, getPostBySlug, getTranslationPaths, getCategorySlug, getPostsByCategory, extractHeadings, isSymfonyAuditCategory, readingTime } from "@/lib/blog";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import Breadcrumb from "@/components/ui/Breadcrumb";
@@ -62,10 +62,12 @@ export async function generateMetadata({
   const post = getPostBySlug(slug);
   if (!post) return { title: "Article introuvable" };
 
+  const translationPaths = getTranslationPaths(post);
   const base = pageMetadata({
     title: post.title,
     description: post.excerpt,
     path: `/article/${slug}`,
+    ...(translationPaths && { translationPaths }),
   });
 
   const articleImage =
@@ -110,6 +112,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const jsonLd = articleJsonLd({
     url,
     kind: post.kind,
+    language: post.language,
     title: post.title,
     excerpt: post.excerpt,
     author: getAuthorSchema(post.author),

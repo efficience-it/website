@@ -177,6 +177,13 @@ export function getLanguageSwitchTarget(
   return { language: translation.language as BlogLanguage, href: articlePath(translation) };
 }
 
+export function getTranslationPaths(post: BlogPost): Record<BlogLanguage, string> | undefined {
+  const translation = getTranslationOf(post);
+  if (!translation) return undefined;
+  const [french, english] = post.language === "en" ? [translation, post] : [post, translation];
+  return { fr: articlePath(french), en: articlePath(english) };
+}
+
 export const categorySlugMap: Record<string, string> = {
   Agence: "agence",
   Architecture: "architecture",

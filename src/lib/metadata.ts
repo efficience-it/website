@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { BlogLanguage } from "@/types/blog";
 
 interface PageMetadataOptions {
   title: string;
@@ -8,7 +9,11 @@ interface PageMetadataOptions {
   image?: string;
   publishedTime?: string;
   authors?: string[];
+  language?: BlogLanguage;
+  translationPaths?: Record<BlogLanguage, string>;
 }
+
+const LOCALES: Record<BlogLanguage, string> = { fr: "fr_FR", en: "en_US" };
 
 export const BASE_URL = "https://www.itefficience.com";
 export const SITE_NAME = "Efficience IT";
@@ -22,6 +27,8 @@ export function pageMetadata({
   image,
   publishedTime,
   authors,
+  language = "fr",
+  translationPaths,
 }: PageMetadataOptions): Metadata {
   const url = `${BASE_URL}${path}`;
   const ogImage = image ?? DEFAULT_OG_IMAGE;
@@ -34,7 +41,10 @@ export function pageMetadata({
       description,
       url,
       siteName: SITE_NAME,
-      locale: "fr_FR",
+      locale: LOCALES[language],
+      ...(translationPaths && {
+        alternateLocale: [LOCALES[language === "fr" ? "en" : "fr"]],
+      }),
       type: "website",
       images: [{ url: ogImage }],
       ...(publishedTime && { publishedTime }),
@@ -48,6 +58,13 @@ export function pageMetadata({
     },
     alternates: {
       canonical: url,
+      ...(translationPaths && {
+        languages: {
+          fr: `${BASE_URL}${translationPaths.fr}`,
+          en: `${BASE_URL}${translationPaths.en}`,
+          "x-default": `${BASE_URL}${translationPaths.fr}`,
+        },
+      }),
     },
   };
 }

@@ -91,4 +91,41 @@ describe("pageMetadata", () => {
     const images = (result.openGraph as Record<string, unknown>).images;
     expect(images).toEqual([{ url: "https://example.com/image.png" }]);
   });
+
+  it("emits no hreflang alternate without a translation", () => {
+    const result = pageMetadata({ title: "T", description: "d", path: "/test" });
+    expect(result.alternates?.languages).toBeUndefined();
+    expect(result.openGraph).not.toHaveProperty("alternateLocale");
+  });
+
+  it("emits reciprocal hreflang alternates and x-default for a French page", () => {
+    const result = pageMetadata({
+      title: "T",
+      description: "d",
+      path: "/article/exemple",
+      translationPaths: { fr: "/article/exemple", en: "/en/article/example" },
+    });
+    expect(result.alternates?.canonical).toBe(`${BASE_URL}/article/exemple`);
+    expect(result.alternates?.languages).toEqual({
+      fr: `${BASE_URL}/article/exemple`,
+      en: `${BASE_URL}/en/article/example`,
+      "x-default": `${BASE_URL}/article/exemple`,
+    });
+    expect(result.openGraph).toMatchObject({ locale: "fr_FR", alternateLocale: ["en_US"] });
+  });
+
+  it("keeps a self canonical and the English locale on an English page", () => {
+    const result = pageMetadata({
+      title: "T",
+      description: "d",
+      path: "/en/article/example",
+      language: "en",
+      translationPaths: { fr: "/article/exemple", en: "/en/article/example" },
+    });
+    expect(result.alternates?.canonical).toBe(`${BASE_URL}/en/article/example`);
+    expect(result.alternates?.languages).toMatchObject({
+      "x-default": `${BASE_URL}/article/exemple`,
+    });
+    expect(result.openGraph).toMatchObject({ locale: "en_US", alternateLocale: ["fr_FR"] });
+  });
 });
