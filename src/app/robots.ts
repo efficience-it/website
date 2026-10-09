@@ -8,7 +8,6 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/domain/"],
       },
       { userAgent: "GPTBot", allow: "/" },
       { userAgent: "anthropic-ai", allow: "/" },
