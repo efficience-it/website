@@ -1,4 +1,5 @@
 import { render, screen, act } from "@testing-library/react";
+import { renderToString } from "react-dom/server";
 import AnimatedCounter from "@/components/ui/AnimatedCounter";
 
 let intersectionCallback: IntersectionObserverCallback;
@@ -23,14 +24,34 @@ beforeEach(() => {
 });
 
 describe("AnimatedCounter", () => {
-  it("renders with initial count 0 when no reduced motion", () => {
+  it("renders the final value before any animation", () => {
     render(<AnimatedCounter value={100} />);
-    expect(screen.getByText("0")).toBeInTheDocument();
+    expect(screen.getByText("100")).toBeInTheDocument();
   });
 
-  it("renders suffix", () => {
+  it("renders the final value with its suffix in the initial markup", () => {
     const { container } = render(<AnimatedCounter value={100} suffix="%" />);
-    expect(container.querySelector("span")!.textContent).toBe("0%");
+    expect(container.querySelector("span")!.textContent).toBe("100%");
+  });
+
+  it("serves the final value in server-rendered HTML", () => {
+    const html = renderToString(<AnimatedCounter value={150} suffix="+" />);
+    expect(html).toContain("150");
+    expect(html).not.toContain(">0<");
+  });
+
+  it("restarts from 0 when the animation begins", () => {
+    jest.spyOn(window, "requestAnimationFrame").mockImplementation(() => 0);
+    const { container } = render(<AnimatedCounter value={100} />);
+
+    act(() => {
+      intersectionCallback(
+        [{ isIntersecting: true }] as unknown as IntersectionObserverEntry[],
+        {} as unknown as IntersectionObserver,
+      );
+    });
+
+    expect(container.querySelector("span")!.textContent).toBe("0");
   });
 
   it("shows final value immediately when prefers-reduced-motion", () => {
@@ -72,7 +93,7 @@ describe("AnimatedCounter", () => {
       );
     });
 
-    expect(screen.getByText("0")).toBeInTheDocument();
+    expect(screen.getByText("50")).toBeInTheDocument();
   });
 
   it("does not animate twice", () => {
