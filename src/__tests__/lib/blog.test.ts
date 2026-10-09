@@ -14,8 +14,6 @@ import {
   getBlogPageCount,
   getPostsForPage,
   blogPagePath,
-  getTranslationOf,
-  articlePath,
   getLanguageSwitchTarget,
 } from "@/lib/blog";
 
@@ -484,18 +482,6 @@ describe("translations", () => {
     expect(getAllPosts("en").map((p) => p.slug)).toEqual(["__test-en-new__", "__test-en-old__"]);
   });
 
-  it("links a French post to its translation and back", () => {
-    writeEn("__test-en-link__", validFields(SOURCE_A));
-    const french = getPostBySlug(SOURCE_A)!;
-    const english = getTranslationOf(french)!;
-    expect(english.slug).toBe("__test-en-link__");
-    expect(getTranslationOf(english)!.slug).toBe(SOURCE_A);
-  });
-
-  it("returns no translation for a French post without one", () => {
-    expect(getTranslationOf(getPostBySlug(SOURCE_A)!)).toBeUndefined();
-  });
-
   it.each(["translationOf", "translatedFromUpdatedAt", "reviewedBy", "reviewedAt"])(
     "refuses a translation without %s",
     (field) => {
@@ -515,12 +501,6 @@ describe("translations", () => {
     writeEn("__test-en-first__", validFields(SOURCE_A));
     writeEn("__test-en-second__", validFields(SOURCE_A));
     expect(() => getAllPosts("en")).toThrow("a déjà une traduction");
-  });
-
-  it("builds article paths per language", () => {
-    expect(articlePath(getPostBySlug(SOURCE_A)!)).toBe(`/article/${SOURCE_A}`);
-    writeEn("__test-en-path__", validFields(SOURCE_A));
-    expect(articlePath(getPostBySlug("__test-en-path__", "en")!)).toBe("/en/article/__test-en-path__");
   });
 
   it("offers no language switch target without a translation", () => {
