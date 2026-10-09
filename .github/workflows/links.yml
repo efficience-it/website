@@ -77,6 +77,7 @@ jobs:
             --max-retries 3
             --accept 200,202,204,301,302,403,429,999
             content/blog/*.mdx
+            content/blog/en/*.mdx
             src/**/*.tsx
             data/*.ts
             src/data/*.ts

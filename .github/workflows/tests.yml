@@ -44,6 +44,7 @@ jobs:
       - run: npm run knip
       - run: npm run knip:production
       - run: npm run check:unused-images
+      - run: npm run check:translations
       - run: npm test -- --coverage
       - uses: github/codeql-action/analyze@v4
       - name: Generate coverage badge
