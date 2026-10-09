@@ -9,6 +9,10 @@ import {
   extractHeadings,
   isSymfonyAuditCategory,
   readingTime,
+  BLOG_PAGE_SIZE,
+  getBlogPageCount,
+  getPostsForPage,
+  blogPagePath,
 } from "@/lib/blog";
 
 const TEMP_SLUG = "__test-empty-frontmatter__";
@@ -359,5 +363,35 @@ describe("parseArticleKind (via getPostBySlug)", () => {
       readFileSpy.mockRestore();
       existsSpy.mockRestore();
     }
+  });
+});
+
+describe("blog pagination", () => {
+  it("computes the page count from the page size", () => {
+    expect(getBlogPageCount()).toBe(Math.ceil(getAllPosts().length / BLOG_PAGE_SIZE));
+  });
+
+  it("returns a full first page", () => {
+    expect(getPostsForPage(1)).toHaveLength(BLOG_PAGE_SIZE);
+  });
+
+  it("returns the remaining posts on the last page", () => {
+    const total = getAllPosts().length;
+    const last = getBlogPageCount();
+    expect(getPostsForPage(last)).toHaveLength(total - (last - 1) * BLOG_PAGE_SIZE);
+  });
+
+  it("returns no post beyond the last page", () => {
+    expect(getPostsForPage(getBlogPageCount() + 1)).toEqual([]);
+  });
+
+  it("never repeats a post across pages", () => {
+    const slugs = Array.from({ length: getBlogPageCount() }, (_, i) => getPostsForPage(i + 1)).flat().map((p) => p.slug);
+    expect(new Set(slugs).size).toBe(getAllPosts().length);
+  });
+
+  it("builds page paths", () => {
+    expect(blogPagePath(1)).toBe("/blog");
+    expect(blogPagePath(3)).toBe("/blog/page/3");
   });
 });
