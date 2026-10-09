@@ -31,6 +31,11 @@ Le site attire du trafic via le blog (79 articles) et les pages service. Sans tr
 | `cta_click` | TrackedArticleButton | `src/components/sections/TrackedArticleButton.tsx` | `cta_location: "article_body"`, `cta_text`, `article_slug` |
 | `scroll_depth` | ScrollDepthTracker | `src/components/ui/ScrollDepthTracker.tsx` | `event_label: slug`, `scroll_percent: "25%/50%/75%/100%"` |
 | `share` | ArticleShareButtons | `src/components/ui/ArticleShareButtons.tsx` | `method: "linkedin" / "twitter" / "copy_link"`, `article_slug` |
+| `language_switch` | LanguageSwitch | `src/components/ui/LanguageSwitch.tsx` | `from_language: "fr" / "en"`, `to_language: "fr" / "en"` |
+
+### Langue des pages
+
+Tous les events portent le parametre `content_language` (`fr` ou `en`), deduit du chemin de la page : `en` sous `/en/`, `fr` ailleurs. Il est defini a la configuration de GA4 puis mis a jour a chaque changement de page par `GoogleAnalytics`. Les events existants gardent leur nom et leurs parametres.
 
 ### Fichiers cles
 
