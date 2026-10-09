@@ -1,4 +1,4 @@
-import { howToJsonLd, serviceJsonLd, eventJsonLd, jobPostingJsonLd, articleJsonLd, TECH_ENTITIES, type TechKey } from "@/lib/structured-data";
+import { howToJsonLd, blogItemListJsonLd, serviceJsonLd, eventJsonLd, jobPostingJsonLd, articleJsonLd, TECH_ENTITIES, type TechKey } from "@/lib/structured-data";
 import { categorySlugMap, getPostBySlug } from "@/lib/blog";
 import type { Job } from "@/../data/jobs";
 
@@ -40,6 +40,21 @@ describe("serviceJsonLd", () => {
     expect(result.provider).toEqual({
       "@id": "https://www.itefficience.com/#organization",
     });
+  });
+});
+
+describe("blogItemListJsonLd", () => {
+  const posts = [
+    { slug: "a", title: "A" },
+    { slug: "b", title: "B" },
+  ] as Parameters<typeof blogItemListJsonLd>[0];
+
+  it("starts positions at 1 by default", () => {
+    expect(blogItemListJsonLd(posts).itemListElement.map((i) => i.position)).toEqual([1, 2]);
+  });
+
+  it("offsets positions for a later page", () => {
+    expect(blogItemListJsonLd(posts, 19).itemListElement.map((i) => i.position)).toEqual([19, 20]);
   });
 });
 

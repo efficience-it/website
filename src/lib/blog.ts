@@ -75,6 +75,21 @@ export function getAllPosts(): BlogPost[] {
   );
 }
 
+export const BLOG_PAGE_SIZE = 18;
+
+export function getBlogPageCount(): number {
+  return Math.max(1, Math.ceil(getAllPosts().length / BLOG_PAGE_SIZE));
+}
+
+export function getPostsForPage(page: number): BlogPost[] {
+  const start = (page - 1) * BLOG_PAGE_SIZE;
+  return getAllPosts().slice(start, start + BLOG_PAGE_SIZE);
+}
+
+export function blogPagePath(page: number): string {
+  return page === 1 ? "/blog" : `/blog/page/${page}`;
+}
+
 export function getPostBySlug(slug: string): BlogPost | undefined {
   const filePath = path.join(BLOG_DIR, `${slug}.mdx`);
   if (!fs.existsSync(filePath)) return undefined;
