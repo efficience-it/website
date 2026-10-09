@@ -176,6 +176,26 @@ export default function NosReferences() {
               </div>
             ))}
           </div>
+          <div className="mt-10 grid items-center gap-6 overflow-hidden rounded-lg border-l-4 border-primary bg-light-gray md:grid-cols-[minmax(0,2fr)_3fr]">
+            <Image
+              src="/images/clients/parlement-europeen.webp"
+              alt="Parlement européen"
+              width={600}
+              height={400}
+              className="aspect-[3/2] w-full object-cover"
+            />
+            <div className="p-6 md:p-8">
+              <p className="text-sm font-semibold uppercase tracking-wider text-primary">
+                Institution européenne
+              </p>
+              <h3 className="mt-2 font-display text-2xl font-bold text-dark">
+                Parlement européen
+              </h3>
+              <p className="mt-3 text-lg text-gray">
+                Une institution de l&apos;Union européenne figure parmi nos clients.
+              </p>
+            </div>
+          </div>
         </Container>
       </section>
       </FadeIn>

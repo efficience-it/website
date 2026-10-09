@@ -67,6 +67,13 @@ describe("Company pages", () => {
     render(<NosReferences />);
     expect(screen.getByRole("heading", { name: /nos réalisations/i })).toBeInTheDocument();
   });
+
+  it("renders the European Parliament callout in the clients section", () => {
+    render(<NosReferences />);
+    expect(screen.getByRole("heading", { level: 3, name: "Parlement européen" })).toBeInTheDocument();
+    expect(screen.getByText(/institution de l.Union européenne figure parmi nos clients/i)).toBeInTheDocument();
+    expect(screen.getByAltText("Parlement européen")).toHaveAttribute("src", expect.stringContaining("parlement-europeen.webp"));
+  });
 });
 
 describe("Blog & other pages", () => {
