@@ -1,10 +1,11 @@
 import { notFound } from "next/navigation";
 import ResponsiveImage from "@/components/ui/ResponsiveImage";
 import Link from "next/link";
-import { categorySlugMap, getAllPosts, getPostBySlug, getCategorySlug, getPostsByCategory, extractHeadings, isSymfonyAuditCategory, readingTime } from "@/lib/blog";
+import { categorySlugMap, getAllPosts, getLanguageSwitchTarget, getPostBySlug, getCategorySlug, getPostsByCategory, extractHeadings, isSymfonyAuditCategory, readingTime } from "@/lib/blog";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import Breadcrumb from "@/components/ui/Breadcrumb";
+import LanguageSwitch from "@/components/ui/LanguageSwitch";
 import MarkdownContent from "@/components/ui/MarkdownContent";
 import ArticleCta, { getArticleCtaConfig } from "@/components/sections/ArticleCta";
 import StickyArticleCta from "@/components/sections/StickyArticleCta";
@@ -162,13 +163,16 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             <header className="mb-16">
               <div className="flex flex-col gap-8 xl:flex-row xl:items-center xl:justify-between">
                 <div className="flex-1">
-                  <Breadcrumb
-                    items={[
-                      { label: "Blog", href: "/blog" },
-                      ...(categoryCrumb ? [{ label: categoryCrumb.name, href: categoryCrumb.path }] : []),
-                      { label: post.title },
-                    ]}
-                  />
+                  <div className="flex items-start justify-between gap-4">
+                    <Breadcrumb
+                      items={[
+                        { label: "Blog", href: "/blog" },
+                        ...(categoryCrumb ? [{ label: categoryCrumb.name, href: categoryCrumb.path }] : []),
+                        { label: post.title },
+                      ]}
+                    />
+                    <LanguageSwitch target={getLanguageSwitchTarget(post)} />
+                  </div>
                   <div className="mb-4 flex items-center gap-3 text-sm text-gray">
                     <time dateTime={post.date}>{formatDate(post.date)}</time>
                     <span>&middot;</span>

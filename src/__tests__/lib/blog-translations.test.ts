@@ -116,4 +116,20 @@ describe("translations", () => {
     writeEn("second", validFields(SOURCE_A));
     expect(() => blog.getAllPosts("en")).toThrow("a déjà une traduction");
   });
+
+  it("offers no language switch target without a translation", () => {
+    expect(blog.getLanguageSwitchTarget(blog.getPostBySlug(SOURCE_A)!)).toBeUndefined();
+  });
+
+  it("targets the English version from French and the French one from English", () => {
+    writeEn("switch", validFields(SOURCE_A));
+    expect(blog.getLanguageSwitchTarget(blog.getPostBySlug(SOURCE_A)!)).toEqual({
+      language: "en",
+      href: "/en/article/switch",
+    });
+    expect(blog.getLanguageSwitchTarget(blog.getPostBySlug("switch", "en")!)).toEqual({
+      language: "fr",
+      href: `/article/${SOURCE_A}`,
+    });
+  });
 });
