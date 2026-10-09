@@ -13,6 +13,14 @@ describe("ContactForm", () => {
     expect(screen.getByRole("button", { name: "Envoyer ma demande" })).toBeInTheDocument();
   });
 
+  it("declares autocomplete tokens on personal fields", () => {
+    render(<ContactForm />);
+    expect(screen.getByLabelText("Nom *")).toHaveAttribute("autocomplete", "name");
+    expect(screen.getByLabelText("Entreprise")).toHaveAttribute("autocomplete", "organization");
+    expect(screen.getByLabelText("Téléphone")).toHaveAttribute("autocomplete", "tel");
+    expect(screen.getByLabelText("Email *")).toHaveAttribute("autocomplete", "email");
+  });
+
   it("renders all subject options", () => {
     render(<ContactForm />);
     expect(screen.getByText("Demande de devis")).toBeInTheDocument();
