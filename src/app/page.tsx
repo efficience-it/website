@@ -36,7 +36,7 @@ const webPage = webPageJsonLd({
     "Agence spécialisée Symfony et PHP, Efficience IT conçoit et développe des applications web robustes, pensées pour vos enjeux métiers.",
   path: "/",
   datePublished: "2025-09-01",
-  dateModified: "2026-03-11",
+  dateModified: "2026-10-09",
 });
 
 export default function Home() {

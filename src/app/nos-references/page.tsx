@@ -74,7 +74,7 @@ const webPage = webPageJsonLd({
   path: "/nos-references",
   type: "CollectionPage",
   datePublished: "2025-09-01",
-  dateModified: "2025-09-01",
+  dateModified: "2026-10-09",
 });
 
 const referencesRelatedLinks: RelatedLink[] = [
