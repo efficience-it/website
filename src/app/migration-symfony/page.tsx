@@ -19,35 +19,48 @@ export const metadata = pageMetadata({
   title:
     "Migration Symfony : montez de version en toute sécurité",
   description:
-    "Migration Symfony 4, 5, 6 vers Symfony 7 : montée de version progressive, sans interruption de service. Expertise certifiée et outillage Rector.",
+    "Migration Symfony 4, 5, 6 vers 7.4 LTS puis Symfony 8 : montée de version progressive, sans interruption de service. Expertise certifiée et outillage Rector.",
   path: "/migration-symfony",
 });
 
 const versions = [
   {
     from: "Symfony 4.x",
-    to: "Symfony 5.4 LTS puis 6.4 LTS",
+    to: "Symfony 5.4 LTS puis 6.4 LTS et 7.4 LTS",
     description:
-      "Migration en deux paliers via les versions LTS. Suppression des dépréciations, mise à jour des bundles tiers et adaptation aux changements de configuration.",
+      "Migration en plusieurs paliers via les versions LTS. Suppression des dépréciations, mise à jour des bundles tiers et adaptation aux changements de configuration.",
   },
   {
     from: "Symfony 5.x",
-    to: "Symfony 6.4 LTS",
+    to: "Symfony 6.4 LTS puis 7.4 LTS",
     description:
-      "Passage direct vers la dernière LTS. Résolution des dépréciations introduites en 5.x, migration des annotations vers les attributs PHP 8.",
+      "Passage par la 6.4 LTS, puis par la 7.4 LTS, la version à support long actuelle. Résolution des dépréciations introduites en 5.x, migration des annotations vers les attributs PHP 8.",
   },
   {
     from: "Symfony 6.x",
-    to: "Symfony 7.x",
+    to: "Symfony 7.4 LTS",
     description:
-      "Montée vers la version majeure actuelle. Traitement des dépréciations 6.x, adoption des nouvelles fonctionnalités et optimisation des performances.",
+      "Montée depuis la 6.4 LTS vers la 7.4 LTS, supportée jusqu'en novembre 2029. Traitement des dépréciations 6.x, passage à PHP 8.2 minimum et optimisation des performances.",
+  },
+  {
+    from: "Symfony 7.4 LTS",
+    to: "Symfony 8.x",
+    description:
+      "Suppression des dépréciations de la 7.4 et passage à PHP 8.4 minimum. La 8.0 n'est plus maintenue : la cible est la 8.1 ou une version plus récente.",
   },
   {
     from: "Symfony 3.x",
-    to: "Symfony 5.4 LTS (puis 6.4/7.x)",
+    to: "Symfony 5.4 LTS (puis 6.4 et 7.4)",
     description:
       "Migration longue distance avec paliers intermédiaires. Chaque étape est validée en production avant de passer à la suivante.",
   },
+];
+
+const supportedVersions = [
+  { version: "5.4 LTS", status: "Sécurité seule", php: "7.2.5", support: "Février 2029" },
+  { version: "6.4 LTS", status: "Maintenue", php: "8.1", support: "Novembre 2027" },
+  { version: "7.4 LTS", status: "Dernière LTS", php: "8.2", support: "Novembre 2029" },
+  { version: "8.1", status: "Stable", php: "8.4", support: "Janvier 2027" },
 ];
 
 const etapes = [
@@ -110,7 +123,17 @@ const faqItems = [
   {
     title: "Faut-il migrer vers chaque version intermédiaire ?",
     content:
-      "Oui. Symfony impose de passer par chaque version majeure dans l'ordre (4 vers 5, puis 5 vers 6, puis 6 vers 7). C'est la seule façon de traiter les dépréciations progressivement et de garantir une migration sans régression. Nous utilisons les versions LTS comme points de stabilisation.",
+      "Oui. Symfony impose de passer par chaque version majeure dans l'ordre (4 vers 5, puis 5 vers 6, 6 vers 7, puis 7 vers 8). C'est la seule façon de traiter les dépréciations progressivement et de garantir une migration sans régression. Nous utilisons les versions LTS (5.4, 6.4 et 7.4) comme points de stabilisation.",
+  },
+  {
+    title: "Faut-il migrer vers Symfony 8 ou rester sur la 7.4 LTS ?",
+    content:
+      "La 7.4 LTS est supportée jusqu'en novembre 2029 et reste le choix le plus stable pour une application métier. Symfony 8 convient si vous voulez suivre le rythme des versions standard, supportées environ huit mois chacune. La 8.0 n'est déjà plus maintenue : visez la 8.1 ou plus récent.",
+  },
+  {
+    title: "Quelle version de PHP faut-il pour Symfony 8 ?",
+    content:
+      "Symfony 8 exige PHP 8.4 minimum, contre PHP 8.2 pour la 7.4 LTS et PHP 8.1 pour la 6.4 LTS. Une montée vers Symfony 8 implique donc souvent de mettre à jour PHP en parallèle, ce que nous planifions dans les mêmes paliers.",
   },
   {
     title: "Quelle est la différence avec la modernisation d'application PHP ?",
@@ -150,7 +173,7 @@ const breadcrumb = breadcrumbJsonLd([
 const service = serviceJsonLd({
   name: "Migration Symfony",
   description:
-    "Migration Symfony 4, 5, 6 vers Symfony 7 : montée de version progressive par paliers, sans interruption de service. Audit des dépréciations, refactoring Rector et validation continue.",
+    "Migration Symfony 4, 5, 6 vers 7.4 LTS puis Symfony 8 : montée de version progressive par paliers, sans interruption de service. Audit des dépréciations, refactoring Rector et validation continue.",
   path: "/migration-symfony",
   mainTech: ["symfony","php"],
 });
@@ -158,10 +181,10 @@ const service = serviceJsonLd({
 const webPage = webPageJsonLd({
   name: "Migration Symfony : montez de version en toute sécurité",
   description:
-    "Migration Symfony 4, 5, 6 vers Symfony 7 : montée de version progressive, sans interruption de service. Expertise certifiée et outillage Rector.",
+    "Migration Symfony 4, 5, 6 vers 7.4 LTS puis Symfony 8 : montée de version progressive, sans interruption de service. Expertise certifiée et outillage Rector.",
   path: "/migration-symfony",
   datePublished: "2026-03-12",
-  dateModified: "2026-03-12",
+  dateModified: "2026-10-09",
 });
 
 const migrationRelatedLinks: RelatedLink[] = [
@@ -193,7 +216,7 @@ export default function MigrationSymfony() {
                   Migration Symfony : montez de version en toute sécurité
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg text-gray">
-                  Votre application tourne sur Symfony 4, 5 ou 6 ? Chaque
+                  Votre application tourne sur Symfony 4, 5, 6 ou 7 ? Chaque
                   version non maintenue est une faille de sécurité ouverte et un
                   frein à l&apos;évolution de votre produit.
                 </p>
@@ -255,6 +278,40 @@ export default function MigrationSymfony() {
                   <p className="mt-3 text-gray">{version.description}</p>
                 </Card>
               ))}
+            </div>
+            <div className="mt-10 overflow-x-auto">
+              <table className="w-full min-w-[32rem] border-collapse text-left">
+                <caption className="mb-3 text-left text-sm text-gray">
+                  Versions Symfony en octobre 2026, d&apos;après le{" "}
+                  <a
+                    href="https://symfony.com/releases"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline"
+                  >
+                    calendrier officiel
+                  </a>
+                  .
+                </caption>
+                <thead>
+                  <tr className="border-b border-border text-sm text-gray">
+                    <th scope="col" className="py-2 pr-4 font-semibold">Version</th>
+                    <th scope="col" className="py-2 pr-4 font-semibold">Statut</th>
+                    <th scope="col" className="py-2 pr-4 font-semibold">PHP minimum</th>
+                    <th scope="col" className="py-2 font-semibold">Support jusqu&apos;en</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {supportedVersions.map((row) => (
+                    <tr key={row.version} className="border-b border-border">
+                      <th scope="row" className="py-3 pr-4 font-semibold text-dark">{row.version}</th>
+                      <td className="py-3 pr-4 text-gray">{row.status}</td>
+                      <td className="py-3 pr-4 text-gray">{row.php}</td>
+                      <td className="py-3 text-gray">{row.support}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
             <p className="mt-10 text-center text-lg text-gray">
               Pour un aperçu détaillé de notre démarche, consultez notre{" "}
@@ -465,7 +522,7 @@ export default function MigrationSymfony() {
                 <p className="mt-4 text-lg text-gray">
                   Passer de Symfony 4 à 7 ne se fait pas d&apos;un bloc. Le chemin
                   recommandé suit les paliers LTS : 4.4, puis 5.4, puis 6.4, avant
-                  d&apos;atteindre 7. Chaque palier neutralise les déprécations
+                  d&apos;atteindre la 7.4 LTS, la version à support long actuelle. Chaque palier neutralise les déprécations
                   avant qu&apos;elles ne deviennent des erreurs fatales à la
                   version suivante. Les chantiers structurants concernent la
                   configuration (passage au format attributs et au répertoire
@@ -487,7 +544,7 @@ export default function MigrationSymfony() {
                   Migration Symfony 5 vers 7 : étapes clés
                 </h2>
                 <p className="mt-4 text-lg text-gray">
-                  Depuis Symfony 5.4 LTS, la route vers la 7 passe par la 6.4. La
+                  Depuis Symfony 5.4 LTS, la route vers la 7.4 passe par la 6.4. La
                   principale rupture se situe entre 5 et 6 : montée à PHP 8.1
                   minimum, généralisation des attributs, et refonte de plusieurs
                   signatures dans les composants HttpFoundation et Security. La 6.4
@@ -511,12 +568,12 @@ export default function MigrationSymfony() {
                   Migration Symfony 6 vers 7 : étapes clés
                 </h2>
                 <p className="mt-4 text-lg text-gray">
-                  La migration de Symfony 6.4 vers 7 est la plus douce des trois.
+                  La migration de Symfony 6.4 vers 7.4 LTS est la plus douce des trois.
                   Comme 6.4 et 7.0 partagent la même base, l&apos;essentiel du
                   travail consiste à supprimer tout usage de code déprécé signalé
                   en 6.4 : le pont de dépréciations permet justement de tout
                   corriger avant le saut. Une fois l&apos;application sans
-                  avertissement sous 6.4, le passage à 7 se résume à mettre à jour
+                  avertissement sous 6.4, le passage à la 7.0 puis à la 7.4 LTS se résume à mettre à jour
                   les contraintes de version dans composer.json et à relancer la
                   suite de tests. C&apos;est le scénario idéal que nous visons pour
                   toutes nos migrations : faire de chaque LTS un point d&apos;appui
@@ -529,6 +586,28 @@ export default function MigrationSymfony() {
                     dette technique
                   </Link>{" "}
                   et la facture finale.
+                </p>
+              </div>
+              <div>
+                <h2 className="font-display text-2xl font-bold text-dark md:text-3xl">
+                  Migrer de Symfony 7.4 vers Symfony 8
+                </h2>
+                <p className="mt-4 text-lg text-gray">
+                  La 7.4 LTS joue pour Symfony 8 le rôle que la 6.4 jouait pour la
+                  7 : elle contient les mêmes fonctionnalités que la 8.0 et signale
+                  toutes les dépréciations à traiter. Une fois l&apos;application
+                  sans avertissement sous 7.4, la montée vers Symfony 8 consiste à
+                  retirer les usages supprimés et à relancer la suite de tests.
+                </p>
+                <p className="mt-4 text-lg text-gray">
+                  Deux points demandent de l&apos;anticipation. Symfony 8 exige
+                  PHP 8.4 minimum, alors que la 7.4 tourne dès PHP 8.2 : la montée
+                  de PHP se planifie dans les mêmes paliers. Et les versions 8.x ne
+                  sont pas des LTS, avec un support d&apos;environ huit mois : la
+                  8.0 n&apos;est déjà plus maintenue, il faut viser la 8.1 ou plus
+                  récent, puis suivre les mineures. Pour une application métier qui
+                  doit rester stable, la 7.4 LTS, supportée jusqu&apos;en novembre
+                  2029, reste souvent le bon palier d&apos;arrivée.
                 </p>
               </div>
             </div>
