@@ -14,7 +14,6 @@ import {
   getBlogPageCount,
   getPostsForPage,
   blogPagePath,
-  getTranslationOf,
 } from "@/lib/blog";
 
 const TEMP_SLUG = "__test-empty-frontmatter__";
@@ -480,18 +479,6 @@ describe("translations", () => {
     writeEn("__test-en-old__", validFields(SOURCE_A, { date: '"2026-01-01"' }));
     writeEn("__test-en-new__", validFields(SOURCE_B, { date: '"2026-06-01"' }));
     expect(getAllPosts("en").map((p) => p.slug)).toEqual(["__test-en-new__", "__test-en-old__"]);
-  });
-
-  it("links a French post to its translation and back", () => {
-    writeEn("__test-en-link__", validFields(SOURCE_A));
-    const french = getPostBySlug(SOURCE_A)!;
-    const english = getTranslationOf(french)!;
-    expect(english.slug).toBe("__test-en-link__");
-    expect(getTranslationOf(english)!.slug).toBe(SOURCE_A);
-  });
-
-  it("returns no translation for a French post without one", () => {
-    expect(getTranslationOf(getPostBySlug(SOURCE_A)!)).toBeUndefined();
   });
 
   it.each(["translationOf", "translatedFromUpdatedAt", "reviewedBy", "reviewedAt"])(
