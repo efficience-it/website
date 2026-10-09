@@ -1,3 +1,4 @@
+import { PROJECTS_DELIVERED } from "@/lib/company";
 import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
@@ -58,7 +59,7 @@ const webPage = webPageJsonLd({
   description: "Efficience IT, agence Symfony à Lille : développement sur mesure, maintenance, migration et audit. Proximité, réactivité et expertise technique au service de vos projets.",
   path: "/agence-symfony-lille",
   datePublished: "2026-03-11",
-  dateModified: "2026-04-10",
+  dateModified: "2026-10-09",
 });
 
 const faqItems = [
@@ -170,10 +171,10 @@ export default function AgenceSymfonyLille() {
                 </div>
                 <div className="flex items-start gap-4">
                   <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary font-bold">
-                    50+
+                    {PROJECTS_DELIVERED}+
                   </span>
                   <div>
-                    <p className="font-semibold text-dark">Projets Symfony livrés</p>
+                    <p className="font-semibold text-dark">Projets livrés</p>
                     <p className="text-sm text-gray">Applications métier, API, e-commerce, SaaS</p>
                   </div>
                 </div>

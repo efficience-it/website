@@ -99,7 +99,7 @@ export const mainNav: NavItem[] = [
       {
         label: "Notre histoire",
         href: "/l-entreprise",
-        description: "10 ans de spécialisation PHP et Symfony",
+        description: "Spécialisation PHP et Symfony depuis 2018",
       },
       {
         label: "La team",

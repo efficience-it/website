@@ -1,3 +1,9 @@
+import {
+  CLIENTS_SUPPORTED,
+  OPEN_SOURCE_CONTRIBUTIONS,
+  PROJECTS_DELIVERED,
+  TEAM_EXPERIENCE_YEARS,
+} from "@/lib/company";
 import Image from "next/image";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/ui/Container";
@@ -136,19 +142,19 @@ export default function NosReferences() {
         <Container>
           <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
             <div className="text-center">
-              <p className="font-display text-4xl font-bold text-primary md:text-5xl">10+</p>
-              <p className="mt-2 text-sm font-medium text-gray">Années d&apos;expérience</p>
+              <p className="font-display text-4xl font-bold text-primary md:text-5xl">{TEAM_EXPERIENCE_YEARS}+</p>
+              <p className="mt-2 text-sm font-medium text-gray">Années d&apos;expérience de l&apos;équipe</p>
             </div>
             <div className="text-center">
-              <p className="font-display text-4xl font-bold text-primary md:text-5xl">150+</p>
+              <p className="font-display text-4xl font-bold text-primary md:text-5xl">{PROJECTS_DELIVERED}+</p>
               <p className="mt-2 text-sm font-medium text-gray">Projets livrés</p>
             </div>
             <div className="text-center">
-              <p className="font-display text-4xl font-bold text-primary md:text-5xl">40+</p>
+              <p className="font-display text-4xl font-bold text-primary md:text-5xl">{CLIENTS_SUPPORTED}+</p>
               <p className="mt-2 text-sm font-medium text-gray">Clients accompagnés</p>
             </div>
             <div className="text-center">
-              <p className="font-display text-4xl font-bold text-primary md:text-5xl">500+</p>
+              <p className="font-display text-4xl font-bold text-primary md:text-5xl">{OPEN_SOURCE_CONTRIBUTIONS}+</p>
               <p className="mt-2 text-sm font-medium text-gray">PR sur PHP, Symfony &amp; son écosystème</p>
             </div>
           </div>
