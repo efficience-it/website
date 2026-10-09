@@ -6,12 +6,12 @@ category: "Symfony"
 excerpt: "Dans le domaine des bibliothèques de persistance des bases de données en PHP, peu de noms portent autant de poids que Doctrine ORM."
 image: "/images/blog/cover-doctrine-orm-3.webp"
 proficiencyLevel: "Expert"
-updatedAt: "2026-01-13"
+updatedAt: "2026-10-09"
 ---
 
 ## Doctrine ORM 3.0 : ce qui change concrètement pour vos projets PHP
 
-Sortie en janvier 2025, Doctrine ORM 3.0, dont l'[intégration dans Symfony est documentée officiellement](https://symfony.com/doc/current/doctrine.html), constitue la première version majeure depuis plus d'une décennie. Loin d'un simple incrément de version, cette release restructure en profondeur l'architecture interne de la bibliothèque de persistance la plus utilisée de l'écosystème PHP. Pour les équipes qui s'appuient sur Symfony ou sur Doctrine en standalone, comprendre la portée de ces changements est indispensable pour planifier sereinement la migration.
+Sorti en février 2024, Doctrine ORM 3.0, dont l'[intégration dans Symfony est documentée officiellement](https://symfony.com/doc/current/doctrine.html), constitue la première version majeure depuis plus d'une décennie. Loin d'un simple incrément de version, cette release restructure en profondeur l'architecture interne de la bibliothèque de persistance la plus utilisée de l'écosystème PHP. Pour les équipes qui s'appuient sur Symfony ou sur Doctrine en standalone, comprendre la portée de ces changements est indispensable pour planifier sereinement la migration.
 
 ## Les changements immédiats pour les développeurs
 
@@ -19,7 +19,7 @@ Sortie en janvier 2025, Doctrine ORM 3.0, dont l'[intégration dans Symfony est 
 
 Le changement le plus visible concerne le mapping des entités. Les annotations DocBlock (`/** @ORM\Entity */`) ne sont plus supportées. Seuls les attributs PHP 8 (`#[ORM\Entity]`) et les fichiers XML restent disponibles. La configuration YAML, dépréciée depuis ORM 2.x, est également supprimée définitivement.
 
-Ce choix impose PHP 8.2 comme version minimale et aligne Doctrine sur les standards modernes du langage. [Rector peut automatiser cette migration](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) des annotations vers les attributs PHP 8. Pour les projets encore en annotations, cette migration représente le premier chantier à anticiper.
+Ce choix impose PHP 8.1 comme version minimale et aligne Doctrine sur les standards modernes du langage. [Rector peut automatiser cette migration](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) des annotations vers les attributs PHP 8. Pour les projets encore en annotations, cette migration représente le premier chantier à anticiper.
 
 ### Suppression des méthodes dépréciées de l'EntityManager
 
@@ -65,9 +65,9 @@ Les objets embeddables gèrent désormais nativement les valeurs nullables et le
 
 ### Les implications de DBAL 4
 
-Doctrine ORM 3.0 s'accompagne d'une montée vers DBAL 4, qui constitue en réalité le changement le plus profond de cette transition. DBAL 4 supprime le support de plusieurs drivers historiques, rationalise l'API de connexion et modifie la gestion des types de données. Les abstractions de schéma sont simplifiées, ce qui impacte directement les migrations et les outils de génération de schéma.
+Doctrine ORM 3.0 est compatible avec DBAL 3.6 et DBAL 4, mais c'est DBAL 4 qui constitue en réalité le changement le plus profond de cette transition. DBAL 4 supprime le support de plusieurs drivers historiques, rationalise l'API de connexion et modifie la gestion des types de données. Les abstractions de schéma sont simplifiées, ce qui impacte directement les migrations et les outils de génération de schéma.
 
-Pour les architectes, cela signifie que la migration vers ORM 3.0 ne peut pas être envisagée indépendamment de DBAL 4. Les deux doivent être traités conjointement, et les couches d'abstraction personnalisées construites au-dessus de DBAL devront être auditées. L'adoption de PSR-6 pour le cache, en remplacement de `doctrine/cache`, participe de cette rationalisation des dépendances et améliore l'interopérabilité avec l'ensemble de l'écosystème PHP.
+Pour les architectes, cela signifie que la migration vers ORM 3.0 et celle vers DBAL 4 doivent être planifiées ensemble, même si elles peuvent être séquencées. Les couches d'abstraction personnalisées construites au-dessus de DBAL devront être auditées. L'adoption de PSR-6 pour le cache, en remplacement de `doctrine/cache`, participe de cette rationalisation des dépendances et améliore l'interopérabilité avec l'ensemble de l'écosystème PHP.
 
 ### Impact sur la performance
 
@@ -88,6 +88,10 @@ La migration vers ORM 3.0 ne doit pas être précipitée. L'approche recommandé
 Pour les projets stratégiques, il est pertinent d'attendre que l'écosystème des bundles tiers ait achevé sa propre migration. Les bundles qui dépendent d'API internes de Doctrine, listeners d'événements, extensions de types DBAL, sont les plus susceptibles de nécessiter des mises à jour.
 
 Les projets bien maintenus, ayant traité les dépréciations au fil des versions mineures, trouveront cette transition relativement fluide. Pour les autres, un [guide de migration structuré](/article/guide-de-migration-dans-un-projet-symfony) permet de séquencer le travail et de maîtriser les risques.
+
+### L'état actuel d'ORM 3.x
+
+Depuis la sortie de la 3.0, la branche 3.x a continué d'évoluer avec des versions mineures régulières. La dernière version publiée, la 3.7, conserve les mêmes prérequis : PHP 8.1 minimum et DBAL 3.8 ou 4. Migrer vers ORM 3 aujourd'hui reste donc un chantier accessible sans changer de version de PHP, et le suivi des [versions publiées sur GitHub](https://github.com/doctrine/orm/releases) permet de choisir la dernière release stable.
 
 ## Conclusion
 
