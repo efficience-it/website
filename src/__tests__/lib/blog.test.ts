@@ -17,6 +17,7 @@ import {
   getTranslationOf,
   articlePath,
   getLanguageSwitchTarget,
+  getTranslationPaths,
 } from "@/lib/blog";
 
 const TEMP_SLUG = "__test-empty-frontmatter__";
@@ -537,5 +538,16 @@ describe("translations", () => {
       language: "fr",
       href: `/article/${SOURCE_A}`,
     });
+  });
+
+  it("gives no translation paths without a translation", () => {
+    expect(getTranslationPaths(getPostBySlug(SOURCE_A)!)).toBeUndefined();
+  });
+
+  it("gives the same French and English paths from either side", () => {
+    writeEn("__test-en-paths__", validFields(SOURCE_A));
+    const expected = { fr: `/article/${SOURCE_A}`, en: "/en/article/__test-en-paths__" };
+    expect(getTranslationPaths(getPostBySlug(SOURCE_A)!)).toEqual(expected);
+    expect(getTranslationPaths(getPostBySlug("__test-en-paths__", "en")!)).toEqual(expected);
   });
 });
