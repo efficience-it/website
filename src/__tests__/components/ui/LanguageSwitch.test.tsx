@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import LanguageSwitch from "@/components/ui/LanguageSwitch";
 
 describe("LanguageSwitch", () => {
@@ -23,5 +23,25 @@ describe("LanguageSwitch", () => {
     expect(link).toHaveAttribute("href", "/article/exemple");
     expect(link).toHaveAttribute("hreflang", "fr");
     expect(link).toHaveAttribute("lang", "fr");
+  });
+
+  it("tracks the language switch from French to English", () => {
+    window.gtag = jest.fn();
+    render(<LanguageSwitch target={{ language: "en", href: "/en/article/exemple" }} />);
+    fireEvent.click(screen.getByRole("link"));
+    expect(window.gtag).toHaveBeenCalledWith("event", "language_switch", {
+      from_language: "fr",
+      to_language: "en",
+    });
+  });
+
+  it("tracks the language switch from English to French", () => {
+    window.gtag = jest.fn();
+    render(<LanguageSwitch target={{ language: "fr", href: "/article/exemple" }} />);
+    fireEvent.click(screen.getByRole("link"));
+    expect(window.gtag).toHaveBeenCalledWith("event", "language_switch", {
+      from_language: "en",
+      to_language: "fr",
+    });
   });
 });

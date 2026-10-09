@@ -1,4 +1,4 @@
-import { trackEvent } from "@/lib/tracking";
+import { languageFromPath, trackEvent } from "@/lib/tracking";
 
 describe("trackEvent", () => {
   let savedGtag: typeof window.gtag;
@@ -44,5 +44,18 @@ describe("trackEvent", () => {
       team_size: "3-5",
       problem: "Performance",
     });
+  });
+});
+
+describe("languageFromPath", () => {
+  it("detects English pages", () => {
+    expect(languageFromPath("/en")).toBe("en");
+    expect(languageFromPath("/en/article/example")).toBe("en");
+  });
+
+  it("defaults to French", () => {
+    expect(languageFromPath("/")).toBe("fr");
+    expect(languageFromPath("/article/exemple")).toBe("fr");
+    expect(languageFromPath("/entreprise")).toBe("fr");
   });
 });

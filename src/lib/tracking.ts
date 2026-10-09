@@ -14,11 +14,14 @@ type GtagEvent = {
   page_category?: string;
   article_slug?: string;
   method?: string;
+  content_language?: string;
+  from_language?: string;
+  to_language?: string;
 };
 
 declare global {
   interface Window {
-    gtag?: (command: string, action: string, params?: GtagEvent) => void;
+    gtag?: (command: string, action: string | GtagEvent, params?: GtagEvent) => void;
   }
 }
 
@@ -26,4 +29,8 @@ export function trackEvent(action: string, params?: GtagEvent) {
   if (typeof window !== "undefined" && window.gtag) {
     window.gtag("event", action, params);
   }
+}
+
+export function languageFromPath(pathname: string): "fr" | "en" {
+  return pathname === "/en" || pathname.startsWith("/en/") ? "en" : "fr";
 }

@@ -1,7 +1,9 @@
 "use client";
 
 import Script from "next/script";
-import { useSyncExternalStore } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useSyncExternalStore } from "react";
+import { languageFromPath } from "@/lib/tracking";
 
 const GA_MEASUREMENT_ID = "G-CZN94LWSH2";
 
@@ -24,6 +26,11 @@ function getServerSnapshot(): boolean {
 
 export default function GoogleAnalytics() {
   const consent = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (consent) window.gtag?.("set", { content_language: languageFromPath(pathname) });
+  }, [consent, pathname]);
 
   if (!consent) return null;
 
@@ -40,7 +47,7 @@ export default function GoogleAnalytics() {
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-          gtag('config', '${GA_MEASUREMENT_ID}');
+          gtag('config', '${GA_MEASUREMENT_ID}', { content_language: location.pathname === '/en' || location.pathname.indexOf('/en/') === 0 ? 'en' : 'fr' });
         `}
       </Script>
     </>
