@@ -13,11 +13,8 @@ import FadeIn from "@/components/ui/FadeIn";
 import AnimatedCounter from "@/components/ui/AnimatedCounter";
 
 import { pageMetadata } from "@/lib/metadata";
-import { webPageJsonLd, reviewsJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
-import { testimonials } from "@/../data/testimonials";
+import { webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import type { Metadata } from "next";
-
-const reviews = reviewsJsonLd(testimonials);
 
 const keyFigures = [
   { value: 10, suffix: "+", label: "Années d'expérience" },
@@ -45,7 +42,7 @@ const webPage = webPageJsonLd({
 export default function Home() {
   return (
     <>
-    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageGraphJsonLd(webPage, reviews)) }} />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageGraphJsonLd(webPage)) }} />
     <main>
       <Hero />
       <FadeIn>
