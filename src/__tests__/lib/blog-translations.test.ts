@@ -44,7 +44,7 @@ describe("translations", () => {
     writeFrench(SOURCE_B);
     process.chdir(root);
     jest.isolateModules(() => {
-      blog = require("@/lib/blog");
+      blog = jest.requireActual("@/lib/blog");
     });
   });
 
