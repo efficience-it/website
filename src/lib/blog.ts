@@ -160,11 +160,6 @@ export function getPostBySlug(slug: string, language: BlogLanguage = "fr"): Blog
   return parsePost(slug, "fr", data, content);
 }
 
-export function getTranslationOf(post: BlogPost): BlogPost | undefined {
-  if (post.language === "en") return getPostBySlug(post.translationOf as string);
-  return getAllPosts("en").find((p) => p.translationOf === post.slug);
-}
-
 export const categorySlugMap: Record<string, string> = {
   Agence: "agence",
   Architecture: "architecture",
