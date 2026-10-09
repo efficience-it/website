@@ -59,7 +59,7 @@ export const STATIC_SILOS: RouteSilo[] = [
       { path: "/reprise-projet-symfony", label: "Reprise de projet Symfony", lastModified: "2026-06-18", changeFrequency: "monthly", priority: 0.8 },
       { path: "/maintenance-applicative-symfony", label: "Maintenance applicative Symfony", lastModified: "2026-06-18", changeFrequency: "monthly", priority: 0.8 },
       { path: "/audit-code-php", label: "Audit de code PHP", lastModified: "2026-06-18", changeFrequency: "monthly", priority: 0.8 },
-      { path: "/audit-symfony-gratuit", label: "Audit Symfony gratuit", lastModified: "2026-06-18", changeFrequency: "monthly", priority: 0.8 },
+      { path: "/audit-symfony-gratuit", label: "Audit Symfony gratuit", lastModified: "2026-10-09", changeFrequency: "monthly", priority: 0.8 },
       { path: "/tests-automatises-php", label: "Tests automatisés PHP", lastModified: "2026-06-18", changeFrequency: "monthly", priority: 0.8 },
       { path: "/formation-symfony-entreprise", label: "Formation Symfony entreprise", lastModified: "2026-01-13", changeFrequency: "monthly", priority: 0.8 },
       { path: "/expertise-ia", label: "Expertise IA", lastModified: "2026-06-18", changeFrequency: "monthly", priority: 0.8 },
