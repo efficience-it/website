@@ -72,6 +72,7 @@ describe("Company pages", () => {
     render(<NosReferences />);
     expect(screen.getByRole("heading", { level: 3, name: "Parlement européen" })).toBeInTheDocument();
     expect(screen.getByText(/institution de l.Union européenne figure parmi nos clients/i)).toBeInTheDocument();
+    expect(screen.getByAltText("Parlement européen")).toHaveAttribute("src", expect.stringContaining("parlement-europeen.webp"));
   });
 });
 
