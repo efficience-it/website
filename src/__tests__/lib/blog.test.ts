@@ -15,6 +15,8 @@ import {
   getPostsForPage,
   blogPagePath,
   getTranslationOf,
+  articlePath,
+  getLanguageSwitchTarget,
 } from "@/lib/blog";
 
 const TEMP_SLUG = "__test-empty-frontmatter__";
@@ -513,5 +515,27 @@ describe("translations", () => {
     writeEn("__test-en-first__", validFields(SOURCE_A));
     writeEn("__test-en-second__", validFields(SOURCE_A));
     expect(() => getAllPosts("en")).toThrow("a déjà une traduction");
+  });
+
+  it("builds article paths per language", () => {
+    expect(articlePath(getPostBySlug(SOURCE_A)!)).toBe(`/article/${SOURCE_A}`);
+    writeEn("__test-en-path__", validFields(SOURCE_A));
+    expect(articlePath(getPostBySlug("__test-en-path__", "en")!)).toBe("/en/article/__test-en-path__");
+  });
+
+  it("offers no language switch target without a translation", () => {
+    expect(getLanguageSwitchTarget(getPostBySlug(SOURCE_A)!)).toBeUndefined();
+  });
+
+  it("targets the English version from French and the French one from English", () => {
+    writeEn("__test-en-switch__", validFields(SOURCE_A));
+    expect(getLanguageSwitchTarget(getPostBySlug(SOURCE_A)!)).toEqual({
+      language: "en",
+      href: "/en/article/__test-en-switch__",
+    });
+    expect(getLanguageSwitchTarget(getPostBySlug("__test-en-switch__", "en")!)).toEqual({
+      language: "fr",
+      href: `/article/${SOURCE_A}`,
+    });
   });
 });

@@ -165,6 +165,18 @@ export function getTranslationOf(post: BlogPost): BlogPost | undefined {
   return getAllPosts("en").find((p) => p.translationOf === post.slug);
 }
 
+export function articlePath(post: BlogPost): string {
+  return post.language === "en" ? `/en/article/${post.slug}` : `/article/${post.slug}`;
+}
+
+export function getLanguageSwitchTarget(
+  post: BlogPost,
+): { language: BlogLanguage; href: string } | undefined {
+  const translation = getTranslationOf(post);
+  if (!translation) return undefined;
+  return { language: translation.language as BlogLanguage, href: articlePath(translation) };
+}
+
 export const categorySlugMap: Record<string, string> = {
   Agence: "agence",
   Architecture: "architecture",
