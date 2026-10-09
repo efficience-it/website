@@ -1,0 +1,182 @@
+---
+title: "Castor ou Make : quel task runner pour un projet Symfony ?"
+date: "2026-10-09"
+updatedAt: "2026-10-09"
+author: "Louis-Arnaud Catoire"
+category: "DevOps"
+excerpt: "Castor ou Make pour automatiser Docker, les tests et la CI d'un projet Symfony ? Même cas d'usage dans les deux outils, tableau comparatif et verdict."
+image: "/images/blog/cover-castor-ou-make.webp"
+proficiencyLevel: "Intermediate"
+mainTech: [docker, php, symfony]
+faq:
+  - question: "Castor remplace-t-il Make ?"
+    answer: "Pas systématiquement. Castor remplace très bien un Makefile devenu long ou plein de shell, mais Make reste installé partout et suffit pour une poignée de commandes Docker. Le choix dépend de la logique que contiennent vos tâches, pas d'un effet de mode."
+  - question: "Faut-il installer PHP pour utiliser Castor ?"
+    answer: "Non. Castor existe en binaire statique qui embarque PHP, en phar et en paquet Composer. Dans un conteneur de CI ou sur le poste d'un développeur front, le binaire statique évite de dépendre d'une version de PHP locale."
+  - question: "Peut-on utiliser Castor et Make ensemble ?"
+    answer: "Oui, et la transition se fait souvent ainsi : le Makefile garde les alias historiques (make test) et appelle castor test. Chacun garde ses habitudes pendant que la logique migre vers PHP."
+  - question: "Castor est-il adapté à la CI ?"
+    answer: "Oui, à condition de l'installer dans le job. Les mêmes tâches tournent en local et en CI, ce qui évite d'avoir une logique dans le fichier YAML et une autre dans le Makefile."
+---
+
+Dans presque tous les projets Symfony qu'on reprend, il y a un `Makefile` à la racine. Il démarre Docker, lance PHPUnit, passe PHPStan. Au début, il fait dix lignes. Deux ans plus tard, il en fait trois cents, avec des variables d'environnement, des `if` en shell et des échappements que personne n'ose toucher.
+
+C'est là qu'on tombe sur [Castor](https://castor.jolicode.com/), le task runner de JoliCode, qui propose d'écrire ces tâches en PHP. Mon avis, après avoir fait tourner les deux sur le même projet : Make suffit tant que vos tâches sont des commandes à enchaîner. Castor devient meilleur dès qu'elles contiennent de la logique.
+
+## Make : le standard qu'on ne remarque plus
+
+Make existe depuis 1976 et il est présent sur à peu près tous les postes Linux et macOS. C'est son principal atout : aucune installation, aucune dépendance, et tout développeur a déjà vu un `make install`. La [documentation de GNU Make](https://www.gnu.org/software/make/manual/make.html) est exhaustive.
+
+Sa force, c'est le graphe de dépendances. Une cible peut en exiger d'autres, et Make n'exécute chacune qu'une seule fois par appel. Pour enchaîner `up`, `lint` puis `test`, c'est très lisible.
+
+Ses limites apparaissent vite quand on s'en sert comme lanceur de commandes plutôt que comme outil de compilation :
+
+- **Les arguments** passent par des variables (`make test FILTER=foo`), sans validation ni aide intégrée.
+- **La syntaxe** impose des tabulations et mélange deux langages, celui de Make et celui du shell.
+- **La portabilité** pose problème : le shell de Windows n'est pas celui de Linux, et les `sed` de macOS et de GNU diffèrent.
+- **Les tâches `.PHONY`** sont une astuce, pas une fonctionnalité : Make pense en fichiers, pas en commandes.
+
+## Castor : des tâches écrites en PHP
+
+Castor se présente comme un task runner orienté expérience développeur. Une tâche est une fonction PHP marquée de l'attribut `#[AsTask]`, dans un fichier `castor.php` à la racine du projet. Il repose sur la [Console de Symfony](https://symfony.com/doc/current/components/console.html), ce qui lui donne gratuitement l'aide (`--help`), la validation des arguments et l'autocomplétion. Nous avons détaillé cette base dans notre article sur les [commandes invocables et les attributs de la Console](/article/commandes-invocables-symfony-attributs-console).
+
+L'installation tient en une ligne (`curl "https://castor.jolicode.com/install" | bash`), et il existe aussi en phar, en binaire statique et via Composer. Le [dépôt GitHub](https://github.com/jolicode/castor) est sous licence MIT. Le binaire statique embarque PHP : un poste sans PHP installé peut donc l'utiliser.
+
+Les fonctions utiles sont fournies : `run()` pour lancer un processus, `io()` pour l'affichage, `fs()` pour le système de fichiers, `watch()` pour relancer une tâche à chaque modification.
+
+## Le même cas d'usage dans les deux outils
+
+Pour que la comparaison soit tangible, voici un cas réel : démarrer les conteneurs Docker, vérifier la syntaxe, lancer les tests avec un filtre optionnel, et enchaîner le tout dans une tâche `qa`. J'ai exécuté les deux versions avec Make 4.4.1, Castor 1.8.1 et une image `php:8.4-cli-alpine`.
+
+Le `compose.yaml` est commun :
+
+```yaml
+services:
+  php:
+    image: php:8.4-cli-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: ["sleep", "infinity"]
+```
+
+### Avec Make
+
+```makefile
+.DEFAULT_GOAL := help
+DC = docker compose
+EXEC = $(DC) exec php
+
+.PHONY: help up down lint test qa
+
+help: ## Liste les commandes
+	@grep -E '^[a-z]+:.*##' $(MAKEFILE_LIST) | awk -F ':.*## ' '{printf "%-8s %s\n", $$1, $$2}'
+
+up: ## Démarre les conteneurs
+	$(DC) up -d
+
+down: ## Arrête les conteneurs
+	$(DC) down
+
+lint: up ## Vérifie la syntaxe PHP
+	$(EXEC) php -l tests/smoke.php
+
+test: up ## Lance les tests (FILTER=nom pour filtrer)
+	$(EXEC) php tests/smoke.php $(FILTER)
+
+qa: lint test ## Enchaîne lint et tests
+```
+
+`make qa` démarre les conteneurs une seule fois, puis lance le lint et les tests. `make test FILTER=foo` transmet le filtre.
+
+### Avec Castor
+
+```php
+<?php
+
+use Castor\Attribute\AsOption;
+use Castor\Attribute\AsTask;
+
+use function Castor\run;
+
+defined('CASTOR_USE_CHDIR') || define('CASTOR_USE_CHDIR', true);
+
+#[AsTask(description: 'Démarre les conteneurs')]
+function up(): void
+{
+    run('docker compose up -d');
+}
+
+#[AsTask(description: 'Arrête les conteneurs')]
+function down(): void
+{
+    run('docker compose down');
+}
+
+#[AsTask(description: 'Vérifie la syntaxe PHP')]
+function lint(): void
+{
+    up();
+    run('docker compose exec php php -l tests/smoke.php');
+}
+
+#[AsTask(description: 'Lance les tests')]
+function test(#[AsOption(description: 'Filtre les tests')] string $filter = ''): void
+{
+    up();
+    run(['docker', 'compose', 'exec', 'php', 'php', 'tests/smoke.php', $filter]);
+}
+
+#[AsTask(description: 'Enchaîne lint et tests')]
+function qa(): void
+{
+    lint();
+    test();
+}
+```
+
+`castor qa` fait la même chose, et `castor test --filter=foo` accepte l'option avec une aide générée automatiquement (`castor test --help`). Les dépendances entre tâches sont de simples appels de fonction.
+
+Deux différences concrètes à l'exécution. Make appelle `up` une seule fois même si deux cibles en dépendent, alors que Castor l'appelle deux fois (sans conséquence ici, car `docker compose up -d` est idempotent). Et sans la ligne `CASTOR_USE_CHDIR`, la version 1.8.1 affiche un avertissement de dépréciation à chaque lancement.
+
+## Comparaison point par point
+
+| Critère | Make | Castor |
+|---|---|---|
+| Installation | Déjà présent sur Linux et macOS | Une commande, binaire statique, phar ou Composer |
+| Langage des tâches | Syntaxe Make plus shell | PHP |
+| Lisibilité à grande échelle | Se dégrade vite | Fonctions, namespaces, IDE |
+| Arguments et options | Variables (`FILTER=foo`) | Typés, validés, aide générée |
+| Dépendances entre tâches | Natives, exécution unique | Appels de fonction |
+| Docker et Symfony | Commandes `docker compose` à la main | Idem, avec la logique PHP en plus |
+| Intégration CI | Rien à installer | Une étape d'installation |
+| Courbe d'apprentissage | Connue de tous, piège des tabulations | Immédiate pour un développeur PHP |
+| Maintenance | Stable depuis des décennies | Projet actif de JoliCode |
+
+## Les pièges des deux côtés
+
+Avec Make, le classique est la tabulation : un éditeur qui la convertit en espaces produit l'erreur `missing separator`. Autre piège, les variables shell, qui exigent de doubler les `$` (`$$1` dans l'exemple ci-dessus). Et un Makefile qui appelle `sed` ou `date` se comporte différemment sur macOS et sur Linux.
+
+Avec Castor, le premier point est le prérequis : il faut l'installer, en local comme en CI. Ensuite, comme on écrit du PHP, la tentation est grande d'y mettre de la vraie logique applicative, ce qui rend les tâches difficiles à tester. Enfin, une équipe où la moitié des développeurs ne connaît pas PHP (front, ops) y gagne peu : pour eux, un Makefile reste plus familier.
+
+## Comment trancher
+
+- **Restez sur Make** si vos tâches sont des alias de commandes (`docker compose`, `composer`, `phpunit`), si l'équipe est mixte, ou si le fichier reste court.
+- **Passez à Castor** dès que vos tâches ont des arguments, des conditions, des boucles ou des appels HTTP, ou quand le Makefile devient illisible.
+- **Faites cohabiter les deux** pendant la transition : le Makefile conserve `make test` et délègue à `castor test`.
+
+Quel que soit l'outil, l'important est que les mêmes commandes tournent en local et en CI. C'est ce qui évite le grand classique du « ça passe chez moi ». Sur ce sujet, notre retour sur [pourquoi Docker est devenu indispensable](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) pose les bases de l'environnement. Pour la partie qualité, [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) et [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) se branchent naturellement sur une tâche `qa`.
+
+## En résumé
+
+Make est le bon choix par défaut : rien à installer, tout le monde le connaît. Castor est le bon choix quand vos tâches ressemblent à du code, parce qu'on les écrit dans le langage de l'équipe, avec de vraies options et de l'aide intégrée. Pour un projet Symfony porté par des développeurs PHP, c'est une évolution naturelle dès que le Makefile dépasse la centaine de lignes.
+
+Si vous voulez fiabiliser votre chaîne d'outillage, notre équipe intervient sur le [cloud et le DevOps](/cloud-et-devops) et sur les [tests automatisés PHP](/tests-automatises-php).
+
+## Pour aller plus loin
+
+- [Documentation de Castor](https://castor.jolicode.com/), installation, référence des fonctions et FAQ
+- [Castor sur GitHub](https://github.com/jolicode/castor), code source et versions
+- [Manuel de GNU Make](https://www.gnu.org/software/make/manual/make.html), la référence de l'outil
+- [Traefik ou Nginx en production](/article/traefik-ou-nginx-en-production), un autre choix d'outillage à trancher
+- [Exécuter des tests Postman avec Newman dans GitLab CI](/article/comment-executer-des-tests-postman-avec-newman-dans-gitlab-ci), pour brancher vos tâches en CI
