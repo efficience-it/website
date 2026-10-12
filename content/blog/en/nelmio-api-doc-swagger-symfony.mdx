@@ -1,0 +1,171 @@
+---
+title: "Swagger and NelmioApiDocBundle: What It Does"
+date: "2022-09-08"
+author: "Louis-Arnaud Catoire"
+category: "Symfony"
+excerpt: "NelmioApiDocBundle is a Symfony package that generates interactive API documentation from your source code. Setup, advanced patterns and API governance."
+image: "/images/blog/cover-nelmio-swagger.webp"
+updatedAt: "2026-10-12"
+translationOf: "swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on"
+translatedFromUpdatedAt: "2026-01-13"
+---
+
+Documenting an API is a founding act. It is not an end-of-sprint chore, it is the contract that binds the API producer to its consumers. NelmioApiDocBundle generates this contract directly from Symfony code, as an OpenAPI specification that both humans and machines can use. This article starts with the basics of setting up the bundle, then explores the advanced levers that experienced developers often underuse, before addressing the architecture questions that turn documentation into a real governance tool.
+
+## The OpenAPI specification in a nutshell
+
+OpenAPI (formerly the Swagger Specification) is an industry standard that describes a REST API in a JSON or YAML file. This file contains the list of endpoints, the supported HTTP methods, the request and response schemas, the error codes and the authentication mechanisms. Dozens of tools revolve around this format: Swagger UI for interactive documentation, Redoc for a more editorial presentation, and above all client SDK generators in about thirty languages.
+
+NelmioApiDocBundle, referenced in the [Symfony documentation on building APIs](https://symfony.com/doc/current/the-fast-track/en/26-api.html), is the bridge between the Symfony ecosystem and this specification. It introspects routes, controllers, Form Types and Doctrine entities to produce an OpenAPI file without writing a line of YAML by hand. This bundle is a must-have for custom [Symfony API development](/api-sur-mesure-symfony) (in French), just as the Node.js ecosystem bets on structured frameworks such as [NestJS to document its APIs](/api-nodejs-nestjs) (in French). To get the most out of this bundle, it helps to master [REST API best practices](/article/api-rest-les-bonnes-pratiques) (in French): endpoint structure, HTTP status code handling and response consistency.
+
+## Installation and initial configuration
+
+NelmioApiDocBundle is also one of the [most widely used bundles in Symfony projects](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony) (in French), and for good reason. Installation goes through Composer:
+
+```bash
+composer require nelmio/api-doc-bundle
+```
+
+The `config/packages/nelmio_api_doc.yaml` file holds the central configuration:
+
+```yaml
+nelmio_api_doc:
+    documentation:
+        info:
+            title: "Mon API"
+            description: "Documentation de mon API"
+            version: "1.0.0"
+    areas:
+        default:
+            path_patterns:
+                - ^/api
+```
+
+Beginners often overlook the `areas` directive. It lets you split the documentation into several zones: one for the public API, another for the admin API, a third for webhooks. Each zone produces its own OpenAPI specification, with its own security rules.
+
+## Annotating endpoints with PHP 8 attributes
+
+Since PHP 8, native attributes are a better alternative to Doctrine annotations. NelmioApiDocBundle supports the OpenApi attributes from the `nelmio/api-doc-bundle` package as well as those from `OpenApi\Attributes`:
+
+```php
+#[Route('/api/users/{id}', methods: ['GET'])]
+#[OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))]
+#[OA\Response(
+    response: 200,
+    description: 'Détail d\'un utilisateur',
+    content: new OA\JsonContent(ref: new Model(type: User::class))
+)]
+#[OA\Response(response: 404, description: 'Utilisateur non trouvé')]
+public function show(int $id): JsonResponse
+```
+
+Each `OA\Response` attribute documents a returned HTTP code. A well-documented endpoint systematically lists the nominal cases (200, 201) and the error cases (400, 403, 404, 422). Neglecting error responses leaves consumers guessing how the API behaves when something goes wrong.
+
+## Documenting data models
+
+The real productivity gain comes from automatic documentation of models. The bundle introspects the properties of a PHP class to infer the JSON schema:
+
+```php
+class User
+{
+    #[OA\Property(description: 'Identifiant unique', example: 42)]
+    public int $id;
+
+    #[OA\Property(description: 'Adresse email', example: 'jean@example.com')]
+    #[Assert\Email]
+    public string $email;
+
+    #[OA\Property(description: 'Date de création', example: '2024-01-15T10:30:00+00:00')]
+    public \DateTimeImmutable $createdAt;
+}
+```
+
+The bundle also uses Symfony validation constraints (`Assert\NotBlank`, `Assert\Length`, `Assert\Email`) to enrich the schema with `required`, `minLength`, `maxLength` and `format` rules. Following [coding conventions](/article/coding-conventions) (in French) also keeps these annotations readable and consistent across the whole codebase. The result: the documentation faithfully reflects the business rules without duplication.
+
+For complex structures involving inheritance or polymorphism, the `OA\Discriminator` and `OA\OneOf` attributes let you represent type unions. An endpoint that returns either an `InternalUser` or an `ExternalPartner` can document that cleanly, avoiding the catch-all schema trap.
+
+## Security schemes
+
+Configuring security schemes in NelmioApiDocBundle covers the common cases: API key, Bearer JWT and OAuth2. Here is a typical JWT configuration:
+
+```yaml
+nelmio_api_doc:
+    documentation:
+        components:
+            securitySchemes:
+                Bearer:
+                    type: http
+                    scheme: bearer
+                    bearerFormat: JWT
+        security:
+            - Bearer: []
+```
+
+The `security` directive at the root level applies authentication to all endpoints by default. For public endpoints (login, healthcheck), the `#[OA\Security(name: null)]` attribute explicitly disables security on a given controller. This secure-by-default approach is preferable to the opposite, where each endpoint must declare its own security manually.
+
+For multi-tenant architectures or B2B APIs, OAuth2 with its different flows (authorization_code, client_credentials) is configured the same way in the `securitySchemes` section. The documentation then becomes the exact reflection of the security policy.
+
+## Versioning API documentation
+
+On mature projects, several versions of the API coexist. NelmioApiDocBundle handles this need through areas combined with route prefixes:
+
+```yaml
+nelmio_api_doc:
+    areas:
+        v1:
+            path_patterns:
+                - ^/api/v1
+        v2:
+            path_patterns:
+                - ^/api/v2
+```
+
+Each area produces a separate OpenAPI spec, available at its own endpoint (`/api/doc/v1`, `/api/doc/v2`). Consumers of API v1 do not see v2 endpoints, and vice versa. This clean separation avoids confusion and lets you plan the gradual deprecation of older versions.
+
+## Contract-first vs code-first: an architecture choice
+
+NelmioApiDocBundle embodies the **code-first** approach: you write the PHP code and the bundle infers the OpenAPI specification. This approach suits most Symfony projects, especially internal APIs or projects where the backend team sets the pace. Before choosing this architecture, it is worth asking whether REST is the right choice, or whether [GraphQL](/article/que-vaut-rest-face-a-son-nouveau-challenger-graphql) (in French) would better fit your project's needs.
+
+The opposite approach, **contract-first**, means writing the OpenAPI specification before writing a single line of code. The YAML file becomes the deliverable of the design review, validated by the front-end, mobile and partner teams before development starts. Tools such as `jane-php/open-api` then generate the PHP skeleton from the spec.
+
+In practice, hybrid architectures work well: you start contract-first for new APIs exposed to third parties, and you use NelmioApiDocBundle code-first for internal APIs. The convergence point remains the OpenAPI file, whichever method produced it.
+
+## API governance and documentation as the source of truth
+
+At the scale of an organization that exposes dozens of APIs, documentation stops being an optional deliverable and becomes a governance artifact. The OpenAPI specification generated by NelmioApiDocBundle serves as the foundation for several critical processes.
+
+### Validation in CI
+
+The exported OpenAPI file can be validated on every commit with tools such as `spectral` or `openapi-diff`. A typical CI rule checks that every endpoint has at least one documented error response, that all parameters have a description, and that no breaking change was introduced between two versions:
+
+```bash
+spectral lint openapi.json --ruleset .spectral.yaml
+openapi-diff openapi-previous.json openapi-current.json --fail-on-incompatible
+```
+
+This automated validation catches documentation regressions before they reach production. An endpoint without a description or a schema changed without a version bump becomes a broken build, just like a failing unit test.
+
+### Client SDK generation
+
+The OpenAPI specification feeds SDK generators directly. OpenAPI Generator produces typed clients in TypeScript, Kotlin, Swift or Python from the same JSON file. Front-end and mobile teams no longer have to interpret the documentation: they import a generated package, with autocompletion and typing guaranteed by the schema.
+
+This flow (PHP code → OpenAPI spec → client SDK) turns documentation into an executable contract. A schema change on the backend breaks the client SDK build, which forces explicit coordination between teams. That is exactly the desired behavior: breaking changes become impossible to ignore.
+
+### Contract tests
+
+OpenAPI specifications also serve as a base for contract tests. Libraries such as `league/openapi-psr7-validator` intercept HTTP requests and responses in tests to check their compliance with the spec. If a controller returns an extra undocumented field or omits a required field, the test fails. Documentation and implementation stay in sync by construction, not by discipline.
+
+## Documentation as a product
+
+For an architect, the question is not whether NelmioApiDocBundle works, it is where it fits in the value chain. An API whose documentation is generated automatically, validated in CI, used to produce SDKs and verified by contract tests is no longer a mere HTTP endpoint. It is a software product whose contractual surface is controlled end to end.
+
+NelmioApiDocBundle is the first building block of this chain in the Symfony ecosystem. Adopting it is trivial, but its potential shows fully when it fits into a broader API governance strategy: areas per audience, security by default, automated validation and SDK generation. It is a tool we set up systematically in our [custom web development](/developpement-web-sur-mesure) (in French) projects.
+
+## Going further
+
+- The most widely used bundles in Symfony projects, the essential bundles of the ecosystem
+- [Why choose Symfony for your projects](/article/pourquoi-choisir-symfony-pour-vos-projets) (in French), the framework's strengths for building robust and scalable APIs
+- [The Alice and Faker bundle in your Symfony projects](/article/comprendre-et-utiliser-le-bundle-alice-faker-dans-vos-projets-symfony) (in French), generating consistent fixtures to test your documented endpoints
+- [NelmioApiDocBundle GitHub repository](https://github.com/nelmio/NelmioApiDocBundle), source code and documentation of the bundle
+- [OpenAPI (Swagger) specification](https://swagger.io/specification/), the API description standard the bundle relies on
+- [Symfony documentation on controllers](https://symfony.com/doc/current/controller.html), understanding the foundations of routes and annotations
