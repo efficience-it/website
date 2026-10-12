@@ -438,6 +438,10 @@
     "author": "USFWSAlaska",
     "url": "https://commons.wikimedia.org/wiki/File:Sandhill_cranes_in_flight_(26713772229).jpg"
   },
+  "mysql-to-postgresql-doctrine": {
+    "name": "mysql-postgresql",
+    "sameAs": "migration-mysql-postgresql-doctrine-guide"
+  },
   "migration-symfony-architecture-hexagonale-retour-mission": {
     "name": "archi-hexagonale",
     "file": "File:AEDC team members mark completion of 16S honeycomb (8205386).jpg",
