@@ -1,4 +1,4 @@
-import { howToJsonLd, blogItemListJsonLd, serviceJsonLd, eventJsonLd, jobPostingJsonLd, articleJsonLd, webPageJsonLd, TECH_ENTITIES, type TechKey } from "@/lib/structured-data";
+import { howToJsonLd, blogItemListJsonLd, serviceJsonLd, eventJsonLd, jobPostingJsonLd, articleJsonLd, webPageJsonLd, breadcrumbJsonLd, TECH_ENTITIES, type TechKey } from "@/lib/structured-data";
 import { categorySlugMap, getPostBySlug } from "@/lib/blog";
 import type { Job } from "@/../data/jobs";
 
@@ -276,5 +276,13 @@ describe("entity linking via mainTech", () => {
     });
 
     expect(result["@type"]).toBe("TechArticle");
+  });
+});
+
+describe("breadcrumbJsonLd in English", () => {
+  it("starts at the first item without a French home entry", () => {
+    const result = breadcrumbJsonLd([{ name: "Blog", path: "/en/blog" }], "en");
+    expect(result.itemListElement).toHaveLength(1);
+    expect(result.itemListElement[0]).toMatchObject({ position: 1, name: "Blog" });
   });
 });
