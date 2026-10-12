@@ -272,6 +272,10 @@
     "author": "Blair Fraser mrblairfraser",
     "url": "https://commons.wikimedia.org/wiki/File:Rough_ocean_crashing_on_beach_(Unsplash).jpg"
   },
+  "dora-fintech-symfony-checklist": {
+    "name": "dora-fintech",
+    "sameAs": "dora-fintech-resilience-technique-symfony"
+  },
   "due-diligence-technique-application-symfony-checklist-repreneur": {
     "name": "due-diligence-symfony",
     "file": "File:Pyrolusite in moss agate (GeoDIL number - 41).jpg",
