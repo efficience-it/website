@@ -460,6 +460,10 @@
     "author": "Alex Wigan alwig64",
     "url": "https://commons.wikimedia.org/wiki/File:Footprints_on_the_sand_beach_(Unsplash).jpg"
   },
+  "llms-txt-seo-ai": {
+    "name": "llms-txt-seo",
+    "sameAs": "llms-txt-le-nouveau-levier-seo-a-lere-de-lintelligence-artificielle"
+  },
   "mieux-comprendre-le-vocabulaire-des-developpeurs-web-guide-complet": {
     "name": "vocabulaire-dev-web",
     "file": "File:Chantilly library study (Unsplash).jpg",

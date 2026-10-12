@@ -1,0 +1,105 @@
+---
+title: "llms.txt: The New SEO Lever in the Age of AI"
+date: "2026-01-13"
+updatedAt: "2026-10-12"
+author: "Louis-Arnaud Catoire"
+category: "AI"
+excerpt: "The llms.txt file helps AI systems understand your website. Learn how to write it, implement it in Symfony or Next.js, and boost your generative visibility."
+image: "/images/blog/cover-llms-txt-seo.webp"
+translationOf: "llms-txt-le-nouveau-levier-seo-a-lere-de-lintelligence-artificielle"
+translatedFromUpdatedAt: "2026-03-05"
+---
+
+The web is going through a quiet transformation. Search engines no longer just index pages and return blue links: they understand, synthesize, and generate answers. Google AI Overviews, Perplexity, ChatGPT Search, Claude: these systems read the web on behalf of the user. And the way they read it changes everything. To understand what these models do well and poorly, it helps to know the [strengths and weaknesses of the most widely used generative AIs](/article/forces-et-faiblesses-des-ia-generatives-les-plus-utilisees) (in French).
+
+In this new paradigm, a new file appears: `llms.txt`. If you know `robots.txt`, the analogy is immediate. Where `robots.txt` tells crawlers what they are allowed to do, `llms.txt` tells AI systems what they need to know. One controls access, the other guides understanding.
+
+## From robots.txt to llms.txt: A Paradigm Shift
+
+`robots.txt` dates back to 1994. It answers a binary question: "can this crawler access this URL?" `sitemap.xml`, introduced in 2005, answers an inventory question: "which URLs exist and when did they change?" Both files speak the language of classic search engines, that of indexing and crawling.
+
+`llms.txt`, proposed by Jeremy Howard (cofounder of fast.ai), answers a radically different question: "what does this site do, and which content deserves to be understood first?" It is no longer a permissions file or a technical inventory. It is a semantic guide, written in natural language, for systems that reason about text.
+
+The problem it solves is concrete. When an LLM tries to understand a site, it has to parse HTML cluttered with menus, footers, pop-ups, tracking scripts, and CSS frameworks. The signal drowns in noise. `llms.txt` bypasses this complexity by giving direct access to the essentials, in pure Markdown.
+
+## The Specification: A Deliberately Minimal Format
+
+The specification published on [llmstxt.org](https://llmstxt.org/) imposes few constraints, and that is its strength.
+
+### Structure and Conventions
+
+The file starts with an H1 title (the name of the site or organization), followed by a Markdown blockquote that summarizes the business in one or two sentences. Next come H2 sections that organize the content by theme. Each entry is a Markdown link followed by a colon and a factual description.
+
+The specification provides an `## Optional` section for secondary content. This distinction is functional: since LLMs have a limited context window, content outside `Optional` is processed first. A companion file, `llms-full.txt`, can hold the full text of all referenced pages, concatenated into a single Markdown document, which is useful for models that can handle long contexts.
+
+One important point: linked resources should point to Markdown versions (`.md`) of the pages, stripped of any HTML. This is not a cosmetic detail. An LLM processes Markdown with far greater accuracy than HTML parsed on the fly. When you [choose the right AI assistant for coding](/article/quel-assistant-ia-choisir-pour-coder) (in French), this distinction between structured and unstructured formats is just as decisive.
+
+## Technical Implementation: Symfony and Next.js
+
+Setup is simple, but the implementation choices reveal significant differences in approach.
+
+### Static Approach
+
+In a Symfony project, an `llms.txt` file placed in `public/` is served automatically. The same goes for Next.js and its `public/` directory. This is the fastest approach, suited to sites whose content rarely changes.
+
+### Dynamic Generation
+
+The static approach reaches its limits as soon as the site's content changes frequently. An out-of-sync `llms.txt` is worse than no `llms.txt`: it misleads AI systems.
+
+In Symfony, a dedicated controller can generate the Markdown on the fly from the project's entities (articles, services, pages). The controller returns a `Response` with the `text/plain` content type and builds the content programmatically. The advantage: the file always reflects the real state of the site, with no manual intervention.
+
+In Next.js, a Route Handler in `app/llms.txt/route.ts` offers the same capability. It can read the blog's MDX files, query a headless CMS or a database, and return an always up-to-date `llms.txt`. Consistency between the content served to users and the content presented to AI systems is guaranteed by construction.
+
+### Caching Considerations
+
+A point that is often overlooked: a dynamic `llms.txt` must be cached appropriately. An overly aggressive `Cache-Control` prevents AI systems from seeing updates, a problem you also find in [classic caching strategies](/article/tout-savoir-sur-la-mise-en-cache-tips) (in French). No cache at all exposes the server to repeated requests from increasingly frequent AI crawlers. A `max-age` of a few hours to a day is a good compromise.
+
+## Curation Strategy: What You Include Matters as Much as What You Exclude
+
+Writing an effective `llms.txt` is more editorial than technical. The goal is not to list URLs, but to build a structured narrative of what your organization does.
+
+### What Deserves to Be Included
+
+Main services and offerings, documented technical expertise, significant case studies, blog articles with high informational value, technical FAQs. The curation exercise parallels the thinking behind [choosing a good technical documentation tool](/article/quel-outil-choisir-pour-votre-documentation-technique) (in French). Describe each entry as you would explain it to a peer in an architecture review: factual, precise, no superlatives.
+
+### What Does Not Belong
+
+Login pages, terms of service, transactional confirmation pages, duplicate content, hollow marketing landing pages. Every unnecessary entry dilutes the relevance of the whole. An `llms.txt` of twenty well-chosen lines beats an exhaustive inventory of a hundred entries.
+
+### The Completeness Trap
+
+The natural temptation is to include everything. That is a mistake. `llms.txt` is not a second sitemap. Its role is to guide AI attention toward the highest-value content. Think of it as a README for your web presence: it should let an intelligent system understand who you are and what you do in under thirty seconds of reading.
+
+## Architecture of an AI-First Strategy
+
+Beyond the technical implementation, `llms.txt` is part of a broader reflection on visibility in a post-SERP web.
+
+### Measuring the Impact
+
+Unlike classic SEO, where measurement tools are mature (Search Console, analytics, rank tracking), the impact of an `llms.txt` is harder to quantify. A few approaches are emerging, though. Regularly submit queries to generative engines and see whether your site is cited. Compare the quality of generated answers before and after you add the file. Monitor server logs to identify AI crawlers (GPTBot, ClaudeBot, PerplexityBot) and check that they access `llms.txt`. These metrics are still crude, but they provide a useful signal.
+
+### Crawlability vs. Intellectual Property Protection
+
+`llms.txt` deliberately exposes content to AI systems. It is a choice that deserves to be made with full awareness. Some content, such as proprietary methodologies, competitive data, and unpublished research, should not appear in it. The question is not only "what is relevant?" but also "what do I want AI systems to know and repeat?"
+
+This tension between visibility and protection is new. `robots.txt` let you block access. `llms.txt` invites finer granularity: you do not block, you choose what you make readable. It is a shift from access control to narrative control.
+
+### Toward an Ecosystem of Standards
+
+`llms.txt` is not yet a W3C or IETF standard. Its proposal has nonetheless catalyzed a broader reflection on how AI and the web interact. Other initiatives are emerging: AI-specific `<meta>` tags, Schema.org extensions for semantic content, and negotiation protocols between AI crawlers and web servers.
+
+Tomorrow's web architecture will probably need to serve three distinct audiences: humans (HTML/CSS), classic crawlers (robots.txt + sitemap.xml + structured data), and generative AI (llms.txt + Markdown content + semantic metadata). Teams that anticipate this convergence gain a structural advantage. On the technical side, the approach of [GEO to make a Symfony application visible in AI engines](/article/geo-rendre-votre-application-symfony-visible-dans-les-moteurs-ia) (in French) naturally complements setting up an llms.txt. Our [GEO and AI optimization](/geo-optimisation-ia) (in French) offering supports this setup, from llms.txt to structured data to monitoring AI citations.
+
+## llms.txt as a Sign of a Deeper Transformation
+
+`llms.txt` is a text file of a few dozen lines. Its real value lies not in its technical complexity, which is almost nil, but in the change of mindset it requires. Thinking about your web content from the point of view of an AI that must understand and restate it, rather than a crawler that must index it, means accepting that the web is entering a new phase.
+
+The return on investment is immediate: as soon as the file is online, AI systems can use it. Our [artificial intelligence expertise](/expertise-ia) (in French) includes setting up these visibility levers for generative engines. But the long-term stakes lie elsewhere. The next generation of web visibility will be won by building a content strategy that speaks to humans, classic engines, and generative AI at the same time.
+
+## Going Further
+
+- [Symfony AI in a legacy project](/article/symfony-ai-projet-legacy-retour-experience) (in French), integrating AI on the backend
+- Which AI assistant to choose for coding?, picking the AI tool that fits your development workflow
+- [Claude as a legacy Symfony architecture assistant](/article/claude-assistant-architecture-symfony-legacy) (in French), using an LLM to support the modernization of a codebase
+- [llms.txt: official specification](https://llmstxt.org/), the proposed standard
+- [Google: Structured Data Guidelines](https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data), Google's reference on structured data
