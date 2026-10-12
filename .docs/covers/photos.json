@@ -330,6 +330,10 @@
     "author": "Vlad Shapochnikov vladshap",
     "url": "https://commons.wikimedia.org/wiki/File:Menara_Berkembar_Petronas,_Kuala_Lumpur,_Malaysia_(Unsplash).jpg"
   },
+  "easyadmin-vs-forest-admin": {
+    "name": "easyadmin-forestadmin",
+    "sameAs": "easy-admin-vs-forest-admin-differences-et-avantages"
+  },
   "eco-conception-un-ideal-en-marche-ou-une-illusion-durable": {
     "name": "eco-conception",
     "file": "File:Mossy Forest Floor (60670374).jpeg",

@@ -1,0 +1,92 @@
+---
+title: "Easy Admin vs Forest Admin: Which Should You Pick?"
+date: "2023-07-19"
+updatedAt: "2026-10-12"
+author: "Louis-Arnaud Catoire"
+category: "Symfony"
+excerpt: "EasyAdmin is an open source bundle for Symfony, Forest Admin a SaaS platform. Compare control, data sovereignty, upkeep and team autonomy before you choose."
+image: "/images/blog/cover-easyadmin-forestadmin.webp"
+translationOf: "easy-admin-vs-forest-admin-differences-et-avantages"
+translatedFromUpdatedAt: "2026-10-12"
+---
+
+## Two Philosophies, One Need
+
+Every business application eventually needs an admin panel. The question is never whether you will need one, but how you build it. Two approaches dominate today: **EasyAdmin**, an open source bundle integrated with Symfony, and **Forest Admin**, a stack-agnostic SaaS platform. The choice between them involves far more than the technical stack: it determines data sovereignty, organizational coupling and the back office's ability to evolve over several years.
+
+## EasyAdmin: Admin as a Natural Extension of Symfony
+
+EasyAdmin generates a complete back office from Doctrine ORM entities, as detailed in the [bundle's official documentation](https://symfony.com/bundles/EasyAdminBundle/current/index.html). Installation boils down to a `composer require` and the creation of a Dashboard Controller. It is one of the [most widely used bundles in Symfony projects](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony) (in French), alongside other essential building blocks of the ecosystem. From there, each entity can have its own CRUD Controller that automatically exposes the paginated list, the create and edit forms, and deletion with confirmation.
+
+Field configuration is done in plain PHP, in the `configureFields` method. You declare the types (`TextField`, `MoneyField`, `BooleanField`, `AssociationField`...), hide certain fields depending on the page (`hideOnForm`, `hideOnIndex`), and apply formatting rules. This declarative approach in code offers a decisive advantage: everything goes through the same workflow as the rest of the application (versioning, code review, tests, CI).
+
+### Depth of Customization
+
+The customization layer is where EasyAdmin shows its strength. The available mechanisms cover several levels of complexity.
+
+The **CRUD actions** (index, detail, new, edit, delete) can be overridden individually. Behind the scenes, each action can expose or consume data through a [well-structured REST API](/article/api-rest-les-bonnes-pratiques) (in French), which makes integrations with third-party tools easier. You can add custom actions at the level of each row or in batch on a selection. Each action is a simple Symfony controller: you get dependency injection, the event system and the whole framework ecosystem.
+
+The bundle's **Twig templates** are fully overridable. You can redefine the global layout, the rendering of a specific field, or the page of a particular CRUD. This granularity lets you adapt the interface without ever forking the bundle.
+
+**Permission management** relies on Symfony's native security system. Voters allow fine-grained, contextual authorization logic: restricting access to an entity by role, but also by a business relationship (a salesperson only sees their own clients). Firewalls and guards apply with no extra configuration since the admin lives in the same application.
+
+### Performance Considerations
+
+On large volumes (hundreds of thousands of records), EasyAdmin's paginated lists can suffer if the underlying Doctrine queries are not optimized. The changes introduced by [Doctrine ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) (in French) improve performance but require vigilance about the compatibility of existing queries. The `createIndexQueryBuilder` method lets you take back control of the listing query: adding joins, conditions and Doctrine hints. You stay within standard DQL, which means the usual optimization strategies (indexes, partial selects, result cache) apply directly.
+
+## Forest Admin: The Back Office as a Service
+
+Forest Admin adopts a decoupled architecture. An agent (available in Node.js, Ruby, Python, PHP, Django) is installed on the server side and exposes the data through an API. The admin interface is hosted on Forest Admin's servers and communicates with this agent. This separation allows fast deployment, independent of the application framework.
+
+The online visual editor lets business teams configure views, create segments, add filters and organize collections without a developer. **Smart Actions** let you trigger server-side processing (sending an email, changing a status, exporting) directly from the interface, with dynamically generated parameter forms.
+
+### Autonomy for Non-Technical Teams
+
+Forest Admin's strength lies in this delegation. Support, operations or product teams can modify the back office on their own. In an organization where the back office is a daily tool for non-developer profiles, this autonomy reduces the load on the technical team and speeds up iterations.
+
+Built-in permission management lets you restrict access by collection, by action and by scope (filtering the visible data by role). This system is configured from the Forest Admin interface, with no code.
+
+## Comparison on the Key Axes
+
+### Architecture and Deployment
+
+EasyAdmin is **self-hosted**: the admin panel is an integral part of the application. There is no dependency on an external service in production. Forest Admin introduces a dependency on its servers for rendering the interface. The agent runs on your infrastructure, but the UI requests go through Forest Admin. If their platform goes down, the back office becomes inaccessible.
+
+### Maintenance and Scalability
+
+EasyAdmin has no limit on features or users. The effort boils down to the initial development time and maintenance. With Forest Admin, capabilities scale with the number of users and collections.
+
+### Learning Curve
+
+For an experienced Symfony developer, EasyAdmin has almost no learning curve: these are the same concepts (entities, controllers, services, events, Twig). Forest Admin requires learning its data model (collections, fields, segments, Smart Actions) and the conventions of its agent, which is an upfront investment even for a senior developer. The choice of tool is part of a broader reflection on [which framework to adopt for your projects](/article/pourquoi-choisir-symfony-pour-vos-projets) (in French) and the long-term implications.
+
+## The Architect's Perspective: Build vs Buy
+
+The choice between EasyAdmin and Forest Admin is a classic case of the build vs buy dilemma, but with an important nuance: the back office is not a peripheral component. It is the interface through which internal teams interact with business data every day.
+
+### Data Sovereignty
+
+With Forest Admin, the data schema metadata and the view configuration are stored on their servers. The data itself travels between the agent and the hosted UI. In regulated contexts (healthcare, finance, public sector), this architecture can create a compliance issue. With EasyAdmin, everything stays within the application's perimeter: no data or metadata leaves the infrastructure.
+
+### Multi-Tenant Strategy
+
+For SaaS applications that must provide a back office per tenant, EasyAdmin lets you build a custom solution based on Symfony Voters and dynamic filtering of QueryBuilders. Each tenant accesses the same interface but only sees their own data, with transparent and testable filtering logic. Forest Admin can cover this need through its scopes, but the isolation logic then relies on the configuration of their platform rather than on versioned, auditable code.
+
+### Admin as an Internal Product
+
+Mature organizations treat their back office as a full internal product, with its own iterations, backlog and usage metrics. From this angle, EasyAdmin offers total control: you can instrument the interface, add telemetry, build complex workflows and evolve the back office at the same pace as the main application. For an even more integrated approach, [Monofony](/article/monofony-le-guide-ultime-pour-les-debutants) (in French) offers another way to structure robust Symfony back offices. Forest Admin is better suited to phases where the back office must exist quickly without tying up the development team, even if that means accepting the platform's limits.
+
+## Decision Criteria
+
+**EasyAdmin** is the right choice when the project is built on Symfony, the team masters the framework, data sovereignty is a prerequisite, and the back office must evolve deeply with the application.
+
+**Forest Admin** is justified when the stack is heterogeneous, the main users of the back office are non-technical profiles, time-to-market outweighs control, and relying on a third-party service is acceptable compared to the development time saved.
+
+The right choice depends on the organizational context as much as the technical one. A back office is not a one-off choice: it is infrastructure that accompanies the product for years. It deserves the same analytical rigor as a database choice or a deployment strategy. It is a decision we support in every [custom web development](/developpement-web-sur-mesure) (in French) project.
+
+## Going Further
+
+- Why choose Symfony for your projects, the reasons to build your applications on Symfony
+- [EasyAdmin official documentation](https://symfony.com/bundles/EasyAdminBundle/current/index.html), the complete bundle guide in the Symfony documentation
+- [EasyAdmin GitHub repository](https://github.com/EasyCorp/EasyAdminBundle), source code and contributions
+- [Symfony documentation on Doctrine ORM](https://symfony.com/doc/current/doctrine.html), the data foundation behind EasyAdmin

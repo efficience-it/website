@@ -5,7 +5,7 @@ author: "Louis-Arnaud Catoire"
 category: "Symfony"
 excerpt: "Easy Admin est un bundle en open source, créé pour des projets Symfony. Il permet la conception rapide d'interfaces d'administration."
 image: "/images/blog/cover-easyadmin-vs-forestadmin.webp"
-updatedAt: "2026-01-13"
+updatedAt: "2026-10-12"
 ---
 
 ## Deux philosophies, un même besoin
@@ -50,9 +50,9 @@ La gestion des permissions intégrée permet de restreindre l'accès par collect
 
 EasyAdmin est **auto-hébergé** : le panneau d'administration fait partie intégrante de l'application. Il n'y a aucune dépendance à un service externe en production. Forest Admin introduit une dépendance à ses serveurs pour le rendu de l'interface. L'agent tourne sur votre infrastructure, mais les requêtes de l'UI transitent par Forest Admin. En cas d'indisponibilité de leur plateforme, le back-office devient inaccessible.
 
-### Coût total de possession
+### Maintenance et évolutivité
 
-EasyAdmin est gratuit, sans limite de fonctionnalités ni d'utilisateurs. Le coût se résume au temps de développement initial et à la maintenance. Forest Admin propose un plan gratuit limité. Les plans payants démarrent à plusieurs centaines d'euros par mois et évoluent avec le nombre d'utilisateurs et de collections. Sur trois ans, pour une équipe de dix utilisateurs, l'écart budgétaire peut atteindre plusieurs dizaines de milliers d'euros.
+EasyAdmin n'impose aucune limite de fonctionnalités ni d'utilisateurs. L'effort se résume au temps de développement initial et à la maintenance. Avec Forest Admin, les capacités évoluent avec le nombre d'utilisateurs et de collections.
 
 ### Courbe d'apprentissage
 
@@ -78,7 +78,7 @@ Les organisations matures traitent leur back-office comme un produit interne à 
 
 **EasyAdmin** s'impose quand le projet repose sur Symfony, que l'équipe maîtrise le framework, que la souveraineté des données est un prérequis, et que le back-office doit évoluer en profondeur avec l'application.
 
-**Forest Admin** se justifie quand la stack est hétérogène, que les utilisateurs principaux du back-office sont des profils non techniques, que le time-to-market prime sur le contrôle, et que le budget de licence est acceptable par rapport au coût de développement économisé.
+**Forest Admin** se justifie quand la stack est hétérogène, que les utilisateurs principaux du back-office sont des profils non techniques, que le time-to-market prime sur le contrôle, et que la dépendance à un service tiers est acceptable par rapport au temps de développement économisé.
 
 Le bon choix dépend du contexte organisationnel autant que du contexte technique. Un back-office n'est pas un choix ponctuel : c'est une infrastructure qui accompagne le produit pendant des années. Il mérite la même rigueur d'analyse qu'un choix de base de données ou de stratégie de déploiement. C'est une décision que nous accompagnons dans chaque projet de [développement web sur mesure](/developpement-web-sur-mesure).
 
