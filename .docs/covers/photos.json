@@ -191,6 +191,10 @@
     "author": "National Park Service",
     "url": "https://commons.wikimedia.org/wiki/File:Rocky_Mountain_National_Park_lake_reflection.jpg"
   },
+  "alice-faker-symfony-fixtures": {
+    "name": "alice-faker-fixtures",
+    "sameAs": "comprendre-et-utiliser-le-bundle-alice-faker-dans-vos-projets-symfony"
+  },
   "concretement-cest-quoi-frankenphp": {
     "name": "frankenphp",
     "file": "File:Long exposure of plasma globe.jpg",

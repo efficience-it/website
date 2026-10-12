@@ -78,6 +78,10 @@
     400,
     800
   ],
+  "cover-alice-faker-fixtures": [
+    400,
+    800
+  ],
   "cover-analyseurs-statiques-php": [
     400,
     800
