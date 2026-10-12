@@ -688,6 +688,10 @@
     "author": "Jenu Prasad jenuprasad",
     "url": "https://commons.wikimedia.org/wiki/File:Detail_of_burning_sparkler.jpg"
   },
+  "symfony-php-events-to-follow": {
+    "name": "symfony-php-events",
+    "sameAs": "quels-evenements-suivre-dans-le-monde-de-symfony-php-quelles-differences-entre-eux"
+  },
   "quels-sont-les-avantages-dun-progiciel-pour-votre-entreprise": {
     "name": "progiciel",
     "file": "File:Honeycomb pattern in a facade (Unsplash).jpg",
