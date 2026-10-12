@@ -1,0 +1,276 @@
+---
+title: "Symfony AI in a Legacy Project: Lessons Learned"
+date: "2026-03-09"
+updatedAt: "2026-10-12"
+author: "Louis-Arnaud Catoire"
+category: "AI"
+excerpt: "Adding Symfony AI to a production application is nothing like a hello world. The traps and practical fixes we found on a real legacy Symfony mission, in detail."
+image: "/images/blog/cover-symfony-ai-legacy.webp"
+proficiencyLevel: "Expert"
+translationOf: "symfony-ai-projet-legacy-retour-experience"
+translatedFromUpdatedAt: "2026-10-12"
+---
+
+Every article about [Symfony AI](https://symfony.com/doc/current/ai.html) starts from the same premise: you create a new project, install the component, and build a chat with GPT in ten lines. Congratulations. Now try the same thing on a Symfony 6.4 application that has been in production for four years, with 200 Doctrine entities, a monolith running on three servers, and a team that has never touched an AI API.
+
+That is exactly what we did. And what we learned looks nothing like the tutorials.
+
+## The context: a document management platform
+
+The application manages thousands of documents for law firms. Upload, filing, search, data extraction. Filing is manual: an operator reads the document, identifies the type and fills in the metadata. It takes four minutes per document on average. The client wants to automate that.
+
+The idea: use an LLM to analyze the document content, suggest a classification and prefill the metadata. The operator validates or corrects. We replace no one, we speed up the process.
+
+We chose Symfony AI over a direct call to the OpenAI or Anthropic API for a simple reason: abstraction. We did not want to couple the business code to a vendor. Today it is Claude, tomorrow it may be Mistral or an on-premise model. Symfony AI provides that abstraction layer natively. To set up an AI assistant on an existing Symfony project, our guide on [Claude as an architecture assistant](/article/claude-assistant-architecture-symfony-legacy) (in French) details the concrete setup.
+
+## Installation: the first wall
+
+On a greenfield project, `composer require symfony/ai` and you are off. On our legacy application, it was a different story.
+
+### Clashing dependencies
+
+The application ran `symfony/http-client` in version 6.4.2. Symfony AI pulls recent versions of several components. The `composer require` failed on a dependency conflict with `symfony/serializer`.
+
+```bash
+composer require symfony/ai
+# Your requirements could not be resolved to an installable set of packages.
+```
+
+We had to update five Symfony components before we could install the package. Fine-grained dependency management with [Composer](/article/utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques) (in French) is crucial in this kind of situation. On a legacy project in production, every dependency update is a risk. We did it in a separate PR, tested in staging for a week, before even touching AI.
+
+### HTTP transport configuration
+
+Symfony AI uses the Symfony HttpClient to communicate with APIs. Our application already used a custom HttpClient with a corporate proxy, in-house authentication headers and aggressive timeouts.
+
+The AI component needs its own HTTP client with long timeouts (LLMs take time to respond) and streaming. We had to configure a dedicated client:
+
+```yaml
+framework:
+    http_client:
+        scoped_clients:
+            ai.client:
+                base_uri: 'https://api.anthropic.com'
+                timeout: 120
+                headers:
+                    x-api-key: '%env(ANTHROPIC_API_KEY)%'
+```
+
+Nothing dramatic, but it is the kind of detail that appears in no tutorial and blocks you for half a day.
+
+## Architecture: where to put AI in existing code
+
+This is the real question. Not "how do I call an LLM" but "where do I put that call in an architecture that was not designed for it."
+
+### The trap: putting everything in the controller
+
+The team's reflex: add the AI call to the existing classification controller. It is fast, it works, and it is exactly what you should not do. The day you change the model, the prompt or the fallback strategy, you touch a controller that also handles upload, validation and persistence.
+
+### The solution: a port in the domain
+
+We treated AI like any other infrastructure dependency, applying the principle that [the domain should never know about Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony) (in French). An interface in the domain, an implementation in the infrastructure:
+
+```php
+namespace App\Classification\Domain\Port;
+
+interface DocumentClassifierInterface
+{
+    public function classify(DocumentContent $content): ClassificationResult;
+}
+```
+
+The domain does not know AI exists. It knows a `DocumentClassifierInterface` that takes content and returns a result. The implementation can be an LLM, a classic ML model, or even a human behind an API.
+
+```php
+namespace App\Classification\Infrastructure\AI;
+
+final class SymfonyAIDocumentClassifier implements DocumentClassifierInterface
+{
+    public function __construct(
+        private ChatInterface $chat,
+        private PromptRegistry $prompts,
+    ) {}
+
+    public function classify(DocumentContent $content): ClassificationResult
+    {
+        $response = $this->chat->send(
+            $this->prompts->get('classify_document', [
+                'content' => $content->text(),
+                'categories' => $content->availableCategories(),
+            ])
+        );
+
+        return ClassificationResultMapper::fromAIResponse($response);
+    }
+}
+```
+
+This separation saved us three times in two months. Model change, prompt change, adding a cache: each time, we only touched the infrastructure implementation.
+
+## Prompts: the most fragile code in the application
+
+Nobody warns you: prompts are code. They have bugs, regressions, and they must be versioned.
+
+### The first naive prompt
+
+We started with a simple prompt:
+
+```
+Analyze this document and return the type and metadata in JSON format.
+```
+
+It worked in 60% of cases. The model returned invalid JSON one time in five. It invented categories that did not exist. It confused similar document types.
+
+### The prompt that works in production
+
+After three weeks of iterations:
+
+```
+You are a legal document classification assistant.
+
+Here is the exact list of allowed categories:
+{{ categories }}
+
+Analyze the following document and return ONLY a JSON object with:
+- "category": one of the categories above (never another one)
+- "confidence": a number between 0 and 1
+- "metadata": an object with the fields "date", "parties", "reference"
+
+If you cannot determine the category with certainty, use
+"confidence": 0 and "category": "non_classe".
+
+Document:
+{{ content }}
+```
+
+The key differences: constraining the possible categories, asking for a confidence score, and planning for failure. Every line of this prompt exists because we had a production bug without it.
+
+### Versioning prompts
+
+We built a prompt registry on top of the Twig template engine, whose [expected changes in Twig 4](/article/twig-4-ce-que-lon-pourrait-attendre) (in French) could simplify this kind of usage even further. Each prompt is a Twig file in `templates/prompts/`, versioned with the code:
+
+```
+templates/
+└── prompts/
+    ├── classify_document.txt.twig
+    ├── extract_metadata.txt.twig
+    └── summarize_document.txt.twig
+```
+
+The `PromptRegistry` loads the template and injects the variables. We can A/B test prompts, roll back a change and, above all, run code reviews on prompt changes like on any other code.
+
+## Error handling: the real subject
+
+An HTTP call can fail. An LLM call can fail, return garbage, exceed the timeout, consume too many resources or simply answer off topic. The error surface is massive.
+
+### Graceful fallback
+
+If the AI fails, the operator does the classification manually. Just like before. The application must never be blocked by AI:
+
+```php
+final class ResilientDocumentClassifier implements DocumentClassifierInterface
+{
+    public function __construct(
+        private DocumentClassifierInterface $aiClassifier,
+        private LoggerInterface $logger,
+    ) {}
+
+    public function classify(DocumentContent $content): ClassificationResult
+    {
+        try {
+            $result = $this->aiClassifier->classify($content);
+
+            if ($result->confidence() < 0.7) {
+                return ClassificationResult::needsManualReview();
+            }
+
+            return $result;
+        } catch (\Throwable $e) {
+            $this->logger->error('AI classification failed', [
+                'error' => $e->getMessage(),
+            ]);
+
+            return ClassificationResult::needsManualReview();
+        }
+    }
+}
+```
+
+The `ResilientDocumentClassifier` decorator wraps the AI classifier. If it crashes or if confidence is too low, we fall back to manual classification. The user never sees a 500 error related to AI.
+
+### Consumption that explodes
+
+We had not anticipated token consumption. Legal documents are sometimes 50 pages long. Sending 50 pages to an LLM for every document adds up fast.
+
+We added three safeguards:
+
+- **Smart truncation**: we send the first 3 pages and the last one. For classification, that is enough in 95% of cases.
+- **Result cache**: an identical document (same hash) returns the cached result through Symfony Cache.
+- **Daily cap**: a counter cuts AI calls above a threshold. Documents then go to manual classification.
+
+This project also opened up ways to go further: indexing our document base in a vector store so we can query business data by semantic similarity, following the [RAG with Symfony AI and Doctrine](/article/rag-symfony-ai-doctrine-indexer-base-metier) (in French) pattern.
+
+## Streaming: more complicated than it looks
+
+Symfony AI supports response streaming. On a greenfield project with Mercure, it is elegant. On our legacy application with synchronous JSON responses, it is a headache.
+
+We chose not to stream for automatic classification (a batch process, no need for real-time feedback). However, we added a document summary endpoint where the user sees the text appear progressively. For that, we used native Server-Sent Events without Mercure:
+
+```php
+#[Route('/documents/{id}/summary', methods: ['GET'])]
+public function summary(string $id, SummarizeDocument $summarize): StreamedResponse
+{
+    return new StreamedResponse(function () use ($id, $summarize) {
+        foreach (($summarize)(new DocumentId($id)) as $chunk) {
+            echo "data: " . json_encode(['text' => $chunk]) . "\n\n";
+            flush();
+        }
+    }, 200, ['Content-Type' => 'text/event-stream']);
+}
+```
+
+It works, but watch out: if you have an Nginx reverse proxy with buffering enabled, streaming does not get through. We lost a day on this before finding `X-Accel-Buffering: no`.
+
+## Tests: mocking AI without cheating
+
+Testing code that calls an LLM is an open problem. The same prompt can return different results on every call. You cannot write an `assertEquals` on a model's response.
+
+### Unit tests with a fake
+
+For the domain and use cases, we use a fake classifier:
+
+```php
+final class FakeDocumentClassifier implements DocumentClassifierInterface
+{
+    public function __construct(
+        private ClassificationResult $result,
+    ) {}
+
+    public function classify(DocumentContent $content): ClassificationResult
+    {
+        return $this->result;
+    }
+}
+```
+
+We test the business logic around the AI (fallback, confidence threshold, cache) without ever calling a real model.
+
+### Integration tests with fixtures
+
+To check that the prompt works, we have a set of 50 test documents with the expected classification. A weekly CI job runs the real classification on these documents and checks that the success rate stays above 85%. If a prompt change lowers the score, we see it before going to production.
+
+This is not deterministic testing. It is quality monitoring. But it is the only realistic approach when the system's output is probabilistic.
+
+## What I wish I had known before
+
+Integrating AI into a legacy project is not an AI problem. It is an architecture problem. If your code is cleanly decoupled, adding an LLM call is like adding any external dependency. If your code is a coupled monolith, AI will amplify the chaos. That is what our article on [technical debt and how to tame it](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French) describes: the more indebted the code, the more each addition is harder. Support with [PHP application modernization](/modernisation-application-php) (in French) lets you deal with that debt before grafting AI onto it.
+
+Symfony AI is a good tool. The vendor abstraction works. The streaming support is solid. But the component does not solve the real problems: error handling, token consumption, prompt quality, and coexistence with code that was not designed for it.
+
+The most useful advice I can give: treat AI as a fallible and resource-hungry dependency. Put it behind an interface. Plan the fallback. Monitor the consumption. And above all, never let an LLM call become a single point of failure in your application. This case study illustrates concretely what our [artificial intelligence expertise](/expertise-ia) (in French) covers on production projects.
+
+## Going further
+
+- Claude as a Symfony architecture assistant, setting up CLAUDE.md on a legacy project
+- [Migrating Symfony to hexagonal architecture](/article/migration-symfony-architecture-hexagonale-retour-mission) (in French), structuring a legacy project before grafting AI onto it
+- [Symfony Messenger: the backbone of hexagonal architecture](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) (in French), dispatching AI tasks asynchronously
+- [Symfony AI documentation](https://symfony.com/doc/current/ai.html), the official guide to the component
