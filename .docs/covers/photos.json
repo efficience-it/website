@@ -408,6 +408,10 @@
     "author": "Bureau of Land Management Oregon and Washington",
     "url": "https://commons.wikimedia.org/wiki/File:Quartzville_Creek_Wild_and_Scenic_River_(19737006398).jpg"
   },
+  "serializer-to-jsonstreamer-migration": {
+    "name": "json-streamer-en",
+    "sameAs": "migrer-du-serializer-vers-json-streamer-le-guide-honnete"
+  },
   "moderniser-application-php-legacy-sans-tout-reecrire": {
     "name": "php-legacy",
     "file": "File:Restoration work Parthenon facade Acropolis Athens Greece.jpg",
