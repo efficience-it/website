@@ -374,6 +374,10 @@
     400,
     800
   ],
+  "cover-phpstan-level-10": [
+    400,
+    800
+  ],
   "cover-phpstan-quality": [
     400,
     800

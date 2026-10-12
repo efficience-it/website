@@ -621,6 +621,10 @@
     "author": "風景写真が好き",
     "url": "https://commons.wikimedia.org/wiki/File:20240622_Matterhorn.jpg"
   },
+  "phpstan-2-level-10-features": {
+    "name": "phpstan-level-10",
+    "sameAs": "phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable"
+  },
   "phpstan-niveau-max-symfony-10-erreurs": {
     "name": "phpstan-symfony",
     "file": "File:Ice Eye Watching Star (210072813).jpeg",
