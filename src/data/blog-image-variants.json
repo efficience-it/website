@@ -338,6 +338,10 @@
     400,
     800
   ],
+  "cover-php-rest-api": [
+    400,
+    800
+  ],
   "cover-phpstan-errors": [
     400,
     800
