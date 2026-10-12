@@ -287,6 +287,10 @@
     "author": "Jesse Allen and Robert Simmon",
     "url": "https://commons.wikimedia.org/wiki/File:Yukon_Delta,_Alaska.jpg"
   },
+  "elasticsearch-vs-algolia-symfony": {
+    "name": "elasticsearch-algolia-en",
+    "sameAs": "elasticsearch-ou-algolia-moteur-de-recherche-symfony"
+  },
   "express-fastify-hono-quel-framework-nodejs-choisir": {
     "name": "nodejs-frameworks",
     "file": "File:Eugenes spectabilis in Costa Rica 01.jpg",

@@ -6,14 +6,14 @@ category: "Symfony"
 excerpt: "Elasticsearch et Algolia répondent à des besoins différents. Comparaison technique pour choisir le bon moteur de recherche dans un projet Symfony."
 image: "/images/blog/cover-elasticsearch-algolia.webp"
 proficiencyLevel: "Intermediate"
-updatedAt: "2026-04-11"
+updatedAt: "2026-10-12"
 faq:
   - question: "Peut-on combiner Elasticsearch et Algolia dans un même projet ?"
     answer: "Oui. Certaines architectures utilisent Elasticsearch pour la recherche back-office (requêtes complexes, agrégations, reporting) et Algolia pour la recherche front-end (autocomplétion, recherche instantanée). Cette approche hybride ajoute de la complexité à la synchronisation des index, mais elle permet de tirer le meilleur de chaque outil."
   - question: "FOSElasticaBundle fonctionne-t-il avec Symfony 7 ?"
     answer: "Oui. FOSElasticaBundle est activement maintenu et compatible avec Symfony 7. Le bundle gère la synchronisation entre les entités Doctrine et les index Elasticsearch via des listeners ou des commandes de réindexation. Il reste le bundle de référence pour intégrer Elasticsearch dans un projet Symfony."
   - question: "Algolia propose-t-il un plan gratuit ?"
-    answer: "Algolia propose un plan gratuit limité à 10 000 requêtes par mois et 10 000 enregistrements. Ce plan convient pour un prototype ou un site à faible trafic. Au-delà, les plans payants démarrent selon le volume de requêtes et d'enregistrements indexés."
+    answer: "Algolia propose un plan gratuit limité à 10 000 requêtes par mois et 10 000 enregistrements. Ce plan convient pour un prototype ou un site à faible trafic. Au-delà, les limites dépendent du volume de requêtes et d'enregistrements indexés."
   - question: "Faut-il un DevOps dédié pour maintenir Elasticsearch en production ?"
     answer: "Pas nécessairement, mais une compétence ops est indispensable. Elasticsearch demande une supervision active : gestion des shards, monitoring de la mémoire JVM, mises à jour de sécurité. Les services managés (Elastic Cloud, AWS OpenSearch) réduisent cette charge, mais le dimensionnement et l'optimisation des requêtes restent de la responsabilité de l'équipe."
 ---
@@ -50,11 +50,11 @@ Pour un [projet web sur mesure](/developpement-web-sur-mesure) qui doit livrer r
 
 ### Les limites du SaaS
 
-La simplicité d'Algolia a un coût. Le modèle de facturation repose sur le volume de requêtes et d'enregistrements indexés. Pour une application avec un gros volume de recherches (e-commerce à fort trafic, moteur de recherche interne d'une plateforme), la facture peut grimper rapidement.
+La simplicité d'Algolia a une contrepartie. L'usage est encadré par le volume de requêtes et d'enregistrements indexés. Pour une application avec un gros volume de recherches (e-commerce à fort trafic, moteur de recherche interne d'une plateforme), ces limites peuvent être atteintes rapidement.
 
 La personnalisation du ranking est limitée aux options exposées par le dashboard et l'API. Pas de requêtes booléennes complexes, pas d'agrégations avancées, pas de custom scoring comparable au Query DSL d'Elasticsearch. Si votre logique de pertinence dépasse les scénarios standards (pondération dynamique selon le profil utilisateur, scoring basé sur des données métier internes), vous atteindrez les limites d'Algolia.
 
-La dépendance à un service tiers est aussi un facteur à considérer. Vos index de recherche vivent sur les serveurs d'Algolia. En cas de panne ou de changement de politique tarifaire, la migration vers une autre solution demande un travail significatif.
+La dépendance à un service tiers est aussi un facteur à considérer. Vos index de recherche vivent sur les serveurs d'Algolia. En cas de panne ou de changement de conditions d'utilisation, la migration vers une autre solution demande un travail significatif.
 
 ## Comparaison technique dans un projet Symfony
 
