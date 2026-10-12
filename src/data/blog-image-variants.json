@@ -230,6 +230,10 @@
     400,
     800
   ],
+  "cover-playwright-claude": [
+    400,
+    800
+  ],
   "cover-rest-graphql-en": [
     400,
     800
