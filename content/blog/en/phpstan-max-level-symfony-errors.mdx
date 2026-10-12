@@ -1,0 +1,316 @@
+---
+title: "PHPStan Max Level on Symfony: The Top 10 Errors"
+date: "2026-03-09"
+updatedAt: "2026-10-12"
+author: "Louis-Arnaud Catoire"
+category: "Code quality"
+excerpt: "Raising PHPStan to level 10 on a Symfony project reveals dozens of errors. Here are the 10 most common ones and how to fix them cleanly, without losing sprints."
+image: "/images/blog/cover-phpstan-errors.webp"
+proficiencyLevel: "Expert"
+translationOf: "phpstan-niveau-max-symfony-10-erreurs"
+translatedFromUpdatedAt: "2026-03-26"
+---
+
+You just raised PHPStan to level 10 on your Symfony project. The terminal shows 847 errors. You close your laptop lid and wonder if it was a good idea.
+
+Good news: it was. These errors are not noise. They point to real problems you have been dragging along for months, sometimes years. If you are new to PHPStan, start by reading [how PHPStan can improve the quality of your PHP code](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French) before going further. After helping about ten teams through this level increase, the same patterns come back every time.
+
+Here are the 10 errors you will find, and above all how to fix them without spending three sprints on it.
+
+## 1. Doctrine collections without generic typing
+
+This is error number one. Without exception. Every Doctrine entity with a `OneToMany` or `ManyToMany` relation triggers this alert.
+
+```php
+// PHPStan n'aime pas ça
+private Collection $tags;
+
+// Ce qu'il attend
+/** @var Collection<int, Tag> $tags */
+private Collection $tags;
+```
+
+Doctrine uses the `Collection` interface, which is generic. PHPStan at level 10 requires you to specify the key type and the value type. Without that, it considers that your collection contains `mixed`, and every access to an element loses its typing.
+
+### The fix
+
+Add the generic PHPDoc on every property of type `Collection`. If you use PHP 8 attributes, combine them with the PHPDoc:
+
+```php
+#[ORM\OneToMany(targetEntity: Tag::class, mappedBy: 'article')]
+/** @var Collection<int, Tag> $tags */
+private Collection $tags;
+```
+
+On a medium-sized project, expect between 50 and 200 occurrences. A good regex in your IDE settles it in an hour. The improvements in [Doctrine ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) (in French) also improve native collection typing.
+
+## 2. Unchecked return value of `find()`
+
+`EntityRepository::find()` returns `?object`. PHPStan reminds you that you do not handle `null`.
+
+```php
+$user = $this->userRepository->find($id);
+$user->getName(); // PHPStan : Cannot call method getName() on object|null
+```
+
+### The fix
+
+Two approaches depending on the context. In a controller, use an HTTP exception:
+
+```php
+$user = $this->userRepository->find($id)
+    ?? throw new NotFoundHttpException('User not found');
+```
+
+In a business service, throw a domain exception or return a nullable type that the caller handles.
+
+Never use `assert($user !== null)` except in tests. It is a band-aid that hides a real error handling problem. Following [REST API best practices](/article/api-rest-les-bonnes-pratiques) (in French) requires handling these `null` return cases properly.
+
+## 3. `mixed` container parameters
+
+Every call to `$container->getParameter()` returns `mixed`. PHPStan hates that at max level.
+
+```php
+$locale = $this->getParameter('app.default_locale');
+// Type : mixed
+```
+
+### The fix
+
+Use an explicit cast or a type `assert` in a dedicated service:
+
+```php
+$locale = (string) $this->getParameter('app.default_locale');
+```
+
+Even better: inject your parameters directly through the constructor with the `#[Autowire]` attribute:
+
+```php
+public function __construct(
+    #[Autowire('%app.default_locale%')]
+    private string $defaultLocale,
+) {}
+```
+
+This is the recommended method since Symfony 6.2. It removes the PHPStan error and makes your code more testable. To learn more about configuring the [Symfony service container](https://symfony.com/doc/current/service_container.html), the official documentation details all the injection options.
+
+## 4. Forms and `getData()` returning `mixed`
+
+`$form->getData()` returns `mixed`. That is normal: Symfony cannot know at typing time what your form contains.
+
+```php
+$dto = $form->getData();
+$dto->getEmail(); // Cannot call method getEmail() on mixed
+```
+
+### The fix
+
+Use `@var` locally to tell PHPStan the type:
+
+```php
+/** @var ContactDTO $dto */
+$dto = $form->getData();
+```
+
+Some prefer to create a typed helper method in a custom `AbstractController`, but that is over-engineering for most projects.
+
+## 5. QueryBuilder return types
+
+Doctrine's `QueryBuilder` is a nightmare for static analysis. `getResult()` returns `mixed`, and so does `getOneOrNullResult()`.
+
+```php
+$results = $qb->getQuery()->getResult();
+// Type : mixed
+```
+
+### The fix
+
+Use `@return` PHPDoc on your repository methods:
+
+```php
+/**
+ * @return array<Article>
+ */
+public function findPublished(): array
+{
+    return $this->createQueryBuilder('a')
+        ->where('a.publishedAt IS NOT NULL')
+        ->getQuery()
+        ->getResult();
+}
+```
+
+PHPStan trusts the declared `@return`. It fixes the error and documents your method's contract. The [phpstan/phpstan-doctrine](https://github.com/phpstan/phpstan-doctrine) extension also improves the understanding of DQL types.
+
+## 6. Event subscribers with signatures that are too broad
+
+Symfony listeners and subscribers often receive a generic `Event` while they expect a specific type.
+
+```php
+public function onKernelRequest(RequestEvent $event): void
+```
+
+PHPStan checks that the listener signature matches what the dispatcher sends. If your subscriber declares that it listens to `kernel.request` but the signature does not match the expected type, you get an error.
+
+### The fix
+
+Check that your listener methods accept exactly the type of the dispatched event. The [phpstan/phpstan-symfony](https://github.com/phpstan/phpstan-symfony) extension knows the kernel event types and validates signatures automatically.
+
+Install it if you have not already:
+
+```bash
+composer require --dev phpstan/phpstan-symfony
+```
+
+## 7. Class constants used as array keys
+
+PHPStan level 10 checks the types of array keys. If you use a `string` constant as a key but your array is typed `array<int, mixed>`, it breaks.
+
+```php
+private const STATUS_ACTIVE = 'active';
+
+// Si $config est typé array<string, bool>
+$config[self::STATUS_ACTIVE] = true; // OK
+
+// Si $config vient d'une source non typée
+$config[self::STATUS_ACTIVE] = true; // Offset 'active' on array{} does not exist
+```
+
+### The fix
+
+Type your arrays correctly from the declaration. Use PHPDoc for complex arrays:
+
+```php
+/** @var array<string, bool> */
+private array $config = [];
+```
+
+Better still: replace associative arrays with typed objects. A simple DTO with named properties is always safer than an array.
+
+## 8. Twig templates referenced as strings
+
+If you use phpstan/phpstan-symfony, PHPStan checks that Twig templates exist. Typos in template names become errors.
+
+```php
+return $this->render('article/shwo.html.twig', [
+    'article' => $article,
+]);
+```
+
+### The fix
+
+Fix the template name. It is trivial, but it is exactly the kind of bug that reaches production because it hides behind a rarely used path. PHPStan finds it without running the code. That is its strength.
+
+Enable template checking in your config:
+
+```yaml
+parameters:
+    symfony:
+        containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
+```
+
+## 9. Unreduced type unions
+
+At level 10, PHPStan requires you to narrow type unions before calling a specific method.
+
+```php
+public function process(User|Company $entity): void
+{
+    $entity->getCompanyName(); // Method getCompanyName() does not exist on User
+}
+```
+
+### The fix
+
+Use an `instanceof` to narrow the type:
+
+```php
+public function process(User|Company $entity): void
+{
+    if ($entity instanceof Company) {
+        $name = $entity->getCompanyName();
+    } else {
+        $name = $entity->getFullName();
+    }
+}
+```
+
+Or better still, define a common interface if the two classes share a behavior:
+
+```php
+interface Nameable
+{
+    public function getDisplayName(): string;
+}
+```
+
+Unreduced unions often reveal a design problem. If your method receives `User|Company`, ask yourself why these two types arrive at the same place.
+
+## 10. Closures and callbacks without typing
+
+Callbacks passed to `array_map`, `array_filter`, or `usort` often lack typing on their parameters.
+
+```php
+$names = array_map(function ($user) {
+    return $user->getName();
+}, $users);
+```
+
+PHPStan infers `$user` as `mixed` if `$users` is not typed. Even if `$users` is well typed, a closure without an explicit type can cause problems in some contexts.
+
+### The fix
+
+Type your closure parameters:
+
+```php
+$names = array_map(function (User $user): string {
+    return $user->getName();
+}, $users);
+```
+
+Or use arrow functions for more concision:
+
+```php
+$names = array_map(fn (User $user): string => $user->getName(), $users);
+```
+
+## The strategy for climbing gradually
+
+Do not go from level 0 to level 10 in a single commit. If you use [PHPStan 2.0](/article/phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable) (in French), the new level 10 checks are even more numerous. Pairing PHPStan with [coding conventions](/article/coding-conventions) (in French) shared by the team speeds up the level increase. Here is an approach that works:
+
+### Use the baseline
+
+PHPStan can generate a baseline file that ignores all existing errors:
+
+```bash
+vendor/bin/phpstan analyse --generate-baseline
+```
+
+From then on, only new errors appear. You fix the existing ones gradually, without blocking ongoing development.
+
+### Climb level by level
+
+Each level adds checks. See the list of PHPStan levels to know what each step brings. Stabilize one level before moving to the next. Levels 6 to 10 are the ones that reveal the most problems in a Symfony project, especially around Doctrine and forms.
+
+### Install the Symfony and Doctrine extensions
+
+These two extensions are essential. You can also add `phpstan/phpstan-strict-rules` to go even further, and `phpstan/extension-installer` to register extensions automatically:
+
+```bash
+composer require --dev phpstan/phpstan-symfony phpstan/phpstan-doctrine
+```
+
+They bring an understanding of the ecosystem-specific types: the container, repositories, forms, events. Without them, you will fight false positives.
+
+## What it changes in practice
+
+After fixing these 10 categories of errors, your project is no longer the same. Type bugs disappear before they even reach review. Refactorings become safer because PHPStan catches side effects. New developers understand method contracts without reading the implementation.
+
+PHPStan at max level is not a perfectionist's whim. It is a safety net that catches the errors unit tests do not cover, that review does not see, and that QA does not reproduce. On a Symfony project in production, it is an investment that pays off with the first regression avoided. To go even further, a [free audit](/audit-symfony-gratuit) (in French) of your Symfony codebase helps identify the priority work. If you want an outside view of the state of your codebase, our [PHP architecture review](/audit-code-php) (in French) identifies these problems systematically. In addition, our [automated PHP tests](/tests-automatises-php) (in French) cover the runtime part that PHPStan alone cannot validate.
+
+## Going further
+
+- [Eliminating dead code in your PHP projects](/article/code-mort-mission-elimination) (in French), detect and remove unused code with PHPStan
+- [Rector: master the evolution of your Symfony code](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) (in French), automate code migrations alongside PHPStan
+- [Symfony migration to hexagonal architecture](/article/migration-symfony-architecture-hexagonale-retour-mission) (in French), apply PHPStan to validate architecture constraints during a migration
+- [Official PHPStan documentation](https://phpstan.org/user-guide/getting-started), getting started guide and analysis levels
