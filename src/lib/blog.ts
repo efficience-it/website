@@ -240,8 +240,8 @@ export function getCategories(): string[] {
   return Array.from(categories).sort();
 }
 
-export function getPostsByCategory(category: string): BlogPost[] {
-  return getAllPosts().filter((p) => p.category === category);
+export function getPostsByCategory(category: string, language: BlogLanguage = "fr"): BlogPost[] {
+  return getAllPosts(language).filter((p) => p.category === category);
 }
 
 interface HeadingItem {
