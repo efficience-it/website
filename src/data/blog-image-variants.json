@@ -214,6 +214,10 @@
     400,
     800
   ],
+  "cover-packaged-software": [
+    400,
+    800
+  ],
   "cover-php-analyzers": [
     400,
     800

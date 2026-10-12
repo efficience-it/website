@@ -600,6 +600,10 @@
     "url": "https://commons.wikimedia.org/wiki/File:Honeycomb_pattern_in_a_facade_(Unsplash).jpg",
     "focusX": 0.3
   },
+  "packaged-business-software-benefits": {
+    "name": "packaged-software",
+    "sameAs": "quels-sont-les-avantages-dun-progiciel-pour-votre-entreprise"
+  },
   "rag-symfony-ai-doctrine-indexer-base-metier": {
     "name": "rag-symfony",
     "file": "File:Milky Way from Simeon, Virginia.png",
