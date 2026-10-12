@@ -1,0 +1,278 @@
+---
+title: "Migrating a Symfony App to Hexagonal Architecture"
+date: "2026-03-09"
+updatedAt: "2026-10-12"
+author: "Louis-Arnaud Catoire"
+category: "Architecture"
+excerpt: "Project retrospective on migrating a monolithic Symfony application to hexagonal architecture: the real steps, the surprises, the trade-offs and the results."
+image: "/images/blog/cover-symfony-hexagonal.webp"
+proficiencyLevel: "Expert"
+translationOf: "migration-symfony-architecture-hexagonale-retour-mission"
+translatedFromUpdatedAt: "2026-03-26"
+---
+
+The client calls us on a Tuesday. Their Symfony application handles 40,000 orders per month. The code is six years old. Three teams work on it in parallel. Deployments take two hours because nobody dares touch the code without causing a regression. Technical debt has become a business risk.
+
+The request: make the application maintainable without rewriting everything. This type of project is at the heart of our [application modernization](/modernisation-applicative) (in French) and [Symfony migration](/migration-symfony) (in French) offerings. We proposed a progressive migration to a hexagonal architecture. Not a big bang. Not a six-month project in a clean room. A surgical migration, feature by feature, while continuing to deliver.
+
+Here is how it went.
+
+## The Assessment: Coupling Everywhere
+
+First week: we audit. The findings are classic but severe. Controllers run 400 lines. Doctrine entities contain business logic, calls to services, sometimes even HTTP requests. Repositories mix reads and writes. Services depend directly on the ORM, the mailer, the filesystem.
+
+The worst part: the tests. There are some, but they are all integration tests. Each test starts a database, seeds fixtures, and checks the result through the ORM. A full `phpunit` run takes 45 minutes. Developers no longer run them locally. A solid foundation of [automated tests](/tests-automatises-php) (in French) would have prevented this drift.
+
+Coupling is not just an architecture problem. It is a velocity problem. Every new feature requires understanding side effects across three layers. Every refactoring is a risk.
+
+## The Plan: Migrate by Bounded Context
+
+We do not migrate the whole application at once. We identify the most critical bounded contexts and handle them one by one.
+
+On this project, three contexts emerge:
+
+- **Orders**: the business core, the most complex, the riskiest
+- **Catalog**: relatively stable, little business logic
+- **Billing**: tightly coupled to orders, lots of business rules
+
+We start with the catalog. Not because it is the most important, but because it is the least risky. The goal is to validate the approach, train the team, and establish the conventions before tackling the hard parts.
+
+## Step 1: Extract the Domain
+
+The first step is to create the `src/Catalog/Domain/` directory and move the pure business logic into it. Not the Doctrine entities. Not the repositories. Just the business rules.
+
+```
+src/
+├── Catalog/
+│   ├── Domain/
+│   │   ├── Model/
+│   │   │   ├── Product.php
+│   │   │   └── Category.php
+│   │   ├── Port/
+│   │   │   ├── ProductRepositoryInterface.php
+│   │   │   └── CategoryRepositoryInterface.php
+│   │   └── Exception/
+│   │       └── ProductNotFoundException.php
+│   ├── Application/
+│   │   └── UseCase/
+│   │       ├── GetProduct.php
+│   │       └── ListProductsByCategory.php
+│   └── Infrastructure/
+│       ├── Persistence/
+│       │   └── DoctrineProductRepository.php
+│       └── Http/
+│           └── ProductController.php
+```
+
+The `Product` model in the domain is no longer a Doctrine entity. It is a pure PHP object, with no annotations and no framework dependency. It carries the business logic and nothing else. This is precisely what the principle that [the domain should never know Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony) (in French) expresses: business logic must stay ignorant of the framework around it.
+
+### The First Problem: Duplication
+
+We end up with two `Product` classes: the Doctrine entity that still exists in `src/Entity/`, and the domain model in `src/Catalog/Domain/Model/`. It is uncomfortable but necessary. The Doctrine entity is an infrastructure detail. The domain model is the business contract.
+
+The infrastructure repository does the translation:
+
+```php
+final class DoctrineProductRepository implements ProductRepositoryInterface
+{
+    public function __construct(
+        private EntityManagerInterface $em,
+    ) {}
+
+    public function findById(ProductId $id): Product
+    {
+        $entity = $this->em->find(ProductEntity::class, $id->value());
+
+        if ($entity === null) {
+            throw new ProductNotFoundException($id);
+        }
+
+        return ProductMapper::toDomain($entity);
+    }
+}
+```
+
+A mapper converts between the Doctrine entity and the domain model. It is boring code to write, but it completely isolates the domain from the ORM. This kind of mapping is all the more important given the changes brought by [Doctrine ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) (in French).
+
+## Step 2: Use Cases as the Entry Point
+
+Every business action becomes an explicit use case. No more catch-all services with 30 methods.
+
+```php
+final class GetProduct
+{
+    public function __construct(
+        private ProductRepositoryInterface $repository,
+    ) {}
+
+    public function __invoke(ProductId $id): Product
+    {
+        return $this->repository->findById($id);
+    }
+}
+```
+
+The use case only knows interfaces (the ports). It does not know Doctrine exists. It does not know Symfony exists. It can be tested in isolation with a simple mock or an in-memory fake repository.
+
+### The Real Gain: Tests
+
+We can now test business logic without a database:
+
+```php
+final class GetProductTest extends TestCase
+{
+    public function testThrowsWhenProductNotFound(): void
+    {
+        $repository = new InMemoryProductRepository();
+        $useCase = new GetProduct($repository);
+
+        $this->expectException(ProductNotFoundException::class);
+        ($useCase)(new ProductId('nonexistent'));
+    }
+}
+```
+
+This test runs in 2 milliseconds. Not 2 seconds. The feedback loop becomes instant again. Developers rerun tests locally because it costs nothing anymore.
+
+## Step 3: Symfony Wiring
+
+Symfony handles dependency injection automatically. You just need to bind the interfaces to the implementations:
+
+```yaml
+services:
+    App\Catalog\Domain\Port\ProductRepositoryInterface:
+        class: App\Catalog\Infrastructure\Persistence\DoctrineProductRepository
+```
+
+With autowiring, if you have only one implementation per interface, Symfony resolves it on its own. No explicit config needed.
+
+Controllers become minimal HTTP adapters:
+
+```php
+final class ProductController extends AbstractController
+{
+    #[Route('/products/{id}', methods: ['GET'])]
+    public function show(string $id, GetProduct $getProduct): Response
+    {
+        $product = ($getProduct)(new ProductId($id));
+
+        return $this->json(ProductResponse::fromDomain($product));
+    }
+}
+```
+
+The controller contains no logic. It translates an HTTP request into a use case call, and a domain result into an HTTP response.
+
+## The Problems We Did Not Anticipate
+
+### Doctrine Events That Break Everything
+
+The old application made heavy use of Doctrine lifecycle callbacks: `prePersist`, `postUpdate`, `preRemove`. These callbacks contained business logic. A `postUpdate` on `Order` sent an email. A `prePersist` on `Invoice` computed the invoice number.
+
+Migrating these callbacks to the domain is the most underestimated task. We had to replace each callback with an explicit domain event, dispatched via [Symfony Messenger](https://symfony.com/doc/current/messenger.html) after the business action:
+
+```php
+final class ValidateOrder
+{
+    public function __construct(
+        private OrderRepositoryInterface $repository,
+        private EventDispatcherInterface $dispatcher,
+    ) {}
+
+    public function __invoke(OrderId $id): void
+    {
+        $order = $this->repository->findById($id);
+        $order->validate();
+        $this->repository->save($order);
+
+        $this->dispatcher->dispatch(new OrderValidated($order->id()));
+    }
+}
+```
+
+The email now goes out through a listener on `OrderValidated`, not through a Doctrine callback. The logic is visible, testable, and no longer depends on the ORM lifecycle.
+
+### Doctrine Relations Between Contexts
+
+The old code had `ManyToOne` relations between `Order` and `Product`. In a hexagonal architecture, each context is autonomous. An `Order` must not directly reference a Doctrine `Product`.
+
+We replaced the relations with identifiers:
+
+```php
+final class OrderLine
+{
+    public function __construct(
+        private ProductId $productId,
+        private int $quantity,
+        private Money $unitPrice,
+    ) {}
+}
+```
+
+No more `$orderLine->getProduct()->getName()`. If the Orders context needs product information, it goes through a dedicated port. It is more code, but it eliminates coupling between contexts.
+
+### Symfony Forms
+
+Symfony forms are designed to bind directly to entities. With hexagonal architecture, the form no longer touches the entity. It binds to a command DTO:
+
+```php
+final class CreateProductCommand
+{
+    public function __construct(
+        public string $name = '',
+        public string $description = '',
+        public int $priceInCents = 0,
+    ) {}
+}
+```
+
+The form maps to this DTO, the use case consumes it, and the domain model is created inside the use case. This adds a layer, but it guarantees that the domain never receives invalid data directly from HTTP.
+
+## The Trade-Offs We Accepted
+
+### Not Migrating Everything
+
+After three months, the catalog and billing are migrated. Orders, the most complex context, are in progress. But some parts of the application will never be migrated: the internal admin pages, the reporting back office, the maintenance scripts.
+
+This is a deliberate choice. Hexagonal architecture has a cost in structural complexity. That cost is justified for critical business code that changes often. It is not justified for an admin CRUD that two people use.
+
+### Keeping Doctrine in Queries
+
+For simple reads (lists, searches, exports), we kept direct Doctrine queries through the QueryBuilder, bypassing the domain. The lightweight CQRS pattern: commands (writes) go through use cases and the domain. Queries (reads) hit the infrastructure directly.
+
+This is pragmatic. Mapping a paginated search result through three layers just to map it back to JSON adds nothing. Reads have no business logic to protect.
+
+### Tolerating Old/New Coexistence
+
+Throughout the migration, the old code and the new code coexist. A legacy controller can call a hexagonal use case. A use case can read from a table managed by a legacy entity. That is the price of a progressive migration.
+
+We set one rule: new code never depends on old code. Old code can call new code through the interfaces. Never the other way around. This creates a clear direction for the migration.
+
+## The Results After Six Months
+
+The numbers speak for themselves:
+
+- **Unit tests**: from 0 to 340 domain tests, running in 8 seconds
+- **Deployments**: from 2 hours to 20 minutes thanks to confidence in the tests
+- **Onboarding**: a new developer understands a context in a day instead of a week
+- **Regressions**: cut by three on the migrated contexts
+
+The code is not perfect. It never will be. But it is structured. Every developer knows where to put business logic, where to put infrastructure, and how to test without spinning up the whole stack. This kind of result is especially critical for [industrial line-of-business tools](/secteur/industrie) (in French) that must stay reliable while evolving quickly, and it extends naturally to large-scale [Symfony web application development](/developpement-web-sur-mesure) (in French).
+
+## What We Would Do Differently
+
+We would start with domain events before touching the directory structure. Doctrine lifecycle callbacks are the biggest trap. Identifying and replacing them first would have saved weeks of debugging.
+
+We would invest earlier in a shared ADR (Architecture Decision Record). Every trade-off, every exception to the rule, should be documented. Six months later, nobody remembers why a given service was left in the old code.
+
+And we would put in place [PHPStan at max level](/article/phpstan-niveau-max-symfony-10-erreurs) (in French) from the very start of the migration. Static analysis catches architecture violations in real time. A use case that imports a Doctrine class is a PHPStan error before it is even a design error.
+
+Hexagonal architecture is not an end in itself. It is a tool to make business code independent of infrastructure. On a Symfony project of this size, it is the difference between an application you endure and an application you master. Our [Symfony hexagonal architecture](/architecture-hexagonale-symfony) (in French) offering supports teams through this kind of transformation.
+
+## Going Further
+
+- [Symfony Messenger: the backbone of hexagonal architecture](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) (in French), implementing CQRS with Messenger
+- [Migration guide for a Symfony project](/article/guide-de-migration-dans-un-projet-symfony) (in French), migration methodology
+- [Which architecture to choose between microservices and a modular monolith?](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) (in French), choosing the right project structure before starting a migration
+- [Alistair Cockburn: Hexagonal Architecture](https://web.archive.org/web/2025/https://alistair.cockburn.us/hexagonal-architecture/), the founding article on hexagonal architecture
+- [Symfony Messenger documentation](https://symfony.com/doc/current/messenger.html), the official guide to the component
