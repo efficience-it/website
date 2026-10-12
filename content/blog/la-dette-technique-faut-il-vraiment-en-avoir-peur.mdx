@@ -5,7 +5,7 @@ author: "Louis-Arnaud Catoire"
 category: "Projet"
 excerpt: "La dette technique est une notion fréquemment utilisée en technologie de l'information pour faire référence aux systèmes dépassés."
 image: "/images/blog/cover-dette-technique.webp"
-updatedAt: "2026-01-13"
+updatedAt: "2026-10-12"
 faq:
   - question: "Comment mesurer la dette technique d'un projet ?"
     answer: "Plusieurs indicateurs permettent de la quantifier : la couverture de tests (PHPUnit), la complexité cyclomatique (PHPStan, SonarQube), le couplage entre modules, le nombre de dépréciations non traitées et le temps nécessaire pour ajouter une fonctionnalité simple. Un audit de code donne une vision globale et priorisée."
@@ -19,7 +19,7 @@ faq:
 
 Ward Cunningham a forgé cette métaphore au début des années 1990 en comparant le développement logiciel à un emprunt financier : chaque raccourci contracte une dette dont les intérêts s'accumulent. L'analogie est puissante parce qu'elle parle le langage du business. Un directeur financier comprend immédiatement qu'une dette non remboursée génère des intérêts composés, et c'est exactement ce qui se passe dans une base de code négligée.
 
-On réduit souvent la dette technique au code "sale". En réalité, elle recouvre un spectre bien plus large : dépendances obsolètes, absence de tests, documentation inexistante, choix d'architecture devenus inadaptés, ou encore infrastructure non reproductible. Toute décision technique qui augmente le coût futur du changement constitue de la dette.
+On réduit souvent la dette technique au code "sale". En réalité, elle recouvre un spectre bien plus large : dépendances obsolètes, absence de tests, documentation inexistante, choix d'architecture devenus inadaptés, ou encore infrastructure non reproductible. Toute décision technique qui augmente l'effort futur de changement constitue de la dette.
 
 ### Les types de dette
 
@@ -65,7 +65,7 @@ Classez chaque élément de dette selon deux axes : l'impact sur la vélocité d
 
 Le **Strangler Fig Pattern**, détaillé dans notre [guide de migration Symfony](/article/guide-de-migration-dans-un-projet-symfony), consiste à encapsuler le système existant et à le remplacer module par module. Chaque nouveau développement est réalisé dans le nouveau système, tandis que l'ancien est progressivement décommissionné. L'application reste fonctionnelle tout au long du processus, ce qui limite considérablement le risque.
 
-La **règle du Boy Scout**, popularisée par Robert C. Martin, propose de laisser le code dans un meilleur état que celui dans lequel on l'a trouvé. À chaque intervention, les développeurs améliorent un petit morceau du code existant. Cette approche est particulièrement efficace pour maîtriser la dette au quotidien sans mobiliser de budget dédié.
+La **règle du Boy Scout**, popularisée par Robert C. Martin, propose de laisser le code dans un meilleur état que celui dans lequel on l'a trouvé. À chaque intervention, les développeurs améliorent un petit morceau du code existant. Cette approche est particulièrement efficace pour maîtriser la dette au quotidien sans mobiliser de temps dédié.
 
 Les **sprints de remboursement** consistent à consacrer régulièrement une part du temps de développement au traitement de la dette. Allouer 20 % de chaque sprint au refactoring permet de maintenir un rythme constant d'amélioration sans créer de conflit avec les demandes fonctionnelles. Pour les équipes qui ne disposent pas de cette bande passante en interne, externaliser la [maintenance applicative Symfony](/maintenance-applicative-symfony) permet de garantir un remboursement régulier de la dette sans mobiliser les développeurs sur les sprints produit.
 
@@ -75,13 +75,13 @@ C'est ici que la perspective change radicalement. Pour un architecte ou un CTO, 
 
 ### Distinguer dette architecturale et dette de code
 
-La dette de code, une méthode trop longue, un nommage incohérent, un test manquant, se rembourse relativement facilement. La **dette architecturale** est d'une tout autre nature : un monolithe qui aurait dû être découpé en services, un choix de base de données inadapté à la charge, une absence de couche d'abstraction qui verrouille le système sur un fournisseur. Cette dette-là ne se rembourse pas en sprint. Elle exige une vision à long terme, un budget dédié et un sponsorship de la direction. [Reprendre un projet en dette technique](/reprise-projet-symfony) avec un regard extérieur permet souvent de sortir de l'impasse quand l'équipe interne est trop proche du code pour définir une trajectoire objective.
+La dette de code, une méthode trop longue, un nommage incohérent, un test manquant, se rembourse relativement facilement. La **dette architecturale** est d'une tout autre nature : un monolithe qui aurait dû être découpé en services, un choix de base de données inadapté à la charge, une absence de couche d'abstraction qui verrouille le système sur un fournisseur. Cette dette-là ne se rembourse pas en sprint. Elle exige une vision à long terme, du temps dédié et un sponsorship de la direction. [Reprendre un projet en dette technique](/reprise-projet-symfony) avec un regard extérieur permet souvent de sortir de l'impasse quand l'équipe interne est trop proche du code pour définir une trajectoire objective.
 
 ### Communiquer avec les parties prenantes
 
 Le plus grand défi n'est pas technique, il est politique. Les développeurs voient la dette au quotidien ; les décideurs ne voient que la vélocité qui baisse. Pour obtenir les moyens de rembourser la dette, il faut la traduire en langage business.
 
-Plutôt que de dire "il faut refactoriser le module de paiement", dites : "le module de paiement nous coûte 15 jours supplémentaires par trimestre en temps de développement et représente 60 % de nos incidents en production. Un investissement de 30 jours de développement réduirait ce coût de 80 %". Chiffrez le coût de l'inaction autant que le coût de l'action. Un [audit web structuré](/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede) permet précisément de quantifier et prioriser la dette technique avec des données factuelles à présenter aux décideurs. Pour obtenir un premier [diagnostic gratuit de votre application](/audit-symfony-gratuit), c'est le point de départ idéal.
+Plutôt que de dire "il faut refactoriser le module de paiement", dites : "le module de paiement nous fait perdre 15 jours par trimestre en temps de développement et représente 60 % de nos incidents en production. Un investissement de 30 jours de développement réduirait cette charge de 80 %". Chiffrez l'impact de l'inaction autant que l'effort de l'action. Un [audit web structuré](/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede) permet précisément de quantifier et prioriser la dette technique avec des données factuelles à présenter aux décideurs. Pour obtenir un premier [diagnostic gratuit de votre application](/audit-symfony-gratuit), c'est le point de départ idéal.
 
 ### Planifier la soutenabilité à long terme
 
