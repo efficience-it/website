@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { getTranslationPaths } from "@/lib/blog";
 import { BASE_URL, pageMetadata } from "@/lib/metadata";
+import { ENGLISH_INDEXABLE } from "@/lib/i18n/config";
 import type { BlogLanguage, BlogPost } from "@/types/blog";
 
 export function buildArticleMetadata(post: BlogPost, language: BlogLanguage): Metadata {
-  const translationPaths = getTranslationPaths(post);
+  const translationPaths = ENGLISH_INDEXABLE ? getTranslationPaths(post) : undefined;
   const base = pageMetadata({
     title: post.title,
     description: post.excerpt,
@@ -20,6 +21,7 @@ export function buildArticleMetadata(post: BlogPost, language: BlogLanguage): Me
 
   return {
     ...base,
+    ...(language === "en" && !ENGLISH_INDEXABLE && { robots: { index: false, follow: true } }),
     openGraph: {
       ...base.openGraph,
       type: "article",

@@ -22,6 +22,13 @@ jest.mock("@/lib/blog", () => ({
   getTranslationPaths: (...args: unknown[]) => mockBlog.getTranslationPaths(...args),
 }));
 
+const mockConfig = { indexable: true };
+jest.mock("@/lib/i18n/config", () => ({
+  get ENGLISH_INDEXABLE() {
+    return mockConfig.indexable;
+  },
+}));
+
 import { render, screen } from "@testing-library/react";
 import FrenchArticlePage, {
   generateMetadata as frenchMetadata,
@@ -60,6 +67,7 @@ beforeEach(() => {
   mockBlog.getTranslationPaths.mockReturnValue(undefined);
   mockBlog.getLanguageSwitchTarget.mockReturnValue(undefined);
   mockBlog.getPostsByCategory.mockReturnValue([]);
+  mockConfig.indexable = true;
 });
 
 describe("buildArticleMetadata", () => {
@@ -91,6 +99,26 @@ describe("buildArticleMetadata", () => {
       en: "https://www.itefficience.com/en/article/example",
     });
     expect(meta.openGraph).toMatchObject({ locale: "en_US" });
+  });
+});
+
+describe("buildArticleMetadata while English is not indexable", () => {
+  beforeEach(() => {
+    mockConfig.indexable = false;
+    mockBlog.getTranslationPaths.mockReturnValue({ fr: "/article/exemple", en: "/en/article/example" });
+  });
+
+  it("marks English pages noindex and drops the alternates", () => {
+    const meta = buildArticleMetadata(makePost({ slug: "example", language: "en" }), "en");
+    expect(meta.robots).toEqual({ index: false, follow: true });
+    expect(meta.alternates?.languages).toBeUndefined();
+    expect(mockBlog.getTranslationPaths).not.toHaveBeenCalled();
+  });
+
+  it("keeps French pages indexable without alternates", () => {
+    const meta = buildArticleMetadata(makePost(), "fr");
+    expect(meta.robots).toBeUndefined();
+    expect(meta.alternates?.languages).toBeUndefined();
   });
 });
 
