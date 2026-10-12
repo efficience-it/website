@@ -72,6 +72,10 @@
     "author": "Bonnie Moreland from Oregon, United States",
     "url": "https://commons.wikimedia.org/wiki/File:Morning_mist_on_lavender._Lavender_Valley_Farms,_Oregon_-_Flickr_-_Bonnie_Moreland_(free_images).jpg"
   },
+  "php-coding-standards-best-practices": {
+    "name": "coding-standards",
+    "sameAs": "coding-conventions"
+  },
   "commandes-invocables-symfony-attributs-console": {
     "name": "commandes-invocables-symfony",
     "file": "File:纽约, 美国 (Unsplash).jpg",
