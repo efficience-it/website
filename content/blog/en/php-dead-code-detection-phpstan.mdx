@@ -1,0 +1,114 @@
+---
+title: "PHP Dead Code: Detect and Remove Unused Code"
+date: "2025-01-06"
+author: "Louis-Arnaud Catoire"
+category: "Code quality"
+excerpt: "Find and remove unused code in your PHP projects with PHPStan and shipmonk/dead-code-detector to improve code quality, maintainability and tooling speed."
+image: "/images/blog/cover-php-dead-code.webp"
+updatedAt: "2026-10-12"
+translationOf: "code-mort-mission-elimination"
+translatedFromUpdatedAt: "2026-01-13"
+reviewedBy: ""
+reviewedAt: ""
+---
+
+Web development is like gardening: without regular upkeep, forgotten and useless elements pile up and slow your projects down. That is where the **dead code detector for PHP** comes in, a powerful extension of **[PHPStan](https://phpstan.org/)** that helps you find and remove unused code in PHP projects. Here is everything you need to know about this practical tool and its key features.
+
+## PHPStan: the essential tool for clean PHP code
+
+PHPStan is a static analysis tool for PHP. For a full overview of what it can do, [our guide to PHPStan and PHP code quality](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French) covers installation, rule levels and common use cases. Its main goal is to detect errors in your code before it even runs. It acts as an advanced type checker that inspects the source code and spots potential problems, such as inconsistent typing and incorrect or incompatible types in variables, parameters or return values. It catches calls to methods that do not exist, warning you when you try to call a method missing from a class. It also reports missing properties that are used without being defined, and identifies common logic errors, such as conditions that are always true or always false.
+
+PHPStan is especially useful in projects where robustness and maintainability matter. Its configuration is flexible, so it adapts to the standards and constraints of each project. It also plugs easily into CI/CD pipelines to automate the analysis and keep code quality constant. [PHPStan 2.0 and its level 10](/article/phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable) (in French) push this rigor even further.
+
+## What is dead code?
+
+In software development, dead code, also known as unused or obsolete code, refers to parts of the code that are never executed or used in an application. It can include functions, methods, classes or even blocks of code that are no longer needed for the program to work. It may look harmless, but dead code can have a significant impact on a project:
+
+- **Project evolution**: as requirements change, some parts of the code become obsolete.
+- **Refactoring**: new implementations can make parts of the old code useless. Tools like [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) (in French) automate these transformations and help identify code that has become redundant. On the JavaScript side, [TypeScript](/developpement-typescript) (in French) also flags unreachable code thanks to its type analysis.
+- **Development mistakes**: sometimes code is written but never used because of design or implementation errors.
+
+## How dead code affects a project
+
+### Added complexity
+
+Dead code adds a needless layer of complexity to the codebase. It makes the code harder to understand and maintain, especially for new developers joining the project. The extra complexity also increases the risk of introducing bugs in future changes.
+
+### Security risks
+
+Dead code can contain vulnerabilities that are not immediately obvious. Because it is not used, these [CVE flaws](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) (in French) can go unnoticed and stay unpatched, which puts the application's security at risk.
+
+### Slower tooling
+
+Dead code usually has no direct effect on runtime performance: thanks to PSR-4 autoloading, unused classes are never loaded into memory. It does, however, weigh down development tooling: static analysis, tests, CI/CD pipelines and build tools all process a larger codebase than necessary, which makes these processes slower.
+
+### Maintenance effort
+
+Maintaining dead code takes extra time and resources. Developers have to spend time understanding and handling it, time that would be better used improving existing features or building new ones. This untreated buildup feeds directly into [technical debt, whose consequences deserve to be anticipated](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French).
+
+### Lower code quality
+
+Dead code can degrade the overall quality of the codebase. It can introduce inconsistencies and contradictions, making the code less reliable and more error-prone.
+
+## shipmonk/dead-code-detector: detect and remove dead code
+
+### What is it?
+
+The [shipmonk/dead-code-detector](https://github.com/shipmonk-rnd/dead-code-detector) extension for PHPStan is a powerful tool designed to identify and remove unused PHP code in a project. This code can take the form of functions, classes, properties or methods that are never called or used. Removing this superfluous code makes the codebase more readable and smaller, and in turn improves the performance of the application.
+
+### Why use it?
+
+- **Better maintainability**: the code becomes easier to understand and change, whether by you or by other developers.
+- **Better performance**: less code means faster loading times and lower resource usage.
+- **Security**: dead code can sometimes hide forgotten vulnerabilities. Removing it reduces the attack surface of the application.
+
+### Installation
+
+To install the extension, use Composer:
+
+```bash
+composer require --dev shipmonk/dead-code-detector
+```
+
+The `--dev` option means this dependency is only needed for development, not for production.
+
+### Configuration
+
+Once installed, include the extension's rules in the PHPStan configuration file (usually `phpstan.neon` or `phpstan.neon.dist`):
+
+```yaml
+includes:
+  - vendor/shipmonk/dead-code-detector/rules.neon
+```
+
+This line tells PHPStan to include the extension's rules in its analysis.
+
+### Usage
+
+After configuring the extension, simply run PHPStan as usual. The extension then analyzes the code for dead code and produces a detailed report of the unused elements.
+
+### Main features
+
+- **Dead cycle detection**: spots parts of the code that are never executed.
+- **Automatic removal** (optional): some extensions can automatically delete the dead code they detect.
+
+### Additional benefits
+
+- **PHPStan integration**: every PHPStan feature stays available, including type analysis, detection of common errors and custom configuration.
+- **Ease of use**: installation and configuration are simple, which makes the extension accessible to every PHP developer.
+- **Active community**: support and contributions from the PHPStan community keep improving the tool.
+
+## Extra tips
+
+- **Run the analysis regularly**: build PHPStan into your continuous development process to catch problems early.
+- **Tune the rules to your needs**: you can customize the extension's rules to fit your specific project.
+- **Combine it with other tools**: use PHPStan together with other code cleanup tools for even better results.
+
+## Conclusion
+
+By adopting this extension, you take one more step toward PHP code that is cleaner, more efficient and easier to maintain. Removing dead code is part of a continuous effort to improve the quality and performance of PHP projects. It is also an essential step in an [application modernization](/modernisation-applicative) (in French) journey to [take a project back in hand](/reprise-projet-symfony) (in French) and rebuild the team's confidence in the codebase. To identify every area for improvement in your codebase, our [PHP diagnostic](/audit-code-php) (in French) covers dead code, technical debt and compliance with standards.
+
+## Going further
+
+- [The 10 PHPStan max-level errors on Symfony](/article/phpstan-niveau-max-symfony-10-erreurs) (in French), going further with PHPStan level 10
+- [shipmonk/dead-code-detector on GitHub](https://github.com/shipmonk-rnd/dead-code-detector), the extension used in this article

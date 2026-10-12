@@ -734,5 +734,9 @@
   "mcp-cli-api-quel-choix-serveur-symfony-php": {
     "name": "mcp-symfony-php",
     "sameAs": "serveurs-mcp-claude-code-developpeurs-symfony"
+  },
+  "php-dead-code-detection-phpstan": {
+    "name": "php-dead-code",
+    "sameAs": "code-mort-mission-elimination"
   }
 }
