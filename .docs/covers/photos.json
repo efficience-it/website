@@ -167,6 +167,10 @@
     "author": "NMFS/Southwest Fisheries Science Center",
     "url": "https://commons.wikimedia.org/wiki/File:Jack_mackerel_school.jpg"
   },
+  "core-team-project-structure": {
+    "name": "core-team-model",
+    "sameAs": "core-team-organisation-projet"
+  },
   "cve-comprendre-les-failles-pour-mieux-se-proteger": {
     "name": "cve",
     "file": "File:Spider web (54778527184).jpg",
