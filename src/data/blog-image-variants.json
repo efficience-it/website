@@ -314,6 +314,10 @@
     400,
     800
   ],
+  "cover-phpstan-quality": [
+    400,
+    800
+  ],
   "cover-playwright-claude": [
     400,
     800

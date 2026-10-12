@@ -131,6 +131,10 @@
     "author": "Aaron Burden aaronburden",
     "url": "https://commons.wikimedia.org/wiki/File:Snowflake_macro_(Unsplash).jpg"
   },
+  "phpstan-improve-php-code-quality": {
+    "name": "phpstan-quality",
+    "sameAs": "comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php"
+  },
   "comment-produire-la-documentation-sur-votre-projet-symfony-avec-lapproche-diataxis": {
     "name": "diataxis-symfony",
     "file": "File:Spiral Staircase, Keck Center (U.S. National Academies).jpg",
