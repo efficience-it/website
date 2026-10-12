@@ -2,11 +2,14 @@
 
 import { useRef, useState } from "react";
 import { trackEvent } from "@/lib/tracking";
+import { getMessages } from "@/lib/i18n/messages";
+import type { BlogLanguage } from "@/types/blog";
 
 interface ArticleShareButtonsProps {
   readonly url: string;
   readonly title: string;
   readonly articleSlug: string;
+  readonly language?: BlogLanguage;
 }
 
 function buildShareUrl(base: string, params: Record<string, string>) {
@@ -14,7 +17,8 @@ function buildShareUrl(base: string, params: Record<string, string>) {
   return `${base}?${searchParams.toString()}`;
 }
 
-export default function ArticleShareButtons({ url, title, articleSlug }: ArticleShareButtonsProps) {
+export default function ArticleShareButtons({ url, title, articleSlug, language }: ArticleShareButtonsProps) {
+  const messages = getMessages(language);
   const [copied, setCopied] = useState(false);
   const copyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const interactionClasses =
@@ -98,8 +102,8 @@ export default function ArticleShareButtons({ url, title, articleSlug }: Article
             href={link.href}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label={`Partager sur ${link.label}`}
-            title={`Partager sur ${link.label}`}
+            aria-label={messages.shareOn(link.label)}
+            title={messages.shareOn(link.label)}
             onClick={() => trackEvent("share", { method: link.method, article_slug: articleSlug })}
             className={`inline-flex h-8 w-16 cursor-pointer items-center justify-center rounded-md border px-3 text-sm font-medium ${interactionClasses}`}
             style={{
@@ -114,8 +118,8 @@ export default function ArticleShareButtons({ url, title, articleSlug }: Article
         <button
           type="button"
           onClick={handleCopy}
-          aria-label={copied ? "Lien copié" : "Copier le lien"}
-          title={copied ? "Lien copié" : "Copier le lien de l'article"}
+          aria-label={copied ? messages.linkCopied : messages.copyLink}
+          title={copied ? messages.linkCopied : messages.copyArticleLink}
           className={`relative inline-flex h-8 w-16 cursor-pointer items-center justify-center rounded-md border border-slate-600 bg-slate-600 px-3 text-sm font-medium ${interactionClasses}`}
           style={{ color: "#fff" }}
         >
@@ -145,7 +149,7 @@ export default function ArticleShareButtons({ url, title, articleSlug }: Article
             </svg>
           </span>
           <span aria-live="polite" className="sr-only">
-            {copied ? "Lien copié" : ""}
+            {copied ? messages.linkCopied : ""}
           </span>
         </button>
       </div>
