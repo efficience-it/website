@@ -1,8 +1,10 @@
 import TrackedArticleButton from "./TrackedArticleButton";
+import type { BlogLanguage } from "@/types/blog";
 
 interface ArticleCtaProps {
   category?: string;
   slug?: string;
+  language?: BlogLanguage;
 }
 
 interface CtaConfig {
@@ -49,7 +51,21 @@ function matchesSlugKeywords(slug: string, keywords: string[]): boolean {
   return keywords.some((kw) => slug.includes(kw));
 }
 
-export function getArticleCtaConfig(category?: string, slug = ""): CtaConfig {
+const ENGLISH_CTA: CtaConfig = {
+  heading: "Have a project in mind?",
+  description:
+    "Our team replies within 48 hours to look at your needs and suggest a suitable approach.",
+  buttonLabel: "Contact us",
+  href: "/contact",
+};
+
+export function getArticleCtaConfig(
+  category?: string,
+  slug = "",
+  language: BlogLanguage = "fr",
+): CtaConfig {
+  if (language === "en") return ENGLISH_CTA;
+
   if (REPRISE_SLUGS.has(slug)) {
     return {
       heading: "Vous faites face à un projet legacy ou une migration PHP ?",
@@ -120,8 +136,8 @@ export function getArticleCtaConfig(category?: string, slug = ""): CtaConfig {
   };
 }
 
-export default function ArticleCta({ category, slug }: Readonly<ArticleCtaProps>) {
-  const cta = getArticleCtaConfig(category, slug);
+export default function ArticleCta({ category, slug, language }: Readonly<ArticleCtaProps>) {
+  const cta = getArticleCtaConfig(category, slug, language);
 
   return (
     <div data-cta-section className="mt-12 border-l-4 border-primary bg-primary/5 px-6 py-6">

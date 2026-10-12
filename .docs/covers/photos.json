@@ -738,5 +738,9 @@
   "echelle-dalia-niveaux-ia-developpement": {
     "name": "dalia-ia-developpement",
     "sameAs": "quel-assistant-ia-choisir-pour-coder"
+  },
+  "php-dead-code-detection-phpstan": {
+    "name": "php-dead-code",
+    "sameAs": "code-mort-mission-elimination"
   }
 }

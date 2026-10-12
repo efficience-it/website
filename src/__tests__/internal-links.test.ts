@@ -11,6 +11,10 @@ function getValidRoutes(): Set<string> {
     const entries = fs.readdirSync(dir, { withFileTypes: true });
     for (const entry of entries) {
       if (entry.isDirectory()) {
+        if (entry.name.startsWith("[[...")) {
+          routes.add(prefix || "/");
+          continue;
+        }
         if (entry.name.startsWith("[")) continue;
         const isGroup = entry.name.startsWith("(");
         walk(path.join(dir, entry.name), isGroup ? prefix : `${prefix}/${entry.name}`);

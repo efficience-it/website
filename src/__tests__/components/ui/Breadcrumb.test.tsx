@@ -29,9 +29,17 @@ describe("Breadcrumb", () => {
 });
 
 describe("Breadcrumb in English", () => {
-  it("renders English labels and home link", () => {
-    render(<Breadcrumb language="en" items={[{ label: "Page" }]} />);
-    expect(screen.getByText("Home")).toHaveAttribute("href", "/en");
+  it("omits the home link and the leading separator", () => {
+    render(
+      <Breadcrumb
+        language="en"
+        items={[{ label: "Blog", href: "/en/blog" }, { label: "Page" }]}
+      />,
+    );
+    expect(screen.queryByText("Home")).toBeNull();
+    expect(screen.queryByText("Accueil")).toBeNull();
+    expect(screen.getByText("Blog")).toHaveAttribute("href", "/en/blog");
     expect(screen.getByRole("navigation")).toHaveAttribute("aria-label", "Breadcrumb");
+    expect(screen.getAllByText("/")).toHaveLength(1);
   });
 });

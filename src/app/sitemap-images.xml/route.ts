@@ -1,3 +1,4 @@
+import { ENGLISH_INDEXABLE } from "@/lib/i18n/config";
 import { NextResponse } from "next/server";
 import { getAllPosts } from "@/lib/blog";
 import { BASE_URL } from "@/lib/metadata";
@@ -120,7 +121,7 @@ function toXml(urls: SitemapImageUrl[]): string {
 }
 
 export function GET() {
-  const posts = [...getAllPosts(), ...getAllPosts("en")];
+  const posts = [...getAllPosts(), ...(ENGLISH_INDEXABLE ? getAllPosts("en") : [])];
 
   const blogImageUrls: SitemapImageUrl[] = posts.map((post) => ({
     loc: `${BASE_URL}${post.language === "en" ? "/en" : ""}/article/${post.slug}`,

@@ -1,21 +1,25 @@
 import Link from "next/link";
+import { getMessages } from "@/lib/i18n/messages";
+import type { BlogLanguage } from "@/types/blog";
 
 interface PaginationProps {
   currentPage: number;
   pageCount: number;
   getPageHref: (page: number) => string;
+  language?: BlogLanguage;
 }
 
 const itemClass =
   "inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full px-4 py-2 text-sm font-medium transition-colors";
 
-export default function Pagination({ currentPage, pageCount, getPageHref }: Readonly<PaginationProps>) {
+export default function Pagination({ currentPage, pageCount, getPageHref, language }: Readonly<PaginationProps>) {
+  const messages = getMessages(language);
   if (pageCount <= 1) return null;
 
   const pages = Array.from({ length: pageCount }, (_, i) => i + 1);
 
   return (
-    <nav aria-label="Pagination" className="mt-12">
+    <nav aria-label={messages.pagination} className="mt-12">
       <ul className="flex flex-wrap items-center justify-center gap-2">
         {currentPage > 1 && (
           <li>
@@ -24,7 +28,7 @@ export default function Pagination({ currentPage, pageCount, getPageHref }: Read
               rel="prev"
               className={`${itemClass} bg-light-gray text-dark hover:bg-primary hover:text-white`}
             >
-              Précédent
+              {messages.previous}
             </Link>
           </li>
         )}
@@ -37,7 +41,7 @@ export default function Pagination({ currentPage, pageCount, getPageHref }: Read
             ) : (
               <Link
                 href={getPageHref(page)}
-                aria-label={`Page ${page}`}
+                aria-label={messages.pageLabel(page)}
                 className={`${itemClass} bg-light-gray text-dark hover:bg-primary hover:text-white`}
               >
                 {page}
@@ -52,7 +56,7 @@ export default function Pagination({ currentPage, pageCount, getPageHref }: Read
               rel="next"
               className={`${itemClass} bg-light-gray text-dark hover:bg-primary hover:text-white`}
             >
-              Suivant
+              {messages.next}
             </Link>
           </li>
         )}

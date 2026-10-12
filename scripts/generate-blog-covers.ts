@@ -104,8 +104,14 @@ function coverSvg({ title, category }: Cover): string {
 </svg>`;
 }
 
+function contentFile(slug: string): string | undefined {
+  return [path.join(CONTENT_DIR, `${slug}.mdx`), path.join(CONTENT_DIR, "en", `${slug}.mdx`)].find((file) =>
+    fs.existsSync(file),
+  );
+}
+
 function readCover(slug: string): Cover {
-  const { data } = matter(fs.readFileSync(path.join(CONTENT_DIR, `${slug}.mdx`), "utf-8"));
+  const { data } = matter(fs.readFileSync(contentFile(slug) as string, "utf-8"));
   return { slug, title: String(data.coverTitle ?? data.title), category: String(data.category) };
 }
 
@@ -176,7 +182,7 @@ async function main(): Promise<void> {
   if (duplicates.length) throw new Error(`Duplicate cover names: ${duplicates.join(", ")}`);
 
   for (const [key, photo] of Object.entries(photos)) {
-    if (!fs.existsSync(path.join(CONTENT_DIR, `${key}.mdx`))) continue;
+    if (!contentFile(key)) continue;
     const target = path.join(OUTPUT_DIR, `cover-${photo.name}.webp`);
     if (missingOnly && fs.existsSync(target)) continue;
     const png = await renderCover(readCover(key), photo);

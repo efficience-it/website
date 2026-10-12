@@ -28,3 +28,19 @@ describe("BlogCard", () => {
     expect(container.querySelector("img")).toBeNull();
   });
 });
+
+describe("BlogCard language", () => {
+  it("links to the French article with French labels by default", () => {
+    const { container, getByText } = render(<BlogCard post={post} />);
+    expect(container.querySelector("h3 a")).toHaveAttribute("href", "/article/exemple");
+    expect(getByText(/Lire la suite/)).toBeInTheDocument();
+    expect(getByText("1 janvier 2026")).toBeInTheDocument();
+  });
+
+  it("links to the English article with English labels", () => {
+    const { container, getByText } = render(<BlogCard post={{ ...post, language: "en" }} />);
+    expect(container.querySelector("h3 a")).toHaveAttribute("href", "/en/article/exemple");
+    expect(getByText(/Read more/)).toBeInTheDocument();
+    expect(getByText("January 1, 2026")).toBeInTheDocument();
+  });
+});
