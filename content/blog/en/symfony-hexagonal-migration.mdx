@@ -8,7 +8,7 @@ excerpt: "Project retrospective on migrating a monolithic Symfony application to
 image: "/images/blog/cover-symfony-hexagonal.webp"
 proficiencyLevel: "Expert"
 translationOf: "migration-symfony-architecture-hexagonale-retour-mission"
-translatedFromUpdatedAt: "2026-03-26"
+translatedFromUpdatedAt: "2026-10-12"
 ---
 
 The client calls us on a Tuesday. Their Symfony application handles 40,000 orders per month. The code is six years old. Three teams work on it in parallel. Deployments take two hours because nobody dares touch the code without causing a regression. Technical debt has become a business risk.
@@ -132,7 +132,7 @@ final class GetProductTest extends TestCase
 }
 ```
 
-This test runs in 2 milliseconds. Not 2 seconds. The feedback loop becomes instant again. Developers rerun tests locally because it costs nothing anymore.
+This test runs in 2 milliseconds. Not 2 seconds. The feedback loop becomes instant again. Developers rerun tests locally because it is no longer a burden.
 
 ## Step 3: Symfony Wiring
 
@@ -234,7 +234,7 @@ The form maps to this DTO, the use case consumes it, and the domain model is cre
 
 After three months, the catalog and billing are migrated. Orders, the most complex context, are in progress. But some parts of the application will never be migrated: the internal admin pages, the reporting back office, the maintenance scripts.
 
-This is a deliberate choice. Hexagonal architecture has a cost in structural complexity. That cost is justified for critical business code that changes often. It is not justified for an admin CRUD that two people use.
+This is a deliberate choice. Hexagonal architecture adds structural complexity. That complexity is justified for critical business code that changes often. It is not justified for an admin CRUD that two people use.
 
 ### Keeping Doctrine in Queries
 
@@ -244,7 +244,7 @@ This is pragmatic. Mapping a paginated search result through three layers just t
 
 ### Tolerating Old/New Coexistence
 
-Throughout the migration, the old code and the new code coexist. A legacy controller can call a hexagonal use case. A use case can read from a table managed by a legacy entity. That is the price of a progressive migration.
+Throughout the migration, the old code and the new code coexist. A legacy controller can call a hexagonal use case. A use case can read from a table managed by a legacy entity. That is the trade-off of a progressive migration.
 
 We set one rule: new code never depends on old code. Old code can call new code through the interfaces. Never the other way around. This creates a clear direction for the migration.
 
