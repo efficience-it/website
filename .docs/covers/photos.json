@@ -121,6 +121,10 @@
     "author": "Jebulon",
     "url": "https://commons.wikimedia.org/wiki/File:Aqueduct_Segovia_statue.jpg"
   },
+  "postman-newman-gitlab-ci-api-tests": {
+    "name": "postman-gitlab",
+    "sameAs": "comment-executer-des-tests-postman-avec-newman-dans-gitlab-ci"
+  },
   "comment-former-vos-equipes-a-la-securite-informatique-en-toute-simplicite": {
     "name": "securite-informatique",
     "file": "File:Suricata suricatta suricatta 97088339.jpg",
