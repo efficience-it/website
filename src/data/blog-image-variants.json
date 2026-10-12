@@ -186,6 +186,10 @@
     400,
     800
   ],
+  "cover-invokable-commands": [
+    400,
+    800
+  ],
   "cover-join-efficience": [
     400,
     800

@@ -79,6 +79,10 @@
     "author": "Yaoqi LAI yaoqiqiqilai",
     "url": "https://commons.wikimedia.org/wiki/File:%E7%BA%BD%E7%BA%A6,_%E7%BE%8E%E5%9B%BD_(Unsplash).jpg"
   },
+  "symfony-invokable-commands-attributes": {
+    "name": "invokable-commands",
+    "sameAs": "commandes-invocables-symfony-attributs-console"
+  },
   "comment-choisir-son-prestataire-symfony": {
     "name": "choisir-prestataire-symfony",
     "file": "File:Stepping Stones, River Rothay, Under Loughriggs, Cumbria (44410834135).jpg",

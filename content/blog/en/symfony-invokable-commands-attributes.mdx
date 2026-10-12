@@ -1,0 +1,351 @@
+---
+title: "Invokable Symfony Commands: Attributes Take Over"
+date: "2026-03-16"
+updatedAt: "2026-10-12"
+translatedFromUpdatedAt: "2026-10-12"
+author: "Louis-Arnaud Catoire"
+category: "Symfony"
+excerpt: "Since Symfony 7.3, a single __invoke() method replaces configure(), interact() and execute(). Less code, native PHP types and cleaner console commands."
+image: "/images/blog/cover-invokable-commands.webp"
+proficiencyLevel: "Intermediate"
+translationOf: "commandes-invocables-symfony-attributs-console"
+---
+
+Let's be honest: writing a Symfony command is always the same ritual. `configure()` to declare the arguments, `execute()` to fetch them one by one with `$input->getArgument()`, and `interact()` if you have the courage to handle interactivity. Three methods, boilerplate, and the business logic drowned in the middle.
+
+Since Symfony 7.3, that ritual is over. **Invokable commands** let you write a console command in a single `__invoke()` method, with native PHP attributes to declare arguments, options and even interactive questions. No more extending `Command`. No more `configure()`. PHP types do the work.
+
+It is probably the biggest DX overhaul of the Console since its creation, and yet almost nobody talks about it.
+
+## The problem: three methods for a single command
+
+Take a classic case: a command that creates a user with a name, an email and an `--admin` option.
+
+```php
+#[AsCommand('app:create-user', 'Crée un nouvel utilisateur')]
+class CreateUserCommand extends Command
+{
+    protected function configure(): void
+    {
+        $this
+            ->addArgument('username', InputArgument::REQUIRED, 'Le nom d\'utilisateur')
+            ->addArgument('email', InputArgument::OPTIONAL, 'L\'email')
+            ->addOption('admin', null, InputOption::VALUE_NONE, 'Définir comme administrateur')
+        ;
+    }
+
+    protected function interact(InputInterface $input, OutputInterface $output): void
+    {
+        if (!$input->getArgument('email')) {
+            $io = new SymfonyStyle($input, $output);
+            $input->setArgument('email', $io->ask('Quel est l\'email ?'));
+        }
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $io = new SymfonyStyle($input, $output);
+
+        $username = $input->getArgument('username');
+        $email = $input->getArgument('email');
+        $admin = $input->getOption('admin');
+
+        // ... logique métier
+
+        $io->success("Utilisateur $username créé.");
+
+        return Command::SUCCESS;
+    }
+}
+```
+
+40 lines. Three methods. Constants like `InputArgument::REQUIRED` and `InputOption::VALUE_NONE` that you have to look up in the docs every time. And above all: the declaration of the inputs is **completely disconnected** from their use.
+
+## The same command, as an invokable
+
+Here is exactly the same command, rewritten with the invokable syntax:
+
+```php
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Attribute\Argument;
+use Symfony\Component\Console\Attribute\Ask;
+use Symfony\Component\Console\Attribute\Option;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Style\SymfonyStyle;
+
+#[AsCommand('app:create-user', 'Crée un nouvel utilisateur')]
+class CreateUserCommand
+{
+    public function __invoke(
+        SymfonyStyle $io,
+        #[Argument] string $username,
+        #[Argument, Ask('Quel est l\'email ?')] string $email,
+        #[Option] bool $admin = false,
+    ): int {
+        // ... logique métier
+
+        $io->success("Utilisateur $username créé.");
+
+        return Command::SUCCESS;
+    }
+}
+```
+
+15 lines. A single method. PHP types replace the constants. Attributes replace `configure()`. And `#[Ask]` replaces `interact()`.
+
+The class no longer extends `Command`. A plain PHP object with `#[AsCommand]` and `__invoke()` is enough. Symfony automatically detects that it is an invokable command and configures everything from the types and attributes.
+
+## `#[Argument]` and `#[Option]`: configuration becomes implicit
+
+The core of the system, documented in the [official Console component documentation](https://symfony.com/doc/current/console.html), relies on two attributes that replace `addArgument()` and `addOption()`.
+
+### Arguments
+
+```php
+public function __invoke(
+    #[Argument] string $username,                    // requis (pas de valeur par défaut)
+    #[Argument] string $email = 'default@test.com',  // optionnel
+    #[Argument] array $roles = [],                   // tableau, optionnel
+): int {
+```
+
+The rules are simple:
+
+- **No default value** → required argument
+- **Default value** → optional argument
+- The **PHP type** determines the input type (`string`, `int`, `float`, `bool`, `array`)
+- The **parameter name** becomes the argument name (`$username` → `username`)
+
+### Options
+
+```php
+public function __invoke(
+    #[Option] bool $admin = false,        // flag --admin (VALUE_NONE)
+    #[Option] bool $verbose = true,       // flag --verbose / --no-verbose (NEGATABLE)
+    #[Option] string $format = 'json',    // --format=json
+    #[Option] int $limit = 10,            // --limit=10
+    #[Option] array $tags = [],           // --tags=foo --tags=bar
+): int {
+```
+
+Types do the work:
+
+- `bool` with `default: false` → simple flag (`--admin`)
+- `bool` with `default: true` → negatable flag (`--no-verbose`)
+- `string`, `int`, `float` → option with a value
+- `array` → repeatable option
+- The parameter name is converted to kebab-case: `$dryRun` → `--dry-run`
+
+You never again need to remember `InputOption::VALUE_NONE | InputOption::VALUE_NEGATABLE`. The PHP type is enough.
+
+### Customize the name and description
+
+Attributes accept parameters for cases where the convention is not enough:
+
+```php
+public function __invoke(
+    #[Argument(name: 'user', description: 'Le nom d\'utilisateur')]
+    string $username,
+
+    #[Option(name: 'dry', shortcut: 'd', description: 'Simuler sans exécuter')]
+    bool $dryRun = false,
+): int {
+```
+
+## `#[Ask]` and `#[Interact]`: interactivity without `interact()`
+
+This is the Symfony 7.4 addition that makes the feature truly complete.
+
+### `#[Ask]`: a question tied to an argument
+
+```php
+public function __invoke(
+    #[Argument, Ask(question: 'Quel est l\'email ?')]
+    string $email,
+
+    #[Argument, Ask(question: 'Mot de passe ?', hidden: true)]
+    string $password,
+
+    #[Argument, Ask(question: 'Bio ?', multiline: true)]
+    string $bio,
+): int {
+```
+
+If the argument is not passed on the command line, Symfony automatically asks the question. The available options:
+
+- `question`: the question text
+- `hidden`: hide the input (passwords)
+- `multiline`: multi-line input
+- `trimmable`: strip whitespace
+- `maxAttempts`: number of attempts
+- `validator`: a validation callable
+- `normalizer`: a normalization callable
+
+### `#[Interact]`: for complex interactions
+
+When a simple question is not enough, `#[Interact]` decorates a separate method:
+
+```php
+#[AsCommand('app:deploy', 'Déploie l\'application')]
+class DeployCommand
+{
+    #[Interact]
+    public function askEnvironment(SymfonyStyle $io): void
+    {
+        // Logique d'interaction complexe :
+        // confirmation, choix multiples, validation croisée...
+    }
+
+    public function __invoke(
+        SymfonyStyle $io,
+        #[Argument] string $environment,
+        #[Option] bool $force = false,
+    ): int {
+        // ...
+        return Command::SUCCESS;
+    }
+}
+```
+
+The method marked `#[Interact]` is called automatically before `__invoke()`, exactly like the old `interact()` method.
+
+## `#[MapInput]`: group your inputs in a DTO
+
+For commands with many parameters, `#[MapInput]` lets you group them in a dedicated object, exactly as `#[MapRequestPayload]` does for HTTP controllers.
+
+```php
+class UserInput
+{
+    #[Argument]
+    public string $username;
+
+    #[Argument, Ask('Email ?')]
+    public string $email;
+
+    #[Option]
+    public bool $admin = false;
+
+    #[Option]
+    public string $role = 'ROLE_USER';
+}
+
+#[AsCommand('app:create-user', 'Crée un utilisateur')]
+class CreateUserCommand
+{
+    public function __invoke(
+        SymfonyStyle $io,
+        #[MapInput] UserInput $user,
+    ): int {
+        $io->writeln("Création de {$user->username} ({$user->email})");
+        $io->writeln("Admin : " . ($user->admin ? 'oui' : 'non'));
+        $io->writeln("Rôle : {$user->role}");
+
+        return Command::SUCCESS;
+    }
+}
+```
+
+DTOs can even be **nested**: a `#[MapInput]` property in a DTO can point to another DTO. Your command inputs follow the same logic as your business value objects.
+
+This is a particularly interesting approach if you practice [hexagonal architecture](/article/domain-ne-devrait-jamais-connaitre-symfony) (in French): the input DTO becomes a domain object, reusable and testable independently of the Console.
+
+## BackedEnum: natively typed choices
+
+Invokable commands support PHP `BackedEnum` as an argument or option type:
+
+```php
+enum OutputFormat: string
+{
+    case Json = 'json';
+    case Csv = 'csv';
+    case Xml = 'xml';
+}
+
+#[AsCommand('app:export')]
+class ExportCommand
+{
+    public function __invoke(
+        SymfonyStyle $io,
+        #[Option] OutputFormat $format = OutputFormat::Json,
+    ): int {
+        $io->writeln("Export en {$format->value}");
+
+        return Command::SUCCESS;
+    }
+}
+```
+
+```bash
+$ php bin/console app:export --format=csv
+Export en csv
+
+$ php bin/console app:export --format=invalid
+# InvalidOptionException automatique
+```
+
+Validation is automatic. No `match`, no `in_array`, no error message to write. The PHP type does everything.
+
+## Automatic injection: what `__invoke` can receive
+
+Beyond arguments and options, Symfony automatically injects these objects by type-hint:
+
+| Type-hint | What you receive |
+|---|---|
+| `SymfonyStyle` | A preconfigured I/O helper |
+| `InputInterface` | The raw input (if needed) |
+| `OutputInterface` | The raw output (if needed) |
+| `Cursor` | Terminal cursor control (7.4+) |
+| `Application` | The Console application instance |
+
+Most of the time, `SymfonyStyle` is enough. But if you do advanced rendering (custom progress bars, dynamic tables), `Cursor` and `OutputInterface` are there.
+
+And since the class no longer extends `Command`, your own dependencies are injected normally through the constructor. The Symfony service container takes care of it, as for any other service.
+
+## Testing an invokable command
+
+`CommandTester` accepts invokable commands directly since Symfony 7.4:
+
+```php
+use Symfony\Component\Console\Tester\CommandTester;
+
+$tester = new CommandTester(new CreateUserCommand());
+$tester->execute([
+    'username' => 'john',
+    'email' => 'john@test.com',
+    '--admin' => true,
+]);
+
+$tester->assertCommandIsSuccessful();
+$this->assertStringContainsString('john', $tester->getDisplay());
+```
+
+No need for `Application`, no need for `find()`. The command is instantiated directly. And the `assertCommandIsSuccessful()`, `assertCommandFailed()` and `assertCommandIsInvalid()` helpers are available for readable assertions.
+
+If your command has injected dependencies, the service container of your [automated tests](/article/les-6-etapes-pour-monter-en-competences-sur-symfony) (in French) resolves them normally.
+
+## When should you migrate your existing commands?
+
+The invokable syntax is **backward compatible**. Your classic commands keep working. No deprecation in sight. You can migrate gradually.
+
+Three criteria to decide:
+
+1. **Simple commands** (a few arguments, linear logic) → migrate, it is immediate and the readability gain is clear
+2. **Complex commands with many inputs** → migrate with `#[MapInput]` to clean up the signature
+3. **Commands with a sophisticated `interact()`** (multi-step wizards) → keep the old style or use `#[Interact]` if the logic stays simple
+
+If you are [migrating your project to Symfony 7.4](/article/guide-de-migration-dans-un-projet-symfony) (in French), it is the ideal opportunity to convert your commands one by one. Our support for [technical migration to Symfony](/migration-symfony) (in French) covers this kind of gradual modernization. [PHPStan](/article/phpstan-niveau-max-symfony-10-erreurs) (in French) will help you check that you broke nothing.
+
+## A sign of the direction Symfony is taking
+
+Invokable commands are not an isolated case. They are part of a broader movement: Symfony is gradually moving toward **native PHP attributes** as its main configuration interface. You see it with `#[MapRequestPayload]` and `#[MapQueryString]` in controllers, with `#[AsMessage]` in Messenger, with `#[IsGranted]` in Security. The Console was the last bastion of "configure everything in a dedicated method". That is no longer the case.
+
+If you have a Symfony project in production, this trend is a clear signal. Future Symfony features will be designed "attributes first". Adopting this syntax now ensures your codebase stays idiomatic and ready for what comes next. And if your current commands still look like Symfony 3, it may be time to take stock. Other components follow the same trajectory: the [Serializer gives way to JsonStreamer](/article/migrer-du-serializer-vers-json-streamer-le-guide-honnete) (in French), and [Messenger](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) (in French) relies more and more on attributes. Modernization happens component by component.
+
+## Going further
+
+- Migrating from the Serializer to JsonStreamer: the honest guide: another major Symfony 7.3+ overhaul
+- Symfony Messenger as the backbone of a hexagonal architecture: combine invokable commands and Messenger for your workers
+- Why your Domain should never know Symfony: `#[MapInput]` DTOs fit this philosophy
+- [Symfony, Twig and Sylius certifications](/article/les-certifications-symfony-twig-symfony-sylius) (in French): the Console is part of the exam
+- [Official documentation: Console Commands](https://symfony.com/doc/current/console.html): the Symfony reference
+- [Original PR: Invokable commands](https://github.com/symfony/symfony/pull/61748): the PR by Kevin Bond that started the movement
