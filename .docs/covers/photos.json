@@ -899,6 +899,10 @@
     "name": "mcp-symfony-php",
     "sameAs": "serveurs-mcp-claude-code-developpeurs-symfony"
   },
+  "mcp-vs-cli-vs-api-php": {
+    "name": "mcp-symfony-php-en",
+    "sameAs": "serveurs-mcp-claude-code-developpeurs-symfony"
+  },
   "echelle-dalia-niveaux-ia-developpement": {
     "name": "dalia-ia-developpement",
     "sameAs": "quel-assistant-ia-choisir-pour-coder"
