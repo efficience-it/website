@@ -1,0 +1,91 @@
+---
+title: "Symfony Explained: Why Teams Choose This PHP Framework"
+date: "2022-02-11"
+updatedAt: "2026-10-12"
+author: "Louis-Arnaud Catoire"
+category: "Symfony"
+excerpt: "Symfony is a framework written in PHP. Find out why developers use it, how its components and its security work, and what it brings to your web projects."
+image: "/images/blog/cover-symfony-explained.webp"
+proficiencyLevel: "Beginner"
+translationOf: "symfony-pour-les-moldus"
+translatedFromUpdatedAt: "2026-01-13"
+---
+
+## One Framework, One Language, One Philosophy
+
+Symfony is a PHP framework, meaning a structured working environment that gives developers ready-to-use software building blocks. Rather than recoding HTTP request handling, database access or application security, a Symfony developer assembles proven components and focuses on the business logic specific to the project.
+
+PHP powers about 77% of websites worldwide. Symfony has established itself as the reference framework of this ecosystem, used by more than 600,000 developers in 120 countries. BlaBlaCar, Dailymotion, Spotify (for some services) and the Les Echos group all use it in production.
+
+## Component-Based Architecture
+
+What sets Symfony apart from most frameworks is that it is not monolithic. It breaks down into about sixty independent components: HttpFoundation, Routing, Security, Console, Mailer, [Messenger](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) (in French), Serializer, and many more. Each component solves a specific technical problem and can be used on its own, outside the full framework.
+
+This granularity is not anecdotal. It means that projects like Laravel, Drupal or PrestaShop include Symfony components in their own foundations. The HttpFoundation component, for example, has become a de facto standard for handling HTTP requests and responses in PHP.
+
+### Symfony Flex and the Build-Your-Own Project
+
+Symfony Flex is the recipe system that orchestrates the installation and automatic configuration of packages. With a single command, a developer adds a complete feature (sending emails, API management, administration) with the suitable default configuration. Flex has transformed the installation experience: no more configuration files to copy and paste from the documentation.
+
+In practice, Flex talks to a recipe server that maps each Composer package to a set of configuration files, environment variables and default routes. The developer starts from a minimal skeleton and composes the application piece by piece, without shipping unnecessary code.
+
+## The Dependency Injection Container
+
+The service container is the heart of the framework. Any PHP class declared as a service is automatically instantiated, configured and injected where it is required. This injection mechanism is at the core of Symfony's decoupling philosophy, a principle pushed to the extreme in [hexagonal architecture where the domain does not know the framework](/article/domain-ne-devrait-jamais-connaitre-symfony) (in French). The mechanism relies on autowiring: Symfony analyzes constructor type hints to resolve dependencies without explicit configuration.
+
+### Compiler Passes
+
+Things get powerful with compiler passes. When the container is compiled (which happens once, then is cached), Symfony runs a series of passes that transform the tree of service definitions. A senior developer can write their own compiler passes to modify the container dynamically: automatically register handlers, tag services based on an interface, replace implementations or validate the consistency of the dependency graph.
+
+This mechanism is the key to Symfony's extensibility. Third-party bundles use it heavily to integrate seamlessly into the host application, without tight coupling.
+
+### The Event System
+
+The EventDispatcher component implements the Observer pattern. Listeners and subscribers hook into events emitted by the kernel or by business code. The lifecycle of an HTTP request goes through about ten events (kernel.request, kernel.controller, kernel.response, kernel.terminate) that you can act on.
+
+This event-driven architecture decouples cross-cutting concerns (logging, security, cache, response transformation) from application code. An experienced developer quickly sees the value: adding global behavior to the application without changing a single line of existing code.
+
+## Symfony Runtime: Execution Abstraction
+
+The Runtime component, introduced in Symfony 5.3, is a fundamental architectural evolution that is often underestimated. It decouples the application from its execution environment. The same code can run behind Apache/mod_php, PHP-FPM, a Swoole server, [FrankenPHP](/article/concretement-cest-quoi-frankenphp) (in French) or even in CLI mode with [invokable commands](/article/commandes-invocables-symfony-attributs-console) (in French), without modification.
+
+Runtime abstracts the application entry point: resolving the Request object, producing the Response and sending it to the client are delegated to a configurable resolver. For teams exploring non-blocking runtimes or serverless architectures, it is a strategic lever.
+
+## Security as a Foundation
+
+Security is at the heart of the Symfony team's concerns. The framework natively includes protections against the most common attacks: SQL injection via Doctrine, XSS vulnerabilities via Twig auto-escaping, CSRF request forgery, session fixation. A dedicated team monitors vulnerabilities and publishes patches very quickly, with a publicly documented responsible disclosure process.
+
+The Security component itself was completely redesigned in Symfony 5.3 with the new authenticator system, replacing the guard system with a clearer and more extensible architecture. For projects handling sensitive data (personal data, payments, health data), this rigor is a decisive argument.
+
+## Symfony as a Platform, Not Just a Framework
+
+This is where the architectural perspective changes. Symfony is not simply a framework for building web applications. It is a software platform on which entire ecosystems are built.
+
+**API Platform**, built on Symfony, lets you create REST and GraphQL APIs that follow standards (JSON-LD, Hydra, OpenAPI) in minutes. **[Sylius](/article/sylius-la-solution-e-commerce-du-framework-symfony)** (in French) is a complete e-commerce platform built on Symfony. **EasyAdmin** and **Sonata** provide administration interfaces generated from Doctrine entities. Each of these projects relies on Symfony's abstractions and benefits from its stability.
+
+### Ecosystem Governance
+
+Symfony's governance model is a trust factor often overlooked in architecture choices. Symfony follows a predictable release calendar: a major version every two years, with LTS versions supported for three years for bug fixes and four years for security patches. The backward compatibility policy is strict and documented through deprecation notices introduced one major version before removal.
+
+Behind this model is SensioLabs, the founding company based in Lille, which ensures the longevity of the project. This dual anchoring (an open source community under the MIT license and a company guaranteeing continuity) is rare in the PHP ecosystem and gives technical decision makers long-term visibility.
+
+### Why Symfony Wins in the Enterprise
+
+For an architect evaluating solutions, the criteria that tip the balance toward Symfony are structural. Testability is built in: the injection container and interface-based decoupling make unit and functional testing easier, as detailed in the [official Symfony documentation](https://symfony.com/doc/current/index.html). The documentation is among the most complete in the PHP ecosystem, complemented by SymfonyCasts (official video tutorials) and a very active French-speaking community. The [official Symfony, Twig and Sylius certifications](/article/les-certifications-symfony-twig-symfony-sylius) (in French) let you validate team skills objectively.
+
+But the deepest argument is long-term maintainability. A Symfony project that follows the framework's conventions stays readable and modifiable years after launch, including by developers who did not take part in the initial development. The patterns enforced by the framework (controller/service/repository separation, explicit configuration, strict typing) act as a safety net against technical debt.
+
+SymfonyCon, the annual international conference, gathers hundreds of developers every year and is a reliable indicator of the ecosystem's vitality.
+
+## When to Choose Symfony
+
+For a simple showcase site, Symfony is not necessarily the right choice. It makes the most sense when the project involves complex business logic, multiple integrations, high security requirements or a long lifespan. Line-of-business applications (ERP, CRM), e-commerce platforms, APIs feeding mobile applications, secure intranets: these are the areas where Symfony excels, as detailed in the article [why choose Symfony for your projects](/article/pourquoi-choisir-symfony-pour-vos-projets) (in French).
+
+A framework like Symfony remains a demanding tool that requires skilled developers to unlock its potential. For teams that are just starting out or want to build skills, our [in-house Symfony training](/formation-symfony-entreprise) (in French) offers a path suited to real projects. More broadly, our [strategic expertise](/accompagnement-et-conseil) (in French) service structures the upskilling of your technical teams. Working with an experienced team, like Efficience IT, makes all the difference between a project that delivers on its promises and one that bogs down.
+
+## Going Further
+
+- [The 6 steps to build Symfony skills](/article/les-6-etapes-pour-monter-en-competences-sur-symfony) (in French), a progressive path to become autonomous
+- [Official Symfony documentation](https://symfony.com/doc/current/index.html), the starting point for learning Symfony
+- [SymfonyCasts](https://symfonycasts.com/), official video tutorials to progress on Symfony
+- [Symfony GitHub repository](https://github.com/symfony/symfony), the framework's source code
