@@ -118,6 +118,10 @@
     "author": "Jorge Mendoza",
     "url": "https://commons.wikimedia.org/wiki/File:Spiral_Staircase,_Keck_Center_(U.S._National_Academies).jpg"
   },
+  "symfony-documentation-diataxis": {
+    "name": "diataxis-docs",
+    "sameAs": "comment-produire-la-documentation-sur-votre-projet-symfony-avec-lapproche-diataxis"
+  },
   "comment-rediger-un-cahier-de-charge-pour-un-projet-agile": {
     "name": "cahier-des-charges",
     "file": "File:Rice terraces by ASAKAWA KOHJI.jpg",

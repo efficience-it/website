@@ -1,0 +1,97 @@
+---
+title: "Documenting a Symfony Project with Diataxis"
+date: "2023-03-17"
+author: "Louis-Arnaud Catoire"
+category: "Symfony"
+excerpt: "Diataxis gives technical documentation a clear structure by meeting developers needs through four types: tutorials, how-to guides, reference, and explanation."
+image: "/images/blog/cover-diataxis-docs.webp"
+updatedAt: "2026-10-12"
+translationOf: "comment-produire-la-documentation-sur-votre-projet-symfony-avec-lapproche-diataxis"
+translatedFromUpdatedAt: "2026-10-12"
+---
+
+## Why technical documentation fails
+
+Most Symfony projects have documentation. Few have useful documentation. The problem is neither volume nor willingness: it is the lack of intentional structure. A README file mixes installation instructions, architecture rationale, and API reference in one continuous stream that nobody reads in full.
+
+Diataxis, created by Daniele Procida, offers a framework to solve this problem. Its founding principle: technical documentation serves four distinct cognitive needs, and mixing those needs in a single document degrades the whole.
+
+## The four quadrants of Diataxis
+
+Diataxis rests on two axes. The first contrasts learning (acquiring) with application (using). The second contrasts theory (understanding) with practice (doing). Their intersection produces four types of documentation:
+
+- **Tutorials**: practice-oriented learning. The reader does not know the subject yet.
+- **How-to guides**: solving concrete problems. The reader knows what they want to accomplish.
+- **Reference**: exhaustive technical description. The reader is looking for a specific piece of information.
+- **Explanation**: in-depth understanding. The reader wants to grasp the why.
+
+Each quadrant has its own writing rules, its own tone, and its own structure. A tutorial that stops to explain an architecture pattern loses its reader. An API reference that tells a story loses its function as a quick lookup.
+
+## Applying Diataxis to a Symfony project
+
+### Tutorials: the onboarding path
+
+On a Symfony project, the tutorial is the onboarding path of a new developer. To understand why Symfony is a defining choice that deserves good documentation, our article on [the reasons to choose Symfony for your projects](/article/pourquoi-choisir-symfony-pour-vos-projets) (in French) sets the context. The goal is not to document every bundle: it is to guide someone from `git clone` to their first working contribution.
+
+An effective Symfony tutorial follows a concrete progression: install the project, start the Docker containers, create an entity, write a functional test, observe the result. Each step produces a visible result. The developer who completes the tutorial understands the project structure, the team's conventions, and the development workflow.
+
+The classic trap: turning the tutorial into an encyclopedia. If your onboarding tutorial takes more than thirty minutes, it probably contains explanations or reference material that belong in other quadrants. The [6-step path to upskill on Symfony](/article/les-6-etapes-pour-monter-en-competences-sur-symfony) (in French) illustrates this progressive approach.
+
+### How-to guides: answering recurring problems
+
+How-to guides are the most visited section of any project documentation. On a Symfony project, they answer recurring questions: how to add a custom voter, how to configure a new environment, how to debug a serialization problem with API Platform.
+
+A how-to guide starts with the problem, not the context. It describes a sequence of actions and stops when the problem is solved. It does not justify architecture choices, detail alternatives, or tell the history of the decision. Those elements belong in explanation.
+
+The distinction between tutorial and how-to guide is often blurry in Symfony projects. The dividing criterion: the tutorial assumes the reader does not yet know how to do the task, while the guide assumes they already know how to work on the project but are stuck on a specific problem.
+
+### Reference: the technical map of the project
+
+The technical reference of a Symfony project covers interface contracts, available configuration, dispatched events, and exposed services. It mirrors the structure of the code, not the narrative structure of a story.
+
+On Symfony, part of this reference can be generated automatically. PHPDoc, OpenAPI for REST endpoints, YAML configuration files with their documented options: these artifacts are already reference documentation. The challenge is to keep them in sync with the code, not to write them by hand.
+
+The cardinal rule of reference: it must be accurate. An inaccurate reference is worse than no reference, because it actively misleads. Building reference generation into CI (PHPDoc coverage checks, OpenAPI schema validation) guarantees this accuracy over time.
+
+### Explanation: architecture decisions
+
+Explanation is the most neglected quadrant and yet the most valuable for senior developers. It answers the "why" question: why the project uses Messenger rather than a homegrown queue system, why authentication goes through a custom authenticator rather than the built-in form_login, why the split into bounded contexts follows a given scope.
+
+This quadrant hosts ADRs (Architecture Decision Records), trade-off analyses, and post-incident lessons learned. It documents the reasoning behind the code, information that disappears as soon as the original developers leave the project. The choice between [a modular monolith and microservices](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) (in French) is a typical example of an architecture decision that deserves a dedicated explanation.
+
+## Tooling and workflow integration
+
+Diataxis does not mandate any tool. However, some integration practices strengthen its effectiveness on a Symfony project.
+
+Storing the documentation in the same repository as the code (docs-as-code approach), drawing on the [Symfony documentation contribution guide](https://symfony.com/doc/current/contributing/documentation/index.html), lets you link documentation changes to the pull requests that change behavior. This principle echoes that of [coding conventions](/article/coding-conventions) (in French): a versioned technical contract, shared and maintained by the whole team. A PR template that includes a "documentation impacted" section makes the habit systematic.
+
+Static site generators like Docusaurus or MkDocs naturally structure navigation into sections that match the Diataxis quadrants. A `docs/tutorials/`, `docs/how-to/`, `docs/reference/`, `docs/explanation/` directory layout makes the taxonomy explicit for contributors.
+
+CI integration, just like [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French) for code, goes beyond spell checking. Verifying that code examples compile, that internal links are not broken, and that the generated reference is up to date: these automated checks reduce documentation debt before it piles up.
+
+## Documentation as an architecture artifact
+
+For an architect, documentation is not a side deliverable: it is an architecture artifact on par with a C4 diagram or a database schema. The quality of the documentation reveals the quality of the design. A well-designed system is easy to document. A system whose documentation is confusing betrays a confusing architecture.
+
+Diataxis offers an unexpected diagnostic tool: if you cannot write a linear tutorial for a module, that module probably suffers from excessive coupling. If an API's reference is hard to structure, the API itself may lack consistency. Difficulty documenting is a warning sign about the design.
+
+### Documentation governance at scale
+
+On a project involving several teams, Diataxis provides a common vocabulary for documentation governance. Rather than debating the content of a document, teams can agree on its quadrant. This shared framework simplifies documentation reviews and reduces disagreements over the scope of each page.
+
+Each team can own the reference for its own services while contributing to cross-cutting how-to guides. Our [support and consulting](/accompagnement-et-conseil) (in French) offering includes setting up these documentation practices within teams. Architecture explanation naturally falls under the responsibility of the platform team or the architect. This split of responsibilities avoids the classic problem of orphaned documentation that nobody maintains.
+
+### Measuring documentation value
+
+Documentation takes time: writing, maintenance, review. Measuring its usefulness remains a difficult but necessary exercise.
+
+Indirect indicators are the most reliable: shorter onboarding time for new developers, fewer recurring questions on Slack, fewer incidents caused by a poor understanding of a component. A quarterly follow-up of these metrics, even an informal one, justifies the investment in documentation and identifies the deficient quadrants.
+
+Diataxis's incremental approach makes this measurement easier: every documentation improvement is a traceable PR, whose impact can be correlated with the evolution of the indicators.
+
+## Going further
+
+- [Which tool should you choose for your technical documentation?](/article/quel-outil-choisir-pour-votre-documentation-technique) (in French), comparing Docusaurus, MkDocs, GitBook, and other documentation tools
+- [Diataxis](https://diataxis.fr/), the official site of the Diataxis framework for technical documentation
+- [Symfony Documentation](https://symfony.com/doc/current/index.html), the official Symfony documentation, a concrete example of Diataxis in practice
+- [Docusaurus](https://docusaurus.io/), open source documentation site generator by Meta
