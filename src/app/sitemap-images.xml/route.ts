@@ -120,10 +120,10 @@ function toXml(urls: SitemapImageUrl[]): string {
 }
 
 export function GET() {
-  const posts = getAllPosts();
+  const posts = [...getAllPosts(), ...getAllPosts("en")];
 
   const blogImageUrls: SitemapImageUrl[] = posts.map((post) => ({
-    loc: `${BASE_URL}/article/${post.slug}`,
+    loc: `${BASE_URL}${post.language === "en" ? "/en" : ""}/article/${post.slug}`,
     images: post.image
       ? [
           {

@@ -1,4 +1,4 @@
-import { howToJsonLd, blogItemListJsonLd, serviceJsonLd, eventJsonLd, jobPostingJsonLd, articleJsonLd, TECH_ENTITIES, type TechKey } from "@/lib/structured-data";
+import { howToJsonLd, blogItemListJsonLd, serviceJsonLd, eventJsonLd, jobPostingJsonLd, articleJsonLd, webPageJsonLd, TECH_ENTITIES, type TechKey } from "@/lib/structured-data";
 import { categorySlugMap, getPostBySlug } from "@/lib/blog";
 import type { Job } from "@/../data/jobs";
 
@@ -55,6 +55,29 @@ describe("blogItemListJsonLd", () => {
 
   it("offsets positions for a later page", () => {
     expect(blogItemListJsonLd(posts, 19).itemListElement.map((i) => i.position)).toEqual([19, 20]);
+  });
+});
+
+describe("inLanguage", () => {
+  const input = {
+    url: "https://www.itefficience.com/article/x",
+    title: "T",
+    excerpt: "E",
+    author: { "@type": "Person", name: "A" } as Parameters<typeof articleJsonLd>[0]["author"],
+    category: "Symfony",
+    date: "2026-01-01",
+    wordCount: 1000,
+    timeRequiredMinutes: 5,
+  };
+
+  it("defaults articles and pages to French", () => {
+    expect(articleJsonLd(input).inLanguage).toBe("fr-FR");
+    expect(webPageJsonLd({ name: "N", description: "D", path: "/x" }).inLanguage).toBe("fr-FR");
+  });
+
+  it("uses English for English articles and pages", () => {
+    expect(articleJsonLd({ ...input, language: "en" }).inLanguage).toBe("en-US");
+    expect(webPageJsonLd({ name: "N", description: "D", path: "/x", language: "en" }).inLanguage).toBe("en-US");
   });
 });
 
