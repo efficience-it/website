@@ -254,6 +254,10 @@
     400,
     800
   ],
+  "cover-legacy-php": [
+    400,
+    800
+  ],
   "cover-llms-txt-seo": [
     400,
     800
