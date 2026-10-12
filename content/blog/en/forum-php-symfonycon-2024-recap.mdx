@@ -1,0 +1,106 @@
+---
+title: "Forum PHP & SymfonyCon 2024: Key Takeaways"
+date: "2024-10-25"
+updatedAt: "2026-10-12"
+author: "Louis-Arnaud Catoire"
+category: "Training"
+excerpt: "A look back at Forum PHP and SymfonyCon 2024: talks, PHP 8.4 innovations, Symfony UX and the main trends shaping the PHP and Symfony ecosystem this year."
+image: "/images/blog/cover-forum-php-2024-en.webp"
+proficiencyLevel: "Beginner"
+translationOf: "retour-sur-le-forum-php-2024"
+translatedFromUpdatedAt: "2026-03-26"
+event:
+  name: "Forum PHP 2024"
+  startDate: "2024-10-10"
+  endDate: "2024-10-11"
+  location:
+    name: "Hôtel New York - The Art of Marvel, Disneyland Paris"
+    address: "Allée de la Belle Étoile, 77700 Marne-la-Vallée, France"
+  organizer:
+    name: "AFUP - Association Française des Utilisateurs de PHP"
+    url: "https://afup.org"
+  url: "https://event.afup.org/forum-php-2024/"
+---
+
+## Forum PHP 2024
+
+Forum PHP 2024, organized by the AFUP (Association Française des Utilisateurs de PHP, the French PHP users association), took place on October 10 and 11 at Disneyland Paris and brought together more than 700 attendees. For the third year in a row, the forum was held at the Hôtel New York - The Art of Marvel. This unusual setting, far from standard convention centers, contributes to the friendly atmosphere that earned the event its reputation.
+
+The 2024 edition featured a dense program that mixed high-level technical talks, concrete lessons learned and discussions about the future of the PHP ecosystem. For two days, developers from all backgrounds exchanged ideas, learned and shared their common passion for the language.
+
+### The atmosphere and the community
+
+What strikes you when you arrive at Forum PHP is the energy of the community. Our [Symfony agency in Lille](/agence-symfony-lille) (in French) was there to connect with the people of the ecosystem. The hallways between the conference rooms turn into spaces for spontaneous discussion where juniors and seniors talk as equals. The coffee breaks are as enriching as the talks themselves: you meet maintainers of open source libraries, software architects and enthusiasts from all over France.
+
+The AFUP makes a point of keeping the event inclusive and accessible. The program is designed to reach experienced developers as well as those discovering the PHP ecosystem. This diversity of profiles enriches the exchanges and strengthens the feeling of belonging to a close-knit community.
+
+### PHP 8.4 and lazy objects
+
+Lazy objects are one of the most anticipated features of PHP 8.4. This language change follows the trajectory described in our article on the [PHP Foundation's contributions](/article/la-fondation-php-souffle-ses-trois-bougies) (in French). They let you defer the initialization of an object until it is actually used, which optimizes memory management and performance. In practice, a lazy object behaves like a transparent proxy: it runs its constructor and allocates its resources only when one of its properties or methods is first accessed.
+
+Nicolas Grekas, an influential developer on the Symfony project and a major contributor to the PHP core, gave a detailed talk on this feature. He showed how lazy objects could transform the way Symfony's dependency injection container works. In applications with hundreds of services, only a fraction is actually used during a given request. With lazy objects, unused services would never be instantiated, which significantly reduces the memory footprint and startup time. Nicolas also presented benchmarks showing concrete performance gains under heavy load.
+
+### Observability and tracing
+
+Observability was a major theme of this edition, reflecting an industry-wide trend. Distributed tracing in particular was the subject of several presentations. This technique lets you follow the complete journey of a request across various services, which makes it easier to find bottlenecks and silent errors.
+
+In modern architectures based on microservices or deployed in the cloud, understanding what happens between the different components of a system has become essential. The speakers detailed how to use tools like OpenTelemetry and how it integrates with the PHP ecosystem. They showed how to instrument a Symfony application to collect traces, metrics and logs in a unified way, which lets teams diagnose production problems much faster than with traditional approaches.
+
+### Derick Rethans: what's new in PHP 8.4
+
+Derick Rethans, an iconic figure of the PHP community and the maintainer of Xdebug, explored the technical aspects of PHP 8.4 in depth. To look ahead, our article on [PHP 9.0 and what to know before the release](/article/php-9-0-devoile-ce-que-vous-devez-savoir-avant-la-sortie) (in French) extends this thinking. Beyond lazy objects, he presented the language's new features: property hooks, which let you define getters and setters directly in a property declaration, asymmetric visibility, which allows different access levels for reading and writing, and improvements to the DOM API for better HTML5 support.
+
+Derick also shared his vision of the language's future, discussing the ongoing conversations among PHP contributors about upcoming RFCs and medium-term directions. His expertise and teaching skills helped the audience understand not only the "what" but also the "why" of these changes.
+
+### Monofony
+
+Loïc Frémont presented [Monofony](/article/monofony-le-guide-ultime-pour-les-debutants) (in French), an open source micro-framework that favors simplicity and efficiency. Built on the foundations of Sylius and Symfony, Monofony offers a minimalist approach to starting an e-commerce project or an API. Unlike heavier frameworks that ship with a large number of features out of the box, Monofony focuses on the essentials and leaves it to the developer to add only what they need.
+
+Loïc illustrated his talk with a live demo, showing how to initialize a Monofony project and grow it gradually. The approach particularly appeals to teams that want to keep control of their technical stack while benefiting from a solid, proven foundation.
+
+## SymfonyCon 2024 in Vienna
+
+SymfonyCon 2024 was held at the Austria Center in Vienna on December 5 and 6 and brought together more than 1,100 attendees from around the world. Vienna offered an inspiring setting for this international conference, with a blend of tradition and modernity that echoes the very philosophy of Symfony: innovating without giving up its fundamentals.
+
+### Fabien Potencier's keynote
+
+Fabien Potencier, the creator of Symfony, opened the conference with a highly anticipated keynote. He reviewed the framework's recent achievements: major optimizations of the Messenger component for asynchronous message processing, scalability improvements for high-traffic applications and stronger integration with the ecosystem's modern tools.
+
+Fabien stressed the need to innovate while maintaining the stability that makes Symfony so strong with businesses. He recalled the project's commitment to backward compatibility and announced the main directions for upcoming versions, which thrilled the room.
+
+### Symfony UX: Simon André
+
+Simon André presented the progress of the Symfony UX initiative, which aims to bridge the gap between PHP back-end development and modern front-end interfaces, whether they rely on Symfony UX or on a framework like [Vue.js](/developpement-vuejs) (in French). Two new components were introduced: **Icon**, which offers simplified SVG icon management with a built-in cache and lazy loading system, and **Map**, which displays interactive maps without depending on a heavy JavaScript framework.
+
+The improvements to TwigComponent and LiveComponent strengthen the front-end and back-end integration. LiveComponent in particular lets you build reactive interfaces directly from PHP, without writing a single line of JavaScript. Simon showed how to build dynamic forms and interactive data tables in a few lines of Twig and PHP code.
+
+### Hands-on workshops
+
+The hands-on workshops, very popular with attendees, took people from theory to practice on advanced topics:
+
+- **Advanced Symfony form handling**: attendees worked on conditional validation, nested forms and API integration, issues that every Symfony developer meets in their projects
+- **Machine learning inference in PHP**: this workshop showed how to integrate machine learning models into a PHP application with PHP-ML, opening new perspectives for the ecosystem
+- **Symfony pipelines with Dagger**: attendees set up automated test, build and deployment pipelines and learned to containerize their CI/CD workflows
+
+### Symfony and digital sustainability
+
+Michelle Sanver presented concrete practices to make Symfony applications more environmentally friendly, a topic we explore in our article on [web eco-design](/article/eco-conception-un-ideal-en-marche-ou-une-illusion-durable) (in French). Her talk covered reducing unnecessary server resources, optimizing database queries to limit energy consumption and adopting smart caching strategies. She reminded us that digital technology accounts for about 4% of global greenhouse gas emissions and that every optimization, however modest, counts at the scale of millions of users.
+
+### Extensibility: lessons from Shopware
+
+A rich case study on Shopware showed how Symfony's modular architecture makes it possible to build a flexible, extensible e-commerce platform. The speakers detailed the challenges of the migration to Symfony, the architectural choices that let merchants customize their shop through a plugin system, and the lessons learned about managing technical debt on a project of this size.
+
+## Outlook
+
+These two events confirm the vitality of the PHP and Symfony ecosystem in 2024. For a complete overview of the gatherings you should not miss, see our guide to the [events to follow in the Symfony and PHP world](/article/quels-evenements-suivre-dans-le-monde-de-symfony-php-quelles-differences-entre-eux) (in French). The topics covered reflect developers' current concerns: performance, observability, developer experience and environmental responsibility. The French-speaking PHP community, led by the AFUP, remains one of the most dynamic in the world. A few months before this Forum PHP, we had already covered the talks of [AFUP Day 2024](/article/retour-sur-lafup-day-2024) (in French) in Lille, which dealt with complementary topics.
+
+The next SymfonyCon will take place in Amsterdam on November 27 and 28, 2025, marking the framework's 20th anniversary. It is an event not to miss for everyone in the ecosystem.
+
+## Going further
+
+- [Recap of AFUP Day 2025 Lille](/article/retour-sur-lafup-day-2025-lille-php-a-lhonneur-communaute-au-coeur) (in French), PHP in the spotlight
+- Which events to follow in the Symfony and PHP world?, the complete calendar
+- PHP 9.0: what to know before the release, language changes that continue the themes of the talks
+- [AFUP: Association Française des Utilisateurs de PHP](https://afup.org/), the organizer of Forum PHP
+- [SymfonyCon](https://live.symfony.com/), official Symfony conferences
+- [PHP.net: releases](https://www.php.net/releases/), follow PHP versions
