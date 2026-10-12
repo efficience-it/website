@@ -37,3 +37,13 @@ describe("Pagination", () => {
     expect(screen.getByLabelText("Page 1")).toHaveAttribute("href", "/blog");
   });
 });
+
+describe("Pagination in English", () => {
+  it("renders English labels", () => {
+    render(<Pagination currentPage={2} pageCount={3} getPageHref={(p) => `/en/blog/page/${p}`} language="en" />);
+    expect(screen.getByRole("navigation")).toHaveAttribute("aria-label", "Pagination");
+    expect(screen.getByText("Previous")).toHaveAttribute("href", "/en/blog/page/1");
+    expect(screen.getByText("Next")).toHaveAttribute("href", "/en/blog/page/3");
+    expect(screen.getByLabelText("Page 3")).toBeInTheDocument();
+  });
+});

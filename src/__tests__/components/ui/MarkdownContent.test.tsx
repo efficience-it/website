@@ -31,6 +31,10 @@ jest.mock("react-markdown", () => {
       const A = components.a as React.ComponentType<Record<string, unknown>>;
       return <A href="/about">Internal</A>;
     }
+    if (children === "__RENDER_A_ENGLISH__" && components?.a) {
+      const A = components.a as React.ComponentType<Record<string, unknown>>;
+      return <A href="/en/article/example">English</A>;
+    }
     if (children === "__RENDER_A_INTERNAL_EMPTY__" && components?.a) {
       const A = components.a as React.ComponentType<Record<string, unknown>>;
       return <A href="">Empty</A>;
@@ -62,8 +66,8 @@ jest.mock("react-markdown", () => {
 });
 
 jest.mock("next/link", () => {
-  const MockLink = ({ children, href }: { children: React.ReactNode; href: string }) => (
-    <a href={href}>{children}</a>
+  const MockLink = ({ children, ...props }: { children: React.ReactNode; href: string }) => (
+    <a {...props}>{children}</a>
   );
   MockLink.displayName = "MockLink";
   return MockLink;
@@ -114,6 +118,28 @@ describe("MarkdownContent", () => {
     const { container } = render(<MarkdownContent content="__RENDER_A_INTERNAL__" />);
     const link = container.querySelector("a");
     expect(link?.getAttribute("href")).toBe("/about");
+  });
+
+  it("marks French internal links in English articles", () => {
+    const { container } = render(<MarkdownContent content="__RENDER_A_INTERNAL__" language="en" />);
+    const link = container.querySelector("a");
+    expect(link?.getAttribute("hreflang")).toBe("fr");
+    expect(link?.getAttribute("lang")).toBe("fr");
+  });
+
+  it("does not mark English internal links", () => {
+    const { container } = render(<MarkdownContent content="__RENDER_A_ENGLISH__" language="en" />);
+    expect(container.querySelector("a")?.getAttribute("hreflang")).toBeNull();
+  });
+
+  it("does not mark empty links in English articles", () => {
+    const { container } = render(<MarkdownContent content="__RENDER_A_INTERNAL_EMPTY__" language="en" />);
+    expect(container.querySelector("a")?.getAttribute("hreflang")).toBeNull();
+  });
+
+  it("does not mark French internal links in French articles", () => {
+    const { container } = render(<MarkdownContent content="__RENDER_A_INTERNAL__" language="fr" />);
+    expect(container.querySelector("a")?.getAttribute("hreflang")).toBeNull();
   });
 
   it("renders internal links even with empty href", () => {

@@ -5,7 +5,7 @@ author: "Louis-Arnaud Catoire"
 category: "Qualité de code"
 excerpt: "Identifier et éliminer le code inutilisé dans vos projets PHP pour améliorer la qualité, la maintenabilité et les performances."
 image: "/images/blog/cover-code-mort.webp"
-updatedAt: "2026-01-13"
+updatedAt: "2026-10-12"
 ---
 
 Le développement web, tout comme l'entretien d'un jardin, nécessite un entretien régulier pour éviter que des éléments tombés dans l'oubli et inutiles ne s'accumulent et ralentissent vos projets. C'est là qu'intervient le **Détecteur de code mort pour PHP**, une extension puissante de **[PHPStan](https://phpstan.org/)** qui aide à identifier et à supprimer le code inutilisé dans les projets PHP. Voici tout ce qu'il faut savoir sur cet outil pratique et ses fonctionnalités clés.
@@ -38,9 +38,9 @@ Le code mort peut contenir des vulnérabilités qui ne sont pas immédiatement a
 
 Le code mort n'a généralement pas d'impact direct sur les performances à l'exécution : grâce à l'autoloading PSR-4, les classes non utilisées ne sont jamais chargées en mémoire. En revanche, il alourdit les outils de développement : l'analyse statique, les tests, les pipelines CI/CD et les outils de build traitent une base de code plus volumineuse que nécessaire, ce qui rallonge les temps d'exécution de ces processus.
 
-### Coûts de maintenance
+### Effort de maintenance
 
-Maintenir du code mort implique des coûts supplémentaires en termes de temps et de ressources. Les développeurs doivent passer du temps à comprendre et à gérer ce code, ce qui pourrait être mieux utilisé pour améliorer les fonctionnalités existantes ou en ajouter de nouvelles. Cette accumulation non traitée contribue directement à la [dette technique, dont les conséquences méritent d'être anticipées](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur).
+Maintenir du code mort demande un effort supplémentaire en temps et en ressources. Les développeurs doivent passer du temps à comprendre et à gérer ce code, ce qui pourrait être mieux utilisé pour améliorer les fonctionnalités existantes ou en ajouter de nouvelles. Cette accumulation non traitée contribue directement à la [dette technique, dont les conséquences méritent d'être anticipées](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur).
 
 ### Dégradation de la qualité du code
 

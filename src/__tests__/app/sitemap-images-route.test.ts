@@ -21,6 +21,13 @@ jest.mock("@/lib/blog", () => ({
   getAllPosts: jest.fn(),
 }));
 
+
+const mockConfig = { indexable: true };
+jest.mock("@/lib/i18n/config", () => ({
+  get ENGLISH_INDEXABLE() {
+    return mockConfig.indexable;
+  },
+}));
 const getAllPostsMock = getAllPosts as jest.MockedFunction<typeof getAllPosts>;
 
 function mockPosts(french: ReturnType<typeof getAllPosts>, english: ReturnType<typeof getAllPosts> = []) {
@@ -124,5 +131,35 @@ describe("GET /sitemap-images.xml", () => {
 
     expect(xml).toContain(`<loc>${BASE_URL}/en/article/english-article</loc>`);
     expect(xml).toContain(`${BASE_URL}/images/blog/cover-english-en.webp`);
+  });
+});
+
+describe("sitemap images while English is not indexable", () => {
+  afterEach(() => {
+    mockConfig.indexable = true;
+  });
+
+  it("lists no English article", async () => {
+    mockConfig.indexable = false;
+    mockPosts(
+      [],
+      [
+        {
+          slug: "english-article",
+          title: "English article",
+          date: "2026-01-01",
+          author: "Author",
+          category: "Symfony",
+          kind: "tech",
+          language: "en",
+          excerpt: "English description",
+          image: "/images/blog/cover-english-en.webp",
+          content: "",
+          wordCount: 10,
+        },
+      ],
+    );
+    const xml = await GET().text();
+    expect(xml).not.toContain("/en/article/english-article");
   });
 });

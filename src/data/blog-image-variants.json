@@ -166,6 +166,10 @@
     400,
     800
   ],
+  "cover-dalia-ia-developpement": [
+    400,
+    800
+  ],
   "cover-vocabulaire-dev-web": [
     400,
     800
@@ -179,6 +183,10 @@
     800
   ],
   "cover-migration-symfony": [
+    400,
+    800
+  ],
+  "cover-php-dead-code": [
     400,
     800
   ],
