@@ -358,6 +358,10 @@
     "author": "cogdogblog",
     "url": "https://commons.wikimedia.org/wiki/File:2016-366-361_And_We_Are_Three_(31786939511).jpg"
   },
+  "php-foundation-three-years": {
+    "name": "php-foundation",
+    "sameAs": "la-fondation-php-souffle-ses-trois-bougies"
+  },
   "la-methode-du-canard-en-plastique-le-secret-des-developpeurs": {
     "name": "canard-plastique",
     "file": "File:Duck With Rings (Unsplash).jpg",
