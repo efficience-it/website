@@ -357,6 +357,10 @@
     "author": "Boris Stefanik bstefanik",
     "url": "https://commons.wikimedia.org/wiki/File:Gloomy_staircase_(Unsplash).jpg"
   },
+  "symfony-skills-roadmap": {
+    "name": "symfony-skills",
+    "sameAs": "les-6-etapes-pour-monter-en-competences-sur-symfony"
+  },
   "les-bundles-les-plus-utilises-dans-les-projets-symfony": {
     "name": "bundles-symfony",
     "file": "File:Log pile in close-up (Unsplash).jpg",
