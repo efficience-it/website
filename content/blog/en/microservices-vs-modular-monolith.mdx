@@ -1,0 +1,117 @@
+---
+title: "Microservices or Modular Monolith?"
+date: "2022-02-11"
+author: "Louis-Arnaud Catoire"
+category: "Architecture"
+excerpt: "Structuring your project well is essential. Two architectural approaches dominate: microservices and modular monoliths. How do you decide which one to choose?"
+image: "/images/blog/cover-microservices-monolith.webp"
+proficiencyLevel: "Expert"
+updatedAt: "2026-10-12"
+translationOf: "quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire"
+translatedFromUpdatedAt: "2026-10-12"
+faq:
+  - question: "When should you move to microservices?"
+    answer: "Microservices are justified when you have independent teams that must deploy at different paces, parts of the application with very different scalability needs, or a business domain mature enough to define clear boundaries. For most projects, a well-structured modular monolith is a better fit."
+  - question: "Is a modular monolith scalable?"
+    answer: "Yes, a well-designed monolith can scale horizontally by adding instances behind a load balancer. Heavy processing can be offloaded to asynchronous workers (Symfony Messenger). The limit comes when different parts of the application have radically different scalability needs."
+  - question: "How do you prevent a monolith from becoming a coupled monolith?"
+    answer: "The key is architectural discipline: split the code into modules with explicit boundaries, forbid direct access between modules (go through interfaces), use events for inter-module communication, and verify the absence of coupling with tools like Deptrac."
+---
+
+## Microservices or Modular Monolith: A Structuring Choice
+
+The choice of a software architecture determines development velocity, scalability, and the operational burden of a system. Two approaches dominate the discussion: microservices, which distribute responsibilities across autonomous services, and the modular monolith, which rigorously structures a unified codebase. Each answers different constraints. Understanding their mechanisms in depth lets you make an informed choice rather than follow a trend.
+
+## Understanding the Two Architectures
+
+### The Modular Monolith
+
+A modular monolith is an application deployed as a single unit, but whose internal code is split into modules with explicit boundaries. Each module encapsulates a business domain, catalog, orders, billing, and exposes a public interface. Implementation details stay private. The difference from a classic monolith is fundamental: in a classic monolith, dependencies flow in every direction and the code gradually becomes entangled. In a modular monolith, architectural discipline enforces loose coupling between modules.
+
+In a Symfony project, this approach takes the form of one directory per module in `src/`, each containing its `Domain/`, `Application/`, and `Infrastructure/` layers. The [Symfony Messenger](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) (in French) component enables communication between modules through messages and handlers, naturally decoupling responsibilities. Autowiring and per-directory service configuration make some services private to their module. Symfony events offer an additional communication channel without direct coupling.
+
+### Microservices
+
+Microservices architecture distributes the application into autonomous services, each responsible for a specific business domain and independently deployable. Each service owns its own database and communicates with the others over the network. This autonomy lets separate teams develop, test, and deploy their services without tight coordination.
+
+Communication between services takes two paths, and [REST API best practices](/article/api-rest-les-bonnes-pratiques) (in French) apply fully to synchronous exchanges between services, whether they are built with Symfony or with a [Node.js API structured with NestJS](/api-nodejs-nestjs) (in French). Synchronous communication, HTTP REST or gRPC, suits requests that need an immediate response: the orders service queries the catalog service to check availability. Asynchronous communication, through a broker like RabbitMQ or Kafka, decouples services in time: a validated order publishes an event, and the notifications service sends an email without blocking the main process.
+
+## Module Boundaries and Communication Patterns
+
+### Defining Boundaries That Last
+
+The quality of any architecture rests on the rigor of the boundaries between domains. A poorly delimited module or service generates temporal coupling, circular dependencies, and growing cognitive load. Domain-Driven Design provides the conceptual tools to draw these boundaries: Bounded Contexts define the perimeters of consistency, and Context Maps chart the relationships between domains.
+
+In a modular monolith, the temptation to bypass an interface and access another module's entities directly is constant. Every violation erodes modularity. Static analysis tools, Deptrac for PHP and ArchUnit for Java, automate the checking of these rules and turn a team convention into a technical constraint. Along the same lines, [isolating the domain from Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony) (in French) ensures that the business logic stays independent of the framework.
+
+In a microservices architecture, the boundaries are physical: each service is a separate process. But this separation does not remove the need for careful thought about how to split things up. A service that is too granular multiplies network calls and latency. A service that is too broad becomes a monolith in disguise.
+
+### Shared Database or Database per Service
+
+Data management is the most critical friction point. In a modular monolith, a single database is shared. Transactional consistency is native: an operation touching two modules can run in a single ACID transaction. In return, this shared database creates implicit coupling if modules access each other's tables. The discipline is for each module to manipulate only its own tables and access other modules' data through their public interfaces.
+
+Microservices require the Database per Service pattern. Each service owns its own data schema, or even its own storage engine. This isolation guarantees autonomy but makes distributed transactions complex. The Saga pattern orchestrates sequences of compensable local transactions: if payment fails after the stock is reserved, a compensating transaction releases the stock. Consistency becomes eventual rather than immediate, which forces you to rethink the business modeling.
+
+### Observability and Resilience in a Distributed Environment
+
+A call that used to cross three classes in a monolith now crosses three network services, with the latencies and failure risks that implies. Distributed observability becomes essential: distributed tracing with OpenTelemetry, centralized logs, per-service metrics. [Caching](/article/tout-savoir-sur-la-mise-en-cache-tips) (in French) in a distributed system adds another layer of complexity that you must anticipate. The infrastructure gets heavier: container orchestration with Kubernetes, service mesh, circuit breakers. These tools are powerful but represent a significant investment in skills and maintenance.
+
+## When to Choose One Architecture or the Other
+
+### The Modular Monolith as a Starting Point
+
+The modular monolith fits when the team has fewer than twenty developers, the business scope is not yet stable, or the infrastructure resources are limited. Its decisive advantage at the start: it tolerates splitting mistakes. Merging two modules in a monolith is a refactoring operation. Merging two microservices means migrating databases, removing APIs, and reconfiguring infrastructure.
+
+Debugging stays direct, as a breakpoint in the IDE is enough to follow the complete execution flow. Integration tests run in a single process. Deployment happens in one operation, even more simply if you rely on [Docker in production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) (in French) to guarantee reproducible environments.
+
+### Microservices at Maturity
+
+Microservices are justified when several independent teams work on distinct business domains and coordination through code becomes a bottleneck. They become necessary when some parts of the application have radically different scalability needs, such as a search engine under heavy load while the administration back office is rarely used. The organization must be mature enough to absorb the operational complexity.
+
+## Modular Monolith vs. Microservices Comparison Table
+
+| Criterion | Modular monolith | Microservices |
+|---------|---------------------|----------------|
+| Deployment | Single, simple | Independent per service |
+| Scalability | Horizontal (instances) | Fine-grained (per service) |
+| Data consistency | Native ACID transactions | Eventual (Sagas) |
+| Debugging | Direct (IDE breakpoints) | Distributed (tracing, centralized logs) |
+| Infrastructure load | Low | High (Kubernetes, brokers, observability) |
+| Team autonomy | Moderate | Strong |
+| Tolerance to splitting mistakes | Internal refactoring | Migrating databases, APIs, infrastructure |
+| Operational complexity | Low | High |
+| Developer onboarding | Fast | Longer (distributed patterns) |
+| Ideal team | Up to ~20 developers | Beyond 20, autonomous teams |
+
+## Transition Strategies and Architectural Vision
+
+### The Strangler Fig Pattern
+
+Moving from a monolith to microservices should never be a rewrite. The Strangler Fig Pattern, named after the strangler figs that gradually envelop their host tree, proposes an incremental migration. You place a proxy or an API gateway in front of the monolith. New features are developed in separate services. Existing features are extracted one by one. The monolith gradually shrinks until it disappears or stabilizes at a residual core.
+
+This approach reduces risk because each extraction is validated independently. It also lets you see whether the expected benefits materialize before continuing. In some cases, extracting two or three services is enough to solve the scalability problems without transforming the whole application.
+
+### Impact on Team Topology
+
+Conway's law states that a system's architecture mirrors the communication structure of the organization that produces it. This principle has direct implications. Adopting microservices without reorganizing teams into autonomous teams aligned with business domains creates permanent organizational friction. The Team Topologies model formalizes this thinking: stream-aligned teams responsible for an end-to-end value stream, supported by platform teams that provide infrastructure as self-service.
+
+A modular monolith, by contrast, tolerates a more fluid organization where developers contribute to several modules. The team structure and the code structure must evolve together.
+
+### Advantages and Drawbacks
+
+The burden of a microservices architecture significantly exceeds that of a modular monolith. Infrastructure, Kubernetes clusters, message brokers, observability tools, is a direct extra load. The human burden is often underestimated: every developer must master distributed patterns, and onboarding takes longer. Cross-team coordination, even reduced, does not disappear. You have to formalize it through API contracts, schema versioning, and technical governance.
+
+This extra burden is only justified if the scale of the organization and the traffic require it. For a team of ten developers on a growing SaaS product, or on a [SaaS application](/secteur/saas) (in French) in its scale-up phase, a well-structured modular monolith will deliver higher velocity with less overhead. For an organization of a hundred developers running a high-traffic platform, microservices become a lever for autonomy and scaling. This architectural choice is also inseparable from [technical debt management](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French): a bad split generates structural debt that is hard to pay off.
+
+## Conclusion
+
+The best architectural choice is the one that matches the current reality of your team, your organization, and your product. The modular monolith offers a solid structure, fast feedback, and a controlled burden. It naturally prepares for an eventual extraction of services if the boundaries between modules have been respected. Microservices bring team autonomy and independent scalability, with significant operational and organizational complexity. Starting with a well-split modular monolith, then extracting services when the pain justifies it, remains the most pragmatic strategy for most projects. To structure this monolith with clear layers, our support in [Symfony hexagonal architecture](/architecture-hexagonale-symfony) (in French) provides a proven framework, and continues with [custom web development in Symfony](/developpement-web-sur-mesure) (in French) when it comes to actually implementing it.
+
+## Going Further
+
+- The domain should never know Symfony, isolating the domain regardless of the architecture
+- [Symfony migration to hexagonal architecture](/article/migration-symfony-architecture-hexagonale-retour-mission) (in French), a concrete restructuring case
+- [The differences between Symfony Messenger and PHP Enqueue](/article/quelles-sont-les-differences-entre-symfony-messenger-php-enqueue-quoi-utiliser) (in French), choosing the right messaging tool for your distributed architecture
+- [Martin Fowler: Microservices](https://martinfowler.com/articles/microservices.html), the reference article on microservices
+- [Symfony documentation: Architecture](https://symfony.com/doc/current/controller.html), structuring a Symfony project
+- [Sam Newman: Building Microservices (O'Reilly)](https://www.oreilly.com/library/view/building-microservices-2nd/9781492034018/), the reference book

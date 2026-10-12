@@ -562,6 +562,10 @@
     "author": "Liana Carbone liana_inthesky",
     "url": "https://commons.wikimedia.org/wiki/File:Montreal%27s_Habitat_67_at_sunset_(Unsplash).jpg"
   },
+  "microservices-vs-modular-monolith": {
+    "name": "microservices-monolith",
+    "sameAs": "quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire"
+  },
   "quelles-sont-les-differences-entre-symfony-messenger-php-enqueue-quoi-utiliser": {
     "name": "messenger-vs-enqueue",
     "file": "File:Milliken Park artificial waterfall, June 2018.jpg",

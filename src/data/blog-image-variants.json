@@ -206,6 +206,10 @@
     400,
     800
   ],
+  "cover-microservices-monolith": [
+    400,
+    800
+  ],
   "cover-migration-symfony": [
     400,
     800
