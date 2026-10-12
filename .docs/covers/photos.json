@@ -1060,6 +1060,10 @@
     "author": "GlacierNPS",
     "url": "https://commons.wikimedia.org/wiki/File:Beaver_-_Castor_canadensis_(51361587496).jpg"
   },
+  "castor-vs-make-symfony-task-runner": {
+    "name": "castor-vs-make",
+    "sameAs": "castor-ou-make-task-runner-symfony"
+  },
   "comparateur-analyseurs-statiques-php": {
     "name": "analyseurs-statiques-php",
     "file": "File:Magnifying glass2.jpg",
