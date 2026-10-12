@@ -362,6 +362,10 @@
     "author": "Erol Ahmed erol",
     "url": "https://commons.wikimedia.org/wiki/File:Succulent_center_in_macro_(Unsplash).jpg"
   },
+  "generative-ai-tools-strengths-weaknesses": {
+    "name": "generative-ai-tools",
+    "sameAs": "forces-et-faiblesses-des-ia-generatives-les-plus-utilisees"
+  },
   "geo-rendre-votre-application-symfony-visible-dans-les-moteurs-ia": {
     "name": "geo-moteurs-ia",
     "file": "File:Milky Way Glowworm Cave.jpg",
