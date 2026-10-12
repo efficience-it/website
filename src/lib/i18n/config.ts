@@ -1,1 +1,1 @@
-export const ENGLISH_INDEXABLE = false;
+export const ENGLISH_INDEXABLE: boolean = false;
