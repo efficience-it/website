@@ -182,6 +182,10 @@
     400,
     800
   ],
+  "cover-join-efficience": [
+    400,
+    800
+  ],
   "cover-migration-symfony": [
     400,
     800
