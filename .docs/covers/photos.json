@@ -657,6 +657,10 @@
     "url": "https://commons.wikimedia.org/wiki/File:Otisville_river_road_sunset_from_above_(Unsplash).jpg",
     "focusX": 0.5
   },
+  "sylius-vs-prestashop-comparison": {
+    "name": "sylius-prestashop",
+    "sameAs": "sylius-vs-prestashop-quelle-solution-e-commerce-choisir"
+  },
   "symfony-ai-projet-legacy-retour-experience": {
     "name": "symfony-ai",
     "file": "File:Cabin Window (Unsplash).jpg",

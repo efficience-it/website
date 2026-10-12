@@ -1,7 +1,7 @@
 ---
 title: "Sylius vs Prestashop : quelle solution e-commerce choisir ?"
 date: "2026-03-22"
-updatedAt: "2026-03-26"
+updatedAt: "2026-10-12"
 author: "Louis-Arnaud Catoire"
 category: "Symfony"
 excerpt: "Sylius et Prestashop sont deux solutions e-commerce PHP open source. Comparaison technique pour choisir la plateforme adaptée à votre activité."
@@ -9,13 +9,13 @@ image: "/images/blog/cover-sylius-vs-prestashop.webp"
 faq:
   - question: "Sylius est-il adapté aux gros catalogues ?"
     answer: "Oui. Sylius repose sur Doctrine et Symfony, avec un système de gestion de produits flexible (variantes, attributs, options). Pour les catalogues volumineux, il est possible d'intégrer Elasticsearch pour la recherche et le filtrage. L'architecture permet de scaler horizontalement sans refonte."
-  - question: "Prestashop est-il gratuit ?"
-    answer: "Le cœur de Prestashop est open source et gratuit. Mais la majorité des modules essentiels (paiement, transport, SEO avancé) sont payants sur le marketplace officiel. Le coût réel d'un projet Prestashop inclut donc souvent plusieurs centaines d'euros de modules, en plus du développement."
+  - question: "Prestashop est-il open source ?"
+    answer: "Oui, le cœur de Prestashop est open source. Mais la majorité des modules essentiels (paiement, transport, SEO avancé) viennent du marketplace officiel, ce qui ajoute des dépendances à maintenir en plus du développement."
   - question: "Peut-on migrer de Prestashop vers Sylius ?"
     answer: "Oui, mais il n'existe pas d'outil de migration automatique. La migration se fait par extraction des données (produits, clients, commandes) et réimport dans Sylius. C'est un projet à part entière qui doit être planifié, avec une phase de double fonctionnement si la boutique est en production."
 ---
 
-Le marché des solutions e-commerce PHP open source est dominé par deux acteurs aux philosophies très différentes : Prestashop, installé depuis 2007, et Sylius, arrivé plus tard mais construit sur des bases techniques modernes. Pour les entreprises qui cherchent une solution pérenne, le choix entre les deux a des conséquences profondes sur la maintenabilité, la flexibilité et le coût total de possession.
+Le marché des solutions e-commerce PHP open source est dominé par deux acteurs aux philosophies très différentes : Prestashop, installé depuis 2007, et Sylius, arrivé plus tard mais construit sur des bases techniques modernes. Pour les entreprises qui cherchent une solution pérenne, le choix entre les deux a des conséquences profondes sur la maintenabilité, la flexibilité et la pérennité.
 
 En tant qu'[agence spécialisée Symfony et Sylius](/ecommerce-sylius), nous avons accompagné des migrations de Prestashop vers Sylius et déployé des boutiques sur les deux plateformes. Voici une comparaison basée sur l'expérience terrain.
 
@@ -39,7 +39,7 @@ Cette dualité rend le développement plus complexe : il faut connaître à la f
 
 Sylius a été conçu pour les projets e-commerce atypiques. Son système de ressources permet de modifier n'importe quel comportement sans toucher au code source. Les promotions, les taxes, la gestion des stocks, le checkout : tout est configurable et extensible.
 
-Pour les entreprises qui ont des règles métier spécifiques (tarification complexe, workflows de validation, intégration avec un ERP), Sylius offre une flexibilité que Prestashop ne peut pas atteindre sans hacks. L'approche est similaire à celle d'une architecture hexagonale : le métier est au centre, la technologie s'adapte.
+Pour les entreprises qui ont des règles métier spécifiques (calculs complexes, workflows de validation, intégration avec un ERP), Sylius offre une flexibilité que Prestashop ne peut pas atteindre sans hacks. L'approche est similaire à celle d'une architecture hexagonale : le métier est au centre, la technologie s'adapte.
 
 ### Prestashop : le marketplace de modules
 
@@ -57,7 +57,7 @@ Prestashop propose une API depuis la version 8, mais elle est moins mature et mo
 
 Les deux solutions sont performantes pour des catalogues de taille moyenne (quelques milliers de produits). Pour les gros catalogues, Sylius a l'avantage de pouvoir s'appuyer sur l'écosystème Symfony : Elasticsearch pour la recherche, Redis pour le cache, et un système de mise en cache HTTP éprouvé.
 
-Prestashop peut aussi gérer de gros catalogues, mais les optimisations nécessitent souvent des modules payants ou du développement custom qui s'éloigne des standards du framework.
+Prestashop peut aussi gérer de gros catalogues, mais les optimisations nécessitent souvent des modules tiers ou du développement custom qui s'éloigne des standards du framework.
 
 ## Communauté et pérennité
 
@@ -65,13 +65,13 @@ Prestashop bénéficie d'une communauté large et ancienne, avec des milliers de
 
 Sylius a une communauté plus petite mais plus technique, portée par l'écosystème Symfony. Les conférences PHP et Symfony incluent régulièrement des présentations sur Sylius. La pérennité est assurée par l'adossement à Symfony, dont les versions LTS garantissent un support long terme.
 
-## Coût total de possession
+## Maintenance à long terme
 
-Le coût d'un projet e-commerce ne se limite pas au développement initial. Il inclut la maintenance, les mises à jour, les corrections de bugs et les évolutions fonctionnelles. C'est là que les deux solutions divergent le plus.
+L'effort d'un projet e-commerce ne se limite pas au développement initial. Il inclut la maintenance, les mises à jour, les corrections de bugs et les évolutions fonctionnelles. C'est là que les deux solutions divergent le plus.
 
-Avec Sylius, le coût initial est généralement plus élevé car le développement est sur mesure. Mais la maintenance applicative est plus prévisible : le code est propre, testé, et les montées de version Symfony sont documentées. Le coût à 3-5 ans est souvent inférieur à celui de Prestashop.
+Avec Sylius, l'effort initial est généralement plus élevé car le développement est sur mesure. Mais la maintenance applicative est plus prévisible : le code est propre, testé, et les montées de version Symfony sont documentées. La charge sur 3 à 5 ans est souvent inférieure à celle de Prestashop.
 
-Avec Prestashop, le coût initial est réduit grâce aux modules du marketplace. Mais les modules payants s'accumulent, les incompatibilités entre modules génèrent du support, et les mises à jour majeures cassent régulièrement des fonctionnalités. Le coût caché est réel et souvent sous-estimé lors du choix initial.
+Avec Prestashop, l'effort initial est réduit grâce aux modules du marketplace. Mais les modules s'accumulent, les incompatibilités entre modules génèrent du support, et les mises à jour majeures cassent régulièrement des fonctionnalités. La charge cachée est réelle et souvent sous-estimé lors du choix initial.
 
 ## Sécurité
 
@@ -81,7 +81,7 @@ Prestashop a un historique de vulnérabilités plus chargé, en partie à cause 
 
 ## Quand choisir Sylius
 
-- Règles métier complexes (tarification, workflows, multi-canal)
+- Règles métier complexes (calculs, workflows, multi-canal)
 - Besoin d'un front headless ou d'une intégration API forte
 - Équipe Symfony existante ou volonté de capitaliser sur ce framework
 - Vision long terme avec exigences de maintenabilité
@@ -90,11 +90,11 @@ Prestashop a un historique de vulnérabilités plus chargé, en partie à cause 
 ## Quand choisir Prestashop
 
 - Boutique standard avec des besoins courants
-- Budget initial limité et besoin de mise en ligne rapide
+- Besoin de mise en ligne rapide
 - Équipe non technique qui gère le back-office au quotidien
 - Catalogue simple sans règles métier spécifiques
 
-Pour les entreprises qui veulent un e-commerce sur mesure, pérenne et maintenable, Sylius est le choix naturel. L'investissement initial est plus élevé, mais le coût total sur 3 à 5 ans est généralement inférieur à celui de Prestashop, sans compter la flexibilité incomparable pour les règles métier complexes. Prestashop reste pertinent pour les boutiques standard avec des besoins limités, mais ses limites se révèlent rapidement dès que le projet sort des sentiers battus.
+Pour les entreprises qui veulent un e-commerce sur mesure, pérenne et maintenable, Sylius est le choix naturel. L'effort initial est plus important, mais la charge globale sur 3 à 5 ans est généralement inférieure à celle de Prestashop, sans compter la flexibilité incomparable pour les règles métier complexes. Prestashop reste pertinent pour les boutiques standard avec des besoins limités, mais ses limites se révèlent rapidement dès que le projet sort des sentiers battus.
 
 ## Aller plus loin
 
