@@ -22,6 +22,8 @@ export interface Messages {
   readonly rights: string;
   readonly readMore: string;
   readonly shareOn: (network: string) => string;
+  readonly midCtaPrompt: string;
+  readonly midCtaLabel: string;
   readonly copyLink: string;
   readonly copyArticleLink: string;
   readonly linkCopied: string;
@@ -49,6 +51,8 @@ const fr: Messages = {
   rights: "Tous droits réservés",
   readMore: "Lire la suite",
   shareOn: (network) => `Partager sur ${network}`,
+  midCtaPrompt: "Besoin d'accompagnement sur votre projet ?",
+  midCtaLabel: "Parlons-en",
   copyLink: "Copier le lien",
   copyArticleLink: "Copier le lien de l'article",
   linkCopied: "Lien copié",
@@ -76,6 +80,8 @@ const en: Messages = {
   rights: "All rights reserved",
   readMore: "Read more",
   shareOn: (network) => `Share on ${network}`,
+  midCtaPrompt: "Need support on your project?",
+  midCtaLabel: "Let's talk",
   copyLink: "Copy link",
   copyArticleLink: "Copy the article link",
   linkCopied: "Link copied",

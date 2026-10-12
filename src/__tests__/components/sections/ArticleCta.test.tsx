@@ -68,3 +68,17 @@ describe("ArticleCta", () => {
     expect(config.href).toBe("/audit-symfony-gratuit");
   });
 });
+
+describe("ArticleCta in English", () => {
+  it("returns the English call to action whatever the slug", () => {
+    const config = getArticleCtaConfig("Symfony", "phpstan-guide", "en");
+    expect(config.heading).toBe("Have a project in mind?");
+    expect(config.buttonLabel).toBe("Contact us");
+    expect(config.href).toBe("/contact");
+  });
+
+  it("renders the English call to action", () => {
+    render(<ArticleCta category="Symfony" slug="phpstan-guide" language="en" />);
+    expect(screen.getByText("Have a project in mind?")).toBeInTheDocument();
+  });
+});
