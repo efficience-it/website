@@ -660,6 +660,10 @@
     "author": "C.S. MacPherson csmacpherson",
     "url": "https://commons.wikimedia.org/wiki/File:Framed_Arch_and_Stairs_at_AGO_in_Toronto_(Unsplash).jpg"
   },
+  "rgaa-symfony-accessibility-fixes": {
+    "name": "rgaa-symfony-en",
+    "sameAs": "rgaa-remediation-technique-symfony"
+  },
   "serveurs-mcp-claude-code-developpeurs-symfony": {
     "name": "serveurs-mcp-symfony",
     "file": "File:Laguncularia racemosa (9103314756).jpg",
