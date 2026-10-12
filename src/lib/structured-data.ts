@@ -1,8 +1,10 @@
 import { FOUNDING_YEAR } from "@/lib/company";
 import { BASE_URL, SITE_NAME } from "@/lib/metadata";
 import type { AuthorSchema } from "@/data/authors";
-import type { ArticleKind, EventSchema, FaqItem, ProficiencyLevel } from "@/types/blog";
+import type { ArticleKind, BlogLanguage, EventSchema, FaqItem, ProficiencyLevel } from "@/types/blog";
 import type { Job } from "@/../data/jobs";
+
+const IN_LANGUAGE: Record<BlogLanguage, string> = { fr: "fr-FR", en: "en-US" };
 
 interface BreadcrumbItem {
   name: string;
@@ -268,6 +270,7 @@ interface WebPageProps {
   type?: WebPageType;
   datePublished?: string;
   dateModified?: string;
+  language?: BlogLanguage;
 }
 
 export function webPageJsonLd({
@@ -277,6 +280,7 @@ export function webPageJsonLd({
   type = "WebPage",
   datePublished,
   dateModified,
+  language = "fr",
 }: WebPageProps) {
   return {
     "@context": "https://schema.org",
@@ -285,7 +289,7 @@ export function webPageJsonLd({
     name,
     description,
     url: `${BASE_URL}${path}`,
-    inLanguage: "fr-FR",
+    inLanguage: IN_LANGUAGE[language],
     isPartOf: { "@id": `${BASE_URL}/#website` },
     about: { "@id": `${BASE_URL}/#organization` },
     ...(datePublished && { datePublished }),
@@ -327,6 +331,7 @@ interface ArticleJsonLdInput {
   timeRequiredMinutes: number;
   proficiencyLevel?: ProficiencyLevel;
   mainTech?: readonly TechKey[];
+  language?: BlogLanguage;
 }
 
 const KIND_TO_TYPE: Record<ArticleKind, "NewsArticle" | "TechArticle" | "BlogPosting"> = {
@@ -365,7 +370,7 @@ export function articleJsonLd(input: ArticleJsonLdInput) {
     url: input.url,
     wordCount: input.wordCount,
     timeRequired: `PT${input.timeRequiredMinutes}M`,
-    inLanguage: "fr-FR",
+    inLanguage: IN_LANGUAGE[input.language ?? "fr"],
     speakable: {
       "@type": "SpeakableSpecification",
       cssSelector: ["h1", "article > p:first-of-type"],

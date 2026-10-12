@@ -160,6 +160,31 @@ export function getPostBySlug(slug: string, language: BlogLanguage = "fr"): Blog
   return parsePost(slug, "fr", data, content);
 }
 
+function getTranslationOf(post: BlogPost): BlogPost | undefined {
+  if (post.language === "en") return getPostBySlug(post.translationOf as string);
+  return getAllPosts("en").find((p) => p.translationOf === post.slug);
+}
+
+export function articlePath(post: BlogPost): string {
+  const slug = encodeURIComponent(post.slug);
+  return post.language === "en" ? `/en/article/${slug}` : `/article/${slug}`;
+}
+
+export function getLanguageSwitchTarget(
+  post: BlogPost,
+): { language: BlogLanguage; href: string } | undefined {
+  const translation = getTranslationOf(post);
+  if (!translation) return undefined;
+  return { language: translation.language as BlogLanguage, href: articlePath(translation) };
+}
+
+export function getTranslationPaths(post: BlogPost): Record<BlogLanguage, string> | undefined {
+  const translation = getTranslationOf(post);
+  if (!translation) return undefined;
+  const [french, english] = post.language === "en" ? [translation, post] : [post, translation];
+  return { fr: articlePath(french), en: articlePath(english) };
+}
+
 export const categorySlugMap: Record<string, string> = {
   Agence: "agence",
   Architecture: "architecture",
