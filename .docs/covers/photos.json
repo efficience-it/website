@@ -677,6 +677,10 @@
     "author": "Pxhere",
     "url": "https://commons.wikimedia.org/wiki/File:Zoomed_up_picture_of_pomogranate.jpg"
   },
+  "docker-production-reliability": {
+    "name": "docker-prod",
+    "sameAs": "pourquoi-docker-est-indispensable-en-production-aujourdhui"
+  },
   "prendre-int-uuid-ou-ulid-pour-un-index-de-base-de-donnees": {
     "name": "int-uuid-ulid",
     "file": "File:Ancient stump (Unsplash).jpg",

@@ -1,0 +1,200 @@
+---
+title: "Docker in Production: Performance and Reliability"
+date: "2026-01-13"
+author: "Louis-Arnaud Catoire"
+category: "DevOps"
+excerpt: "Why Docker is essential in production: reliable deployment, service isolation, and optimized performance for your Symfony applications. A practical guide."
+image: "/images/blog/cover-docker-prod.webp"
+translationOf: "pourquoi-docker-est-indispensable-en-production-aujourdhui"
+faq:
+  - question: "Why use Docker in production instead of a traditional server?"
+    answer: "Docker guarantees that the application runs in the same environment in development, acceptance testing, and production. No more issues with different PHP versions or missing dependencies. Deployment becomes reproducible: a Docker image tested in staging is identical to the one deployed in production."
+  - question: "Does Docker slow down a web application's performance?"
+    answer: "No, Docker's overhead is negligible (less than 2% on CPU). Docker uses the Linux kernel's cgroups and namespaces, not virtualization. Network and disk performance are almost identical to a bare metal server, especially with native volumes."
+  - question: "Should you use Docker Compose or Kubernetes in production?"
+    answer: "Docker Compose suits simple applications with a few containers on a single server. Kubernetes is necessary when you need horizontal scalability, zero-downtime rolling updates, and multi-server management. For most Symfony projects, Docker Compose with a Traefik reverse proxy is enough."
+updatedAt: "2026-10-12"
+translatedFromUpdatedAt: "2026-10-12"
+---
+
+Putting an application into production has always been a high-risk exercise. But today's requirements, performance, security, scalability, time-to-market, have made handcrafted approaches simply untenable. Docker has become the industry standard for web production, on par with Git or CI/CD pipelines. It is no longer a technology choice: it is a prerequisite.
+
+This article explores Docker in production from three progressive angles: the fundamentals that eliminate classic deployment problems, advanced optimization and security techniques, and finally the architectural decisions that determine the success or failure of a containerization strategy at scale. On the choice of the execution model itself, our comparison [WASM or container in 2026](/article/wasm-ou-container-que-choisir-en-2026) (in French) places the two approaches side by side.
+
+## Why Docker Changed Web Production
+
+### The End of "It Worked in Staging"
+
+Before Docker, production environments were configured manually, partially documented, and structurally inconsistent across dev, staging, and prod. A developer installs PHP 8.3.12 on their machine, staging runs PHP 8.3.8, and prod stays stuck on PHP 8.2. An intl extension compiled differently causes unexpected behavior in date formats. This kind of scenario costs hours of debugging and erodes the whole team's trust.
+
+Docker solves this problem with a fundamental principle: package the application **and** its runtime environment in an immutable image. This principle is what makes [Docker integration in a Symfony project](/integration-docker-symfony) (in French) so effective. Runtime, system libraries, extensions, configuration, application dependencies: everything is frozen. The image built during CI is the one deployed on every server, with no recompilation or extra package installation. What is tested is exactly what runs in production.
+
+### The Dockerfile as an Execution Contract
+
+In production, the unexpected is the enemy. The Dockerfile formalizes a versioned, readable, and auditable execution contract. Every change goes through a code review, and every build is reproducible. A new developer joins the team? A simple `docker compose up` gives them an environment identical to production in a few minutes. Fragile bash scripts, unversioned configurations, and "tinkered" servers give way to declarative infrastructure, versioned in Git and automatable.
+
+## Multi-Stage Builds and Image Optimization
+
+### Separate the Build from the Runtime
+
+The multi-stage build technique is the key to a high-performing production image. The principle: use a first stage to compile the dependencies and prepare the application, then copy only the result into a minimal final image.
+
+```dockerfile
+FROM php:8.4-fpm-alpine AS builder
+RUN apk add --no-cache icu-dev postgresql-dev \
+    && docker-php-ext-install intl pdo_pgsql opcache
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+WORKDIR /app
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --optimize-autoloader --no-scripts
+COPY . .
+RUN php bin/console cache:warmup --env=prod
+
+FROM php:8.4-fpm-alpine
+RUN apk add --no-cache icu-libs libpq
+COPY --from=builder /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
+COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
+COPY docker/php/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+COPY --from=builder /app /app
+WORKDIR /app
+USER www-data
+```
+
+The final image contains neither Composer, nor the compilation headers, nor the development packages. The result weighs a few dozen megabytes, transfers quickly, and starts in milliseconds. Warming up the Symfony cache at build time guarantees that the first request is as fast as the following ones.
+
+### Leverage OPcache on Immutable Images
+
+Container immutability unlocks a major optimization for PHP. Since files never change inside a production container, OPcache can compile the bytecode once and never check for modifications again.
+
+```ini
+opcache.enable=1
+opcache.memory_consumption=256
+opcache.max_accelerated_files=20000
+opcache.validate_timestamps=0
+opcache.preload=/app/config/preload.php
+opcache.preload_user=www-data
+```
+
+The `validate_timestamps=0` setting is the main lever: it removes the stat() calls on every request. Combined with the Symfony preload and an [application caching](/article/tout-savoir-sur-la-mise-en-cache-tips) (in French) strategy, the gain is measurable: a 10 to 30% reduction in response time on a typical API. These settings would be dangerous on a traditional server where files can change; on an immutable container, they are perfectly safe.
+
+## Security and Image Hardening
+
+### Reduce the Attack Surface
+
+A well-built production image applies the principle of least privilege at every layer. The final image contains no unnecessary shell, no compiler, and no debugging tool. The application process runs as a non-root user (`USER www-data`). Alpine images, with their minimal footprint, drastically reduce the number of potential CVEs compared to images based on Debian or Ubuntu.
+
+Every system dependency added to the image must be justified. Packages needed only for the build (development headers, compilers) stay in the build stage and never pollute the final image. Applied rigorously, this discipline produces images whose attack surface is limited to the strict minimum.
+
+### Vulnerability Scanning and Chain of Trust
+
+Docker integrates natively into an automated security chain. CVE scanners such as Trivy, Snyk, and Docker Scout analyze every image in the CI/CD pipeline. Understanding [CVE vulnerabilities and their impact](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) (in French) is essential to set these thresholds correctly. A threshold on critical vulnerabilities can automatically block a deployment. Image signatures (Docker Content Trust, cosign) guarantee the integrity of the distribution chain. If a container is compromised in production, the response is immediate: destroy the container and start a new one from the healthy image. No complex forensics on a server that has mutated over time.
+
+## CI/CD Pipelines and Continuous Deployment
+
+### One Image, One SHA, Zero Divergence
+
+The canonical Docker pipeline is remarkably simple. Our article on [deploying Nuxt.js with GitLab CI, S3, and CloudFront](/article/deployer-nuxtjs-avec-gitlab-ci-s3-et-cloudfront) (in French) shows how this type of pipeline is automated in practice:
+
+```yaml
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  stage: build
+  script:
+    - docker build -t registry.example.com/app:$CI_COMMIT_SHA .
+    - docker push registry.example.com/app:$CI_COMMIT_SHA
+
+test:
+  stage: test
+  script:
+    - docker run --rm registry.example.com/app:$CI_COMMIT_SHA php bin/phpunit
+
+deploy:
+  stage: deploy
+  script:
+    - docker pull registry.example.com/app:$CI_COMMIT_SHA
+    - docker service update --image registry.example.com/app:$CI_COMMIT_SHA app
+  only:
+    - main
+```
+
+The image tagged with the commit SHA moves through the pipeline without ever being rebuilt. If the tests pass, production receives exactly the same binary. A rollback boils down to redeploying the previous commit's image, in under thirty seconds, and production returns to a known stable state.
+
+### Docker Compose for Development and Staging
+
+Docker Compose describes all of an application's services in a declarative file. For a typical Symfony stack with PostgreSQL, Redis, and Caddy:
+
+```yaml
+services:
+  app:
+    build:
+      context: .
+      target: builder
+    volumes:
+      - .:/app
+    depends_on:
+      - database
+      - redis
+
+  caddy:
+    image: caddy:2-alpine
+    ports:
+      - "443:443"
+    volumes:
+      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile
+
+  database:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: secret
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+
+volumes:
+  db-data:
+```
+
+This file replaces pages of installation documentation. For stacks that use [FrankenPHP](/article/concretement-cest-quoi-frankenphp) (in French) instead of classic PHP-FPM, the Docker configuration is even simpler since the web server and the PHP runtime are bundled in a single container. In staging, a `compose.staging.yml` file overrides the environment variables and network configuration without touching the base file.
+
+## Orchestration Strategy and Zero-Downtime Deployments
+
+### Choosing Your Orchestrator
+
+Docker Swarm and Kubernetes address different needs. Swarm suits teams looking for simplicity: native rolling updates, built-in service discovery, and a reasonable learning curve. Kubernetes becomes necessary when needs go beyond a single application: multi-tenancy, auto-scaling based on custom metrics, and fine-grained resource management on heterogeneous clusters. The [choice between microservices and a modular monolith](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) (in French) also directly determines the complexity of your containerization strategy.
+
+The classic trap is adopting Kubernetes too early. A Symfony application with three services (PHP-FPM, PostgreSQL, Redis) deployed on two servers does not justify the operational complexity of a Kubernetes cluster. Docker Swarm or a classic Docker deployment with a reverse proxy covers this case with a fraction of the cognitive load.
+
+### Zero-Downtime and Rolling Updates
+
+A deployment with no interruption relies on three mechanisms: health checks, rolling updates, and graceful shutdown. The health check verifies that the container is ready to receive traffic before the orchestrator switches requests over. The rolling update replaces containers one by one, guaranteeing that operational instances are always available. Graceful shutdown gives in-flight requests time to finish before the container stops.
+
+Server density is another architectural lever, particularly relevant for [SaaS platforms](/secteur/saas) (in French) that must absorb rapid growth without blowing up the infrastructure. A server with 8 GB of RAM can host three containerized Symfony applications, each limited to 2 GB, with a reserve for the system. Our [Symfony hosting](/hebergement-symfony) (in French) offering relies on this containerization to guarantee isolation and performance for each application. Without Docker, conflicts between PHP versions, shared extensions, and global configuration files would make this coexistence risky.
+
+### When Docker Is Not the Answer
+
+Docker is not relevant everywhere. Applications that need direct hardware access (GPU, specific devices) suffer from the abstraction layer. Very high I/O workloads (production databases) rarely benefit from containerization; most experienced teams deploy PostgreSQL or MySQL on bare metal or on managed services. Serverless architectures (Lambda, Cloud Run) make Docker transparent: the container exists but the team no longer has to manage it.
+
+Finally, Docker adds a layer of operational complexity that you must accept. Without in-house skills to maintain Dockerfiles, manage registries, and monitor containers, adopting Docker can create more problems than it solves. The decision must be made with full awareness, based on the team's maturity and the real complexity of the system.
+
+## Conclusion
+
+Docker has turned web production from a handcrafted exercise into an industrial process. For developers, it guarantees reproducibility. For tech leads, it offers concrete levers for optimization and security. For architects, it is the fundamental building block on which orchestration, scaling, and resilience strategies rest.
+
+At Efficience IT, our [Cloud and DevOps](/cloud-et-devops) (in French) offering supports teams on these topics every day, from the first Dockerfile to zero-downtime deployment on distributed architectures. Docker is not an end in itself, but a foundation on which to build a reliable, high-performing, and well-controlled production.
+
+## Going Further
+
+- What is FrankenPHP, exactly?, a modern PHP server based on Go and Caddy
+- [Why choose Symfony for your projects](/article/pourquoi-choisir-symfony-pour-vos-projets) (in French), the ideal PHP framework to containerize
+- [Symfony, Twig, and Sylius certifications](/article/les-certifications-symfony-twig-symfony-sylius) (in French), the Docker Certified Associate certification to validate your containerization skills
+- [Docker documentation](https://docs.docker.com/), the official Docker guide
+- [Docker Hub](https://hub.docker.com/), the Docker image registry
+- [Dockerfile reference](https://docs.docker.com/reference/dockerfile/), the complete reference for writing Dockerfiles
