@@ -557,6 +557,10 @@
     "author": "Jason Zhang",
     "url": "https://commons.wikimedia.org/wiki/File:Milliken_Park_artificial_waterfall,_June_2018.jpg"
   },
+  "symfony-messenger-vs-enqueue": {
+    "name": "messenger-vs-enqueue-en",
+    "sameAs": "quelles-sont-les-differences-entre-symfony-messenger-php-enqueue-quoi-utiliser"
+  },
   "quels-evenements-suivre-dans-le-monde-de-symfony-php-quelles-differences-entre-eux": {
     "name": "evenements-symfony-php",
     "file": "File:Detail of burning sparkler.jpg",
