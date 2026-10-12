@@ -783,6 +783,10 @@
     "author": "Heptagon",
     "url": "https://commons.wikimedia.org/wiki/File:Magnifying_glass2.jpg"
   },
+  "php-static-analyzers-compared": {
+    "name": "php-analyzers",
+    "sameAs": "comparateur-analyseurs-statiques-php"
+  },
   "mcp-cli-api-quel-choix-serveur-symfony-php": {
     "name": "mcp-symfony-php",
     "sameAs": "serveurs-mcp-claude-code-developpeurs-symfony"

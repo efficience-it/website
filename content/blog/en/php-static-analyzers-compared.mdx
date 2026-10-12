@@ -1,0 +1,147 @@
+---
+title: "PHP Static Analyzers: PHPStan, Deptrac, Rector Compared"
+date: "2026-10-12"
+updatedAt: "2026-10-12"
+author: "Louis-Arnaud Catoire"
+category: "Code quality"
+excerpt: "PHPStan, Psalm, PHP-CS-Fixer, Deptrac, Rector, PHPMD: what each tool does, what it does not do, and the order in which to install them on a Symfony project."
+image: "/images/blog/cover-php-analyzers.webp"
+proficiencyLevel: "Intermediate"
+translationOf: "comparateur-analyseurs-statiques-php"
+translatedFromUpdatedAt: "2026-10-12"
+faq:
+  - question: "What is the difference between PHPStan and PHP-CS-Fixer?"
+    answer: "PHPStan analyzes type consistency and detects bugs without running the code. PHP-CS-Fixer checks no logic: it reformats the code to apply a style standard like PSR-12. The two are complementary and both run in continuous integration."
+  - question: "Do I have to choose between PHPStan and Psalm?"
+    answer: "On a single project, one of the two is enough. Both detect very similar families of errors. PHPStan now has the largest community and extension ecosystem, notably for Symfony and Doctrine, which makes it the default choice for most teams."
+  - question: "What does Deptrac do that PHPStan does not?"
+    answer: "Deptrac checks architecture rules: which layer is allowed to call which other layer. PHPStan checks that the code is properly typed, not that the domain stays independent of the framework. Deptrac fails the CI if a forbidden dependency appears."
+  - question: "Which tool should I start with on an existing project?"
+    answer: "Start with PHPStan at a low level with a baseline, then PHP-CS-Fixer to remove style noise from reviews. Add Rector to automate version upgrades, and Deptrac once the team has defined the layers it wants to protect."
+---
+
+A serious PHP project always ends up accumulating analysis tools: a `phpstan.neon` file, a `.php-cs-fixer.dist.php`, a `rector.php`, sometimes a `deptrac.yaml`. Each answers a different question, and that is precisely what creates the confusion. Many teams install two tools that overlap and forget the one they would really miss.
+
+This article compares the main PHP static analysis tools, says what each one does and does not do, and proposes a realistic adoption order for a Symfony project.
+
+## What we mean by static analysis
+
+A static analyzer reads the source code without running it. It builds a representation of the program, then applies rules to it. Depending on the rules, it looks for three very different things:
+
+- **bugs**: a call to a nonexistent method, an unhandled `null` value, an inconsistent return type;
+- **style**: indentation, `use` order, braces, naming conventions;
+- **structure**: dependencies between layers, complexity, dead code.
+
+Comparing these tools as if they were competitors is therefore misleading. Most of them do not replace each other, they complement each other.
+
+## PHPStan: the bug detector
+
+[PHPStan](https://phpstan.org/) is the reference tool for detecting typing and logic errors. It offers eleven strictness levels, from 0 to 10, which lets you adopt the tool gradually on an existing codebase. We detailed the setup in [our PHPStan guide](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French) and what is new in version 2 in [the article on PHPStan 2.0](/article/phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable) (in French).
+
+Its strengths:
+
+- a **baseline** that freezes existing errors and blocks only new ones;
+- official extensions for Symfony, Doctrine, and PHPUnit, which understand the service container and repositories;
+- customizable rules to encode a team's conventions.
+
+```neon
+parameters:
+    level: 6
+    paths:
+        - src
+includes:
+    - phpstan-baseline.neon
+```
+
+Its limit: it says nothing about style and nothing about architecture. Perfectly typed code can mix Doctrine and business logic without PHPStan complaining.
+
+## Psalm: the alternative that overlaps with PHPStan
+
+[Psalm](https://psalm.dev/) plays on the same field as PHPStan. It also offers levels, a baseline, and an annotation system for complex types. It highlights data flow analysis (taint analysis), which is useful for spotting SQL or XSS injections.
+
+In practice, the two tools find very similar errors. Running them together doubles CI time and false positives, for little gain. Our recommendation is to pick one of the two: PHPStan in the vast majority of cases, thanks to its extension ecosystem and its community. Psalm remains relevant if taint analysis is an explicit requirement.
+
+## PHP-CS-Fixer: the end of style debates
+
+[PHP-CS-Fixer](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer) looks for no bugs. It rewrites the code so that it follows a standard, for example PSR-12 or the `@Symfony` ruleset. Its value is human: as long as a tool settles the question, nobody comments on indentation in code review anymore.
+
+```php
+<?php
+
+$finder = (new PhpCsFixer\Finder())->in(__DIR__ . '/src');
+
+return (new PhpCsFixer\Config())
+    ->setRules(['@Symfony' => true, 'declare_strict_types' => true])
+    ->setFinder($finder);
+```
+
+It runs in `--dry-run` mode in CI to fail on a deviation, and in fix mode locally or in a pre-commit hook. It complements a team's [coding conventions](/article/coding-conventions) (in French) by making them executable rather than documentary.
+
+## Deptrac: the architecture guardrail
+
+[Deptrac](https://github.com/deptrac/deptrac) answers a question that neither PHPStan nor PHP-CS-Fixer asks: is this class allowed to use that other one? You declare layers (Domain, Application, Infrastructure) and the dependencies allowed between them. Deptrac fails as soon as a rule is violated.
+
+```yaml
+deptrac:
+  paths:
+    - ./src
+  layers:
+    - name: Domain
+      collectors:
+        - type: directory
+          value: src/Domain/.*
+    - name: Infrastructure
+      collectors:
+        - type: directory
+          value: src/Infrastructure/.*
+  ruleset:
+    Domain: ~
+    Infrastructure:
+      - Domain
+```
+
+Here, the Domain depends on nothing, and the Infrastructure may depend on the Domain. A `use Doctrine\ORM\...` slipped into the Domain breaks the build. This is exactly the principle defended in [why your Domain should never know about Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony) (in French), and a natural complement to a [hexagonal architecture](/article/migration-symfony-architecture-hexagonale-retour-mission) (in French): without automatic checks, boundaries erode within a few months.
+
+## Rector: refactoring in place of developers
+
+[Rector](https://getrector.com/) does not report problems, it fixes them. It applies code transformation rules: PHP version upgrades, attribute migrations, replacing deprecated APIs. We cover it in detail in [the article dedicated to Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) (in French).
+
+It is the most worthwhile tool during a version upgrade, because it turns hundreds of mechanical changes into a single diff review. It is also useful for tackling [technical debt](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French) at an industrial scale rather than by hand. A word of caution: always run it on a clean branch, with the tests green before and after.
+
+## PHPMD, PHPMetrics, and the others
+
+A few tools complete the picture:
+
+- **PHPMD** spots signs of poor design: methods that are too long, too many parameters, high cyclomatic complexity. Its rules partly overlap with the higher PHPStan levels and with code review.
+- **PHPMetrics** produces a visual maintainability report. It is used to make a diagnosis during an audit, less to block a CI.
+- **Infection** measures the quality of your tests through mutation testing, which is a different topic from static analysis but is installed the same way.
+
+To track down what is no longer called, dead code analyzers are part of the approach described in [our project retrospective on dead code elimination](/article/code-mort-mission-elimination) (in French).
+
+## Comparison table
+
+| Tool | Detects | Fixes on its own | Adoption |
+| --- | --- | --- | --- |
+| PHPStan | Bugs, types | No | Gradual, by levels |
+| Psalm | Bugs, types, taint | Partially | Gradual |
+| PHP-CS-Fixer | Style deviations | Yes | Immediate |
+| Deptrac | Architecture violations | No | After defining the layers |
+| Rector | Code to modernize | Yes | In batches of rules |
+| PHPMD | Complexity, design | No | Optional |
+
+## In which order to install them
+
+On an existing project, a simple order limits friction:
+
+1. **PHPStan at a low level with a baseline.** The gain is immediate and no developer is blocked. You go up one level per sprint.
+2. **PHP-CS-Fixer.** A single reformatting pass, then the CI keeps the style clean. Make this commit on its own so it does not pollute the history.
+3. **Rector, occasionally.** Run it at each PHP or Symfony version upgrade, not continuously.
+4. **Deptrac, once the layers are decided.** There is no point installing it before the team has agreed on the target architecture.
+
+In a CI, the first three fit in a few lines and run in parallel. What matters most is not the number of tools but that they are blocking: a warning that nobody reads has no value.
+
+## Key takeaways
+
+There is no single best PHP static analyzer, because these tools do not answer the same question. PHPStan hunts for bugs, PHP-CS-Fixer settles style, Deptrac protects architecture, Rector modernizes. Choose one tool per question, make them blocking in CI, and raise the level of strictness gradually.
+
+If you want an outside opinion on the quality pipeline of an existing Symfony project, it is a point we systematically examine during a [code audit](/audit-code-php) (in French).
