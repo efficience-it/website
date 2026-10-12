@@ -776,6 +776,10 @@
     "author": "USFWS Mountain Prairie",
     "url": "https://commons.wikimedia.org/wiki/File:Frosty_Twig_(50724126847).jpg"
   },
+  "twig-4-expectations": {
+    "name": "twig-4-en",
+    "sameAs": "twig-4-ce-que-lon-pourrait-attendre"
+  },
   "utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques": {
     "name": "composer-symfony",
     "file": "File:Star- and Hexagonal-Tile Panel MET wb-37.40.26d.jpeg",
