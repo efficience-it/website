@@ -202,6 +202,10 @@
     "author": "Thomas Griesbeck jack_scorner",
     "url": "https://commons.wikimedia.org/wiki/File:Heavy_fog_above_a_forest_(Unsplash).jpg"
   },
+  "dbtoolsbundle-database-anonymization": {
+    "name": "dbtoolsbundle-anonymize",
+    "sameAs": "dbtoolsbundle-anonymiser-vos-bases-de-donnees"
+  },
   "decouvrez-les-raisons-de-nous-confier-la-maintenance-de-vos-applications-web": {
     "name": "maintenance-applicative",
     "file": "File:Flat Garden - Portland Japanese Garden - Portland, Oregon - DSC08354.jpg",
