@@ -1,0 +1,129 @@
+---
+title: "Composer and Symfony: Practical Tips"
+date: "2023-07-18"
+updatedAt: "2026-10-12"
+author: "Louis-Arnaud Catoire"
+category: "Symfony"
+excerpt: "To make full use of Symfony, PHP professionals rely on Composer, the dependency manager. Version constraints, audits, scripts and supply chain security."
+image: "/images/blog/cover-composer-tips.webp"
+translationOf: "utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques"
+translatedFromUpdatedAt: "2026-01-13"
+---
+
+## Composer Fundamentals in a Symfony Project
+
+Composer is the dependency manager of the PHP ecosystem. Its role is to resolve a dependency tree: from a `composer.json` file declaring the packages the project needs, it computes mutually compatible versions, downloads them and generates a PSR-4 autoloader. [Symfony](/article/pourquoi-choisir-symfony-pour-vos-projets) (in French) relies entirely on Composer, whether to install the framework itself, add bundles or configure Flex recipes.
+
+As described in the [official Symfony installation documentation](https://symfony.com/doc/current/setup.html), a Symfony project usually starts with a single command:
+
+```bash
+composer create-project symfony/skeleton mon-projet
+```
+
+This command installs the framework's minimal skeleton. Symfony Flex, the built-in Composer plugin, then applies the recipes of the installed packages: creating configuration files, adding environment variables and setting up the directory structure.
+
+### require vs require-dev: Separating Contexts
+
+The `composer.json` file distinguishes two fundamental sections. The `require` section contains the dependencies needed to run in production: the framework, business bundles, third-party libraries. The `require-dev` section groups development tools: PHPUnit, PHPStan, php-cs-fixer, the Symfony profiler.
+
+This separation is not cosmetic. In production, the `composer install --no-dev` command excludes all development dependencies. The result is a lighter `vendor` directory, a smaller attack surface and an optimized autoloader. Putting a testing tool in `require` instead of `require-dev` means shipping useless code to every production server.
+
+### The composer.lock File: Reproducibility
+
+The `composer.lock` file records the exact versions of every resolved package. This file must be committed to the Git repository. Without it, each `composer install` could resolve different versions depending on when it runs, introducing subtle differences between environments.
+
+The distinction is clear: `composer install` reads the `composer.lock` file and installs exactly the locked versions. `composer update` recomputes the dependency tree from the `composer.json` constraints and updates `composer.lock`. In production, only `composer install` should be used.
+
+## Version Constraint Strategy
+
+Choosing version constraints in `composer.json` is an engineering decision that affects the project's maintainability over the long term.
+
+The caret operator (`^5.4`) allows minor and patch updates while forbidding major changes. It is the default choice for most dependencies, because it follows semver: minor updates add features without breaking backward compatibility. The tilde operator (`~5.4.0`) is more restrictive and only allows patch updates. It suits libraries whose semver compliance is uncertain.
+
+For Symfony projects, it is recommended to align with the long-term support (LTS) branches. Constraining `symfony/framework-bundle` to `^6.4` guarantees receiving security patches for three years without risking an accidental major version upgrade.
+
+### Private Repositories and Internal Packages
+
+An enterprise project often depends on packages that are not published on Packagist. Composer lets you declare additional repositories directly in `composer.json`:
+
+```json
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@gitlab.entreprise.com:libs/shared-kernel.git"
+        }
+    ]
+}
+```
+
+For organizations that manage several private packages, a dedicated Composer registry like Private Packagist or Satis greatly simplifies the configuration. Satis generates a static index that can be deployed on any web server, while Private Packagist offers a hosted solution with access rights management.
+
+### Composer Scripts and Automation
+
+Composer scripts let you trigger commands at specific points in the lifecycle: after installation, before or after an update, on the `auto-scripts` event specific to Symfony Flex.
+
+```json
+{
+    "scripts": {
+        "test": "php bin/phpunit",
+        "cs": "php-cs-fixer fix --dry-run --diff",
+        "stan": "phpstan analyse",
+        "ci": ["@cs", "@stan", "@test"]
+    }
+}
+```
+
+A `ci` script that chains linting, static analysis and unit tests provides a single entry point for both local validation and CI/CD pipelines. Each developer runs `composer ci` before pushing, which reduces noise on merge requests.
+
+## Security Audit and platform-check
+
+The `composer audit` command checks installed dependencies against the database of [known vulnerabilities (CVEs)](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) (in French). Integrated in the CI pipeline, it automatically blocks a deployment if a CVE affects one of the project's libraries.
+
+The `config.platform` section of `composer.json` lets you simulate a target PHP environment:
+
+```json
+{
+    "config": {
+        "platform": {
+            "php": "8.3.0",
+            "ext-intl": "1.0"
+        }
+    }
+}
+```
+
+This mechanism ensures that Composer resolves dependencies based on the production PHP version, even if the development machine uses a different one. Combined with the `composer/platform-check` plugin (enabled by default since Composer 2), the application fails at startup if the runtime does not match the declared requirements, rather than producing silent errors.
+
+## Dependency Governance at Scale
+
+On a mature project, the number of dependencies naturally grows. Without governance, the `vendor` directory becomes a blind spot: obsolete packages coexist with redundant libraries, and nobody knows who introduced which dependency or why.
+
+The first step is to regularly map the dependency tree with `composer depends` and `composer why-not`. These commands answer the essential questions: why is a given package installed, and what prevents updating to a given version. Pairing this analysis with `composer outdated` gives you a dashboard of the technical debt tied to dependencies.
+
+A structured update policy relies on regular cycles: continuous patch updates, monthly minor updates, and major updates planned with an impact analysis. Automating the detection of available updates with tools like Dependabot or Renovate reduces mental load and keeps the project up to date without conscious effort. For major updates of Symfony itself, the [migration guide for a Symfony project](/article/guide-de-migration-dans-un-projet-symfony) (in French) details a complete methodology to handle these transitions safely.
+
+### Monorepo Strategies and Composer Plugins
+
+In organizations that maintain several Symfony applications sharing common code, the monorepo strategy deserves consideration. Tools like Symplify Monorepo Builder or the `wikimedia/composer-merge-plugin` plugin let you manage several `composer.json` files within a single repository, with an automatic split mechanism to publish each package independently.
+
+Composer plugins extend the behavior of the dependency manager. Symfony Flex is the best-known example, but others deserve attention: `composer-unused` detects dependencies that are declared but never imported in the code, and `composer-require-checker` identifies dependencies that are used but not declared. These tools, integrated in the CI pipeline, turn dependency management from an occasional chore into a continuous and reliable process. For an overview of the packages commonly installed in Symfony projects, browsing the list of [most used bundles in Symfony](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony) (in French) helps you better evaluate candidate dependencies.
+
+### Supply Chain Security
+
+Supply chain security has become a major concern. Every package installed via Composer is third-party code executed with the same privileges as the application. Several practices reduce this risk.
+
+Verify package integrity with the `composer.lock` checksums. Restrict the allowed Composer plugins through the `config.allow-plugins` directive, introduced in Composer 2.2, which forces explicit approval of each plugin. Audit the `post-install-cmd` and `post-update-cmd` scripts of dependencies, because they run automatically and can contain arbitrary code.
+
+For the most sensitive architectures, an internal Composer mirror (via Satis or Private Packagist) lets you control and validate each package before it becomes accessible to developers. This approach adds a validation layer between the public Packagist and the development environment.
+
+## Conclusion
+
+Composer goes far beyond the role of a simple package installer. Used rigorously, it becomes a technical governance tool: version constraints aligned with the support strategy, automated security audit, reproducibility guaranteed by the lock file, and control of the software supply chain. Mastering Composer is a marker of maturity in a Symfony project, and a prerequisite for any [custom web development](/developpement-web-sur-mesure) (in French) project we run.
+
+## Going Further
+
+- [PSRs and what they are for](/article/qu-est-ce-que-les-psrs-et-a-quoi-servent-ils) (in French), understanding the PHP standards that Composer helps you follow
+- [Composer Documentation](https://getcomposer.org/doc/), the official Composer documentation
+- [Packagist](https://packagist.org/), the main PHP package repository
+- [Symfony: Using Composer](https://symfony.com/doc/current/setup.html#creating-symfony-applications), the official guide to creating a Symfony project with Composer
