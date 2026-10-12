@@ -1,7 +1,7 @@
 ---
 title: "Migrer une app Symfony vers l'archi hexagonale"
 date: "2026-03-09"
-updatedAt: "2026-03-26"
+updatedAt: "2026-10-12"
 author: "Louis-Arnaud Catoire"
 category: "Architecture"
 excerpt: "Retour d'expérience sur la migration d'une application Symfony monolithique vers une architecture hexagonale. Les vraies étapes et les compromis."
@@ -130,7 +130,7 @@ final class GetProductTest extends TestCase
 }
 ```
 
-Ce test s'exécute en 2 millisecondes. Pas en 2 secondes. La boucle de feedback redevient instantanée. Les développeurs relancent les tests en local parce que ça ne coûte plus rien.
+Ce test s'exécute en 2 millisecondes. Pas en 2 secondes. La boucle de feedback redevient instantanée. Les développeurs relancent les tests en local parce que ça ne représente plus aucune contrainte.
 
 ## Étape 3 : le câblage Symfony
 
@@ -232,7 +232,7 @@ Le formulaire mappe sur ce DTO, le use case le consomme, et le modèle domaine e
 
 Après trois mois, le catalogue et la facturation sont migrés. Les commandes, le contexte le plus complexe, sont en cours. Mais certaines parties de l'application ne seront jamais migrées : les pages d'admin internes, le back-office de reporting, les scripts de maintenance.
 
-C'est un choix délibéré. L'archi hexagonale a un coût en complexité structurelle. Ce coût se justifie sur du code métier critique qui évolue souvent. Il ne se justifie pas sur un CRUD d'admin que deux personnes utilisent.
+C'est un choix délibéré. L'archi hexagonale ajoute de la complexité structurelle. Cette complexité se justifie sur du code métier critique qui évolue souvent. Il ne se justifie pas sur un CRUD d'admin que deux personnes utilisent.
 
 ### Garder Doctrine dans les queries
 
@@ -242,7 +242,7 @@ C'est pragmatique. Mapper un résultat de recherche paginé à travers trois cou
 
 ### Tolérer la cohabitation ancien/nouveau
 
-Pendant toute la migration, l'ancien code et le nouveau coexistent. Un contrôleur legacy peut appeler un use case hexagonal. Un use case peut lire dans une table gérée par une entité legacy. C'est le prix de la migration progressive.
+Pendant toute la migration, l'ancien code et le nouveau coexistent. Un contrôleur legacy peut appeler un use case hexagonal. Un use case peut lire dans une table gérée par une entité legacy. C'est la contrepartie de la migration progressive.
 
 On a posé une règle : le nouveau code ne dépend jamais de l'ancien. L'ancien peut appeler le nouveau via les interfaces. Jamais l'inverse. Ça crée une direction de migration claire.
 

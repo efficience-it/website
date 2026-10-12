@@ -369,6 +369,10 @@
     "author": "U.S. Air Force photo by Staff Sgt. Keith Thornburgh",
     "url": "https://commons.wikimedia.org/wiki/File:AEDC_team_members_mark_completion_of_16S_honeycomb_(8205386).jpg"
   },
+  "symfony-hexagonal-migration": {
+    "name": "symfony-hexagonal",
+    "sameAs": "migration-symfony-architecture-hexagonale-retour-mission"
+  },
   "migrer-du-serializer-vers-json-streamer-le-guide-honnete": {
     "name": "json-streamer",
     "file": "File:Quartzville Creek Wild and Scenic River (19737006398).jpg",
