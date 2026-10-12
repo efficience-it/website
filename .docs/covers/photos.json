@@ -498,6 +498,10 @@
     "author": "National Park Service, Alaska Region",
     "url": "https://commons.wikimedia.org/wiki/File:Nizina_River_and_Chitistone_River_Confluence_(21425729180).jpg"
   },
+  "php-vs-nodejs-backend": {
+    "name": "php-nodejs",
+    "sameAs": "php-vs-nodejs-quel-langage-backend-choisir"
+  },
   "phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable": {
     "name": "phpstan-2",
     "file": "File:20240622 Matterhorn.jpg",
