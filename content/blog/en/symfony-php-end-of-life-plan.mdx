@@ -1,0 +1,146 @@
+---
+title: "Symfony and PHP End of Life: The Action Plan"
+date: "2026-05-13"
+updatedAt: "2026-10-12"
+author: "Louis-Arnaud Catoire"
+category: "Symfony"
+excerpt: "Symfony and PHP end-of-life calendar for 2026, real consequences (CVEs, NIS2, GDPR) and three exit strategies depending on how critical your application is."
+image: "/images/blog/cover-symfony-php-eol.webp"
+proficiencyLevel: "Intermediate"
+translationOf: "symfony-php-fin-de-support-eol-plan-action"
+translatedFromUpdatedAt: "2026-05-13"
+faq:
+  - question: "What actually happens when a Symfony or PHP version reaches end of support?"
+    answer: "No more official patches are released, including for critical vulnerabilities. CVEs discovered after the EOL date stay open on the affected version. In practice, a zero-day vulnerability published the day after EOL will never be patched by the core team. Cloud hosts and some Linux distributors gradually remove the version from their base images, which blocks redeployments. Security scanning tools (Composer audit, enterprise SCA) flag the version as an active risk, which shows up in compliance reports."
+  - question: "Can my cyber insurance really refuse a claim because of an EOL version?"
+    answer: "Yes, and it is an increasingly frequent reason for refusal. Almost all cyber insurance contracts signed since 2023 contain an exclusion clause for failing to apply security patches within a reasonable time (typically 30 to 90 days after release). An EOL version running in production is, by definition, a breach of that obligation. After an incident, the insurer commissions a technical expert review that identifies the version being run. If it is EOL and an exploited CVE was published after the EOL, the payout is at risk."
+  - question: "What is a reasonable delay between a Symfony LTS release and the production migration?"
+    answer: "The market standard is around 12 to 18 months after the LTS release, and 6 months before the EOL of the previous LTS. In Symfony, an LTS is released every two years, with three years of active support and one extra year of security support. A team that follows this calendar moves from one LTS to the next without ever exposing production to an unsupported version. Teams that miss this rhythm accumulate debt that turns into a risky major jump."
+  - question: "Can a NIS2 or DORA compliance audit block my company because of an outdated PHP version?"
+    answer: "NIS2 requires documented vulnerability management and patching aligned with vendor recommendations. DORA, for financial players, also requires a map of critical IT dependencies and an active remediation plan. An EOL PHP version running a critical service is a direct breach of both texts. Penalties are financial and can reach several percent of revenue. Auditors first look for unsupported versions in production inventories, because it is the easiest data point to verify."
+  - question: "How do you recruit for a Symfony or PHP stack at end of support?"
+    answer: "This is one of the most underestimated side effects. Senior Symfony developers avoid assignments on EOL versions, because they hurt their resume and their exposure to modern practices. The job market knows it: a Symfony 4.4 or PHP 7.4 job post gets two to three times fewer applications than a Symfony 6.4 or PHP 8.3 post, under equivalent conditions. The older the stack, the smaller the candidate pool, and the greater the dependence on internal experts."
+  - question: "Is a PHP version in its security-only phase safe enough to stay in production?"
+    answer: "Yes, as long as you follow the calendar. The security-only phase (the last year of the cycle) no longer receives functional bug fixes, but it still receives critical security patches. Running PHP 8.2 in production in 2026 remains legitimate until the end of December 2026. After that, you must switch. The practical rule is to plan the migration to the next version during the security-only phase, not after, to avoid an emergency switch."
+  - question: "Should we always move to LTS, or can we follow standard Symfony versions?"
+    answer: "Standard Symfony versions have a short cycle (about eight months of active support in the 7.x cycle, with no public security-fix phase). Following standard versions means a version upgrade every six to eight months, which is only sustainable with solid test coverage and a mature CI/CD pipeline. LTS versions are the reasonable choice for most line-of-business applications. Standard versions make sense for SaaS products that want new features quickly and have the organization to keep up."
+  - question: "What should I do if my application depends on abandoned bundles or libraries?"
+    answer: "This is a frequent case and often more blocking than the framework version itself. There are three options: find a maintained fork, bring the component in-house, or rewrite the feature with a modern dependency. Running `composer outdated -D` and checking the status of each critical dependency's source repository lets you build the list. This mapping is a prerequisite for any migration: attempting a version upgrade without resolving abandoned dependencies guarantees failure."
+  - question: "What is the typical duration of a major Symfony migration?"
+    answer: "For a medium-sized application (30 to 100 person-days of business code), a Symfony 4.4 to 6.4 LTS migration takes three to six calendar months with a dedicated team. The Symfony 5.4 to 6.4 jump is shorter, two to three months. PHP follows the same order of magnitude: going from 7.4 to 8.3 takes one to three months depending on the accumulated debt. The long phases are those where technical debt unrelated to the version blocks the migration: insufficient tests, abandoned dependencies, cluttering dead code."
+  - question: "What visibility can a non-technical executive have on the exposure level of their IT system?"
+    answer: "Three indicators are enough for an executive: the Symfony and PHP version running in production, the EOL date of each version, and the gap in months between today and that date. If the gap is negative, the exposure is active. If the gap is under six months, you need a plan. If the gap is over twelve months, the situation is under control. These three numbers fit on one dashboard line and can be maintained by the IT department without deep expertise."
+---
+
+A framework or language version reaching end of support is a silent event. No deployment breaks, no alert rings, the application keeps serving traffic. Yet from that date on, the vendor no longer publishes patches, even for critical vulnerabilities. The risk, until then covered by the open source community, shifts to the operator.
+
+This article reviews the updated Symfony and PHP end-of-life calendar, the real consequences and the three exit strategies depending on how critical the application is.
+
+## What an End of Support Really Changes
+
+An end of support, or End of Life (EOL), marks the official end of patch releases by the vendor. For Symfony, the lifecycle calendar is published on the [official Symfony releases page](https://symfony.com/releases). For PHP, the official calendar is published on the [PHP supported versions page](https://www.php.net/supported-versions). These two pages are the sources of truth.
+
+Three operational effects appear from the EOL date. First effect: CVEs discovered after the EOL are no longer fixed on the affected version. The vulnerability stays public and exploitable, and attackers have a scanning tool to identify targets. Second effect: security analysis tools flag the version as non-compliant, which shows up in vendor questionnaires and compliance reviews. Third effect: hosts and Linux distributions gradually remove the version from base images, which complicates redeployments and eventually blocks the CI/CD pipeline.
+
+None of these three effects is immediate on the EOL date. It is a slow degradation that gives a false sense of security for six to eighteen months. Then an incident triggers awareness: a high-profile CVE, an insurance audit, a client questionnaire. At that point, the remediation time is measured in months, and the exposure in the meantime is total.
+
+## End-of-Support Calendar, Updated May 13, 2026
+
+The table below summarizes the key dates. It is updated as of the displayed date and relies on the official Symfony and PHP calendars. A second useful source for cross-checking is [endoflife.date](https://endoflife.date/symfony), which aggregates the EOLs of the open source ecosystem.
+
+| Version | Status as of May 13, 2026 | End of active support | End of security support |
+| --- | --- | --- | --- |
+| Symfony 4.4 LTS | EOL | Nov 2022 | Nov 2023 |
+| Symfony 5.4 LTS | EOL | Nov 2024 | Nov 2025 |
+| Symfony 6.4 LTS | Active support | Nov 2026 | Nov 2027 |
+| Symfony 7.0 | EOL | Jul 2024 | Jul 2024 |
+| Symfony 7.1 | EOL | Jan 2025 | Jan 2025 |
+| Symfony 7.2 | EOL | Jul 2025 | Jul 2025 |
+| Symfony 7.3 | EOL | Jan 2026 | Jan 2026 |
+| Symfony 7.4 LTS | Active support | Nov 2028 | Nov 2029 |
+| PHP 7.4 | EOL | Nov 2021 | Nov 2022 |
+| PHP 8.0 | EOL | Nov 2022 | Nov 2023 |
+| PHP 8.1 | EOL | Nov 2023 | Dec 2025 |
+| PHP 8.2 | Security only | Dec 2024 | Dec 2026 |
+| PHP 8.3 | Security only | Dec 2025 | Dec 2027 |
+| PHP 8.4 | Active support | Dec 2026 | Dec 2028 |
+
+Standard versions of the 7.x cycle have no public security support phase: at the end of active support, the version is immediately EOL. Symfony 5.4 LTS benefits from a commercial extended support program until February 2029, independent of free community support.
+
+Practical reading. Any application still running on Symfony 4.4, 5.4, 7.0, 7.1, 7.2 or 7.3 is actively exposed: no CVE published since the EOL is patched. The same goes for PHP 7.4, 8.0 or 8.1. Symfony 6.4 LTS and 7.4 LTS are the two reasonable targets for the next twelve months. On PHP, 8.4 is now the actively supported version, and 8.3 remains acceptable until the end of 2027 in its security phase.
+
+## Real Consequences of a Version at End of Support
+
+Security is the first consequence, but not the only one. Four risks pile up and reinforce each other as the version debt grows.
+
+### Unpatched Vulnerabilities and CVE Exposure
+
+EOL versions no longer receive patches. Vulnerabilities published since the EOL stay open, and the topic of [PHP dependency CVEs](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) (in French) remains central in any security review. On a medium-sized application with about fifty Composer dependencies, a typical scan of a target unmaintained for eighteen months returns between ten and fifty active CVEs, one to five of them classified as critical: remote code execution, authentication bypass, SQL injection, denial of service.
+
+### Cyber Insurance Refusal and Contractual Exclusions
+
+Cyber insurance contracts have tightened since 2023. Standard clauses require applying vendor patches within a reasonable time and using supported versions. An EOL version in production is a direct breach of these clauses. After an incident, the post-incident expert review identifies the version being run, cross-references it with the exploited CVEs and concludes on coverage. Total exclusion of payout has become the most frequent outcome in claims involving an obsolete stack.
+
+### NIS2, DORA and GDPR Non-Compliance
+
+NIS2 requires essential and important entities to manage vulnerabilities in a documented way, aligned with vendor recommendations. DORA, applicable since January 2025 to financial players, requires a map of critical IT dependencies and an active remediation plan. On the GDPR side, the recommendations of ANSSI and the CNIL converge: keeping an unsupported version of a component that processes personal data is a security failure under Article 32. Audits first look for unsupported versions in production inventories.
+
+### Recruiting Difficulties and Talent Drain
+
+An often underestimated effect: senior Symfony developers avoid assignments on EOL versions. A job post on Symfony 4.4 or PHP 7.4 gets on average two to three times fewer applications than an equivalent post on Symfony 6.4 or PHP 8.3. The profiles that respond are less demanding about quality, which mechanically worsens [technical debt](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French) over time. Our [Symfony application maintenance](/maintenance-applicative-symfony) (in French) offer helps break this vicious circle when the internal team no longer has the capacity to migrate alone.
+
+## How to Assess Your Exposure in Thirty Minutes
+
+Before building a plan, you need to quantify the exposure. Three questions are enough for a first diagnosis led by the IT department itself.
+
+First question: which Symfony and PHP versions run in production? The `php -v` command on the application server gives PHP. The Symfony version is readable in `composer.json` or via `bin/console --version`. Good discipline in [using Composer](/article/utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques) (in French) means this information is aligned across all environments.
+
+Second question: what is the EOL date of each of these versions? The table above gives it for current versions. For older versions, [endoflife.date](https://endoflife.date) remains the aggregation reference.
+
+Third question: what is the gap in months between today and the EOL date? If the gap is negative (EOL passed), the exposure is active and the priority is high. If the gap is under six months, you need an immediate plan. Beyond twelve months, the situation is under control and the topic moves into normal planning.
+
+This diagnosis fits on one A4 page and lets a non-technical executive understand the exposure of their IT system. To go further, our [free 30-minute Symfony audit](/audit-symfony-gratuit) (in French) adds a quick review of the Composer ecosystem and identifies potential migration blockers.
+
+## Three Exit Strategies
+
+Once the exposure is measured, three strategies are possible. The choice depends on how critical the application is, the depth of the technical debt and the maturity of the team.
+
+### Strategy 1: Gradual Minor Updates
+
+The first strategy is to move from minor version to minor version, without changing the major version. It applies to applications close to their LTS (Symfony 6.2 to 6.4 LTS, PHP 8.1 to 8.2). The effort is limited, regressions are contained, and the existing test coverage stays relevant. This strategy does not solve the major jump when it becomes necessary, but it buys time.
+
+### Strategy 2: Planned Major Jump
+
+The second strategy is to plan the jump to the next LTS over three to six months, with a dedicated team and a formal migration plan. This is the standard path to move from Symfony 4.4 to 6.4 LTS, or from PHP 7.4 to 8.3. Our [migration guide for a Symfony project](/article/guide-de-migration-dans-un-projet-symfony) (in French) details the phases: initial audit, Composer dependency upgrade, framework upgrade through intermediate versions, PHP upgrade, regression tests, gradual deployment. [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) (in French) tooling automates a significant part of the code transformations, and static analysis with [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French) secures each step.
+
+### Strategy 3: Targeted Rebuild
+
+The third strategy only concerns applications whose debt is so heavy that a direct migration costs more effort than a targeted rebuild of the critical modules. It does not mean rewriting everything (the big rewrite is still a bad idea), but isolating the most exposed modules and rebuilding them alongside the existing system. Our approach to [legacy PHP application modernization](/modernisation-application-php) (in French), detailed in the article on [modernizing a legacy PHP application without rewriting everything](/article/moderniser-application-php-legacy-sans-tout-reecrire) (in French), covers this path. It is justified when the application combines an old EOL version and a total absence of tests.
+
+## Typical Timeline of a Major Migration
+
+A major-version Symfony migration (for example 4.4 to 6.4) follows a proven sequence on a medium-sized application, on the order of 50 to 100 person-days of business code.
+
+Phase 1, weeks 1 to 4: initial audit. Mapping of Composer dependencies, identification of abandoned dependencies, measurement of test coverage, static analysis at the highest supported level. Our [PHP quality analysis](/audit-code-php) (in French) frames this phase.
+
+Phase 2, weeks 5 to 8: preparation. Strengthening test coverage on critical modules, replacing abandoned dependencies, cleaning up dead code. Often the longest phase, because it reveals unquantified debt.
+
+Phase 3, weeks 9 to 14: version upgrade. Moving from Symfony 4.4 to 5.4, then 5.4 to 6.4. Each intermediate jump is deployed to staging, validated, then pushed to production. PHP follows the same sequence, in parallel.
+
+Phase 4, weeks 15 to 18: stabilization. Closer monitoring, fixing residual regressions, updating documentation and the CI/CD pipeline. A phase too often compressed even though it determines long-term stability.
+
+Phase 5, ongoing: prevention. Static analysis at the highest level, a semiannual version upgrade calendar, Composer audit alerts. Without this phase, the debt builds up again in under eighteen months.
+
+## Real-World Cases
+
+Two situations come up often. First case: a B2B SaaS on Symfony 4.4 and PHP 7.4, EOL passed for eighteen months, team reduced to one senior developer. The migration to Symfony 6.4 and PHP 8.3 takes five months, with a major effort on test coverage in the first two months. Trigger: a security questionnaire from a large client requiring the list of versions in use.
+
+Second case: an internal application of an industrial group on Symfony 5.4 and PHP 8.1, with a generalist IT team. The Symfony EOL passed six months ago, the PHP EOL four. Management launches an audit after a remark from the compliance auditor. The migration to Symfony 6.4 and PHP 8.3 takes three months with external support. Our [Symfony application hardening](/securite-application-symfony) (in French) offer covers this kind of project.
+
+## Conclusion
+
+The end of support of a Symfony or PHP version is not an event to handle reactively. It is predictable data, published years in advance by the vendor, and it can be planned like any other IT investment cycle. Companies that follow this rhythm move from one LTS to the next without drama, and keep an IT system where security risk stays limited, cyber insurance stays obtainable and compliance stays achievable.
+
+Those that miss this rhythm enter a vicious circle: debt accumulates, talent leaves, and the migration becomes a project in itself. The right reflex is to anticipate: maintain a dashboard with the Symfony version, the PHP version, the EOL date of each, and the gap in months. If that gap turns negative, the organization must trigger a plan without waiting for an incident.
+
+If you suspect an active exposure on your application, take 30 minutes for a first diagnosis with an expert. The free Symfony pre-audit lets you quantify the exposure, identify the technical blockers to migration and propose a sequence suited to the size of your team.
