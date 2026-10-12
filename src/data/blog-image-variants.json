@@ -282,6 +282,10 @@
     400,
     800
   ],
+  "cover-nuxt-deploy": [
+    400,
+    800
+  ],
   "cover-open-source-contributions": [
     400,
     800

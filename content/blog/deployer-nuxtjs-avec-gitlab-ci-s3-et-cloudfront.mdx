@@ -5,7 +5,7 @@ author: "Louis-Arnaud Catoire"
 category: "JavaScript"
 excerpt: "Ce guide montre comment publier un site Vue.js ou Nuxt.js sur Amazon S3 avec le cache CDN CloudFront, le tout automatisé via GitLab CI/CD."
 image: "/images/blog/cover-deployer-nuxtjs.webp"
-updatedAt: "2026-01-13"
+updatedAt: "2026-10-12"
 howTo:
   name: "Déployer Nuxt.js avec GitLab CI, S3 et CloudFront"
   description: "Publier un site Nuxt.js sur AWS S3 avec distribution CloudFront, automatisé via une pipeline GitLab CI."
@@ -20,7 +20,7 @@ howTo:
       text: "Déclencher une invalidation CloudFront en fin de pipeline pour purger les fichiers HTML modifiés tout en conservant le cache long sur les assets fingerprintés."
 ---
 
-Déployer un site statique généré par Nuxt.js sur une infrastructure AWS ne se résume pas à pousser des fichiers sur un bucket. Derrière cette apparente simplicité se cachent des décisions d'architecture qui impactent la performance, la sécurité, le coût et la résilience de votre plateforme. Cet article parcourt le chemin complet : de la mise en place initiale S3 + CloudFront jusqu'aux stratégies de déploiement multi-environnement, en passant par les considérations d'architecture CDN à grande échelle.
+Déployer un site statique généré par Nuxt.js sur une infrastructure AWS ne se résume pas à pousser des fichiers sur un bucket. Derrière cette apparente simplicité se cachent des décisions d'architecture qui impactent la performance, la sécurité et la résilience de votre plateforme. Cet article parcourt le chemin complet : de la mise en place initiale S3 + CloudFront jusqu'aux stratégies de déploiement multi-environnement, en passant par les considérations d'architecture CDN à grande échelle.
 
 ## Le socle AWS : S3 et CloudFront
 
@@ -51,7 +51,7 @@ Une erreur 404 sur `index.html` après la création est le comportement attendu 
 
 ### Distribution CloudFront
 
-CloudFront agit comme couche de cache entre les utilisateurs et le bucket S3. Au-delà du gain de performance, cette architecture réduit significativement les coûts : chaque requête servie par le cache évite un appel facturé vers S3.
+CloudFront agit comme couche de cache entre les utilisateurs et le bucket S3. Au-delà du gain de performance, cette architecture réduit significativement la charge sur l'origine : chaque requête servie par le cache évite un appel vers S3.
 
 Lors de la création de la distribution, rattachez-la au bucket S3, forcez la redirection HTTP vers HTTPS et associez votre nom de domaine avec son certificat SSL. Conservez l'identifiant de distribution dans `AWS_CLOUDFRONT_INVALIDATION_ID` : il sera indispensable pour purger le cache lors des déploiements.
 
@@ -217,7 +217,7 @@ L'utilisation des templates YAML (`.build_site`, `.deploy_s3`) évite la duplica
 
 ## Stratégies d'invalidation de cache
 
-L'invalidation `--paths "/*"` est la méthode la plus simple mais aussi la plus coûteuse. AWS facture au-delà de 1000 invalidations par mois. Sur un projet avec des déploiements fréquents, la facture peut surprendre. Pour bien maîtriser les [stratégies de mise en cache complémentaires au CDN CloudFront](/article/tout-savoir-sur-la-mise-en-cache-tips), il est essentiel d'avoir une vision globale du cache côté serveur, navigateur et réseau.
+L'invalidation `--paths "/*"` est la méthode la plus simple mais aussi la plus lourde : elle purge l'ensemble du cache à chaque déploiement. Pour bien maîtriser les [stratégies de mise en cache complémentaires au CDN CloudFront](/article/tout-savoir-sur-la-mise-en-cache-tips), il est essentiel d'avoir une vision globale du cache côté serveur, navigateur et réseau.
 
 Deux approches alternatives existent. La première consiste à invalider uniquement les fichiers modifiés en comparant le build courant avec le contenu du bucket via `aws s3 sync --dryrun`, puis en ciblant les chemins concernés. La seconde, plus élégante, repose sur le versioning des assets : puisque Nuxt.js génère des noms hashés, seul `index.html` et les fichiers à chemin fixe nécessitent une invalidation. L'invalidation ciblée de quelques fichiers est gratuite et instantanée.
 
@@ -233,7 +233,7 @@ CloudFront supporte nativement les origin groups avec failover automatique. Si l
 
 CloudFront distribue déjà le contenu mondialement, mais le bucket S3 source reste dans une seule région. Pour les audiences géographiquement dispersées, la réplication cross-region de S3 rapproche les fichiers source des edge locations CloudFront, réduisant la latence lors des cache misses.
 
-Le choix de la région primaire impacte aussi le coût des transferts de données. Les régions européennes et américaines offrent des tarifs plus avantageux que l'Asie-Pacifique pour les transferts sortants vers CloudFront.
+Le choix de la région primaire impacte aussi la latence des transferts de données entre l'origine et CloudFront.
 
 ### Infrastructure as Code avec Terraform
 
@@ -241,9 +241,9 @@ Le choix de la région primaire impacte aussi le coût des transferts de donnée
 
 Cette approche transforme radicalement le workflow : créer un nouvel environnement de preview par merge request ne nécessite plus d'intervention manuelle dans la console AWS, mais un simple `terraform apply` paramétré par le nom de la branche. Ce type d'automatisation fait partie de notre offre [Cloud et DevOps](/cloud-et-devops) pour industrialiser les pipelines de déploiement. Pour les applications Symfony, notre offre d'hébergement Symfony intègre ces bonnes pratiques de déploiement automatisé dès la mise en place de l'infrastructure.
 
-### Optimisation des coûts
+### Optimisation de la distribution
 
-Trois leviers principaux permettent de maîtriser la facture AWS sur ce type d'architecture. Le premier est la classe de prix CloudFront : la classe 100 (Amérique du Nord et Europe uniquement) coûte significativement moins que la distribution mondiale. Le second est la politique de cache : un TTL élevé sur les assets immutables réduit les requêtes origin et donc les coûts S3. Le troisième est le lifecycle management sur S3 : configurer des règles de suppression automatique des anciens fichiers évite l'accumulation silencieuse de données obsolètes.
+Trois leviers principaux permettent d'optimiser ce type d'architecture. Le premier est la zone de diffusion CloudFront : limiter la distribution à l'Amérique du Nord et à l'Europe suffit souvent à une audience régionale. Le second est la politique de cache : un TTL élevé sur les assets immutables réduit les requêtes vers l'origine et donc la charge sur S3. Le troisième est le lifecycle management sur S3 : configurer des règles de suppression automatique des anciens fichiers évite l'accumulation silencieuse de données obsolètes.
 
 ## Pour aller plus loin
 
