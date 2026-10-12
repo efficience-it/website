@@ -1,0 +1,99 @@
+---
+title: "What Are PHP PSRs and What Are They For?"
+date: "2022-02-11"
+author: "Florian Chenot"
+category: "PHP"
+excerpt: "PSRs (PHP Standards Recommendations) are standards set by the PHP community to establish common, consistent coding conventions and shared interfaces for PHP."
+image: "/images/blog/cover-php-psr-standards.webp"
+updatedAt: "2026-10-12"
+translationOf: "qu-est-ce-que-les-psrs-et-a-quoi-servent-ils"
+translatedFromUpdatedAt: "2026-10-12"
+---
+
+PSRs (PHP Standards Recommendations) are the technical specifications published by the [PHP-FIG](https://www.php-fig.org/) (PHP Framework Interop Group). Founded in 2009, this consortium brings together the maintainers of the main PHP frameworks and libraries, Symfony, Laravel, Laminas, Slim, Doctrine, and Composer, around a single goal: defining common interfaces and conventions so that the PHP ecosystem speaks one technical language.
+
+Contrary to what their name suggests, PSRs are not mere style recommendations. Some define concrete PHP interfaces, distributed through Composer, that hundreds of libraries implement or consume. Understanding PSRs means understanding the interoperability foundation on which the modern PHP ecosystem rests. It is also a prerequisite for any professional [PHP development](/developpement-php) (in French) project.
+
+## The Fundamentals: Style and Autoloading
+
+### Coding Conventions: PSR-1, PSR-2, PSR-12, and PER
+
+PSR-1 lays down the minimal basics: PascalCase for classes, camelCase for methods, UPPER_CASE for constants, and a single side effect per file. PSR-2, then PSR-12, which replaced it, specify the formatting rules: four-space indentation, brace placement, line length, and type declarations.
+
+Since 2022, the PHP-FIG has introduced the PER Coding Style (PHP Evolving Recommendation), a living format that evolves with the language without requiring a new PSR number for each PHP version. PER 2.0 notably covers union types, enums, and read-only properties. In practice, tools like PHP-CS-Fixer or PHP_CodeSniffer apply these rules automatically: the style debate becomes a non-issue once the team adopts a shared standard, complemented by internal [coding conventions](/article/coding-conventions) (in French).
+
+### Autoloading: PSR-0 and PSR-4
+
+PSR-0 (now obsolete) introduced the concept of standardized autoloading in PHP. PSR-4, which replaced it, establishes the mapping between a namespace and a base directory. It is the standard Composer uses natively: every `autoload` entry in `composer.json` relies on PSR-4. To master the subtleties of this tool, our guide on [using Composer in Symfony development](/article/utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques) (in French) covers the essential commands. Without this convention, the PHP package ecosystem as we know it simply would not exist.
+
+## The Interoperability Interfaces
+
+This is where PSRs reach their full technical dimension. Each interface below is a Composer package (`psr/*`) that libraries implement or type-hint in their signatures.
+
+### PSR-3: Logger Interface
+
+PSR-3 defines the `Psr\Log\LoggerInterface` interface with eight severity levels (emergency, alert, critical, error, warning, notice, info, debug). Monolog, the dominant logger in the ecosystem, implements this interface. But the important point is elsewhere: by type-hinting your dependencies on `LoggerInterface` rather than on `Monolog\Logger`, you can replace Monolog with any compatible implementation without changing a single line of application code.
+
+### PSR-7 and PSR-17: HTTP Messages and Factories
+
+PSR-7 models HTTP messages (requests and responses) as immutable objects. This immutability choice, sometimes confusing at first, guarantees that a middleware cannot silently alter the request for the following middlewares without explicitly returning a new object.
+
+PSR-17 complements PSR-7 by defining factories to create these objects. This lets a library instantiate requests or responses without depending on a specific implementation such as Guzzle, Nyholm, or Laminas Diactoros.
+
+### PSR-15: HTTP Handlers and Middleware
+
+PSR-15 formalizes the middleware pattern in PHP. It defines two interfaces: `RequestHandlerInterface` (the final handler) and `MiddlewareInterface` (each intermediate layer). This standard unified dozens of incompatible implementations and enabled the emergence of micro-frameworks like Slim 4 or Mezzio, where the whole application is a pipeline of stacked PSR-15 middlewares.
+
+The PSR-15 middleware architecture, combined with PSR-7 messages, forms a composable HTTP processing model. Each middleware can inspect the request, transform it, delegate to the next handler, then post-process the response. Authentication, CORS, rate limiting, and compression all become interchangeable building blocks.
+
+### PSR-11: Container Interface
+
+PSR-11 standardizes dependency injection with two methods: `get(string $id)` and `has(string $id)`. Symfony DI, PHP-DI, Laravel Container, and League Container all implement this interface. The [Symfony service container](https://symfony.com/doc/current/service_container.html) is one of the most polished implementations of this standard. It lets third-party libraries consume a container without knowing which one is in use.
+
+In practice, PSR-11 made it possible to create truly framework-agnostic libraries. A validation bundle, a routing system, or a queue manager can declare a dependency on `Psr\Container\ContainerInterface` and work in any framework.
+
+### PSR-14: Event Dispatcher
+
+PSR-14 defines an event model based on two concepts: the `EventDispatcherInterface`, which emits events, and the `ListenerProviderInterface`, which resolves the associated listeners. This separation is deliberate. It decouples event emission from listener registration, which allows varied resolution strategies (PHP attributes, YAML configuration, naming conventions).
+
+PSR-14 introduced the concept of a stoppable event through `StoppableEventInterface`, letting a listener short-circuit propagation. This pattern is particularly useful for validation or authorization systems where a rejection must interrupt the chain. Symfony makes full use of this standard, notably in [Messenger, which relies on events to orchestrate hexagonal architecture](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) (in French).
+
+### PSR-6 and PSR-16: Cache
+
+PSR-6 defines a cache system based on pools and items, suited to advanced use cases (tags, fine-grained invalidation). PSR-16 (Simple Cache) offers a more direct API (`get`, `set`, `delete`) for common cases. Symfony Cache, for example, implements both interfaces, letting consumers choose the appropriate level of abstraction.
+
+### PSR-18: HTTP Client
+
+PSR-18 standardizes sending HTTP requests with a single method: `sendRequest(RequestInterface $request): ResponseInterface`. Combined with PSR-17 factories and PSR-7 messages, it lets you build SDKs and API clients without depending on Guzzle, Symfony HttpClient, or any other specific implementation.
+
+### PSR-13: Hypermedia Links
+
+PSR-13 defines interfaces for handling hypermedia links in RESTful APIs. It standardizes the creation and traversal of links between resources, which makes it easier to implement HATEOAS in PHP APIs.
+
+## Interoperability as an Architecture Principle
+
+Beyond each PSR taken individually, it is their systemic effect that changes the way you design a PHP application.
+
+### Preventing Vendor Lock-In
+
+When an architecture systematically relies on PSR interfaces rather than concrete implementations, the effort of migrating a component becomes marginal. Switching loggers, HTTP clients, cache systems, or DI containers comes down to changing a line of configuration. This flexibility is not theoretical: it shows up concretely during major framework version upgrades, where PSR-compliant libraries survive without modification.
+
+For an architect, PSRs are a tool for managing technical risk. They let you postpone implementation decisions without compromising the architecture, and replace components without a rewrite.
+
+### The PHP-FIG Governance Process
+
+Each PSR goes through a rigorous process: proposal (Draft), discussion and revision (Review), and a vote by the members (Accepted). A PSR can also be marked Deprecated or Abandoned. This process ensures that published standards reflect an industry consensus, not the vision of a single framework.
+
+The PHP-FIG's voting members include representatives of Symfony, Laravel, Drupal, Slim, Laminas, and other major projects. When a PSR is accepted, it carries the weight of an agreement between projects that otherwise compete. That legitimacy explains the massive adoption of PSRs across the ecosystem.
+
+### PSRs and Software Quality
+
+PSRs embody the dependency inversion principle (the D in SOLID) at the scale of an entire ecosystem. By depending on abstractions rather than concretions, application code gains testability (mocks implement the same interface), maintainability (components are replaceable), and readability (contracts are explicit). Tools like [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French) statically verify that your dependencies honor the expected PSR interfaces.
+
+PSRs also ease [migration between major framework versions](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) (in French), since the standardized interfaces stay stable. For a team, adopting PSRs also means reducing the decision surface: debates about code style, the choice of logging interface, or the format of HTTP messages are already settled. Energy goes to the business logic.
+
+## Going Further
+
+- [Why choose Symfony for your projects](/article/pourquoi-choisir-symfony-pour-vos-projets) (in French), a framework that implements the PSR standards
+- [PHP-FIG](https://www.php-fig.org/), the official website of the PHP Framework Interop Group
+- [List of PSRs](https://www.php-fig.org/psr/), the complete documentation of all PSRs
