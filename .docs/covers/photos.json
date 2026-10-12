@@ -18,6 +18,10 @@
     "author": "Aaron Burden aaronburden",
     "url": "https://commons.wikimedia.org/wiki/File:Orange_flower_bud_(Unsplash).jpg"
   },
+  "web-app-manifest-pwa": {
+    "name": "web-app-manifest",
+    "sameAs": "ameliorer-lexperience-utilisateur-grace-au-manifeste-des-applications-web"
+  },
   "api-rest-les-bonnes-pratiques": {
     "name": "api-rest",
     "file": "File:Abstract spiral pattern (Unsplash).jpg",

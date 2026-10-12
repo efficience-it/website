@@ -1,0 +1,101 @@
+---
+title: "Web App Manifest: Improve User Experience"
+date: "2025-02-28"
+author: "Louis-Arnaud Catoire"
+category: "Green IT"
+excerpt: "See how the Web App Manifest turns your website into an installable app, with caching, push notifications and a clear PWA versus native decision framework."
+image: "/images/blog/cover-web-app-manifest.webp"
+updatedAt: "2026-10-12"
+translationOf: "ameliorer-lexperience-utilisateur-grace-au-manifeste-des-applications-web"
+translatedFromUpdatedAt: "2026-10-12"
+---
+
+The Web App Manifest is a JSON file that describes a web application's metadata to the browser. It is one of the three fundamental building blocks of a Progressive Web App (PWA), alongside the Service Worker and the HTTPS protocol. Its role is to let users install a web application on the home screen of a device, whether a smartphone, a tablet or a desktop, without going through an app store.
+
+In practice, this file, named `manifest.json` or `manifest.webmanifest`, is referenced in the HTML through a `<link rel="manifest">` tag. The browser reads it to determine the application's name, icons, display mode and launch behavior. It is the entry point that turns a simple website into an application that users perceive as native.
+
+## Manifest structure and properties
+
+The manifest breaks down into required and optional properties. The basic properties, `name`, `short_name`, `icons`, `start_url` and `display`, are enough to make an application installable. But the advanced properties open up far richer possibilities.
+
+### Core properties
+
+- **name** and **short_name**: the full name and its short version, used under the home screen icon when space is tight
+- **icons**: an array of objects describing icons at different resolutions (192x192 and 512x512 at minimum), with the `purpose` property distinguishing `any`, `maskable` and `monochrome` icons
+- **start_url**: the launch URL, which can include UTM parameters to trace the origin of PWA sessions in your analytics
+- **display**: the display mode among `fullscreen`, `standalone`, `minimal-ui` or `browser`, each matching a different level of immersion
+- **background_color** and **theme_color**: colors used respectively for the splash screen at launch and for the operating system's status bar
+
+### Advanced properties
+
+Beyond the basics, several properties deserve the attention of experienced developers:
+
+- **scope**: sets the PWA's navigation boundary. Any URL outside this scope opens in the default browser, which gives you precise control over the edges of the app experience
+- **display_override**: an ordered array of display modes that allows a progressive fallback. The browser applies the first mode it supports, giving you fine control over how the experience degrades
+- **shortcuts**: defines contextual shortcuts reachable by long-pressing the icon (Android) or right-clicking it (desktop), giving direct access to key features
+- **screenshots**: provides screenshots displayed in the install interface, building user confidence before adding the app to the home screen
+- **categories** and **description**: classification metadata used by some PWA stores and browsers to improve discoverability
+- **share_target**: registers the PWA as a share target at the operating system level, so it can receive content shared from other applications
+
+## Integration with the Service Worker
+
+The manifest alone is not enough to create a working PWA. The Service Worker brings the advanced features to life. This JavaScript script, which runs in the background independently of the page, intercepts network requests and manages the cache.
+
+### Caching strategies
+
+The choice of caching strategy depends directly on the type of content served. These mechanisms follow the broader principles covered in our guide on [caching applied to web applications](/article/tout-savoir-sur-la-mise-en-cache-tips) (in French):
+
+- **Cache First**: static resources (CSS, JavaScript, images) are served from the cache, with a background update. This approach favors speed over freshness
+- **Network First**: dynamic data (APIs, personalized content) goes through the network first. The cache is used only when the network fails, which guarantees fresh data while providing an offline fallback
+- **Stale While Revalidate**: the cache is served immediately for an instant response, while a network request updates the cache in the background for the next visit
+
+Cache granularity must be planned upfront. Aggressively pre-caching the app shell (HTML structure, critical CSS, base JavaScript) combined with dynamic caching of API data is the most common pattern for content applications.
+
+### Push notifications
+
+Push notifications are a major engagement lever for PWAs. They rely on the Push API and the Notification API, both orchestrated by the Service Worker. The flow involves an application server that sends a message through a push service (FCM, Web Push Protocol), and the Service Worker that receives it and displays the notification even when the application is closed.
+
+Consent management is critical, in particular to comply with the [RGAA accessibility standards](/article/normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous) (in French): asking for permission too early or without context leads to a high refusal rate. The best practice is to trigger the request after a meaningful user action, along with a clear explanation of the added value.
+
+## Limits and technical constraints
+
+The manifest and the PWA ecosystem have limitations that you must weigh before committing:
+
+- **iOS and Safari**: Apple imposes significant restrictions. Push notifications have been supported only since iOS 16.4, storage is limited to 50 MB per origin, and PWAs are automatically purged after two weeks without use. The `display_override` property is not supported
+- **Restricted hardware access**: Bluetooth, NFC, biometric sensors and file system access remain partially or totally unavailable depending on the browser, although Chromium's Project Fugu APIs are gradually closing these gaps
+- **No unified official store**: without the visibility of a store, discoverability relies entirely on SEO and web acquisition strategies. Chrome's native PWA install prompt helps, but it remains limited to Chromium
+
+## Decision framework: PWA, native app or hybrid
+
+For an architect or a tech lead, the question is not whether PWAs are better than native applications. The question is which distribution model fits the product's context.
+
+### When a PWA is the right choice
+
+A PWA is the best choice when the product targets a broad audience on heterogeneous devices, when resources do not allow maintaining separate iOS and Android codebases (choosing the right [JavaScript framework](/article/quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular) (in French) then becomes central), when the deployment cycle must be fast and independent of store review processes, or when the target markets include regions with intermittent connectivity.
+
+Twitter Lite illustrates this scenario perfectly. By adopting the PWA approach, Twitter saw a 65% increase in pages viewed per session, a 75% reduction in data consumption and a 30% shorter load time compared to the native application. The PWA let them reach users on entry-level devices in emerging markets, where installing a native application of several dozen megabytes is a real barrier.
+
+### When native is still necessary
+
+A native application keeps the advantage when the product relies on intensive hardware access (augmented reality, real-time video processing, 3D games), when store presence is a strategic acquisition channel, or when raw performance requirements exceed what the browser runtime can offer.
+
+### The philosophy of progressive enhancement
+
+The most durable approach is to adopt progressive enhancement as a guiding principle. The manifest embodies this philosophy: it adds application capabilities to a website without taking anything away from the base experience. A user without PWA support still reaches the content through their browser. A user on Chrome for Android benefits from installation, offline mode and push notifications. Each layer enriches the experience without creating a dependency.
+
+This strategy of progressive enrichment, consistent with [eco-design](/article/eco-conception-un-ideal-en-marche-ou-une-illusion-durable) (in French) principles, extends beyond the manifest. It guides architecture choices: a [REST API that follows best practices](/article/api-rest-les-bonnes-pratiques) (in French) serves a PWA just as well as a future native application, and a well-structured Service Worker prepares the ground for real-time features without a rewrite. Integrating the manifest into a Symfony project naturally fits a performance-oriented [custom web development](/developpement-web-sur-mesure) (in French) approach.
+
+## Conclusion
+
+The Web App Manifest is not just a technical metadata file. It is a strategic lever that repositions the web as a first-class application platform. For technical teams, it offers an effort-to-impact ratio that is hard to match: a JSON file, a Service Worker and an HTTPS certificate are enough to turn a website into an installable application that works offline and can re-engage its users through push notifications.
+
+The growing maturity of browser APIs, Apple's gradual adoption and the evolution of W3C standards are converging toward an ever more capable web. The manifest is the gateway to this convergence, and mastering it is becoming an essential skill for any ambitious web developer.
+
+## Going further
+
+- RGAA standards: the keys to a successful user experience for everyone, making your web applications accessible to all users
+- Which JavaScript framework to choose?, picking the right framework to build your web applications
+- Eco-design: an ideal in progress or a lasting illusion?, designing responsible, high-performance web applications
+- [MDN: Web App Manifest](https://developer.mozilla.org/fr/docs/Web/Manifest), the reference documentation on the web application manifest
+- [web.dev: Progressive Web Apps](https://web.dev/progressive-web-apps/), Google's guide to PWAs and best practices
+- [W3C: Web Application Manifest](https://www.w3.org/TR/appmanifest/), the official W3C specification

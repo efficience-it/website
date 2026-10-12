@@ -206,6 +206,10 @@
     400,
     800
   ],
+  "cover-web-app-manifest": [
+    400,
+    800
+  ],
   "cover-why-symfony": [
     400,
     800
