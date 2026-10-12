@@ -551,6 +551,10 @@
     "author": "Yannick Bode",
     "url": "https://commons.wikimedia.org/wiki/File:Gieboldehausen,_Gustav-Adolf-Kirche,_Orgel_Prospektpfeifen.jpg"
   },
+  "php-psr-standards-explained": {
+    "name": "php-psr-standards",
+    "sameAs": "qu-est-ce-que-les-psrs-et-a-quoi-servent-ils"
+  },
   "que-vaut-rest-face-a-son-nouveau-challenger-graphql": {
     "name": "rest-vs-graphql",
     "file": "File:Translucent leaf in macro 1 (Unsplash).jpg",
