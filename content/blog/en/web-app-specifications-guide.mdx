@@ -1,0 +1,104 @@
+---
+title: "Web Application Specifications: The Complete Guide"
+date: "2026-03-22"
+updatedAt: "2026-10-12"
+author: "Louis-Arnaud Catoire"
+category: "Project"
+excerpt: "Good specifications are the foundation of a successful web project. Learn the structure, the content and the mistakes to avoid when scoping your Symfony app."
+image: "/images/blog/cover-web-specifications.webp"
+translationOf: "cahier-des-charges-application-web-guide-complet"
+translatedFromUpdatedAt: "2026-10-12"
+faq:
+  - question: "Are specifications mandatory for a Symfony project?"
+    answer: "No, but they are strongly recommended. Without specifications, estimates are imprecise, misunderstandings are frequent and the scope drifts. Even a light document of 5 to 10 pages beats nothing. For agile projects, the specifications can take the form of a prioritized backlog with user stories."
+  - question: "What is the difference between functional and technical specifications?"
+    answer: "Functional specifications describe what the application must do from the user's point of view (features, user journeys, business rules). Technical specifications describe how to do it (architecture, technologies, hosting constraints, performance). The two are complementary, but the functional part is the client's responsibility and the technical part is the service provider's."
+  - question: "How long does it take to write specifications?"
+    answer: "Between 1 and 4 weeks depending on the project's complexity. A simple project can be scoped in a few days, while a complex platform needs functional workshops with stakeholders. The time invested in scoping is always recovered by avoiding back-and-forth during development."
+---
+
+Specifications are the most underrated document in a web project's life cycle. Too many projects start with a three-line brief, a "we'll see as we go" or an 80-page document that nobody reads. All three approaches lead to the same result: scope drift, uncontrolled timelines and frustration on both sides.
+
+As a [Symfony agency](/agence-symfony-france) (in French) that has supported more than 150 projects, we have read hundreds of specifications. Here is what separates a useful document from one that ends up in a drawer.
+
+## Why you need specifications
+
+### Align stakeholders
+
+The first role of specifications is to align everyone on the same goal. Stakeholders (management, business, IT, end users) each have their own vision of the project. Without a written document, everyone projects their own expectations and the misunderstandings surface in production.
+
+Good specifications force you to make choices, priorities and trade-offs explicit. It is a clarification exercise that benefits the client and the service provider alike. Our article on [writing agile specifications](/article/comment-rediger-un-cahier-de-charge-pour-un-projet-agile) (in French) details this approach.
+
+### Get comparable proposals
+
+Without specifications, each service provider prices their own interpretation of the need. Proposals cannot be compared, and the shortest is not necessarily the best: it may simply have understood a narrower scope. A clear document lets you compare proposals on an identical basis.
+
+To learn how to evaluate proposals, our guide on [choosing your Symfony service provider](/article/comment-choisir-son-prestataire-symfony) (in French) details the criteria. And if your project involves an existing application, our article on modernizing legacy PHP applications explains how to scope that kind of takeover.
+
+## Structure of the specifications
+
+### Context and goals
+
+Start with the "why". What problem does the application solve? Who are the users? What are the measurable goals (time saved, revenue, fewer errors)? A service provider who understands the business context proposes more relevant solutions.
+
+Also describe the current situation: which tools are used today? What are their limits? Is there data to migrate? This section avoids unpleasant surprises during the project.
+
+### Features
+
+List the features in priority order. For each feature, describe the user need, not the technical solution. "The administrator must be able to export the month's orders as CSV" is more useful than "create an export button".
+
+For complex projects, user stories are a good format: "As a [role], I want [action] so that [goal]". Group them by functional module (user management, catalog, orders, reporting).
+
+A business [software package](/article/quels-sont-les-avantages-dun-progiciel-pour-votre-entreprise) (in French) will have very different features from an e-commerce platform or a SaaS tool. Adapt the level of detail to the complexity.
+
+### Technical constraints
+
+Some technical constraints must be explicit from the start:
+
+- **Hosting**: cloud, on-premise, managed hosting?
+- **Performance**: how many simultaneous users? What target response time?
+- **Security**: sensitive data? GDPR compliance? Specific application security?
+- **Integrations**: ERP, CRM, third-party APIs, payment system?
+- **Accessibility**: RGAA compliance?
+
+These constraints directly affect the architecture and the schedule. A specialized Symfony service provider will know how to propose the right building blocks: PostgreSQL rather than MySQL for performance constraints, Elasticsearch for full-text search, Redis for application caching.
+
+### Schedule
+
+State the critical milestones: release date, commercial events, regulatory constraints.
+
+The MVP (Minimum Viable Product) approach lets you deliver a useful first version quickly and iterate afterward. It is generally the most effective approach to control the scope, especially on a first project with a new service provider.
+
+## Mistakes to avoid
+
+### The 80-page specification
+
+An overly detailed document is as problematic as an overly vague one. It freezes choices too early, discourages reading and creates a false impression of completeness. 15 to 25 pages are enough for most projects. The detail will come in sprints, with the service provider.
+
+### Describing the solution instead of the need
+
+"Put a green button at the top right that opens a modal with a table" is not a functional need. It is an interface specification that limits the service provider's creativity. Describe the user's problem and let the service provider propose the solution. Technical debt is often born from solutions imposed without architectural thought.
+
+### Ignoring maintenance
+
+The specifications must include a section on life after going to production. Who handles application maintenance? What is the process for changes? How often are Symfony version upgrades done? Anticipating these questions avoids unpleasant surprises.
+
+### Not involving end users
+
+End users are the first people affected by the application. Excluding them from scoping means risking delivering a tool that nobody uses. User experience must be at the heart of the thinking from the specifications onward.
+
+## Tools and resources for writing your specifications
+
+Several approaches can help you structure your thinking:
+
+- **Templates and models**: frameworks like the [Business Model Canvas](https://en.wikipedia.org/wiki/Business_Model_Canvas) help clarify the business context before moving on to features. For the technical aspects, the [Symfony documentation](https://symfony.com/doc/current/index.html) gives a clear view of the framework's possibilities.
+- **Functional workshops**: working sessions with stakeholders to map user journeys, prioritize features and identify constraints. These workshops are more productive than a document written in isolation.
+- **Prototyping**: low-fidelity mockups (wireframes) make the need concrete and validate the ergonomics before development. It is a modest effort that avoids late rethinking during the project.
+
+For specific sectors, business constraints vary widely. An e-commerce project does not have the same requirements as an industrial application or a tool for the financial sector. The specifications must reflect these specifics.
+
+## What if you have no specifications?
+
+That is not a blocker. Many projects start with a verbal exchange that takes shape over the course of workshops. What matters is having a written starting point, even a minimal one, before estimating.
+
+At Efficience IT, the [free 30-minute Symfony audit](/audit-symfony-gratuit) (in French) lets us lay the foundations of the project without formal specifications. From that conversation, we produce a proposal that serves as a basis for discussion. This is often more effective than a document written internally without technical expertise.

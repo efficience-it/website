@@ -1,7 +1,7 @@
 ---
 title: "Cahier des charges d'une application web : le guide"
 date: "2026-03-22"
-updatedAt: "2026-03-26"
+updatedAt: "2026-10-12"
 author: "Louis-Arnaud Catoire"
 category: "Projet"
 excerpt: "Un bon cahier des charges est la fondation d'un projet web réussi. Structure, contenu et erreurs à éviter pour cadrer votre application Symfony."
@@ -15,7 +15,7 @@ faq:
     answer: "Entre 1 et 4 semaines selon la complexité du projet. Un projet simple peut être cadré en quelques jours, une plateforme complexe nécessite des ateliers fonctionnels avec les parties prenantes. Le temps investi dans le cadrage est toujours récupéré en évitant les allers-retours pendant le développement."
 ---
 
-Le cahier des charges est le document le plus sous-estimé du cycle de vie d'un projet web. Trop de projets démarrent avec un brief de trois lignes, un "on verra en avançant" ou un document de 80 pages que personne ne lit. Les trois approches mènent au même résultat : des dérives de périmètre, des coûts non maîtrisés et de la frustration des deux côtés.
+Le cahier des charges est le document le plus sous-estimé du cycle de vie d'un projet web. Trop de projets démarrent avec un brief de trois lignes, un "on verra en avançant" ou un document de 80 pages que personne ne lit. Les trois approches mènent au même résultat : des dérives de périmètre, des délais non maîtrisés et de la frustration des deux côtés.
 
 En tant qu'[agence Symfony](/agence-symfony-france) ayant accompagné plus de 150 projets, nous avons lu des centaines de cahiers des charges. Voici ce qui fait la différence entre un document utile et un document qui finit dans un tiroir.
 
@@ -27,9 +27,9 @@ Le premier rôle du cahier des charges est d'aligner tout le monde sur le même 
 
 Un bon cahier des charges force à expliciter les choix, les priorités et les compromis. C'est un exercice de clarification qui bénéficie autant au client qu'au prestataire. Notre article sur [la rédaction d'un cahier des charges agile](/article/comment-rediger-un-cahier-de-charge-pour-un-projet-agile) détaille cette approche.
 
-### Obtenir des devis comparables
+### Obtenir des propositions comparables
 
-Sans cahier des charges, chaque prestataire chiffre sa propre interprétation du besoin. Les devis sont incomparables et le moins cher n'est pas forcément le meilleur : il a peut-être simplement compris un périmètre plus restreint. Un document clair permet de comparer des propositions sur une base identique.
+Sans cahier des charges, chaque prestataire interprète le besoin à sa façon. Les propositions sont incomparables et la plus courte n'est pas forcément la meilleure : elle a peut-être simplement compris un périmètre plus restreint. Un document clair permet de comparer des propositions sur une base identique.
 
 Pour savoir comment évaluer les propositions, notre guide pour [choisir son prestataire Symfony](/article/comment-choisir-son-prestataire-symfony) détaille les critères. Et si votre projet concerne une application existante, notre article sur la modernisation d'applications PHP legacy explique comment cadrer ce type de reprise.
 
@@ -59,13 +59,13 @@ Certaines contraintes techniques doivent être explicites dès le départ :
 - **Intégrations** : ERP, CRM, API tierces, système de paiement ?
 - **Accessibilité** : conformité RGAA ?
 
-Ces contraintes impactent directement l'architecture et le budget. Un prestataire Symfony spécialisé saura proposer les bonnes briques : PostgreSQL plutôt que MySQL pour les contraintes de performance, Elasticsearch pour la recherche plein texte, Redis pour le cache applicatif.
+Ces contraintes impactent directement l'architecture et le planning. Un prestataire Symfony spécialisé saura proposer les bonnes briques : PostgreSQL plutôt que MySQL pour les contraintes de performance, Elasticsearch pour la recherche plein texte, Redis pour le cache applicatif.
 
-### Planning et budget
+### Planning
 
-Indiquez votre enveloppe budgétaire, même une fourchette. Un prestataire honnête adaptera sa proposition au budget plutôt que de proposer un projet surdimensionné. Indiquez aussi les jalons critiques : date de mise en production, événements commerciaux, contraintes réglementaires.
+Indiquez les jalons critiques : date de mise en production, événements commerciaux, contraintes réglementaires.
 
-L'approche MVP (Minimum Viable Product) permet de livrer une première version utile rapidement et d'itérer ensuite. C'est généralement l'approche la plus efficace pour maîtriser le budget, surtout sur un premier projet avec un nouveau prestataire.
+L'approche MVP (Minimum Viable Product) permet de livrer une première version utile rapidement et d'itérer ensuite. C'est généralement l'approche la plus efficace pour maîtriser le périmètre, surtout sur un premier projet avec un nouveau prestataire.
 
 ## Les erreurs à éviter
 
@@ -91,7 +91,7 @@ Plusieurs approches peuvent vous aider à structurer votre réflexion :
 
 - **Templates et modèles** : des frameworks comme le [Business Model Canvas](https://en.wikipedia.org/wiki/Business_Model_Canvas) aident à clarifier le contexte métier avant de passer aux fonctionnalités. Pour les aspects techniques, la [documentation Symfony](https://symfony.com/doc/current/index.html) donne une vision claire des possibilités du framework.
 - **Ateliers fonctionnels** : des sessions de travail avec les parties prenantes pour cartographier les parcours utilisateurs, prioriser les fonctionnalités et identifier les contraintes. Ces ateliers sont plus productifs qu'un document rédigé en chambre.
-- **Prototypage** : des maquettes basse fidélité (wireframes) permettent de concrétiser le besoin et de valider l'ergonomie avant le développement. C'est un investissement modeste qui évite des remises en cause coûteuses en cours de projet.
+- **Prototypage** : des maquettes basse fidélité (wireframes) permettent de concrétiser le besoin et de valider l'ergonomie avant le développement. C'est un effort modeste qui évite des remises en cause tardives en cours de projet.
 
 Pour les secteurs spécifiques, les contraintes métier varient fortement. Un projet e-commerce n'a pas les mêmes exigences qu'une application industrielle ou qu'un outil pour le secteur financier. Le cahier des charges doit refléter ces spécificités.
 

@@ -51,6 +51,10 @@
     "url": "https://commons.wikimedia.org/wiki/File:Sunrise_through_the_Pier_(Unsplash).jpg",
     "focusX": 0.485
   },
+  "web-app-specifications-guide": {
+    "name": "web-specifications",
+    "sameAs": "cahier-des-charges-application-web-guide-complet"
+  },
   "claude-assistant-architecture-symfony-legacy": {
     "name": "claude-symfony",
     "file": "File:Tea bowl, Korea, Joseon dynasty, 16th century AD, Mishima-hakeme type, buncheong ware, stoneware with white engobe and translucent, greenish-gray glaze, gold lacquer - Ethnological Museum, Berlin - DSC02061.JPG",
