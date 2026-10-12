@@ -27,3 +27,11 @@ describe("Breadcrumb", () => {
     expect(enfant.tagName).toBe("SPAN");
   });
 });
+
+describe("Breadcrumb in English", () => {
+  it("renders English labels and home link", () => {
+    render(<Breadcrumb language="en" items={[{ label: "Page" }]} />);
+    expect(screen.getByText("Home")).toHaveAttribute("href", "/en");
+    expect(screen.getByRole("navigation")).toHaveAttribute("aria-label", "Breadcrumb");
+  });
+});

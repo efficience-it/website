@@ -55,6 +55,7 @@ describe("root layouts", () => {
     expect(html).not.toContain('data-testid="footer"');
     expect(html).not.toContain('data-testid="cookies"');
     expect(html).toContain("<p>content</p>");
+    expect(html).toContain("Legal notice (in French)");
   });
 
   it("shares the document shell between languages", () => {
