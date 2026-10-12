@@ -5,7 +5,7 @@ author: "Louis-Arnaud Catoire"
 category: "DevOps"
 excerpt: "La documentation technique est un élément essentiel de tout projet numérique. Choisir le bon outil peut faire une grande différence."
 image: "/images/blog/cover-documentation-technique.webp"
-updatedAt: "2026-01-13"
+updatedAt: "2026-10-12"
 ---
 
 ## La documentation, un investissement stratégique
@@ -48,7 +48,7 @@ L'avantage principal est la réduction de la friction. Un développeur qui corri
 
 ### Stratégies de versioning
 
-Le versioning de la documentation est un problème sous-estimé. Trois approches coexistent. Le versioning par branche Git associe une branche à chaque version majeure du produit : simple à comprendre, mais coûteux en cherry-picks. Le versioning intégré à l'outil, comme celui de Docusaurus, copie un snapshot de la doc à chaque release : pratique mais générateur de dette si les anciennes versions ne sont pas élaguées. Le versioning par annotation, où un même fichier contient des blocs conditionnels par version, convient aux différences mineures mais devient illisible au-delà de deux ou trois versions.
+Le versioning de la documentation est un problème sous-estimé. Trois approches coexistent. Le versioning par branche Git associe une branche à chaque version majeure du produit : simple à comprendre, mais fastidieux en cherry-picks. Le versioning intégré à l'outil, comme celui de Docusaurus, copie un snapshot de la doc à chaque release : pratique mais générateur de dette si les anciennes versions ne sont pas élaguées. Le versioning par annotation, où un même fichier contient des blocs conditionnels par version, convient aux différences mineures mais devient illisible au-delà de deux ou trois versions.
 
 Le choix dépend du rythme de release et du nombre de versions maintenues simultanément. Pour un SaaS avec une seule version en production, le versioning est souvent superflu. Pour une librairie open source qui maintient trois branches, il devient incontournable.
 
@@ -82,7 +82,7 @@ Ces métriques ne remplacent pas le feedback qualitatif. Un bouton "cette page v
 
 ### Build vs buy pour les plateformes internes
 
-À partir d'une certaine échelle, la question se pose : faut-il assembler une solution à partir de briques open source (générateur statique, moteur de recherche, système d'authentification, analytics) ou adopter une plateforme intégrée comme Backstage, Readme.io ou Confluence ? La réponse dépend de trois facteurs : le niveau de personnalisation requis, la capacité de l'équipe à maintenir l'infrastructure, et le budget. Les solutions open source offrent un contrôle total mais exigent du temps d'ingénierie. Les plateformes SaaS accélèrent le démarrage mais imposent leurs contraintes et leurs coûts récurrents.
+À partir d'une certaine échelle, la question se pose : faut-il assembler une solution à partir de briques open source (générateur statique, moteur de recherche, système d'authentification, analytics) ou adopter une plateforme intégrée comme Backstage, Readme.io ou Confluence ? La réponse dépend de deux facteurs : le niveau de personnalisation requis et la capacité de l'équipe à maintenir l'infrastructure. Les solutions open source offrent un contrôle total mais exigent du temps d'ingénierie. Les plateformes SaaS accélèrent le démarrage mais imposent leurs contraintes.
 
 ## Témoignage d'un de nos développeurs
 

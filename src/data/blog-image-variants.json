@@ -246,6 +246,10 @@
     400,
     800
   ],
+  "cover-tech-docs": [
+    400,
+    800
+  ],
   "cover-traefik-nginx": [
     400,
     800

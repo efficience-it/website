@@ -555,6 +555,10 @@
     "author": "Jorge Mendoza",
     "url": "https://commons.wikimedia.org/wiki/File:Estanter%C3%ADa_de_la_Biblioteca_Vasconcelos.jpg"
   },
+  "technical-documentation-tools": {
+    "name": "tech-docs",
+    "sameAs": "quel-outil-choisir-pour-votre-documentation-technique"
+  },
   "quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire": {
     "name": "microservices-monolithe",
     "file": "File:Montreal's Habitat 67 at sunset (Unsplash).jpg",
