@@ -1,0 +1,137 @@
+---
+title: "Twig 4: What We Could Expect From the Next Major Release"
+date: "2024-04-11"
+updatedAt: "2026-10-12"
+author: "Louis-Arnaud Catoire"
+category: "Symfony"
+excerpt: "Twig is a well-known PHP template engine created by Symfony in 2009. With Twig 4 announced, expectations are high: typing, components and performance."
+image: "/images/blog/cover-twig-4-en.webp"
+translationOf: "twig-4-ce-que-lon-pourrait-attendre"
+translatedFromUpdatedAt: "2026-01-13"
+---
+
+## Fifteen Years of Evolution for Symfony's Template Engine
+
+[Twig](https://twig.symfony.com/) turns fifteen. Since its creation in 2009, Symfony's template engine has gone through three major versions, each marked by a modernization effort without a break in philosophy. Twig 2 accompanied the transition to PHP 7 and restructured the internal architecture. Twig 3, released in 2019, purged deprecated features and tightened the engine's contract. For developers who have lived through these cycles, the pattern is familiar: deprecation, removal, new possibilities. For those who want to have this expertise recognized, [certifications](/article/les-certifications-symfony-twig-symfony-sylius) (in French) exist.
+
+Twig 4 continues in this line, but the context has changed. The PHP ecosystem now has mature static analysis tools, front-end architectures have popularized the component approach, and the performance requirements of modern applications push us to rethink the rendering pipeline. Here is what we can reasonably anticipate.
+
+## Explicit Typing and Static Analysis of Templates
+
+The first expected change concerns typing. Twig 3 handles variables dynamically: no formal contract links the controller to the template. A developer who passes a `Product` object hopes the template will access the right properties, but nothing guarantees it before runtime.
+
+Twig 4 could introduce a `types` tag to declare the variables expected as input to the template:
+
+```twig
+{% types {product: 'App\\Entity\\Product', price: 'float'} %}
+
+<h1>{{ product.name }}</h1>
+<p>Prix : {{ price|number_format(2, ',', ' ') }} €</p>
+```
+
+The value goes beyond simple documentation. Such a tag would open the door to static analysis by [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French) or Psalm: detecting nonexistent properties, incompatible types and variables that were not passed. The template would become a verifiable artifact in the CI pipeline, just like a PHP class. For teams that maintain hundreds of templates, the gain in reliability would be considerable.
+
+This approach draws on what Askama does in the Rust ecosystem, where templates are compiled and checked at compile time. Twig would not go that far, but the principle is the same: surface errors as early as possible in the development cycle.
+
+## Lighter Syntax and Greater Expressiveness
+
+### Arrow Functions and Composable Filters
+
+Arrow functions already exist in Twig 3 (since version 3.0) with the `|filter` and `|map` filters. Twig 4 could extend their use and improve their expressiveness, especially for filter composition:
+
+```twig
+{% set filtered = users|filter(u => u.active) %}
+{% set names = users|map(u => u.firstName ~ ' ' ~ u.lastName) %}
+```
+
+Beyond syntactic comfort, this evolution would make filter composition more natural and reduce the temptation to move presentation logic into the controller.
+
+### Script Block and Less Visual Noise
+
+Introducing a `script` block would let you group several statements without repeating the `{% %}` delimiters:
+
+```twig
+{% script %}
+  set total = 0
+  set items = cart.products
+  set currency = 'EUR'
+{% endscript %}
+```
+
+For a template that initializes a dozen variables, the readability difference is tangible. This matches a recurring community request: reduce the verbosity of procedural sections while keeping the clarity of declarative ones.
+
+### Coalescing Operator
+
+The `??` coalescing operator has existed since Twig 3.14. Twig 4 could extend it with additional behaviors or deeper integration into the engine:
+
+```twig
+{{ user.nickname ?? user.firstName ?? 'Anonyme' }}
+```
+
+This replaces a five-line conditional structure in Twig 3. This kind of syntactic sugar seems anecdotal in isolation, but it transforms the day-to-day ergonomics of production templates.
+
+## Migrating From Twig 3: A Well-Marked Path
+
+Twig has applied a strict deprecation cycle since version 2: any feature removed in a major version N is first flagged as deprecated in version N-1. The migration strategy is therefore methodical.
+
+The first step is to upgrade to the latest minor version of Twig 3 and enable deprecation collection in the Symfony profiler. Each reported deprecation corresponds to a change to anticipate for Twig 4. The points of attention include the removal of legacy features, possible changes to autoescaping behavior, and alignment with the new naming conventions.
+
+For large projects, this phase deserves to be planned as a full technical project. Teams that manage dozens of bundles with their own templates should automate deprecation detection in their CI pipeline well before Twig 4 is released. A `DeprecationErrorHandler` configured in strict mode in the tests is enough to turn every deprecation into a blocking error, forcing fixes as you go.
+
+## Twig Components: Toward Native Declarative Templating
+
+### From Macros to Components
+
+Twig macros have long been the main reuse mechanism. But their ergonomics did not keep up with the evolution of practices: explicit import in every file, no slots, no real encapsulation. Twig 4 could make them easier to use with a global registration system:
+
+```twig
+{{ ui.input('email', 'Votre email') }}
+{{ ui.button('Envoyer') }}
+```
+
+But the real break lies elsewhere. The Symfony UX ecosystem introduced Twig Components with a declarative HTML syntax that could be integrated more deeply into the engine. These components are, incidentally, among the [most used bundles in modern Symfony projects](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony) (in French):
+
+```twig
+<twig:Alert type="warning" dismissible>
+    <p>Votre session expire dans 5 minutes.</p>
+</twig:Alert>
+
+<twig:Card>
+    <twig:block name="header">
+        <h2>{{ article.title }}</h2>
+    </twig:block>
+    <twig:block name="body">
+        <p>{{ article.summary }}</p>
+    </twig:block>
+</twig:Card>
+```
+
+### What This Changes for Front-End Architecture
+
+This syntax is not just a cosmetic addition. It introduces a different mental model: the template is no longer conceived as a hierarchy of inherited blocks, but as an assembly of autonomous components. Each component encapsulates its rendering, potentially its styles, and defines a clear API (its attributes).
+
+For developers used to [React](/developpement-react) (in French), Vue or Svelte, the concept is immediately familiar. For Symfony architects, it raises interesting questions: how do you organize a component library shared across several applications? How do you version a design system based on Twig Components? How do you handle the boundary between server components (Twig) and client components (Stimulus, Turbo)?
+
+Adding new extension points between the parser and the lexer would also make it easier to maintain LiveComponent, the interactive counterpart of Twig Components. The synergy between these two layers sketches a hybrid model where the server remains in charge of the initial rendering, but delegates interactivity to the client in a granular way.
+
+## Performance: Rethinking the Rendering Pipeline
+
+The performance improvements expected in Twig 4 touch the rendering pipeline itself. Reducing the use of `echo` and `ob_*` functions (output buffering) would pave the way for concatenation-based rendering, which is more favorable to PHP engine optimizations. On complex pages made of dozens of fragments, the gain can be measurable.
+
+Step-by-step debugging via source maps would be another significant step forward. Today, when a compiled template throws an exception, the developer has to mentally map the generated PHP file to the original Twig template. Source maps would eliminate this friction by letting debug tools point directly to the responsible Twig line.
+
+Finally, merging the features of TwigExtraBundle into TwigBundle would reduce ecosystem fragmentation and simplify project configuration.
+
+## Twig vs Alternatives: What Positioning?
+
+The landscape of PHP template engines has evolved. Blade (Laravel) has gained popularity thanks to its simplicity. Compiled engines like Askama or Tera in other ecosystems have shown the benefits of static typing. On the front-end side, the trend toward Server Components (React, Astro) blurs the line between server and client rendering.
+
+Twig 4 does not aim to become a front-end framework. Its positioning remains that of a server-side template engine, but one that absorbs the best ideas of its time: explicit typing, declarative components, an optimized rendering pipeline. Choosing to stay in this space, rather than attempting an artificial convergence with JavaScript frameworks, is an architectural decision in itself. It acknowledges that server rendering has its own legitimacy and that the hypermedia approach (Turbo, htmx) is a viable alternative to all-SPA.
+
+For architects designing Symfony applications, Twig 4 would confirm a trend: the Symfony front end is not a cut-rate front end, but an opinionated one, which treats the server as the main control point and JavaScript as progressive enhancement. To understand why this approach fits the framework's philosophy, the article [why choose Symfony for your projects](/article/pourquoi-choisir-symfony-pour-vos-projets) (in French) lays out its foundations. These evolutions directly enrich the [custom web development](/developpement-web-sur-mesure) (in French) projects we deliver.
+
+## Going Further
+
+- Symfony certifications: Twig and Sylius, taking the Twig certification to validate your skills
+- [Official Twig documentation](https://twig.symfony.com/doc/3.x/), the template engine reference
+- [Symfony documentation on Twig templates](https://symfony.com/doc/current/templates.html), a complete guide to usage in Symfony
