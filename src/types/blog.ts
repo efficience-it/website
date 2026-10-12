@@ -56,8 +56,6 @@ export interface BlogPost {
   imageGeoLocation?: string;
   translationOf?: string;
   translatedFromUpdatedAt?: string;
-  reviewedBy?: string;
-  reviewedAt?: string;
   proficiencyLevel?: ProficiencyLevel;
   faq?: FaqItem[];
   event?: EventSchema;

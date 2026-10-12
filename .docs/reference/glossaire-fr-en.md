@@ -1,6 +1,6 @@
 # Glossaire français-anglais
 
-Référence unique pour traduire les articles du blog. Toute traduction et toute relecture s'appuient sur ce fichier. Un terme absent du glossaire se tranche à la relecture, puis s'ajoute ici dans la même PR.
+Référence unique pour traduire les articles du blog. Toute traduction s'appuie sur ce fichier. Un terme absent du glossaire se tranche à la traduction, puis s'ajoute ici dans la même PR.
 
 ## Ce qui ne se traduit jamais
 
@@ -195,7 +195,3 @@ Les espaces avant `:` `?` `!` `;` sont supprimées. Les espaces insécables fran
 - Les liens internes pointent vers la version anglaise de l'article cible si elle existe, sinon le lien est retiré en gardant le texte.
 - Les liens externes restent identiques, sauf s'il existe une version anglaise de la même page officielle.
 - Le texte d'ancrage est traduit et reste descriptif.
-
-## Relecture
-
-Le relecteur vérifie dans l'ordre : sens, terminologie du glossaire, ton, formats, titres, liens. Chaque correction récurrente devient une ligne de ce fichier.
