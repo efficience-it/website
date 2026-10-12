@@ -286,3 +286,11 @@ describe("breadcrumbJsonLd in English", () => {
     expect(result.itemListElement[0]).toMatchObject({ position: 1, name: "Blog" });
   });
 });
+
+describe("blogItemListJsonLd for English posts", () => {
+  it("points to /en/article", () => {
+    const post = { slug: "example", title: "Example", language: "en" } as never;
+    const result = blogItemListJsonLd([post]);
+    expect(result.itemListElement[0].url).toBe("https://www.itefficience.com/en/article/example");
+  });
+});
