@@ -1,0 +1,108 @@
+---
+title: "Core Team: How to Structure a Project Team"
+date: "2026-03-16"
+updatedAt: "2026-10-12"
+author: "Luc Rousseau"
+category: "Project"
+excerpt: "Too many meetings and decisions that drag on? The Core Team model puts a small decision-making nucleus at the center, surrounded by a circle of contributors."
+image: "/images/blog/cover-core-team-model.webp"
+proficiencyLevel: "Intermediate"
+translationOf: "core-team-organisation-projet"
+translatedFromUpdatedAt: "2026-10-12"
+---
+
+Modern projects often suffer from the same symptoms: too many meetings, too many people involved and decisions that stretch over weeks. The result? A final product whose coherence erodes with every iteration.
+
+The Core Team concept, born in the Japanese automotive industry of the 1980s, offers a simple answer: a small autonomous nucleus, accountable end to end, surrounded by an ecosystem of contributors. This model fit naturally into agile practices for faster, more aligned execution. And it is not limited to web development: you find it in aerospace, pharmaceutical research and Open Source, anywhere fast decision-making makes the difference between a project that moves forward and one that bogs down.
+
+## What Is a Core Team?
+
+A Core Team is a small nucleus of 3 to 8 members, given full responsibility for the project: product vision, technical trade-offs, quality and decision-making power. This group forms the center of gravity around which a wider ecosystem of contributors orbits.
+
+The idea is not to concentrate all the work in this nucleus, but to concentrate the **decisions** there. That is what sets a Core Team apart from a conventional project team: its members do not just execute, they steer.
+
+This principle directly echoes how you structure a [modular monolith or a set of microservices](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) (in French): a central core that orchestrates, peripheral modules that contribute, and clear interfaces between the two.
+
+## The First Circle: The Decision-Making Nucleus
+
+The Core Team is designed to combine diverse expertise with fast execution. Its goal: guarantee project quality without bureaucratic weight, by aligning professionals committed for the long term (80% to 100% of their time).
+
+### Who Makes Up This Nucleus?
+
+Members are usually long-standing contributors to the project with deep technical expertise. Recruitment relies on three criteria: skills, reliability and a constructive attitude. You are not only looking for the best technicians, but for people who can make a call and carry a shared vision, much like when you build a team to [upskill on a framework](/article/les-6-etapes-pour-monter-en-competences-sur-symfony) (in French).
+
+Multidisciplinarity is a central characteristic. Tech, Product, Design, Marketing: this diversity ensures that every decision is examined from several angles. A team made up only of developers will make technically sound decisions that may be disconnected from user needs.
+
+### The Role of the Lead
+
+The Lead is not a boss in the hierarchical sense. The Lead is a facilitator, guardian of the overall vision, who makes the call when consensus is not enough. In the Symfony ecosystem, the "Mergers" team illustrates this organization well: a small trusted group with the power to approve framework changes, without bureaucracy but with rigor.
+
+### Real Decision-Making Power
+
+The Core Team's effectiveness rests on a non-negotiable principle: its members have the **right** to approve major changes, settle technical debates and prioritize the roadmap. Without this power, the model collapses and falls back into the trap of advisory committees that "recommend" without ever deciding.
+
+## The Second Circle: The Extended Ecosystem
+
+The Extended Team surrounds the Core Team and remains essential to the project. The fundamental difference: its members have no direct decision-making power. They contribute occasionally or bring specific expertise through proposals submitted to the Core Team.
+
+### Who Belongs to the Second Circle?
+
+- **Regular contributors**: developers who take an active part but without a permanent commitment
+- **Specialized experts**: legal, performance, security, infrastructure
+- **Adjacent teams**: other product teams, support, ops
+- **Active community**: power users, testers, bug reporters
+
+This concentric-circle structure is reminiscent of the [separation of responsibilities in software architecture](/article/domain-ne-devrait-jamais-connaitre-symfony) (in French). The Domain (the Core Team) does not depend on infrastructure (the Extended Team), but infrastructure feeds the Domain.
+
+### The Filtered Flow Principle
+
+The Core Team acts as a filter. All contributions go through rigorous processes (reviews, discussions, votes) that ensure consistency with the overall vision. The second circle's expertise influences the roadmap, but the Core Team keeps final say.
+
+This centralization may seem counterintuitive in a world that champions horizontality. Yet it is precisely what preserves long-term coherence and quality. You find the same logic in how [Symfony Messenger structures message flows](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) (in French): a central bus that dispatches, specialized handlers that execute, and clear rules on who handles what.
+
+## The Inner Mechanics: How Does a Core Team Work?
+
+An effective Core Team breaks with conventional management in several ways.
+
+### Asynchronous by Default
+
+Goodbye to the daily stand-up. A mature Core Team works asynchronously: daily pull request reviews, short messages to report progress and blockers, and decision documentation open to everyone. This way of working comes naturally when the team spans several time zones, but it stays relevant even when everyone is in the same place. It forces written clarity and reduces interruptions.
+
+Collaborative tools become the center of gravity: code, issues, discussions and decisions live on GitHub or GitLab. Forums or discussion spaces allow exchange with the community, with the Core Team arbitrating to maintain consistency.
+
+### Decision-Making Autonomy
+
+The Core Team must be able to say "no" or change direction without waiting for hierarchical approval. In practice, this means a voting system among members or the Lead's authority on topics without consensus. This decentralization eliminates the bureaucratic bottlenecks that paralyze so many projects.
+
+It is exactly the same principle as a good [agile specification](/article/comment-rediger-un-cahier-de-charge-pour-un-projet-agile) (in French): define a clear framework, then let the team be autonomous in execution. Our [strategic guidance](/accompagnement-et-conseil) (in French) service helps organizations structure their teams around this model.
+
+### Automation in Service of Flow
+
+Automated reviews, CI/CD, linters, tests: everything that can be automated should be. Not out of laziness, but because every repetitive task taken off a human frees up decision time. A Core Team that spends its days manually validating deployments is a Core Team that no longer decides.
+
+[Setting up tools like Newman in a CI](/article/comment-executer-des-tests-postman-avec-newman-dans-gitlab-ci) (in French) or using [static analyzers](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French) are concrete examples of automation that free up the team's decision-making bandwidth.
+
+## Core Team and Agility: Complementary, Not Competing
+
+The Core Team model does not replace Scrum, Kanban or SAFe. It layers on top of them. The Core Team defines the "what" and the "why"; the agile framework structures the "how".
+
+A conventional Product Owner often carries the product vision alone. In the Core Team model, this vision is shared and debated by the nucleus. The PO becomes a member of the Core Team rather than an isolated decision-maker, which reduces the risk of [technical debt](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French) caused by decisions made without technical context.
+
+The Scrum Master, for their part, aligns naturally with the Lead role: facilitate, unblock, protect the team from outside interference. The difference? The Lead of a Core Team also has business or technical expertise. The Lead does not just facilitate the process, but understands and challenges the content.
+
+## When to Adopt the Core Team Model?
+
+This model is not universal. It works particularly well in these contexts:
+
+- **Technically complex projects**: when architecture decisions determine success, as in a [migration to a hexagonal architecture](/article/migration-symfony-architecture-hexagonale-retour-mission) (in French)
+- **Mature Open Source projects**: Linux, Symfony and Kubernetes all run on this model
+- **Long-term vision products**: when multi-year coherence matters more than short-term velocity
+- **Distributed teams**: asynchronous work makes the model naturally suited to remote
+
+On the other hand, it is less relevant for a quick MVP with two developers, or for a project where the scope changes every week.
+
+## Going Further
+
+- [The Open Source contribution guide](/article/les-contributions-open-source-un-enjeu-de-taille-pour-les-developpeurs-et-les-projets) (in French) to understand how these circles work in practice
+- The Scrum.org documentation on the [Scrum Team](https://www.scrum.org/resources/what-scrum-team) to compare with the conventional model
+- The Toyota article on the [Chief Engineer system](https://www.lean.org/the-lean-post/articles/the-remarkable-chief-engineer/) that inspired the original concept
