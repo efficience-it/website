@@ -1,0 +1,195 @@
+---
+title: "PHPStan 2.0: Level 10 and New Features"
+date: "2025-01-06"
+updatedAt: "2026-10-12"
+author: "Louis-Arnaud Catoire"
+category: "Code quality"
+excerpt: "PHPStan 2.0 introduces level 10 for even stricter PHP static analysis. Explore the new features, the migration path from 1.x, and what they mean for your code."
+image: "/images/blog/cover-phpstan-level-10.webp"
+translationOf: "phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable"
+translatedFromUpdatedAt: "2026-03-09"
+---
+
+PHPStan 2.0 marks a turning point in PHP static analysis. Beyond the performance gains and the new level 10, this version changes how you design, document, and secure a codebase. Whether you want to migrate from 1.x or understand how the type system can support your architecture decisions, this article covers the essentials. To get straight to concrete cases, the [10 PHPStan max level errors on a Symfony project](/article/phpstan-niveau-max-symfony-10-erreurs) (in French) illustrate the most frequent ones.
+
+## What level 10 actually changes
+
+Level 9 already detected typing inconsistencies, uninitialized properties, and redundant conditions. Level 10 tackles a major blind spot: the implicit `mixed` type. A parameter with no native type or PHPDoc is implicitly `mixed`, and PHP allows any operation on it without complaint. Level 10 rejects this vagueness.
+
+Take a common case. At level 9, this code raises no error:
+
+```php
+function processData($data)
+{
+    return $data->getName();
+}
+```
+
+At level 10, PHPStan reports that `$data` is implicitly `mixed`. The call to `getName()` becomes an error, because nothing guarantees that `$data` is an object with this method. The fix is straightforward:
+
+```php
+function processData(User $data): string
+{
+    return $data->getName();
+}
+```
+
+The same principle applies to arithmetic operations. This code passes at level 9:
+
+```php
+function calculateTotal(array $items): int
+{
+    $total = 0;
+    foreach ($items as $item) {
+        $total += $item['price'] * $item['quantity'];
+    }
+    return $total;
+}
+```
+
+At level 10, `$item` is `mixed`, so accessing `price` and `quantity` is forbidden. The solution is an array shape:
+
+```php
+/**
+ * @param array<array{price: int, quantity: int}> $items
+ */
+function calculateTotal(array $items): int
+{
+    $total = 0;
+    foreach ($items as $item) {
+        $total += $item['price'] * $item['quantity'];
+    }
+    return $total;
+}
+```
+
+This is not a cosmetic annotation. It is a statically verified contract: any caller that passes an array whose structure does not match will be caught before execution.
+
+## Migrate from PHPStan 1.x to 2.0
+
+### Dependencies and extensions
+
+The update runs the usual way:
+
+```bash
+composer require --dev phpstan/phpstan:^2.0
+```
+
+Third-party extensions (phpstan-symfony, phpstan-doctrine, phpstan-phpunit) must be updated to their 2.0 compatible versions. The [phpstan-symfony repository on GitHub](https://github.com/phpstan/phpstan-symfony) lists the available integrations. Check each extension before starting the migration: an incompatible extension causes silent errors or false negatives.
+
+### Rules redistributed across levels
+
+Some rules have changed level. Errors that only appeared at level 8 now show up at level 7. If you keep a fixed level in your CI, run a full analysis again after the migration.
+
+### Baseline strategy for existing projects
+
+On a legacy project with several hundred thousand lines, enabling level 10 all at once produces thousands of errors. The baseline is the right transition tool:
+
+```bash
+phpstan analyse --generate-baseline
+```
+
+This command generates a `phpstan-baseline.neon` file that lists all existing errors. PHPStan no longer reports them in later analyses, but any new error is detected immediately. The recommended strategy is to shrink this baseline gradually, module by module, starting with the most critical layers (business domain, shared services). To speed up this refactoring work, [Rector automates repetitive transformations](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) (in French) and fits naturally into the process.
+
+Configuration options deprecated since 1.x are removed. If your `phpstan.neon` uses obsolete keys, PHPStan displays a clear message with the replacement syntax.
+
+## Type inference and always-true/always-false conditions
+
+PHPStan 2.0 significantly improves its inference engine. It detects more precisely the conditions that are always true or always false, a frequent sign of a logic bug or dead code.
+
+Consider this snippet:
+
+```php
+function handle(string $status): void
+{
+    if ($status === 'active') {
+        // ...
+    }
+
+    if ($status === 'active') {
+        // ...
+    }
+}
+```
+
+PHPStan will not report these two blocks as redundant (the flow is linear). But in a case like this one:
+
+```php
+function process(int $value): void
+{
+    if ($value > 0) {
+        if ($value >= 0) {
+            // always true
+        }
+    }
+}
+```
+
+The inner condition is always true. PHPStan detects it and reports it. This type of alert reveals dead branches, redundant checks, or misunderstandings of the data flow. This ability to detect [dead code](/article/code-mort-mission-elimination) (in French) is a powerful cleanup lever. On a mature project, fixing these alerts simplifies the code and reduces the cognitive load for the developers who maintain it.
+
+## Consistency of @var annotations
+
+PHPStan 2.0 no longer blindly trusts `@var` annotations. When the declared type diverges from the inferred type, an error is reported:
+
+```php
+/** @var string $count */
+$count = $repository->count([]);
+```
+
+`count()` returns an `int`, but the annotation declares a `string`. In 1.x, the annotation won, potentially hiding a bug. In 2.0, the inconsistency is reported. This change encourages you to remove superfluous `@var` annotations and use them only when PHPStan cannot infer the type itself (dynamic query results, deserialization).
+
+## The list type and data structure precision
+
+PHPStan 2.0 distinguishes `array<int, T>` from `list<T>`. A `list` guarantees consecutive integer keys starting at 0, which `array_values()` always produces but an arbitrary array does not guarantee:
+
+```php
+/**
+ * @param list<string> $names
+ */
+function displayNames(array $names): void
+{
+    foreach ($names as $index => $name) {
+        echo "$index: $name\n";
+    }
+}
+
+$users = [3 => 'Alice', 7 => 'Bob'];
+displayNames($users);
+```
+
+PHPStan detects that `$users` is not a `list<string>`. This distinction seems minor, but it eliminates a category of subtle bugs related to array keys after operations like `array_filter()` without `array_values()`.
+
+## Pure functions and side effects
+
+The `@phpstan-pure` annotation lets you declare that a function has no side effects. PHPStan 2.0 verifies this promise statically:
+
+```php
+/** @phpstan-pure */
+function formatPrice(int $cents): string
+{
+    return number_format($cents / 100, 2, ',', ' ') . ' €';
+}
+```
+
+This function is pure: same input, same output, no state change. Adding a call to a logger, however, makes it impure, and PHPStan reports it immediately. Explicitly marking pure functions in the domain and calculation layers strengthens predictability and makes unit testing easier.
+
+## Performance: memory and analysis time
+
+These performance gains are all the more welcome during a [PHP quality check](/audit-code-php) (in French) on large projects. PHPStan 2.0 cuts memory consumption by 50 to 70% thanks to a redesign of the internal AST structures and the elimination of circular references that slowed down the garbage collector. Analyzing PrestaShop 8.0 drops from 9 to 3 minutes. The cache has been reworked: more compact files, faster loading, and a cache directory reduced from several hundred megabytes to a few dozen. In CI, restoring and generating the cache is noticeably faster.
+
+## The type system as an architecture tool
+
+Beyond bug detection, level 10 turns PHPStan into an architecture tool. When every parameter, every method return, and every data structure is precisely typed, the code becomes self-documenting. Array shapes describe data contracts that the analyzer verifies. Union types (`string|int`) and intersection types (`Countable&Iterator`) express constraints that only integration tests could cover before.
+
+This completeness of the type system has direct architectural consequences. A service whose public methods are all typed at level 10 no longer needs defensive input validation: PHPStan guarantees that callers respect the contract. Business invariants expressed through types (a `PositiveInt` via `@phpstan-type`, a `non-empty-string` for an identifier) are checked on every call, with no guard code.
+
+PHPStan then becomes a form of living documentation. Unlike a comment or a wiki, a PHPStan type is verified on every CI run. It cannot drift from the real code. For an architect, this is a powerful lever: design decisions (layer separation, contracts between modules, shared data structures) are encoded in types and enforced automatically.
+
+Enforcing level 10 across an entire project amounts to saying: every interaction between components is explicit and verified. Combined with strict [coding conventions](/article/coding-conventions) (in French), it is a significant upfront investment, but the return is measured in bugs avoided, faster onboarding, and safe refactorings. To assess the maturity of your codebase before this level increase, a PHP technical assessment can map the critical areas. And to lock in these guarantees over time, PHPStan fits into a [Symfony test coverage strategy](/tests-automatises-php) (in French) that combines static analysis, PHPUnit, and functional tests.
+
+## Going further
+
+- [How PHPStan can improve the quality of your PHP code](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French), an introduction guide
+- [Official PHPStan blog: PHPStan 2.0 announcement](https://phpstan.org/blog/phpstan-2-0-released-level-10-elephpants), full release details
+- [PHPStan on GitHub](https://github.com/phpstan/phpstan), source code and issues
+- [PHP 8.4: new features](https://www.php.net/releases/8.4/en.php), the latest PHP version when PHPStan 2.0 was released
