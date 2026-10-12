@@ -1,14 +1,14 @@
 ---
 title: "Moderniser une application PHP legacy sans tout réécrire"
 date: "2026-03-22"
-updatedAt: "2026-03-26"
+updatedAt: "2026-10-12"
 author: "Louis-Arnaud Catoire"
 category: "Projet"
 excerpt: "Votre application PHP vieillit, mais une réécriture complète est risquée. Voici l'approche progressive pour moderniser sans casser ce qui fonctionne."
 image: "/images/blog/cover-php-legacy.webp"
 faq:
   - question: "Faut-il réécrire une application PHP legacy ?"
-    answer: "Rarement. Une réécriture complète est le projet le plus risqué en informatique : elle coûte plus cher que prévu, prend plus de temps et introduit de nouveaux bugs. L'approche privilégiée est la modernisation progressive : on stabilise l'existant, on isole les modules critiques, et on migre par étapes. C'est moins spectaculaire mais beaucoup plus sûr."
+    answer: "Rarement. Une réécriture complète est le projet le plus risqué en informatique : elle demande plus d'efforts que prévu, prend plus de temps et introduit de nouveaux bugs. L'approche privilégiée est la modernisation progressive : on stabilise l'existant, on isole les modules critiques, et on migre par étapes. C'est moins spectaculaire mais beaucoup plus sûr."
   - question: "Comment savoir si mon application PHP est legacy ?"
     answer: "Les signes les plus courants : le framework n'est plus maintenu (Symfony 3 ou antérieur), les montées de version sont impossibles, il n'y a pas de tests automatisés, les déploiements sont manuels et stressants, et chaque correction de bug en crée deux nouveaux. Si vous reconnaissez votre quotidien, votre application est legacy."
   - question: "Combien de temps prend une modernisation ?"
@@ -23,7 +23,7 @@ En tant qu'[agence spécialisée en modernisation d'applications PHP](/modernisa
 
 La réécriture complète (le "big rewrite") est le projet le plus risqué en ingénierie logicielle. Joel Spolsky l'a dit en 2000, et c'est toujours vrai en 2026. Les raisons sont structurelles :
 
-- **Le périmètre explose** : l'ancienne application fait des centaines de choses, dont certaines que personne ne documente. La nouvelle doit toutes les reproduire, plus les nouvelles fonctionnalités. Le budget double, puis triple.
+- **Le périmètre explose** : l'ancienne application fait des centaines de choses, dont certaines que personne ne documente. La nouvelle doit toutes les reproduire, plus les nouvelles fonctionnalités. La charge de travail double, puis triple.
 - **Le temps de développement est sous-estimé** : pendant que l'équipe réécrit, l'ancienne application continue de recevoir des corrections et des évolutions. La cible bouge en permanence.
 - **Les risques de régression sont énormes** : des comportements implicites de l'ancienne application (contournements, cas limites, règles métier non documentées) sont oubliés dans la réécriture et se révèlent en production.
 

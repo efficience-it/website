@@ -1,0 +1,96 @@
+---
+title: "Modernize a Legacy PHP App Without a Full Rewrite"
+date: "2026-03-22"
+updatedAt: "2026-10-12"
+author: "Louis-Arnaud Catoire"
+category: "Project"
+excerpt: "A full rewrite of your aging PHP application is a risky bet. Here is the step-by-step approach to modernize it without breaking anything that already works."
+image: "/images/blog/cover-legacy-php.webp"
+translationOf: "moderniser-application-php-legacy-sans-tout-reecrire"
+translatedFromUpdatedAt: "2026-10-12"
+faq:
+  - question: "Should you rewrite a legacy PHP application?"
+    answer: "Rarely. A full rewrite is the riskiest project in IT: it takes more effort than planned, takes longer, and introduces new bugs. The preferred approach is gradual modernization: stabilize what exists, isolate the critical modules, and migrate in stages. It is less spectacular but much safer."
+  - question: "How do you know if your PHP application is legacy?"
+    answer: "The most common signs: the framework is no longer maintained (Symfony 3 or earlier), version upgrades are impossible, there are no automated tests, deployments are manual and stressful, and every bug fix creates two new ones. If this sounds like your daily routine, your application is legacy."
+  - question: "How long does modernization take?"
+    answer: "From 3 to 12 months depending on the size of the application and the depth of the technical debt. The advantage of the gradual approach is that every step delivers value: the first improvements (CI/CD, static analysis, critical fixes) take a few weeks and reduce risk immediately."
+---
+
+Your PHP application has been running for years. It does the job, users rely on it every day, and part of your revenue depends on it. But under the hood, things are getting worse: version upgrades are impossible, every bug fix is an adventure, and nobody wants to touch certain modules anymore. The temptation to rewrite everything is strong. It is almost always a mistake.
+
+As an [agency specialized in PHP application modernization](/modernisation-application-php) (in French), we support companies facing this situation. Here is the approach that works.
+
+## Why a full rewrite is a trap
+
+The full rewrite (the "big rewrite") is the riskiest project in software engineering. Joel Spolsky said so in 2000, and it is still true in 2026. The reasons are structural:
+
+- **The scope explodes**: the old application does hundreds of things, some of which nobody has documented. The new one must reproduce all of them, plus the new features. The workload doubles, then triples.
+- **Development time is underestimated**: while the team rewrites, the old application keeps receiving fixes and new features. The target moves constantly.
+- **Regression risks are huge**: implicit behaviors of the old application (workarounds, edge cases, undocumented business rules) are forgotten in the rewrite and surface in production.
+
+The right approach is gradual modernization. You do not throw away what exists: you improve it in stages, starting with what has the most impact.
+
+## Step 1: assess the real state
+
+Before any intervention, you need to understand what you are dealing with. A [thorough technical audit](/audit-code-php) (in French) maps the technical debt, identifies risks, and prioritizes actions. Our article on [how an audit works at Efficience IT](/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede) (in French) details the process. In an acquisition or takeover context, the [technical due diligence checklist](/article/due-diligence-technique-application-symfony-checklist-repreneur) (in French) lists the signals to check first.
+
+The points to evaluate first:
+
+- **Framework version**: Symfony 3, 4, or 5? Laravel 5 or 6? No framework at all? The [Symfony migration guide](/article/guide-de-migration-dans-un-projet-symfony) (in French) details the implications of each version.
+- **Test coverage**: zero tests is common in legacy projects. It is the first obstacle to any change. Automated tests are the number one priority.
+- **Code quality**: static analysis with PHPStan reveals structural problems invisible to the naked eye. Accumulated dead code is also a sign of debt.
+- **Infrastructure**: manual deployments, no CI/CD, an unmaintained server? Moving to Docker and a continuous integration pipeline stabilizes the environment before you even touch the code.
+
+The [free 30-minute Symfony audit](/audit-symfony-gratuit) (in French) is a good entry point for a first assessment.
+
+## Step 2: stabilize before modernizing
+
+The first mistake is trying to modernize the code before stabilizing the process. Without a safety net, every change is a risk. Stabilization involves:
+
+### Set up tests
+
+You do not need to aim for 100% coverage. The goal is to protect the critical paths: payment flows, business calculations, third-party integrations. End-to-end functional tests (smoke tests) are enough to start. You can add them without modifying the existing code.
+
+### Automate deployments
+
+Moving from manual deployment (FTP, SSH, "we are careful") to a CI/CD pipeline drastically reduces risk. Every change is tested automatically before it reaches production. It is an investment of a few days that pays off within the first month.
+
+### Introduce static analysis
+
+Start with PHPStan at level 1, then raise it gradually. Use Rector to automate syntax fixes and code updates. These tools fix hundreds of problems without manual intervention.
+
+## Step 3: modernize module by module
+
+Once the application is stable, modernization can begin. The modular approach is the key: you isolate a module, modernize it, check that everything works, then move on to the next one.
+
+### The Strangler Fig approach
+
+Inspired by Martin Fowler's [Strangler Fig](https://martinfowler.com/bliki/StranglerFigApplication.html) pattern, this strategy consists of building new features in a modern architecture (for example a hexagonal architecture with Symfony) while leaving the old code in place. Gradually, the new code replaces the old, module by module.
+
+Our case study on migrating to a hexagonal architecture details this approach on a concrete example. It is the method we use most often with our clients.
+
+### Migrate the framework
+
+If the application runs on an obsolete framework (Symfony 3, Zend Framework, CodeIgniter), the [migration to a Symfony LTS version](/migration-symfony) (in French) is a priority. The Rector tool automates a large part of the code changes. The rest is done manually, relying on the tests put in place in step 2.
+
+### Extract services
+
+Legacy applications are often monolithic: everything lives in the same code, with no clear separation. Extracting services (authentication, notifications, business calculations) into independent modules, connected through Symfony Messenger or internal APIs, brings flexibility without imposing a full microservices architecture. Our article on choosing between microservices and a modular monolith helps you find the right balance.
+
+## Step 4: secure and make it last
+
+Modernization does not stop at rewriting the code. It includes putting in place the safeguards that will prevent technical debt from coming back:
+
+- **Complete CI/CD pipeline**: lint, static analysis, tests, automated deployment. Every pull request is validated before it is merged.
+- **Planned version upgrades**: [Symfony LTS versions](https://symfony.com/releases) guarantee 3 years of support. Planning version upgrades avoids breaking changes piling up.
+- **Technical documentation**: up-to-date documentation, produced with the Diataxis approach, makes onboarding new developers easier and reduces dependence on the few people who know the system.
+- **Application security**: security audit, CVE management, regular dependency updates.
+
+## Should you keep it in-house or outsource?
+
+Modernizing a legacy application requires deep skills in Symfony, architecture, and technical debt management. If your team does not have these skills in-house, outsourcing to a specialized service provider is often the most effective choice.
+
+Our [Symfony project takeover](/reprise-projet-symfony) (in French) offer is designed for these situations: we take over existing applications, with an honest audit and gradual stabilization. For teams that want to upskill at the same time, our in-house Symfony training combines knowledge transfer with work on the project's real code.
+
+The first step, in every case, is a diagnosis. The free 30-minute Symfony audit lets you assess the situation and define a realistic action plan, with no commitment. Before writing specifications, this conversation lays the foundations of the project and keeps you from heading in the wrong direction.

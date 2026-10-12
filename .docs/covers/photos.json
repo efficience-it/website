@@ -547,6 +547,10 @@
     "author": "Jebulon",
     "url": "https://commons.wikimedia.org/wiki/File:Restoration_work_Parthenon_facade_Acropolis_Athens_Greece.jpg"
   },
+  "modernize-legacy-php-app": {
+    "name": "legacy-php",
+    "sameAs": "moderniser-application-php-legacy-sans-tout-reecrire"
+  },
   "monofony-le-guide-ultime-pour-les-debutants": {
     "name": "monofony",
     "file": "File:Fern frond. (9572140631).jpg",
