@@ -209,6 +209,10 @@
     "author": "AnonymousUnknown author",
     "url": "https://commons.wikimedia.org/wiki/File:Pinus_longaeva_in_snow_Great_Basin_NP_1.jpg"
   },
+  "dora-symfony-resilience": {
+    "name": "dora-resilience",
+    "sameAs": "conformite-dora-resilience-symfony"
+  },
   "conformite-nis2-application-symfony": {
     "name": "conformite-nis2",
     "file": "File:Saint Nicolas Fort Rhodes Harbour night.jpg",

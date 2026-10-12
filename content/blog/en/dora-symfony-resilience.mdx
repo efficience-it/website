@@ -1,0 +1,68 @@
+---
+title: "DORA Compliance: Making Symfony Applications Resilient"
+date: "2026-06-02"
+author: "Louis-Arnaud Catoire"
+category: "Security"
+excerpt: "The DORA regulation demands operational resilience. Here are the technical workstreams for a Symfony application: traceability, continuity and observability."
+image: "/images/blog/cover-dora-resilience.webp"
+updatedAt: "2026-10-12"
+translationOf: "conformite-dora-resilience-symfony"
+translatedFromUpdatedAt: "2026-06-02"
+faq:
+  - question: "Who is covered by the DORA regulation?"
+    answer: "DORA applies to a wide range of financial entities: banks, insurers, asset management companies, payment service providers, crypto platforms, and also their critical third-party IT providers. A fintech or a software vendor serving these players generally falls within scope, either directly or as a third party."
+  - question: "Does DORA replace NIS2?"
+    answer: "No. DORA is a lex specialis for the financial sector: it takes precedence over NIS2 for financial entities on the topics it covers. Both frameworks share a common logic of risk management and incident reporting, which lets you pool a large share of the technical work."
+  - question: "What is an exit strategy under DORA?"
+    answer: "DORA requires documented exit plans for critical third-party providers, notably cloud providers. In practice, you must be able to migrate an application to another provider without irreversible technical dependency: containerization, infrastructure as code and decoupling of business logic are the levers that make this reversibility real rather than theoretical."
+---
+
+**Resilience is not security.** Security prevents the incident. Resilience ensures the service holds up and recovers when an incident happens anyway. That is exactly the bet behind the DORA regulation for the European financial sector: assume that an outage or an attack will eventually occur, and require systems to be designed to survive it. On a Symfony application, this translates into specific technical workstreams.
+
+## DORA, a Directly Applicable Regulation
+
+[Regulation (EU) 2022/2554](https://eur-lex.europa.eu/eli/reg/2022/2554/oj), known as DORA (Digital Operational Resilience Act), governs the digital operational resilience of financial players. Unlike a directive, a European regulation is directly applicable: it does not need to be transposed into national law to take effect. Its requirements cover technology risk management, reporting of major incidents, resilience testing and oversight of third-party providers.
+
+The spirit of the text matters. DORA does not ask you to promise that outages will never happen. It asks you to prove that the organization can detect, absorb and recover from an incident, and that it has tested this.
+
+## Who Is Covered by DORA
+
+The scope is broad: credit institutions, investment firms, insurers, asset management companies, payment service providers, crypto-asset platforms, and notably their third-party IT providers deemed critical. A fintech that builds its own platform, like a software vendor that supplies a component to a financial player, is affected, either directly or through contractual ripple effects.
+
+For these teams, DORA is not only a legal compliance topic. It is a software quality specification that largely overlaps with what a serious engineering team already does, but with an obligation to formalize and prove it. If you operate in fintech, our [DORA checklist for financial players](/article/dora-fintech-resilience-technique-symfony) (in French) details the contractual clauses to demand and the penalties you face.
+
+## What We Cover Technically
+
+### Code Traceability and the Build Pipeline
+
+DORA requires you to control the integrity of your systems. That starts with the software production chain. We set up signing of Git commits and build artifacts, to guarantee that no unverified code reaches production. Combined with systematic review and reproducible pipelines, this traceability answers a simple but crucial question when an incident occurs: who changed what, when, and with what approval.
+
+### Continuity and Disaster Recovery Plan
+
+Continuity rests on concrete foundations: tested backups, documented restoration procedures, redundancy of critical components and quantified recovery objectives (RTO and RPO). We design architectures where the database, the message queue and storage can be restored within controlled timeframes. Above all, we actually test these procedures: a backup that has never been restored is only a hypothesis, not a guarantee. A well-designed [caching and invalidation strategy](/article/tout-savoir-sur-la-mise-en-cache-tips) (in French) also contributes to resilience by absorbing spikes and reducing reliance on a single component.
+
+### Exit Strategy and Reversibility
+
+DORA requires exit plans for critical third-party providers, cloud first of all. The goal is to avoid lock-in: being able to migrate an application to another provider without a rewrite. Containerization plays a central role here, as we explain in our article on [why Docker is essential in production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) (in French). Decoupling business code from infrastructure, for example through a [hexagonal architecture drawn from a project retrospective](/article/migration-symfony-architecture-hexagonale-retour-mission) (in French), makes this reversibility real rather than theoretical.
+
+### Observability With OpenTelemetry
+
+You cannot manage resilience without measurement. We instrument Symfony applications with [OpenTelemetry](https://opentelemetry.io/), the open telemetry standard, to produce correlated traces, metrics and logs. This observability lets you detect a degradation before the outage, measure real recovery times and provide the evidence expected during an inspection. It naturally extends the security logging work required by other regulatory frameworks.
+
+## Testing Resilience, Not Only Code
+
+DORA insists on resilience testing. Beyond unit and functional tests, the goal is to verify how the system behaves under degraded conditions: loss of a service, abnormal latency, sudden load spikes. A solid base of [automated tests](/tests-automatises-php) (in French) is the essential prerequisite before introducing controlled failure scenarios. Understanding how a vulnerability spreads, as our article on [CVEs and how to handle them](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) (in French) details, also helps you design relevant tests rather than cosmetic ones.
+
+## Oversight of Third-Party Providers
+
+DORA gives unprecedented weight to third-party IT providers. A financial entity remains responsible for the services it outsources, which means documenting its dependencies and setting contractual boundaries for its critical suppliers. Technically, this means a precise inventory of the external services the application calls: payment APIs, authentication providers, hosting, messaging services. Each dependency must be identified, its criticality assessed, and its unavailability anticipated through a degraded mode. We map these integrations and design application safeguards (timeouts, circuit breakers, buffer queues) so that an external failure does not spread to the whole service. This discipline directly supports the regulation's continuity and reversibility requirements.
+
+## Aligning DORA With NIS2 and RGAA
+
+DORA is a lex specialis: for a financial entity, it takes precedence over the [NIS2 directive](/article/conformite-nis2-application-symfony) (in French) on the topics it covers. But the two share a common backbone: risk management, logging, incident reporting, control of dependencies. If your application also serves the public sector, the [RGAA accessibility](/article/normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous) (in French) obligations complete the picture. Handling these frameworks in a coordinated way avoids fragmentation and redundant workstreams.
+
+## Getting Started
+
+DORA compliance for a Symfony application is built, not decreed. The starting point is an honest assessment: where do traceability, continuity, reversibility and observability stand today. This assessment becomes the roadmap, prioritized by real risk rather than regulatory pressure. The good news is that most of these workstreams also improve the everyday quality of the product: a resilient system is easier to operate, debug and evolve. This is the approach we follow in our [NIS2 and DORA compliance preparation](/preparation-conformite-symfony) (in French).
+
+To assess the resilience of your platform and build an action plan, rely on our expertise in [Symfony application security](/securite-application-symfony) (in French) or [contact our team](/contact) (in French) to discuss it.
