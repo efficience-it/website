@@ -1,0 +1,113 @@
+---
+title: "Express, Fastify or Hono: Which Node.js Framework?"
+date: "2026-03-11"
+updatedAt: "2026-10-12"
+author: "Louis-Arnaud Catoire"
+category: "JavaScript"
+excerpt: "Node.js frameworks compared in 2026. Express, Fastify, Hono and NestJS: strengths, weaknesses and use cases to help you choose the right tool for your API."
+image: "/images/blog/cover-nodejs-frameworks-en.webp"
+translationOf: "express-fastify-hono-quel-framework-nodejs-choisir"
+translatedFromUpdatedAt: "2026-03-26"
+---
+
+In 2026, Express is still the most downloaded Node.js framework in the world, with more than 35 million weekly downloads on npm. Fastify is nipping at its heels on performance benchmarks, Hono has established itself in the edge and serverless world, and NestJS has become the reference for enterprise APIs. Choosing among these four options is not trivial: the choice shapes the performance of your API, the productivity of your team and the maintainability of the project over five years. Here is a factual comparison to help you decide.
+
+## Express: The Essential Veteran
+
+Released in 2010, Express is the oldest of the [Node.js frameworks](/developpement-nodejs) (in French) still in massive use. Its longevity is no accident: it laid the foundations of most of the patterns used across the Node.js ecosystem. Every tutorial, every course, every bootcamp starts with Express. This ubiquity is both its greatest strength and a sign of its relative stagnation.
+
+### Strengths
+
+Express's middleware ecosystem is unmatched, much like [bundles in the Symfony ecosystem](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony) (in French). Thousands of npm packages are built around its API: Passport for authentication, Multer for files, Helmet for header security, Morgan for logging. Finding an Express package to solve a problem rarely takes more than a few minutes. The documentation is exhaustive, the community is huge, and Stack Overflow is full of answers to every imaginable question.
+
+For projects that must integrate third-party tools or rely on specialized libraries, Express offers the best compatibility rate. It is also the framework that almost every Node.js developer already knows, which brings onboarding time down to zero.
+
+### Limits
+
+Express does not natively handle [TypeScript](/developpement-typescript) (in French). You have to add the `@types/express` types and set up a separate build chain. The error handling model relies on four-parameter callbacks `(err, req, res, next)`, a pattern that dates back to 2010 and clashes with modern practices based on `async/await` and Promises. Performance is respectable for common uses, but Express loses clearly to Fastify on high-throughput request benchmarks.
+
+Express is a perfect fit for prototypes, modest-sized APIs and projects that need maximum compatibility with the existing npm ecosystem. For a new project with critical performance requirements, look elsewhere.
+
+## Fastify: Performance First
+
+Fastify was born out of direct frustration with Express's performance. Its creators, including Matteo Collina (a member of the Node.js Technical Steering Committee), designed a framework whose architecture is optimized from top to bottom for speed. The result is striking: Fastify handles on average two to three times more requests per second than Express in standard benchmarks.
+
+### Strengths
+
+Fastify's secret comes down to two mechanisms. First, validation and serialization based on JSON Schema: Fastify compiles your schemas into optimized validation functions, eliminating the usual cost of JSON serialization. Second, the internal router built on `find-my-way`, a highly performant radix tree that beats naive solutions based on regular expressions.
+
+Fastify's plugin system is another architectural success. Each plugin encapsulates its dependencies in an isolated context thanks to the encapsulation mechanism, which avoids side effects between plugins and makes unit testing easier. TypeScript is supported natively, with no extra configuration.
+
+Fastify is particularly well suited to [high-traffic custom APIs](/article/api-rest-les-bonnes-pratiques) (in French), microservices and any architecture where latency is a first-order criterion.
+
+### Limits
+
+The ecosystem of official plugins is much smaller than Express's. Some third-party libraries do not yet have a native Fastify plugin, which sometimes forces you to write a wrapper. The learning curve is steeper than with Express: the plugin system, request decoration and schemas take a few days to fully grasp.
+
+Fastify is ideal for high-throughput APIs, microservices and any context where performance is non-negotiable.
+
+## Hono: The Edge-First Framework
+
+Hono is the newcomer that has been shaking up the ecosystem since 2022. Its positioning is radical: a framework designed from the start for edge, serverless and multi-runtime environments. Hono runs on Node.js, but also on Deno, Bun, Cloudflare Workers, Fastly Compute and other runtimes that support the Web Standards APIs.
+
+### Strengths
+
+Hono's promise is simple: a single codebase that runs everywhere. Unlike Express or Fastify, which are tightly coupled to Node.js APIs, Hono relies on the standard Web APIs (Request, Response, Headers), which lets it run natively in any standards-compliant JavaScript environment. The full bundle weighs less than 14 kB, which makes it an obvious choice for edge deployments where cold start size matters.
+
+The developer experience is polished: typed routing, native JSX support for template rendering, and ready-to-use middleware for common needs (CORS, JWT authentication, rate limiting). Hono is also remarkably fast: it sits in the same range as Fastify on Node.js benchmarks.
+
+Hono is the natural choice for serverless functions, Cloudflare Workers, lightweight APIs and any project that values portability across runtimes. It also fits naturally into architectures where [monoliths and microservices](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) (in French) coexist.
+
+### Limits
+
+Hono is young. The ecosystem of third-party middleware remains limited compared to Express, and there are still few lessons learned from large-scale production projects. For a critical project that needs a mature community and solid industry references, the lack of track record can be a hurdle.
+
+## NestJS: Enterprise Architecture
+
+NestJS is in a category of its own. It does not try to be the lightest or the fastest: it tries to provide a complete architectural framework for building large back-end applications. Its model is explicitly inspired by Angular: modules, controllers, services, dependency injection and TypeScript decorators.
+
+### Strengths
+
+NestJS imposes a structure. On a team project with ten developers that will last five years, this rigidity becomes a considerable asset. Everyone writes code that looks alike, onboarding new members is sped up by the predictability of the architecture, and unit testing is made easier by a native dependency injection system.
+
+Support for GraphQL, WebSockets, gRPC and microservices is built in. NestJS supports several HTTP adapters under the hood: Express by default, or Fastify for teams that want Fastify's performance without giving up NestJS's structure. For teams coming from a Java or PHP world with Symfony, [whose hexagonal architecture](/article/migration-symfony-architecture-hexagonale-retour-mission) (in French) is close to the NestJS model, getting started is intuitive.
+
+### Limits
+
+The learning curve is steep, comparable to that of a framework like Symfony where [upskilling happens step by step](/article/les-6-etapes-pour-monter-en-competences-sur-symfony) (in French). Decorators, modules, guards, pipes, interceptors: it takes several weeks to master all the concepts. On a small project, NestJS's overhead is clearly disproportionate. The framework also generates a significant amount of boilerplate code, even for simple features.
+
+NestJS is the right choice for enterprise APIs, large teams and projects that need a strict architecture over time. For teams that want to outsource building a [NestJS API](/api-nodejs-nestjs) (in French), this architectural choice offers a solid framework that stays maintainable in the long run.
+
+## Comparison Table
+
+| Framework | Performance | Ecosystem | TypeScript | Ideal use case | Learning curve |
+|-----------|-------------|-----------|------------|----------------|----------------|
+| Express | Medium | Very rich | Via types | Prototypes, small APIs | Low |
+| Fastify | Very high | Good | Native | High-performance APIs, microservices | Medium |
+| Hono | High | Growing | Native | Edge, serverless, multi-runtime | Low |
+| NestJS | Medium | Rich | Native | Enterprise, large teams | High |
+
+## How to Choose
+
+The right framework depends above all on the project's context, not on benchmarks.
+
+**You are building a prototype or a small API** and need to move fast: Express or Hono. Express if your team already knows it, Hono if you are going serverless or want to experiment with a modern tool.
+
+**Performance is a critical criterion** and you have high traffic or strict latency constraints: Fastify is the answer. Its performance-to-complexity ratio is the best on the market for traditional Node.js APIs.
+
+**You deploy on Cloudflare Workers, Vercel Edge Functions or an edge runtime**: Hono is made for that. No other framework will give you the same portability and the same cold start.
+
+**You are building an enterprise API with a large team** and the project must last for years: NestJS. The imposed structure is an investment that pays off over time. Developers coming from Symfony or Spring will find the patterns familiar. Our Node.js development offering relies on these same architecture principles, whether with Express, Fastify or NestJS depending on the context.
+
+**You need a clear structure but not all of NestJS's overhead**: Fastify with its plugins offers a good compromise. Its encapsulation system encourages modular organization without imposing a full module framework.
+
+Choosing a [code editor suited to your workflow](/article/phpstorm-vscode-sublimetext-netbeans-quel-editeur-de-code-choisir) (in French) is just as important as choosing the framework: good TypeScript tooling makes a real difference every day on Fastify, Hono and NestJS.
+
+## Going Further
+
+- [Custom frontend development](/developpement-frontend) (in French), connecting a React or Vue.js frontend to your Node.js APIs
+- REST API design best practices, the fundamental principles that apply whichever framework you choose
+- Modular monolith or microservices: which architecture to choose?, the architectural considerations that influence the choice of framework
+- Which code editor to choose?, equipping your Node.js development environment with TypeScript
+- [Node.js](https://nodejs.org/), the official site with documentation and getting-started guides
+- [Fastify](https://fastify.dev/), the official framework documentation with benchmarks and migration guides

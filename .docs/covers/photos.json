@@ -319,6 +319,10 @@
     "url": "https://commons.wikimedia.org/wiki/File:Eugenes_spectabilis_in_Costa_Rica_01.jpg",
     "focusX": 0.5
   },
+  "nodejs-framework-comparison": {
+    "name": "nodejs-frameworks-en",
+    "sameAs": "express-fastify-hono-quel-framework-nodejs-choisir"
+  },
   "forces-et-faiblesses-des-ia-generatives-les-plus-utilisees": {
     "name": "ia-generatives",
     "file": "File:Succulent center in macro (Unsplash).jpg",
