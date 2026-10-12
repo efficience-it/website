@@ -294,6 +294,10 @@
     "author": "Brigitte Werner (werner22brigitte)",
     "url": "https://commons.wikimedia.org/wiki/File:Sedimentary_Rock_Layers_Zabriskie_Point_Death_Valley_USA.jpg"
   },
+  "doctrine-orm-3-changes": {
+    "name": "doctrine-orm-3-en",
+    "sameAs": "doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees"
+  },
   "domain-ne-devrait-jamais-connaitre-symfony": {
     "name": "domain-symfony",
     "file": "File:Lone tree Lake Wanaka. NZ (15479105003).jpg",

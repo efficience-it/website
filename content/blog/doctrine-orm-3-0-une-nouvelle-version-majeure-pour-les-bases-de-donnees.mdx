@@ -6,7 +6,7 @@ category: "Symfony"
 excerpt: "Dans le domaine des bibliothèques de persistance des bases de données en PHP, peu de noms portent autant de poids que Doctrine ORM."
 image: "/images/blog/cover-doctrine-orm-3.webp"
 proficiencyLevel: "Expert"
-updatedAt: "2026-10-09"
+updatedAt: "2026-10-12"
 ---
 
 ## Doctrine ORM 3.0 : ce qui change concrètement pour vos projets PHP
@@ -45,7 +45,7 @@ Cette évolution transforme la détection d'erreurs. Là où un bug de typage da
 
 La gestion des associations `ManyToMany`, `OneToMany` et `ManyToOne` bénéficie d'une validation renforcée au moment du mapping. Les attributs `mappedBy` et `inversedBy` font l'objet d'une vérification systématique sur les relations bidirectionnelles. En cas d'incohérence, Doctrine lève une exception explicite au lieu de produire un comportement silencieusement incorrect.
 
-Cette rigueur élimine une catégorie entière de bugs qui se manifestaient par des données non persistées ou des requêtes SQL inattendues, des problèmes particulièrement coûteux à diagnostiquer en production.
+Cette rigueur élimine une catégorie entière de bugs qui se manifestaient par des données non persistées ou des requêtes SQL inattendues, des problèmes particulièrement difficiles à diagnostiquer en production.
 
 ### Évolution du système de proxies
 
