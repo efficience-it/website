@@ -282,6 +282,10 @@
     400,
     800
   ],
+  "cover-mysql-bigint": [
+    400,
+    800
+  ],
   "cover-mysql-postgresql": [
     400,
     800

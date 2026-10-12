@@ -1,0 +1,185 @@
+---
+title: "INT ID Limit: How to Migrate to BIGINT"
+date: "2022-02-11"
+author: "Louis-Arnaud Catoire"
+category: "Architecture"
+excerpt: "Hit the maximum INT ID in MySQL and everything stops. Learn how to migrate to BIGINT without downtime, monitor auto-increments and rethink your identifiers."
+image: "/images/blog/cover-mysql-bigint.webp"
+proficiencyLevel: "Expert"
+translationOf: "arrives-au-max-des-id-int-2147483647"
+updatedAt: "2026-10-12"
+translatedFromUpdatedAt: "2026-10-12"
+---
+
+## Why 2,147,483,647 is an unavoidable wall
+
+A MySQL `INT SIGNED` stores its values on 4 bytes, which caps the address space at 2^31 - 1 for positive values. This ceiling looks comfortable on paper, but a system that generates rows at a high rate (application logs, business events, message queues, notification histories) can reach it within a few years. Worse, mass deletions followed by reinsertions do not recover the consumed identifiers: the auto-increment never goes backward. For teams considering a [migration from MySQL to PostgreSQL](/article/migration-mysql-postgresql-doctrine-guide) (in French), this constraint can be an extra motivation.
+
+The day the limit is crossed, MySQL returns an `Out of range value for column` error and refuses any new insert. The whole application freezes, queues saturate, and resolution time is measured in minutes of lost revenue.
+
+Switching to `UNSIGNED` doubles the capacity to about 4.2 billion, but it only postpones the deadline. The real solution is to migrate to `BIGINT` (8 bytes, up to 2^64 - 1), or better, to rethink your identifier strategy from the design stage.
+
+## What MySQL does not forgive
+
+Before diving into migration strategies, you need to understand the internal MySQL behaviors that turn a seemingly simple operation into an operational trap.
+
+Killing a MySQL process in the middle of an `ALTER TABLE` does not free the resources. The InnoDB engine launches an internal rollback that rebuilds the table's previous state, an operation that is sometimes more expensive than the `ALTER` itself. On tables of several dozen GB, recovery times of 24 to 48 hours have been observed in production, with CPU and I/O saturated the whole time.
+
+`ALTER TABLE` statements with `ALGORITHM=COPY` lock writes during the rebuild. On a table with heavy insert traffic, that means an effective service outage, even if reads remain possible in `READ UNCOMMITTED`. This behavior forces you to choose your maintenance window precisely or to opt for methods that avoid locking.
+
+## Migration strategies: from quick fix to zero downtime
+
+The choice of method depends on three variables: the size of the table, the tolerance for service interruption and the complexity of the foreign key graph. Each approach starts by reducing unnecessary constraints during the operation:
+
+```sql
+SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+SET FOREIGN_KEY_CHECKS = 0;
+```
+
+The first statement avoids read locks on the copied rows. The second disables foreign key checks, which speeds up copy operations considerably but requires you to validate consistency manually after the migration.
+
+In every case, **any procedure must be tested on a mirror environment with power equivalent to production**, for example by using [DbToolsBundle to anonymize your test data](/article/dbtoolsbundle-anonymiser-vos-bases-de-donnees) (in French).
+
+### Switch to UNSIGNED (tables under 1 GB)
+
+The fastest method is to double the capacity without changing the type:
+
+```sql
+ALTER TABLE table
+CHANGE `id` `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+ALGORITHM=COPY, LOCK=SHARED;
+```
+
+Estimated duration: 1 to 5 minutes. This approach only postpones the problem, but it buys time to plan a structural migration to BIGINT. It suits emergencies where the service is already down.
+
+### Direct ALTER to BIGINT (tables under 1 GB)
+
+For modest-size tables without a complex foreign key graph:
+
+```sql
+ALTER TABLE table
+CHANGE `id` `id` BIGINT(12) UNSIGNED NOT NULL AUTO_INCREMENT,
+ALGORITHM=COPY, LOCK=SHARED;
+```
+
+Simple but blocking: writes are suspended for the whole duration of the operation. On a 500 MB table, expect anywhere from 10 minutes to several hours depending on disk performance and concurrent load.
+
+### Column swap (tables of a few GB)
+
+This gradual method minimizes lock time by splitting the operation into atomic steps.
+
+```sql
+ALTER TABLE table ADD `new_id` BIGINT(12) UNSIGNED NOT NULL;
+```
+
+Data is copied in batches to limit the load:
+
+```sql
+UPDATE table SET new_id = id WHERE new_id = 0 LIMIT 10000;
+```
+
+Then the columns are switched:
+
+```sql
+ALTER TABLE table DROP PRIMARY KEY;
+ALTER TABLE table CHANGE id old_id INT;
+ALTER TABLE table CHANGE new_id id BIGINT UNSIGNED AUTO_INCREMENT, ADD PRIMARY KEY(id);
+```
+
+Once the migration is validated, the `old_id` column is dropped. This approach lends itself well to automation through a batch script that dynamically adjusts the batch size based on the observed load.
+
+### Table swap (tables of 10 GB and more)
+
+For large volumes, creating a mirror table offers the best control:
+
+```sql
+CREATE TABLE table_v2 LIKE table;
+ALTER TABLE table_v2 CHANGE id id BIGINT(12) UNSIGNED NOT NULL AUTO_INCREMENT;
+```
+
+The new table's auto-increment picks up where the old one stopped:
+
+```sql
+SELECT AUTO_INCREMENT FROM information_schema.TABLES
+WHERE TABLE_NAME='table' AND TABLE_SCHEMA='database';
+ALTER TABLE table_v2 AUTO_INCREMENT = 2147483648;
+```
+
+Batch copying gradually feeds the new table:
+
+```sql
+INSERT INTO table_v2 SELECT * FROM table LIMIT 10000;
+```
+
+The final switch is atomic:
+
+```sql
+RENAME TABLE table TO table_old, table_v2 TO table;
+```
+
+The `RENAME TABLE` statement in MySQL is a metadata operation: it copies nothing, it swaps pointers. The real downtime is limited to a few milliseconds. This is the most reliable method for large databases, at the expense of a longer procedure to orchestrate.
+
+## Beyond the fix: online migration tools
+
+MySQL's native methods all force a trade-off between simplicity and availability. For environments where the slightest downtime is unacceptable, tools like `pt-online-schema-change` (Percona Toolkit) or `gh-ost` (GitHub) let you change a schema without locking. Their principle: create a shadow table, apply the change to it, then continuously synchronize writes through triggers (Percona) or binlog replication (gh-ost) before switching atomically. These tools add operational complexity but guarantee true zero downtime on tables of hundreds of GB.
+
+## Detect before you suffer: preventive monitoring
+
+An auto-increment running out of room should never be discovered through a production error. Structured monitoring prevents it.
+
+The following query, run periodically, gives the fill rate of each auto-increment:
+
+```sql
+SELECT TABLE_SCHEMA, TABLE_NAME, AUTO_INCREMENT,
+  COLUMN_TYPE,
+  CASE
+    WHEN COLUMN_TYPE LIKE '%unsigned%'
+      THEN AUTO_INCREMENT / 4294967295 * 100
+    ELSE AUTO_INCREMENT / 2147483647 * 100
+  END AS pct_used
+FROM information_schema.TABLES t
+JOIN information_schema.COLUMNS c
+  ON t.TABLE_SCHEMA = c.TABLE_SCHEMA
+  AND t.TABLE_NAME = c.TABLE_NAME
+  AND c.EXTRA = 'auto_increment'
+WHERE t.TABLE_SCHEMA NOT IN ('mysql','information_schema','performance_schema','sys')
+ORDER BY pct_used DESC;
+```
+
+Adding this check to a cron job or a Prometheus/Datadog check with an alert at 60% fill gives you several months of margin to plan a calm migration.
+
+## Prevent through architecture: rethink identifiers
+
+The real architecture question is not "how do we migrate to BIGINT" but "why do we depend on a single-table sequential counter". Integer auto-increments pose several structural problems beyond saturation: they leak information (a competitor can estimate your activity volume by observing the IDs), they create a contention point on insertion (the counter is a global lock), and they do not survive sharding.
+
+The alternatives to consider from the design stage are detailed in our comparison [INT, UUID or ULID: which identifier to choose for your databases](/article/prendre-int-uuid-ou-ulid-pour-un-index-de-base-de-donnees) (in French):
+
+- **UUID v7 / ULID**: chronologically sorted identifiers, compatible with B-tree indexes, generated on the application side without coordination. They remove the insertion contention point and work natively in a distributed architecture.
+- **Snowflake IDs**: encode a timestamp, a machine identifier and a local counter on 64 bits. Used at the scale of Twitter/X and Discord, they guarantee global uniqueness without central coordination.
+- **Dedicated sequences**: some architectures move identifier generation into a dedicated service (a `ticket server`), which decouples identity from persistence and eases future migrations.
+
+The choice between these strategies depends on the ecosystem's constraints (ORM compatibility, index size, ID readability for debugging), but the principle stays the same: an identifier should never be an implementation detail you endure. It is an architecture decision that deserves to be made with the very first schema.
+
+## What Efficience IT recommends
+
+Every migration is unique, but the method stays constant. To detect these problems before they reach production, [our technical audit process](/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede) (in French) systematically includes an analysis of at-risk auto-increments:
+
+- **Preliminary audit** of the MySQL database, the foreign key graph and application dependencies
+- **Simulation on a mirror environment** with a representative dataset
+- **Gradual migration** with a planned rollback at each step
+- **Post-migration monitoring**: index performance, fragmentation, auto-increment tracking
+
+The agency's [Cloud and DevOps](/cloud-et-devops) (in French) engineers help companies secure their MySQL and MariaDB databases, with methods validated on high-traffic production environments. This type of engagement is often part of a broader [PHP application modernization](/modernisation-application-php) (in French) project.
+
+## Need support?
+
+If your application is approaching its technical limits or if you expect rapid data growth, our MySQL and DevOps experts can help you plan, run and secure your migration.
+
+## Going further
+
+- [Doctrine ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) (in French), what is new in Doctrine for database management
+- [Symfony migration guide](/article/guide-de-migration-dans-un-projet-symfony) (in French), a methodology to migrate a project with confidence
+- DbToolsBundle: anonymize your databases, manage and secure your databases in a development environment
+- [MySQL Documentation: ALTER TABLE](https://dev.mysql.com/doc/refman/8.0/en/alter-table.html), the official MySQL reference for table changes
+- [MySQL Documentation: Integer Types](https://dev.mysql.com/doc/refman/8.0/en/integer-types.html), documentation of MySQL integer types
+- [Doctrine DBAL Documentation](https://www.doctrine-project.org/projects/doctrine-dbal/en/current/index.html), the database abstraction layer used by Symfony
