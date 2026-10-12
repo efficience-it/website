@@ -329,6 +329,10 @@
     "author": "Ian Fox at Waipu Caves Farm Park",
     "url": "https://commons.wikimedia.org/wiki/File:Milky_Way_Glowworm_Cave.jpg"
   },
+  "geo-symfony-ai-visibility": {
+    "name": "geo-ai-engines",
+    "sameAs": "geo-rendre-votre-application-symfony-visible-dans-les-moteurs-ia"
+  },
   "guide-de-migration-dans-un-projet-symfony": {
     "name": "migration-symfony",
     "file": "File:Migration (Unsplash).jpg",
