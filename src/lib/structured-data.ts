@@ -261,7 +261,7 @@ export function blogItemListJsonLd(posts: BlogPost[], startPosition = 1) {
     itemListElement: posts.map((post, i) => ({
       "@type": "ListItem",
       position: startPosition + i,
-      url: `${BASE_URL}/article/${post.slug}`,
+      url: `${BASE_URL}${post.language === "en" ? "/en" : ""}/article/${post.slug}`,
       name: post.title,
     })),
   };
