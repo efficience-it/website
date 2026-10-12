@@ -343,6 +343,10 @@
     "author": "Nathan Anderson nathananderson",
     "url": "https://commons.wikimedia.org/wiki/File:Night_falls_on_a_Silverthorne_mountain_(Unsplash).jpg"
   },
+  "symfony-twig-sylius-certifications": {
+    "name": "symfony-certifications",
+    "sameAs": "les-certifications-symfony-twig-symfony-sylius"
+  },
   "les-contributions-open-source-un-enjeu-de-taille-pour-les-developpeurs-et-les-projets": {
     "name": "contributions-open-source",
     "file": "File:Ants-sandy-ground (Unsplash).jpg",
