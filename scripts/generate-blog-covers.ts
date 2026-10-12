@@ -12,6 +12,8 @@ type Photo = {
   focusX?: number;
 };
 
+type PhotoEntry = Photo | { name: string; sameAs: string };
+
 type Cover = {
   slug: string;
   title: string;
@@ -42,6 +44,9 @@ const ACCENTS: Record<string, string> = {
   Projet: "#3399ff",
   Agence: "#3399ff",
   "Green IT": "#2f9e44",
+  AI: "#f59e0b",
+  Security: "#e5484d",
+  "Code quality": "#22a861",
 };
 
 function escape(text: string): string {
@@ -143,14 +148,28 @@ async function renderCover(cover: Cover, photo: Photo): Promise<Buffer> {
     .toBuffer();
 }
 
+function resolvePhotos(entries: Record<string, PhotoEntry>): Record<string, Photo> {
+  return Object.fromEntries(
+    Object.entries(entries).map(([key, entry]) => {
+      if (!("sameAs" in entry)) return [key, entry];
+      const source = entries[entry.sameAs];
+      if (!source || "sameAs" in source) throw new Error(`Unknown photo source "${entry.sameAs}" for ${key}`);
+      return [key, { ...source, name: entry.name }];
+    }),
+  );
+}
+
 async function main(): Promise<void> {
   const [flag, slug, out, photosPath] = process.argv.slice(2);
-  const photos: Record<string, Photo> = JSON.parse(fs.readFileSync(photosPath ?? PHOTOS_PATH, "utf-8"));
+  const entries: Record<string, PhotoEntry> = JSON.parse(fs.readFileSync(photosPath ?? PHOTOS_PATH, "utf-8"));
+  const photos = resolvePhotos(entries);
 
   if (flag === "--preview") {
     fs.writeFileSync(out, await renderCover(readCover(slug), photos[slug]));
     return;
   }
+
+  const missingOnly = flag === "--missing";
 
   const names = Object.values(photos).map((photo) => photo.name);
   const duplicates = names.filter((name, i) => names.indexOf(name) !== i);
@@ -158,8 +177,10 @@ async function main(): Promise<void> {
 
   for (const [key, photo] of Object.entries(photos)) {
     if (!fs.existsSync(path.join(CONTENT_DIR, `${key}.mdx`))) continue;
+    const target = path.join(OUTPUT_DIR, `cover-${photo.name}.webp`);
+    if (missingOnly && fs.existsSync(target)) continue;
     const png = await renderCover(readCover(key), photo);
-    await sharp(png).webp({ quality: 82 }).toFile(path.join(OUTPUT_DIR, `cover-${photo.name}.webp`));
+    await sharp(png).webp({ quality: 82 }).toFile(target);
   }
   console.log(`Covers written: ${Object.keys(photos).length}`);
 }
