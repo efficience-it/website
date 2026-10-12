@@ -685,6 +685,10 @@
     "author": "Great Sand Dunes National Park and Preserve",
     "url": "https://commons.wikimedia.org/wiki/File:Sand_Ripples_and_Lone_Sunflower_(52259662108).jpg"
   },
+  "reduce-ai-assistant-tokens": {
+    "name": "reduce-ai-tokens",
+    "sameAs": "reducteurs-tokens-assistants-ia-code"
+  },
   "reprise-application-symfony-prestataire": {
     "name": "reprise-symfony",
     "file": "File:Boston ivy, railroad viaduct, South Side, 2021-10-23, 02.jpg",

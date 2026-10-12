@@ -1,0 +1,92 @@
+---
+title: "Cut AI Assistant Token Usage with rtk and graphify"
+date: "2026-07-20"
+updatedAt: "2026-10-12"
+author: "Efficience IT"
+category: "AI"
+excerpt: "How do you cut token consumption in command-line AI assistants? rtk compresses command output, while graphify targets the context your assistant loads."
+image: "/images/blog/cover-reduce-ai-tokens.webp"
+proficiencyLevel: "Intermediate"
+translationOf: "reducteurs-tokens-assistants-ia-code"
+translatedFromUpdatedAt: "2026-07-20"
+---
+
+Command-line AI assistants have become everyday tools for many development teams. Claude Code, GitHub Copilot in agent mode, Gemini CLI, Codex, and Cursor all share the same mechanics: they send context to the model, the model reasons, then returns code or an action. The problem is that this context grows fast. Every `git status`, every test suite, every opened file consumes tokens, and that consumption weighs on both latency and the quality of answers.
+
+An ecosystem of tools is emerging precisely to reduce what you send to the model. Two of them illustrate two different levels of action: rtk compresses command output, and graphify targets the context the assistant loads. Far from competing, they stack.
+
+## Why Context Has Become the Crux
+
+An AI coding assistant is only useful if it understands your project. To do that, it needs to see files, logs, test results, and the state of the Git repository. But the more material you give it, the more three problems appear.
+
+First, latency: a full context window takes longer to process. Second, the number of tokens consumed, which climbs with every interaction. Finally, and this is the most counterintuitive, quality degrades. The [strengths and weaknesses of generative AIs](/article/forces-et-faiblesses-des-ia-generatives-les-plus-utilisees) (in French) vary from one model to another, but none of them reasons well when drowned under thousands of lines of unfiltered output. It loses the useful signal in the noise. A test suite that prints 25,000 tokens of verbose logs for a single relevant failure is waste all the way down.
+
+Reducing tokens is therefore not only an optimization question. It is also a reliability lever. The question is not which [AI assistant to choose for coding](/article/quel-assistant-ia-choisir-pour-coder) (in French), but how to give it exactly what it needs, no more and no less.
+
+## Two Families of Token Reducers
+
+Token reduction tools fall into two broad families, depending on where they act in the loop.
+
+### Compressing Command Output
+
+The first family acts downstream: it intercepts what tools send back to the assistant. When the AI runs a command, the raw output is often verbose and repetitive. Filtering noise, aggregating similar lines, truncating intelligently, deduplicating: that is how you turn an output of several thousand tokens into a usable summary. This is rtk's territory.
+
+### Targeting the Loaded Context
+
+The second family acts upstream: it changes what the assistant decides to load. Rather than opening whole files to understand a dependency, the assistant queries a structured representation of the project and retrieves only the relevant fragments. That is graphify's principle.
+
+The two families do not aim at the same thing. One reduces the weight of each tool response, the other reduces the volume of code loaded to reason.
+
+## rtk in Practice
+
+rtk, short for Rust Token Killer, is a CLI proxy distributed as a single Rust binary with no external dependencies. Its stated goal is to cut token consumption by 60 to 90% by filtering and compressing command output before it reaches the model's context.
+
+It works in two modes. The first is an auto-rewrite hook: on Claude Code, rtk installs as a `PreToolUse` hook and transparently rewrites Bash commands, so `git status` becomes `rtk git status`, for example. The second is direct invocation, when you explicitly prefix a command with `rtk`.
+
+For each type of command, the tool applies four strategies: smart filtering to remove noise, grouping of similar items, truncation that keeps the relevant context, and deduplication that counts repeated lines rather than printing all of them.
+
+The advertised gains over a thirty-minute Claude Code session are telling: about 92% saved on a `git push`, 90% on a test suite such as `cargo test` or `npm test`, and 80% on a `git status`. In total, the README mentions a drop from about 118,000 to 24,000 tokens over the session, nearly 80% less.
+
+rtk covers more than a hundred commands: files (`ls`, `cat`, `grep`, `find`, `diff`), Git, test frameworks (Jest, Vitest, Playwright, pytest, cargo test), build and lint tools (ESLint, TypeScript, ruff, clippy), containers (Docker, kubectl), and infrastructure (Pulumi, AWS CLI, GitHub CLI). It is especially useful when the assistant drives [end-to-end tests with Claude Code](/article/playwright-tests-end-to-end-claude-code) (in French), whose output quickly gets large. Installation goes through Homebrew, an install script, or `cargo install`, and the tool integrates with about fifteen assistants. The code is available in [the rtk-ai/rtk repository](https://github.com/rtk-ai/rtk).
+
+## graphify in Practice
+
+graphify starts from a different problem: how to avoid loading whole files just to understand how the pieces of a project fit together. This is a key issue when you ask an [AI assistant to take over a legacy Symfony architecture](/article/claude-assistant-architecture-symfony-legacy) (in French), where useful context is scattered across the code. Its answer is to turn the repository into a queryable knowledge graph. It is a skill you invoke with `/graphify .` in Claude Code, Cursor, and about twenty other assistants, and it produces three artifacts: an interactive HTML visualization, a Markdown report, and the raw graph in JSON format.
+
+Graph construction follows two paths. For code, graphify relies on tree-sitter locally: it parses the syntax tree without calling an LLM, deterministically, across more than forty languages. It extracts functions, classes, and variables along with their relationships, such as calls, imports, and inheritance, without anything leaving the machine. For documents, PDFs, images, or videos, it uses the assistant's model for a semantic pass.
+
+An important point: this is not vector RAG. graphify does not build embeddings, it builds a real graph you can traverse. You query the structure directly, with three main commands: `graphify query` to get a subgraph around a question, `graphify path` to find the shortest path between two entities, and `graphify explain` to detail a node and its connections. The graph can also be exposed as an [MCP server](/article/serveurs-mcp-claude-code-developpeurs-symfony) (in French), so the assistant queries it through structured tools instead of reading files.
+
+Installation goes through `uv tool install graphifyy` or `pipx`, followed by `graphify install` to register the skill. Working as a skill follows the same logic as [Claude Code skills for teams](/article/skills-claude-code-equipe-symfony) (in French): reusable, versioned, shared behavior. The code is available in [the safishamsi/graphify repository](https://github.com/safishamsi/graphify).
+
+## Why rtk and graphify Are Complementary
+
+The temptation would be to pick one or the other. That would miss the point: they do not act on the same layer.
+
+rtk optimizes the command and output layer. It steps in when the assistant has already decided to run a command, and it reduces the volume of what comes back. graphify optimizes the context and retrieval layer. It steps in upstream, when the assistant wonders what to load to understand the project, and it replaces reading whole files with a targeted query on the graph.
+
+Concretely, in a single session, the assistant can query graphify to pinpoint the three functions involved in a bug without loading the whole module, then run the tests through rtk to retrieve only the relevant failure instead of thousands of lines of logs. The first reduces input context, the second reduces tool output. The savings add up across the whole loop, end to end.
+
+This logic of stacked layers is what makes the approach interesting. Neither makes the other redundant, because neither covers the other's ground.
+
+## Placing the Ecosystem: MCP, Skills, and Compression
+
+rtk and graphify are not alone. Several other levers act on token consumption, each in its own way, and they fit into the same layers.
+
+### On the Context Retrieval Layer
+
+On the targeted retrieval side, graphify has cousins. [Serena](https://github.com/oraios/serena) exposes code through the LSP protocol as an MCP server: the assistant navigates by symbols and reads only the useful definitions instead of whole files. [Aider](https://github.com/Aider-AI/aider) has long popularized its repo map, a repository map built with tree-sitter that gives the model a compact overview. More generally, any MCP server for indexing or structured code search belongs to this family.
+
+### On the Conversation Context Layer
+
+Another lever acts on the conversation history itself. Built-in compression mechanisms, such as Claude Code's automatic compaction, summarize older exchanges to free up space. Work such as Microsoft Research's [LLMLingua](https://github.com/microsoft/LLMLingua) goes further by pruning low-information tokens from a prompt before sending it to the model. Finally, MCP servers give structured access to external sources, such as databases, documentation, or APIs, without copying large blocks of text, while skills encapsulate reusable behaviors and avoid re-explaining the same procedures every session.
+
+Good working practices, such as splitting tasks and starting again from a clean context, matter as much as tooling.
+
+Each approach shines in a specific case. Output compression shines on noisy, repeated commands. Targeted retrieval shines on large repositories where loading whole files quickly saturates the context. MCP shines when data lives outside the code. Mastering these levers is part of the path to [upskilling on Claude Code](/article/monter-en-competence-claude-code) (in French) and getting real productivity gains from it.
+
+## Conclusion
+
+Token consumption is not inevitable. By understanding where each tool steps in, you build a coherent chain: graphify to load only useful context, rtk to return only useful output, and MCP and skills for the rest. These are not competing solutions but complementary layers, and it is precisely their combination that makes the difference over the life of a project.
+
+At Efficience IT, we integrate these tools into our AI-assisted development practices on Symfony projects and beyond. If you want to make AI assistant use in your teams more reliable and streamlined, [let's talk about your context](/contact) (in French).
