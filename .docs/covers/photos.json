@@ -556,6 +556,10 @@
     "author": "Erwin Bosman",
     "url": "https://commons.wikimedia.org/wiki/File:Summer_In_The_City_(228529513).jpeg"
   },
+  "javascript-frameworks-comparison": {
+    "name": "js-frameworks",
+    "sameAs": "quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular"
+  },
   "quel-outil-choisir-pour-votre-documentation-technique": {
     "name": "documentation-technique",
     "file": "File:Estantería de la Biblioteca Vasconcelos.jpg",
