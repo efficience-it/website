@@ -737,6 +737,10 @@
     "author": "Athena Lam thecupandtheroad",
     "url": "https://commons.wikimedia.org/wiki/File:Nighttime_Railroad_Station_(Unsplash).jpg"
   },
+  "traefik-vs-nginx-production": {
+    "name": "traefik-nginx",
+    "sameAs": "traefik-ou-nginx-en-production"
+  },
   "twig-4-ce-que-lon-pourrait-attendre": {
     "name": "twig-4",
     "file": "File:Frosty Twig (50724126847).jpg",
