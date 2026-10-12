@@ -2,9 +2,11 @@ import Link from "next/link";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import CopyButton from "@/components/ui/CopyButton";
+import type { BlogLanguage } from "@/types/blog";
 
 interface MarkdownContentProps {
   content: string;
+  language?: BlogLanguage;
 }
 
 function extractText(node: React.ReactNode): string {
@@ -28,7 +30,7 @@ function generateId(text: string): string {
     .replace(/(^-|-$)/g, "");
 }
 
-export default function MarkdownContent({ content }: MarkdownContentProps) {
+export default function MarkdownContent({ content, language }: MarkdownContentProps) {
   return (
     <div className="prose prose-lg max-w-none prose-headings:font-display prose-headings:text-dark prose-p:text-gray prose-li:text-gray prose-strong:text-dark prose-a:text-primary dark:prose-invert dark:prose-headings:text-dark dark:prose-p:text-gray dark:prose-li:text-gray dark:prose-strong:text-dark dark:prose-a:text-primary-light">
       <Markdown
@@ -40,6 +42,13 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
                 <a href={href} target="_blank" rel="noopener noreferrer">
                   {children}
                 </a>
+              );
+            }
+            if (language === "en" && href?.startsWith("/") && !href.startsWith("/en/")) {
+              return (
+                <Link href={href} hrefLang="fr" lang="fr">
+                  {children}
+                </Link>
               );
             }
             return <Link href={href || ""}>{children}</Link>;
@@ -58,7 +67,7 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
             const text = extractText(children);
             return (
               <pre className="relative">
-                <CopyButton text={text} />
+                <CopyButton text={text} language={language} />
                 {children}
               </pre>
             );
