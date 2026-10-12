@@ -1,0 +1,127 @@
+---
+title: "PHP Coding Standards: Best Practices"
+date: "2022-02-11"
+author: "Florian Chenot"
+category: "Code quality"
+excerpt: "Quality code rests on six key criteria: organization, speed, readability, concision, no repetition and consistency. See how PSR, tooling and CI enforce them."
+image: "/images/blog/cover-coding-standards.webp"
+updatedAt: "2026-10-12"
+translationOf: "coding-conventions"
+translatedFromUpdatedAt: "2026-01-13"
+---
+
+Coding conventions are often seen as a beginner topic. In reality, their impact is measured at scale: the bigger a project grows, the more the absence of consistent conventions becomes a systemic brake. What starts as an aesthetic preference gradually becomes a lever for architecture, velocity and technical governance.
+
+## Why conventions are an investment, not a constraint
+
+A software project spends 80% of its life cycle in maintenance. Code is read ten times more often than it is written. Conventions reduce the cognitive load of that reading: a developer who joins a well-standardized project is productive in a few days rather than a few weeks.
+
+Beyond readability, conventions eliminate an entire category of debates in code review. When tooling settles formatting questions automatically, reviews focus on what matters: business logic, abstraction choices, edge case handling. The return on investment is measurable: fewer cosmetic comments, pull requests merged faster, less team friction.
+
+## PSR standards: the common foundation in PHP
+
+The PHP Standards Recommendations (PSR) are the social contract of the PHP ecosystem. To understand their role and scope, a detailed article explains [what PSRs are and what they are for](/article/qu-est-ce-que-les-psrs-et-a-quoi-servent-ils) (in French). Among them, PSR-12 defines the extended coding style: 4 spaces of indentation, 120 characters per line, brace placement, namespace declarations and imports.
+
+```php
+namespace App\Service;
+
+use App\Repository\UserRepository;
+
+class UserService
+{
+    public function __construct(
+        private readonly UserRepository $userRepository,
+    ) {
+    }
+
+    public function findActiveUsers(): array
+    {
+        return $this->userRepository->findBy([
+            'active' => true,
+        ]);
+    }
+}
+```
+
+PSR-12 builds on PSR-1 (basic coding) and PSR-4 (autoloading). The other PSRs cover functional areas: logging (PSR-3), cache (PSR-6, PSR-16), HTTP (PSR-7, PSR-15, PSR-17, PSR-18), container (PSR-11), events (PSR-14). Knowing these standards is not optional for a professional PHP developer: they define the interoperability interfaces between frameworks and libraries.
+
+### Naming and naming conventions
+
+Naming conventions are a natural extension of the PSRs. In PHP and the Symfony ecosystem, the consensus is established: **PascalCase** for classes, interfaces and enums; **camelCase** for methods, functions and variables; **snake_case** for YAML configuration keys, SQL column names and Twig variables; **kebab-case** for URLs and assets; **ALL_CAPS** for constants.
+
+This consensus is not arbitrary. It lets a developer infer the nature of an identifier from its case, without checking its declaration. It is a concrete cognitive gain on projects of significant size.
+
+## PHP-CS-Fixer: from manual formatting to automation
+
+PHP-CS-Fixer is the reference tool for automatically applying style conventions in PHP. Its minimal usage is trivial: one command reformats the whole project according to PSR-12 or the Symfony conventions.
+
+The real value appears with custom configuration. A `.php-cs-fixer.dist.php` file at the project root lets you define a precise ruleset, adapted to the team's choices. You can enable or disable rules individually, combine several presets and exclude certain directories.
+
+### Build a team ruleset
+
+An effective ruleset starts from a recognized preset (Symfony, PSR-12 or PER-CS) and adjusts the rules that cause debate. The goal is to eliminate all ambiguity: every style question must have an automated answer. The most commonly customized rules concern class imports (global or per namespace), the ordering of use statements, the trailing comma in multi-line parameters and the PHPDoc style.
+
+The configuration file must be versioned in the repository. It is part of the project's technical contract, just like `composer.json`. Any new developer who clones the project gets the same rules, with no manual configuration.
+
+### Symfony-specific conventions
+
+Symfony imposes its own conventions beyond PSR-12: services are suffixed with their role (`UserHandler`, `OrderNormalizer`), console commands inherit a precise structure, and voters and event subscribers follow strict naming conventions. PHP-CS-Fixer with the Symfony preset covers some of these rules, but not all.
+
+For conventions that escape automatic formatting (directory structure, service naming, injection patterns), team documentation takes over. A `CONVENTIONS.md` file versioned in the repository, or better, Architecture Decision Records (ADRs), formalize these choices and their justification.
+
+## CI integration: make conventions unavoidable
+
+Conventions that are not automated are suggestions. Only continuous integration turns a convention into a rule. A robust CI pipeline for a PHP project includes at least three steps: formatting check (PHP-CS-Fixer in `--dry-run --diff` mode), static analysis (PHPStan) and test execution.
+
+Order matters. Formatting is checked first because it is the fastest check and the one new contributors fail most often. PHPStan comes next, because its errors often take longer to fix. Tests run last.
+
+### Git hooks and local feedback
+
+Waiting for CI feedback to discover a style problem is a waste. Local Git hooks, through GrumPHP or a simple pre-commit hook, give instant feedback. The developer fixes the problem before even pushing the code. This short feedback loop speeds up the development cycle considerably.
+
+The `.editorconfig` file completes this setup by standardizing editing settings (indentation, line endings, encoding) directly in the IDE, before the first keystroke.
+
+## Static analysis: conventions that go beyond style
+
+[PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French) and Psalm do not check formatting: they analyze the semantics of the code. Incorrect types, calls to nonexistent methods, potentially null variables, dead branches. At high levels (PHPStan level 8, 9 or 10), they impose a typing rigor comparable to that of compiled languages, or to that of [TypeScript on the JavaScript side](/developpement-typescript) (in French).
+
+Static analysis is a form of advanced convention. It sets a contract on the structural quality of the code, not just its appearance. Combined with a robust [testing strategy](/tests-automatises-php) (in French), it forms a complete safety net. Gradually raising [PHPStan to max level on a Symfony project](/article/phpstan-niveau-max-symfony-10-erreurs) (in French) is a continuous improvement strategy that is more effective than most manual refactorings.
+
+### SonarQube and quality metrics
+
+SonarQube adds another dimension: measurement over time. Cyclomatic complexity, test coverage, technical debt, duplications. These metrics let you detect drift before it becomes critical. For a lead or an architect, SonarQube is a steering tool, not just a checking tool.
+
+## SOLID principles as an architectural convention
+
+The SOLID principles go beyond style and reach architecture. **Single responsibility**: each class has only one reason to change. **Open/Closed**: extension by addition, not by modification. **Liskov substitution**: subtypes respect the parent's contract. **Interface segregation**: no dependency on unused methods. **Dependency inversion**: depend on abstractions, not on implementations.
+
+These principles are not style rules. They are architectural conventions. In a Symfony project, they translate concretely: business logic lives in dedicated services (not in controllers), dependencies are injected through the container (not instantiated manually), and interfaces define the contracts between layers. This is the foundation of a [well-structured hexagonal architecture](/article/migration-symfony-architecture-hexagonale-retour-mission) (in French).
+
+## Scale conventions across several teams
+
+When an organization grows beyond a single team, conventions become a governance issue. Each team that defines its own rules creates a dialect. A developer who changes teams has to relearn habits. Internal mobility slows down, and cross reviews become painful.
+
+### Architecture Decision Records (ADR)
+
+ADRs formalize technical decisions and their context. For conventions, an ADR documents which choice was made, why, which alternatives were ruled out, and under what conditions the decision could be revisited. This traceability is valuable when a new lead takes over a project and wonders why a given rule exists.
+
+### A shared foundation, team extensions
+
+The strategy that works at scale is hierarchical: a shared configuration package (an internal PHP-CS-Fixer preset, a common PHPStan baseline) defines the foundation. Each team can add rules specific to its domain, but cannot disable the foundation's rules. This model preserves global consistency while leaving room for local adaptation.
+
+Design patterns play a similar role at this scale. Singleton, Factory, Observer, Adapter, Composite: they form a [shared vocabulary](/article/mieux-comprendre-le-vocabulaire-des-developpeurs-web-guide-complet) (in French) across teams. Saying "we use a Strategy pattern here" is immediately understandable by any developer in the organization, regardless of their home team.
+
+## Toward living conventions
+
+Conventions are not a frozen document written once and forgotten. They evolve with the project, the language and the ecosystem. PSR-12 will be replaced by PER-CS (PHP Evolving Recommendation - Coding Style). PHPStan regularly adds new rules. Frameworks adopt new patterns.
+
+The challenge for an architect is to keep conventions alive: regularly revised, automatically enforced and understood by everyone. A [PHP assessment](/audit-code-php) (in French) can serve as a starting point to formalize these conventions and measure the gap between the existing code and the target standards. Tools like [Rector can apply conventions automatically to existing code](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) (in French), including during version migrations. A quarterly ritual of reviewing conventions, combined with solid tooling, ensures that standards stay relevant without becoming a straitjacket.
+
+## Going further
+
+- How PHPStan can improve the quality of your PHP code, automate quality control
+- [Technical debt: should you really be afraid of it?](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French), understand the long-term consequences of missing conventions
+- [Dead code: elimination mission](/article/code-mort-mission-elimination) (in French), identify and remove useless code to clean up the project
+- [PHP-FIG: PSR-12 Extended Coding Style](https://www.php-fig.org/psr/psr-12/), the PHP style standard
+- [Symfony Coding Standards](https://symfony.com/doc/current/contributing/code/standards.html), the official Symfony conventions
+- [PHP CS Fixer on GitHub](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer), the automatic formatting tool
