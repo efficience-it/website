@@ -524,6 +524,10 @@
     "author": "Emma Liang",
     "url": "https://commons.wikimedia.org/wiki/File:Ice_Eye_Watching_Star_(210072813).jpeg"
   },
+  "phpstan-max-level-symfony-errors": {
+    "name": "phpstan-errors",
+    "sameAs": "phpstan-niveau-max-symfony-10-erreurs"
+  },
   "phpstorm-vscode-sublimetext-netbeans-quel-editeur-de-code-choisir": {
     "name": "editeur-code",
     "file": "File:Paintbrushes (Unsplash).jpg",
