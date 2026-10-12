@@ -1,12 +1,12 @@
 ---
 title: "Concrètement, c'est quoi FrankenPHP ?"
 date: "2024-02-29"
+updatedAt: "2026-10-12"
 author: "Louis-Arnaud Catoire"
 category: "PHP"
 excerpt: "PHP reste pertinent malgré sa réputation vieillissante, avec des frameworks comme Laravel, Symfony et WordPress qui gardent le langage essentiel."
 image: "/images/blog/cover-frankenphp.webp"
 proficiencyLevel: "Expert"
-updatedAt: "2026-01-13"
 faq:
   - question: "FrankenPHP est-il prêt pour la production ?"
     answer: "Oui, FrankenPHP est stable et utilisé en production. Il est officiellement supporté par Symfony et fait partie de la distribution Docker officielle de PHP. Les gains de performance sont significatifs grâce au mode worker qui évite le bootstrap PHP à chaque requête."
@@ -26,7 +26,7 @@ Pour comprendre ce que FrankenPHP apporte, il faut d'abord mesurer ce que l'arch
 2. PHP-FPM alloue un worker, charge l'intégralité du framework, exécute le code applicatif
 3. La réponse est retournée, l'état de la requête est réinitialisé, les variables et objets sont libérés
 
-Ce modèle share nothing garantit une isolation totale entre les requêtes. Un bug, une fuite mémoire ou une exception non rattrapée n'affecte jamais la requête suivante. Cette robustesse a fait ses preuves pendant deux décennies. Mais elle a un prix.
+Ce modèle share nothing garantit une isolation totale entre les requêtes. Un bug, une fuite mémoire ou une exception non rattrapée n'affecte jamais la requête suivante. Cette robustesse a fait ses preuves pendant deux décennies. Mais elle a une contrepartie.
 
 Sur une application Symfony typique, le bootstrap représente entre 30 et 60 % du temps de traitement d'une requête : lecture des fichiers de configuration, construction du conteneur d'injection de dépendances, compilation des routes, initialisation des listeners. OPcache atténue le coût en mettant en cache le bytecode compilé, mais l'instanciation des objets et l'assemblage du graphe de services restent incompressibles à chaque requête.
 

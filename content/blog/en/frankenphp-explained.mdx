@@ -1,0 +1,117 @@
+---
+title: "What Is FrankenPHP, Exactly?"
+date: "2024-02-29"
+author: "Louis-Arnaud Catoire"
+category: "PHP"
+excerpt: "FrankenPHP embeds PHP in a Caddy server written in Go. Learn how worker mode works, what it changes versus PHP-FPM, and how to migrate a Symfony app safely."
+image: "/images/blog/cover-frankenphp-explained.webp"
+proficiencyLevel: "Expert"
+translationOf: "concretement-cest-quoi-frankenphp"
+faq:
+  - question: "Is FrankenPHP ready for production?"
+    answer: "Yes. FrankenPHP is stable and used in production. Symfony officially supports it, and it is part of the official PHP Docker distribution. Performance gains are significant thanks to worker mode, which avoids bootstrapping PHP on every request."
+  - question: "What is the difference between FrankenPHP and PHP-FPM?"
+    answer: "PHP-FPM uses the FastCGI protocol to communicate between the web server (Nginx) and PHP, which adds overhead to every request. FrankenPHP embeds the PHP interpreter directly in a Caddy server written in Go, removing that intermediate layer. Worker mode keeps the application in memory between requests."
+  - question: "Does FrankenPHP work with Symfony and Laravel?"
+    answer: "Yes. FrankenPHP is compatible with all PHP frameworks. Symfony supports it officially through the Runtime component, and Laravel works with FrankenPHP through Laravel Octane. Configuration is minimal: a single line in the Dockerfile is enough."
+updatedAt: "2026-10-12"
+translatedFromUpdatedAt: "2026-10-12"
+---
+
+PHP still powers a considerable share of the web today, carried by mature frameworks like Symfony and Laravel and by CMSs like WordPress and Drupal. Yet its historical execution model suffers from a fundamental limitation: every HTTP request triggers a full cycle of initialization, execution and teardown. FrankenPHP aims to solve this structural problem by rethinking how PHP runs on the server.
+
+## The Real Cost of the Share-Nothing Model
+
+To understand what FrankenPHP brings, you first need to measure what the classic architecture costs. With PHP-FPM behind Nginx or Apache, every HTTP request follows the same cycle:
+
+1. The web server receives the request and passes it to PHP-FPM through the FastCGI protocol
+2. PHP-FPM allocates a worker, loads the entire framework and runs the application code
+3. The response is returned, the request state is reset, and variables and objects are freed
+
+This share-nothing model guarantees total isolation between requests. A bug, a memory leak or an uncaught exception never affects the next request. This robustness has proven itself over two decades. But it has a trade-off.
+
+On a typical Symfony application, bootstrapping accounts for 30 to 60% of a request's processing time: reading configuration files, building the dependency injection container, compiling routes, initializing listeners. OPcache reduces the cost by caching compiled bytecode, but instantiating objects and assembling the service graph remain incompressible on every request.
+
+On top of this computational load comes operational complexity. A classic production architecture requires coordinating several services: Nginx or Apache as a reverse proxy, PHP-FPM for execution, Certbot or another tool for managing TLS certificates, and sometimes Varnish for HTTP caching. We cover caching strategies in detail in our guide to [caching applied to PHP applications](/article/tout-savoir-sur-la-mise-en-cache-tips) (in French). Each service brings its own configuration file, logs, reload mechanisms and failure modes. This search for simpler execution echoes the debate between [WASM and server-side containers](/article/wasm-ou-container-que-choisir-en-2026) (in French).
+
+## FrankenPHP: A Native Application Server for PHP
+
+FrankenPHP is an application server written in Go, built on [Caddy](https://caddyserver.com/), that embeds the PHP interpreter directly in its process. It is not a simple wrapper around PHP-FPM: FrankenPHP uses CGO to link the Go runtime to the C code of the Zend Engine, PHP's virtual machine. This approach lets the web server and the interpreter coexist in the same memory space, with no inter-process communication and no intermediate protocol.
+
+The concrete result: a single binary that can serve a PHP application with native HTTP/1.1, HTTP/2 and HTTP/3 support, automatic TLS certificate generation through Let's Encrypt or ZeroSSL, and real-time support through the Mercure protocol. This simpler runtime is an asset for [Symfony hosting](/hebergement-symfony) (in French): a single process replaces a whole stack of services to configure and maintain. FrankenPHP can natively run Symfony, Laravel, API Platform, WordPress, Drupal or any standard PHP application. Combined with [Docker in production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) (in French), the single binary considerably simplifies container orchestration.
+
+## Internal Architecture and Technical Choices
+
+### Go-PHP Integration Through CGO
+
+Choosing Go as the host language is no accident. Go offers a goroutine-based concurrency model particularly suited to handling massive numbers of HTTP connections, a low-latency garbage collector, and the ability to produce static binaries with no system dependencies. The PHP interpreter, written in C, integrates through CGO, which allows two-way calls between Go and C.
+
+Each PHP request runs in a dedicated Go goroutine. FrankenPHP requires a ZTS (Zend Thread Safety) build of PHP to guarantee safe concurrent access to the interpreter. The Go scheduler distributes these goroutines across the available system threads, which lets it process a large number of concurrent requests with a controlled memory footprint. This architecture removes the overhead of the FastCGI protocol and the context switches between the Nginx and PHP-FPM processes.
+
+### Caddy as a Foundation
+
+By building on Caddy instead of rewriting an HTTP server, FrankenPHP inherits a proven network stack: automatic TLS certificate management with transparent renewal, OCSP stapling support, and ALPN negotiation for HTTP/2 and HTTP/3 over QUIC. Caddy configuration through the Caddyfile remains available for advanced cases (rate limiting, redirects, security headers).
+
+## Worker Mode: A Break From the Share-Nothing Model
+
+Worker mode is FrankenPHP's most significant contribution. In this mode, the PHP application is initialized only once, when the server starts. The Symfony or Laravel service container, compiled routes, configuration files and Doctrine metadata stay loaded in memory and are reused for every incoming request.
+
+The measured gain is substantial. Benchmarks show response times three to five times lower than PHP-FPM on Symfony or Laravel applications. On a typical REST API, processing time drops from 15-20 ms to 3-5 ms per request, since bootstrapping runs only once.
+
+FrankenPHP integrates particularly well with Symfony, whose [strengths for web projects](/article/pourquoi-choisir-symfony-pour-vos-projets) (in French) combine naturally with the performance gains of worker mode. To enable worker mode with Symfony, the integration goes through the [Runtime component](https://symfony.com/doc/current/components/runtime.html):
+
+```bash
+composer require runtime/frankenphp-symfony
+```
+
+```
+APP_RUNTIME=Runtime\FrankenPhpSymfony\Runtime
+```
+
+Symfony Runtime orchestrates the worker lifecycle and makes sure stateful services are properly reset between requests. This point is critical: in worker mode, a service that holds state (a database connection, a counter, a local cache) persists across requests. Memory leaks, negligible in share-nothing mode, become a first-order problem. You need to audit application services and make sure no unwanted state crosses request boundaries.
+
+### Early Hints: Optimizing Browser Rendering
+
+Native support for Early Hints (HTTP status 103) lets the server send preload hints to the browser before the main response is ready. While PHP generates the HTML, the browser is already downloading stylesheets and JavaScript files. On pages that need heavy server-side processing, perceived load time drops noticeably.
+
+```php
+$response = new Response();
+$response->headers->set('Link', '</style.css>; rel=preload; as=style');
+$this->sendEarlyHints($response);
+```
+
+## Migration Strategy From PHP-FPM
+
+### Assessing Relevance
+
+FrankenPHP is not always the right choice. For an application in maintenance with little traffic, the proven PHP-FPM architecture remains perfectly suitable. FrankenPHP makes the most sense in three contexts: high-traffic applications where worker mode's performance gain justifies the investment, new projects where a simpler stack shortens time to production, and containerized architectures where the single binary simplifies Kubernetes orchestration.
+
+### Proceeding in Stages
+
+The recommended migration follows a cautious progression. The first step is to deploy FrankenPHP in classic mode (without worker) as a direct replacement for Nginx + PHP-FPM. This mode is functionally equivalent and lets you validate the application's compatibility without risk. The Dockerfile boils down to the essentials:
+
+```dockerfile
+FROM dunglas/frankenphp:latest
+
+COPY . /app
+
+ENTRYPOINT ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]
+```
+
+The second step enables worker mode in a staging environment. This phase requires auditing application services to identify those that keep state between requests. Check ORMs, caching systems and connections to external services.
+
+The third step is the production deployment with enhanced monitoring. For teams considering a [microservices or modular monolith architecture](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) (in French), FrankenPHP simplifies deployment in both cases. The official FrankenPHP Docker images support Caddy's native health checks, graceful shutdown for Kubernetes rolling updates, and configuration through environment variables.
+
+### Production Considerations
+
+In production, several points deserve particular attention. Memory management in worker mode requires monitoring the workers and restarting them periodically to prevent leaks. Debugging with Xdebug is still natively supported, but behavior differs in worker mode because the context persists. PHP extensions compiled in C remain compatible, since FrankenPHP runs the same Zend Engine as PHP-FPM. Finally, Caddy's configuration offers enough granularity for production needs (rate limiting, WAF, observability through structured access logs).
+
+## Summary
+
+FrankenPHP represents a significant architectural evolution for the PHP ecosystem, and an asset for high-performance [custom PHP development](/developpement-php) (in French). By merging the web server and the interpreter into a single process, it removes the intermediate layers that weighed on performance and operational complexity. Worker mode breaks with the share-nothing model when performance demands it, while keeping the option of running in classic mode for cases where isolation robustness comes first. For teams that deploy high-traffic PHP applications or want to simplify their containerized infrastructure, FrankenPHP deserves a serious evaluation.
+
+## Going Further
+
+- [Looking back at Forum PHP 2024](/article/retour-sur-le-forum-php-2024) (in French), trends and news from the PHP ecosystem
+- [Official FrankenPHP website](https://frankenphp.dev/), documentation, installation and getting-started guides
+- [PHP 9.0: what you need to know](/article/php-9-0-devoile-ce-que-vous-devez-savoir-avant-la-sortie) (in French), upcoming changes to the PHP language
