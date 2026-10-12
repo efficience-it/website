@@ -319,6 +319,10 @@
     "author": "Jeremy Harbeck",
     "url": "https://commons.wikimedia.org/wiki/File:Iceberg_in_North_Star_Bay,_Greenland.jpg"
   },
+  "technical-debt-explained": {
+    "name": "technical-debt",
+    "sameAs": "la-dette-technique-faut-il-vraiment-en-avoir-peur"
+  },
   "la-fondation-php-souffle-ses-trois-bougies": {
     "name": "fondation-php",
     "file": "File:2016-366-361 And We Are Three (31786939511).jpg",

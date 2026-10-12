@@ -1,0 +1,116 @@
+---
+title: "Technical Debt: Should You Really Be Afraid of It?"
+date: "2022-02-22"
+author: "Louis-Arnaud Catoire"
+category: "Project"
+excerpt: "Measure, prioritize, and repay technical debt: key metrics, tools like PHPStan and Rector, payback strategies, and how to turn debt into a strategic decision."
+image: "/images/blog/cover-technical-debt.webp"
+updatedAt: "2026-10-12"
+translationOf: "la-dette-technique-faut-il-vraiment-en-avoir-peur"
+translatedFromUpdatedAt: "2026-10-12"
+faq:
+  - question: "How do you measure a project's technical debt?"
+    answer: "Several indicators help quantify it: test coverage (PHPUnit), cyclomatic complexity (PHPStan, SonarQube), coupling between modules, the number of unaddressed deprecations, and the time needed to add a simple feature. A code audit gives a global, prioritized view."
+  - question: "Should you repay all technical debt at once?"
+    answer: "No, that is rarely the right approach. Prioritize the areas of code that change most often and those that carry security risks. Repay the debt in increments: each sprint can include a share of targeted refactoring. The goal is to reduce debt gradually, not to rewrite everything."
+  - question: "Is technical debt always negative?"
+    answer: "No. Deliberate, controlled technical debt can be strategic, for example to ship an MVP quickly and validate a market. The problem arises when the debt is unintentional (poor practices) or when it is never repaid. The key is to document it and plan its repayment."
+---
+
+## Understanding Technical Debt
+
+Ward Cunningham coined this metaphor in the early 1990s by comparing software development to a financial loan: every shortcut takes on a debt whose interest accumulates. The analogy is powerful because it speaks the language of business. A chief financial officer immediately understands that unpaid debt generates compound interest, and that is exactly what happens in a neglected codebase.
+
+Technical debt is often reduced to "dirty" code. In reality, it covers a much broader spectrum: outdated dependencies, missing tests, nonexistent documentation, architecture choices that no longer fit, or infrastructure that cannot be reproduced. Any technical decision that increases the future effort of change is debt.
+
+### Types of Debt
+
+Martin Fowler's quadrant distinguishes four categories along two axes: deliberate or inadvertent, prudent or reckless.
+
+**Prudent, deliberate debt** is a strategic lever. The team ships an MVP with a simplified ORM, knowing it will replace it once the market is validated. **Reckless, deliberate debt** is a dangerous gamble: "we don't have time to test, we'll see." **Prudent, inadvertent debt** appears when the team discovers in hindsight that a better approach existed. Finally, **reckless, inadvertent debt** is the most insidious: it builds up through lack of skills or code review, without anyone being aware of it.
+
+Knowing which quadrant each piece of debt falls into fundamentally changes how you handle it.
+
+## Structural Causes
+
+Beyond individual shortcuts, technical debt has systemic roots that you must identify to act for the long term.
+
+**Tight deadlines** push teams to ship fast at the expense of quality. The absence of [automated tests](/tests-automatises-php) (in French) prevents regression detection and makes every change risky. **Team turnover** causes a loss of tacit knowledge about the project: undocumented conventions disappear with their authors. **Systematically postponing version upgrades** creates a growing gap between the project and the supported ecosystem, until the [end of support for Symfony and PHP](/article/symfony-php-fin-de-support-eol-plan-action) (in French) turns debt into an immediate security risk. Finally, **a lack of architectural vision** leads to local decisions that are inconsistent with each other.
+
+A concrete example: an e-commerce application built on PHP 5.6 with a homegrown framework. Nonexistent [coding conventions](/article/coding-conventions) (in French) speed up debt accumulation. Over the years, developers add features without refactoring the existing code. Five years later, deployment time goes from a few minutes to several hours, every bug fix introduces two new ones, and nobody on the team understands some critical modules anymore. The debt has reached a threshold where it paralyzes the organization.
+
+## Measuring Debt: Tooling and Indicators
+
+What you do not measure, you cannot manage. Quantifying technical debt is a prerequisite for prioritizing it and justifying remediation investments to management.
+
+### Essential Metrics
+
+**Test coverage** shows the percentage of code verified automatically. Below 60%, the risk of regression becomes high, but beware: 90% coverage with weak assertions gives a false sense of security. Favor mutation coverage to assess the real quality of your tests.
+
+**Cyclomatic complexity** measures the number of execution paths in a function. Beyond 10, code becomes hard to test and reason about. **Afferent and efferent coupling** reveal dependencies between modules: a tightly coupled component propagates changes in a cascade. The **duplication rate** flags copy-paste that bloats the codebase. Finally, the **average time to fix a bug** is a pragmatic indicator: if it keeps rising, debt is accumulating.
+
+### Measurement Tools
+
+SonarQube remains the reference for estimating debt in workdays. [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French) and Psalm offer progressive static analysis: you start at level 0 and climb gradually. [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) (in French) detects obsolete patterns and proposes automated fixes. These tools identify hotspots, the files that are both heavily modified and highly complex, and that usually concentrate most of the problems. Another effective approach is to [eliminate dead code in your PHP projects](/article/code-mort-mission-elimination) (in French): removing what is no longer used mechanically reduces the maintenance surface and clarifies the real scope of the application.
+
+The most effective approach combines static analysis with Git history. A 2,000-line file with a cyclomatic complexity of 45 and 300 commits over the last six months is a top candidate for refactoring, much more than an equally complex file that is never touched.
+
+## Prioritizing Repayment
+
+Not all debt deserves to be repaid. The challenge for a lead or staff engineer is to build a prioritization framework that maximizes return on investment.
+
+### The Impact-Effort Matrix
+
+Rank each piece of debt along two axes: impact on team velocity and remediation effort. Quick wins (high impact, low effort) should be handled immediately. Structural projects (high impact, high effort) need dedicated planning. Low-impact debt can often be knowingly accepted.
+
+### Repayment Strategies
+
+The **Strangler Fig Pattern**, detailed in our [Symfony migration guide](/article/guide-de-migration-dans-un-projet-symfony) (in French), consists of wrapping the existing system and replacing it module by module. Every new development happens in the new system, while the old one is gradually decommissioned. The application stays functional throughout the process, which considerably limits risk.
+
+The **Boy Scout Rule**, popularized by Robert C. Martin, suggests leaving the code in a better state than you found it. With each change, developers improve a small piece of the existing code. This approach is particularly effective for keeping debt under control day to day without dedicating separate resources.
+
+**Repayment sprints** consist of regularly dedicating a share of development time to tackling debt. Allocating 20% of each sprint to refactoring maintains a steady pace of improvement without conflicting with feature requests. For teams that lack this bandwidth in-house, outsourcing [Symfony application maintenance](/maintenance-applicative-symfony) (in French) ensures regular debt repayment without pulling developers off product sprints.
+
+## Debt as a Strategic Lever
+
+This is where the perspective changes radically. For an architect or a CTO, technical debt is not a problem to eliminate but a parameter to manage.
+
+### Distinguishing Architectural Debt from Code Debt
+
+Code debt, such as a method that is too long, inconsistent naming, or a missing test, is relatively easy to repay. **Architectural debt** is a different beast altogether: a monolith that should have been split into services, a database choice unsuited to the load, or a missing abstraction layer that locks the system into a single vendor. This kind of debt cannot be repaid in a sprint. It demands a long-term vision, dedicated time, and sponsorship from leadership. [Taking over a project with technical debt](/reprise-projet-symfony) (in French) with an outside perspective often breaks the deadlock when the internal team is too close to the code to define an objective path.
+
+### Communicating with Stakeholders
+
+The biggest challenge is not technical, it is political. Developers see the debt every day; decision-makers only see velocity dropping. To get the means to repay the debt, you must translate it into business language.
+
+Rather than saying "we need to refactor the payment module," say: "the payment module makes us lose 15 days per quarter in development time and accounts for 60% of our production incidents. An investment of 30 development days would cut that by 80%." Quantify the impact of inaction as much as the effort of action. A [structured web audit](/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede) (in French) lets you quantify and prioritize technical debt with factual data to present to decision-makers. For a first [free diagnosis of your application](/audit-symfony-gratuit) (in French), it is the ideal starting point.
+
+### Planning for Long-Term Sustainability
+
+A sustainable system is not a system without debt. It is a system whose debt is known and measured, and whose repayment rate exceeds its accumulation rate. Build technical debt review into your architecture rituals. Keep an architecture decision record (ADR) log to document accepted trade-offs and the conditions for reassessing them.
+
+The most mature organizations treat technical debt as a health indicator, just like revenue or customer satisfaction. It appears on leadership dashboards and influences investment decisions.
+
+## Why Choose Symfony to Reduce Debt
+
+Symfony offers a structuring framework for teams that want to start over on a healthy foundation or gradually modernize an existing system. Our [application modernization](/modernisation-applicative) (in French) path supports companies through this transition, from legacy to maintainable Symfony code.
+
+The framework is open source, backed by an active community, and follows a predictable release cycle with long-term support. Its ecosystem directly equips the fight against debt: Rector automates version upgrades and refactoring, PHPStan detects errors without running the code, and the Deprecation Contract component clearly flags elements that will be removed in future versions, letting teams anticipate changes.
+
+> One of Efficience IT's specialties is migrating to the Symfony framework in PHP, which provides a strong maintainability framework and powerful security, backed by a large community.
+
+## Conclusion
+
+Technical debt is not an enemy to defeat but a parameter to manage. Teams that fear it suffer from it. Teams that measure it, prioritize it, and communicate it turn it into a decision-making tool.
+
+The key lies in a multilevel approach: developers apply the Boy Scout Rule daily, leads build prioritization frameworks, and architects fold debt management into the organization's technical strategy. With the right tools, the right practices, and a solid framework like Symfony, technical debt becomes a management indicator rather than a source of worry.
+
+## Going Further
+
+- [Core Team: structuring a project team](/article/core-team-organisation-projet) (in French), reduce debt by giving decision-making power to a qualified core
+- Symfony migration guide, how to modernize an existing project
+- Rector: master the evolution of your Symfony code, automate refactoring
+- [Find out why you should trust us with the maintenance of your web applications](/article/decouvrez-les-raisons-de-nous-confier-la-maintenance-de-vos-applications-web) (in French), avoid debt accumulation through regular maintenance
+- [Martin Fowler: Technical Debt](https://martinfowler.com/bliki/TechnicalDebt.html), the foundational article on technical debt
+- [Symfony: Upgrade Guide](https://symfony.com/doc/current/setup/upgrade_major.html), stay up to date to limit debt
+- [SonarQube](https://www.sonarsource.com/products/sonarqube/), measure your project's technical debt
