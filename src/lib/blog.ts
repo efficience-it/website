@@ -166,7 +166,8 @@ function getTranslationOf(post: BlogPost): BlogPost | undefined {
 }
 
 export function articlePath(post: BlogPost): string {
-  return post.language === "en" ? `/en/article/${post.slug}` : `/article/${post.slug}`;
+  const slug = encodeURIComponent(post.slug);
+  return post.language === "en" ? `/en/article/${slug}` : `/article/${slug}`;
 }
 
 export function getLanguageSwitchTarget(
