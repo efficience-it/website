@@ -1,0 +1,109 @@
+---
+title: "AFUP Day 2023: Talks and Takeaways on PHP"
+date: "2023-05-17"
+updatedAt: "2026-10-12"
+author: "Efficience IT"
+category: "Training"
+excerpt: "The 5th AFUP Day took place on May 12 at the Université Catholique de Lille, and part of the Efficience IT team attended. Here is our recap of every PHP talk."
+image: "/images/blog/cover-afup-day-lille.webp"
+proficiencyLevel: "Beginner"
+translationOf: "retour-sur-lafup-day-2023"
+translatedFromUpdatedAt: "2026-03-26"
+event:
+  name: "AFUP Day 2023 Lille"
+  startDate: "2023-05-12"
+  endDate: "2023-05-12"
+  location:
+    name: "Université Catholique de Lille"
+    address: "60 Bd Vauban, 59000 Lille, France"
+  organizer:
+    name: "AFUP - Association Française des Utilisateurs de PHP"
+    url: "https://afup.org"
+  url: "https://event.afup.org/afup-day-2023/"
+---
+
+On May 12, the 5th edition of AFUP Day took place at the **Université Catholique de Lille**.
+
+## What is AFUP Day?
+
+Created in 2019 by the AFUP (Association Française des Utilisateurs de PHP, the French PHP users association), this national conference day takes place every year. The Lyon AFUP Day, for example, was held on the same date. Local AFUP chapters run the project. They bring together local speakers and headliners who share their expertise with the enthusiasts in the room.
+
+For this event, AFUP Day Lille selected a panel of about ten speakers, each with their own specialty. The day includes about ten talks of 20 to 40 minutes on PHP and its ecosystem, and gathers developers from the Hauts-de-France region and the surrounding areas.
+
+In this article, we give you a recap of the different talks and the key points to remember.
+
+## Doctrine, typed objects and JSON columns
+
+Grégoire Pineau, who joined the Jolicode team in 2017 (an agency specializing in web and mobile projects), came to talk about **Doctrine, typed objects and JSON columns**.
+
+Grégoire guided us through mastering typed columns and objects with the [Doctrine](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) (in French) ORM. JSON columns speed up development by simplifying code, migrations and maintenance. PHP arrays, for their part, give developers a way to store and manipulate datasets in different formats. Doctrine makes it easier to master both, since it helps an application communicate with a relational database.
+
+The goal here is to avoid code duplication by storing blocks in the database. Our speaker proposed two solutions: using Doctrine inheritance (MappedSuperClass, Single table, Class table), or storing PHP in serialized form, whether as JSON or not.
+
+## Legacy code and Approval Testing
+
+Charles Desneuf, a developer for about ten years and the founder of Burrito Consulting, spoke about **Approval Testing**. He is a freelance Craft coach who helps clients rework their tests and learn TDD.
+
+Legacy code is existing code that is old, and therefore hard to maintain and test. Approval Testing exists to test it effectively. It helps you understand the broad outline of the legacy code and the different possible scenarios. The final step is to approve or reject the output that Approval Testing proposes.
+
+According to our developers, you can compare it to an electrician who tries to see where the current flows and which scenarios that creates.
+
+## Compiling PHP to WebAssembly
+
+Antoine Bluchet is CTO at LesTilleuls.coop, the agency behind API Platform, released in 2015. He presented WebAssembly, the technology that compiles programs so they run in browsers.
+
+He then took the time to explain how to compile PHP to WebAssembly. The language comes with a set of tools that transform it into another language. The output is a set of files that the client's browser can open. This moves PHP to the client side and makes it possible to package applications in a browser.
+
+Finally, we learned how to run Symfony or other PHP projects without needing a server, hence the term _serverless_ in his talk.
+
+## The benefits of bulks in Symfony Messenger
+
+Allison Guilhem, a Symfony developer at the LesTilleuls.coop agency, presented the ideal setup for [Symfony Messenger](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) (in French). This tool lets you build a message-driven architecture for web applications. It decouples the different components of an application by making them communicate through messages, which reduces latency and improves performance.
+
+The team found this talk particularly interesting because Allison spoke about Symfony and the performance gain that batches can offer over bulks, thanks to sending messages in groups.
+
+## Supply chain attacks
+
+We had the chance to attend a talk by Kévin Dunglas, co-founder of the LesTilleuls.coop agency. He is also the founder of the API Platform framework and a member of the Symfony Core Team.
+
+Kévin explained how **supply chain attacks** work. He took the time to cover a few organizational methods that would limit the problem.
+
+The talk was very interesting without being too technical, as Kévin tried to make the subject accessible. In short, in tech, we trust a lot of people, especially library contributors.
+
+In the example used during the talk, bundles are the bricks that form the base of a building, except that those bricks can belong to malicious people, hence the risk of hacking.
+
+Most bundle contributors are not paid. So if one of them decides to stop, another developer has to take over, or nothing will be maintained. The [PHP Foundation](/article/la-fondation-php-souffle-ses-trois-bougies) (in French) exists precisely to pay the people who develop the bundles and packages that everyone uses with complete trust.
+
+## Test automation with APITester
+
+Before a short break, Olivier Mairet presented **APITester** and **test automation**. The speaker is a backend developer and mentor at OpenClassrooms, a platform that offers training, work-study programs and even project financing. OpenClassrooms' bundle, currently used internally, will go open source within a few months.
+
+Built to generate and run tests automatically, the API Tester package was walked through by Olivier step by step. The tester reads and displays errors across all types of code. Then it issues a comment on each function.
+
+## Error handling in PHP and the concept of monads
+
+After studying at Imperial College London, George Banyard is now a Core Developer at the PHP Foundation. We had the chance to hear him on **error handling** in PHP and how to use its system correctly while limiting problems.
+
+Using error handling as an example, George introduced the concept of monads. This structure lets you combine program fragments, called functions, which makes code more modular while following specific rules.
+
+It was a rather technical talk with a rather surprising conclusion: in the end, it would be crazy to code them in PHP. The language is simply not designed for that kind of thing.
+
+## The place of women in tech
+
+To finish the day on a high note, Laura Durieux spoke about **the role of women in the history of technology**. She reminded us of the importance of Grace Hopper, one of the first programmers of the Harvard Mark I computer, and Joan Clarke, known for her code-breaking work during World War II. She also covered the "ENIAC Girls," who were behind the first fully electronic computer, and paid tribute to the women of a world seen as masculine.
+
+Women are indeed underrepresented in the field today, at 17% according to the Gender Scan 2022. In 2018, Jasmine Anteunis, a French reference in the digital world and particularly in artificial intelligence, ranked the 50 most important women in tech worldwide.
+
+We are fortunate to have talented women on our team, who make up nearly 45% of our tech team, and even more in other departments.
+
+## Conclusion
+
+Eight talks later, we reached the end of AFUP Day 2023. It was a pleasure to gather with fellow enthusiasts and see familiar faces again. Our [Symfony agency in Lille](/agence-symfony-lille) (in French) is proud to take an active part in the PHP community of the Hauts-de-France region. The developer team will attend the next edition, and you can read the [recap of AFUP Day 2024](/article/retour-sur-lafup-day-2024) (in French). In the meantime, we will attend the events the AFUP runs throughout the year, which keeps us up to date with what's new. For developers who want to showcase the PHP expertise they gain at these talks, the [Symfony, Twig and Sylius certifications](/article/les-certifications-symfony-twig-symfony-sylius) (in French) offer official recognition of their skills.
+
+## Going further
+
+- [Which events to follow in the Symfony and PHP world?](/article/quels-evenements-suivre-dans-le-monde-de-symfony-php-quelles-differences-entre-eux) (in French), an overview of conferences and meetups in the PHP ecosystem
+- [Forum PHP & SymfonyCon 2024](/article/retour-sur-le-forum-php-2024) (in French), the national conferences
+- [AFUP](https://afup.org/), the French PHP users association
+- [AFUP Day: conference videos](https://afup.org/talks/), watch the talks again
+- [Symfony: official blog](https://symfony.com/blog), follow the news
