@@ -1,0 +1,108 @@
+---
+title: "DORA Compliance for Fintech: A Symfony Checklist"
+date: "2026-06-02"
+updatedAt: "2026-10-12"
+author: "Louis-Arnaud Catoire"
+category: "Security"
+excerpt: "DORA has applied since January 2025. A technical checklist and contract clauses: what fintechs should require from a Symfony application and its provider."
+image: "/images/blog/cover-dora-fintech.webp"
+proficiencyLevel: "Expert"
+translationOf: "dora-fintech-resilience-technique-symfony"
+translatedFromUpdatedAt: "2026-10-12"
+faq:
+  - question: "Is my fintech covered by DORA?"
+    answer: "DORA applies to a wide range of financial entities: credit institutions, payment service providers, electronic money institutions, asset management companies, insurers and crypto-asset platforms. Fintechs that operate under one of these statuses, or that provide a critical IT service to one of these entities, fall within the scope, either directly or as a third-party service provider."
+  - question: "Does DORA require a mandatory code audit?"
+    answer: "DORA does not impose a single audit format, but it requires you to master and prove the resilience of your systems: resilience testing, documented management of third-party provider risks, and the ability to provide evidence during an inspection. A code audit and an architecture review are the most direct ways to produce that evidence."
+  - question: "What is the difference between DORA and NIS2 compliance for a fintech?"
+    answer: "DORA is a lex specialis for the financial sector: it takes precedence over NIS2 on the topics it covers for financial entities. NIS2 remains relevant for players outside the scope of DORA. Both share the same logic of risk management, incident notification and control of the subcontracting chain, which lets you pool a large part of the technical work."
+  - question: "What does a fintech risk if it is not DORA compliant?"
+    answer: "Competent authorities have administrative sanction powers that can go as far as significant fines, compliance orders and, for serious breaches, measures affecting the license. Beyond the penalty, reputational risk and the loss of contracts with financial principals are often even more dissuasive."
+---
+
+**DORA took effect on January 17, 2025.** For a fintech, it is no longer a regulatory watch topic but an enforceable requirement: a financial client can now ask for concrete proof of resilience before signing. Yet very few technical agencies know how to translate this regulation into architecture decisions and contract clauses. This article is an actionable checklist for fintech CTOs and CISOs who build or operate a Symfony application.
+
+For the fundamentals of DORA application resilience (traceability, continuity, observability), our article on [application resilience on the Symfony side](/article/conformite-dora-resilience-symfony) (in French) sets the general framework. Here, we focus on the fintech side: what to verify, require and document. For the support itself, see our [NIS2 and DORA compliance preparation](/preparation-conformite-symfony) (in French).
+
+## Who Is Affected in Fintech
+
+The scope of DORA is broad and captures almost the entire French fintech ecosystem: neobanks, payment service providers, electronic money institutions, financing platforms, insurtech, crypto-asset platforms, and the software vendors that serve them. Players such as connected accounting, expense report management or buy-now-pay-later solutions handle financial flows and sensitive data that place them within the scope, either directly or as a critical third-party provider of a regulated entity.
+
+The key point for a growing fintech: even if you are not regulated yourself, as soon as you provide a critical IT service to a financial player, your client will impose DORA requirements on you by contract. Compliance then becomes a condition for access to the B2B market.
+
+## What DORA Requires in Practice
+
+[DORA](https://eur-lex.europa.eu/eli/reg/2022/2554/oj) rests on five pillars. Four of them have a direct technical impact on a Symfony application.
+
+**ICT risk management** requires a documented framework: a map of assets, dependencies and single points of failure. **Major incident reporting** requires you to detect, classify and report an incident within short deadlines. **Operational resilience testing** ranges from classic continuity testing up to threat-led penetration testing (TLPT) for the most critical entities. Finally, **third-party provider risk management** requires a contractual map and documented exit strategies.
+
+A fifth pillar, cyber threat information sharing, remains optional but encouraged. DORA also applies a proportionality principle: the requirements adapt to the size and risk profile of the entity. A young fintech is not subject to the same level of formalism as a systemic bank, but it must still demonstrate documented control of its digital risks. This proportionality principle is good news for growing companies: it lets them prioritize work according to real risk rather than aiming for maximalist compliance from the start.
+
+Each of these pillars translates into requirements that can be verified in the code, the infrastructure and the contracts. This is precisely the level of translation that separates a real compliance posture from a purely declarative file.
+
+## DORA vs NIS2: The Differences That Matter
+
+Many fintechs confuse the two frameworks. DORA is a directly applicable regulation specific to the financial sector, while the [NIS2 directive](/article/conformite-nis2-application-symfony) (in French) is cross-sector and transposed into national law. For a financial entity, DORA takes precedence over NIS2 on the topics it covers.
+
+Three differences matter in practice. First, DORA goes further on **third-party providers**: it introduces direct oversight of IT providers deemed critical at the European level. Second, it requires **advanced resilience testing** (TLPT) that NIS2 does not. Finally, its **incident reporting regime** is more prescriptive, with harmonized templates and deadlines. A fintech already engaged in a NIS2 effort has a solid base, but must strengthen these three areas to reach DORA compliance.
+
+## Translating DORA into Practice on Symfony
+
+### Auditable Source Code and Git Signatures
+
+DORA requires you to guarantee the integrity of your systems. That starts with the production chain: signing commits and build artifacts, systematic review, reproducible pipelines. In case of an incident, you must be able to answer a simple question: who changed what, when, and with what approval. A signed Git history and a traceable CI turn this requirement into immediate proof rather than a laborious reconstruction.
+
+### A Continuity Plan Tested with Chaos Engineering
+
+A continuity plan that has not been tested is only an intention. DORA asks for real tests. Beyond restored backups and documented failovers, chaos engineering injects controlled failures (loss of a service, network latency, database unavailability) to verify the real behavior of the system under degraded conditions. A solid base of [automated tests](/tests-automatises-php) (in French) is the essential prerequisite before introducing these failure scenarios.
+
+For the most critical entities, DORA goes further with threat-led penetration testing (TLPT). Unlike a classic pentest, a TLPT simulates realistic attack scenarios inspired by the real threat facing the financial sector, on production systems or representative environments. Preparing a Symfony application for this kind of exercise requires serious hardening upstream: access segmentation, [strict secrets management](https://symfony.com/doc/current/configuration/secrets.html), active monitoring. It is better to discover your weaknesses during a controlled exercise than during a real attack.
+
+### Contractual and Technical Reversibility
+
+The exit strategy is one of the points authorities scrutinize most. You must be able to migrate an application and its data to another provider without irreversible dependencies: containerization, infrastructure as code, open data formats and usable archives. Decoupling the business code from the framework and the infrastructure, as a [hexagonal architecture](/architecture-hexagonale-symfony) (in French) allows, makes this reversibility real rather than theoretical. Our [project retrospective on a migration to hexagonal architecture](/article/migration-symfony-architecture-hexagonale-retour-mission) (in French) illustrates this decoupling concretely.
+
+### Monitorable SLAs and OpenTelemetry Observability
+
+You cannot prove a resilience you do not measure. SLAs must be instrumented and verifiable, not just written in a contract. We instrument Symfony applications with OpenTelemetry to produce correlated traces, metrics and logs, and we base SLAs on these measurements. Observability lets you detect a degradation before the outage and provide the evidence expected during an inspection. A strategy of [well-managed caching](/article/tout-savoir-sur-la-mise-en-cache-tips) (in French) completes the setup by absorbing load spikes.
+
+### Usable Incident Logs
+
+DORA incident reporting is unmanageable without structured logging. Security events (authentications, privilege escalations, access to sensitive data) must be separated from application noise, timestamped and centralized, while complying with the GDPR. The ability to reconstruct the timeline of an incident in minutes, not days, makes the difference between a controlled report and a crisis.
+
+The regulation also requires you to classify incidents by severity and to meet harmonized notification deadlines: a quick initial notification, then an intermediate report and a final report as the analysis progresses. Meeting these deadlines means classification cannot be improvised manual work on the day. We equip this step with dashboards that surface weak signals and alert thresholds defined in advance, so the team can assess the impact of an incident (number of clients affected, duration, data involved) using reliable data rather than estimates made under pressure.
+
+## The DORA Checklist for a Symfony Application
+
+Here are the points we systematically verify during a DORA resilience audit of a Symfony application:
+
+- Supported PHP and Symfony versions, dependencies scanned continuously and known vulnerabilities understood thanks to [CVE](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) (in French) monitoring
+- Signed commits and artifacts, reproducible and traceable CI/CD pipeline
+- Tested backups with quantified and verified recovery objectives (RTO, RPO)
+- Continuity plan proven by controlled failure scenarios
+- Demonstrated reversibility: containerization, infrastructure as code, data export
+- OpenTelemetry observability with instrumented SLAs and alerting
+- Structured, centralized, GDPR-compliant security logging
+- Map of critical third-party providers and their degraded modes
+
+To walk away with an operational document, download our [checklist of DORA contract clauses for an IT provider (PDF)](/documents/clauses-contractuelles-dora-symfony.pdf) (in French).
+
+## Contract Clauses to Require from an IT Provider
+
+DORA shifts part of the responsibility onto the contractual relationship. Whether you are the regulated fintech or its client, the contract with the technical provider must explicitly include several guarantees: a right to audit and to access security information, measurable service level commitments backed by penalties, and an obligation to cooperate in case of an incident and to meet notification deadlines.
+
+The contract must also include a detailed exit strategy (return of the code and data in usable formats, a transition period, reversibility assistance), subcontracting clauses governing the downstream chain of providers, and the location of data and processing. These clauses are not legal formalism: they have direct technical implications that the development team must be able to honor.
+
+A frequent trap is to sign these commitments without checking that they are technically achievable. Promising reversibility within thirty days when the data is locked in a proprietary format, or an availability SLA without the instrumentation to measure it, exposes you to a breach of contract the day the guarantee is invoked. That is why drafting these clauses must involve both legal and engineering: every written commitment must match a real, demonstrable technical capability.
+
+## Concrete Penalties
+
+DORA is not an incentive framework. Competent authorities have administrative sanction powers: compliance orders, fines proportionate to the severity and the size of the entity, and measures that can affect the license in case of serious breach. For critical third-party providers placed under European oversight, periodic penalty payments may apply.
+
+But for a fintech, the regulatory penalty is often not the main risk. The loss of trust of a financial partner, exclusion from a tender for lack of proof of compliance, or the shutdown of a critical service during a badly handled incident usually weighs far more heavily than the fine itself.
+
+## Conclusion
+
+DORA rewards teams that had already industrialized their engineering: testing, traceability, observability, dependency management. For a fintech on Symfony, compliance is not a parallel project but an extension of good engineering practices, formalized and proven. The difficulty is not rewriting everything, but turning existing practices into enforceable evidence and contractual guarantees.
+
+To gauge the maturity of your application and build an action plan, rely on our expertise in [Symfony application security](/securite-application-symfony) (in French) and our [cloud and DevOps](/cloud-et-devops) (in French) know-how, or start with a [free Symfony audit](/audit-symfony-gratuit) (in French).
