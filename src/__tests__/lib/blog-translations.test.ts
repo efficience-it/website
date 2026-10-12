@@ -31,8 +31,6 @@ describe("translations", () => {
       category: '"Symfony"',
       translationOf: `"${source}"`,
       translatedFromUpdatedAt: '"2026-01-13"',
-      reviewedBy: '"Reviewer"',
-      reviewedAt: '"2026-10-09"',
       ...overrides,
     };
   }
@@ -73,16 +71,13 @@ describe("translations", () => {
       language: "en",
       translationOf: SOURCE_A,
       translatedFromUpdatedAt: "2026-01-13",
-      reviewedBy: "Reviewer",
-      reviewedAt: "2026-10-09",
     });
     expect(blog.getPostBySlug("valid", "en")!.title).toBe("Translated title");
   });
 
   it("reads unquoted YAML dates as ISO strings", () => {
-    writeEn("dates", validFields(SOURCE_A, { reviewedAt: "2026-10-09", translatedFromUpdatedAt: "2026-01-13" }));
+    writeEn("dates", validFields(SOURCE_A, { translatedFromUpdatedAt: "2026-01-13" }));
     const [post] = blog.getAllPosts("en");
-    expect(post.reviewedAt).toBe("2026-10-09");
     expect(post.translatedFromUpdatedAt).toBe("2026-01-13");
   });
 
@@ -96,7 +91,7 @@ describe("translations", () => {
     expect(blog.getAllPosts("en").map((p) => p.slug)).toEqual(["new", "old"]);
   });
 
-  it.each(["translationOf", "translatedFromUpdatedAt", "reviewedBy", "reviewedAt"])(
+  it.each(["translationOf", "translatedFromUpdatedAt"])(
     "refuses a translation without %s",
     (field) => {
       const fields: Record<string, string> = validFields(SOURCE_A);

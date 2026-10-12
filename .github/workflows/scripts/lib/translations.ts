@@ -14,7 +14,7 @@ interface Article {
   content: string;
 }
 
-const REQUIRED_FIELDS = ["translationOf", "translatedFromUpdatedAt", "reviewedBy", "reviewedAt"] as const;
+const REQUIRED_FIELDS = ["translationOf", "translatedFromUpdatedAt"] as const;
 
 const FRENCH_MARKERS = new Set([
   "les", "des", "une", "est", "dans", "pour", "avec", "que", "qui", "sur", "pas", "votre", "vos",

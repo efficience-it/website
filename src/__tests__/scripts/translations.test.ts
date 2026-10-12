@@ -29,8 +29,6 @@ function writeEnglish(root: string, slug = "translated", overrides: Record<strin
       excerpt: '"Translated excerpt"',
       translationOf: '"source"',
       translatedFromUpdatedAt: '"2026-01-13"',
-      reviewedBy: '"Reviewer"',
-      reviewedAt: '"2026-10-09"',
       ...overrides,
     },
     body,
@@ -67,11 +65,11 @@ describe("translations check", () => {
 
   it("accepts unquoted YAML dates", () => {
     writeFrench(root);
-    writeEnglish(root, "translated", { translatedFromUpdatedAt: "2026-01-13", reviewedAt: "2026-10-09" });
+    writeEnglish(root, "translated", { translatedFromUpdatedAt: "2026-01-13" });
     expect(checkTranslations(root)).toEqual([]);
   });
 
-  it.each(["translationOf", "translatedFromUpdatedAt", "reviewedBy", "reviewedAt"])(
+  it.each(["translationOf", "translatedFromUpdatedAt"])(
     "reports a missing %s",
     (field) => {
       writeFrench(root);
@@ -141,7 +139,7 @@ describe("translations check", () => {
     write(
       root,
       "content/blog/en/translated.mdx",
-      { translationOf: '"source"', translatedFromUpdatedAt: '"2026-01-13"', reviewedBy: '"Reviewer"', reviewedAt: '"2026-10-09"' },
+      { translationOf: '"source"', translatedFromUpdatedAt: '"2026-01-13"' },
       ENGLISH_BODY,
     );
     expect(checkTranslations(root)).toEqual([]);

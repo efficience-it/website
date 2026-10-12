@@ -10,8 +10,6 @@ const BLOG_DIR_EN = path.join(BLOG_DIR, "en");
 const TRANSLATION_REQUIRED_FIELDS = [
   "translationOf",
   "translatedFromUpdatedAt",
-  "reviewedBy",
-  "reviewedAt",
 ] as const;
 
 function postsDirectory(language: BlogLanguage): string {
@@ -78,8 +76,6 @@ function parsePost(
     imageGeoLocation: data.imageGeoLocation as string | undefined,
     translationOf: asString(data.translationOf),
     translatedFromUpdatedAt: asString(data.translatedFromUpdatedAt),
-    reviewedBy: asString(data.reviewedBy),
-    reviewedAt: asString(data.reviewedAt),
     proficiencyLevel: data.proficiencyLevel as BlogPost["proficiencyLevel"],
     faq: data.faq as BlogPost["faq"],
     event: data.event as BlogPost["event"],
