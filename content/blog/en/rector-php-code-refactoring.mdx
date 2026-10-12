@@ -1,0 +1,204 @@
+---
+title: "Rector: Evolve Your Symfony Code Automatically"
+date: "2023-12-05"
+updatedAt: "2026-10-12"
+author: "Louis-Arnaud Catoire"
+category: "Symfony"
+excerpt: "Rector is a robust PHP tool that automates code upgrades and refactoring. Learn how to set it up, choose rule sets, plug it into CI and write custom rules."
+image: "/images/blog/cover-rector-en.webp"
+translationOf: "rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony"
+translatedFromUpdatedAt: "2026-10-12"
+---
+
+## Understanding Rector and the AST
+
+Rector is an automatic refactoring tool for PHP, essential to any [application modernization](/modernisation-applicative) (in French) effort. Where a developer edits code by hand, renaming a method, adding a type hint, replacing an annotation with an attribute, Rector performs these transformations programmatically across an entire codebase.
+
+The mechanism relies on the AST (Abstract Syntax Tree). Rather than manipulating raw text with regular expressions, Rector uses `nikic/php-parser` to convert each PHP file into a syntax tree. Every element of the code, class, method, assignment, condition, becomes a typed node in that tree. An assignment `$x = 1;` produces an `Assign` node containing a `Variable` node and an `LNumber` node. A double `!!$var` translates into two nested `BooleanNot` nodes.
+
+The transformation cycle follows three phases: parsing converts the source into an AST, traversal applies the rules to each matching node, and printing converts the modified tree back into PHP code while preserving the original style (indentation, spacing) to minimize diffs. This structural approach guarantees that only exact patterns are modified, which eliminates a whole category of bugs tied to textual find-and-replace.
+
+## Installation and First Run
+
+Rector installs as a development dependency through Composer:
+
+```bash
+composer require rector/rector --dev
+```
+
+Generating the configuration file takes one command:
+
+```bash
+php vendor/bin/rector init
+```
+
+The resulting `rector.php` file is the entry point for the whole configuration:
+
+```php
+return static function (RectorConfig $rectorConfig): void {
+    $rectorConfig->paths([
+        __DIR__ . '/config',
+        __DIR__ . '/public',
+        __DIR__ . '/src',
+        __DIR__ . '/tests',
+    ]);
+    $rectorConfig->sets([
+        LevelSetList::UP_TO_PHP_83,
+    ]);
+};
+```
+
+You preview changes without applying them with `--dry-run`, and apply them for real by omitting that flag:
+
+```bash
+php vendor/bin/rector process --dry-run
+php vendor/bin/rector process
+```
+
+## Rule Set Strategy
+
+The choice and ordering of rule sets determine the quality of a migration. Rector offers several categories of sets, each with a precise scope:
+
+- `SetList::DEAD_CODE` removes [dead code](/article/code-mort-mission-elimination) (in French): unused variables, always-true conditions, private methods that are never called.
+- `SetList::CODE_QUALITY` simplifies conditions, eliminates redundancies, and improves readability.
+- `SetList::CODING_STYLE` standardizes style: ternaries, early returns, writing conventions.
+- `SetList::TYPE_DECLARATION` adds missing type hints on parameters, return values, and properties.
+- `SetList::NAMING` renames variables and methods according to the [PSR conventions](/article/qu-est-ce-que-les-psrs-et-a-quoi-servent-ils) (in French).
+
+For Symfony, dedicated sets cover each major version and structural transformations:
+
+```php
+$rectorConfig->sets([
+    SymfonySetList::SYMFONY_60,
+    SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES,
+    SymfonySetList::SYMFONY_CODE_QUALITY,
+    SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION,
+]);
+```
+
+The `ANNOTATIONS_TO_ATTRIBUTES` rule is particularly strategic when moving to Symfony 6.x, whose [official upgrade guide](https://symfony.com/doc/current/setup/upgrade_major.html) details the expected changes. It turns annotations into PHP 8 attributes on routes, Doctrine entities (`@Entity`, `@Column`, `@OneToMany`), and validation constraints (`@Assert\NotBlank`, `@Assert\Email`):
+
+```php
+#[Route('/users', name: 'user_list', methods: ['GET'])]
+public function list(): Response
+```
+
+Order matters. Starting with `DEAD_CODE` shrinks the code surface before applying heavier transformations. Following with `CODE_QUALITY` and then the version sets produces more readable diffs and more efficient reviews.
+
+### Excluding Files
+
+Some files deserve specific treatment or a temporary exclusion:
+
+```php
+$rectorConfig->skip([
+    SimplifyIfReturnBoolRector::class => [
+        __DIR__ . '/src/ComplicatedFile.php',
+        __DIR__ . '/src/ComplicatedDirectory',
+    ],
+]);
+```
+
+## CI Integration and Batch Workflow
+
+Rector delivers its full value when integrated into the continuous integration pipeline. The principle is simple: `--dry-run` in CI checks that no file needs transformation, guaranteeing that all pushed code is already compliant.
+
+In a GitHub Actions workflow:
+
+```yaml
+- name: Rector
+  run: vendor/bin/rector process --dry-run
+```
+
+If Rector detects necessary changes, the pipeline fails. Developers run Rector locally, commit the changes, and push again. This mechanism works the same way with GitLab CI, Jenkins, or any other tool.
+
+A batch workflow is the key to a controlled migration. Rather than enabling every set at once and producing a diff of several thousand lines, each iteration targets a single set or rule:
+
+1. Enable a rule in `rector.php`.
+2. Run `rector process` and review the diff.
+3. Run the full test suite.
+4. Commit and create a dedicated pull request.
+5. Move on to the next rule.
+
+This split produces atomic PRs, makes review easier, and allows surgical reverts in case of regression.
+
+## Custom Rules
+
+Built-in rules cover generic cases. Project-specific needs, replacing a homegrown legacy helper, migrating an internal pattern, applying a team convention, call for custom rules.
+
+A custom rule extends `AbstractRector` and implements three methods:
+
+```php
+use PhpParser\Node;
+use PhpParser\Node\Expr\FuncCall;
+use Rector\Rector\AbstractRector;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+
+final class ReplaceLegacyHelperRector extends AbstractRector
+{
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition('Replace legacy_helper() calls with new_helper()', []);
+    }
+
+    public function getNodeTypes(): array
+    {
+        return [FuncCall::class];
+    }
+
+    public function refactor(Node $node): ?Node
+    {
+        if (! $this->isName($node, 'legacy_helper')) {
+            return null;
+        }
+
+        $node->name = new Node\Name('new_helper');
+
+        return $node;
+    }
+}
+```
+
+`getNodeTypes()` declares the targeted AST node types. `refactor()` receives each matching node and returns the modified node, or `null` if no transformation applies. The power of this API lies in full access to the AST graph: you can inspect parent nodes, type annotations through PHPStan, variable scope, and compose complex transformations involving several nodes.
+
+For a team that maintains dozens of internal rules, organizing them in a dedicated package with their own PHPUnit tests ensures their reliability across Rector updates.
+
+## Advanced AST Manipulation
+
+Behind the simplified `AbstractRector` API lies the full machinery of `nikic/php-parser`. Node Visitors let you step in at different moments of the traversal (`beforeTraverse`, `enterNode`, `leaveNode`, `afterTraverse`). Rector orchestrates these visitors in a deterministic order, resolves dependencies between rules, and handles cases where one transformation invalidates another's context.
+
+For developers who want to go deeper into these concepts, the [evolutions of PHP 9.0](/article/php-9-0-devoile-ce-que-vous-devez-savoir-avant-la-sortie) (in French) will add new opportunities for automated refactoring. Understanding this level of detail becomes necessary when a rule must perform multi-node transformations: moving a method from a class to a trait, extracting a service from procedural code, or restructuring an inheritance hierarchy. These operations require manipulating `ClassLike`, `ClassMethod`, and `Stmt` nodes in coordination, making sure that imports (`use` statements) and cross-references stay consistent.
+
+## Rector as a Technical Governance Tool
+
+At the scale of an organization that maintains several Symfony applications, Rector goes beyond a one-off migration tool and becomes an instrument of code governance.
+
+A rule set shared between teams, distributed as an internal Composer package, encodes the organization's technical standards. When an architectural decision is made, migrating from `ArrayCollection` to a typed wrapper, banning static calls in the domain layer, requiring readonly classes, it translates into a Rector rule. CI applies it automatically to all projects. The standard is no longer a document you hope people follow, but a constraint enforced by tooling.
+
+### Phased Migration on Large Codebases
+
+On a monolith of several hundred thousand lines, a frontal migration is unrealistic. The phased approach uses Rector's ability to target specific directories:
+
+```bash
+php vendor/bin/rector process src/Module/Billing
+```
+
+Each module migrates independently, with its own PR, its own tests, and its own validation. Critical modules go last, after the team has built confidence on peripheral modules. One `rector.php` file per module can temporarily coexist to handle different migration speeds.
+
+### Risk Management
+
+Rector cannot guarantee behavioral equivalence for every transformation. Purely syntactic transformations (constructor property promotion, match expressions) are safe. Semantic transformations (pattern replacement, naming changes) require solid test coverage and human review.
+
+The mitigation strategy rests on three pillars: a test suite with sufficient coverage on the transformed code, a PHPStan pass at the highest possible level before and after migration, and PRs small enough for a reviewer to analyze in depth. If one of these pillars is missing, slowing the migration pace is the responsible decision. Rector is also a top ally for automating a [Symfony migration](/migration-symfony) (in French) between major versions, as part of a structured application modernization effort. To structure the overall approach, a [migration guide for a Symfony project](/article/guide-de-migration-dans-un-projet-symfony) (in French) details the full methodology, step by step.
+
+## Conclusion
+
+Rector turns [Symfony application maintenance](/maintenance-applicative-symfony) (in French) from a manual effort into a systematic process. For an experienced developer, it is a migration accelerator. For a lead, it is a continuous integration tool that enforces standards. For an architect, it is a technical governance lever that applies structural decisions at the scale of an organization. The condition for its effectiveness stays constant: reliable test coverage, progress in controlled batches, and human review of risky transformations. Before running Rector on a project, a [PHP code review](/audit-code-php) (in French) measures the scale of the required transformations and prioritizes the work. Once the transformations are validated, [PHPUnit tests in continuous integration](/tests-automatises-php) (in French) ensure they do not introduce regressions.
+
+## Going Further
+
+- [PHPStan 2.0: level 10 and new features](/article/phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable) (in French), complementing Rector with static analysis
+- [How PHPStan can help you improve your PHP code quality](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French), static analysis alongside refactoring
+- [Technical debt: should you really be afraid of it?](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French), understanding the debt that Rector helps pay down
+- [Official Rector documentation](https://getrector.com/documentation), complete guide
+- [Rector on GitHub](https://github.com/rectorphp/rector), source code and contributions
+- [Symfony Upgrade Fixer](https://symfony.com/doc/current/setup/upgrade_major.html), official Symfony migration guide

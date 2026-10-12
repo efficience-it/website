@@ -722,6 +722,10 @@
     "author": "USFWSmidwest",
     "url": "https://commons.wikimedia.org/wiki/File:Monarch_butterfly_drying_out_it%27s_wings_after_emerging_from_chrysalis_in_Wisconsin_(28027169922).jpg"
   },
+  "rector-php-code-refactoring": {
+    "name": "rector-en",
+    "sameAs": "rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony"
+  },
   "reducteurs-tokens-assistants-ia-code": {
     "name": "reducteurs-tokens-ia",
     "file": "File:Sand Ripples and Lone Sunflower (52259662108).jpg",
