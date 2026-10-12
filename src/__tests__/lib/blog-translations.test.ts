@@ -132,4 +132,15 @@ describe("translations", () => {
       href: `/article/${SOURCE_A}`,
     });
   });
+
+  it("gives no translation paths without a translation", () => {
+    expect(blog.getTranslationPaths(blog.getPostBySlug(SOURCE_A)!)).toBeUndefined();
+  });
+
+  it("gives the same French and English paths from either side", () => {
+    writeEn("paths", validFields(SOURCE_A));
+    const expected = { fr: `/article/${SOURCE_A}`, en: "/en/article/paths" };
+    expect(blog.getTranslationPaths(blog.getPostBySlug(SOURCE_A)!)).toEqual(expected);
+    expect(blog.getTranslationPaths(blog.getPostBySlug("paths", "en")!)).toEqual(expected);
+  });
 });

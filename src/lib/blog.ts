@@ -165,7 +165,7 @@ function getTranslationOf(post: BlogPost): BlogPost | undefined {
   return getAllPosts("en").find((p) => p.translationOf === post.slug);
 }
 
-function articlePath(post: BlogPost): string {
+export function articlePath(post: BlogPost): string {
   return post.language === "en" ? `/en/article/${post.slug}` : `/article/${post.slug}`;
 }
 
@@ -175,6 +175,13 @@ export function getLanguageSwitchTarget(
   const translation = getTranslationOf(post);
   if (!translation) return undefined;
   return { language: translation.language as BlogLanguage, href: articlePath(translation) };
+}
+
+export function getTranslationPaths(post: BlogPost): Record<BlogLanguage, string> | undefined {
+  const translation = getTranslationOf(post);
+  if (!translation) return undefined;
+  const [french, english] = post.language === "en" ? [translation, post] : [post, translation];
+  return { fr: articlePath(french), en: articlePath(english) };
 }
 
 export const categorySlugMap: Record<string, string> = {
