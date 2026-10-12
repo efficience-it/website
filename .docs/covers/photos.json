@@ -273,6 +273,10 @@
     "author": "Bernard Spragg. NZ from Christchurch, New Zealand",
     "url": "https://commons.wikimedia.org/wiki/File:Lone_tree_Lake_Wanaka._NZ_(15479105003).jpg"
   },
+  "domain-layer-symfony-independence": {
+    "name": "domain-symfony-en",
+    "sameAs": "domain-ne-devrait-jamais-connaitre-symfony"
+  },
   "dora-fintech-resilience-technique-symfony": {
     "name": "dora-fintech-symfony",
     "file": "File:Rough ocean crashing on beach (Unsplash).jpg",

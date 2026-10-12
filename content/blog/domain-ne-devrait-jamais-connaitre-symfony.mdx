@@ -1,7 +1,7 @@
 ---
 title: "Pourquoi votre Domain ne devrait jamais connaître Symfony"
 date: "2026-03-09"
-updatedAt: "2026-03-26"
+updatedAt: "2026-10-12"
 author: "Louis-Arnaud Catoire"
 category: "Architecture"
 excerpt: "Votre domaine métier ne devrait dépendre de rien. Ni de Symfony, ni de Doctrine. Voici pourquoi et ce que ça change concrètement sur un vrai projet."
@@ -318,13 +318,13 @@ Le domaine définit ce dont il a besoin. L'infrastructure fournit comment. Le do
 
 Symfony autowire les interfaces automatiquement quand il n'y a qu'une seule implémentation, comme le décrivent les [bonnes pratiques officielles Symfony](https://symfony.com/doc/current/best_practices.html). Zéro config nécessaire.
 
-## La question du mapping : le prix à payer
+## La question du mapping : la contrepartie
 
 Le reproche le plus courant contre cette approche : ça double les classes. Une entité Doctrine et un modèle domaine pour le même concept. Un mapper entre les deux. Du code "boilerplate".
 
-C'est vrai. Et c'est le prix de l'indépendance.
+C'est vrai. Et c'est la contrepartie de l'indépendance.
 
-Mais ce prix est souvent surestimé. Un mapper, c'est 20 lignes de code trivial. Pas de logique, pas de conditions, juste de l'assignation de propriétés. Sur un projet de 50 entités, ça représente 1000 lignes de code ennuyeux. Sur une base de code de 100 000 lignes, c'est 1%.
+Mais cette contrepartie est souvent surestimée. Un mapper, c'est 20 lignes de code trivial. Pas de logique, pas de conditions, juste de l'assignation de propriétés. Sur un projet de 50 entités, ça représente 1000 lignes de code ennuyeux. Sur une base de code de 100 000 lignes, c'est 1%.
 
 Et ce 1% vous donne :
 
@@ -377,7 +377,7 @@ C'est un filet de sécurité permanent. L'architecture n'est plus une convention
 
 ## Quand ne pas le faire
 
-Cette approche a un coût. Pour un CRUD d'admin avec cinq entités et aucune logique métier, séparer domaine et infrastructure est de l'over-engineering. Le couplage Doctrine n'est un problème que quand il y a de la logique métier à protéger. La question de [choisir entre micro-services et monolithe modulaire](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) se pose dans le même esprit : l'architecture doit servir le projet, pas l'inverse.
+Cette approche a une contrepartie. Pour un CRUD d'admin avec cinq entités et aucune logique métier, séparer domaine et infrastructure est de l'over-engineering. Le couplage Doctrine n'est un problème que quand il y a de la logique métier à protéger. La question de [choisir entre micro-services et monolithe modulaire](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) se pose dans le même esprit : l'architecture doit servir le projet, pas l'inverse.
 
 La règle pragmatique : si votre classe ne fait que stocker et relire des données, une entité Doctrine suffit. Si elle contient des calculs, des validations métier, des transitions d'état, des règles conditionnelles, alors elle mérite un domaine propre.
 
