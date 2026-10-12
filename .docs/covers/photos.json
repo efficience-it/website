@@ -208,6 +208,10 @@
     "author": "Jebulon",
     "url": "https://commons.wikimedia.org/wiki/File:Saint_Nicolas_Fort_Rhodes_Harbour_night.jpg"
   },
+  "nis2-symfony-compliance": {
+    "name": "nis2-symfony",
+    "sameAs": "conformite-nis2-application-symfony"
+  },
   "core-team-organisation-projet": {
     "name": "core-team",
     "file": "File:Jack mackerel school.jpg",
