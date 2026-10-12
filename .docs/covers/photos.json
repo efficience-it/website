@@ -783,6 +783,10 @@
     "author": "Everglades NPS from Homestead, Florida, United States",
     "url": "https://commons.wikimedia.org/wiki/File:Laguncularia_racemosa_(9103314756).jpg"
   },
+  "mcp-servers-claude-code-symfony": {
+    "name": "mcp-servers-symfony",
+    "sameAs": "serveurs-mcp-claude-code-developpeurs-symfony"
+  },
   "skills-claude-code-equipe-symfony": {
     "name": "skills-claude-code",
     "file": "File:Shaving wood (Unsplash).jpg",
