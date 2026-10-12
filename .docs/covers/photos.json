@@ -483,6 +483,10 @@
     "author": "Shenandoah  National Park from Virginia",
     "url": "https://commons.wikimedia.org/wiki/File:Fog_Ocean_Sunrise_(26530071313).jpg"
   },
+  "php-9-upcoming-changes": {
+    "name": "php-9-changes",
+    "sameAs": "php-9-0-devoile-ce-que-vous-devez-savoir-avant-la-sortie"
+  },
   "php-vs-nodejs-quel-langage-backend-choisir": {
     "name": "php-vs-nodejs",
     "file": "File:Nizina River and Chitistone River Confluence (21425729180).jpg",
