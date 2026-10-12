@@ -280,6 +280,10 @@
     "author": "Ricardo Gomez Angel ripato",
     "url": "https://commons.wikimedia.org/wiki/File:Magic_light_(Unsplash).jpg"
   },
+  "ecosia-reforestation-search-engine": {
+    "name": "ecosia-trees",
+    "sameAs": "ecosia-preservateur-decologie"
+  },
   "elasticsearch-ou-algolia-moteur-de-recherche-symfony": {
     "name": "elasticsearch-algolia",
     "file": "File:Yukon Delta, Alaska.jpg",
