@@ -818,6 +818,10 @@
     "url": "https://commons.wikimedia.org/wiki/File:Phare_du_Petit_Minou,_Plouzan%C3%A9,_France_(Unsplash).jpg",
     "focusX": 0.5
   },
+  "nelmio-api-doc-swagger-symfony": {
+    "name": "nelmio-swagger",
+    "sameAs": "swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on"
+  },
   "sylius-la-solution-e-commerce-du-framework-symfony": {
     "name": "sylius-ecommerce",
     "file": "File:Tlaquepaque Umbrellas.jpg",
