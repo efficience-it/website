@@ -1002,6 +1002,10 @@
     "author": "Adam Jang adamjang",
     "url": "https://commons.wikimedia.org/wiki/File:Jokulsarlon_Ice_Caves_(Unsplash).jpg"
   },
+  "caching-guide-web-applications": {
+    "name": "caching-guide",
+    "sameAs": "tout-savoir-sur-la-mise-en-cache-tips"
+  },
   "traefik-ou-nginx-en-production": {
     "name": "traefik-ou-nginx",
     "file": "File:Nighttime Railroad Station (Unsplash).jpg",

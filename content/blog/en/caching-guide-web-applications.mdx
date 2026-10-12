@@ -1,0 +1,109 @@
+---
+title: "Everything You Need to Know About Caching"
+date: "2022-11-23"
+author: "Louis-Arnaud Catoire"
+category: "Architecture"
+excerpt: "A cache works like RAM: it is a type of memory designed to boost performance. Learn the principles, use cases and best practices of caching on the web."
+image: "/images/blog/cover-caching-guide.webp"
+translationOf: "tout-savoir-sur-la-mise-en-cache-tips"
+updatedAt: "2026-10-12"
+translatedFromUpdatedAt: "2026-10-12"
+---
+
+## Why Caching Is Unavoidable
+
+In a Symfony project, the [Cache component](https://symfony.com/doc/current/cache.html) provides a PSR-6 and PSR-16 abstraction for all application cache layers. Every uncached HTTP request requires a full round trip between the client and the server: DNS resolution, TLS negotiation, application processing, database reads, response serialization. On an application that handles several thousand requests per second, each of these steps adds up to a considerable cost in latency, CPU consumption and bandwidth.
+
+Caching means temporarily storing the result of an expensive operation so you can return it directly on subsequent requests, without recomputing or retransmitting it. Whether it is the browser cache, an intermediate proxy or a CDN, the fundamental principle stays the same: serve a local copy rather than hit the origin. A properly configured site can cut its response times in half, or more, while significantly reducing the load on its infrastructure. Using the HTTP cache is also part of the [best practices for REST APIs](/article/api-rest-les-bonnes-pratiques) (in French) that any project exposing public endpoints should apply.
+
+## Cache Layers in a Web Architecture
+
+### The Browser Cache
+
+The browser is the first caching layer. It stores static resources (images, stylesheets, JavaScript scripts) locally, tied to their URL. On a later visit, it checks in a few milliseconds whether the resource is already available locally before issuing a network request. This mechanism explains the fast loading when you go back or revisit a page. The browser cache capacity, generally limited to a few hundred megabytes, is managed by an LRU (Least Recently Used) algorithm that automatically evicts the oldest entries.
+
+### The Proxy Cache and the Reverse Proxy
+
+Proxy caches, deployed inside corporate networks or at internet service providers, are shared caches that benefit all users of the same network. A well-sized proxy reduces bandwidth consumption by 30 to 50%.
+
+The reverse proxy sits on the server side, in front of the application. For the application cache, [Redis integration with Symfony](/integration-redis-symfony) (in French) offers unbeatable in-memory performance. Varnish is the open source reference in this area. Placed at the front, it intercepts incoming requests and serves responses from its memory without hitting the application server. Varnish uses the VCL (Varnish Configuration Language) to define granular cache rules: different lifetimes per content type, cookie handling, Vary header processing. On a Symfony application, it is common to combine the HttpCache component built into the framework with Varnish in production to get sub-millisecond response times on public pages. [FrankenPHP](/article/concretement-cest-quoi-frankenphp) (in French) also brings additional optimizations to the HTTP pipeline that combine well with these cache strategies.
+
+### CDNs and Gateway Caches
+
+Content delivery networks (CDNs) distribute gateway caches across the world. The [deployment of Nuxt.js with CloudFront](/article/deployer-nuxtjs-avec-gitlab-ci-s3-et-cloudfront) (in French) is a concrete illustration of setting up a CDN for front-end assets. Cloudflare, Fastly, Akamai or CloudFront place copies of the content on servers geographically close to end users. A visitor in Paris reaches the European point of presence rather than the origin server hosted across the Atlantic, saving several tens of milliseconds per request. Modern CDNs go beyond simple static caching: they offer edge computing features, on-the-fly image transformation and instant purge via API.
+
+## The HTTP Protocol at the Service of Caching
+
+### Expiration: Cache-Control and Expires
+
+The `Cache-Control` header, introduced by HTTP 1.1, gives precise control over cache behavior through its directives:
+
+- **max-age**: freshness lifetime in seconds
+- **s-maxage**: lifetime that applies only to shared caches (proxy, CDN)
+- **public**: allows storage by shared caches (proxy, CDN), even when the request contains an Authorization header
+- **no-cache**: requires revalidation with the server before each use
+- **no-store**: forbids any storage of the response
+- **must-revalidate**: forbids the cache from serving a stale response without first revalidating with the origin server
+- **immutable**: signals that the resource will never change during its lifetime
+
+The old `Expires` header, based on an absolute date in HTTP format, suffers from a structural flaw: it requires clock synchronization between client and server. `Cache-Control`, based on relative durations, is systematically preferred.
+
+In practice, a versioned static resource (for example `style.a3f5c2.css`) gets a `max-age` of one year combined with `immutable`, while a dynamic HTML page uses `no-cache` to guarantee systematic revalidation.
+
+### Validation: ETag and Last-Modified
+
+When a resource expires, the cache does not necessarily need to download it again in full. The conditional validation mechanism lets it check whether the content has changed without transferring the response body.
+
+The `Last-Modified` header indicates the date of last modification. During revalidation, the cache sends a conditional request with `If-Modified-Since`. If the resource is unchanged, the server responds with a 304 code (Not Modified), saving bandwidth and processing time.
+
+The `ETag` (Entity Tag), introduced by HTTP 1.1, provides a unique identifier generated each time the resource changes. It is checked via the `If-None-Match` header. The ETag proves indispensable when the time granularity of `Last-Modified` is insufficient, for example when a file is modified several times within the same second.
+
+## Cache Invalidation Strategies
+
+Phil Karlton formulated what remains one of the truest aphorisms in computing: the two hard problems are naming and cache invalidation. The challenge is to guarantee that users always receive the latest version of a resource, without sacrificing the benefits of caching.
+
+### Cache-Busting With Versioning
+
+The most reliable approach is to include a content hash in the file name. Webpack, Vite and most modern build tools automatically generate versioned file names. When the content changes, the name changes, and the browser treats the resource as entirely new. This technique lets you apply very long cache durations without any risk of inconsistency.
+
+### Purge and Ban via API
+
+CDNs and reverse proxies expose purge APIs that let you invalidate one or more cache entries in a targeted way. Varnish implements a particularly powerful ban mechanism: rather than physically deleting entries, it marks them as invalid through regular expressions on URLs or headers, allowing massive invalidation in a single operation.
+
+### Edge Side Includes (ESI)
+
+ESI lets you compose a page from independent fragments, each with its own cache policy. The navigation banner, updated once a day, can be cached for 24 hours, while the main content is revalidated on every request. Symfony natively supports ESI through its HttpCache component, and Varnish implements it transparently. This granularity is essential for applications where some parts of the page are personalized and others are common to all users. Result pages from a [search engine such as Elasticsearch or Algolia](/article/elasticsearch-ou-algolia-moteur-de-recherche-symfony) (in French) also benefit from fine-grained caching, which avoids hitting the index on every identical request.
+
+## Cache Consistency in a Distributed Architecture
+
+In an architecture made of several application servers, a reverse proxy, a CDN and possibly application caches (Redis, Memcached), cache consistency becomes a major architectural challenge. [Docker](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) (in French) makes it easier to deploy and configure these different cache layers in isolated containers.
+
+### The Cache Stampede Problem
+
+When a popular cache entry expires simultaneously for a large number of users, all requests are redirected to the origin server at the same moment. This phenomenon, called cache stampede (or thundering herd), can cause a sudden overload, or even a service collapse.
+
+Several strategies protect against it. Probabilistic early expiration means refreshing the cache ahead of time with a probability that increases as expiration approaches, spreading regenerations over time. The lock mechanism prevents concurrent requests from recomputing the same entry: the first request locks the key, recomputes the value, then releases the lock, while the following requests wait or serve the stale version (stale-while-revalidate).
+
+### Cascading Invalidation and Consistency
+
+In a distributed system, invalidating a cache entry is not an atomic operation. A database change must propagate to the application cache, then to the reverse proxy, then to the CDN. Each step introduces a delay during which different layers serve potentially inconsistent versions.
+
+To control this propagation, it is recommended to adopt an event-driven model: each mutation publishes an event that triggers invalidation at each layer, allowing an ordered and traceable propagation. [Symfony Messenger](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) (in French), combined with an asynchronous message bus, is an excellent foundation for implementing this pattern.
+
+### Stale-While-Revalidate and Stale-If-Error
+
+These two `Cache-Control` directives provide a resilience mechanism that is indispensable in production. `stale-while-revalidate` lets the cache serve a stale response while it revalidates in the background, guaranteeing a constant response time for the user. `stale-if-error` lets you keep serving cached content when the origin server is unavailable, turning the cache into a safety net against outages.
+
+## Cache Monitoring and Observability
+
+An unobserved cache is a potentially counterproductive cache. The hit rate (the share of requests served by the cache) is the fundamental metric: below 80%, the configuration deserves investigation. The quality of [Symfony hosting](/hebergement-symfony) (in French) plays a direct role in this performance: a properly sized server with Varnish or Redis preconfigured maximizes the hit rate with no extra effort on the application side. The metrics to watch also include the eviction rate, P99 latency, entry regeneration time and the ratio of stale responses served.
+
+Varnish exposes its statistics via `varnishstat`, and CDNs provide detailed dashboards. Adding the `X-Cache` header (HIT, MISS, STALE) to responses lets you diagnose cache behavior directly from the browser's developer tools. In production, integrating these metrics into a monitoring tool like Prometheus or Datadog lets you detect performance regressions and anticipate capacity problems.
+
+## Going Further
+
+- Why Docker is indispensable in production, deploying caches and CDNs with Docker
+- [The most used bundles in Symfony](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony) (in French), discovering cache and performance bundles
+- Deploying NuxtJS with GitLab CI, S3 and CloudFront, setting up a CDN for your front-end assets
+- [Symfony HTTP Cache](https://symfony.com/doc/current/http_cache.html), official documentation of the HTTP cache in Symfony
+- [MDN Web Docs: HTTP Caching](https://developer.mozilla.org/fr/docs/Web/HTTP/Caching), a complete reference on HTTP caching
