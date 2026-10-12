@@ -108,6 +108,10 @@
     "author": "Dave Brown",
     "url": "https://commons.wikimedia.org/wiki/File:Suricata_suricatta_suricatta_97088339.jpg"
   },
+  "security-training-teams": {
+    "name": "security-training",
+    "sameAs": "comment-former-vos-equipes-a-la-securite-informatique-en-toute-simplicite"
+  },
   "comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php": {
     "name": "phpstan-qualite",
     "file": "File:Snowflake macro (Unsplash).jpg",

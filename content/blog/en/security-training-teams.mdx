@@ -1,0 +1,114 @@
+---
+title: "Security Training for Development Teams"
+date: "2025-04-15"
+author: "Louis-Arnaud Catoire"
+category: "Security"
+excerpt: "Train your teams in cybersecurity best practices: awareness, simple habits, and proven methods to protect your company from cyberattacks and application flaws."
+image: "/images/blog/cover-security-training.webp"
+updatedAt: "2026-10-12"
+translationOf: "comment-former-vos-equipes-a-la-securite-informatique-en-toute-simplicite"
+translatedFromUpdatedAt: "2026-01-13"
+---
+
+Application security cannot be decreed in an internal policy document. It is built through the collective skill of the teams that design, develop, and operate the systems. Yet security training is often limited to annual, generic awareness sessions, disconnected from the realities of code and infrastructure.
+
+The real challenge is not to tick a compliance box. It is to turn security into an engineering reflex, rooted in every technical decision, from choosing a dependency to designing a distributed system.
+
+## Understanding the application threat landscape
+
+Before training, you need to align the teams on a shared reference. The OWASP Top 10 remains the essential starting point: injection, broken authentication, sensitive data exposure, XXE, broken access control, security misconfiguration, XSS, insecure deserialization, vulnerable components, insufficient logging. These categories often match [CVEs published on well-known libraries](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) (in French), which are worth knowing how to interpret to put a threat in context.
+
+Every developer should be able to recognize these vulnerability categories in the code they write. This is not theoretical knowledge: it is the foundation of critical reading that every development professional needs to assess the attack surface of a feature they implement.
+
+OWASP is not limited to the Top 10. The ASVS (Application Security Verification Standard) provides a verification framework structured in three maturity levels, directly actionable for defining a project's security requirements. The SAMM (Software Assurance Maturity Model) lets you assess and steer the security maturity of an organization as a whole.
+
+## Secure development practices
+
+### Validate deeply, not superficially
+
+Input validation is more than a `required` on a form field. Every piece of data coming from outside the system (HTTP request, queue message, imported file, third-party API response) must be considered hostile. Validation must be strict, allowlist-based, and applied as close to the business logic layer as possible, not only at the edge.
+
+Parameterized queries are a given, but injections evolve. NoSQL injections, template injections (SSTI), LDAP injections, and serializer manipulations remain frequent blind spots in code reviews.
+
+### Managing secrets and configuration
+
+Secrets hardcoded in the code or in versioned configuration files remain one of the most frequent causes of compromise. A mature workflow relies on a secrets manager (Vault, AWS Secrets Manager, Doppler), automated rotation, and a strict separation between application configuration and runtime secrets. Detection tools like TruffleHog or GitLeaks must be integrated into pre-commit hooks to stop any leak before it reaches the repository.
+
+### Authentication and session management
+
+Implementing your own authentication system is almost always a mistake. Modern frameworks like [Symfony](/article/pourquoi-choisir-symfony-pour-vos-projets) (in French) provide battle-tested components. The team's responsibility is to configure them correctly: hashing policy (bcrypt, Argon2id), token lifetime, server-side session invalidation, CSRF protection, security headers (HSTS, CSP, X-Content-Type-Options). Every configuration choice has implications for the attack surface that you need to understand, not just apply by copying and pasting from Stack Overflow.
+
+## Code review as a security lever
+
+### Building security into every merge request
+
+Code review is the most effective moment to catch vulnerabilities, provided reviewers know what to look for. Training senior developers in security-oriented review means giving them a mental checklist: error handling (are stack traces exposed?), access control (does every endpoint check authorizations?), logging (is sensitive data excluded from logs?), dependencies (is the newly introduced library maintained and audited?).
+
+This skill is not acquired in a lecture. It develops through repeated practice, ideally paired with a developer experienced in security during the first few weeks.
+
+### SAST and DAST in the build pipeline
+
+Static (SAST) and dynamic (DAST) analysis does not replace human review, but it complements it by catching patterns that can be detected mechanically. Semgrep, SonarQube, [PHPStan with custom security rules](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French), or Snyk Code integrate directly into CI. The challenge is not to enable the tool. It is to configure it with rules relevant to your stack, handle false positives to avoid alert fatigue, and define blocking thresholds that prevent a merge when a critical vulnerability is found. [Financial sector companies](/secteur/finance) (in French) are subject to compliance obligations that make these thresholds non-negotiable.
+
+On the DAST side, tools like OWASP ZAP or Nuclei let you scan staging environments continuously. Integrating them into the CI/CD pipeline turns these one-off scans into a permanent safety net.
+
+### Auditing dependencies
+
+The supply chain has become a major attack vector. [Composer](/article/utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques) (in French) Audit, npm audit, or Dependabot are not enough if they are not paired with a response process. Every alert must have an owner, a handling SLA, and a defined escalation path. The dependency update policy must be proactive, not reactive: regular, incremental updates are less risky than a massive catch-up after months of inaction.
+
+## Building a lasting security culture
+
+### The Security Champions program
+
+Security cannot rest solely on a dedicated team. The Security Champions model consists of identifying a volunteer reference person in each development team, continuously trained in security practices, who becomes the link between the security team and the product team. To kick-start this culture in a playful way, [Chocoblast shows how gamification can make security awareness more engaging](/article/le-chocoblast-un-premier-pas-vers-la-securite-par-le-jeu) (in French).
+
+This champion takes part in code reviews with a security-oriented eye, raises architectural concerns, and keeps the team's awareness level up. The program works when it is backed by dedicated time (at least half a day per week), a community of practice among champions, and explicit recognition of the role in career progression.
+
+### Threat modeling as a team practice
+
+Threat modeling is not an exercise reserved for security architects. In its simplest form, the STRIDE method applied to a data flow diagram, any team can run it at the start of a project or before a major change.
+
+The goal is to systematically identify the assets to protect, the system's entry points, the trust levels between components, and the potential threats. The result is not a theoretical document but a prioritized list of risks that feeds directly into the backlog as testable security requirements. Building this practice into architecture rituals (ADRs, design reviews) ensures it is not forgotten once the project is under way.
+
+## Designing a DevSecOps pipeline
+
+### Shift left, but not only
+
+The "shift left" approach, building security in as early as possible in the development cycle, is necessary but not sufficient. A mature DevSecOps pipeline covers the whole cycle: pre-commit hooks (secret detection, security linting), CI (SAST, dependency audit, automated security tests), staging (DAST, infrastructure scans), production (security monitoring, anomaly detection, alerting).
+
+Every step must have clearly defined gates: which vulnerabilities block the deployment, which generate a ticket with an SLA, which are accepted with documented risk. Without these gates, tools produce noise without improving the security posture.
+
+### Infrastructure as Code and security
+
+When infrastructure is defined as code (Terraform, Ansible, Helm), it can be audited like code, especially when [Docker is used in production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) (in French). Tools like Checkov, tfsec, or Trivy let you verify that configurations follow best practices: no public S3 buckets, no security groups open to 0.0.0.0/0, encryption enabled at rest and in transit. These checks fit into the same pipeline as the application code, unifying security governance across the whole stack.
+
+## Measuring security maturity
+
+What you do not measure does not improve. A security training program must be steered by concrete indicators, not impressions.
+
+### Operational metrics
+
+The MTTR (Mean Time To Remediate) for critical vulnerabilities is the most telling indicator. It measures the organization's real ability to react. Combined with the number of vulnerabilities detected per phase (development, CI, staging, production), it lets you verify that shift left is working: the more detections move upstream, the more effective the program.
+
+### Training metrics
+
+The training attendance rate says nothing about effectiveness. The relevant metrics are the reduction in the rate at which known vulnerabilities are reintroduced, the number of security findings identified in code review (as opposed to those found by tools), and the evolution of the ASVS score on audited projects. These indicators measure behavior change, not administrative compliance.
+
+### Maturity assessment
+
+OWASP SAMM provides an assessment framework built around five practices (governance, design, implementation, verification, operations), each broken down into three maturity levels. Running an annual SAMM assessment lets you track the organization's progress, identify underinvested areas, and justify training and tooling investments to management.
+
+## Conclusion
+
+Training teams in IT security is not a project with an end date. It is an organizational capability built in successive layers: first the fundamentals (OWASP Top 10, development hygiene), then engineering practices (secure code review, SAST/DAST tooling, dependency management), and finally the architectural dimension (threat modeling, DevSecOps pipeline, Security Champions program, maturity-based steering).
+
+The most frequent mistake is to treat security as a separate topic, delegated to specialists. The most resilient organizations are those where every developer, every lead, and every architect treats security as an intrinsic dimension of software quality. Our [strategic support](/accompagnement-et-conseil) (in French) service includes awareness and training programs adapted to each team's maturity level.
+
+## Going further
+
+- [DbToolsBundle: anonymize your databases](/article/dbtoolsbundle-anonymiser-vos-bases-de-donnees) (in French), securing development data
+- How PHPStan can improve the quality of your PHP code, automatically detecting typing errors and potential vulnerabilities
+- [RGAA standards: a successful user experience for everyone](/article/normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous) (in French), building compliance and accessibility into the overall quality approach
+- [ANSSI: SecNumacadémie](https://secnumacademie.gouv.fr/), free MOOC on cybersecurity
+- [OWASP: free resources](https://owasp.org/), the foundation for application security
+- [Symfony Security documentation](https://symfony.com/doc/current/security.html), securing a Symfony application
