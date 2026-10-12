@@ -36,6 +36,10 @@
     "author": "NASA",
     "url": "https://commons.wikimedia.org/wiki/File:Full_moon_partially_obscured_by_atmosphere.jpg"
   },
+  "mysql-int-max-id-bigint": {
+    "name": "mysql-bigint",
+    "sameAs": "arrives-au-max-des-id-int-2147483647"
+  },
   "bruno-alternative-open-source-postman-tester-api": {
     "name": "bruno",
     "file": "File:Water Drop Before It Hits The Water.jpg",

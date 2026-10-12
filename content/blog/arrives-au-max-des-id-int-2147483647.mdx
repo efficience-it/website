@@ -1,12 +1,12 @@
 ---
 title: "ID INT au maximum : comment migrer vers BIGINT"
 date: "2022-02-11"
+updatedAt: "2026-10-12"
 author: "Louis-Arnaud Catoire"
 category: "Architecture"
 excerpt: "Les développeurs rencontrent le défi d'atteindre la limite maximale des identifiants INT dans MySQL. Quand cela se produit, tout se bloque."
 image: "/images/blog/cover-mysql-max-id.webp"
 proficiencyLevel: "Expert"
-updatedAt: "2026-01-13"
 ---
 
 ## Pourquoi 2 147 483 647 est un mur inévitable
@@ -115,7 +115,7 @@ Le basculement final est atomique :
 RENAME TABLE table TO table_old, table_v2 TO table;
 ```
 
-L'instruction `RENAME TABLE` en MySQL est une opération de métadonnées : elle ne copie rien, elle permute les pointeurs. Le downtime réel se limite à quelques millisecondes. C'est la méthode la plus fiable pour les bases volumineuses, au prix d'une procédure plus longue à orchestrer.
+L'instruction `RENAME TABLE` en MySQL est une opération de métadonnées : elle ne copie rien, elle permute les pointeurs. Le downtime réel se limite à quelques millisecondes. C'est la méthode la plus fiable pour les bases volumineuses, au détriment d'une procédure plus longue à orchestrer.
 
 ## Au-delà du fix : outils de migration online
 
