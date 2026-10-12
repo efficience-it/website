@@ -68,6 +68,23 @@ Une politique d'équipe lisible tient en peu de lignes :
 
 Cette approche rejoint ce que nous avons observé en [utilisant un assistant sur un projet Symfony legacy](/article/claude-assistant-architecture-symfony-legacy) : l'assistant accélère l'exécution, mais la valeur vient des décisions d'architecture et de la relecture. Si vous hésitez sur l'outil, notre [comparatif des assistants IA pour coder](/article/quel-assistant-ia-choisir-pour-coder) détaille les usages.
 
+## Exemple concret : une pull request annotée
+
+Prenons une pull request qui ajoute un export CSV dans une application Symfony. Le développeur décrit la fonctionnalité lui-même (idée humaine), demande à un assistant d'écrire le contrôleur et le service, puis réécrit la moitié du code pour respecter l'architecture du projet. Il écrit lui-même les tests et fait relire la pull request par un collègue.
+
+Sur la grille DALIA, cela donne : idée humaine, exécution partagée, jugement humain. Le niveau global déclaré est D3. Dans la description de la pull request, une ligne suffit : « Niveau DALIA : D3, assistant utilisé pour le squelette du service, tests et revue humains ». Le relecteur sait immédiatement où porter son attention : sur la cohérence avec l'architecture et sur les cas limites que l'assistant a pu ignorer.
+
+## Mettre en place la démarche dans l'équipe
+
+Pas besoin d'outillage lourd pour démarrer.
+
+- **Ajoutez une ligne au modèle de pull request** pour déclarer le niveau et l'outil utilisé.
+- **Discutez des niveaux en rétrospective** : quels niveaux dominent, lesquels ont produit des retours en arrière, lesquels ont fait gagner du temps.
+- **Ajustez la règle de relecture** selon les constats : par exemple deux relecteurs dès D4 sur un module sensible.
+- **Révisez la grille tous les trimestres**, car les outils évoluent vite et un D3 d'aujourd'hui ressemblera à un D2 demain.
+
+L'objectif n'est pas de contrôler les développeurs mais de rendre visible une pratique qui existe déjà, pour pouvoir en parler sans tabou.
+
 ## Limites à garder en tête
 
 - **La déclaration repose sur la bonne foi.** Sans vérification, DALIA ne détecte rien. Elle sert à créer un réflexe de transparence, pas à contrôler.
