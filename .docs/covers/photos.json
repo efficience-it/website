@@ -723,5 +723,12 @@
     "license": "Public domain",
     "author": "GlacierNPS",
     "url": "https://commons.wikimedia.org/wiki/File:Beaver_-_Castor_canadensis_(51361587496).jpg"
+  },
+  "comparateur-analyseurs-statiques-php": {
+    "name": "analyseurs-statiques-php",
+    "file": "File:Magnifying glass2.jpg",
+    "license": "Public domain",
+    "author": "Heptagon",
+    "url": "https://commons.wikimedia.org/wiki/File:Magnifying_glass2.jpg"
   }
 }
