@@ -680,6 +680,10 @@
     "author": "Steinar Engeland steinart",
     "url": "https://commons.wikimedia.org/wiki/File:Cabin_Window_(Unsplash).jpg"
   },
+  "symfony-ai-legacy-lessons": {
+    "name": "symfony-ai-legacy",
+    "sameAs": "symfony-ai-projet-legacy-retour-experience"
+  },
   "symfony-insight-a-quoi-ca-sert-et-comment-le-met-on-en-place": {
     "name": "symfony-insight",
     "file": "File:Blue-abstract-glass-balls (24243418471).jpg",

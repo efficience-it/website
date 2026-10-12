@@ -1,7 +1,7 @@
 ---
 title: "Symfony AI dans un projet legacy : retour d'expérience"
 date: "2026-03-09"
-updatedAt: "2026-03-26"
+updatedAt: "2026-10-12"
 author: "Louis-Arnaud Catoire"
 category: "IA"
 excerpt: "Intégrer Symfony AI dans une application en production, c'est autre chose qu'un hello world. Les pièges et solutions concrètes d'une vraie mission."
@@ -158,7 +158,7 @@ Le `PromptRegistry` charge le template et injecte les variables. On peut A/B tes
 
 ## La gestion des erreurs : le vrai sujet
 
-Un appel HTTP peut échouer. Un appel à un LLM peut échouer, retourner du garbage, dépasser le timeout, coûter trop cher, ou simplement répondre à côté. La surface d'erreur est massive.
+Un appel HTTP peut échouer. Un appel à un LLM peut échouer, retourner du garbage, dépasser le timeout, consommer trop de ressources, ou simplement répondre à côté. La surface d'erreur est massive.
 
 ### Le fallback gracieux
 
@@ -195,15 +195,15 @@ final class ResilientDocumentClassifier implements DocumentClassifierInterface
 
 Le décorateur `ResilientDocumentClassifier` wrape le classifier IA. Si ça plante ou si la confiance est trop basse, on renvoie vers le classement manuel. L'utilisateur ne voit jamais une erreur 500 liée à l'IA.
 
-### Le coût qui explose
+### La consommation qui explose
 
-On n'avait pas anticipé la consommation de tokens. Les documents juridiques font parfois 50 pages. Envoyer 50 pages à un LLM pour chaque document, ça chiffre vite.
+On n'avait pas anticipé la consommation de tokens. Les documents juridiques font parfois 50 pages. Envoyer 50 pages à un LLM pour chaque document, ça s'accumule vite.
 
 On a ajouté trois garde-fous :
 
 - **Troncature intelligente** : on envoie les 3 premières pages et la dernière. Pour le classement, c'est suffisant dans 95% des cas.
 - **Cache de résultats** : un document identique (même hash) retourne le résultat en cache via Symfony Cache.
-- **Budget quotidien** : un compteur coupe les appels IA au-delà d'un seuil. Les documents passent en classement manuel.
+- **Plafond quotidien** : un compteur coupe les appels IA au-delà d'un seuil. Les documents passent en classement manuel.
 
 Ce projet nous a également ouvert des pistes pour aller plus loin : indexer notre base documentaire dans un vector store afin d'interroger les données métier par similarité sémantique, selon le pattern [RAG avec Symfony AI et Doctrine](/article/rag-symfony-ai-doctrine-indexer-base-metier).
 
@@ -260,11 +260,11 @@ Ce n'est pas du test déterministe. C'est du monitoring de qualité. Mais c'est 
 
 ## Ce que j'aurais aimé savoir avant
 
-L'intégration d'IA dans un projet legacy n'est pas un problème d'IA. C'est un problème d'architecture. Si votre code est proprement découplé, ajouter un appel LLM revient à ajouter n'importe quelle dépendance externe. Si votre code est un monolithe couplé, l'IA va amplifier le chaos. C'est d'ailleurs ce que décrit notre article sur [la dette technique et comment l'apprivoiser](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) : plus le code est endetté, plus chaque ajout coûte cher. Un accompagnement en [modernisation d'application PHP](/modernisation-application-php) permet de traiter cette dette avant d'y greffer de l'IA.
+L'intégration d'IA dans un projet legacy n'est pas un problème d'IA. C'est un problème d'architecture. Si votre code est proprement découplé, ajouter un appel LLM revient à ajouter n'importe quelle dépendance externe. Si votre code est un monolithe couplé, l'IA va amplifier le chaos. C'est d'ailleurs ce que décrit notre article sur [la dette technique et comment l'apprivoiser](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) : plus le code est endetté, plus chaque ajout est plus difficile. Un accompagnement en [modernisation d'application PHP](/modernisation-application-php) permet de traiter cette dette avant d'y greffer de l'IA.
 
-Symfony AI est un bon outil. L'abstraction fournisseur fonctionne. Le support du streaming est solide. Mais le composant ne résout pas les vrais problèmes : la gestion des erreurs, le coût, la qualité des prompts, et la cohabitation avec du code qui n'a pas été pensé pour.
+Symfony AI est un bon outil. L'abstraction fournisseur fonctionne. Le support du streaming est solide. Mais le composant ne résout pas les vrais problèmes : la gestion des erreurs, la consommation de tokens, la qualité des prompts, et la cohabitation avec du code qui n'a pas été pensé pour.
 
-Le conseil le plus utile que je peux donner : traite l'IA comme une dépendance faillible et coûteuse. Mets-la derrière une interface. Prévois le fallback. Monitore le coût. Et surtout, ne laisse jamais un appel LLM devenir un point de défaillance unique dans ton application. Ce retour d'expérience illustre concrètement ce que couvre notre [expertise en intelligence artificielle](/expertise-ia) sur les projets en production.
+Le conseil le plus utile que je peux donner : traite l'IA comme une dépendance faillible et gourmande en ressources. Mets-la derrière une interface. Prévois le fallback. Monitore la consommation. Et surtout, ne laisse jamais un appel LLM devenir un point de défaillance unique dans ton application. Ce retour d'expérience illustre concrètement ce que couvre notre [expertise en intelligence artificielle](/expertise-ia) sur les projets en production.
 
 ## Pour aller plus loin
 
