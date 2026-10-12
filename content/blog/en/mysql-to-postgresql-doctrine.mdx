@@ -1,0 +1,202 @@
+---
+title: "Migrating from MySQL to PostgreSQL with Doctrine"
+date: "2026-03-17"
+updatedAt: "2026-10-12"
+translatedFromUpdatedAt: "2026-10-12"
+author: "Florian Chenot"
+category: "Symfony"
+excerpt: "Migrate from MySQL to PostgreSQL with Doctrine in a Symfony project: type differences, schema generation, data migration with pgloader, pitfalls and cutover."
+image: "/images/blog/cover-mysql-postgresql.webp"
+proficiencyLevel: "Expert"
+translationOf: "migration-mysql-postgresql-doctrine-guide"
+mainTech:
+  - postgresql
+  - doctrine
+  - symfony
+  - php
+howTo:
+  name: "Migrate a MySQL database to PostgreSQL with Doctrine"
+  description: "Steps to migrate a Symfony project from MySQL to PostgreSQL using Doctrine, with no service interruption."
+  steps:
+    - name: "Prepare Doctrine for PostgreSQL"
+      text: "Update DATABASE_URL and the server_version option in doctrine.yaml, then adapt the MySQL-specific Doctrine types (json, datetime, enum)."
+    - name: "Generate and validate the target schema"
+      text: "Run doctrine:schema:validate then doctrine:migrations:diff to produce the PostgreSQL migration and check that it matches the entities."
+    - name: "Migrate the data"
+      text: "Use pgloader or an application script to copy data from MySQL to PostgreSQL while respecting type conversions (TINYINT, ENUM, JSON)."
+    - name: "Fix the common pitfalls"
+      text: "Adjust case-sensitive native queries, strict GROUP BY functions, and PostgreSQL-specific timezone behavior."
+    - name: "Cut over production with dual-write"
+      text: "Enable a dual-write phase on both databases, validate PostgreSQL on reads, then shut down MySQL once consistency is verified."
+faq:
+  - question: "Can you migrate from MySQL to PostgreSQL with no service interruption?"
+    answer: "Yes, with a dual-write strategy and a gradual cutover. The application writes to both databases during the transition phase, then you shut down MySQL once PostgreSQL has been validated under real conditions. Downtime is reduced to a few seconds during the final switch."
+  - question: "Does Doctrine let you write code compatible with both MySQL and PostgreSQL?"
+    answer: "Yes, as long as you avoid native SQL functions and rely on DQL and the QueryBuilder. Syntax differences (LIMIT, types, date functions) are handled by the DBAL abstraction layer. However, PostgreSQL-specific extensions (jsonb, arrays, full-text) require targeted adjustments."
+  - question: "What are the concrete benefits of moving from MySQL to PostgreSQL?"
+    answer: "The most common benefits are native JSON handling (indexable jsonb), SKIP LOCKED for Symfony Messenger queues, advanced types (arrays, native enums, UUID), and a smarter query planner on complex joins. Strict SQL compliance also reduces bugs caused by implicit conversions."
+---
+
+## Why Migrate from MySQL to PostgreSQL
+
+The question comes up regularly in [support and consulting](/accompagnement-et-conseil) (in French) engagements: "We're on MySQL, should we move to PostgreSQL?" The answer is not always yes, but some contexts make the migration worthwhile.
+
+MySQL works very well for most projects. But its limits show up as the project grows: less mature JSON handling than PostgreSQL (no equivalent to `jsonb` with a GIN index, and no containment `@>` or existence `?` operators), no `SKIP LOCKED` before MySQL 8.0 (and some projects are still on 5.7 in production), implicit type conversions that hide bugs, and a less efficient query planner on complex joins with subqueries.
+
+PostgreSQL gives concrete answers to these points. Our support on the [PostgreSQL database with Symfony](/base-de-donnees-postgresql-symfony) (in French) covers exactly these migrations. The `jsonb` type is indexable with GIN, `SKIP LOCKED` has been stable since PostgreSQL 9.5 (and it is what [Symfony Messenger uses for the Doctrine transport](/article/quelles-sont-les-differences-entre-symfony-messenger-php-enqueue-quoi-utiliser) (in French)), native types (arrays, enums, UUID, ranges) reduce the amount of application code, and strict adherence to the SQL standard eliminates an entire category of silent bugs.
+
+### When the Migration Is Justified
+
+Three signals indicate that a migration is worth the investment. First: your application stores JSON in the database and you need to filter or index it. MySQL forces JSON parsing on every query, while PostgreSQL indexes it natively. Second: you use Symfony Messenger with the Doctrine transport and suffer deadlocks under load. PostgreSQL with `SKIP LOCKED` solves this problem. Third: your schema uses types that MySQL handles poorly (arrays, ranges, composite types).
+
+On the other hand, if your application does classic CRUD without complex queries, MySQL remains perfectly suitable. The migration is not justified on principle. When the need is confirmed, our [turnkey Symfony migration](/migration-symfony) (in French) offering frames the project, from the initial audit to the final cutover with no service interruption.
+
+## Preparing the Migration on the Doctrine Side
+
+### Configuring DBAL for PostgreSQL
+
+The first step is to change the Doctrine DBAL configuration in your Symfony project:
+
+```yaml
+doctrine:
+    dbal:
+        driver: pdo_pgsql
+        url: '%env(resolve:DATABASE_URL)%'
+        server_version: '16'
+        charset: UTF8
+```
+
+The `server_version` matters: Doctrine adapts the generated SQL to the declared version. The [Symfony documentation on Doctrine](https://symfony.com/doc/current/doctrine.html) details all the DBAL configuration options. The [Symfony migration guide](/article/guide-de-migration-dans-un-projet-symfony) (in French) recommends always declaring the exact server version to avoid unpleasant surprises.
+
+### Type Differences Between MySQL and PostgreSQL
+
+This is the point that generates the most work. Doctrine types do not map identically between the two engines:
+
+| Doctrine type | MySQL | PostgreSQL |
+|---|---|---|
+| `string` | `VARCHAR(255)` | `VARCHAR(255)` |
+| `text` | `LONGTEXT` | `TEXT` |
+| `integer` | `INT` | `INTEGER` |
+| `bigint` | `BIGINT` | `BIGINT` |
+| `boolean` | `TINYINT(1)` | `BOOLEAN` |
+| `datetime` | `DATETIME` | `TIMESTAMP(0) WITHOUT TIME ZONE` |
+| `json` | `JSON` | `JSON` (default) or `JSONB` (with config) |
+| `uuid` | `CHAR(36)` or `BINARY(16)` | `UUID` (native type) |
+
+The `boolean` case is the trickiest. MySQL stores an integer (0/1), PostgreSQL a real boolean. If your code compares booleans with integers (`$value === 1` instead of `$value === true`), those comparisons will break silently after the migration. [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French) at level 6+ detects these type inconsistencies before they reach production.
+
+The `json` case is the most interesting. Doctrine maps the `json` type to `JSON` in PostgreSQL by default, not to `JSONB`. To benefit from indexable binary storage, explicitly declare `columnDefinition: 'JSONB'` on your columns or use the `martin-georgiev/postgresql-for-doctrine` bundle (detailed below). Once in `jsonb`, PostgreSQL offers specific operators (`->`, `->>`, `@>`, `?`) and GIN indexes. If you filter JSON in the database, this is the most immediate gain of the migration.
+
+### Adapting Identifiers
+
+The choice of primary identifier directly affects the migration. If you use MySQL `AUTO_INCREMENT` columns, PostgreSQL replaces them with `IDENTITY` columns (`GENERATED BY DEFAULT AS IDENTITY`). Doctrine ORM 3.0 uses this strategy by default for PostgreSQL. On ORM 2.x, the default strategy is `SEQUENCE`: check that your sequences are correctly initialized after the data migration. For projects considering a switch to UUIDs or ULIDs, our article on [choosing between INT, UUID, and ULID](/article/prendre-int-uuid-ou-ulid-pour-un-index-de-base-de-donnees) (in French) details the implications for index performance.
+
+## Generating and Validating the Schema
+
+### Recreating the Migrations
+
+Existing migration files contain MySQL-specific SQL (`AUTO_INCREMENT`, `ENGINE=InnoDB`, `COLLATE`). There are two possible approaches.
+
+The clean approach: regenerate an initial migration from the current Doctrine schema:
+
+```bash
+php bin/console doctrine:migrations:diff
+```
+
+This command compares the schema declared by your entities with the actual schema of the PostgreSQL database (empty at this stage) and generates a complete migration. Check the generated SQL: Doctrine produces `IDENTITY` columns, native `BOOLEAN` types, and sequences if you are still on ORM 2.x.
+
+The pragmatic approach: convert the existing migrations one by one. It takes longer but preserves the history. Tools like `pgloader` automate the SQL conversion, but a manual pass is still needed for edge cases.
+
+### Validating with Tests
+
+Before migrating the data, run your test suite on PostgreSQL. [Automated tests](/tests-automatises-php) (in French) are your safety net: they reveal incompatible SQL queries, type comparisons that break, and behaviors that differ between the two engines.
+
+Configure a PostgreSQL `DATABASE_URL` in your `.env.test`:
+
+```
+DATABASE_URL="postgresql://user:password@localhost:5432/app_test"
+```
+
+Functional tests that pass on MySQL and fail on PostgreSQL point to exactly the areas to adapt. It is more reliable than any manual audit.
+
+## Migrating the Data
+
+### pgloader: The Reference Tool
+
+[pgloader](https://pgloader.io/) is the reference open source tool for migrating data from MySQL to PostgreSQL. It handles type conversion, schema mapping, and data transfer in a single command:
+
+```
+LOAD DATABASE
+    FROM mysql://user:password@localhost/app_mysql
+    INTO postgresql://user:password@localhost/app_pgsql
+WITH include no drop, create tables, create indexes, reset sequences
+SET maintenance_work_mem to '512MB'
+ALTER SCHEMA 'app_mysql' RENAME TO 'public';
+```
+
+pgloader automatically converts MySQL types to their PostgreSQL equivalents, recreates indexes, and resets sequences. On a database of a few gigabytes, the migration takes a few minutes.
+
+### Verifying Integrity After the Transfer
+
+After the transfer, validate data integrity:
+
+```sql
+SELECT COUNT(*) FROM users;
+SELECT COUNT(*) FROM orders;
+```
+
+Compare the counts between MySQL and PostgreSQL. Also check edge values: dates, booleans (MySQL stores 0/1, PostgreSQL `true`/`false`), JSON fields, NULL values. An automated comparison script on critical tables is worth the time invested.
+
+## Common Pitfalls
+
+### Native SQL Queries
+
+Doctrine's DQL and QueryBuilder produce portable SQL. But if your code contains native SQL queries (`$connection->executeQuery('SELECT ...')`), check every occurrence. The most frequent differences:
+
+- `LIMIT 10, 20` (MySQL) becomes `LIMIT 20 OFFSET 10` (PostgreSQL)
+- `GROUP_CONCAT()` (MySQL) becomes `STRING_AGG()` (PostgreSQL)
+- `IFNULL()` (MySQL) becomes `COALESCE()` (PostgreSQL, and it is the SQL standard)
+- `NOW()` works in both, but `CURDATE()` (MySQL) becomes `CURRENT_DATE` (PostgreSQL)
+
+### Collation and Sorting
+
+MySQL uses `utf8mb4_general_ci` by default (case-insensitive). PostgreSQL uses the system collation, which is case-sensitive by default. If your application relies on implicit case-insensitive searches, you will need to use `ILIKE` instead of `LIKE` or configure an explicit collation.
+
+### Transactions and Locking
+
+PostgreSQL uses MVCC (Multi-Version Concurrency Control) more strictly than MySQL/InnoDB. Long transactions can block `VACUUM` and degrade performance. Configure `idle_in_transaction_session_timeout` to avoid orphaned transactions. [Production monitoring](/cloud-et-devops) (in French) should include alerts on long-running active transactions.
+
+### Doctrine and PostgreSQL Extensions
+
+To take advantage of PostgreSQL's advanced types (jsonb with operators, arrays, full-text search), use the [martin-georgiev/postgresql-for-doctrine](https://github.com/martin-georgiev/postgresql-for-doctrine) bundle. It adds the missing types and DQL functions to Doctrine:
+
+```php
+#[ORM\Column(type: 'jsonb')]
+private array $metadata = [];
+```
+
+[Doctrine ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) (in French) further improves PostgreSQL support with PHP 8 attributes and a stricter type system.
+
+## Production Cutover Strategy
+
+### Dual-Write for Critical Applications
+
+For applications that cannot afford downtime, the dual-write strategy is the safest. The application writes to both MySQL and PostgreSQL during a transition period. Reads stay on MySQL. Once the integrity check confirms data parity, you switch reads to PostgreSQL, then shut off MySQL writes.
+
+This approach requires application middleware that duplicates writes. With Symfony, a [Doctrine event listener](/article/domain-ne-devrait-jamais-connaitre-symfony) (in French) can intercept persist/flush calls and replay them on the second connection.
+
+### One-Shot Migration for Tolerant Applications
+
+If your application can tolerate a maintenance window (night, weekend), a one-shot migration is simpler. Put the application in maintenance mode, export with pgloader, validate the data, switch the `DATABASE_URL`, and restart. Downtime depends on data volume: a few minutes for a database of a few GB, a few hours beyond 100 GB.
+
+### Rollback
+
+Always plan a way back. Keep MySQL read-only for 48 hours after the cutover. If a critical bug appears on PostgreSQL, switching the `DATABASE_URL` back to MySQL takes a few seconds. [Symfony hosting](/hebergement-symfony) (in French) with a well-configured infrastructure allows this kind of switch with no impact.
+
+## Going Further
+
+- INT, UUID, or ULID: which identifier to choose, the impact of the identifier choice on performance
+- Doctrine ORM 3.0, the major changes in the new version
+- [Reaching the max of INT IDs](/article/arrives-au-max-des-id-int-2147483647) (in French), migrating to BIGINT when MySQL hits its limits
+- [PostgreSQL documentation](https://www.postgresql.org/docs/current/), the official reference
+- [pgloader](https://pgloader.io/), the MySQL to PostgreSQL migration tool

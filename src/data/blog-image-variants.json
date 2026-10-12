@@ -254,6 +254,10 @@
     400,
     800
   ],
+  "cover-mysql-postgresql": [
+    400,
+    800
+  ],
   "cover-open-source-contributions": [
     400,
     800
