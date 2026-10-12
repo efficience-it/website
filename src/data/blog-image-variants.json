@@ -226,6 +226,10 @@
     400,
     800
   ],
+  "cover-traefik-nginx": [
+    400,
+    800
+  ],
   "cover-wasm-containers": [
     400,
     800

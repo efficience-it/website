@@ -1,0 +1,188 @@
+---
+title: "Is Traefik Needed in Production, or Is Nginx Enough?"
+date: "2026-09-15"
+updatedAt: "2026-10-12"
+author: "Louis-Arnaud Catoire"
+category: "DevOps"
+excerpt: "Traefik or Nginx in production? Service discovery, certificates, timeouts, Docker pitfalls and lessons learned from a real migration of a shared server."
+image: "/images/blog/cover-traefik-nginx.webp"
+proficiencyLevel: "Intermediate"
+translationOf: "traefik-ou-nginx-en-production"
+translatedFromUpdatedAt: "2026-09-15"
+faq:
+  - question: "Is Traefik slower than Nginx?"
+    answer: "In raw throughput, Nginx comes out ahead and uses less memory. On a Symfony application, you will not notice: the request spends a fraction of a millisecond in the proxy and tens of milliseconds in PHP and the database."
+  - question: "Can you use Traefik and Nginx together?"
+    answer: "Yes, and it is probably the most common setup. Traefik in front handles TLS and routing to the containers, while Nginx stays in the application container to serve public/ and talk FastCGI to PHP-FPM."
+  - question: "Do you need a reverse proxy with FrankenPHP?"
+    answer: "For a single application on a server, no: FrankenPHP embeds Caddy, which handles HTTPS, HTTP/2 and HTTP/3. As soon as you put several applications on the same machine, you put a proxy back in front."
+---
+
+As soon as you prepare a Docker release, someone on the team ends up asking: "Should we put Traefik in front?" And often, the answer comes more from habit than from a real need. Some people saw Traefik in a Docker Compose tutorial and put it everywhere. Others have run Nginx for fifteen years and see no reason to change.
+
+My take, after setting up and taking over quite a few servers: Traefik is not necessary. A clean Nginx handles production for a Symfony application just fine. However, as soon as services keep moving (new apps, per-branch staging environments, domains being added), Traefik saves a huge amount of time. The criterion is not performance, it is how often your proxy configuration changes.
+
+## Nginx and Traefik Do Not Do the Same Job
+
+### Nginx: A Web Server That Also Proxies
+
+Nginx serves static files, talks FastCGI to PHP-FPM, and handles caching, compression, rewrites and reverse proxying. Everything lives in configuration files, and `nginx -t && nginx -s reload` reloads without cutting existing connections.
+
+You control everything: every header, every timeout, every buffer. The downside is that the configuration is static. New app? You write a `server` block, reload, run certbot. By hand, or via Ansible if you are well organized.
+
+### Traefik: A Router That Reads Its Routes From Docker
+
+[Traefik](https://doc.traefik.io/traefik/) does not serve files and does not speak FastCGI. It is an HTTP and TCP router that fetches its configuration from "providers": Docker, Kubernetes, Consul or plain files. With Docker, you declare the route on the container:
+
+```yaml
+services:
+  app:
+    image: registry.example.com/app:1.4.2
+    networks: [proxy]
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.app.rule=Host(`app.example.com`)"
+      - "traefik.http.routers.app.entrypoints=websecure"
+      - "traefik.http.routers.app.tls.certresolver=letsencrypt"
+```
+
+The container starts, Traefik sees it, gets a Let's Encrypt certificate and routes. The container stops, the route disappears. No file to edit, no reload.
+
+## Where Traefik Is Really Better
+
+### Services That Come and Go
+
+This is the whole point of the tool. One staging environment per merge request, for example: the CI launches a container with the right labels, and `mr-123.recette.example.com` answers thirty seconds later. With Nginx, you have to generate a configuration file, push it to the server, reload, and remember to clean up afterward. It can be scripted, but it is extra infrastructure code to maintain. If you are already putting [Docker in production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) (in French), Traefik fits in without friction.
+
+### Certificates
+
+ACME is built in: issuance, renewal, wildcard via DNS challenge. Certbot does the job, but it is one more cron to monitor, and a renewal that fails silently remains a classic of Monday morning incidents.
+
+One point though: persist `acme.json` on a volume, with `chmod 600`. Without that, every Traefik restart requests all the certificates again, and you quickly hit Let's Encrypt rate limits. For tests, point to the staging server.
+
+### Middlewares, Metrics, Dashboard
+
+HTTPS redirection, security headers, basic auth, rate limiting, retries: everything is declared in labels and can be composed. Prometheus metrics and OpenTelemetry traces are native, and the dashboard shows the routes that are actually active, which genuinely helps when a domain returns a 404 for no apparent reason. For [rate limiting on a REST API](/article/api-rest-les-bonnes-pratiques) (in French), it gives you a first barrier without touching the code.
+
+### Kubernetes
+
+On Kubernetes, you need an ingress controller anyway. Traefik is the one shipped by default in k3s, and it supports the Gateway API. Since the Kubernetes project announced the retirement of the community ingress-nginx controller, quite a few teams are reconsidering that choice.
+
+## Where Nginx Remains Unbeatable
+
+### Serving a Symfony Application
+
+Traefik does not replace the Nginx in the application container. With PHP-FPM, you still need something that serves `public/`, sends everything else to `index.php` and sets the right cache headers on assets:
+
+```nginx
+server {
+    listen 80;
+    root /app/public;
+    client_max_body_size 20m;
+
+    location / {
+        try_files $uri /index.php$is_args$args;
+    }
+
+    location ~ ^/index\.php(/|$) {
+        fastcgi_pass php:9000;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        fastcgi_param DOCUMENT_ROOT $realpath_root;
+        fastcgi_read_timeout 120s;
+        internal;
+    }
+
+    location ~* \.(css|js|woff2|webp|avif)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+}
+```
+
+That is why "Traefik or Nginx" is often a false question: in most of our stacks, both run. Traefik in front, Nginx in the container.
+
+### Caching and Fine Tuning
+
+Nginx does `proxy_cache` and `fastcgi_cache`, including one or two seconds of microcaching that absorbs a traffic spike on public pages very well. Traefik has no HTTP cache in the open source edition. If your strategy relies on that, reread our [caching tips](/article/tout-savoir-sur-la-mise-en-cache-tips) (in French): Nginx, Varnish or a CDN.
+
+On fine tuning, Nginx does not forgive either. The `proxy_buffering` enabled by default breaks streaming: we lost a day on that during a [Symfony AI integration on a legacy project](/article/symfony-ai-projet-legacy-retour-experience) (in French). The fix comes down to an `X-Accel-Buffering: no` header on the response, but you have to know it.
+
+### Lightness and Privileges
+
+Nginx fits in a few MB of RAM and needs no access to the host. Traefik, with the Docker provider, must read `/var/run/docker.sock`. And access to the Docker socket means root on the machine. In production, you go through a read-only socket proxy (like `tecnativa/docker-socket-proxy`) and set `exposedByDefault=false` so that only explicitly labeled containers are exposed. In an [NIS2 compliance](/article/conformite-nis2-application-symfony) (in French) effort, this kind of privilege must be justified in black and white.
+
+## And What About Performance?
+
+On a pure proxy benchmark, Nginx wins on throughput and memory. On a real Symfony application, we are talking about a fraction of a millisecond in the proxy versus 30 to 200 ms in PHP, Doctrine and the database. Changing proxies to gain performance means optimizing the wrong line of the profile. The real levers are OPcache and preloading, N+1 queries, the application cache or [FrankenPHP in worker mode](/article/concretement-cest-quoi-frankenphp) (in French).
+
+## FrankenPHP, Caddy and HAProxy
+
+FrankenPHP embeds Caddy, which also handles certificates, HTTP/2 and HTTP/3. For a single application on a server, a directly exposed container is enough: neither Nginx nor Traefik. As soon as you share the machine, you put Traefik back in front, and the duo works very well.
+
+[HAProxy](https://docs.haproxy.org/) plays in another category. It is a pure load balancer, very solid, with fine-grained health checks and excellent TCP support. You bring it out when load distribution is the real topic: several application servers, automatic failover, connection draining during maintenance, or in front of a PostgreSQL cluster. For an app on one or two servers, it brings nothing more than Nginx.
+
+| Criterion | Nginx | Traefik | Caddy / FrankenPHP |
+|---|---|---|---|
+| Automatic certificates | No, certbot | Yes | Yes |
+| Container discovery | No | Yes | Plugin |
+| Static files and FastCGI | Yes | No | Yes |
+| HTTP cache | Yes | No | Plugin |
+| Prometheus metrics | Exporter | Native | Native |
+| Memory footprint | Very low | Low | Low |
+
+## How We Decide in Practice
+
+We keep Nginx alone when:
+
+- there are one or two stable applications on the server;
+- deployments never create a new domain;
+- we need an HTTP cache;
+- the team already knows its configuration by heart.
+
+We add Traefik when:
+
+- several applications share the same host;
+- we create staging environments on the fly;
+- domains number in the dozens;
+- we run on Kubernetes or Swarm.
+
+Our empirical threshold: beyond three or four apps behind the same entry point, hand-maintained `server` blocks become a source of bugs. And that threshold arrives fast when you split an application, which is why it pays to think carefully about the choice between [microservices and a modular monolith](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) (in French) before designing the infrastructure.
+
+## Lessons Learned: Migrating a Shared Server to Traefik
+
+During a [Symfony application takeover](/article/reprise-application-symfony-prestataire) (in French), we inherited a server running about ten projects: Symfony apps, APIs, back offices and staging environments. In front, an Nginx installed on the host, one file per project in `sites-enabled` and certbot in cron. Every new staging environment required manual intervention, configurations had drifted over the years, and an expired certificate had already cut off a client staging environment for an entire morning.
+
+We migrated without downtime, in four steps:
+
+1. containerize each project with its own Nginx and PHP-FPM, reusing the existing configuration;
+2. start Traefik on temporary ports and validate each domain locally through `/etc/hosts`;
+3. switch ports 80 and 443 to Traefik project by project, with the old Nginx ready to take over again;
+4. remove certbot and the host Nginx once everything is validated.
+
+On performance, no measurable difference. On operations, night and day: staging environments are created from the CI and certificates are no longer a topic. The real problems were elsewhere. Two apps generated `http` URLs after the switch, for lack of configured trusted proxies. And a container attached to two Docker networks returned random 504s, because Traefik sometimes picked the wrong network: hence the `traefik.docker.network` label in the example above.
+
+Conversely, on another assignment with a single high-traffic app, we kept Nginx and its microcaching. Adding Traefik would only have added one more component to monitor.
+
+## Pitfalls We Find Everywhere
+
+**Trusted proxies.** Behind a proxy, Symfony sees the proxy's IP and plain HTTP. The result: URLs generated in `http`, redirect loops, and a rate limiter that blocks everyone at once since everything comes from the same IP. The [Symfony documentation on proxies](https://symfony.com/doc/current/deployment/proxies.html) explains how to configure `framework.trusted_proxies` and the `X-Forwarded-*` headers.
+
+**Timeouts.** Since v3, Traefik applies a default `readTimeout` of 60 seconds on its entrypoints. A somewhat large upload on a slow connection gets cut. On the Nginx side, `client_max_body_size` defaults to 1 MB and returns a 413. Align the proxy, PHP-FPM and `max_execution_time`, otherwise the 504 will never tell you who cut the connection.
+
+**DNS resolution in Nginx.** A `proxy_pass http://app:8080` is resolved at startup. The `app` container restarts with a new IP, Nginx keeps hitting the old one: 502. You need to declare `resolver 127.0.0.11 valid=10s;` and go through a variable to force on-the-fly resolution.
+
+**The Traefik dashboard.** Never exposed with `api.insecure=true` in production. Put it behind authentication or make it reachable only from the internal network.
+
+**Versions.** `traefik:latest` in production means taking a major version at the next restart. The rule syntax changed between v2 and v3, `HostRegexp` in particular. The [Nginx](https://nginx.org/en/docs/) configuration moves much less, but we pin versions anyway.
+
+## Securing the Entry Point
+
+The proxy is the first thing exposed to the Internet. The minimum: HTTPS redirection everywhere, `Strict-Transport-Security`, `X-Content-Type-Options`, a well-thought-out `Content-Security-Policy`, rate limiting on `/login` and usable access logs. To go further, ModSecurity with the OWASP CRS on the Nginx side, or CrowdSec as a plugin on the Traefik side. It complements [Symfony application security](/securite-application-symfony) (in French), it does not replace it.
+
+## Summary
+
+Traefik is not mandatory in production. It is the right answer to a specific problem: an infrastructure where services appear and disappear often. One Symfony app on one server? Nginx, or FrankenPHP alone, stays simpler, lighter and easier to audit. About ten apps, ephemeral staging environments and domains by the dozen? Traefik, without hesitation.
+
+Start from your deployment rhythm and the number of services, not from benchmarks. We support this kind of choice in our [cloud and DevOps](/cloud-et-devops) (in French) and [Symfony hosting](/hebergement-symfony) (in French) engagements. If you want an outside view of your infrastructure, [let's talk](/contact) (in French).
