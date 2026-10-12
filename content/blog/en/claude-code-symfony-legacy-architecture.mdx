@@ -1,0 +1,280 @@
+---
+title: "Claude as Your Legacy Symfony Architecture Assistant"
+date: "2026-03-09"
+updatedAt: "2026-10-12"
+author: "Louis-Arnaud Catoire"
+category: "AI"
+excerpt: "Configure Claude Code with a CLAUDE.md that encodes your hexagonal architecture conventions, DDD rules and Doctrine patterns on a legacy Symfony project."
+image: "/images/blog/cover-claude-architecture.webp"
+proficiencyLevel: "Expert"
+translationOf: "claude-assistant-architecture-symfony-legacy"
+translatedFromUpdatedAt: "2026-03-26"
+---
+
+You open Claude Code on your Symfony project. You ask it to create a use case. It generates a service with 15 dependencies, Doctrine annotations in the domain, and a 200-line controller. Exactly what you spend your days fixing in code review. And on a legacy project, this [accumulated technical debt](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French) only gets worse if the AI reproduces it.
+
+The problem is not Claude. It is that Claude does not know your architecture. It generates "standard" Symfony code because that is what it has seen most often. When it comes to a [Symfony project takeover](/reprise-projet-symfony) (in French), this gap between the generated code and the existing architecture is even more problematic. Your hexagonal architecture, your DDD conventions, your rules on Doctrine repositories: it does not know them until you explain them.
+
+The solution is called `CLAUDE.md`. A file at the root of your project that Claude Code reads automatically at every session. It is your permanent onboarding. And well configured, it turns Claude into an assistant that respects your architecture from the first line of code.
+
+## The minimal CLAUDE.md that changes everything
+
+An effective `CLAUDE.md` is not 500 lines of documentation. It is a set of short, precise rules that Claude can apply without ambiguity.
+
+Here is the structure we use on our Symfony projects with hexagonal architecture:
+
+```markdown
+# CLAUDE.md
+
+## Architecture
+
+Architecture hexagonale stricte. Chaque bounded context suit cette structure :
+
+src/{Context}/
+├── Domain/
+│   ├── Model/          # Entités domaine (pas d'annotation Doctrine)
+│   ├── Port/           # Interfaces (repositories, services externes)
+│   ├── Event/          # Événements domaine
+│   └── Exception/      # Exceptions métier
+├── Application/
+│   └── UseCase/        # Un fichier par use case, une méthode __invoke
+└── Infrastructure/
+    ├── Persistence/    # Implémentations Doctrine des ports
+    ├── Http/           # Contrôleurs
+    └── Mapper/         # Conversion entité Doctrine <-> modèle domaine
+
+## Règles strictes
+
+- Le domaine n'importe JAMAIS de namespace Infrastructure ou Application
+- Les use cases n'importent JAMAIS de classe concrète, uniquement des interfaces (ports)
+- Les contrôleurs appellent un use case, jamais un repository directement
+- Pas de logique métier dans les contrôleurs
+- Pas d'annotation/attribut Doctrine dans les modèles domaine
+```
+
+With these ten lines, Claude stops generating controller-services and starts respecting the layers.
+
+## Encode Doctrine conventions
+
+Doctrine is the number one friction point between Claude and your architecture. By default, Claude treats Doctrine entities as domain models. It sticks `#[ORM\Column]` everywhere and calls `$entityManager->flush()` from use cases.
+
+Add a dedicated section to your `CLAUDE.md`:
+
+```markdown
+## Doctrine
+
+- Les entités Doctrine vivent dans Infrastructure/Persistence/Entity/
+- Les entités Doctrine ne contiennent AUCUNE logique métier
+- Les repositories implémentent les interfaces définies dans Domain/Port/
+- Chaque repository utilise un Mapper pour convertir Entity <-> Model
+- Ne jamais appeler EntityManager directement dans un use case
+- Utiliser les attributs PHP 8 (#[ORM\Entity]) et non les annotations
+- Typer les collections : /** @var Collection<int, Tag> */
+
+### Exemple de repository
+
+class DoctrineProductRepository implements ProductRepositoryInterface
+{
+    public function __construct(private EntityManagerInterface $em) {}
+
+    public function save(Product $product): void
+    {
+        $entity = ProductMapper::toEntity($product);
+        $this->em->persist($entity);
+        $this->em->flush();
+    }
+}
+```
+
+The concrete example matters. Claude learns better from an example than from an abstract rule. One well-written repository in the `CLAUDE.md` and it reproduces the pattern on all the others.
+
+## The DDD rules that prevent 80% of generation errors
+
+DDD badly applied by an AI assistant gives worse code than no DDD at all. Value Objects everywhere for no reason, Aggregates that aggregate nothing, Domain Events that serve no one.
+
+If you have a legacy project to evolve, a [structured migration guide](/article/guide-de-migration-dans-un-projet-symfony) (in French) helps define the steps before you even configure the AI.
+
+Be prescriptive about what you actually use:
+
+```markdown
+## DDD
+
+### Value Objects
+Utiliser des Value Objects pour : identifiants (ProductId, OrderId),
+argent (Money), email (Email), adresses.
+Ne PAS créer de Value Object pour un simple string ou int sans logique.
+
+### Identifiants
+Tous les identifiants sont des UUIDv7 wrappés dans un Value Object :
+
+final readonly class ProductId
+{
+    public function __construct(public string $value) {}
+}
+
+### Événements domaine
+Un événement = quelque chose qui S'EST passé (passé composé).
+Nommage : {Entité}{Action} → OrderValidated, InvoiceSent
+Pas de logique dans l'événement, uniquement des données immutables.
+
+### Use cases
+Un use case = une action = un fichier.
+Nommage : verbe + nom → CreateOrder, ValidateInvoice, GetProduct
+Toujours une seule méthode publique __invoke().
+```
+
+With these conventions, when you ask Claude to "create the use case to cancel an order", it generates a `CancelOrder` with an `__invoke`, which takes an `OrderId` as a parameter, calls a port, and dispatches an `OrderCancelled`. Without you having to guide it line by line.
+
+## Test patterns
+
+If you say nothing about tests, Claude will generate integration tests with `KernelTestCase`, a SQLite database and Doctrine fixtures. On a legacy project, that is exactly what you are trying to eliminate.
+
+```markdown
+## Tests
+
+- Tests domaine : PHPUnit pur, pas de container Symfony, pas de base de données
+- Utiliser des Fakes (InMemoryProductRepository) plutôt que des mocks
+- Les fakes vivent dans tests/{Context}/Infrastructure/Fake/
+- Tests d'intégration uniquement pour les adaptateurs infra (repositories Doctrine)
+- Nommage : test{Action}{Scenario} → testThrowsWhenProductNotFound
+
+### Structure des tests
+
+tests/
+├── Catalog/
+│   ├── Domain/
+│   │   └── UseCase/
+│   │       └── GetProductTest.php       # PHPUnit pur
+│   └── Infrastructure/
+│       ├── Fake/
+│       │   └── InMemoryProductRepository.php
+│       └── Persistence/
+│           └── DoctrineProductRepositoryTest.php  # KernelTestCase
+```
+
+Claude will now generate an `InMemoryProductRepository` when you ask for tests, instead of spinning up the whole Symfony stack.
+
+## Claude Code hooks to automate checks
+
+Claude Code supports hooks that run automatically after certain actions. We use them to check that the generated code respects the architecture.
+
+A simple hook with [Deptrac](https://github.com/qossmic/deptrac) that checks dependencies between layers, relying on the [Symfony Console component](https://symfony.com/doc/current/components/console.html) for CLI execution:
+
+```json
+{
+  "hooks": {
+    "postTool": [
+      {
+        "matcher": "Edit|Write",
+        "command": "vendor/bin/deptrac --no-interaction --formatter=console 2>&1 | tail -5"
+      }
+    ]
+  }
+}
+```
+
+Every time Claude edits or creates a file, Deptrac checks that the dependency rules are respected. If a use case imports a Doctrine class, the hook flags it immediately. Claude fixes it before you have even read the code.
+
+Combine that with PHPStan:
+
+```json
+{
+  "hooks": {
+    "postTool": [
+      {
+        "matcher": "Edit|Write",
+        "command": "vendor/bin/phpstan analyse --no-progress --error-format=raw 2>&1 | head -20"
+      }
+    ]
+  }
+}
+```
+
+Claude receives PHPStan's feedback in real time and fixes its own typing errors. The "generate, check, fix" cycle runs without human intervention. To get the most out of this integration, reading [the 10 most common errors PHPStan detects at max level on Symfony](/article/phpstan-niveau-max-symfony-10-erreurs) (in French) helps refine the rules to encode in the CLAUDE.md.
+
+## CLAUDE.md subfiles per context
+
+On a project with several bounded contexts, a single `CLAUDE.md` at the root is not enough. Claude Code supports CLAUDE.md files in subdirectories. Each context can have its own rules.
+
+```
+src/
+├── Catalog/
+│   └── CLAUDE.md       # Règles spécifiques au catalogue
+├── Order/
+│   └── CLAUDE.md       # Règles spécifiques aux commandes
+└── Billing/
+    └── CLAUDE.md       # Règles spécifiques à la facturation
+```
+
+The `CLAUDE.md` of the Order context:
+
+```markdown
+# Order Context
+
+## Aggregate Root
+Order est l'aggregate root. Toute modification passe par Order.
+Ne jamais modifier OrderLine directement depuis l'extérieur.
+
+## Statuts
+Les transitions de statut suivent cette machine à états :
+draft → confirmed → shipped → delivered
+draft → cancelled
+confirmed → cancelled
+
+Toute autre transition doit lever une InvalidStatusTransitionException.
+
+## Intégrations
+- Le contexte Order ne référence jamais directement une entité Catalog
+- Utiliser ProductId (Value Object) pour référencer un produit
+- Les infos produit nécessaires sont copiées dans OrderLine à la création
+```
+
+When Claude works in `src/Order/`, it automatically loads these rules in addition to the root `CLAUDE.md`. It knows that `Order` is an aggregate root, it knows the state machine, and it will not create a Doctrine relation to `Product`.
+
+## Mistakes to avoid
+
+### Do not write a novel
+
+A 1,000-line `CLAUDE.md` is counterproductive. Claude has a limited context window. Every line of `CLAUDE.md` consumes tokens that are no longer available for your code. Be concise. One rule per line. No philosophical explanations of why DDD is good.
+
+### Do not forget examples
+
+Abstract rules are ambiguous. "Use Value Objects" can produce anything. A concrete example of a Value Object the way you want it in your project removes all ambiguity. Add one example per key pattern: a use case, a repository, a mapper, a test.
+
+### Do not freeze system prompts
+
+The `CLAUDE.md` evolves with your project. When the team adopts a new convention, it updates the `CLAUDE.md` in the same PR. Treat it like code: it is versioned, reviewed and maintained. [PHP and Symfony coding conventions](/article/coding-conventions) (in French) are a good starting point to define the base set of rules to encode.
+
+### Do not ignore legacy edge cases
+
+Your legacy project has exceptions. Services that do not follow the hexagonal architecture because there was no time to migrate them. Document them:
+
+```markdown
+## Legacy (ne pas migrer)
+
+Les namespaces suivants sont du code legacy non migré.
+Ne pas les refactorer sauf demande explicite :
+- App\Service\LegacyPaymentService
+- App\Controller\Admin\*
+- App\Entity\Legacy\*
+```
+
+Without this, Claude will try to refactor your legacy code into hexagonal architecture every time it touches it. And you will spend more time undoing its changes than moving forward.
+
+## The result in practice
+
+After two weeks with a well-configured `CLAUDE.md`, the finding is clear. Requests like "create the use case to archive a document" generate code that passes review on the first try in 70% of cases. Not perfect, but well above the 10% we had without instructions.
+
+The team's juniors use Claude as a pair programmer that knows the architecture. They ask "how should I structure this feature?", and Claude answers with the right directory structure, the right files to create and the right ports to define. The `CLAUDE.md` acts as living architecture documentation, also useful when you have to hand over the [design of a line-of-business application](/developpement-web-sur-mesure) (in French) to a new team.
+
+The most unexpected part: the `CLAUDE.md` has become the project's reference architecture document. More up to date than the Confluence wiki. Read more than the ADRs. Because it has a daily user that tests it at every session: Claude itself. This type of setup is part of our [artificial intelligence expertise](/expertise-ia) (in French) applied to Symfony projects.
+
+## Going further
+
+- [Symfony AI in a legacy project](/article/symfony-ai-projet-legacy-retour-experience) (in French), integrating AI into existing code
+- [RAG with Symfony AI and Doctrine](/article/rag-symfony-ai-doctrine-indexer-base-metier) (in French), indexing your business database for AI
+- [Bringing your tools up to current standards](/modernisation-applicative) (in French), our complete path to taking a legacy application back in hand
+- [Migrating Symfony to hexagonal architecture](/article/migration-symfony-architecture-hexagonale-retour-mission) (in French), structuring legacy code
+- [Upskilling on Claude Code](/article/monter-en-competence-claude-code) (in French), the complete guide: skills, hooks and MCP servers
+- [MCP servers for Symfony developers](/article/serveurs-mcp-claude-code-developpeurs-symfony) (in French), connecting Claude Code to your database and tools
+- [Claude Code documentation](https://docs.anthropic.com/en/docs/claude-code), the official guide and memory file configuration
