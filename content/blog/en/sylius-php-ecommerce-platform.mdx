@@ -1,0 +1,93 @@
+---
+title: "Sylius: Why Choose This PHP E-Commerce Platform"
+date: "2022-02-11"
+author: "Florian Chenot"
+category: "Project"
+excerpt: "Sylius is an open source e-commerce platform built on Symfony. Explore its features, strengths and trade-offs, and learn when it is the right choice for you."
+image: "/images/blog/cover-sylius-platform.webp"
+updatedAt: "2026-10-12"
+translationOf: "sylius-la-solution-e-commerce-du-framework-symfony"
+translatedFromUpdatedAt: "2026-10-12"
+faq:
+  - question: "Is Sylius free and open source?"
+    answer: "Yes, Sylius is fully open source under the MIT license. The code is available on GitHub and you can use it freely for commercial projects. Sylius also offers Sylius Plus, with advanced features (marketplace, multi-store)."
+  - question: "What are the differences between Sylius and PrestaShop?"
+    answer: "Sylius is built on Symfony and offers a decoupled, component-based architecture, a native REST API through API Platform and full testability. PrestaShop is an e-commerce CMS that is easier for beginners but less flexible for projects with complex business rules. Sylius is preferred when customization matters more than speed of setup."
+  - question: "Can you use Sylius for headless commerce?"
+    answer: "Yes, Sylius natively exposes a complete API through API Platform. You can use a React, Next.js or Vue.js front end or a mobile application while benefiting from the Sylius back office to manage the catalog, orders and promotions."
+---
+
+## An e-commerce platform born from the Symfony ecosystem
+
+Sylius is an open source e-commerce platform created in 2011 by Paweł Jędrzejewski, a developer convinced that the e-commerce solutions of the time suffered from a structural flaw: too much coupling between business logic, interface and infrastructure. Built on Symfony, Sylius inherits everything that makes the framework solid: dependency injection, the EventDispatcher, a semantic configuration system and the Doctrine ecosystem. To understand in detail [why choose Symfony for your projects](/article/pourquoi-choisir-symfony-pour-vos-projets) (in French), this architectural robustness is exactly what makes the difference.
+
+Unlike monolithic platforms such as Magento or PrestaShop, Sylius was designed from the start as a set of decoupled components. Each building block (product, order, payment, shipping, promotion) is a standalone component that can be used independently. This approach, directly inspired by the Symfony philosophy, offers a level of customization granularity that few competing platforms can claim.
+
+## The fundamentals: what Sylius covers natively
+
+Sylius provides all the features expected of a modern e-commerce solution. Product management relies on a system of attributes and variants: a product can vary by size, color or material, and each combination generates a variant with its own stock. The catalog is organized into taxons (the Sylius equivalent of categories), structured as a tree using the Nested Set pattern.
+
+The order lifecycle follows a configurable state machine, which governs the transitions between creation, payment, shipping and delivery. Email notifications attach to these transitions, so the customer is informed at every step with no ad hoc logic in controllers.
+
+For payment, Sylius relies on Payum, an abstraction that unifies the integration of gateways such as Stripe, PayPal or Mollie behind a common interface. Shipping methods are just as modular, with a rule system for calculating fees based on weight, destination or order amount.
+
+The promotion engine deserves special attention: it works on a model of composable rules and actions. A promotion can target a customer segment, a cart threshold or a given period, then apply a percentage, a fixed amount or a free unit. This system is extensible without touching the source code.
+
+## The Resource System: the heart of customization
+
+For a senior developer, the entry point to mastering Sylius is its Resource System. Each business entity (Product, Order, Customer) is declared as a Sylius resource, which automatically generates a complete CRUD: controller, form, routes and admin grids. Configuration is done in YAML, without writing a line of PHP.
+
+This mechanism rests on a fundamental principle: every class is replaceable. If the Product model does not cover your needs, you declare your own entity through configuration, and the whole stack (controllers, forms, repositories) adapts automatically. This substitution is made possible by Symfony's service alias pattern, where each interface is bound to a configurable implementation.
+
+Admin grids follow the same declarative logic. Columns, filters, actions and sort orders are configured in YAML. For more advanced needs, custom fields and bulk actions are added through Twig templates and tagged services.
+
+## Advanced customization patterns
+
+Sylius exposes several levels of customization, from the simplest to the most invasive. The first lever is the event: the ResourceController dispatches Symfony events on every CRUD operation, which lets you inject business logic without overriding the controller. The second lever is service decoration: thanks to the Symfony container, any Sylius service can be decorated to change its behavior while keeping the original interface contract.
+
+The third lever is the Twig template system. Sylius uses a mechanism of blocks and template events (SyliusUiBundle) that lets you inject HTML into the admin or the storefront without overriding entire templates. This approach considerably reduces conflicts during upgrades.
+
+The plugin system is the last level. A Sylius plugin is a standard Symfony bundle, but it follows specific conventions: a standardized directory structure, a Flex recipe and built-in Behat functional tests. For an overview of the most common packages in the ecosystem, our article on the [most widely used bundles in Symfony projects](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony) (in French) gives a good picture. The Sylius ecosystem has several dozen maintained plugins covering accounting, marketplaces, recurring sales and multi-vendor setups.
+
+## API-first: Sylius as a headless engine
+
+Since version 1.10, Sylius natively integrates API Platform to expose a complete REST API. This choice positions Sylius as a leading headless commerce engine in the PHP ecosystem. The API covers the entire purchase journey: catalog browsing, cart management, checkout, payment and order tracking.
+
+For a tech lead, this approach opens up decoupled architectures where the front end is a React or Vue SPA, a mobile application, or even a conversational channel. The Sylius back office keeps serving business teams, while the customer experience is fully customized on the front end.
+
+The API Platform integration also brings automatic OpenAPI documentation, pagination, filtering, validation and serialization configurable by groups. Developers familiar with API Platform find their bearings: state providers, state processors and Doctrine extensions.
+
+## Sylius in the ecosystem: strategic positioning
+
+### Sylius vs Shopify
+
+Shopify dominates the market for turnkey SaaS solutions. Its model suits merchants who want to start quickly without technical expertise. But as soon as the business need moves away from the standard (recurring sales, marketplace, B2B with complex business rules), Shopify forces heavy workarounds through its third-party apps or its Storefront API. Sylius, as a self-hosted open source solution, offers full control over business logic, data and infrastructure.
+
+### Sylius vs Magento (Adobe Commerce)
+
+Magento is the historical reference for enterprise PHP e-commerce. Its ecosystem is vast, but its architectural complexity is notorious: a tightly coupled module system, multiple layers of abstraction and performance that demands significant infrastructure. Sylius, with its lighter footprint and idiomatic Symfony architecture, offers a gentler learning curve for modern PHP teams and a noticeably lighter infrastructure.
+
+### When to choose Sylius
+
+Sylius is the right choice when three conditions are met. First, the team masters Symfony: productivity is immediate, and hiring draws on the existing Symfony talent pool. Our expertise in [Sylius e-commerce](/ecommerce-sylius) (in French) supports teams in this adoption, from design to going to production. Second, the business model departs from the classic catalog: marketplaces, B2B, product configurators, recurring sales or complex business rules are cases where Sylius excels thanks to its modularity. Third, control of the infrastructure is a prerequisite: data hosted in-house, GDPR compliance under control, custom ERP or PIM integrations.
+
+## Maintenance and longevity
+
+Analyzing the overall workload is decisive for an architect evaluating Sylius. The license is free (open source MIT), but the real calculation covers initial development, maintenance and infrastructure.
+
+Initial development takes more effort than with a SaaS solution, but less than an equivalent Magento project. Maintenance benefits from the Symfony release cycle: minor updates are backward compatible, and migration tools (Rector, Flex) automate part of the work. For teams who want the benefits of the Sylius architecture without the full e-commerce layer, [Monofony](/article/monofony-le-guide-ultime-pour-les-debutants) (in French) offers a minimalist base built on the same foundations. The infrastructure is standard (PHP, MySQL/PostgreSQL, Redis, Elasticsearch) and containerizes without friction.
+
+In terms of longevity, Sylius is backed by the Sylius company (formerly Lakion) and an active community. The project follows the Symfony release schedule, which guarantees long-term support aligned with the framework. The [Sylius certification](/article/les-certifications-symfony-twig-symfony-sylius) (in French), separate from the Symfony certification, lets you validate your teams' skills.
+
+## Conclusion
+
+Sylius holds a unique position in the e-commerce landscape: that of a platform that refuses to trade power for architectural elegance. For a Symfony team, it is the solution that turns existing framework expertise into e-commerce productivity, without the technical debt imposed by legacy platforms. For an architect, it is an extensible foundation that adapts to the most demanding business models while staying maintainable in the long run.
+
+The question is not whether Sylius is better than Shopify or Magento in the absolute. It is whether your technical context, your business model and your infrastructure strategy justify choosing a solution that gives you full control, in exchange for an initial investment in skills. Our expertise in the [e-commerce sector](/secteur/e-commerce) (in French) lets us support these strategic choices from end to end.
+
+## Going further
+
+- Why choose Symfony for your projects, understanding the strengths of the framework that powers Sylius
+- [Official Sylius website](https://sylius.com/), documentation, community and resources
+- [Sylius GitHub repository](https://github.com/Sylius/Sylius), source code and contributions
+- [Symfony documentation](https://symfony.com/doc/current/index.html), the reference for the framework Sylius is built on

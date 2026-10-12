@@ -681,6 +681,10 @@
     "author": "Luis Ramirez",
     "url": "https://commons.wikimedia.org/wiki/File:Tlaquepaque_Umbrellas.jpg"
   },
+  "sylius-php-ecommerce-platform": {
+    "name": "sylius-platform",
+    "sameAs": "sylius-la-solution-e-commerce-du-framework-symfony"
+  },
   "sylius-vs-prestashop-quelle-solution-e-commerce-choisir": {
     "name": "sylius-vs-prestashop",
     "file": "File:Otisville river road sunset from above (Unsplash).jpg",
