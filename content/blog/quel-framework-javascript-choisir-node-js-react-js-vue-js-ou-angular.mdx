@@ -5,7 +5,7 @@ author: "Efficience IT"
 category: "JavaScript"
 excerpt: "JavaScript est un langage de programmation largement utilisé dans le développement web moderne. Découvrez les frameworks les plus populaires."
 image: "/images/blog/cover-framework-javascript.webp"
-updatedAt: "2026-01-13"
+updatedAt: "2026-10-12"
 ---
 
 ## Le paysage des frameworks JavaScript en 2024
@@ -45,7 +45,7 @@ La gestion d'état dans l'écosystème React a connu plusieurs générations : R
 
 ## Vue.js : la progressivité comme philosophie
 
-[Vue.js](/developpement-vuejs) adopte une approche progressivement adoptable. On peut l'intégrer dans une page existante via un simple tag script, puis monter en puissance vers une SPA complète avec routeur, store et rendu serveur via Nuxt. Pour aller plus loin sur les applications web modernes, notre article sur l'[amélioration de l'expérience utilisateur avec le manifeste des applications web](/article/ameliorer-lexperience-utilisateur-grace-au-manifeste-des-applications-web) couvre la transformation de ces SPA en PWA installables. Cette progressivité n'est pas un compromis : c'est une décision architecturale qui réduit le coût d'entrée sans sacrifier les capacités avancées.
+[Vue.js](/developpement-vuejs) adopte une approche progressivement adoptable. On peut l'intégrer dans une page existante via un simple tag script, puis monter en puissance vers une SPA complète avec routeur, store et rendu serveur via Nuxt. Pour aller plus loin sur les applications web modernes, notre article sur l'[amélioration de l'expérience utilisateur avec le manifeste des applications web](/article/ameliorer-lexperience-utilisateur-grace-au-manifeste-des-applications-web) couvre la transformation de ces SPA en PWA installables. Cette progressivité n'est pas un compromis : c'est une décision architecturale qui réduit la barrière d'entrée sans sacrifier les capacités avancées.
 
 Le système de réactivité de Vue 3, basé sur les Proxies JavaScript, offre un tracking granulaire des dépendances. Contrairement au modèle de réconciliation de React qui compare des arbres entiers, Vue sait précisément quels composants doivent être mis à jour lorsqu'une donnée change. Sur les interfaces avec de nombreux composants, cette granularité se traduit par des performances de re-rendering supérieures sans optimisation manuelle.
 
@@ -65,11 +65,11 @@ Angular a rattrapé son retard historique sur la taille des bundles grâce au tr
 
 Au-delà des préférences techniques, le choix d'un framework est une décision stratégique qui engage l'organisation sur plusieurs années. Voici les axes d'analyse qui relèvent de la responsabilité de l'architecte ou du lead technique.
 
-### Coût de migration et verrouillage technique
+### Effort de migration et verrouillage technique
 
-Chaque framework crée un niveau de verrouillage différent. Angular, avec sa structure prescriptive, rend la migration vers un autre framework coûteuse mais prévisible. React, plus modulaire, permet de migrer certaines couches indépendamment, mais la diversité des choix de stack rend chaque projet React unique et donc potentiellement plus complexe à faire évoluer. Vue.js, de par sa progressivité, offre le chemin de migration le plus doux depuis une application legacy.
+Chaque framework crée un niveau de verrouillage différent. Angular, avec sa structure prescriptive, rend la migration vers un autre framework lourde mais prévisible. React, plus modulaire, permet de migrer certaines couches indépendamment, mais la diversité des choix de stack rend chaque projet React unique et donc potentiellement plus complexe à faire évoluer. Vue.js, de par sa progressivité, offre le chemin de migration le plus doux depuis une application legacy.
 
-Le coût réel d'une migration ne se mesure pas en jours de développement mais en perte de vélocité de l'équipe pendant la transition, en risque de régression sur les fonctionnalités existantes et en impact sur la roadmap produit.
+L'effort réel d'une migration ne se mesure pas en jours de développement mais en perte de vélocité de l'équipe pendant la transition, en risque de régression sur les fonctionnalités existantes et en impact sur la roadmap produit.
 
 ### Cartographie des compétences de l'équipe
 
@@ -81,7 +81,7 @@ Un framework adopté sans que l'équipe en maîtrise les subtilités génère pl
 
 La pérennité d'un framework dépend de son modèle de gouvernance et de son adoption industrielle. React est adossé à Meta et utilisé massivement dans l'industrie. Angular bénéficie du soutien de Google et d'une adoption forte dans les grandes entreprises et les institutions. Vue.js, porté par une communauté indépendante et financé par des sponsors, a démontré sa résilience mais reste plus vulnérable aux aléas qu'un projet soutenu par une entreprise de la taille de Meta ou Google.
 
-L'analyse doit aussi prendre en compte la cadence des versions majeures, la politique de rétrocompatibilité et la qualité de la documentation de migration. Un framework qui casse régulièrement son API impose un coût de maintenance invisible mais réel sur la durée de vie d'un produit.
+L'analyse doit aussi prendre en compte la cadence des versions majeures, la politique de rétrocompatibilité et la qualité de la documentation de migration. Un framework qui casse régulièrement son API impose une charge de maintenance invisible mais réel sur la durée de vie d'un produit.
 
 ## Le bon choix est contextuel
 
