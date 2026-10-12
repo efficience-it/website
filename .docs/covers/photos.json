@@ -74,6 +74,10 @@
     "author": "Daderot",
     "url": "https://commons.wikimedia.org/wiki/File:Tea_bowl,_Korea,_Joseon_dynasty,_16th_century_AD,_Mishima-hakeme_type,_buncheong_ware,_stoneware_with_white_engobe_and_translucent,_greenish-gray_glaze,_gold_lacquer_-_Ethnological_Museum,_Berlin_-_DSC02061.JPG"
   },
+  "claude-code-symfony-legacy-architecture": {
+    "name": "claude-architecture",
+    "sameAs": "claude-assistant-architecture-symfony-legacy"
+  },
   "code-mort-mission-elimination": {
     "name": "code-mort",
     "file": "File:Autumn forest floor (Unsplash).jpg",
