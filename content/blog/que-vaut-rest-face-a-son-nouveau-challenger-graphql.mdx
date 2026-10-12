@@ -5,7 +5,7 @@ author: "Louis-Arnaud Catoire"
 category: "Architecture"
 excerpt: "REST s'est imposé comme un style architectural dominant pour la transmission de données via HTTP. GraphQL est positionné comme son remplaçant."
 image: "/images/blog/cover-rest-vs-graphql.webp"
-updatedAt: "2026-01-13"
+updatedAt: "2026-10-12"
 ---
 
 Depuis plus d'une décennie, REST (Representational State Transfer) constitue le socle architectural de la majorité des API web. Son adoption massive, sa compatibilité native avec le protocole HTTP et la richesse de son écosystème en ont fait un standard de facto. En 2012, Facebook crée GraphQL pour résoudre les problèmes de performance de son application mobile, avant de le rendre open source en 2015. Depuis, la question revient régulièrement : GraphQL est-il le successeur naturel de REST, ou ces deux approches répondent-elles à des problématiques fondamentalement différentes ?
@@ -98,7 +98,7 @@ Le Backend for Frontend consiste à placer une couche d'agrégation entre les cl
 
 À fort trafic, REST bénéficie naturellement du cache HTTP distribué, du edge caching et de la simplicité de scaling horizontal. GraphQL demande une infrastructure dédiée : cache applicatif par champ, Persisted Queries pour réduire la taille des requêtes, analyse de complexité pour se protéger contre les requêtes abusives, et limitation de profondeur pour éviter les attaques par récursion.
 
-Le coût opérationnel de GraphQL est donc plus élevé, mais il se justifie lorsque la flexibilité côté client réduit significativement le nombre d'endpoints à maintenir et accélère le développement front-end.
+La charge opérationnelle de GraphQL est donc plus élevée, mais il se justifie lorsque la flexibilité côté client réduit significativement le nombre d'endpoints à maintenir et accélère le développement front-end.
 
 ### Implications organisationnelles
 

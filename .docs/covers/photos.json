@@ -538,6 +538,10 @@
     "author": "Rodion Kutsaev frostroomhead",
     "url": "https://commons.wikimedia.org/wiki/File:Translucent_leaf_in_macro_1_(Unsplash).jpg"
   },
+  "rest-vs-graphql": {
+    "name": "rest-graphql-en",
+    "sameAs": "que-vaut-rest-face-a-son-nouveau-challenger-graphql"
+  },
   "quel-assistant-ia-choisir-pour-coder": {
     "name": "copilot-vs-chatgpt",
     "file": "File:Dispersive prism.png",
