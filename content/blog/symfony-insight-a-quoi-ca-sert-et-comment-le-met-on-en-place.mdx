@@ -1,11 +1,11 @@
 ---
 title: "Symfony Insight : à quoi ça sert"
 date: "2023-01-31"
+updatedAt: "2026-10-12"
 author: "Louis-Arnaud Catoire"
 category: "Symfony"
 excerpt: "Symfony Insight est un outil en ligne d'analyse du code PHP spécialisé sur Symfony. Découvrez ses fonctionnalités et comment le mettre en place."
 image: "/images/blog/cover-symfony-insight.webp"
-updatedAt: "2026-01-13"
 ---
 
 ## Ce que Symfony Insight apporte à un projet PHP
@@ -22,7 +22,7 @@ La plupart des outils de qualité de code se limitent à une lecture du code sou
 
 ## Mise en place et configuration
 
-La première étape consiste à créer un compte SensioLabs Connect, puis à importer le dépôt Git du projet depuis GitHub, GitLab ou Bitbucket. Les projets open source bénéficient d'une analyse gratuite avec résultats publics ; les projets propriétaires nécessitent un abonnement payant, avec une période d'essai d'un mois.
+La première étape consiste à créer un compte SensioLabs Connect, puis à importer le dépôt Git du projet depuis GitHub, GitLab ou Bitbucket. Les projets open source bénéficient d'une analyse gratuite avec résultats publics ; les projets propriétaires disposent d'une période d'essai d'un mois.
 
 Il est fortement recommandé de connecter directement le compte GitHub ou GitLab à SensioLabs Connect. Cette liaison permet de déclencher une analyse automatique à chaque push ou ouverture de pull request, garantissant un retour continu sans intervention manuelle.
 
@@ -44,7 +44,7 @@ Détection des injections SQL, des failles XSS, des secrets exposés dans le cod
 
 ### Performance
 
-Requêtes N+1, appels Doctrine non optimisés, absence de cache HTTP, utilisation inadaptée de certaines fonctions PHP. Ces violations impactent directement l'expérience utilisateur et le coût d'infrastructure.
+Requêtes N+1, appels Doctrine non optimisés, absence de cache HTTP, utilisation inadaptée de certaines fonctions PHP. Ces violations impactent directement l'expérience utilisateur et la charge d'infrastructure.
 
 ### Maintenabilité et architecture
 
@@ -91,7 +91,7 @@ Symfony Insight présente des contraintes qu'il faut évaluer avant de l'adopter
 - La rétention limitée à cinq analyses rend difficile le suivi des tendances sur le long terme, contrairement à SonarQube qui conserve un historique complet
 - L'absence de personnalisation fine des règles empêche d'adapter les seuils aux spécificités du projet
 - Le temps d'analyse, plus long que celui d'un outil purement statique, peut rallonger les pipelines CI sur les projets volumineux
-- Le coût de l'abonnement pour les projets propriétaires, à mettre en balance avec SonarQube auto-hébergé qui n'a pas de coût par projet
+- L'accès aux projets propriétaires, à mettre en balance avec SonarQube auto-hébergé qui n'impose pas de limite par projet
 
 ## Pour aller plus loin
 
