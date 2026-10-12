@@ -6,7 +6,7 @@ category: "Symfony"
 excerpt: "Le framework Symfony est en constante évolution comme de nombreux aspects du développement web. Efficience IT surveille ces changements de près."
 image: "/images/blog/cover-migration-symfony.webp"
 proficiencyLevel: "Expert"
-updatedAt: "2026-10-09"
+updatedAt: "2026-10-12"
 faq:
   - question: "Combien de temps prend une migration Symfony ?"
     answer: "Ça dépend de la taille du projet et du nombre de versions à sauter. Une migration d'une version mineure (ex: 6.3 vers 6.4) prend quelques jours. Une migration majeure (ex: 4.4 vers 6.4) peut prendre plusieurs semaines. L'utilisation de Rector et PHPStan automatise 60 à 80% des changements et réduit considérablement le temps nécessaire."
@@ -24,7 +24,7 @@ Symfony suit un calendrier de publication prévisible qui structure toute strat�
 
 En octobre 2026, le [calendrier officiel des versions](https://symfony.com/releases) donne la situation suivante : la 6.4 LTS est supportée jusqu'en novembre 2027, la 7.4 LTS jusqu'en novembre 2029, la 8.1 jusqu'en janvier 2027, tandis que la 8.0 n'est plus maintenue. La 5.4 LTS ne reçoit plus que des correctifs de sécurité.
 
-Cette régularité a une conséquence directe : le coût d'une migration est proportionnel au temps écoulé depuis la dernière mise à jour. Un projet maintenu à jour sur chaque mineure absorbe des changements incrémentaux. Un projet figé sur Symfony 4.4 depuis 2019 affronte l'accumulation de trois versions majeures d'un coup. Passé la date de fin de support, le sujet change de nature : nous détaillons les conséquences et les stratégies de sortie dans notre [plan d'action fin de support Symfony et PHP](/article/symfony-php-fin-de-support-eol-plan-action).
+Cette régularité a une conséquence directe : l'effort d'une migration est proportionnel au temps écoulé depuis la dernière mise à jour. Un projet maintenu à jour sur chaque mineure absorbe des changements incrémentaux. Un projet figé sur Symfony 4.4 depuis 2019 affronte l'accumulation de trois versions majeures d'un coup. Passé la date de fin de support, le sujet change de nature : nous détaillons les conséquences et les stratégies de sortie dans notre [plan d'action fin de support Symfony et PHP](/article/symfony-php-fin-de-support-eol-plan-action).
 
 ### Le mécanisme des dépréciations
 
@@ -98,7 +98,7 @@ Cette approche exige une couche de partage de session (Redis, JWT stateless) et 
 
 Le dual-stack va plus loin que le Strangler Fig en maintenant deux versions en production simultanément pendant une période définie. Le trafic est réparti par feature flags ou par population d'utilisateurs. Les métriques de la nouvelle version sont comparées en conditions réelles avant le basculement complet.
 
-Cette stratégie convient aux plateformes à fort trafic où les tests de charge en environnement de staging ne reproduisent pas fidèlement les conditions de production. Le coût opérationnel est élevé (double infrastructure, double monitoring), mais le risque métier est réduit au minimum.
+Cette stratégie convient aux plateformes à fort trafic où les tests de charge en environnement de staging ne reproduisent pas fidèlement les conditions de production. La charge opérationnelle est élevée (double infrastructure, double monitoring), mais le risque métier est réduit au minimum.
 
 ### Évaluation des risques et arbitrage
 
