@@ -1,5 +1,4 @@
 import {
-  ENGLISH_CATEGORY_MIN_POSTS,
   englishBlogPath,
   englishCategorySlug,
   getEnglishBlogParams,
@@ -34,8 +33,8 @@ describe("englishCategorySlug", () => {
 describe("getEnglishCategories", () => {
   it("keeps only categories with enough translated posts", () => {
     const posts = [
-      ...makePosts(ENGLISH_CATEGORY_MIN_POSTS, "Symfony"),
-      ...makePosts(ENGLISH_CATEGORY_MIN_POSTS - 1, "PHP"),
+      ...makePosts(3, "Symfony"),
+      ...makePosts(2, "PHP"),
       ...makePosts(1, ""),
     ];
     expect(getEnglishCategories(posts)).toEqual(["Symfony"]);
