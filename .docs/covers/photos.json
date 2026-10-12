@@ -807,6 +807,10 @@
     "author": "Brandon Ghany  / Horizon Productions SFL",
     "url": "https://commons.wikimedia.org/wiki/File:Milky_Way_from_Simeon,_Virginia.png"
   },
+  "rag-symfony-ai-doctrine": {
+    "name": "rag-symfony-en",
+    "sameAs": "rag-symfony-ai-doctrine-indexer-base-metier"
+  },
   "rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony": {
     "name": "rector",
     "file": "File:Monarch butterfly drying out it's wings after emerging from chrysalis in Wisconsin (28027169922).jpg",
