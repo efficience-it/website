@@ -8,6 +8,13 @@ jest.mock("@/lib/blog", () => ({
   getAllPosts: jest.fn(),
 }));
 
+
+const mockConfig = { indexable: true };
+jest.mock("@/lib/i18n/config", () => ({
+  get ENGLISH_INDEXABLE() {
+    return mockConfig.indexable;
+  },
+}));
 const getAllPostsMock = getAllPosts as jest.MockedFunction<typeof getAllPosts>;
 
 const french: BlogPost = {
@@ -74,5 +81,19 @@ describe("sitemap", () => {
     mockPosts([frenchAlone], [englishNoImage]);
     const entry = sitemap().find((e) => e.url === `${BASE_URL}/en/article/article-en-sans-image`)!;
     expect(entry.images).toBeUndefined();
+  });
+});
+
+describe("sitemap while English is not indexable", () => {
+  afterEach(() => {
+    mockConfig.indexable = true;
+  });
+
+  it("lists no English URL and no alternate even with translations", () => {
+    mockConfig.indexable = false;
+    mockPosts([french, frenchAlone], [english]);
+    const entries = sitemap();
+    expect(entries.some((e) => e.url.includes("/en/"))).toBe(false);
+    expect(entries.some((e) => e.alternates)).toBe(false);
   });
 });
