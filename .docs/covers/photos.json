@@ -43,6 +43,10 @@
     "author": "Skitterphoto",
     "url": "https://commons.wikimedia.org/wiki/File:Water_Drop_Before_It_Hits_The_Water.jpg"
   },
+  "bruno-api-testing-postman-alternative": {
+    "name": "bruno-en",
+    "sameAs": "bruno-alternative-open-source-postman-tester-api"
+  },
   "cahier-des-charges-application-web-guide-complet": {
     "name": "cahier-des-charges-web",
     "file": "File:Sunrise through the Pier (Unsplash).jpg",

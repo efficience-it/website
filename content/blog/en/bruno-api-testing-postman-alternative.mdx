@@ -1,0 +1,144 @@
+---
+title: "Bruno: The Open Source Alternative to Postman"
+date: "2026-04-09"
+author: "Efficience IT"
+category: "DevOps"
+excerpt: "A Git-native, open source alternative to Postman: versioned collections, a CLI for CI/CD and multi-stack support to test your APIs, from Symfony to Node.js."
+image: "/images/blog/cover-bruno-en.webp"
+updatedAt: "2026-10-12"
+translationOf: "bruno-alternative-open-source-postman-tester-api"
+translatedFromUpdatedAt: "2026-10-12"
+faq:
+  - question: "Is Bruno really free?"
+    answer: "Bruno's open source edition is free and covers most needs: HTTP requests, assertions, environment variables and a CLI for CI/CD. A paid Golden edition exists for advanced features such as gRPC support and built-in load testing."
+  - question: "Can I migrate my Postman collections to Bruno?"
+    answer: "Yes. Bruno includes a native importer that converts Postman collections in JSON format into .bru files. Environment variables and scripts are converted automatically. Some manual adjustments may be needed on complex scripts."
+  - question: "Does Bruno work with GitLab CI and GitHub Actions?"
+    answer: "Yes. The Bruno CLI installs through npm and fits into any CI/CD pipeline. The bru run command runs a full collection or a specific folder, with a JUnit reporter for native test reports."
+---
+
+For years, Postman was the natural reflex for testing an API. But since 2023, business model changes, cloud dependency and the tool's growing complexity have pushed many teams to look for alternatives. Bruno has emerged as the most credible one: open source, offline-first and, above all, designed to fit into a Git workflow. For teams that already [automate their API tests with Newman in CI/CD](/article/comment-executer-des-tests-postman-avec-newman-dans-gitlab-ci) (in French), Bruno is a natural evolution rather than a break.
+
+## Why Bruno instead of Postman
+
+Postman's problem is not its interface or its features. It is lock-in. Collections are stored in the Postman cloud and synchronized through a mandatory account, and collaborative features depend on it. For a team that versions everything in Git and applies strict [coding conventions](/article/coding-conventions) (in French), this dependency on a third-party service is a blind spot.
+
+Bruno takes the exact opposite stance. No account is required. The application is a desktop client that works entirely locally. Collections never leave your machine, unless you push them to your Git repository yourself. It is an architecture choice, not a compromise.
+
+Being open source is an additional factor of trust. The [source code is available on GitHub](https://github.com/usebruno/bruno), open to audit by anyone. For organizations subject to security or data sovereignty constraints, this is an argument that carries weight when choosing a testing tool.
+
+## Collections versioned in Git
+
+This is the fundamental difference with Postman. Each Bruno request is a text file in the `.bru` format, a readable format designed specifically for versioning. A `.bru` file contains the HTTP method, the URL, the headers, the body and the assertions in a declarative syntax.
+
+```bru
+meta {
+  name: Créer un utilisateur
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/users
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+body:json {
+  {
+    "email": "test@example.com",
+    "firstName": "Jean",
+    "lastName": "Dupont"
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.body.email: eq test@example.com
+}
+```
+
+This approach turns API tests into first-class artifacts of the project. Requests go through the same code reviews as the rest of the codebase. An endpoint change, an added header, a modified assertion: everything is visible in the merge request diff.
+
+Environments are managed through separate files, which lets you version the structure (variable names, default values) while keeping secrets out of the repository through a local `.env` file.
+
+## Testing a Symfony API with Bruno
+
+On a Symfony project that exposes a REST API, Bruno takes a few minutes to set up. A collection's structure naturally follows the API's, especially when the API is documented with [Swagger through the Nelmio bundle](/article/swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on) (in French).
+
+```
+bruno-collection/
+├── bruno.json
+├── environments/
+│   ├── local.bru
+│   └── staging.bru
+├── auth/
+│   └── login.bru
+├── users/
+│   ├── list-users.bru
+│   ├── create-user.bru
+│   └── get-user.bru
+└── orders/
+    ├── create-order.bru
+    └── list-orders.bru
+```
+
+Each folder matches an API resource. Authentication requests are isolated and run first to store the JWT token in a reusable variable. [REST best practices](/article/api-rest-les-bonnes-pratiques) (in French) encourage a consistent resource structure, and the test collection naturally mirrors it.
+
+Pre-request scripts let you chain calls. An authentication script fetches and stores the token, and the following requests consume it automatically. Bruno uses JavaScript for scripts, which keeps the learning curve short. Assertions cover several levels: HTTP code, payload structure, business values and response headers.
+
+## Bruno beyond PHP: Node.js APIs and multi-stack
+
+Bruno is agnostic about the backend. The same collection tests a Symfony API, a [NestJS API](/api-nodejs-nestjs) (in French), an API built with [Express, Fastify or Hono](/article/express-fastify-hono-quel-framework-nodejs-choisir) (in French), or any service exposing HTTP endpoints. This is a concrete advantage for teams working on polyglot architectures.
+
+On a project combining a Symfony backend and Node.js microservices, a single Bruno collection covers all the integration tests. Environments handle each service's URLs, and assertions verify the interface contracts between them. This approach unifies test tooling where each stack would otherwise have its own HTTP testing framework.
+
+## Integrating Bruno into a CI/CD pipeline
+
+The Bruno CLI installs through npm and runs collections on the command line. Integration into a GitLab CI pipeline is straightforward.
+
+```yaml
+stages:
+  - test
+
+bruno_tests:
+  stage: test
+  image: node:20-alpine
+  before_script:
+    - npm install -g @usebruno/cli
+  script:
+    - bru run --env staging --format junit --output results.xml
+  artifacts:
+    when: always
+    reports:
+      junit: results.xml
+    expire_in: 30 days
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main"
+```
+
+The `bru run` command runs all the requests in the collection in the defined order. The `--env` option loads the matching environment, and `--format junit` produces a report compatible with GitLab's native display. Secrets are injected through the project's CI/CD variables, like for any other pipeline job.
+
+For projects that use [Docker in production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) (in French), the Bruno CLI runs in a lightweight Node.js container with no extra dependency. Parallelization is possible by splitting the collection's folders into separate jobs, each targeting a functional subset through the `--folder` option. The principle is the same as the one described for [deploying Nuxt.js with GitLab CI](/article/deployer-nuxtjs-avec-gitlab-ci-s3-et-cloudfront) (in French): each job has a single responsibility, and the artifacts are consolidated at the end of the pipeline.
+
+Compared to Newman, the main gain is consistency: the same `.bru` files the developer uses in the graphical interface run as is in the pipeline. No JSON export to maintain, no cloud synchronization, no divergence between the local machine and CI.
+
+## Speed things up with Claude Code
+
+The textual nature of `.bru` files makes them particularly well suited to generation and maintenance by an AI agent. [Claude Code](/article/monter-en-competence-claude-code) (in French) can read an OpenAPI specification, analyze the endpoints and generate a complete Bruno collection with relevant assertions.
+
+In practice, a developer can ask Claude Code to create the test requests for a new Symfony controller, to fill in missing assertions on an existing collection, or to check consistency between the Swagger documentation and the `.bru` files. [Claude Code skills](/article/skills-claude-code-equipe-symfony) (in French) let you standardize these operations as commands the whole team can reuse: a `/bruno-gen` that generates `.bru` files from a controller, and a `/bruno-review` that checks assertion coverage.
+
+The benefit is twofold. The time spent writing API tests drops sharply, and coverage rises because the barrier to entry disappears. A developer who would not have taken the time to write twenty `.bru` files by hand gladly reviews and validates the ones an agent generated.
+
+## Going further
+
+- Postman tests with Newman in GitLab CI, to compare the Newman approach and the Bruno CLI approach
+- [MCP servers and Claude Code for Symfony developers](/article/serveurs-mcp-claude-code-developpeurs-symfony) (in French), extend Claude Code with tools connected to your stack
+- [Bruno](https://www.usebruno.com/), the official site of the open source API client
+- [Bruno CLI documentation](https://docs.usebruno.com/bru-cli/overview), the official guide to the CLI runner for CI/CD
