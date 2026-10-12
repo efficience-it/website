@@ -1,7 +1,7 @@
 ---
 title: "Migrer du Serializer vers JsonStreamer : le guide honnête"
 date: "2026-03-10"
-updatedAt: "2026-03-26"
+updatedAt: "2026-10-12"
 author: "Louis-Arnaud Catoire"
 category: "Symfony"
 excerpt: "JsonStreamer promet des gains de performance impressionnants. On a mesuré les vrais chiffres : vous ne pouvez pas juste remplacer votre Serializer."
@@ -212,7 +212,7 @@ Pas de big bang. C'est le type de modernisation progressive que nous pratiquons 
 Avant de migrer un endpoint, posez-vous ces trois questions dans l'ordre :
 
 1. **Mon endpoint retourne plus de 1 000 objets ?** Si non, le gain de performance est négligeable, garde le Serializer.
-2. **J'utilise des groupes de sérialisation sur cet endpoint ?** Si oui, vous devrez refactorer vos DTOs avant de migrer, évalue le coût.
+2. **J'utilise des groupes de sérialisation sur cet endpoint ?** Si oui, vous devrez refactorer vos DTOs avant de migrer, évalue l'effort.
 3. **Mes objets sont des DTOs purs (pas de constructeur avec arguments, propriétés publiques) ?** Si oui, JsonStreamer est viable immédiatement.
 
 ```mermaid
