@@ -656,6 +656,10 @@
     "url": "https://commons.wikimedia.org/wiki/File:Paintbrushes_(Unsplash).jpg",
     "focusX": 0.34
   },
+  "best-code-editor-2026": {
+    "name": "code-editor",
+    "sameAs": "phpstorm-vscode-sublimetext-netbeans-quel-editeur-de-code-choisir"
+  },
   "playwright-tests-end-to-end-claude-code": {
     "name": "playwright",
     "file": "File:Into the Light (Unsplash).jpg",
