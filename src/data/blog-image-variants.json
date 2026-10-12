@@ -218,6 +218,10 @@
     400,
     800
   ],
+  "cover-wasm-containers": [
+    400,
+    800
+  ],
   "cover-web-app-manifest": [
     400,
     800

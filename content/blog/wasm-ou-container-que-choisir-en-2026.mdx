@@ -1,7 +1,7 @@
 ---
 title: "WASM ou Container : que choisir en 2026 ?"
 date: "2026-05-15"
-updatedAt: "2026-05-15"
+updatedAt: "2026-10-12"
 author: "Louis-Arnaud Catoire"
 category: "DevOps"
 excerpt: "WASM côté serveur a quitté la zone expérimentale. Comparatif face au container Docker en 2026 : cold start, densité, sécurité, cohabitation."
@@ -16,7 +16,7 @@ howTo:
     - name: "Lister les dépendances système"
       text: "Identifier les binaires natifs, les drivers, les clients de base de données et les bibliothèques C/C++ critiques. Toute dépendance lourde non portable vers WASI tranche pour le container."
     - name: "Évaluer la densité cible"
-      text: "Calculer le nombre d'instances par hôte attendu en pic. Au-delà de quelques milliers d'instances simultanées sur un seul nœud, WASM devient une option économiquement décisive."
+      text: "Calculer le nombre d'instances par hôte attendu en pic. Au-delà de quelques milliers d'instances simultanées sur un seul nœud, WASM devient une option décisive."
     - name: "Vérifier le modèle de sécurité"
       text: "Confronter le modèle d'isolation requis aux capacités WASI et aux primitives container. Les charges multi-tenant non strictement isolées tirent vers le sandbox WASM par défaut."
     - name: "Planifier la coexistence"
@@ -46,7 +46,7 @@ Cet article tranche la question pour 2026, pour une équipe qui doit choisir ou 
 
 ## Pourquoi le débat refait surface maintenant
 
-Trois forces convergent. La première est économique : les cloud providers facturent à la milliseconde, ce qui rend tout cold start container long financièrement visible. La seconde est architecturale : l'edge computing pousse les fonctions au plus près de l'utilisateur, ce qui rend la densité par nœud critique. La troisième est sécuritaire : la multiplication des charges multi-tenant exige un modèle d'isolation strict par défaut, dimension où WASM brille structurellement.
+Trois forces convergent. La première est l'efficacité d'exécution : les cloud providers mesurent l'exécution à la milliseconde, ce qui rend tout cold start container long très visible. La seconde est architecturale : l'edge computing pousse les fonctions au plus près de l'utilisateur, ce qui rend la densité par nœud critique. La troisième est sécuritaire : la multiplication des charges multi-tenant exige un modèle d'isolation strict par défaut, dimension où WASM brille structurellement.
 
 Solomon Hykes, créateur de Docker, le résumait ainsi en 2019 : si WASM et WASI avaient existé en 2008, créer Docker n'aurait probablement pas été nécessaire. La citation est devenue virale, mais elle décrit un monde alternatif, pas le réel de 2026. Aujourd'hui, Docker porte le poids de l'existant et WASM apporte une efficacité nouvelle sur des charges spécifiques. Le sujet n'est pas de choisir un camp, c'est de savoir où couper.
 
@@ -56,7 +56,7 @@ Solomon Hykes, créateur de Docker, le résumait ainsi en 2019 : si WASM et WASI
 
 Un [container Docker en production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) embarque un système d'exploitation minimal, une stack applicative complète et tout ce dont elle dépend. L'isolation s'appuie sur les namespaces et les cgroups du noyau Linux. La compatibilité est quasi totale : tout ce qui tourne sur Linux peut tourner dans un container. C'est le modèle qui a permis à des frameworks comme Symfony, Rails ou Django de passer du serveur dédié à l'orchestrateur sans réécriture.
 
-La contrepartie est le poids. Une image Docker pèse typiquement entre 50 et 500 Mo, démarre en 200 ms à 2 secondes selon la stack, et consomme de la mémoire dès le boot. Sur des charges éphémères, ce coût d'amorçage domine.
+La contrepartie est le poids. Une image Docker pèse typiquement entre 50 et 500 Mo, démarre en 200 ms à 2 secondes selon la stack, et consomme de la mémoire dès le boot. Sur des charges éphémères, ce temps d'amorçage domine.
 
 ### WASM côté serveur : un bytecode portable, sandboxé par défaut
 
@@ -91,7 +91,7 @@ Enfin, le container reste imbattable sur les dépendances binaires natives. Imag
 
 ## Quand WASM change la donne
 
-WASM s'impose sur les charges qui combinent forte fréquence d'invocation et durée courte. Edge functions devant un CDN, transformation de requêtes HTTP, A/B testing, signature de tokens, géoblocage, routage dynamique : autant de scénarios où le cold start container devient le facteur limitant et où WASM exécute des milliers de fois plus de requêtes pour le même coût matériel.
+WASM s'impose sur les charges qui combinent forte fréquence d'invocation et durée courte. Edge functions devant un CDN, transformation de requêtes HTTP, A/B testing, signature de tokens, géoblocage, routage dynamique : autant de scénarios où le cold start container devient le facteur limitant et où WASM exécute des milliers de fois plus de requêtes avec les mêmes ressources matérielles.
 
 WASM brille aussi sur les plugins de data plane. Envoy et Linkerd exposent des points d'extension WASM dans leur proxy. Un module WASM peut être injecté à chaud sans recompiler le proxy, sans redémarrer les pods, sans risque pour le runtime hôte. C'est devenu le standard pour étendre un service mesh sans toucher au code C++.
 
@@ -142,7 +142,7 @@ Le troisième mythe est que WASM est moins sécurisé. Faux. Le bytecode WASM es
 
 ## Roadmap d'adoption progressive
 
-Pour une équipe en 2026, la séquence pragmatique est claire. Commencer par identifier une charge éphémère et fréquente : transformation de requête, A/B testing, signature de token. La porter en WASM via Cloudflare Workers ou Fermyon Spin, mesurer l'écart en latence et en coût. Étendre ensuite aux plugins de service mesh si le périmètre s'y prête. Garder le cœur applicatif en container tant que la valeur d'une réécriture n'est pas démontrée. Documenter la frontière entre les deux mondes avec autant de rigueur que les couches d'une [architecture hexagonale Symfony](/architecture-hexagonale-symfony).
+Pour une équipe en 2026, la séquence pragmatique est claire. Commencer par identifier une charge éphémère et fréquente : transformation de requête, A/B testing, signature de token. La porter en WASM via Cloudflare Workers ou Fermyon Spin, mesurer l'écart en latence et en consommation de ressources. Étendre ensuite aux plugins de service mesh si le périmètre s'y prête. Garder le cœur applicatif en container tant que la valeur d'une réécriture n'est pas démontrée. Documenter la frontière entre les deux mondes avec autant de rigueur que les couches d'une [architecture hexagonale Symfony](/architecture-hexagonale-symfony).
 
 Cette approche découple la décision technique de la pression hype. Vous mesurez, vous arbitrez, vous progressez. Le risque est borné, le bénéfice est cumulatif.
 
