@@ -535,6 +535,10 @@
     "author": "Chris B scorpkris",
     "url": "https://commons.wikimedia.org/wiki/File:Into_the_Light_(Unsplash).jpg"
   },
+  "playwright-e2e-claude-code": {
+    "name": "playwright-claude",
+    "sameAs": "playwright-tests-end-to-end-claude-code"
+  },
   "pourquoi-choisir-symfony-pour-vos-projets": {
     "name": "pourquoi-symfony",
     "file": "File:Nave of Sagrada Família, Barcelona, 2023.jpg",
