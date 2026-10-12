@@ -560,6 +560,10 @@
     "author": "Gabriel Jimenez gabrielj_photography",
     "url": "https://commons.wikimedia.org/wiki/File:Ancient_stump_(Unsplash).jpg"
   },
+  "int-uuid-ulid-database-ids": {
+    "name": "int-uuid-ulid-en",
+    "sameAs": "prendre-int-uuid-ou-ulid-pour-un-index-de-base-de-donnees"
+  },
   "qu-est-ce-que-les-psrs-et-a-quoi-servent-ils": {
     "name": "psr-php",
     "file": "File:Gieboldehausen, Gustav-Adolf-Kirche, Orgel Prospektpfeifen.jpg",
