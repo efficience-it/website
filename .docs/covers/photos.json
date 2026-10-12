@@ -251,6 +251,10 @@
     "author": "Shannon Heinle",
     "url": "https://commons.wikimedia.org/wiki/File:Pyrolusite_in_moss_agate_(GeoDIL_number_-_41).jpg"
   },
+  "symfony-technical-due-diligence": {
+    "name": "symfony-due-diligence",
+    "sameAs": "due-diligence-technique-application-symfony-checklist-repreneur"
+  },
   "easy-admin-vs-forest-admin-differences-et-avantages": {
     "name": "easyadmin-vs-forestadmin",
     "file": "File:Menara Berkembar Petronas, Kuala Lumpur, Malaysia (Unsplash).jpg",

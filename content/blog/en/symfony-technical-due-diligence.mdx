@@ -1,0 +1,153 @@
+---
+title: "Technical Due Diligence for a Symfony Application"
+date: "2026-05-13"
+updatedAt: "2026-10-12"
+author: "Louis-Arnaud Catoire"
+category: "Architecture"
+excerpt: "A pre-acquisition audit grid for Symfony applications: 12 signals that move the valuation and a five-axis methodology to turn technical risk into numbers."
+image: "/images/blog/cover-symfony-due-diligence.webp"
+proficiencyLevel: "Expert"
+translationOf: "due-diligence-technique-application-symfony-checklist-repreneur"
+translatedFromUpdatedAt: "2026-10-12"
+howTo:
+  name: "Run a technical due diligence on a Symfony application"
+  description: "A five-axis methodology to audit a Symfony application in the context of an acquisition, an equity investment or a merger."
+  steps:
+    - name: "Audit the code"
+      text: "Measure quality (PHPStan, Psalm), test coverage, cyclomatic complexity, the state of Composer dependencies and PSR compliance."
+    - name: "Assess the architecture"
+      text: "Map the coupling, identify critical modules, spot structural anti-patterns and estimate the architectural debt."
+    - name: "Check security"
+      text: "Scan dependencies for CVEs, verify secrets management, validate GDPR compliance, audit authentication flows and access controls."
+    - name: "Inspect operations"
+      text: "Review the CI/CD pipeline, monitoring, runbooks, backup strategy, environment reproducibility and the disaster recovery plan."
+    - name: "Audit the team"
+      text: "Measure the bus factor, documentation quality, how widely project knowledge is shared and the ability to hand over to an acquirer."
+faq:
+  - question: "When in the acquisition process should you launch the technical due diligence?"
+    answer: "Ideally after the LOI (Letter of Intent) is signed and before the SPA (Share Purchase Agreement), during the exclusivity phase. Three to six weeks are enough for a standard scope. Launched too early, it exposes you to the risk of information leaks. Launched too late, it leaves no room to renegotiate or structure an earn-out clause."
+  - question: "Which red flags justify walking away from an acquisition?"
+    answer: "Four signals are deal-breakers in practice: a Symfony version that has been end of life for more than 24 months with no migration plan, a complete absence of automated tests on the core business, a bus factor of 1 on critical modules, and unpatched critical vulnerabilities in production. These points can bring the valuation down to zero if the remediation effort exceeds the residual value of the application."
+  - question: "Can an end-of-life Symfony application still have value?"
+    answer: "Yes, provided the business model holds up without the stack. If the product has a captive user base, long-term contracts and a competitive moat, the effort to migrate to a recent LTS version becomes a justified investment. The acquirer must then quantify this effort and deduct it from the valuation, factoring in the security risk during the migration phase."
+  - question: "How do you assess whether the code can be handed over to a new team?"
+    answer: "Three criteria: the quality of the technical documentation (architecture, decisions, runbooks), the readability of the code (conventions, PSR compliance, controlled complexity) and test coverage. A good practical proxy is to ask an external senior Symfony developer how many weeks it would take to ship a non-trivial feature. Beyond four weeks of ramp-up, handover quality is poor."
+  - question: "What technical debt ratio avoids hurting the valuation?"
+    answer: "A healthy project has technical debt below 15% of development time, as measured by static analysis tools. Between 15 and 30%, the debt is manageable but requires a remediation plan. Above 30%, it already slows down the product roadmap and must be turned into a discount on the valuation."
+  - question: "Is GDPR compliance really a factor in a technical due diligence?"
+    answer: "Yes, and its weight grows with the size of the personal database being processed. The lack of a processing register, infinite data retention, no export or deletion mechanism, and sensitive data stored in plain text are quantifiable legal risks. The CNIL has issued several significant penalties for violations of this kind. A provision in the SPA is standard practice."
+  - question: "How do you use the due diligence results in the negotiation?"
+    answer: "The report produces a grid scored out of 100 and a remediation plan estimated in person-days. This estimate then becomes a provision for technical liability, an earn-out clause tied to technical milestones, or a direct discount. The most common form is a combination: a partial discount at signing and an earn-out indexed on paying down the debt within 12 to 24 months."
+  - question: "Who performs the technical due diligence, the fund's in-house team or an external firm?"
+    answer: "Mature funds systematically use an external firm that specializes in the audited stack. Outsourcing guarantees the independence of the report, brings in specialized expertise that cannot be built in-house for every framework, and limits the confirmation bias caused by signing pressure. The engagement usually runs between 8 and 25 person-days depending on the size of the scope."
+  - question: "Should you tell the target's technical team about the due diligence?"
+    answer: "It is a strategic decision for the acquirer, not an automatic step. The common practice is a two-step approach: a first code-only audit with no contact with the team, then technical interviews once trust is established with the seller. This sequence preserves the confidentiality of the transaction and lets you cross-check the team's statements against the reality of the code."
+  - question: "What is the difference between a technical due diligence and a classic code audit?"
+    answer: "A code audit answers the question: is this code good? A due diligence answers: can this code be handed over, is it secure, and is it profitable to operate for the next N years? It covers dimensions beyond the code (team, operations, compliance, vendor dependencies) and translates each finding into financial impact. It is an investor deliverable, not a developer deliverable."
+---
+
+When an investment fund, an acquirer or an M&A advisor looks at a French tech SME, financial, legal and tax due diligence has become a market standard. Technical due diligence, on the other hand, is often treated as an afterthought, handed to the acquirer's IT director without a formal framework, or skimmed by a generalist firm. This is a structural mistake. In a transaction where the value rests on a Symfony application, the code and the team make up most of the asset. Every technical blind spot is paid for after closing, and rarely to the acquirer's advantage.
+
+This article describes the methodology we apply on technical due diligence engagements for Symfony applications, from LBOs of software-publisher SMEs to the purchase of digital assets by an industrial group. It is aimed at funds, acquirers and executives who want to understand what a rigorous pre-acquisition audit delivers and how that deliverable translates into the final negotiation.
+
+## Why the Technical Audit Drives the Valuation
+
+The valuation of a tech SME relies on revenue or EBITDA multiples. These multiples assume that the technical asset holds up over the life of the business plan. When the code is a time bomb, the multiple applied overvalues the target because it builds in future profitability that cannot be sustained without heavy investment.
+
+A common example. A French SME publishes a SaaS product on Symfony with solid recurring revenue and a comfortable gross margin. The fund interested in it applies a multiple consistent with the B2B SaaS market. The technical due diligence reveals an application on Symfony 4.4, whose active support has ended, with no automated tests on the billing modules and a single senior developer who holds the complete knowledge of the architecture. The remediation effort, estimated in person-days by the audit team, represents the equivalent of several quarters of EBITDA. This information changes the nature of the transaction: you are no longer discussing the same valuation, or the same deal structure.
+
+Technical due diligence is not about saying whether an application is beautiful or elegant. It turns technical risk into a negotiable number. It is an investor deliverable, fundamentally different from a [classic PHP code audit](/audit-code-php) (in French) aimed at a technical team.
+
+## The Twelve Signals That Move the Valuation
+
+A Symfony due diligence looks for red flags first. Here are the twelve signals that, in our experience, weigh most on the final valuation.
+
+The first signal is the framework version. An application on a version whose [active Symfony support](https://symfony.com/releases) has ended is exposed to unpatched CVEs and blocks any upgrade of the PHP ecosystem. The second signal is the absence of automated tests on the core business: without a safety net, every change becomes Russian roulette and the burden of handing over to a new team explodes.
+
+The third signal is knowledge concentrated in one or two developers, the famous bus factor. The fourth is the presence of abandoned Composer dependencies with no maintained alternative. The fifth is the total absence of tooled GDPR compliance in the code: no user export, no purge, no register.
+
+The other seven signals, in order of observed impact: [technical debt](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French) above 30% as measured by analysis tools, a missing or broken CI/CD pipeline, infrastructure that cannot be reproduced without manual intervention, a strong dependency on a single non-replaceable vendor (hosting, payment, ERP), extreme coupling between the Doctrine and Symfony layers and the business logic, the absence of application monitoring in production, and finally dead code representing more than 20% of the codebase, a sign of a chronic lack of maintenance discipline.
+
+Each of these signals has a financial weight. The due diligence does not simply list them: it quantifies them and cross-references them with the acquirer's business plan to identify what blocks the planned value creation.
+
+## The Five-Axis Methodology
+
+A rigorous Symfony due diligence covers five axes, which should be handled in this order to avoid confirmation bias.
+
+### Axis 1: The Code
+
+The code audit starts with static analysis. [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French) configured at the strictest level the codebase supports, Psalm as a complement, and a file-by-file measure of cyclomatic complexity. On a healthy Symfony codebase, we expect zero PHPStan errors at level 9 or 10. On an unaudited target, the counter typically climbs between five thousand and several tens of thousands of errors. The raw number matters less than the distribution: if the errors are concentrated in the critical modules, the risk is high.
+
+Test coverage is the other defining metric. We distinguish line coverage (often flattering) from mutation coverage (Infection PHP), which measures the real quality of the assertions. Line coverage of 70% with mutation coverage of 20% indicates tests that pass but test nothing useful. Our guide on [automated PHP tests](/tests-automatises-php) (in French) details the expectations by project type.
+
+The state of Composer dependencies is checked with `composer outdated -D` and `composer audit`. A mature target has no dependency more than one major version behind the current one for over 18 months. Unmaintained dependencies are identified through the status of the source GitHub repository.
+
+### Axis 2: The Architecture
+
+The architecture audit maps the coupling. We trace the dependencies between modules, identify cycles and measure internal cohesion. A classic sign of drift is the Doctrine entity that contains business logic, or the controller that directly calls an external HTTP client. Our guide on [Symfony hexagonal architecture](/architecture-hexagonale-symfony) (in French) serves as a grid to evaluate the separation of responsibilities.
+
+We also look for structural anti-patterns: God Objects, services with multiple dependencies that cannot be tested, circular dependencies between bundles. On a Symfony application older than five years, the presence of these anti-patterns is expected. What matters is their concentration in the areas that change most often, cross-referenced with the Git history. A complex but stable module is not an immediate risk. A complex and constantly modified module is a hot spot to address.
+
+### Axis 3: Security
+
+The security audit starts with CVEs. A `composer audit` scan, a cross-check with the [OWASP vulnerability database](https://owasp.org/www-project-top-ten/) and a review of [dependency CVEs](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) (in French) identify known vulnerabilities. On an unmaintained target, we typically find between ten and fifty active CVEs, of which one to five are classified as critical.
+
+The audit then covers secrets management (Vault, environment variables, versioned `.env` files), authentication flows (hash strength, session handling, MFA), and access controls at the Symfony Security route level. The GDPR part checks for a register, a coded and testable retention policy, and export and deletion mechanisms that comply with the [CNIL's GDPR guide](https://www.cnil.fr/fr/rgpd-passer-a-laction).
+
+### Axis 4: Operations
+
+The operations audit reviews the CI/CD pipeline (lint, static analysis, tests, deployment), the backup strategy, environment reproducibility (Docker, Terraform, Ansible), application monitoring (APM, logs, alerting) and the disaster recovery plan. The level of requirement depends on how critical the SaaS is: an internal tool tolerates an RPO of several hours, a payment product does not.
+
+One signal that often surprises acquirers: deployment time. A pipeline that takes more than 30 minutes to push a fix to production points to a team that hesitates to deploy, and therefore accumulates unshipped code, which increases the risk with every release.
+
+### Axis 5: The Team
+
+The last axis is the least technical but often the most decisive. It evaluates the human transferability of the project. The bus factor measures how many people can disappear before the project becomes inoperable. A bus factor of 1 or 2 on the critical modules is a major risk, especially in a closing context where the people who hold the knowledge may leave.
+
+The audit then examines the technical documentation (architecture, decisions, runbooks), the knowledge shared across the team (who knows what, who can do what) and the engineering culture (code review, shared [coding conventions](/article/coding-conventions) (in French), ownership). A team without systematic code review mechanically accumulates debt. Our [Symfony project takeover](/reprise-projet-symfony) (in French) offering includes this dimension from the first assessment.
+
+## The Tools of a Serious Symfony Due Diligence
+
+A technical due diligence is distinguished by the tooling it uses. Here is the stack we use on Symfony engagements.
+
+PHPStan at the highest level the codebase supports, Psalm for the cross-check, [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) (in French) in dry-run mode to measure the gap with up-to-date standards. Infection PHP for mutation coverage. PHPMetrics for cyclomatic complexity and coupling mapping. Deptrac to check that the declared architectural boundaries are respected. Composer audit and Symfony Security Checker for CVEs.
+
+On the operations side: analysis of CI logs over the last 12 months to measure deployment frequency and stability, a secrets audit using repository scanning tools (TruffleHog, GitLeaks), and a check of Docker compliance and environment reproducibility.
+
+On the team side: analysis of the Git history by author, by module and over time. This analysis objectively reveals the bus factor, the scattering of knowledge and the areas of code that nobody touches anymore, which are often the most dangerous.
+
+## The Typical Deliverable: A Scored and Quantified Report
+
+The report of a technical due diligence comes as two deliverables. The first is an executive report of 5 to 10 pages for the investment committee: an overall score out of 100, a go/no-go verdict, and the three to five major risks translated into financial impact. This document must be readable in 15 minutes by a partner who is not an engineer.
+
+The second is a detailed report of 40 to 80 pages for the acquirer's technical experts and the team that will take over after closing. It contains the full map, the findings by axis, and above all the remediation plan estimated in person-days by workstream and by priority.
+
+The remediation plan is the centerpiece. For each critical finding, it lists the nature of the problem, its business impact, the estimated remediation effort in person-days, the recommended sequence and any dependency on other workstreams. This plan then becomes a provision for technical liability in the SPA, or an earn-out clause indexed on paying down the debt.
+
+## The Classic Pitfalls of Technical Due Diligence
+
+Three recurring pitfalls bias poorly run due diligences. The first is showmanship: a firm delivers a 200-page report with colorful charts but no financial translation of the findings. The report impresses but does not help the negotiation.
+
+The second is the statistical false positive. PHPStan reports 12,000 errors? Spectacular on the surface. But if 11,500 of them concern [dead code](/article/code-mort-mission-elimination) (in French) or historical migration files that never run, the indicator is misleading. A good due diligence weights the findings by their real risk exposure, not by their raw volume.
+
+The third is the confusion between technical debt and the need for modernization. A Symfony 5 application without tests is technically healthy on the framework but fragile on handover. A Symfony 7 application with an outdated architecture is modern on the version but blocked on the roadmap. The two situations call for different remediation plans, and the report must reflect this explicitly. Our [progressive modernization approach](/modernisation-application-php) (in French) details these nuances.
+
+## Use Cases: Pre-LBO, Tech SME Acquisition, Application Merger
+
+The contexts in which a Symfony due diligence is used vary, and the scope of the audit adapts.
+
+On an LBO of a SaaS publisher, the priority is operational predictability: the ability to hold the business plan roadmap, the risk of service disruption, the transferability of the technical team. The report guides the deal structure and the earn-out clauses.
+
+On the acquisition of a tech SME by an industrial group, the focus shifts to integration: compatibility with the acquirer's information system, the ability to pool teams, alignment of engineering practices. The due diligence then includes an assessment of the gaps against the acquiring group's standards.
+
+On a post-acquisition application merger, the due diligence becomes a convergence plan. We compare two Symfony codebases, identify functional redundancies and estimate the effort to bring them together. It is the most complex exercise, because it forces a choice between two different technical histories.
+
+In every case, the same five-axis methodology applies, with different weightings depending on the context. Our [30-minute Symfony pre-audit](/audit-symfony-gratuit) (in French) offers a first assessment to frame the scope of the full engagement.
+
+## Conclusion
+
+The technical due diligence of a Symfony application is not an extended code audit. It is an exercise in its own right, one that translates technical complexity into financial impact and feeds directly into the negotiation. Done well, it reveals risks that are measured as a percentage of the valuation. Done poorly, it exposes the acquirer to post-closing discoveries that destroy the deal's expected profitability.
+
+The Symfony scope has strong specifics: an ecosystem where LTS versions set the pace of debt, an architectural discipline that varies from team to team, and a strong dependence on the quality of the surrounding PHP tooling. A serious due diligence uses these specifics rather than applying a generic grid taken from a JEE or .NET audit.
+
+If you are preparing an acquisition involving a Symfony application, or if you are supporting a fund on an ongoing deal, take 30 minutes to frame the audit scope with an expert. The 30-minute Symfony pre-audit lets you define the scope, identify the apparent risks and plan the full due diligence with no commitment.
