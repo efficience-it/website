@@ -1,6 +1,6 @@
 import type { BlogLanguage } from "@/types/blog";
 
-export interface Messages {
+interface Messages {
   readonly home: string;
   readonly blog: string;
   readonly breadcrumb: string;

@@ -1,9 +1,9 @@
 import { BLOG_PAGE_SIZE } from "@/lib/blog";
 import type { BlogPost } from "@/types/blog";
 
-export const ENGLISH_CATEGORY_MIN_POSTS = 3;
+const ENGLISH_CATEGORY_MIN_POSTS = 3;
 
-export interface EnglishBlogView {
+interface EnglishBlogView {
   readonly category?: string;
   readonly categorySlug?: string;
   readonly page: number;
