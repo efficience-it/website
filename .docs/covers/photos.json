@@ -822,6 +822,10 @@
     "author": "fireskystudios.com asthetik",
     "url": "https://commons.wikimedia.org/wiki/File:Shaving_wood_(Unsplash).jpg"
   },
+  "claude-code-skills-symfony-team": {
+    "name": "claude-skills-team",
+    "sameAs": "skills-claude-code-equipe-symfony"
+  },
   "swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on": {
     "name": "swagger-nelmio",
     "file": "File:Phare du Petit Minou, Plouzané, France (Unsplash).jpg",

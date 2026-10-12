@@ -1,0 +1,189 @@
+---
+title: "10 Claude Code Skills for a Symfony Team"
+date: "2026-03-29"
+author: "Efficience IT"
+category: "AI"
+excerpt: "Ten ready-to-use Claude Code skills for a Symfony team: code review, tests, migrations, security and refactoring, all versioned in Git and shared by everyone."
+image: "/images/blog/cover-claude-skills-team.webp"
+proficiencyLevel: "Intermediate"
+updatedAt: "2026-10-12"
+translationOf: "skills-claude-code-equipe-symfony"
+translatedFromUpdatedAt: "2026-10-12"
+faq:
+  - question: "Where do I put Claude Code skill files in a Symfony project?"
+    answer: "Skills go in the .claude/skills/ folder at the project root. Commit them to the Git repository so the whole team can use them. You can also create global skills in ~/.claude/skills/ for personal commands."
+  - question: "Do I need to know Claude Code to use skills?"
+    answer: "No. That is the whole point of skills: a developer types /review or /test without knowing how to write a prompt. The skill encodes best practices in a versioned Markdown file. The result is immediate."
+  - question: "Do skills replace CI/CD tools?"
+    answer: "No. Skills work during development, before the commit. They complement CI by catching problems earlier in the cycle. PHPStan, PHP-CS-Fixer and PHPUnit remain essential in your pipeline."
+---
+
+Claude Code skills are reusable prompts that every team member invokes with a simple `/skill-name`. They live in the project's `.claude/skills/` folder, are committed to Git, and make sure everyone applies the same criteria. For a Symfony team, this is the most direct way to turn spoken conventions into shared habits. Instead of repeating the same instructions in code reviews or documenting procedures nobody reads, you encode your requirements in versioned Markdown files. Here are ten concrete skills, ready to adapt to your project. All of them are available as open source in our [claude-skills-php GitHub repository](https://github.com/efficience-it/claude-skills-php), along with twelve more skills.
+
+## /review: standardized code review
+
+Code review is the first skill to set up. Every team has its own quality criteria, but they often stay implicit. A senior developer instinctively checks for architecture violations, security flaws and missing tests. A junior misses them. The `/review` skill makes these criteria explicit and available to everyone.
+
+```markdown
+Analyse le diff git staged. Identifie :
+- Les violations d'architecture (logique métier dans un contrôleur, dépendance du Domain vers l'Infrastructure)
+- Les problèmes de sécurité (injection SQL, données non validées)
+- Les tests manquants pour les cas limites
+- Les violations des conventions PSR-12
+Classe les remarques par sévérité : bloquant, important, suggestion.
+```
+
+On a project that follows a [hexagonal architecture](/article/migration-symfony-architecture-hexagonale-retour-mission) (in French), this skill automatically detects forbidden imports between layers. It complements static analysis tools by adding a layer of semantic checking that linters do not cover. The result: cleaner pull requests from the first push, and human reviews that focus on business logic rather than style details.
+
+## /test: generate targeted PHPUnit tests
+
+Writing tests takes time, especially when you must follow project-specific conventions. This skill speeds up the process by generating a complete skeleton that fits how your tests are organized. The same logic applies to [end-to-end tests with Playwright driven by Claude Code](/article/playwright-tests-end-to-end-claude-code) (in French), where the agent generates navigation scenarios and maintains selectors.
+
+```markdown
+Génère un test PHPUnit pour le fichier courant.
+Utilise les conventions du projet : tests dans tests/Unit/ ou tests/Functional/.
+Couvre le cas nominal, un cas limite et un cas d'erreur.
+Utilise des data providers quand c'est pertinent.
+Ne mocke jamais la base de données dans les tests fonctionnels.
+```
+
+The skill relies on the [PHPUnit documentation](https://docs.phpunit.de/en/11.5/) to produce tests that follow best practices. Spell out your conventions in the prompt: test method naming, use of data providers, the distinction between unit and functional tests. The more specific the skill, the more usable the generated code is without changes.
+
+## /migration: make Doctrine migrations safe
+
+Doctrine migrations are a frequent source of production problems. A dropped column without a data migration, an ALTER TABLE query on a table with millions of rows and no index, an inconsistent `down()` method: these mistakes often go unnoticed until deployment. This skill adds a systematic layer of checks.
+
+```markdown
+Analyse la migration Doctrine la plus récente dans migrations/.
+Vérifie :
+- Pas de perte de données (DROP COLUMN sans migration de données préalable)
+- Présence d'une méthode down() cohérente
+- Pas de requête longue sur une table volumineuse sans index
+- Compatibilité avec un déploiement sans downtime
+Suggère les corrections nécessaires.
+```
+
+This skill is especially useful during a migration between database engines, where it checks the compatibility of types and constraints. But even on a single-database project, it catches the mistakes that haste lets through.
+
+## /security: quick security audit
+
+Security should not wait for CI. The time between the commit and the pipeline's feedback is wasted when the flaw is obvious. This skill analyzes the changed code to detect common vulnerabilities before the code even leaves the developer's machine.
+
+```markdown
+Analyse les fichiers modifiés (git diff). Cherche :
+- Injections SQL (requêtes DQL/SQL sans paramètres bindés)
+- Failles XSS (données non échappées dans les templates Twig)
+- Exposition de données sensibles (tokens, mots de passe en clair)
+- Permissions manquantes (contrôleurs sans #[IsGranted])
+- Dépendances avec des CVE connues
+Réfère-toi aux recommandations OWASP Top 10.
+```
+
+This skill encodes the security reflexes that every developer should have but that daily pressure sometimes makes them forget. It does not replace a full audit or a dedicated tool such as the [Symfony Security Checker](https://symfony.com/doc/current/setup.html#checking-security-vulnerabilities), but it catches obvious mistakes at the moment they are introduced.
+
+## /refactor: architecture-driven refactoring
+
+Refactoring without clear direction creates more problems than it solves. Without a framework, a developer can extract a class into the wrong namespace, create a circular dependency, or move business logic into infrastructure. This skill frames changes according to your target architecture and explains every decision.
+
+```markdown
+Refactore le fichier ou la classe indiquée en respectant :
+- Séparation stricte Domain / Application / Infrastructure
+- Le Domain ne dépend de rien d'autre
+- Les use cases sont dans Application/
+- Les contrôleurs restent des adaptateurs minces
+Explique chaque déplacement de code.
+```
+
+When [the domain should never know about Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony) (in French), this skill makes sure the refactoring goes in the right direction. It is especially useful for developers who are discovering hexagonal architecture principles and need concrete guidance during their first changes.
+
+## /messenger: check the asynchronous configuration
+
+[Symfony Messenger](https://symfony.com/doc/current/messenger.html) handles asynchronous processing, but its configuration can quickly become opaque. Between transports, routing, retry policies and handlers, an inconsistency easily goes unnoticed. This skill checks that everything is wired correctly.
+
+```markdown
+Analyse la configuration Messenger du projet (messenger.yaml, handlers, messages).
+Vérifie :
+- Chaque message a un handler enregistré
+- Les transports sont correctement routés
+- Les retry policies sont définies pour les transports async
+- Les handlers ne contiennent pas de logique métier lourde
+Liste les incohérences trouvées.
+```
+
+This skill helps keep the configuration healthy as the number of messages and handlers grows. On projects where Messenger serves as the central command bus, the slightest routing error can cause messages to be silently lost.
+
+## /fixtures: generate realistic test data
+
+Test fixtures directly affect the quality of your functional tests. Data that is too uniform hides bugs. Inconsistent data skews results. This skill generates datasets that reflect the reality of your business model.
+
+```markdown
+Génère des fixtures Alice pour l'entité indiquée.
+Utilise des données réalistes (noms français, emails valides, dates cohérentes).
+Crée au moins 5 entrées avec des variations significatives.
+Respecte les contraintes de validation de l'entité.
+Gère les relations (ManyToOne, OneToMany) avec des références.
+```
+
+This skill integrates with the Alice/Faker bundle already in place on your project. It saves you from copy-pasting the same generic fixtures from one project to another and produces data that actually tests the edge cases of your entities.
+
+## /api-doc: document endpoints
+
+API documentation demands rigor. Every endpoint needs a description, parameters, a request schema and response codes. It is repetitive work that developers often postpone. This skill generates OpenAPI attributes from the existing code.
+
+```markdown
+Analyse le contrôleur API indiqué.
+Génère les attributs OpenAPI (OA\) pour chaque endpoint :
+- Description, summary
+- Parameters (path, query)
+- Request body avec schema
+- Responses (200, 400, 401, 404, 422)
+- Tags et groupes
+Respecte les conventions REST décrites dans le projet.
+```
+
+Combined with [REST best practices](/article/api-rest-les-bonnes-pratiques) (in French), this skill produces standards-compliant documentation with no manual effort. The documentation stays in sync with the code because it is generated directly from the controllers.
+
+## /phpstan: fix static analysis errors
+
+PHPStan detects errors, but fixing them takes time. An output of 47 errors discourages even motivated developers. This skill takes the list of errors and fixes them one by one, explaining each change.
+
+```markdown
+Lance PHPStan et corrige les erreurs détectées.
+Priorité : les erreurs de type, les appels de méthodes sur des types nullable,
+les paramètres manquants.
+Ne jamais utiliser @phpstan-ignore pour masquer une erreur.
+Ne jamais réduire le niveau de PHPStan.
+Explique chaque correction.
+```
+
+This skill is the ideal companion for teams aiming for the [maximum PHPStan level](/article/phpstan-niveau-max-symfony-10-erreurs) (in French). It turns an intimidating list of errors into fixes applied methodically, without cheating with exclusion annotations.
+
+## /onboard: speed up onboarding for newcomers
+
+Technical onboarding is often the poor relation of Symfony projects. The documentation may exist, but it is six months old and no longer reflects the reality of the code. This skill generates an up-to-date briefing by analyzing the project directly.
+
+```markdown
+Analyse le projet et génère un guide d'onboarding :
+- Stack technique et versions
+- Architecture du projet (structure des dossiers, couches)
+- Commandes essentielles (install, test, lint, dev server)
+- Conventions de code et patterns utilisés
+- Points d'attention (dette technique connue, zones sensibles)
+Sois factuel et concis.
+```
+
+The skill uses the CLAUDE.md and the source code to produce a summary that reflects the real state of the project. Unlike static documentation that ages, the briefing is regenerated on every invocation. Maintenance effort is zero since the content is generated dynamically each time.
+
+## Claude Code skills vs Symfony AI: don't mix them up
+
+Claude Code skills and the [Symfony AI](https://symfony.com/doc/current/ai.html) component meet two distinct needs. Skills act on the developer side, in the terminal or the IDE. They automate development tasks: code review, test generation, architecture checks. Your application's code is not modified, and your users see nothing.
+
+Symfony AI, on the other hand, plugs into your Symfony application. It exposes a PHP API to call LLMs, orchestrate prompt chains, plug in tools the model can invoke, or implement RAG with embeddings. It is the component to use when you build an AI feature for your application's users: a business chatbot, semantic search, content generation.
+
+In short: skills equip your development team, Symfony AI equips your application. Both can coexist on the same project without interference.
+
+## Setting up skills in your team
+
+Setup is simple: clone the skills from the [claude-skills-php repository](https://github.com/efficience-it/claude-skills-php) into your project's `.claude/skills/` folder, adapt them to your conventions, and commit. Each developer gets the skills in their next Claude Code session. Start with two or three skills that address your daily pain points. Iterate on the prompts based on the results: a mediocre skill becomes excellent after a few adjustments. To go further with configuration, the [Claude Code upskilling guide](/article/monter-en-competence-claude-code) (in French) also covers the hooks and MCP servers that complement skills.
+
+The goal is not to automate everything at once, but to gradually build a library of commands that encodes your team's standards. Skills replace neither CI nor human reviews. They step in earlier in the cycle, when the developer writes the code, and reduce the noise in the later stages.
