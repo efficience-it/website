@@ -730,5 +730,9 @@
     "license": "Public domain",
     "author": "Heptagon",
     "url": "https://commons.wikimedia.org/wiki/File:Magnifying_glass2.jpg"
+  },
+  "mcp-cli-api-quel-choix-serveur-symfony-php": {
+    "name": "mcp-symfony-php",
+    "sameAs": "serveurs-mcp-claude-code-developpeurs-symfony"
   }
 }
