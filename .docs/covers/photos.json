@@ -324,6 +324,10 @@
     "author": "Sven Scheuermeier sveninho",
     "url": "https://commons.wikimedia.org/wiki/File:Log_pile_in_close-up_(Unsplash).jpg"
   },
+  "top-symfony-bundles": {
+    "name": "symfony-bundles",
+    "sameAs": "les-bundles-les-plus-utilises-dans-les-projets-symfony"
+  },
   "les-certifications-symfony-twig-symfony-sylius": {
     "name": "certifications-symfony",
     "file": "File:Night falls on a Silverthorne mountain (Unsplash).jpg",
