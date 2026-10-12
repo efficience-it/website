@@ -186,6 +186,10 @@
     400,
     800
   ],
+  "cover-messenger-hexagonal": [
+    400,
+    800
+  ],
   "cover-migration-symfony": [
     400,
     800

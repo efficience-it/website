@@ -662,6 +662,10 @@
     "author": "Darren Shilson from St Stephen, UK, United Kingdom",
     "url": "https://commons.wikimedia.org/wiki/File:Giants_Causeway_(33163714898).jpg"
   },
+  "symfony-messenger-hexagonal-core": {
+    "name": "messenger-hexagonal",
+    "sameAs": "symfony-messenger-colonne-vertebrale-archi-hexagonale"
+  },
   "symfony-php-fin-de-support-eol-plan-action": {
     "name": "fin-de-support-symfony-php",
     "file": "File:Dandelion-wind-blown-seeds-333093.jpg",
