@@ -699,6 +699,10 @@
     "author": "Anton Darius | Sollers thesollers",
     "url": "https://commons.wikimedia.org/wiki/File:C_R_O_W_S_(Unsplash).jpg"
   },
+  "symfony-vs-laravel-2026": {
+    "name": "symfony-laravel",
+    "sameAs": "symfony-vs-laravel-quel-framework-php-choisir"
+  },
   "tout-savoir-sur-la-mise-en-cache-tips": {
     "name": "mise-en-cache",
     "file": "File:Jokulsarlon Ice Caves (Unsplash).jpg",

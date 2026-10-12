@@ -1,7 +1,7 @@
 ---
 title: "Symfony vs Laravel : quel framework PHP choisir en 2026 ?"
 date: "2026-03-22"
-updatedAt: "2026-03-26"
+updatedAt: "2026-10-12"
 author: "Louis-Arnaud Catoire"
 category: "PHP"
 excerpt: "Symfony et Laravel dominent l'écosystème PHP. Comparaison technique et architecturale pour choisir le framework adapté à votre projet."
@@ -33,7 +33,7 @@ L'architecture hexagonale, le CQRS via Symfony Messenger et le Domain-Driven Des
 
 Laravel excelle dans la mise en route rapide d'un projet. La [documentation officielle de Laravel](https://laravel.com/docs) est d'ailleurs l'une des mieux écrites de l'écosystème PHP. Eloquent (l'ORM), les facades, le système de migrations et les outils comme Artisan permettent de livrer un MVP en quelques semaines. Le framework fournit une solution intégrée pour chaque besoin courant : authentification, file d'attente, notifications, broadcasting.
 
-Cette approche a un coût : les facades masquent les dépendances réelles, Eloquent encourage le couplage fort entre modèles et logique métier, et les conventions implicites rendent le code plus difficile à refactoriser quand le projet grandit.
+Cette approche a une contrepartie : les facades masquent les dépendances réelles, Eloquent encourage le couplage fort entre modèles et logique métier, et les conventions implicites rendent le code plus difficile à refactoriser quand le projet grandit.
 
 ## Écosystème et composants
 
@@ -41,7 +41,7 @@ Symfony et Laravel partagent plus qu'on ne le pense. Laravel utilise en interne 
 
 ### ORM : Doctrine vs Eloquent
 
-Doctrine (Symfony) est un ORM de type Data Mapper : les entités sont de simples objets PHP, décorrélées de la base de données. Cela permet de respecter le principe de responsabilité unique et facilite les tests automatisés. Le coût : une courbe d'apprentissage plus raide et une configuration plus verbeuse.
+Doctrine (Symfony) est un ORM de type Data Mapper : les entités sont de simples objets PHP, décorrélées de la base de données. Cela permet de respecter le principe de responsabilité unique et facilite les tests automatisés. La contrepartie : une courbe d'apprentissage plus raide et une configuration plus verbeuse.
 
 Eloquent (Laravel) est un ORM de type Active Record : chaque modèle hérite d'une classe qui porte à la fois la logique métier et l'accès aux données. C'est rapide à mettre en place, mais le couplage fort entre modèle et persistance rend le refactoring plus délicat quand l'application grandit. Pour approfondir les enjeux de choix de base de données, consultez notre guide sur PostgreSQL et Symfony.
 
@@ -90,7 +90,7 @@ Laravel est le bon choix quand :
 - Le projet est un MVP ou un prototype à valider rapidement
 - L'équipe est petite et préfère les conventions implicites
 - Le besoin est standard (CRUD, authentification, notifications)
-- Le budget de développement initial est limité
+- Le temps de développement initial est limité
 
 ## Et pour le e-commerce ?
 
