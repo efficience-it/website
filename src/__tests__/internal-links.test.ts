@@ -12,7 +12,8 @@ function getValidRoutes(): Set<string> {
     for (const entry of entries) {
       if (entry.isDirectory()) {
         if (entry.name.startsWith("[")) continue;
-        walk(path.join(dir, entry.name), `${prefix}/${entry.name}`);
+        const isGroup = entry.name.startsWith("(");
+        walk(path.join(dir, entry.name), isGroup ? prefix : `${prefix}/${entry.name}`);
       }
       if (entry.name === "page.tsx") {
         routes.add(prefix || "/");
@@ -200,14 +201,14 @@ describe("Internal links", () => {
     ];
 
     const serviceDirs = fs
-      .readdirSync(path.join(SRC_DIR, "app"), { withFileTypes: true })
+      .readdirSync(path.join(SRC_DIR, "app", "(fr)"), { withFileTypes: true })
       .filter(
         (e) =>
           e.isDirectory() &&
           !e.name.startsWith("[") &&
           !e.name.startsWith("_") &&
           !excludedDirs.includes(e.name) &&
-          fs.existsSync(path.join(SRC_DIR, "app", e.name, "page.tsx"))
+          fs.existsSync(path.join(SRC_DIR, "app", "(fr)", e.name, "page.tsx"))
       )
       .map((e) => e.name);
 

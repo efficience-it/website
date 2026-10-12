@@ -11,7 +11,7 @@ function lastModifiedFor(routesSource: string, routePath: string): string | null
 }
 
 function pathFromPageFile(file: string): string | null {
-  const match = file.match(/^src\/app\/(.*)page\.tsx$/);
+  const match = file.match(/^src\/app\/(?:\(fr\)\/)?(.*)page\.tsx$/);
   if (!match) return null;
   const dir = match[1].replace(/\/$/, "");
   if (dir === "") return "/";
@@ -26,9 +26,12 @@ function main(): void {
     return;
   }
 
-  const changed = execSync(`git diff --name-only ${base} HEAD`, { encoding: "utf-8" })
+  const changed = execSync(`git diff --name-status -M ${base} HEAD`, { encoding: "utf-8" })
     .split("\n")
-    .filter(Boolean);
+    .filter(Boolean)
+    .map((line) => line.split("\t"))
+    .filter(([status]) => status !== "R100")
+    .map((parts) => parts[parts.length - 1]);
 
   const headDate = execSync("git log -1 --format=%cs HEAD", { encoding: "utf-8" }).trim();
 

@@ -15,6 +15,10 @@ const eslintConfig = defineConfig([
     // Claude Code worktrees
     ".claude/**",
   ]),
+  {
+    files: ["src/components/layout/RootDocument.tsx"],
+    rules: { "@next/next/no-head-element": "off" },
+  },
 ]);
 
 export default eslintConfig;

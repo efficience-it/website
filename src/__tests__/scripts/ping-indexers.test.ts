@@ -86,6 +86,16 @@ describe("filesToUrls", () => {
       [`${BASE_URL}/`],
     ],
     [
+      "root page in the French group",
+      "src/app/(fr)/page.tsx",
+      [`${BASE_URL}/`],
+    ],
+    [
+      "static page in the French group",
+      "src/app/(fr)/agence-symfony-lille/page.tsx",
+      [`${BASE_URL}/agence-symfony-lille`],
+    ],
+    [
       "static page (in sitemap)",
       "src/app/agence-symfony-lille/page.tsx",
       [`${BASE_URL}/agence-symfony-lille`],
