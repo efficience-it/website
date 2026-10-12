@@ -4,6 +4,8 @@ export type ProficiencyLevel = "Beginner" | "Intermediate" | "Expert";
 
 export type ArticleKind = "blog" | "news" | "tech";
 
+export type BlogLanguage = "fr" | "en";
+
 export interface FaqItem {
   question: string;
   answer: string;
@@ -46,11 +48,16 @@ export interface BlogPost {
   author: string;
   category: string;
   kind: ArticleKind;
+  language?: BlogLanguage;
   excerpt: string;
   updatedAt?: string;
   image?: string;
   imageCaption?: string;
   imageGeoLocation?: string;
+  translationOf?: string;
+  translatedFromUpdatedAt?: string;
+  reviewedBy?: string;
+  reviewedAt?: string;
   proficiencyLevel?: ProficiencyLevel;
   faq?: FaqItem[];
   event?: EventSchema;
