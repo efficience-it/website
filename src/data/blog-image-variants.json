@@ -306,6 +306,10 @@
     400,
     800
   ],
+  "cover-reduce-ai-tokens": [
+    400,
+    800
+  ],
   "cover-rest-graphql-en": [
     400,
     800
