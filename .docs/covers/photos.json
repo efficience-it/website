@@ -656,6 +656,10 @@
     "author": "Cbaile19",
     "url": "https://commons.wikimedia.org/wiki/File:Boston_ivy,_railroad_viaduct,_South_Side,_2021-10-23,_02.jpg"
   },
+  "symfony-project-takeover-method": {
+    "name": "symfony-takeover",
+    "sameAs": "reprise-application-symfony-prestataire"
+  },
   "retour-sur-lafup-day-2023": {
     "name": "afup-day-2023",
     "file": "File:White ceiling architecture (Unsplash).jpg",
