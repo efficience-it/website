@@ -1,0 +1,99 @@
+---
+title: "Échelle DALIA : mesurer la part d'IA dans votre code"
+date: "2026-10-12"
+updatedAt: "2026-10-12"
+author: "Louis-Arnaud Catoire"
+category: "IA"
+excerpt: "L'échelle DALIA classe l'implication de l'IA de D0 à D5. Comment l'appliquer à du code, à une revue de PR et à une politique d'équipe, sans débat binaire."
+image: "/images/blog/cover-dalia-ia-developpement.webp"
+faq:
+  - question: "Qu'est-ce que l'échelle DALIA ?"
+    answer: "C'est un référentiel ouvert qui décrit la part d'intelligence artificielle dans une œuvre, du niveau D0 (100 % humain) au niveau D5 (100 % autonome). Elle évalue trois dimensions : qui a eu l'idée, qui a fait l'exécution et qui a jugé le résultat."
+  - question: "L'échelle DALIA est-elle un outil d'audit ?"
+    answer: "Non. C'est un outil de transparence fondé sur la déclaration : le créateur choisit son niveau, comme on étiquette un produit alimentaire. Un questionnaire guidé aide à choisir et signale les réponses incohérentes."
+  - question: "Peut-on utiliser DALIA pour du code ?"
+    answer: "Le référentiel vise d'abord les arts, les médias et le jeu de société, mais ses trois dimensions se transposent bien au développement logiciel. Il faut alors définir en équipe ce que signifie chaque niveau pour une fonctionnalité, un module ou une pull request."
+---
+
+« Avec ou sans IA ? » ne veut plus rien dire dans une équipe de développement. Entre l'autocomplétion qui finit une ligne et l'agent qui ouvre seul une pull request, il y a un monde. L'échelle DALIA propose de remplacer ce débat binaire par une mesure graduée. Elle a été conçue pour les arts et les médias, mais sa logique s'applique très bien au code.
+
+## Ce qu'est l'échelle DALIA
+
+[DALIA](https://daliascale.org/fr/) est un référentiel ouvert qui décrit l'implication de l'intelligence artificielle dans une œuvre. Elle est née au Bureau culturel de Genève et publiée sous licence CC BY-SA 4.0. Son idée centrale est de ne pas se contenter d'une case à cocher : elle examine trois dimensions.
+
+- **L'idée** : qui trouve le concept ?
+- **L'exécution** : qui réalise le travail ?
+- **Le jugement** : qui choisit et valide ce qui est conservé ?
+
+Une œuvre peut donc être très assistée sur l'exécution tout en restant entièrement humaine sur l'idée et sur la validation. C'est cette nuance que les débats habituels perdent.
+
+## Les six niveaux, de D0 à D5
+
+| Niveau | Nom | Principe |
+| --- | --- | --- |
+| D0 | Manuel | 100 % humain, aucune IA |
+| D1 | Assisté par outil | L'humain décide, l'IA agit en arrière-plan pour analyser |
+| D2 | Augmenté par IA | L'humain dirige, l'IA comble de petits manques sans changer le sens |
+| D3 | Création guidée | Humain et IA créent ensemble, l'humain retravaille largement la base produite |
+| D4 | Généré par IA, dirigé par l'humain | L'IA produit l'essentiel, l'humain choisit et ajuste légèrement |
+| D5 | Entièrement autonome | 100 % IA, l'humain lance le système et n'édite rien ensuite |
+
+Le référentiel insiste sur un point : c'est un outil de transparence, pas un audit. Le créateur déclare lui-même son niveau, comme on étiquette un produit. Un questionnaire guidé l'aide à choisir et l'alerte si ses réponses se contredisent.
+
+## Transposer DALIA au développement logiciel
+
+Le référentiel ne parle pas de code. Ce qui suit est notre lecture, à adapter à votre contexte, mais elle donne un langage commun pour discuter d'une pratique d'équipe.
+
+- **D0** : un développeur écrit, relit et teste sans aucun assistant.
+- **D1** : l'IA travaille en arrière-plan, par exemple un analyseur qui signale des erreurs ou un outil qui trie les alertes. Aucun code n'est généré. Les [analyseurs statiques PHP](/article/comparateur-analyseurs-statiques-php) sont déjà dans cette zone.
+- **D2** : l'autocomplétion et les suggestions courtes. Le développeur garde la structure et accepte ou refuse chaque ligne.
+- **D3** : un échange continu avec un assistant pour concevoir et écrire une fonctionnalité. Le développeur retravaille largement ce qui est proposé.
+- **D4** : un agent produit l'essentiel d'une fonctionnalité à partir d'une spécification, le développeur relit, choisit et corrige.
+- **D5** : un agent écrit, teste et fusionne sans intervention. Nous ne le recommandons pas sur du code de production.
+
+## Pourquoi trois dimensions plutôt qu'une
+
+Dans un projet, la même personne peut avoir un rôle différent sur chaque dimension. Un exemple concret : sur une migration, l'idée de l'approche vient de l'équipe (humain), l'exécution des transformations mécaniques est confiée à un outil comme [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony), et le jugement reste à la revue de code (humain). Le niveau global est faible, mais l'exécution est très automatisée.
+
+À l'inverse, un agent qui propose l'idée, l'écrit et se valide lui-même avec ses propres tests est un risque : plus aucune dimension n'a de regard humain. C'est ce cas qu'il faut éviter, quel que soit le niveau global.
+
+## Une règle simple : le jugement reste humain
+
+Une politique d'équipe lisible tient en peu de lignes :
+
+1. **Le jugement final est humain**, quel que soit le niveau d'exécution.
+2. **Le niveau est déclaré** dans la pull request, par exemple D2 ou D3, avec un mot sur l'outil utilisé.
+3. **Plus le niveau monte, plus la relecture est exigeante** : tests obligatoires, relecteur différent de l'auteur, attention particulière à la sécurité.
+4. **Le code sensible reste bas** : authentification, paiement, gestion des secrets.
+
+Cette approche rejoint ce que nous avons observé en [utilisant un assistant sur un projet Symfony legacy](/article/claude-assistant-architecture-symfony-legacy) : l'assistant accélère l'exécution, mais la valeur vient des décisions d'architecture et de la relecture. Si vous hésitez sur l'outil, notre [comparatif des assistants IA pour coder](/article/quel-assistant-ia-choisir-pour-coder) détaille les usages.
+
+## Exemple concret : une pull request annotée
+
+Prenons une pull request qui ajoute un export CSV dans une application Symfony. Le développeur décrit la fonctionnalité lui-même (idée humaine), demande à un assistant d'écrire le contrôleur et le service, puis réécrit la moitié du code pour respecter l'architecture du projet. Il écrit lui-même les tests et fait relire la pull request par un collègue.
+
+Sur la grille DALIA, cela donne : idée humaine, exécution partagée, jugement humain. Le niveau global déclaré est D3. Dans la description de la pull request, une ligne suffit : « Niveau DALIA : D3, assistant utilisé pour le squelette du service, tests et revue humains ». Le relecteur sait immédiatement où porter son attention : sur la cohérence avec l'architecture et sur les cas limites que l'assistant a pu ignorer.
+
+## Mettre en place la démarche dans l'équipe
+
+Pas besoin d'outillage lourd pour démarrer.
+
+- **Ajoutez une ligne au modèle de pull request** pour déclarer le niveau et l'outil utilisé.
+- **Discutez des niveaux en rétrospective** : quels niveaux dominent, lesquels ont produit des retours en arrière, lesquels ont fait gagner du temps.
+- **Ajustez la règle de relecture** selon les constats : par exemple deux relecteurs dès D4 sur un module sensible.
+- **Révisez la grille tous les trimestres**, car les outils évoluent vite et un D3 d'aujourd'hui ressemblera à un D2 demain.
+
+L'objectif n'est pas de contrôler les développeurs mais de rendre visible une pratique qui existe déjà, pour pouvoir en parler sans tabou.
+
+## Limites à garder en tête
+
+- **La déclaration repose sur la bonne foi.** Sans vérification, DALIA ne détecte rien. Elle sert à créer un réflexe de transparence, pas à contrôler.
+- **Le référentiel n'est pas fait pour le code.** Les niveaux demandent une interprétation, et deux équipes peuvent classer différemment le même travail.
+- **Un niveau n'est pas une note.** D4 n'est pas « mal » et D0 n'est pas « bien ». C'est une description du processus, pas un jugement de valeur.
+- **Une œuvre mixte porte plusieurs niveaux.** Le référentiel prévoit d'appliquer des niveaux différents à des composants différents, ce qui correspond bien à un dépôt où cohabitent code historique et code assisté.
+
+## Ce qu'il faut retenir
+
+L'échelle DALIA remplace « avec ou sans IA » par six niveaux et trois dimensions : l'idée, l'exécution et le jugement. Transposée au développement, elle donne à une équipe un vocabulaire commun pour déclarer le niveau d'assistance d'une pull request et ajuster l'exigence de relecture. Le principe à retenir : on peut automatiser l'exécution, mais le jugement reste humain.
+
+Pour cadrer l'usage de l'IA dans une équipe de développement, notre [audit IA en entreprise](/audit-ia-entreprise) aide à définir des règles adaptées à vos projets. Le référentiel est consultable sur [daliascale.org](https://daliascale.org/fr/), et ses évolutions se discutent sur [GitHub](https://github.com/DALIAscale/DALIA-scale).
