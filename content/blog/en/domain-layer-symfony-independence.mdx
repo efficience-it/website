@@ -1,0 +1,404 @@
+---
+title: "Why Your Domain Should Never Know Symfony"
+date: "2026-03-09"
+updatedAt: "2026-10-12"
+author: "Louis-Arnaud Catoire"
+category: "Architecture"
+excerpt: "Your business domain should depend on nothing. Not on Symfony, not on Doctrine. Here is why, and what it changes in practice on a real Symfony project."
+image: "/images/blog/cover-domain-symfony-en.webp"
+proficiencyLevel: "Expert"
+translationOf: "domain-ne-devrait-jamais-connaitre-symfony"
+translatedFromUpdatedAt: "2026-10-12"
+---
+
+Open the `src/Entity/` directory of any Symfony project. You will find classes with Doctrine attributes, Symfony validations, sometimes calls to services, and in the middle of all that, business logic. The order model calculates its totals between two `#[ORM\Column]` attributes. The user entity checks permissions in the middle of the `#[Assert\NotBlank]` constraints.
+
+This code works. It passes the tests. It runs in production. But it has a fundamental problem: your business is a prisoner of your framework.
+
+## What "Knowing Symfony" Means
+
+When we say a domain "knows" Symfony, we are talking about dependencies. Not dependencies in the Composer sense, but in the sense of the `use` statements at the top of your PHP files.
+
+```php
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
+
+#[ORM\Entity]
+class Order
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\Column]
+    #[Assert\NotBlank]
+    private string $reference;
+
+    #[ORM\ManyToOne]
+    private Customer $customer;
+
+    public function calculateTotal(): Money
+    {
+        // logique métier enterrée sous les annotations
+    }
+}
+```
+
+This class depends on three Symfony/Doctrine components. Admittedly, PHP attributes are inert metadata: you can instantiate this class and test `calculateTotal()` without Doctrine being loaded. But the dependency exists in the code. Your `use` statements point to `vendor/`, your domain no longer compiles without these packages, and every Doctrine or Symfony version upgrade can break your business models. If you want to reuse this logic in a non-Symfony context (a CLI command, a worker, another project), you drag the whole framework along with you.
+
+The fundamental principle of hexagonal architecture fits in one sentence: the domain sits at the center, and it depends on nothing.
+
+## The Decisive Test
+
+Here is a simple test to know whether your domain is coupled to the framework. Take any file in your domain directory and ask yourself: can I run this code in a vanilla PHP project, without Symfony, without Doctrine, without any external dependency?
+
+If the answer is no, your domain knows your infrastructure.
+
+In practice, this means that in your domain namespace, the only allowed `use` statements are:
+
+- Classes from your own domain
+- Native PHP interfaces (`Stringable`, `JsonSerializable`)
+- Standard PHP exceptions
+
+No `Doctrine\*`. No `Symfony\*`. No `Psr\*`. Nothing that comes from `vendor/`.
+
+## The Five Most Common Couplings
+
+### 1. Doctrine in the Models
+
+The most obvious one. The `#[ORM\Entity]`, `#[ORM\Column]` and `#[ORM\ManyToOne]` attributes create a direct dependency between your business model and the ORM.
+
+```php
+// Couplé
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity]
+class Product
+{
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid')]
+    private string $id;
+}
+```
+
+```php
+// Découplé
+class Product
+{
+    private ProductId $id;
+
+    public function __construct(ProductId $id, string $name)
+    {
+        $this->id = $id;
+        $this->name = $name;
+    }
+}
+```
+
+The decoupled model is a plain PHP object. It does not know how it will be stored. In a PostgreSQL database, in a JSON file, in Redis: that is not its concern.
+
+### 2. Symfony Validation Constraints
+
+The Symfony Validator component is powerful, but it has no place in the domain.
+
+```php
+// Couplé
+use Symfony\Component\Validator\Constraints as Assert;
+
+class Email
+{
+    #[Assert\NotBlank]
+    #[Assert\Email]
+    private string $value;
+}
+```
+
+```php
+// Découplé
+class Email
+{
+    private string $value;
+
+    public function __construct(string $value)
+    {
+        if ($value === '' || !filter_var($value, FILTER_VALIDATE_EMAIL)) {
+            throw new InvalidEmailException($value);
+        }
+        $this->value = $value;
+    }
+}
+```
+
+Validation in the domain is native. The value object guarantees its own consistency at construction. You do not need a validation framework for that. An invalid `Email` simply cannot exist.
+
+Symfony validation remains useful for validating HTTP input (forms, API requests) in the infrastructure layer. But that is format validation, not business validation.
+
+### 3. Symfony Security Interfaces
+
+Implementing `UserInterface` directly in your domain model couples your concept of a user to the Symfony authentication system.
+
+```php
+// Couplé
+use Symfony\Component\Security\Core\User\UserInterface;
+
+class User implements UserInterface
+{
+    public function getRoles(): array { /* ... */ }
+    public function eraseCredentials(): void { /* ... */ }
+    public function getUserIdentifier(): string { /* ... */ }
+}
+```
+
+The problem: your domain `User` model carries methods (`eraseCredentials`, `getUserIdentifier`) that make no business sense. They are framework requirements, not requirements of your business.
+
+```php
+// Domaine : le concept métier
+class User
+{
+    public function __construct(
+        private UserId $id,
+        private Email $email,
+        private UserRole $role,
+    ) {}
+
+    public function promote(): void
+    {
+        $this->role = UserRole::Admin;
+    }
+}
+
+// Infrastructure : l'adaptateur Symfony Security
+class SecurityUser implements UserInterface
+{
+    public function __construct(private User $user) {}
+
+    public function getRoles(): array
+    {
+        return [$this->user->role()->value];
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->user->email()->value();
+    }
+
+    public function eraseCredentials(): void {}
+}
+```
+
+Two classes, two responsibilities. The domain carries the business logic. The adapter translates for Symfony.
+
+### 4. Symfony Events in the Domain
+
+Dispatching a Symfony event from the domain creates an invisible coupling:
+
+```php
+// Couplé
+use Symfony\Contracts\EventDispatcher\Event;
+
+class OrderValidated extends Event
+{
+    public function __construct(public readonly string $orderId) {}
+}
+```
+
+Your domain event inherits from a Symfony class. If you move to another framework tomorrow, you have to rewrite all your events.
+
+```php
+// Découplé
+class OrderValidated
+{
+    public function __construct(
+        public readonly OrderId $orderId,
+        public readonly \DateTimeImmutable $occurredAt,
+    ) {}
+}
+```
+
+The domain event is a simple immutable object holding data. [Symfony Messenger](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) (in French) excels in this role of dispatching domain events, routing them to the right handlers through the message bus. An adapter in the infrastructure translates it into a Symfony event for dispatching:
+
+```php
+class SymfonyDomainEventDispatcher implements DomainEventDispatcherInterface
+{
+    public function __construct(
+        private EventDispatcherInterface $dispatcher,
+    ) {}
+
+    public function dispatch(object $event): void
+    {
+        $this->dispatcher->dispatch($event);
+    }
+}
+```
+
+The Symfony dispatcher has accepted any object since Symfony 5. Your domain event does not even need to extend `Event`. The adapter is almost trivial.
+
+### 5. PSR Services in the Domain
+
+Injecting a PSR `LoggerInterface` or `CacheInterface` into the domain seems harmless. After all, these are standards, not Symfony. But it is still an external dependency.
+
+```php
+// Techniquement découplé de Symfony, mais couplé à PSR
+use Psr\Log\LoggerInterface;
+
+class ProcessOrder
+{
+    public function __construct(
+        private OrderRepositoryInterface $repository,
+        private LoggerInterface $logger,
+    ) {}
+}
+```
+
+If your use case needs to log, ask yourself why. Logging is an infrastructure concern. A decorator in the infrastructure can log around the call to the use case without the use case knowing:
+
+```php
+class LoggingProcessOrder implements ProcessOrderInterface
+{
+    public function __construct(
+        private ProcessOrder $inner,
+        private LoggerInterface $logger,
+    ) {}
+
+    public function __invoke(OrderId $id): void
+    {
+        $this->logger->info('Processing order', ['id' => $id->value]);
+        ($this->inner)($id);
+        $this->logger->info('Order processed', ['id' => $id->value]);
+    }
+}
+```
+
+The use case stays pure. Logging is an infrastructure detail added through composition.
+
+## Ports: The Contract Between Domain and Infrastructure
+
+The mechanism that makes all this possible is the port: an interface defined in the domain and implemented in the infrastructure.
+
+```php
+// Le port (domaine)
+namespace App\Order\Domain\Port;
+
+interface OrderRepositoryInterface
+{
+    public function findById(OrderId $id): Order;
+    public function save(Order $order): void;
+}
+```
+
+```php
+// L'adaptateur (infrastructure)
+namespace App\Order\Infrastructure\Persistence;
+
+class DoctrineOrderRepository implements OrderRepositoryInterface
+{
+    public function __construct(private EntityManagerInterface $em) {}
+
+    public function findById(OrderId $id): Order
+    {
+        $entity = $this->em->find(OrderEntity::class, $id->value);
+        if ($entity === null) {
+            throw new OrderNotFoundException($id);
+        }
+        return OrderMapper::toDomain($entity);
+    }
+
+    public function save(Order $order): void
+    {
+        $entity = OrderMapper::toEntity($order);
+        $this->em->persist($entity);
+        $this->em->flush();
+    }
+}
+```
+
+The domain defines what it needs. The infrastructure provides how. The domain does not know that Doctrine exists. The Doctrine repository knows how to translate between the two worlds.
+
+Symfony autowires interfaces automatically when there is only one implementation, as described in the [official Symfony best practices](https://symfony.com/doc/current/best_practices.html). No configuration needed.
+
+## The Mapping Question: The Trade-off
+
+The most common objection to this approach: it doubles the classes. A Doctrine entity and a domain model for the same concept. A mapper between the two. "Boilerplate" code.
+
+That is true. And it is the trade-off of independence.
+
+But this trade-off is often overestimated. A mapper is 20 lines of trivial code. No logic, no conditions, just property assignment. On a project with 50 entities, that is 1,000 lines of boring code. On a codebase of 100,000 lines, it is 1%.
+
+And that 1% gives you:
+
+- **Fast unit tests**: your domain is tested without a database, without a container, in milliseconds
+- **The freedom to change ORM**: unlikely but possible, and above all it simplifies Doctrine version upgrades
+- **A readable domain**: your business models are not polluted by technical annotations
+- **Safe refactoring**: you change the database structure without touching the domain, and vice versa
+
+## Check Your Dependencies with Deptrac
+
+Human discipline is not enough. On a project with ten developers, someone will eventually add a `use Doctrine\*` in the domain. Deptrac automates the check.
+
+```yaml
+deptrac:
+  paths:
+    - ./src
+
+  layers:
+    - name: Domain
+      collectors:
+        - type: directory
+          value: src/.*/Domain/.*
+    - name: Application
+      collectors:
+        - type: directory
+          value: src/.*/Application/.*
+    - name: Infrastructure
+      collectors:
+        - type: directory
+          value: src/.*/Infrastructure/.*
+
+  ruleset:
+    Domain: []
+    Application:
+      - Domain
+    Infrastructure:
+      - Domain
+      - Application
+```
+
+The `Domain: []` rule is the most important one: the domain depends on nothing. No other layer is allowed. If a developer adds a Doctrine import in the domain, Deptrac breaks the build. Combined with [PHPStan as an architecture guardian](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French), you check both the dependencies between layers and the consistency of types.
+
+Add it to your CI:
+
+```bash
+vendor/bin/deptrac --no-interaction
+```
+
+It is a permanent safety net. Architecture is no longer an oral convention, it is a rule verified on every commit. Pairing Deptrac with [formalized coding conventions](/article/coding-conventions) (in French) within the team further strengthens domain isolation over the long term.
+
+## When Not to Do It
+
+This approach has a trade-off. For an admin CRUD with five entities and no business logic, separating domain and infrastructure is over-engineering. Doctrine coupling is only a problem when there is business logic to protect. The question of [choosing between microservices and a modular monolith](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) (in French) arises in the same spirit: the architecture must serve the project, not the other way around.
+
+The pragmatic rule: if your class only stores and reads back data, a Doctrine entity is enough. If it contains calculations, business validations, state transitions or conditional rules, then it deserves a proper domain.
+
+On a typical Symfony project, 20% of the entities carry 80% of the business logic. Start with those. The rest can wait, or never be migrated.
+
+## The Domain Outlives the Framework
+
+Symfony 4 replaced Symfony 3. Symfony 5 replaced Symfony 4. Doctrine 3 broke things compared to Doctrine 2. Frameworks evolve, change their APIs, deprecate components.
+
+Your business, on the other hand, does not change because Symfony ships a new version. An order is calculated the same way, whether it is persisted with Doctrine, Eloquent or a CSV file.
+
+A domain that does not know Symfony outlives Symfony. It survives version upgrades, ORM changes and framework migrations. It is code with a ten-year lifespan in an industry where frameworks change every three years.
+
+That is why your domain should never know Symfony. Not out of architectural purism, not to look good on a diagram. So that the most important code in your application is also the most durable. If you want to structure your project along these principles, our [Symfony hexagonal architecture](/architecture-hexagonale-symfony) (in French) support covers exactly this type of migration.
+
+## Going Further
+
+- [Migrating Symfony to hexagonal architecture](/article/migration-symfony-architecture-hexagonale-retour-mission) (in French), a concrete project retrospective
+- Symfony Messenger: the backbone of hexagonal architecture, the command bus in practice
+- [Choosing int, UUID or ULID for a database index](/article/prendre-int-uuid-ou-ulid-pour-un-index-de-base-de-donnees) (in French), picking the right identifier for your domain value objects
+- [Alistair Cockburn: Hexagonal Architecture](https://web.archive.org/web/2025/https://alistair.cockburn.us/hexagonal-architecture/), the founding article
+- [Symfony Best Practices](https://symfony.com/doc/current/best_practices.html), the official Symfony conventions
