@@ -1,0 +1,132 @@
+---
+title: "Practical Guide to a Successful Symfony Version Upgrade"
+date: "2023-07-17"
+author: "Efficience IT"
+category: "Symfony"
+excerpt: "Plan a Symfony version upgrade without downtime: deprecations, Rector, PHPStan, a phased strategy, and the Strangler Fig pattern for large legacy applications."
+image: "/images/blog/cover-symfony-upgrade.webp"
+proficiencyLevel: "Expert"
+updatedAt: "2026-10-12"
+translationOf: "guide-de-migration-dans-un-projet-symfony"
+translatedFromUpdatedAt: "2026-10-12"
+faq:
+  - question: "How long does a Symfony migration take?"
+    answer: "It depends on the size of the project and the number of versions to skip. A minor version migration (for example 6.3 to 6.4) takes a few days. A major migration (for example 4.4 to 6.4) can take several weeks. Using Rector and PHPStan automates 60 to 80% of the changes and significantly reduces the time required."
+  - question: "Can you migrate Symfony without any downtime?"
+    answer: "Yes, and that is the approach we recommend. By working branch by branch and resolving deprecations gradually, you can keep delivering features during the migration. Automated tests ensure that no regression is introduced."
+  - question: "Should you move to Symfony 8 or stay on 7.4 LTS?"
+    answer: "7.4 LTS is supported until November 2029 and remains the most stable choice for a line-of-business application. Symfony 8 requires PHP 8.4, and its standard versions are supported for only about eight months: 8.0 is already no longer maintained, so aim for 8.1 or later."
+  - question: "What are the risks of staying on an unsupported Symfony version?"
+    answer: "End-of-life versions no longer receive security patches. Your application becomes vulnerable to known flaws (CVEs). In addition, new PHP versions and third-party bundles stop supporting older Symfony versions, which creates a domino effect across the whole ecosystem."
+---
+
+## Understanding the Symfony Release Cycle
+
+Symfony follows a predictable release schedule that shapes every migration strategy. Minor versions ship twice a year, in May and November. This regularity follows the same logic as the [PSRs that structure the PHP ecosystem](/article/qu-est-ce-que-les-psrs-et-a-quoi-servent-ils) (in French): predictable standards that make planning easier. Major versions arrive roughly every two years. Each standard minor version gets about eight months of support, including bug fixes and security fixes. LTS versions extend this support to three years of bug fixes and four years of security fixes.
+
+As of October 2026, the [official release calendar](https://symfony.com/releases) shows the following: 6.4 LTS is supported until November 2027, 7.4 LTS until November 2029, and 8.1 until January 2027, while 8.0 is no longer maintained. 5.4 LTS only receives security patches.
+
+This regularity has a direct consequence: the effort of a migration grows with the time elapsed since the last update. A project kept up to date on every minor version absorbs incremental changes. A project frozen on Symfony 4.4 since 2019 faces three major versions of accumulated changes at once. Once support ends, the problem changes nature: we detail the consequences and exit strategies in our [action plan for Symfony and PHP end of support](/article/symfony-php-fin-de-support-eol-plan-action) (in French).
+
+### How Deprecations Work
+
+Symfony's contract is clear, as the [official major upgrade guide](https://symfony.com/doc/current/setup/upgrade_major.html) explains: no feature is removed without having been deprecated at least one major version in advance. In practice, a class marked `@deprecated` in 5.2 keeps working throughout the 5.x branch. It disappears in 6.0.
+
+The last minor version before a major one (5.4 before 6.0, 6.4 before 7.0, 7.4 before 8.0) plays a pivotal role. It contains exactly the same features as the next major version but keeps backward compatibility. Migrating to 5.4 and resolving all deprecations prepares the ground for a nearly seamless move to 6.0.
+
+The Symfony Profiler exposes a dedicated deprecations panel. Running the test suite with the `SYMFONY_DEPRECATIONS_HELPER=max[direct]=0` variable makes it fail on any direct call to deprecated code, turning every deprecation into an immediate signal.
+
+## Preparing the Ground: Audit and Test Coverage
+
+### Assess Existing Coverage
+
+Before touching `composer.json`, measure your test coverage. Our [automated PHP testing](/tests-automatises-php) (in French) service helps structure this step. Look at coverage on critical paths, not the overall percentage, which gives false reassurance: authentication, payment, business workflows, third-party integrations. A project with 70% overall coverage but 0% on the payment controller is a risky project.
+
+PHPUnit with the `--coverage-html` option generates a usable report. Identify the uncovered areas that touch services using Symfony APIs likely to change. Focus your testing effort on those areas before starting the migration.
+
+Behat or Panther complete this coverage by validating end-to-end user journeys. A Behat scenario that walks through the checkout funnel will catch a regression that isolated unit tests miss.
+
+### Build the Bundle Compatibility Matrix
+
+Every third-party bundle is a potential point of friction. Build an exhaustive inventory from `composer.lock` and check each one: is the target Symfony version supported? Is the bundle still maintained? Is there a compatible branch or tag?
+
+Abandoned bundles are the main risk. A bundle with no update in two years that relies on internal Symfony classes will probably break on the next major version. Identify alternatives or plan an internal fork. For bundles internal to your organization, schedule their update in parallel with the main project.
+
+## Automating with Rector and PHPStan
+
+### Rector: The Productivity Lever
+
+[Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) (in French) applies automated code transformation rules. For a Symfony migration, Rector's `symfony` set rewrites deprecated calls, updates method signatures, and adapts configuration. On a mid-sized project, Rector automates 60 to 80% of the required changes.
+
+The recommended approach is to run Rector set by set, not all at once. Run the class renaming rules first, validate with the test suite, and commit. Then run the configuration rules, validate, and commit. This granularity isolates each category of change and simplifies debugging when a regression appears.
+
+Rector does not replace understanding the change. Some transformations need business context that the tool does not have. Always review the generated diffs, especially on services that handle Symfony events or container compiler extensions.
+
+### PHPStan: The Static Safety Net
+
+[PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French) at level 6 or higher detects type incompatibilities, calls to removed methods, and interface errors. After each Rector pass, run PHPStan to catch what the transformation tool missed or transformed incorrectly.
+
+The `phpstan-symfony` extension gives the analysis engine knowledge of the service container. It detects wrongly typed services, missing parameters, and invalid routes. This extension is especially valuable during a migration, when the container configuration changes.
+
+## A Phased Migration Strategy
+
+### Phase 1: Stabilize on the Latest Minor Version
+
+First move to the latest minor version of your current major branch. If you are on Symfony 5.2, move to 5.4. Resolve all reported deprecations. This phase is the least risky because backward compatibility is guaranteed within a single major branch.
+
+### Phase 2: Jump to the Next Major Version
+
+Once all deprecations are cleared in 5.4, the move to 6.0 should only introduce changes tied to deprecated elements that were actually removed. Adjust the constraints in `composer.json`, run `composer update`, and resolve dependency conflicts one by one. Composer produces explicit error messages that guide the resolution.
+
+Check the minimum PHP version required. Symfony 6.0 requires PHP 8.0, Symfony 7.0 requires PHP 8.2, and Symfony 8.0 requires PHP 8.4. A Symfony major version jump often implies a parallel PHP version jump, with its own implications. Anticipate the [changes planned for PHP 9.0](/article/php-9-0-devoile-ce-que-vous-devez-savoir-avant-la-sortie) (in French) if you are planning for the medium term.
+
+The principle is the same from 7.4 LTS to Symfony 8: handle all deprecations reported in 7.4, then move to 8.x. Keep in mind that 8.x versions are not LTS: 8.0 is already no longer maintained, so aim for 8.1 or later, or stay on 7.4 LTS if stability matters most.
+
+### Phase 3: Validation and Continuous Upgrades
+
+Run the full test suite. Organize an acceptance testing session with business users. Compare performance metrics before and after: response time, memory consumption, number of SQL queries, error rate. Blackfire or the Symfony Profiler identify bottlenecks introduced by the new version.
+
+## Thinking at Scale: Architectural Migrations
+
+### The Strangler Fig Applied to Symfony
+
+For massive projects where a big bang is too risky, the Strangler Fig pattern offers an alternative. This is the approach detailed in our [project retrospective on the migration to hexagonal architecture](/article/migration-symfony-architecture-hexagonale-retour-mission) (in French). The principle: let the old and new systems coexist behind a reverse proxy or load balancer, then migrate route by route.
+
+Concretely, you deploy a new Symfony 7 instance next to the existing Symfony 4 application. The proxy routes `/api/v2/*` to the new instance and everything else to the old one. Each migrated endpoint switches over gradually. The old application shrinks until it disappears.
+
+This approach requires a session sharing layer (Redis, stateless JWT) and a consistent database strategy across both instances. It is justified for critical applications where downtime is not acceptable.
+
+### Operating in Dual-Stack
+
+Dual-stack goes further than the Strangler Fig by running two versions in production at the same time for a defined period. Traffic is split by feature flags or by user population. The new version's metrics are compared under real conditions before the full switchover.
+
+This strategy suits high-traffic platforms where load tests in a staging environment do not faithfully reproduce production conditions. The operational overhead is high (double infrastructure, double monitoring), but the business risk is kept to a minimum.
+
+### Risk Assessment and Trade-offs
+
+Every major migration deserves a formal risk analysis. Three axes structure this assessment:
+
+**Technical risk**: number of unresolved deprecations, percentage of code covered by tests, number of incompatible third-party bundles, gap in the required PHP version.
+
+**Organizational risk**: team availability, level of Symfony knowledge on the team, existence of internal documentation on the architecture, ability to freeze features during the migration.
+
+**Business risk**: critical periods to avoid (Black Friday, accounting close), SLAs to meet, tolerance for downtime, impact of a regression on revenue.
+
+A project with moderate technical debt, good test coverage, and an experienced team will migrate in place with the phased strategy. A critical legacy project with few tests and abandoned bundles will justify a Strangler Fig or a partial rewrite. For aging PHP applications, our [application modernization](/modernisation-applicative) (in French) path handles the full transition to a modern Symfony foundation. In that second case, our [Symfony migration](/migration-symfony) (in French) service supports teams from the initial audit through deployment of the target version, using a proven methodology.
+
+### Leading the Change in the Organization
+
+Major migrations are not only technical. Going from Symfony 4 to Symfony 7 means training the team on PHP 8 attributes, the modernized configuration system, and new security practices. Plan upskilling sessions before the start, not during. Our [Symfony training for companies](/formation-symfony-entreprise) (in French) covers these topics.
+
+Communicate a realistic schedule to stakeholders. A major migration on a mid-sized project takes between two and six weeks depending on the accumulated technical debt. Build in a margin for the unexpected, especially for third-party bundles whose compatibility is not guaranteed on day one.
+
+Need help with your Symfony migration? Discover our Symfony migration support: we handle the deprecation audit, refactoring with Rector, and stepwise version upgrades, with no service interruption.
+
+## Going Further
+
+- [Technical debt](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French), understand and manage the technical debt accumulated between versions
+- Symfony migration to hexagonal architecture: project retrospective, go further by restructuring the architecture during the migration
+- [Find out why you should trust us with the maintenance of your web applications](/article/decouvrez-les-raisons-de-nous-confier-la-maintenance-de-vos-applications-web) (in French), keep the project up to date after the migration to avoid falling behind again
+- [Symfony Upgrade Guide](https://symfony.com/doc/current/setup/upgrade_major.html), official Symfony major upgrade guide
+- [Rector: Automated Refactoring](https://github.com/rectorphp/rector), automated refactoring tool for PHP
+- [Symfony Release Process](https://symfony.com/doc/current/contributing/community/releases.html), Symfony release calendar and versioning policy
