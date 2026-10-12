@@ -98,6 +98,10 @@
     "author": "Barry Marsh from London, England",
     "url": "https://commons.wikimedia.org/wiki/File:Stepping_Stones,_River_Rothay,_Under_Loughriggs,_Cumbria_(44410834135).jpg"
   },
+  "choosing-symfony-service-provider": {
+    "name": "choose-provider",
+    "sameAs": "comment-choisir-son-prestataire-symfony"
+  },
   "comment-executer-des-tests-postman-avec-newman-dans-gitlab-ci": {
     "name": "postman-newman",
     "file": "File:Aqueduct Segovia statue.jpg",
