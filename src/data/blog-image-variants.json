@@ -66,6 +66,10 @@
     400,
     800
   ],
+  "cover-agile-specs": [
+    400,
+    800
+  ],
   "cover-analyseurs-statiques-php": [
     400,
     800
