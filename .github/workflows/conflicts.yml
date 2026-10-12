@@ -1,0 +1,41 @@
+name: Conflicts
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: conflicts
+  cancel-in-progress: true
+
+jobs:
+  detect:
+    name: Conflicts
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Label pull requests in conflict
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          gh label create conflit --color d93f0b --description "La PR est en conflit avec main" --repo "$REPO" 2>/dev/null || true
+          for attempt in 1 2 3 4; do
+            sleep 30
+            unknown=$(gh pr list --repo "$REPO" --state open --limit 300 --json mergeable --jq '[.[] | select(.mergeable == "UNKNOWN")] | length')
+            [ "$unknown" = "0" ] && break
+          done
+          gh pr list --repo "$REPO" --state open --limit 300 --json number,mergeable,labels > prs.json
+          jq -r '.[] | select(.mergeable == "CONFLICTING") | select(([.labels[].name] | index("conflit")) | not) | .number' prs.json | while read -r n; do
+            gh pr edit "$n" --repo "$REPO" --add-label conflit
+          done
+          jq -r '.[] | select(.mergeable == "MERGEABLE") | select([.labels[].name] | index("conflit")) | .number' prs.json | while read -r n; do
+            gh pr edit "$n" --repo "$REPO" --remove-label conflit
+          done
+          conflicts=$(jq '[.[] | select(.mergeable == "CONFLICTING")] | length' prs.json)
+          echo "PR en conflit : $conflicts" >> "$GITHUB_STEP_SUMMARY"
