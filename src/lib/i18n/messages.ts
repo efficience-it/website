@@ -26,6 +26,12 @@ export interface Messages {
   readonly midCtaLabel: string;
   readonly copyCode: string;
   readonly codeCopied: string;
+  readonly allPosts: string;
+  readonly noPosts: string;
+  readonly previous: string;
+  readonly next: string;
+  readonly pageLabel: (page: number) => string;
+  readonly pagination: string;
   readonly copyLink: string;
   readonly copyArticleLink: string;
   readonly linkCopied: string;
@@ -57,6 +63,12 @@ const fr: Messages = {
   midCtaLabel: "Parlons-en",
   copyCode: "Copier",
   codeCopied: "Copié !",
+  allPosts: "Tous",
+  noPosts: "Aucun article pour le moment.",
+  previous: "Précédent",
+  next: "Suivant",
+  pageLabel: (page) => `Page ${page}`,
+  pagination: "Pagination",
   copyLink: "Copier le lien",
   copyArticleLink: "Copier le lien de l'article",
   linkCopied: "Lien copié",
@@ -88,6 +100,12 @@ const en: Messages = {
   midCtaLabel: "Let's talk",
   copyCode: "Copy",
   codeCopied: "Copied!",
+  allPosts: "All",
+  noPosts: "No articles yet.",
+  previous: "Previous",
+  next: "Next",
+  pageLabel: (page) => `Page ${page}`,
+  pagination: "Pagination",
   copyLink: "Copy link",
   copyArticleLink: "Copy the article link",
   linkCopied: "Link copied",
