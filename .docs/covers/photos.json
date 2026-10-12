@@ -801,6 +801,10 @@
     "author": "Michael Schwarzenberger",
     "url": "https://commons.wikimedia.org/wiki/File:Dandelion-wind-blown-seeds-333093.jpg"
   },
+  "symfony-php-end-of-life-plan": {
+    "name": "symfony-php-eol",
+    "sameAs": "symfony-php-fin-de-support-eol-plan-action"
+  },
   "symfony-pour-les-moldus": {
     "name": "symfony-moldus",
     "file": "File:Germany (Unsplash bi rAlI3xP4).jpg",
