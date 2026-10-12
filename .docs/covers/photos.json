@@ -462,6 +462,10 @@
     "author": "Julian Lupyan",
     "url": "https://commons.wikimedia.org/wiki/File:Nave_of_Sagrada_Fam%C3%ADlia,_Barcelona,_2023.jpg"
   },
+  "why-choose-symfony": {
+    "name": "why-symfony",
+    "sameAs": "pourquoi-choisir-symfony-pour-vos-projets"
+  },
   "pourquoi-docker-est-indispensable-en-production-aujourdhui": {
     "name": "docker-production",
     "file": "File:Zoomed up picture of pomogranate.jpg",
