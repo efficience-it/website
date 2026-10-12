@@ -213,13 +213,13 @@ export default function ArticleView({
                 {(() => {
                   const parts = splitContentAfterThirdH2(post.content);
                   if (!parts) {
-                    return <MarkdownContent content={post.content} />;
+                    return <MarkdownContent content={post.content} language={language} />;
                   }
                   const [firstPart, secondPart] = parts;
                   const wantsSymfonyAudit = !isEnglish && isSymfonyAuditCategory(post.category);
                   return (
                     <>
-                      <MarkdownContent content={firstPart} />
+                      <MarkdownContent content={firstPart} language={language} />
                       <div data-cta-section className="my-8 rounded-lg bg-primary/5 p-6 text-center">
                         <p className="font-display text-lg font-semibold text-dark">
                           {wantsSymfonyAudit
@@ -238,7 +238,7 @@ export default function ArticleView({
                             : messages.midCtaLabel}
                         </Button>
                       </div>
-                      <MarkdownContent content={secondPart} />
+                      <MarkdownContent content={secondPart} language={language} />
                     </>
                   );
                 })()}
