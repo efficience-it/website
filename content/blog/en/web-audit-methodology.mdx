@@ -1,0 +1,111 @@
+---
+title: "Web Audit at Efficience IT: Method, Criteria, Content"
+date: "2023-01-31"
+updatedAt: "2026-10-12"
+translatedFromUpdatedAt: "2026-10-12"
+author: "Louis-Arnaud Catoire"
+category: "Project"
+excerpt: "An audit is essential to assess the quality, security, and performance of a website. Discover how Efficience IT runs it, from code analysis to roadmap."
+image: "/images/blog/cover-web-audit.webp"
+translationOf: "comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede"
+---
+
+A technical audit is more than running a few tools and ticking boxes. It is a structured process that questions every layer of an application, from the source code to architectural decisions, to produce an actionable diagnosis. At Efficience IT, we have formalized a methodology that adapts to the technical maturity of the audited project.
+
+## Scoping: asking the right questions before reading the code
+
+Every audit starts with a scoping phase with the client. We seek to understand the project's history, the makeup of the teams that contributed to it, the business constraints, and the short- and medium-term goals. An audit disconnected from its context produces theoretical recommendations; a well-scoped audit produces an actionable roadmap.
+
+We also identify the project's success indicators: user volume, expected SLAs, deployment frequency, existing test coverage. These elements guide the depth of the analysis on each axis.
+
+## Code quality and static analysis
+
+Code quality determines a team's ability to evolve a product without introducing regressions. We first assess readability: naming of variables and functions, adherence to conventions, modularization, separation of concerns.
+
+### Static analysis tooling
+
+[PHPStan](https://phpstan.org/) is our first investigation lever. Configured at the highest level, it reveals typing inconsistencies, method calls on incompatible types, and unchecked potentially null variables. The number of errors detected and the highest level reachable without modifying the code give an objective measure of the project's technical rigor.
+
+PHP_CodeSniffer checks compliance with the PSRs (PSR-1, PSR-4, PSR-12) and with the conventions of the framework in use. On a Symfony project, we add the framework-specific rulesets. The gap between the number of violations and the number of affected files shows whether the problems are systemic or localized. Teams that want to set up these rules upfront can rely on our guide to [coding conventions for maintainable code](/article/coding-conventions) (in French).
+
+We also assess the presence and relevance of tests. A project with no unit or functional tests is a project where every change is a risk. We measure code coverage, but above all the quality of the assertions: tests that assert nothing protect against nothing.
+
+### Targeted manual review
+
+Beyond tooling, a manual review identifies what no tool detects: classes with excessive responsibilities, circular dependencies between modules, [dead code that weighs down the project](/article/code-mort-mission-elimination) (in French), or misplaced abstractions that complicate maintenance without adding value.
+
+## Security: from the OWASP Top 10 to dependency analysis
+
+Security is a non-negotiable axis. We structure our analysis around the [OWASP Top 10](https://owasp.org/www-project-top-ten/) reference, adapting the depth of investigation to the application's risk profile.
+
+### Application attack vectors
+
+We systematically check user input validation to prevent SQL injections and XSS attacks, password hashing with robust algorithms (bcrypt, Argon2), CSRF protection on forms, and the configuration of Symfony's Security component: voters, firewalls, and the principle of least privilege on roles.
+
+Security HTTP headers are also verified: Content-Security-Policy, Strict-Transport-Security, X-Content-Type-Options. Their absence exposes the application to easily exploitable attack vectors.
+
+### Auditing third-party dependencies
+
+A point often underestimated: dependencies. We use `composer audit` and the Symfony Security Checker to identify libraries with [known CVEs](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) (in French). Beyond published vulnerabilities, we assess the health of dependencies: date of last update, maintenance frequency, number of transitive dependencies. A library abandoned by its maintainer is a latent risk even without a declared CVE.
+
+## Performance: browser metrics and server profiling
+
+Performance optimization directly affects user experience and SEO. Our analysis covers both sides: what the user perceives in their browser, and what happens on the server.
+
+### Interpreting Lighthouse metrics
+
+[Lighthouse](https://developer.chrome.com/docs/lighthouse/) provides scores on four axes: performance, accessibility, best practices, and SEO. But an overall score is not enough. We analyze the individual metrics to identify the most impactful optimization levers.
+
+**Largest Contentful Paint** (LCP) measures the time it takes to display the largest visible element. A degraded LCP often points to unoptimized images, a blocking web font, or excessive server time. **Interaction to Next Paint** (INP) evaluates responsiveness to user interactions: a high INP reveals JavaScript blocking the main thread. **Cumulative Layout Shift** (CLS) detects unwanted visual shifts, often caused by images without explicit dimensions or dynamically injected elements.
+
+We cross-reference these metrics with Chrome User Experience Report data when available, to tell lab problems apart from field problems.
+
+### Server-side profiling
+
+The Symfony Profiler is a valuable ally for diagnosing server bottlenecks. We hunt for N+1 queries in Doctrine, services that are too expensive to instantiate, and abnormal response times. We check the HTTP cache configuration, the implementation of application cache strategies (Redis, Memcached), and the use of a CDN for static assets.
+
+On high-volume applications, we also analyze slow query logs in the database and missing indexes, which often represent the most significant performance gains.
+
+## Browser compatibility and accessibility
+
+We check rendering on the browsers most used by the site's audience, mobile versions included. A form that works on Chrome can behave differently on Safari, especially for date handling and selectors. Responsive testing on different screen sizes ensures a consistent experience.
+
+### Accessibility compliance
+
+Accessibility is evaluated against the WCAG standards and, in France, the RGAA. We check `alt` attributes on images, heading hierarchy, text/background contrast, keyboard navigability, and the correct association of labels with form fields. Error messages must be interpretable by assistive technologies.
+
+## The audit as an architecture assessment
+
+For mature projects, the audit goes beyond file-by-file analysis and becomes an architecture assessment. We examine the overall consistency of technical choices: does the layer split follow the principles of [hexagonal architecture](/architecture-hexagonale-symfony) (in French)? Are the bounded contexts clearly defined? Are the data flows between components predictable and traceable?
+
+### Quantifying technical debt
+
+Technical debt is only useful as a concept if it is quantifiable. We categorize each identified problem along three dimensions: the impact on the team's velocity (daily drag or occasional drag), the risk of failure (probability and severity), and the remediation effort (in person-days). This matrix lets you move from an inventory of problems to an economic model of the debt.
+
+A project can live with managed technical debt. The goal is not to fix everything, but to know precisely what you accept to carry and what requires intervention.
+
+### Risk-based prioritization
+
+We use a risk-based prioritization approach, inspired by project management methods: each recommendation is ranked by its criticality (impact if left unaddressed), its implementation complexity, and its leverage effect (a fix that unblocks others). Critical security vulnerabilities and stability problems are systematically high priority, regardless of their complexity.
+
+## From diagnosis to strategic roadmap
+
+The final deliverable is not a simple catalog of defects. For each identified point, the report contains a description of the problem, its location, its criticality level, and a fix recommendation. A summary table lets you visualize the overall state of the project.
+
+But the essential part lies in turning the diagnosis into an action plan. Depending on the scale of the findings, several trajectories emerge.
+
+If the problems are targeted, a short-term fix plan is enough: updating vulnerable dependencies, fixing critical flaws, optimizing the slowest queries. These interventions bring immediate, measurable benefits.
+
+If the audit reveals [structural technical debt](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French), we offer medium-term support through **Third-Party Application Maintenance** (TMA). This approach lets you address problems gradually in prioritized batches, without interrupting the operation of the site.
+
+In the most advanced cases, the audit may recommend a partial redesign of certain components. We then advocate a progressive, module-by-module approach, with measurable success criteria at each step. The resulting roadmap combines immediate fixes, medium-term projects, and the target architectural vision, giving every stakeholder, developers and decision-makers alike, what they need to make trade-offs.
+
+A regular technical audit, like a vehicle inspection, detects problems before they become critical and extends the lifespan of your application. The audit is part of our overall [support and consulting](/accompagnement-et-conseil) (in French) approach for technical teams. To start this process with no commitment, our [free Symfony audit](/audit-symfony-gratuit) (in French) offers a first diagnosis of your application's technical health.
+
+## Going further
+
+- [Why entrust us with the maintenance of your web applications](/article/decouvrez-les-raisons-de-nous-confier-la-maintenance-de-vos-applications-web) (in French), why application maintenance is essential after an audit
+- Technical debt: should you really be afraid of it? Understanding and managing the technical debt identified during an audit
+- [PHPStan at max level on a Symfony project](/article/phpstan-niveau-max-symfony-10-erreurs) (in French), the most common errors revealed by static analysis
+- [Migration guide for a Symfony project](/article/guide-de-migration-dans-un-projet-symfony) (in French), turning audit recommendations into a concrete migration plan
+- [Symfony Insight: what is it for and how do you set it up?](/article/symfony-insight-a-quoi-ca-sert-et-comment-le-met-on-en-place) (in French), an automated analysis tool that complements the manual audit
