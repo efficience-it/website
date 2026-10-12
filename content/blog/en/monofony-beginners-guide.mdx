@@ -1,0 +1,124 @@
+---
+title: "Monofony: The Ultimate Beginner's Guide"
+date: "2020-11-25"
+updatedAt: "2026-10-12"
+author: "Louis-Arnaud Catoire"
+category: "Symfony"
+excerpt: "Monofony is an open-source development solution built on Symfony that reuses the internal architecture of Sylius. Discover its advantages and when to use it."
+image: "/images/blog/cover-monofony-guide.webp"
+translationOf: "monofony-le-guide-ultime-pour-les-debutants"
+translatedFromUpdatedAt: "2026-01-13"
+---
+
+## Monofony in a nutshell
+
+Monofony is a [Symfony](https://symfony.com/doc/current/setup.html) project skeleton that reuses the internal components of Sylius without shipping its e-commerce layer. The idea is simple: extract the resource system, the admin panel, fixture management, and the API Platform integration, and put them at the service of any application project.
+
+If you know [Sylius, the e-commerce solution of the Symfony framework](/article/sylius-la-solution-e-commerce-du-framework-symfony) (in French), you know its strength does not lie only in product or cart management. It comes from its resource architecture, its grid system, and the way each building block fits together. Monofony builds on this engineering work and makes it available for business cases that have nothing to do with online commerce: internal applications, CRMs, dashboards, SaaS back offices, APIs for mobile applications.
+
+## What you get at installation
+
+When you initialize a project with `composer create-project monofony/skeleton`, you immediately get several structuring building blocks.
+
+### A working admin panel
+
+The back office relies on the Sylius grid system. Lists are filterable, sortable, and paginated. Create and edit forms follow the Symfony Form component. The admin menu is configurable in YAML. No third-party bundle to install, no interface to wire up manually.
+
+### An API through API Platform
+
+The API Platform integration provides REST and GraphQL endpoints generated from your resource declarations. The [Swagger documentation through the Nelmio bundle](/article/swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on) (in French) is available from the start. For decoupled architectures (SPA front end, mobile application), the foundation is ready.
+
+### User management
+
+Two types of users are preconfigured: administrators (back office access) and application users. Login, logout, password reset, and role management work without extra configuration.
+
+### A structured fixture system
+
+Monofony reuses the Sylius fixture system, comparable to the [Alice Faker bundle](/article/comprendre-et-utiliser-le-bundle-alice-faker-dans-vos-projets-symfony) (in French), which lets you define realistic data scenarios in YAML. It is an underrated asset: well-built fixtures speed up development, make functional tests more reliable, and make onboarding new developers easier.
+
+## The resource system in depth
+
+This is the core of the Monofony architecture. Each business entity is declared as a Sylius resource, which automatically triggers the generation of CRUD operations in the admin and in the API.
+
+### Declare a resource
+
+The declaration is done through the YAML configuration of SyliusResourceBundle. Once the entity is registered, Sylius provides a generic controller that can handle listing, creating, editing, and deleting without writing a single line of PHP code in a controller.
+
+### Extend the default behavior
+
+The generic controller works for simple cases. For more elaborate business cases, several extension points exist. Symfony events (pre/post create, update, delete) let you inject business logic without overriding the controller. Form extensions let you enrich an existing form without rewriting it. Repository decorators let you change the default queries while keeping the standard interface.
+
+This approach based on decoration and events is fundamental: it preserves the framework's upgradability while allowing deep customization.
+
+## Customize the grid system
+
+Sylius grids are configured in YAML. Each grid defines its columns, filters, and actions. For standard cases, no PHP code is needed.
+
+### Custom columns and filters
+
+When the native column types are no longer enough, you can create your own. A column type is a Symfony service that implements a simple interface. Likewise, custom filters let you expose search criteria specific to your business domain.
+
+### Actions and bulk actions
+
+Row actions (edit, delete) are configurable. You can add business actions (validate, archive, export) by declaring new routes and referencing them in the grid configuration. Bulk actions follow the same principle and let you process several records at once.
+
+For teams that manage complex back offices, mastering the grid system is what makes the difference between a rigid admin and a tool truly adapted to business workflows.
+
+## Admin panel architecture
+
+The Monofony back office uses Twig for rendering. Templates are organized in reusable, overridable blocks. The Sylius theme system lets you replace any template without modifying the original files, simply by placing a file in the right spot in your project's directory structure.
+
+### Menu management
+
+The admin menu is built through Symfony events. Each bundle or module can add its own menu entries by listening to the menu building event. This mechanism is extensible and allows a modular organization of the back office, even on projects with many entities.
+
+### Security and access control
+
+The role system relies on the Symfony Security component. You can define granular roles and restrict access to certain sections of the admin. On multi-team projects, this granularity is essential.
+
+## When to choose Monofony over Symfony alone
+
+The question is legitimate. Symfony alone, combined with EasyAdmin or Sonata and API Platform, can cover the same functional needs. The choice depends on several factors.
+
+### Architectural consistency
+
+Assembling EasyAdmin, API Platform, an authentication system, and fixtures yourself works, but each building block brings its own conventions. The Sylius resource system unifies all of this behind a single abstraction. An entity declared as a resource is automatically handled in the admin and in the API, with the same events, the same form types, and the same lifecycle. This consistency reduces the team's cognitive load and simplifies upskilling.
+
+### Maturity of the admin layer
+
+For simple cases, [EasyAdmin has different advantages than Forest Admin](/article/easy-admin-vs-forest-admin-differences-et-avantages) (in French) that are worth comparing. But when needs for filtering, custom actions, and complex relationship management grow, the Sylius grid system offers greater flexibility. It was designed to handle e-commerce catalogs with dozens of filters and polymorphic relationships. This robustness benefits Monofony projects directly.
+
+### When Symfony alone is still preferable
+
+If your project is a pure API with no back office, Monofony adds unnecessary complexity. Likewise, if your team does not know Sylius and the project is simple (a few entities, a basic CRUD), the learning time for the Sylius ecosystem is not justified. Monofony makes the most sense on medium to large projects, with a substantial back office and a team that can invest in mastering the resource system.
+
+## Component extraction strategy
+
+One of the lesser-known strengths of Monofony is the ability to gradually extract Sylius components into an existing project. Rather than migrating a Symfony project to Monofony in one go, you can start by integrating SyliusResourceBundle alone to benefit from the resource system, then add SyliusGridBundle for the back office.
+
+This incremental approach reduces risk and lets you validate each step before moving on. It is a particularly relevant strategy for legacy projects that want to [modernize their PHP application](/modernisation-application-php) (in French) without a full rewrite.
+
+## Long-term maintenance and version upgrades
+
+Monofony follows the Sylius release cycle. Symfony security updates are integrated at the usual pace. The main point of attention is Sylius major version upgrades, which can introduce breaking changes in the resource system or the grids.
+
+### Upgrade strategy
+
+Keep your overrides to a minimum. The more you decorate rather than override, the smoother the version upgrades will be. Favor events and form extensions over controller or template overrides. Follow the Sylius and Monofony changelogs before each update.
+
+### Community and ecosystem
+
+The Monofony community is smaller than that of Symfony or even Sylius. That means fewer online resources, fewer specific third-party bundles, and more limited community support. In return, the Sylius community remains a valuable resource: most solutions that apply to Sylius work directly with Monofony. Developers who master Sylius are immediately productive on a Monofony project.
+
+## Conclusion
+
+Monofony holds a precise place in the PHP ecosystem: between pure Symfony, which requires you to assemble every building block, and Sylius, which ships an e-commerce layer you do not need. For projects that need a robust back office, a structured API, and a consistent resource architecture, it is a solid choice, provided you accept the initial investment in learning the Sylius ecosystem. The real question is not "Monofony or Symfony" but rather: does your project have the size and complexity that justify the extra abstraction layer? For projects heading toward online commerce, our [Sylius e-commerce](/ecommerce-sylius) (in French) offer covers both the full platform and the Monofony foundation.
+
+## Going further
+
+- [Symfony for beginners](/article/symfony-pour-les-moldus) (in French), understand the basics of the Symfony framework
+- [Why choose Symfony for your projects](/article/pourquoi-choisir-symfony-pour-vos-projets) (in French), the strengths of Symfony for your applications
+- [The most used bundles in Symfony projects](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony) (in French), discover the bundle ecosystem that complements Monofony
+- [Monofony GitHub repository](https://github.com/Monofony/Monofony), source code and project documentation
+- [Official Sylius documentation](https://docs.sylius.com/), the complete guide to the e-commerce framework
+- [Symfony documentation](https://symfony.com/doc/current/index.html), the official reference for the framework
