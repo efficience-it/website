@@ -219,6 +219,10 @@
     "url": "https://commons.wikimedia.org/wiki/File:Spider_web_(54778527184).jpg",
     "focusX": 0.53
   },
+  "cve-vulnerability-management": {
+    "name": "cve-guide",
+    "sameAs": "cve-comprendre-les-failles-pour-mieux-se-proteger"
+  },
   "dbtoolsbundle-anonymiser-vos-bases-de-donnees": {
     "name": "dbtoolsbundle",
     "file": "File:Heavy fog above a forest (Unsplash).jpg",
