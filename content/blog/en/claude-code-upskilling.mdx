@@ -1,0 +1,178 @@
+---
+title: "How to Upskill on Claude Code: A Practical Guide"
+date: "2026-03-29"
+updatedAt: "2026-10-12"
+author: "Efficience IT"
+category: "AI"
+excerpt: "CLAUDE.md, skills, hooks, MCP servers: discover the key Claude Code features and the best practices that turn you into an advanced user, one step at a time."
+image: "/images/blog/cover-claude-code-skills.webp"
+proficiencyLevel: "Beginner"
+translationOf: "monter-en-competence-claude-code"
+translatedFromUpdatedAt: "2026-10-12"
+faq:
+  - question: "What access do you need to use Claude Code?"
+    answer: "Claude Code requires a compatible Claude account. Free access with limits exists to try the tool, but for daily professional use, full access is preferable."
+  - question: "Does Claude Code work with every programming language?"
+    answer: "Yes. Claude Code is not limited to one language. It works with PHP, Python, JavaScript, TypeScript, Go, Rust, Java, and many others. The quality of the answers depends on the richness of the context provided through CLAUDE.md and the project files."
+  - question: "What is the difference between Claude Code and Cursor?"
+    answer: "Cursor is a full code editor based on VS Code with built-in AI. Claude Code is a CLI (command-line) agent that also integrates as an extension in VS Code and JetBrains. Claude Code focuses on agent autonomy and deep customization through CLAUDE.md, skills, and hooks."
+  - question: "Can you use Claude Code as a team?"
+    answer: "Yes. The CLAUDE.md file is committed to the Git repository. The whole team shares the same instructions, conventions, and skills. It is an effective way to standardize practices without meetings or extra documentation."
+---
+
+Claude Code is not a chatbot in a terminal. It is an autonomous development agent that reads your code, runs commands, edits files, and adapts to your project. But like any powerful tool, it only delivers its full potential to those who take the time to configure it. This guide covers the key features that take you from beginner to advanced user: the CLAUDE.md file, custom skills, automation hooks, MCP servers, and the best practices that make a difference every day.
+
+## What sets Claude Code apart from other AI assistants
+
+Most [AI coding assistants](/article/quel-assistant-ia-choisir-pour-coder) (in French) work in question-and-answer mode: you ask a question, you get a snippet to copy and paste. Claude Code works differently. It navigates your directory tree, reads the files it needs, proposes changes, and applies them directly. It runs the tests, checks that they pass, and fixes things if necessary, from unit tests to [end-to-end tests with Playwright](/article/playwright-tests-end-to-end-claude-code) (in French) that validate complete user journeys. It can chain dozens of steps without intervention, analyze a bug by tracing back the stack trace, or refactor an entire module while respecting your conventions.
+
+This autonomy changes the dynamic. You no longer copy code from a chat window. You describe what you want, and the agent takes care of it. Among the [strengths of today's generative AI](/article/forces-et-faiblesses-des-ia-generatives-les-plus-utilisees) (in French), the ability to handle large context windows is decisive. Claude Code exploits this strength by automatically loading your project's instructions in every conversation. But to work properly, it needs context. Without explicit instructions, it generates "generic" code that respects neither your architecture nor your conventions. That is where the CLAUDE.md file comes in.
+
+## The CLAUDE.md file: your project's memory
+
+CLAUDE.md is a Markdown file placed at the root of your project. Claude Code reads it automatically at the start of each session. It is your way to communicate rules, conventions, and context without having to repeat them.
+
+### What a good CLAUDE.md contains
+
+An effective CLAUDE.md covers four areas:
+
+- **Project context**: tech stack, build/test/lint commands, general architecture
+- **[Coding conventions](/article/coding-conventions)** (in French): naming rules, patterns to follow, file structure
+- **Prohibitions**: what the agent must never do (modify certain files, run destructive commands)
+- **Preferences**: commit style, language, level of verbosity
+
+Here is a minimal example for a Symfony project:
+
+```markdown
+# CLAUDE.md
+
+## Stack
+- Symfony 7.2, PHP 8.3, PostgreSQL 16
+- Tests : PHPUnit
+- Lint : PHP-CS-Fixer + PHPStan niveau 9
+
+## Commandes
+- `make test` pour les tests
+- `make lint` pour le linting
+
+## Conventions
+- Architecture hexagonale stricte
+- Pas de logique métier dans les contrôleurs
+- Noms de variables et méthodes en anglais
+```
+
+You can also create CLAUDE.md files in subfolders for module-specific instructions. Claude Code loads them based on where it is navigating. For example, a `src/Domain/CLAUDE.md` that forbids dependencies on infrastructure, and a `src/Infrastructure/CLAUDE.md` that specifies Doctrine conventions. The agent applies the right rules depending on where it is working.
+
+The other advantage of CLAUDE.md is that it is committed to the repository. The whole team shares the same instructions. A new developer who opens Claude Code on the project immediately inherits the conventions, without reading 50 pages of documentation. On a legacy Symfony project, [a well-structured CLAUDE.md transforms the quality of suggestions](/article/claude-assistant-architecture-symfony-legacy) (in French) by encoding the hexagonal architecture conventions and DDD rules that the AI does not know by default.
+
+## Skills: create your own commands
+
+Skills are reusable prompts that you invoke with the `/skill-name` syntax. They live in your project's `.claude/skills/` folder, or in `~/.claude/skills/` for global skills.
+
+Each skill is a Markdown file containing a prompt. When you type `/review`, Claude Code loads that prompt as an instruction. It is the most effective way to standardize recurring tasks.
+
+### Concrete examples
+
+A code review skill:
+
+```markdown
+# .claude/skills/review.md
+Analyse le diff git staged et identifie :
+- Les problèmes de sécurité
+- Les violations d'architecture
+- Les tests manquants
+Sois concis. Classe par priorité.
+```
+
+A test creation skill:
+
+```markdown
+# .claude/skills/test.md
+Génère un test pour le fichier courant.
+Utilise PHPUnit. Couvre les cas nominaux
+et les cas limites.
+```
+
+The value of skills goes beyond saving time. They encode the team's best practices in versioned prompts. A junior who types `/review` applies the same review criteria as a senior. A `/migration` skill ensures that every Doctrine migration follows the same verification protocol.
+
+Upskilling comes from progressively building a library of skills adapted to your workflow. It is the same principle as [upskilling on a framework](/article/les-6-etapes-pour-monter-en-competences-sur-symfony) (in French): you start with the basics, then automate what you repeat.
+
+## Hooks: trigger actions automatically
+
+Hooks are shell commands that run before or after certain Claude Code actions. You configure them in `.claude/settings.json`.
+
+A few concrete use cases:
+
+- Run the linter after every file change
+- Run the tests after every edit to catch regressions in real time
+- Format the code automatically
+
+```json
+{
+  "hooks": {
+    "afterWrite": [
+      {
+        "command": "php-cs-fixer fix $FILE --quiet",
+        "description": "Format PHP files"
+      }
+    ]
+  }
+}
+```
+
+A `PreCommit` hook can also check that the tests pass before every commit, or that no `var_dump` is lying around in the code. The idea is to create a safety net around the agent: it can code fast, but the hooks guarantee that the result meets your standards.
+
+Hooks turn Claude Code into a development pipeline. Combined with skills, they let you [build robust AI workflows on existing projects](/article/symfony-ai-projet-legacy-retour-experience) (in French) without modifying production code.
+
+## MCP servers: connect Claude Code to the outside world
+
+The Model Context Protocol ([MCP](https://modelcontextprotocol.io)) is an open standard that lets Claude Code communicate with external services. An MCP server exposes tools that the agent can call during a conversation.
+
+The most common use cases:
+
+- **Database**: query PostgreSQL or MySQL directly from Claude Code
+- **Internal APIs**: call your endpoints to test or fetch data
+- **Documentation**: index your technical docs so Claude Code can consult them on demand
+- **Project tools**: create Jira tickets, read GitHub pull requests, check Sentry
+
+If you work on projects involving [indexing business data for AI agents](/article/rag-symfony-ai-doctrine-indexer-base-metier) (in French), MCP servers are the missing piece between your code and your data sources. The agent can then query your database, check a state in production, or consult internal documentation without you having to copy and paste information into the chat.
+
+Our dedicated article on [MCP servers for Symfony developers](/article/serveurs-mcp-claude-code-developpeurs-symfony) (in French) details the configuration, concrete use cases, and how to create custom servers.
+
+The configuration goes in `.claude/settings.json`:
+
+```json
+{
+  "mcpServers": {
+    "postgres": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres", "postgresql://localhost:5432/mydb"]
+    }
+  }
+}
+```
+
+## IDE integrations: choose your environment
+
+You can use Claude Code in three ways: as a CLI in the terminal, as a VS Code extension, or as a JetBrains extension (PhpStorm, IntelliJ). The choice depends on your habits. If you are hesitating between [the available code editors](/article/phpstorm-vscode-sublimetext-netbeans-quel-editeur-de-code-choisir) (in French), know that Claude Code works everywhere. The CLI experience remains the most complete, but the IDE extensions offer the comfort of visual integration.
+
+A few shortcuts to know in the CLI:
+
+- **Ctrl+L**: clear the conversation and start over with a clean context
+- **#** followed by a file name: add a file to the context
+- **/compact**: compress the history to free up context window
+- **Esc**: interrupt an action in progress
+
+## Five practices to progress quickly
+
+**Start small.** Do not configure everything at once. Create a minimal CLAUDE.md, use Claude Code for a week, then enrich the file with the corrections you keep repeating.
+
+**Read the diffs.** Claude Code proposes changes. Take the time to read them before accepting. That is how you learn what the agent does well and what it misses.
+
+**Iterate on your skills.** A mediocre skill becomes excellent in three iterations. Note what is missing from the results and adjust the prompt.
+
+**Share CLAUDE.md with your team.** It is a file you commit. The whole team benefits from the same instructions. Conventions no longer live in the head of a single developer.
+
+**Explore community MCP servers.** The ecosystem is growing fast. Servers exist for GitHub, Slack, PostgreSQL, Notion, Linear, and dozens of other tools. If you already expose [llms.txt files for AI search engines](/article/llms-txt-le-nouveau-levier-seo-a-lere-de-lintelligence-artificielle) (in French), you will understand the logic behind the MCP protocol.
+
+The [official Claude Code documentation](https://docs.anthropic.com/en/docs/claude-code/overview) remains the reference for following new features. The tool evolves quickly, and every update brings new productivity levers. What matters most is practice: the more you use Claude Code on real projects, the better you get at writing precise instructions and building an environment that multiplies your velocity.
