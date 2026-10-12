@@ -406,6 +406,10 @@
     "url": "https://commons.wikimedia.org/wiki/File:Micha%C5%82_Grosicki_2017-04-14_(Unsplash).jpg",
     "focusX": 0.42
   },
+  "chocoblast-security-game": {
+    "name": "chocoblast-en",
+    "sameAs": "le-chocoblast-un-premier-pas-vers-la-securite-par-le-jeu"
+  },
   "les-6-etapes-pour-monter-en-competences-sur-symfony": {
     "name": "monter-competences-symfony",
     "file": "File:Gloomy staircase (Unsplash).jpg",
