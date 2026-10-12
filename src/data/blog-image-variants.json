@@ -70,6 +70,10 @@
     400,
     800
   ],
+  "cover-ai-assistants": [
+    400,
+    800
+  ],
   "cover-analyseurs-statiques-php": [
     400,
     800
