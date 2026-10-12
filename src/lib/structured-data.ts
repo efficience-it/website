@@ -107,20 +107,26 @@ export function pageGraphJsonLd(
   };
 }
 
-export function breadcrumbJsonLd(items: BreadcrumbItem[]) {
+export function breadcrumbJsonLd(items: BreadcrumbItem[], language: BlogLanguage = "fr") {
+  const home =
+    language === "en"
+      ? []
+      : [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Accueil",
+            item: BASE_URL,
+          },
+        ];
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Accueil",
-        item: BASE_URL,
-      },
+      ...home,
       ...items.map((item, i) => ({
         "@type": "ListItem",
-        position: i + 2,
+        position: i + home.length + 1,
         name: item.name,
         item: `${BASE_URL}${item.path}`,
       })),

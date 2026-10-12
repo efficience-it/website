@@ -14,18 +14,20 @@ interface BreadcrumbProps {
 
 export default function Breadcrumb({ items, language }: BreadcrumbProps) {
   const messages = getMessages(language);
-  const homeHref = language === "en" ? "/en" : "/";
+  const isEnglish = language === "en";
   return (
     <nav aria-label={messages.breadcrumb} className="mb-4 text-sm text-gray">
       <ol className="flex flex-wrap items-center gap-1">
-        <li>
-          <Link href={homeHref} className="hover:text-primary transition-colors">
-            {messages.home}
-          </Link>
-        </li>
+        {!isEnglish && (
+          <li>
+            <Link href="/" className="hover:text-primary transition-colors">
+              {messages.home}
+            </Link>
+          </li>
+        )}
         {items.map((item, index) => (
           <li key={index} className="flex items-center gap-1">
-            <span aria-hidden="true">/</span>
+            {(!isEnglish || index > 0) && <span aria-hidden="true">/</span>}
             {item.href && index < items.length - 1 ? (
               <Link href={item.href} className="hover:text-primary transition-colors">
                 {item.label}
