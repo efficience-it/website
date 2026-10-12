@@ -342,6 +342,10 @@
     "url": "https://commons.wikimedia.org/wiki/File:Duck_With_Rings_(Unsplash).jpg",
     "focusX": 0.47
   },
+  "rubber-duck-debugging": {
+    "name": "rubber-duck",
+    "sameAs": "la-methode-du-canard-en-plastique-le-secret-des-developpeurs"
+  },
   "le-chocoblast-un-premier-pas-vers-la-securite-par-le-jeu": {
     "name": "chocoblast",
     "file": "File:Michał Grosicki 2017-04-14 (Unsplash).jpg",
