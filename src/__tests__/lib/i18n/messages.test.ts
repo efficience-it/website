@@ -21,7 +21,7 @@ describe("getMessages", () => {
   it("never reuses a French label in English except identical words", () => {
     const fr = getMessages("fr");
     const en = getMessages("en");
-    const shared = ["blog", "contact"];
+    const shared = ["blog"];
     for (const key of Object.keys(fr) as (keyof typeof fr)[]) {
       if (typeof fr[key] !== "string" || shared.includes(key)) continue;
       expect(en[key]).not.toBe(fr[key]);
