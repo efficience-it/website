@@ -20,6 +20,7 @@ export interface Messages {
   readonly contact: string;
   readonly inFrench: string;
   readonly rights: string;
+  readonly readMore: string;
 }
 
 const fr: Messages = {
@@ -42,6 +43,7 @@ const fr: Messages = {
   contact: "Contact",
   inFrench: "en français",
   rights: "Tous droits réservés",
+  readMore: "Lire la suite",
 };
 
 const en: Messages = {
@@ -64,6 +66,7 @@ const en: Messages = {
   contact: "Contact",
   inFrench: "in French",
   rights: "All rights reserved",
+  readMore: "Read more",
 };
 
 const catalog: Record<BlogLanguage, Messages> = { fr, en };
