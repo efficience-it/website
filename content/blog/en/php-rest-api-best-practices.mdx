@@ -1,0 +1,119 @@
+---
+title: "REST API Best Practices in PHP"
+date: "2023-07-18"
+author: "Efficience IT"
+category: "PHP"
+excerpt: "Design a solid REST API in PHP: resource naming, HTTP verbs, status codes, pagination, rate limiting, versioning, OpenAPI contracts and gateway patterns."
+image: "/images/blog/cover-php-rest-api.webp"
+translationOf: "api-rest-les-bonnes-pratiques"
+faq:
+  - question: "What are the best practices for designing a REST API?"
+    answer: "The fundamentals are: use the right HTTP verbs (GET, POST, PUT, DELETE), name resources in the plural in URIs, return the appropriate HTTP status codes (200, 201, 404, 422), paginate collections and version the API. Automatic documentation with OpenAPI/Swagger is also essential."
+  - question: "How do you secure a REST API in PHP?"
+    answer: "The essential security mechanisms are token authentication (JWT or OAuth2), rate limiting to prevent abuse, strict input validation, mandatory HTTPS encryption and fine-grained authorization by role. In Symfony, the Security component and API Platform cover these needs natively."
+  - question: "REST or GraphQL: which should I choose for my API?"
+    answer: "REST suits most projects thanks to its simplicity and mature ecosystem (HTTP cache, OpenAPI documentation). GraphQL is better suited when clients have highly variable data needs (mobile applications, complex dashboards). The two can coexist in the same project."
+updatedAt: "2026-10-12"
+translatedFromUpdatedAt: "2026-10-12"
+---
+
+## The REST fundamentals every developer must master
+
+REST (Representational State Transfer) is an architectural style defined by Roy Fielding in his 2000 dissertation. Unlike SOAP or XML-RPC, REST relies directly on the semantics of the HTTP protocol to model interactions between a client and a server. An API is called RESTful when it follows the six constraints set by Fielding: client-server architecture, statelessness, cacheability, a uniform interface, a layered system and code on demand (optional).
+
+In practice, designing a solid REST API starts with three pillars: consistent resource naming, rigorous use of HTTP verbs and a precise choice of status codes.
+
+## Resource naming and URI design
+
+URIs are the visible contract of your API. They should reflect resources (nouns), never actions (verbs). The path `/users/42/orders` is readable and hierarchical: it expresses the relationship between a user and their orders. By contrast, `/getOrdersByUser?id=42` mixes action and parameter, which makes the API fragile as it evolves.
+
+A few proven conventions: use the plural (`/products` rather than `/product`), limit depth to three segments at most, and reserve query strings for filters and pagination (`/products?category=electronics&page=2`). For complex relationships, prefer subresources over nested parameters: `/orders/87/items/3` rather than a multi-level filter.
+
+## HTTP verbs and idempotence
+
+Each HTTP verb carries a precise semantic that goes beyond simple CRUD. Following these [coding conventions](/article/coding-conventions) (in French) at the API level guarantees a consistency that consumers can anticipate. `GET` retrieves a resource with no side effects: it is safe and idempotent. `POST` creates a resource and is not idempotent: two identical calls produce two entries. `PUT` fully replaces a resource (idempotent), while `PATCH` applies a partial change. `DELETE` removes the targeted resource and must be idempotent: deleting the same resource twice returns the same result.
+
+This distinction is not academic. A reverse proxy or a CDN can automatically replay a `GET` after a network failure, but never a `POST`. A retry middleware in production relies on the verb's declared idempotence to decide whether it can resend a request without risking duplicates.
+
+## HTTP status codes: communicating with the consumer
+
+Status codes form the vocabulary of your API. A `201 Created` after a successful `POST`, along with a `Location` header pointing to the created resource, lets the client navigate without knowing the URI structure in advance. A `204 No Content` after a `DELETE` confirms the deletion without a superfluous response body.
+
+Errors deserve just as much attention. A `400 Bad Request` signals a malformed request, while a `422 Unprocessable Entity` indicates that the syntax is correct but the data violates a business rule. A `409 Conflict` warns of a state conflict (concurrent modification, unique key duplicate). Too many APIs return a generic `500` where a precise code would let the client react automatically.
+
+RFC 9457 (Problem Details for HTTP APIs) standardizes the format of error responses with a JSON object containing `type`, `title`, `status` and `detail`. API Platform implements it natively, which gives consumers a predictable format to parse and display errors.
+
+## Stateless, cache and content negotiation
+
+REST's stateless nature means that each request carries its full authentication context and parameters. This constraint has a direct impact on the applicable [caching strategies](/article/tout-savoir-sur-la-mise-en-cache-tips) (in French). The server maintains no session between two calls. This constraint makes the API horizontally scalable: any instance can handle any request.
+
+HTTP caching is an often underused performance lever. The `Cache-Control`, `ETag` and `Last-Modified` headers let the client (or an intermediate proxy) store responses and reload only the data that changed. A `GET /products/42` with a valid `ETag` receives a `304 Not Modified` with no response body, which reduces bandwidth and server load.
+
+Content negotiation through the `Accept` header lets a single endpoint serve JSON (`application/json`), JSON-LD (`application/ld+json`) or CSV depending on the consumer's needs. This flexibility avoids a proliferation of specialized endpoints.
+
+## HATEOAS and API maturity
+
+The Richardson maturity model ranks REST APIs on four levels. Level 0 is a single HTTP tunnel (RPC style). Level 1 introduces resources. Level 2 adds HTTP verbs. Level 3 includes hypermedia controls: this is HATEOAS (Hypermedia As The Engine Of Application State). To go beyond REST, it helps to understand [the differences between REST and GraphQL](/article/que-vaut-rest-face-a-son-nouveau-challenger-graphql) (in French) so you can choose the architecture best suited to each context.
+
+With HATEOAS, each response contains links to the possible actions. An order with the status "being prepared" exposes a `cancel` link; once shipped, that link disappears and a `track` link appears. The client does not need to hard-code state transitions: it discovers the available actions through the links the server provides. JSON-LD and Hydra, used by API Platform, are the most widespread formats in the PHP ecosystem for implementing this level of maturity.
+
+## Pagination, filtering and sorting
+
+On an endpoint that returns thousands of records, pagination is essential. Three strategies coexist, each with its trade-offs.
+
+### Offset pagination
+
+The most classic: `?page=3&itemsPerPage=25`. Simple to implement, it has one major flaw: if an item is inserted or deleted between two pages, results shift. On large datasets, the SQL `OFFSET` becomes expensive because the database must scan all the preceding rows.
+
+### Cursor pagination
+
+The server returns an opaque cursor (`?after=eyJpZCI6NDJ9`) that points to the last item displayed. Performance stays constant regardless of depth, because the SQL query uses an indexed `WHERE id > :cursor`. This is the strategy used by the Stripe, Slack and GitHub APIs. The choice of identifier type for the cursor column is not trivial: [INT, UUID or ULID each have implications for index performance](/article/prendre-int-uuid-ou-ulid-pour-un-index-de-base-de-donnees) (in French).
+
+### Range header pagination
+
+Less widespread, it uses the HTTP `Range` header to request a subset of the collection. The server responds with a `206 Partial Content` and a `Content-Range` header indicating the position within the whole. This approach fits the HTTP protocol well but has little tooling on the client side.
+
+## Rate limiting and API protection
+
+An API exposed without rate limiting is a vulnerable API. Rate limiting protects against abuse, client-side infinite loops and unexpected load spikes.
+
+The standardized `RateLimit-Limit`, `RateLimit-Remaining` and `RateLimit-Reset` headers (IETF draft) inform the consumer of their quota in real time. Protecting the API also requires a good understanding of the [CVE vulnerabilities](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) (in French) that can affect the dependencies you use, and systematic contract validation with an [API testing client like Bruno](/article/bruno-alternative-open-source-postman-tester-api) (in French). When the quota is exceeded, a `429 Too Many Requests` with a `Retry-After` header tells the client when it can try again.
+
+Rate limiting strategies vary by context: fixed window (100 requests per minute), sliding window (smoothing out spikes) or token bucket (allowing short bursts). In production, these controls sit at the reverse proxy (Nginx, Traefik) or API gateway level rather than in the application code.
+
+## Versioning: evolve without breaking
+
+Any public API will eventually evolve. The question is not whether you will need to version, but how.
+
+URL versioning (`/v1/users`, `/v2/users`) is the most explicit and the simplest to route. Header versioning (`Accept: application/vnd.myapi.v2+json`) keeps URIs stable but complicates debugging and caching. Query string versioning (`?version=2`) is a pragmatic compromise but pollutes the filtering space.
+
+Whatever method you choose, the golden rule is backward compatibility: adding fields is non-breaking, removing them is. Renaming a field amounts to removing it and creating a new one. A deprecated field must remain present for at least one release cycle, documented as such in the OpenAPI specification, before being removed.
+
+## Contract-first and OpenAPI governance
+
+The contract-first approach reverses the usual workflow: instead of generating the specification from the code, you write the OpenAPI file first, then generate the application skeleton. This method forces the team to think of the API as a product before writing the first line of code.
+
+The OpenAPI file then becomes a versioned artifact in the Git repository, subject to the same reviews as the code. [Automatic documentation with Swagger and the Nelmio bundle](/article/swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on) (in French) makes this approach easier by generating the specification from the code annotations. Linting tools like Spectral automatically check naming conventions, the presence of descriptions, the consistency of status codes and the absence of breaking changes between two versions of the contract.
+
+By integrating this validation into CI, every pull request that changes the contract is analyzed: adding a field (non-breaking), removing a field (breaking, blocked by default), changing a type (breaking). This automated governance replaces tedious manual reviews and guarantees the contract's stability over time.
+
+## API gateway and architecture patterns
+
+At the scale of a distributed system, the API gateway becomes the single entry point for consumers. It centralizes authentication (JWT validation, OAuth2 introspection), rate limiting, request transformation and routing to backend services.
+
+The Backend for Frontend (BFF) pattern consists of deploying a specialized gateway per client type, often built with [Node.js](/developpement-nodejs) (in French). The choice between [microservices and a modular monolith](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) (in French) directly influences how this gateway is implemented. The mobile app receives optimized, aggregated payloads, while the web back office accesses more granular endpoints. Each BFF adapts the responses without polluting the internal API with presentation concerns.
+
+The gateway aggregation pattern solves the "chattiness" problem: instead of letting the mobile client chain five REST calls to build a screen, the gateway orchestrates those calls in parallel on the server side and returns a single response. Perceived latency drops, and so does network consumption.
+
+## Conclusion
+
+Designing a professional REST API goes well beyond basic CRUD. From the fundamentals (HTTP verbs, status codes, resource naming) to architecture decisions (gateway, contract-first, contract governance), each level of maturity brings measurable value: fewer integration bugs, changes without breakage and controlled scalability. The key is still to choose the right level of sophistication for the project's context, without over-engineering or underestimating future needs. For teams that want to go further, [custom API development with Symfony](/api-sur-mesure-symfony) (in French) offers a proven framework to build robust, documented and maintainable APIs over the long term.
+
+## Going further
+
+- Swagger Nelmio bundle and its features, document and test your REST APIs with Swagger
+- Everything about caching, optimize your APIs' performance with HTTP cache
+- [How to run Postman tests with Newman in GitLab CI](/article/comment-executer-des-tests-postman-avec-newman-dans-gitlab-ci) (in French), automate functional tests of your APIs in a CI pipeline
+- [Symfony HttpClient](https://symfony.com/doc/current/http_client.html), the Symfony component for consuming REST APIs
+- [OpenAPI Specification](https://spec.openapis.org/oas/latest.html), the standard specification for describing REST APIs
+- [GitHub: API Platform](https://github.com/api-platform/api-platform), PHP framework for building REST and GraphQL APIs

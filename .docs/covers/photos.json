@@ -29,6 +29,10 @@
     "author": "Samuel Zeller samuelzeller",
     "url": "https://commons.wikimedia.org/wiki/File:Abstract_spiral_pattern_(Unsplash).jpg"
   },
+  "php-rest-api-best-practices": {
+    "name": "php-rest-api",
+    "sameAs": "api-rest-les-bonnes-pratiques"
+  },
   "arrives-au-max-des-id-int-2147483647": {
     "name": "mysql-max-id",
     "file": "File:Full moon partially obscured by atmosphere.jpg",
