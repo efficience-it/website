@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { getMessages } from "@/lib/i18n/messages";
+import type { BlogLanguage } from "@/types/blog";
 
 interface BreadcrumbItem {
   label: string;
@@ -7,15 +9,18 @@ interface BreadcrumbItem {
 
 interface BreadcrumbProps {
   items: BreadcrumbItem[];
+  language?: BlogLanguage;
 }
 
-export default function Breadcrumb({ items }: BreadcrumbProps) {
+export default function Breadcrumb({ items, language }: BreadcrumbProps) {
+  const messages = getMessages(language);
+  const homeHref = language === "en" ? "/en" : "/";
   return (
-    <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-gray">
+    <nav aria-label={messages.breadcrumb} className="mb-4 text-sm text-gray">
       <ol className="flex flex-wrap items-center gap-1">
         <li>
-          <Link href="/" className="hover:text-primary transition-colors">
-            Accueil
+          <Link href={homeHref} className="hover:text-primary transition-colors">
+            {messages.home}
           </Link>
         </li>
         {items.map((item, index) => (

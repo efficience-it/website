@@ -18,3 +18,11 @@ describe("LastUpdated", () => {
     expect(container).toBeEmptyDOMElement();
   });
 });
+
+describe("LastUpdated in English", () => {
+  it("renders the English label and date", () => {
+    const route = getStaticRoutes()[0];
+    render(<LastUpdated path={route.path} language="en" />);
+    expect(screen.getByText(/Page updated on/)).toBeInTheDocument();
+  });
+});

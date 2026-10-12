@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { getMessages } from "@/lib/i18n/messages";
+import type { BlogLanguage } from "@/types/blog";
 
 interface Heading {
   id: string;
@@ -10,9 +12,11 @@ interface Heading {
 
 interface TableOfContentsProps {
   headings: Heading[];
+  language?: BlogLanguage;
 }
 
-export default function TableOfContents({ headings }: TableOfContentsProps) {
+export default function TableOfContents({ headings, language }: TableOfContentsProps) {
+  const label = getMessages(language).tableOfContents;
   const [activeId, setActiveId] = useState<string>("");
   const [isOpen, setIsOpen] = useState(false);
 
@@ -45,7 +49,7 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
           onClick={() => setIsOpen(!isOpen)}
           className="flex w-full items-center justify-between font-display text-sm font-bold text-dark"
         >
-          Sommaire
+          {label}
           <svg
             className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`}
             fill="none"
@@ -77,7 +81,7 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
       </div>
 
       <aside className="sticky top-24 hidden max-h-[calc(100vh-8rem)] overflow-y-auto xl:block">
-        <p className="mb-3 font-display text-sm font-bold text-dark">Sommaire</p>
+        <p className="mb-3 font-display text-sm font-bold text-dark">{label}</p>
         <nav>
           <ul className="space-y-1.5 border-l border-border">
             {headings.map((h) => (

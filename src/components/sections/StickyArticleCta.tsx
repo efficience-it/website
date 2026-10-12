@@ -3,18 +3,24 @@
 import { useEffect, useState } from "react";
 import Button from "@/components/ui/Button";
 import { trackEvent } from "@/lib/tracking";
+import { getMessages } from "@/lib/i18n/messages";
+import type { BlogLanguage } from "@/types/blog";
 
 interface StickyArticleCtaProps {
   href: string;
   slug?: string;
   label?: string;
+  language?: BlogLanguage;
 }
 
 export default function StickyArticleCta({
   href,
   slug,
-  label = "Parler de votre projet",
+  label,
+  language,
 }: Readonly<StickyArticleCtaProps>) {
+  const messages = getMessages(language);
+  const buttonLabel = label ?? messages.stickyCtaLabel;
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
@@ -51,7 +57,7 @@ export default function StickyArticleCta({
       }`}
     >
       <p className="mb-3 text-sm font-medium text-white">
-        Besoin d&apos;un regard externe sur votre projet ?
+        {messages.stickyCtaPrompt}
       </p>
       <Button
         href={href}
@@ -60,11 +66,11 @@ export default function StickyArticleCta({
         className="w-full"
         onClick={() => trackEvent("cta_click", {
           cta_location: "article_sticky",
-          cta_text: label,
+          cta_text: buttonLabel,
           article_slug: slug,
         })}
       >
-        {label}
+        {buttonLabel}
       </Button>
     </div>
   );

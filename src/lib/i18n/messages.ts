@@ -16,6 +16,10 @@ export interface Messages {
   readonly stickyCtaPrompt: string;
   readonly stickyCtaLabel: string;
   readonly skipToContent: string;
+  readonly legalNotice: string;
+  readonly contact: string;
+  readonly inFrench: string;
+  readonly rights: string;
 }
 
 const fr: Messages = {
@@ -34,6 +38,10 @@ const fr: Messages = {
   stickyCtaPrompt: "Besoin d'un regard externe sur votre projet ?",
   stickyCtaLabel: "Parler de votre projet",
   skipToContent: "Aller au contenu",
+  legalNotice: "Mentions légales",
+  contact: "Contact",
+  inFrench: "en français",
+  rights: "Tous droits réservés",
 };
 
 const en: Messages = {
@@ -52,6 +60,10 @@ const en: Messages = {
   stickyCtaPrompt: "Need an outside perspective on your project?",
   stickyCtaLabel: "Talk about your project",
   skipToContent: "Skip to content",
+  legalNotice: "Legal notice",
+  contact: "Contact",
+  inFrench: "in French",
+  rights: "All rights reserved",
 };
 
 const catalog: Record<BlogLanguage, Messages> = { fr, en };

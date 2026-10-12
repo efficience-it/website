@@ -1,5 +1,7 @@
-export function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString("fr-FR", {
+import type { BlogLanguage } from "@/types/blog";
+
+export function formatDate(iso: string, language: BlogLanguage = "fr"): string {
+  return new Date(iso).toLocaleDateString(language === "en" ? "en-US" : "fr-FR", {
     day: "numeric",
     month: "long",
     year: "numeric",

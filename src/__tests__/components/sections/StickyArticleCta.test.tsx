@@ -126,3 +126,16 @@ describe("StickyArticleCta", () => {
     }
   });
 });
+
+describe("StickyArticleCta in English", () => {
+  it("renders the English prompt and default label", () => {
+    render(<StickyArticleCta href="/contact" language="en" />);
+    expect(screen.getByText("Need an outside perspective on your project?")).toBeInTheDocument();
+    expect(screen.getByText("Talk about your project")).toBeInTheDocument();
+  });
+
+  it("keeps an explicit label", () => {
+    render(<StickyArticleCta href="/contact" language="en" label="Contact" />);
+    expect(screen.getByText("Contact")).toBeInTheDocument();
+  });
+});

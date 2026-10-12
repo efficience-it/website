@@ -34,3 +34,9 @@ describe("isRecentlyUpdated", () => {
     expect(isRecentlyUpdated(daysAgo(-5), 90)).toBe(false);
   });
 });
+
+describe("formatDate in English", () => {
+  it("formats in American English", () => {
+    expect(formatDate("2026-10-09", "en")).toBe("October 9, 2026");
+  });
+});
