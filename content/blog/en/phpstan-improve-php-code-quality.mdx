@@ -1,0 +1,252 @@
+---
+title: "PHPStan: Improve the Quality of Your PHP Code"
+date: "2023-01-31"
+updatedAt: "2026-10-12"
+author: "Louis-Arnaud Catoire"
+category: "Code quality"
+excerpt: "PHPStan is a static analysis tool for PHP. It scans your code for potential errors, enforces strict typing, and guards your architecture on every commit."
+image: "/images/blog/cover-phpstan-quality.webp"
+translationOf: "comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php"
+translatedFromUpdatedAt: "2026-03-26"
+faq:
+  - question: "What is PHPStan used for in a PHP project?"
+    answer: "PHPStan is a static analysis tool that detects errors in your PHP code without running it. It checks type consistency, calls to nonexistent methods, undefined variables, and logic problems. It complements unit tests by catching bugs before they reach production."
+  - question: "Which PHPStan level should I start with?"
+    answer: "Start at level 1 and move up gradually. Level 5 is a good target for most projects: it checks return types, parameters, and properties. Levels 8 to 10 enforce almost complete strict typing, which is ideal for critical projects but more demanding to maintain."
+  - question: "Can PHPStan be integrated into a CI/CD pipeline?"
+    answer: "Yes, and it is the recommended practice. PHPStan runs on the command line and returns a non-zero exit code when problems are detected. It plugs into GitLab CI, GitHub Actions, or any other CI tool with a single line of configuration."
+---
+
+## Static analysis: a compiler for PHP
+
+PHP is an interpreted language. Unlike Java or Go, no compilation phase checks type consistency before execution. For years, PHP developers discovered their typing errors in production, through `TypeError` exceptions or unexpected `null` values, whereas [TypeScript](/developpement-typescript) (in French) brings this typing rigor to the JavaScript side. Static analysis fills this gap: it simulates a compilation by walking the AST (Abstract Syntax Tree) of the source code, without ever running it.
+
+[PHPStan](https://phpstan.org/) is the reference tool in this space. It parses your code, rebuilds a type graph, and applies verification rules to that graph. Where unit tests verify behaviors, PHPStan verifies structural invariants: signature consistency, nullability, exhaustiveness of unions. The two approaches are complementary, not interchangeable.
+
+## Installation and first run
+
+Installation goes through [Composer](https://symfony.com/doc/current/setup.html#installing-packages), the PHP dependency manager:
+
+```bash
+composer require --dev phpstan/phpstan
+```
+
+Then run the analysis on your code:
+
+```bash
+./vendor/bin/phpstan analyse src
+```
+
+Centralize the configuration in a `phpstan.neon` file at the project root:
+
+```yaml
+parameters:
+    level: 6
+    paths:
+        - src
+    excludePaths:
+        - src/Migrations
+```
+
+With this file in place, a simple `./vendor/bin/phpstan analyse` is enough.
+
+## Rule levels: gradual adoption
+
+PHPStan offers 11 rule levels, from 0 to 10. Each level includes the checks of the previous one.
+
+**Levels 0-2** cover the basics: unknown classes and functions, incorrect number of arguments, potentially undefined variables, unknown types on `mixed` expressions.
+
+**Levels 3-5** add systematic checking of return types, detection of calls on nullable types, and checking of the arguments passed to functions.
+
+**Level 6** is the recommended threshold for mature projects. Strict typing comes into play: missing annotations are reported. Below it, PHPStan tolerates the implicit. Above it, it forbids it.
+
+**Levels 7-9** refine unions, intersections, and nested nullability. Level 9 treats `mixed` as an opaque type that must be narrowed before use, which forces a rigor comparable to a strongly typed language.
+
+For an existing project, start at level 0 and move up gradually. For a new project, aim straight for level 6.
+
+### Concrete examples of detected bugs
+
+A method call on a potentially null type:
+
+```php
+function getUsername(User $user): string
+{
+    return $user->getProfile()->getName();
+}
+```
+
+If `getProfile()` can return `null`, PHPStan reports: *Cannot call method getName() on null*. This kind of error consistently slips through human code review because the happy path works.
+
+An inconsistent return type:
+
+```php
+function findUser(int $id): User
+{
+    $user = $this->repository->find($id);
+
+    return $user;
+}
+```
+
+If `find()` returns `User|null`, PHPStan detects the inconsistency. In production, that means a crash on the first call with an invalid ID.
+
+PHPStan is also great at spotting [dead code in your projects](/article/code-mort-mission-elimination) (in French), those branches that are never reached and weigh down the codebase. Pairing PHPStan with [automated tests](/tests-automatises-php) (in French) ensures maximum coverage of errors, both structural and behavioral.
+
+A duplicated condition, a sign of copy-paste:
+
+```php
+if ($status === 'active' || $status === 'active') {
+```
+
+PHPStan spots the redundancy. The second condition probably hides another state that is never checked.
+
+## The baseline: technical debt under control
+
+On an existing project, running PHPStan at level 6 can generate hundreds of errors. This pile-up is a classic symptom of [technical debt](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French) that must be handled methodically. The baseline solves this problem by freezing the current state:
+
+```bash
+./vendor/bin/phpstan analyse --generate-baseline
+```
+
+This command creates a `phpstan-baseline.neon` file that lists all existing errors. Reference it in your configuration:
+
+```yaml
+includes:
+    - phpstan-baseline.neon
+
+parameters:
+    level: 6
+    paths:
+        - src
+```
+
+From this point on, only new errors are reported. The baseline is not a permanent free pass: it is a technical debt management tool. Treat it as a backlog. Each sprint, fix a batch of errors and regenerate the baseline. Track its evolution: a growing baseline is a warning sign for a lead.
+
+A useful habit: add a check to your CI that counts the baseline entries and fails if that number increases. This prevents silent accumulation of debt.
+
+## CI integration and team workflow
+
+PHPStan delivers its full value in a continuous integration pipeline. It fits naturally alongside PHP-CS-Fixer and [PHP coding conventions](/article/coding-conventions) (in French) to form a complete quality pipeline. In a `.gitlab-ci.yml`:
+
+```yaml
+phpstan:
+    stage: test
+    script:
+        - composer install
+        - vendor/bin/phpstan analyse --no-progress
+```
+
+Every merge request is checked automatically. If PHPStan fails, the developer fixes the issues before merging. The `--no-progress` flag hides the progress bar, which is useless in CI logs.
+
+For teams with a CI cache, add `--error-format=json` and use the output for quality dashboards or targeted Slack notifications.
+
+## The phpstan-symfony extension: going beyond vanilla code
+
+PHP frameworks make heavy use of patterns that static analysis cannot resolve on its own: dependency injection, YAML configuration, magic methods. The [phpstan-symfony](https://github.com/phpstan/phpstan-symfony) extension bridges this gap:
+
+```bash
+composer require --dev phpstan/phpstan-symfony
+```
+
+```yaml
+includes:
+    - vendor/phpstan/phpstan-symfony/extension.neon
+
+parameters:
+    level: 6
+    paths:
+        - src
+    symfony:
+        containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
+```
+
+With this configuration, PHPStan understands the types returned by `$container->get()`, validates service names, and types `Request` and `InputInterface` objects correctly. Without this extension, dozens of false positives pollute the analysis and push developers to ignore the real problems.
+
+## Custom rules: PHPStan as an architecture guardian
+
+This is where PHPStan stops being a simple linter and becomes an architecture tool. You can write custom rules that encode your project's structural decisions.
+
+Take a concrete example: forbidding a domain service from depending directly on infrastructure.
+
+```php
+use PHPStan\Rules\Rule;
+use PHPStan\Analyser\Scope;
+use PhpParser\Node;
+use PhpParser\Node\Stmt\Use_;
+
+/**
+ * @implements Rule<Use_>
+ */
+class NoDomainToInfrastructureDependencyRule implements Rule
+{
+    public function getNodeType(): string
+    {
+        return Use_::class;
+    }
+
+    public function processNode(Node $node, Scope $scope): array
+    {
+        $file = $scope->getFile();
+        if (!str_contains($file, '/Domain/')) {
+            return [];
+        }
+
+        foreach ($node->uses as $use) {
+            $name = $use->name->toString();
+            if (str_contains($name, 'Infrastructure\\')) {
+                return [
+                    'Les classes du Domain ne doivent pas importer depuis Infrastructure.',
+                ];
+            }
+        }
+
+        return [];
+    }
+}
+```
+
+This rule turns a verbal convention ("the domain does not depend on infrastructure") into a constraint verified on every commit. That is the difference between an ADR (Architecture Decision Record) that nobody reads and an automated guardrail.
+
+Register your custom rules in the configuration:
+
+```yaml
+services:
+    -
+        class: App\PHPStan\NoDomainToInfrastructureDependencyRule
+        tags:
+            - phpstan.rules.rule
+```
+
+Other common use cases for custom rules: forbidding the use of `new` in controllers (everything must go through injection), forcing the use of value objects for certain parameters, or preventing circular dependencies between bounded contexts. This type of rule fits the philosophy of the [domain that should never know about Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony) (in French), where PHPStan becomes the guardian of architectural boundaries.
+
+## The advanced type system: generics and template types
+
+From level 7, PHPStan makes full use of its type system. PHP generics via `@template` annotations let you express contracts that the native language does not support.
+
+```php
+/**
+ * @template T of object
+ * @param class-string<T> $className
+ * @return T
+ */
+function create(string $className): object
+{
+    return new $className();
+}
+```
+
+With this annotation, PHPStan knows that `create(User::class)` returns a `User`, not a generic `object`. This level of precision propagates through the whole type graph and eliminates entire categories of bugs related to downcasting.
+
+Template types shine in repositories, typed collections, and factories. A `Repository<User>` whose `find()` method returns `User|null` instead of `object|null`: this level of typing brings PHP closer to a strongly typed language without sacrificing its flexibility.
+
+Conditional return types (`@return ($flag is true ? Foo : Bar)`) and assertions (`@phpstan-assert`) complete the toolset for modeling complex APIs that PHP's native type system cannot capture.
+
+## PHPStan as a design philosophy
+
+Beyond the tool, adopting PHPStan at the maximum level changes the way you design code. The need to satisfy the analyzer pushes you toward more explicit designs: less `mixed`, less magic, clear contracts between layers. The code becomes its own documentation. To discover the most frequent concrete errors at this level, the article on [the 10 PHPStan max level errors on a Symfony project](/article/phpstan-niveau-max-symfony-10-erreurs) (in French) provides examples and fixes you can apply directly.
+
+An architect who configures PHPStan with custom rules, generics, and level 9 is not trying to satisfy a tool. They encode the invariants of their system in an automated checker that runs on every commit. This is executable technical governance. Our [PHP code analysis](/audit-code-php) (in French) service relies on this type of tooling to identify the structural flaws of a project, the first step of an [application modernization](/modernisation-applicative) (in French) journey.
+
+## Going further
+
+- [PHPStan 2.0: level 10 and new features](/article/phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable) (in French), what is new in version 2.0
