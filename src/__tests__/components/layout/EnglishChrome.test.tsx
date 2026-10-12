@@ -8,11 +8,11 @@ jest.mock("@/components/layout/ThemeToggle", () => ({
 }));
 
 describe("EnglishHeader", () => {
-  it("links the logo and the blog to the English blog", () => {
+  it("renders the logo linking to the French home and the theme toggle", () => {
     render(<EnglishHeader />);
-    expect(screen.getByRole("link", { name: "Blog" })).toHaveAttribute("href", "/en/blog");
     expect(screen.getByAltText("Efficience IT")).toBeInTheDocument();
-    expect(screen.getByRole("navigation", { name: "Main" })).toBeInTheDocument();
+    expect(screen.getByRole("link")).toHaveAttribute("hreflang", "fr");
+    expect(screen.getByRole("button", { name: "theme" })).toBeInTheDocument();
   });
 });
 
