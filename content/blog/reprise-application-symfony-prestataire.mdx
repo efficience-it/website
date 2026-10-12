@@ -1,7 +1,7 @@
 ---
 title: "Reprendre une application Symfony mal codée : la méthode"
 date: "2026-06-26"
-updatedAt: "2026-06-26"
+updatedAt: "2026-10-12"
 author: "Louis-Arnaud Catoire"
 category: "Architecture"
 excerpt: "Vous avez hérité d'une application Symfony bancale livrée par un ancien prestataire. La méthode pour reprendre la main sans tout réécrire."
@@ -27,10 +27,10 @@ faq:
   - question: "Combien de temps faut-il pour reprendre en main une application Symfony existante ?"
     answer: "La phase de reprise de contrôle et d'état des lieux prend en général deux à quatre semaines pour un périmètre standard. La stabilisation, c'est-à-dire les premiers tests de non-régression et une pipeline de déploiement fiable, demande ensuite quelques semaines supplémentaires selon la taille de la base. L'objectif n'est pas de tout corriger d'un coup, mais d'être capable de déployer en confiance le plus tôt possible."
   - question: "Reprendre ou réécrire : comment trancher ?"
-    answer: "La réécriture complète n'est justifiée que si le coût de remédiation dépasse la valeur résiduelle de l'application, ce qui est rare. Une application qui tourne en production contient des années de règles métier implicites qu'une réécriture risque de perdre. Dans la grande majorité des cas, une modernisation progressive est moins risquée, moins chère et plus rapide à rentabiliser qu'une remise à zéro."
+    answer: "La réécriture complète n'est justifiée que si l'effort de remédiation dépasse la valeur résiduelle de l'application, ce qui est rare. Une application qui tourne en production contient des années de règles métier implicites qu'une réécriture risque de perdre. Dans la grande majorité des cas, une modernisation progressive est moins risquée et plus rapide à rentabiliser qu'une remise à zéro."
 ---
 
-Vous avez une application Symfony qui tourne, mais chaque évolution est une épreuve. Un seul développeur prétend la comprendre, les déploiements se font à la main et provoquent une montée d'angoisse, et personne n'ose toucher au cœur du code de peur de tout casser. Le prestataire qui l'a construite a disparu, ne répond plus, ou facture chaque correctif au prix fort. Vous héritez d'une base que personne n'a documentée et dont vous ne maîtrisez même pas tous les accès.
+Vous avez une application Symfony qui tourne, mais chaque évolution est une épreuve. Un seul développeur prétend la comprendre, les déploiements se font à la main et provoquent une montée d'angoisse, et personne n'ose toucher au cœur du code de peur de tout casser. Le prestataire qui l'a construite a disparu, ne répond plus, ou met un temps interminable à livrer chaque correctif. Vous héritez d'une base que personne n'a documentée et dont vous ne maîtrisez même pas tous les accès.
 
 C'est une situation extrêmement fréquente, et la bonne nouvelle est qu'elle se traite avec méthode. Contrairement à l'intuition, la solution n'est presque jamais de tout jeter pour repartir de zéro. Cet article décrit la méthode en quatre phases que nous appliquons sur les missions de reprise d'applications Symfony héritées d'un autre prestataire, pour reprendre le contrôle, stabiliser, puis faire évoluer sereinement.
 
@@ -44,11 +44,11 @@ Viennent ensuite les signaux d'entretien négligé : une [version de Symfony en 
 
 ## Pourquoi la réécriture complète est presque toujours une erreur
 
-Face à ce constat, la tentation est grande de tout effacer pour repartir sur une base propre. C'est l'erreur la plus coûteuse possible, et le réflexe que tout prestataire sérieux devrait vous déconseiller.
+Face à ce constat, la tentation est grande de tout effacer pour repartir sur une base propre. C'est l'erreur la plus lourde de conséquences, et le réflexe que tout prestataire sérieux devrait vous déconseiller.
 
 Une application qui tourne en production, même mal codée, contient des années de règles métier implicites. Des cas particuliers, des correctifs accumulés face à des problèmes réels, des comportements attendus par vos utilisateurs : tout cela est encodé dans le code existant, souvent sans documentation. Une réécriture intégrale repart de zéro sur cette connaissance et reproduit les mêmes bugs que la première version avait fini par corriger, pendant de longs mois au cours desquels vous payez une nouvelle équipe sans livrer la moindre valeur nouvelle à vos clients.
 
-Dans la quasi-totalité des cas, [moderniser une application PHP legacy sans tout réécrire](/article/moderniser-application-php-legacy-sans-tout-reecrire) est moins risqué, moins cher et plus rapide à rentabiliser. La réécriture ne se justifie que lorsque le coût de remédiation dépasse réellement la valeur résiduelle de l'application, ce qui reste exceptionnel. Notre approche part toujours de l'existant plutôt que de la page blanche.
+Dans la quasi-totalité des cas, [moderniser une application PHP legacy sans tout réécrire](/article/moderniser-application-php-legacy-sans-tout-reecrire) est moins risqué et plus rapide à rentabiliser. La réécriture ne se justifie que lorsque l'effort de remédiation dépasse réellement la valeur résiduelle de l'application, ce qui reste exceptionnel. Notre approche part toujours de l'existant plutôt que de la page blanche.
 
 ## Phase 1 : reprendre le contrôle avant d'écrire la moindre ligne
 
@@ -76,7 +76,7 @@ Le point décisif est de croiser ces constats avec l'historique Git. Un module c
 
 Avec une cartographie claire, on stabilise avant d'ajouter quoi que ce soit de nouveau. L'objectif de cette phase est simple : être capable de déployer en confiance.
 
-On commence par poser des tests de non-régression sur les parcours métier critiques, ceux dont une panne coûte directement de l'argent ou des clients. Ces tests ne visent pas une couverture parfaite, mais un filet de sécurité sur ce qui compte vraiment. On met ensuite en place une pipeline d'intégration et de déploiement minimale, qui exécute l'analyse statique et les tests à chaque modification et automatise la mise en production, pour transformer le déploiement angoissant en non-événement.
+On commence par poser des tests de non-régression sur les parcours métier critiques, ceux dont une panne pénalise directement les clients. Ces tests ne visent pas une couverture parfaite, mais un filet de sécurité sur ce qui compte vraiment. On met ensuite en place une pipeline d'intégration et de déploiement minimale, qui exécute l'analyse statique et les tests à chaque modification et automatise la mise en production, pour transformer le déploiement angoissant en non-événement.
 
 En parallèle, on s'attaque au bus factor en documentant l'essentiel. Une [documentation technique structurée selon l'approche Diátaxis](/article/comment-produire-la-documentation-sur-votre-projet-symfony-avec-lapproche-diataxis) suffit à rendre le projet transmissible : architecture générale, décisions structurantes, procédures d'exploitation. L'objectif n'est pas d'écrire un roman, mais de faire en sorte qu'un développeur Symfony senior puisse livrer une évolution non triviale en quelques jours, et non en quelques semaines de rétro-ingénierie.
 
