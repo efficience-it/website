@@ -1,0 +1,159 @@
+---
+title: "INT, UUID, or ULID: Which Database ID?"
+date: "2022-02-11"
+author: "Louis-Arnaud Catoire"
+category: "Project"
+excerpt: "Indexing is an essential part of database management. When it comes to choosing a primary key type, there are several options. Here is how to choose well."
+image: "/images/blog/cover-int-uuid-ulid-en.webp"
+proficiencyLevel: "Expert"
+updatedAt: "2026-10-12"
+translationOf: "prendre-int-uuid-ou-ulid-pour-un-index-de-base-de-donnees"
+translatedFromUpdatedAt: "2026-01-13"
+---
+
+Choosing a primary identifier seems trivial. Yet this decision, made at the start of a project, shapes the entire architecture: write performance, sharding strategy, API security, and the ability to generate identifiers without central coordination. This article lays the groundwork with INT, UUID, and ULID, then digs into the implications for B-tree indexes, Doctrine strategies, and finally the architectural constraints of large-scale distributed systems.
+
+## INT: Sequential Simplicity
+
+An auto-incremented integer remains the default choice for most projects. An INT takes 4 bytes, a BIGINT 8. This compactness has a direct impact on B-tree indexes: the smaller the keys, the more entries fit per memory page (typically 16 KB on InnoDB), and the shallower the tree. The result: reads at 2 to 3 levels of depth, even on tables with several million rows.
+
+Auto-increment guarantees sequential inserts. Each new row is appended to the end of the last page of the clustered index. There are no page splits and no tree reorganization. On MySQL InnoDB, where the primary key is also the clustered index, this is the optimal scenario for writes.
+
+The limits appear as the project grows. An unsigned INT tops out at 4.3 billion rows, and [hitting the maximum INT ID](/article/arrives-au-max-des-id-int-2147483647) (in French) forces you to migrate to BIGINT, an operation that locks the table for long minutes on a large table. A sequential identifier also exposes the data volume: a `GET /api/users/42` reveals that there are at least 42 users, and an attacker can enumerate resources by simple incrementing.
+
+The most structural point concerns architecture: the identifier can only be generated at insertion time, by the DBMS. This is a constraint you also meet during a [migration to hexagonal architecture](/article/migration-symfony-architecture-hexagonale-retour-mission) (in French), where the aggregate's identity must exist from the moment it is built. You cannot create an identifier on the application side before the flush, which is a problem in event-driven architectures where an aggregate must know its identity from construction.
+
+### INT in Doctrine
+
+```php
+#[ORM\Id]
+#[ORM\GeneratedValue]
+#[ORM\Column]
+private ?int $id = null;
+```
+
+The value stays `null` until the entity has been persisted and flushed. This is a strong constraint in a DDD design where the aggregate's identity must exist from instantiation.
+
+## UUID: Universal Uniqueness
+
+A UUID (Universal Unique Identifier, RFC 4122) is a 128-bit identifier represented as 32 hexadecimal digits. Several versions coexist, but two dominate current usage.
+
+**UUIDv4** is entirely random. Its strength: uniqueness without coordination. Its weakness: B-tree index fragmentation. Each insert lands at a random position in the tree, causing frequent page splits. On InnoDB, where the clustered index dictates the physical organization of the data, this means random writes to disk, a page fill rate that drops to 50-70% instead of 90%+, and a progressive degradation of the buffer pool.
+
+**UUIDv7** (RFC 9562) embeds a Unix timestamp in milliseconds in the first 48 bits. Inserts become nearly sequential again, which eliminates the fragmentation problem. UUIDv7 keeps compatibility with the UUID ecosystem (format, parsing, storage) while offering native chronological sorting. For any new project, it is the version to favor.
+
+```
+40e6215d-b5c6-4896-987c-f30f3678f608
+6ecd8c99-4036-403d-bf84-cf8400f67836
+3f333df6-90a4-4fda-8dd3-9485d27cee36
+```
+
+The structural cost stays constant regardless of the version: 16 bytes per key, which is 4 times more than an INT. This carries over to every foreign key, every secondary index, and every join. On a table with 5 secondary indexes and 10 million rows, the index size difference between INT and UUID exceeds a gigabyte.
+
+### UUID in Doctrine
+
+```php
+#[ORM\Id]
+#[ORM\Column(type: 'uuid', unique: true)]
+#[ORM\GeneratedValue(strategy: 'CUSTOM')]
+#[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+private ?Uuid $id;
+```
+
+The Symfony Uid component provides the Doctrine `uuid` type and the matching generator. Storage is binary (16 bytes) through `BINARY(16)`, never `VARCHAR(36)`, which would double the space and degrade comparisons. [Doctrine ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) (in French) also improved the handling of custom types, including UUID and ULID. For projects that use [PostgreSQL with Symfony](/base-de-donnees-postgresql-symfony) (in French), the DBMS's native `uuid` type delivers optimal storage and comparison performance.
+
+## ULID: The Monotonic Compromise
+
+A ULID (Universally Unique Lexicographically Sortable Identifier) encodes 128 bits in 26 Crockford Base32 characters. The first 48 bits carry a timestamp in milliseconds, and the following 80 are random. This structure guarantees a lexicographic sort that matches chronological order.
+
+```
+01AN4Z07BY      79KA1307SR9X4MV3
+|-------------|    |----------------|
+  Timestamp          Randomness
+      48bits               80bits
+```
+
+ULID monotonicity solves the fundamental problem of UUIDv4. Inserts follow chronological order, and the B-tree index pages fill sequentially. Benchmarks on InnoDB show insert performance close to INT: about 6,500 rows/second versus 8,000 for INT and 3,000 for UUIDv4 on a table of 5 million rows.
+
+ULID shares the same idea with UUIDv7 (timestamp plus randomness), but with a different encoding. UUIDv7 relies on an IETF standard (RFC 9562) and benefits from native `uuid` type support in PostgreSQL and from existing tooling. ULID offers a more compact textual representation (26 characters versus 36 for UUID) and broader interoperability outside the SQL ecosystem.
+
+### ULID in Doctrine
+
+```php
+#[ORM\Id]
+#[ORM\Column(type: UlidType::NAME, unique: true)]
+#[ORM\GeneratedValue(strategy: 'CUSTOM')]
+#[ORM\CustomIdGenerator(class: 'doctrine.ulid_generator')]
+private ?Ulid $id;
+
+public function getId(): ?Ulid {
+    return $this->id;
+}
+```
+
+## B-Tree Fragmentation: Understanding the Mechanism
+
+To grasp the performance difference between random and sequential identifiers, you need to understand how a B-tree index works. A B-tree index organizes keys in fixed-size pages (16 KB on InnoDB, 8 KB on PostgreSQL). When a page is full and a new key must be inserted into it, the engine performs a page split: the page is cut in two, and half of the keys move to a new page.
+
+With sequential keys (INT, ULID, UUIDv7), inserts always happen at the end of the tree. A page split occurs only when the last page is full, and the new page starts empty. The average fill rate is around 90%.
+
+With random keys (UUIDv4), each insert can target any page. Page splits are frequent and produce half-empty pages. The fill rate drops to 60-70%, the tree gets deeper, and the DBMS buffer pool is less effective because it must keep more pages in memory to cover the same volume of data.
+
+On PostgreSQL, the mechanism is softened by the configurable fill factor and by TOAST for large fields, but the principle remains the same.
+
+## Generating Identifiers in a Distributed Architecture
+
+In a monolith connected to a single database, auto-increment is enough. As soon as you introduce several write instances, several databases, or a message bus, identifier generation becomes an architectural question.
+
+Auto-increment stops working without coordination. The historical solutions (sequences with a step of N, centralized sequence tables) add a point of contention. UUID/ULID identifiers, which you can generate without shared state, eliminate that bottleneck.
+
+In a sharding context, the identifier directly influences the distribution strategy. A global auto-incremented INT requires a central coordinator (Snowflake ID at Twitter, or a dedicated service). A ULID or UUIDv7, generated locally, lets each node write independently. The built-in timestamp also provides a natural criterion for time-based partitioning.
+
+For CQRS/Event Sourcing architectures, often implemented with [Symfony Messenger](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) (in French), the identifier must exist before persistence. The aggregate receives its identity at creation, and events reference it immediately. Only application-generated identifiers (UUID, ULID) make this pattern possible without contortions.
+
+## Migrating an Existing System
+
+Migrating from INT to UUID or ULID on a production system requires a progressive approach. The principle: temporarily make the two identifier systems coexist.
+
+For a Parent/Child relationship with `parent_id` as an INT, the process runs in distinct steps, each one matching a separate Doctrine migration:
+
+```php
+#[ORM\Id]
+#[ORM\Column(type: UlidType::NAME, unique: true)]
+#[ORM\GeneratedValue(strategy: 'CUSTOM')]
+#[ORM\CustomIdGenerator(class: 'doctrine.ulid_generator')]
+private ?Ulid $id;
+
+public function getId(): ?Ulid {
+    return $this->id;
+}
+```
+
+1. Add a `new_id` column (ULID) to the Parent table and `new_parent_id` to the Child table.
+2. Generate the ULIDs in batches of 5,000 to 10,000 rows through `new Ulid()`, and propagate the parent's value to `new_parent_id` on the children.
+3. Create the foreign key constraint between `new_parent_id` and `new_id`.
+4. Drop the old foreign key, the old primary key, then the old columns.
+5. Rename `new_id` to `id` and `new_parent_id` to `parent_id`. Recreate the primary key.
+
+### Migration Pitfalls to Anticipate
+
+On tables with more than a million rows, each `ALTER TABLE` can lock the table. MySQL 8 supports instant DDL for adding columns, but not for dropping or renaming them. Tools like `pt-online-schema-change` or `gh-ost` allow migrations without locking. To automate the related code transformations, [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) (in French) can help with the identifier type change in Doctrine entities.
+
+External references are the classic blind spot: message queues being processed, Redis caches, identifiers stored in third-party systems, and URLs bookmarked by users. Plan for a double-resolution period where the old INT and the new ULID coexist and both remain resolvable.
+
+## Conclusion
+
+Choosing a primary identifier is not only a matter of raw performance. It is an architectural decision that determines the system's ability to evolve.
+
+For a moderate-volume monolith, INT remains unbeatable in simplicity and performance. For a public API or a distributed architecture, ULID and UUIDv7 offer the best compromise: uniqueness without coordination, native chronological sorting, and insert performance close to sequential. ULID shines with its compact encoding, UUIDv7 with its IETF standard and native PostgreSQL support.
+
+Migration is always possible. What matters is to choose with full awareness, by measuring today's constraints and anticipating those that will come as the system grows.
+
+## Going Further
+
+- [Symfony for Muggles](/article/symfony-pour-les-moldus) (in French), discover the fundamentals of the Symfony framework
+- [Which architecture to choose between microservices and a modular monolith?](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) (in French), understand how the choice of identifier influences distributed architectures
+- Symfony migration to hexagonal architecture, see why application-generated identifiers are a must in hexagonal architecture
+- [Symfony Uid Component](https://symfony.com/doc/current/components/uid.html), the Symfony component to generate and manipulate UUIDs and ULIDs
+- [RFC 4122: UUID](https://datatracker.ietf.org/doc/html/rfc4122), the official UUID specification
+- [ULID Specification](https://github.com/ulid/spec), the official ULID format specification
