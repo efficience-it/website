@@ -1,11 +1,11 @@
 ---
 title: "Normes RGAA : améliorer l'accessibilité de vos sites"
 date: "2025-02-27"
+updatedAt: "2026-10-12"
 author: "Louis-Arnaud Catoire"
 category: "Green IT"
 excerpt: "Comprendre les normes RGAA pour une expérience utilisateur inclusive. Impact sur l'accessibilité et le SEO de vos applications web."
 image: "/images/blog/cover-normes-rgaa.webp"
-updatedAt: "2026-01-13"
 ---
 
 **L'accessibilité numérique n'est pas une fonctionnalité optionnelle. C'est une propriété architecturale d'un système bien conçu, au même titre que la performance ou la sécurité.** Pourtant, dans la majorité des projets web, elle reste traitée comme un sujet périphérique, délégué à un audit tardif ou à une surcouche CSS. Le RGAA fournit un cadre structuré pour sortir de cette impasse.
@@ -18,7 +18,7 @@ Le RGAA structure ses exigences en 106 critères répartis sur 13 thématiques :
 
 ### Obligations légales actuelles
 
-La législation française impose la conformité RGAA aux services publics, aux entreprises dont le chiffre d'affaires dépasse 250 millions d'euros, et aux organisations dépassant un certain seuil de fréquentation. Le non-respect expose à des sanctions concrètes : recours auprès du Défenseur des droits, publication du nom des services non conformes, et amendes pouvant atteindre 50 000 euros par service et par an depuis le décret de 2023. La déclaration d'accessibilité est obligatoire et doit être mise à jour annuellement.
+La législation française impose la conformité RGAA aux services publics, aux grandes entreprises, et aux organisations dépassant un certain seuil de fréquentation. Le non-respect expose à des sanctions concrètes : recours auprès du Défenseur des droits, publication du nom des services non conformes, et amendes administratives renouvelables chaque année depuis le décret de 2023. La déclaration d'accessibilité est obligatoire et doit être mise à jour annuellement.
 
 Au-delà du cadre français, la directive européenne European Accessibility Act (EAA), applicable depuis juin 2025, élargit considérablement le périmètre des organisations concernées. Ignorer l'accessibilité aujourd'hui, c'est accumuler une dette technique et juridique qui ne fera que croître.
 
@@ -56,7 +56,7 @@ La règle d'or reste : préférer le HTML natif. Un `<button>` est toujours sup�
 
 ### Bibliothèques de composants et design systems
 
-Les design systems modernes de l'écosystème [React](/developpement-react), comme Radix UI, React Aria (Adobe) ou Headless UI, intègrent l'accessibilité par défaut. Choisir ces fondations plutôt que des composants purement visuels est une décision architecturale qui réduit le coût de conformité sur l'ensemble du projet. Chaque composant custom développé sans ces bases représente un risque d'accessibilité à maintenir indéfiniment.
+Les design systems modernes de l'écosystème [React](/developpement-react), comme Radix UI, React Aria (Adobe) ou Headless UI, intègrent l'accessibilité par défaut. Choisir ces fondations plutôt que des composants purement visuels est une décision architecturale qui réduit l'effort de conformité sur l'ensemble du projet. Chaque composant custom développé sans ces bases représente un risque d'accessibilité à maintenir indéfiniment.
 
 ## L'accessibilité comme principe architectural
 
@@ -64,17 +64,17 @@ Les design systems modernes de l'écosystème [React](/developpement-react), com
 
 À l'échelle d'une organisation, l'accessibilité ne peut pas reposer sur la vigilance individuelle de chaque développeur. Elle doit être encodée dans le design system. Les tokens de couleur respectent les ratios de contraste. Les composants de formulaire incluent nativement les labels et les messages d'erreur accessibles. Les composants interactifs implémentent les patterns clavier attendus. Le design system devient le garant de la conformité : chaque équipe qui l'utilise hérite automatiquement d'un socle accessible.
 
-Cette approche transforme l'accessibilité d'un coût récurrent en un investissement ponctuel amorti sur l'ensemble des produits de l'organisation. Elle s'inscrit aussi dans une réflexion plus large sur la [conception responsable et l'éco-conception des sites web](/article/eco-conception-un-ideal-en-marche-ou-une-illusion-durable), qui partage avec l'accessibilité l'objectif de réduire le gaspillage de ressources.
+Cette approche transforme l'accessibilité d'une charge récurrente en un effort ponctuel amorti sur l'ensemble des produits de l'organisation. Elle s'inscrit aussi dans une réflexion plus large sur la [conception responsable et l'éco-conception des sites web](/article/eco-conception-un-ideal-en-marche-ou-une-illusion-durable), qui partage avec l'accessibilité l'objectif de réduire le gaspillage de ressources.
 
 ### Modèle de maturité organisationnelle
 
 L'accessibilité suit un modèle de maturité en quatre niveaux. Au niveau réactif, l'organisation corrige les problèmes d'accessibilité après signalement ou audit. Au niveau processus, l'accessibilité est intégrée dans les definitions of done et les revues de code. Au niveau système, le design system et la CI garantissent un socle de conformité automatisé. Au niveau culture, chaque membre de l'équipe (designer, développeur, product owner, QA) intègre l'accessibilité dans ses réflexes quotidiens et les tests utilisateurs incluent des personnes en situation de handicap.
 
-Passer du niveau réactif au niveau culture prend généralement deux à trois ans. Le retour sur investissement se mesure en réduction des coûts d'audit, en diminution des tickets de support liés à l'accessibilité, et en élargissement effectif de l'audience.
+Passer du niveau réactif au niveau culture prend généralement deux à trois ans. Le bénéfice se mesure en allègement de la charge d'audit, en diminution des tickets de support liés à l'accessibilité, et en élargissement effectif de l'audience.
 
 ### Mesurer le ROI de l'accessibilité
 
-L'accessibilité améliore des métriques directement liées à la performance business. Le SEO bénéficie de la structure sémantique, des alternatives textuelles et de la performance (les Core Web Vitals recoupent largement les critères RGAA). Cette convergence entre accessibilité et visibilité se retrouve dans les stratégies de [GEO pour les moteurs IA](/article/geo-rendre-votre-application-symfony-visible-dans-les-moteurs-ia). Le taux de conversion augmente grâce à des formulaires plus clairs et une navigation plus fluide. Le taux de rebond diminue quand les contenus sont lisibles et compréhensibles. Les coûts juridiques sont évités.
+L'accessibilité améliore des métriques directement liées à la performance business. Le SEO bénéficie de la structure sémantique, des alternatives textuelles et de la performance (les Core Web Vitals recoupent largement les critères RGAA). Cette convergence entre accessibilité et visibilité se retrouve dans les stratégies de [GEO pour les moteurs IA](/article/geo-rendre-votre-application-symfony-visible-dans-les-moteurs-ia). Le taux de conversion augmente grâce à des formulaires plus clairs et une navigation plus fluide. Le taux de rebond diminue quand les contenus sont lisibles et compréhensibles. Les risques juridiques sont évités.
 
 Au-delà des métriques, un site accessible touche 15 à 20% d'utilisateurs supplémentaires (personnes en situation de handicap permanent, temporaire ou situationnel). C'est un marché de 80 millions de personnes en Europe.
 

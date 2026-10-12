@@ -1,0 +1,102 @@
+---
+title: "RGAA Standards: Improve Your Sites' Accessibility"
+date: "2025-02-27"
+updatedAt: "2026-10-12"
+translatedFromUpdatedAt: "2026-10-12"
+author: "Louis-Arnaud Catoire"
+category: "Green IT"
+excerpt: "Understand the RGAA standards for an inclusive user experience, and see how web accessibility affects both the usability and the SEO of your applications."
+image: "/images/blog/cover-rgaa-accessibility.webp"
+translationOf: "normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous"
+---
+
+**Digital accessibility is not an optional feature. It is an architectural property of a well-designed system, just like performance or security.** Yet in most web projects, it remains a peripheral topic, delegated to a late audit or a CSS overlay. The RGAA provides a structured framework to get out of this dead end.
+
+## The RGAA: regulatory and technical framework
+
+The RGAA (the French General Framework for Accessibility Improvement) is the French digital accessibility standard. Led by the DINUM, it turns the legal obligations of the 2005 law on equal rights and opportunities into verifiable technical criteria. Its version 4.1.2 aligns with WCAG 2.1 level AA and the European standard EN 301 549.
+
+The RGAA organizes its requirements into 106 criteria spread across 13 themes: images, frames, colors, multimedia, tables, links, scripts, mandatory elements, structure, presentation, forms, navigation, and consultation. Each criterion comes with reproducible tests, which sets it apart from a simple best practices guide.
+
+### Current legal obligations
+
+French law requires RGAA compliance from public services, from large companies, and from organizations above a certain traffic threshold. Non-compliance exposes you to concrete penalties: complaints to the Defender of Rights, publication of the names of non-compliant services, and administrative fines renewable every year since the 2023 decree. The accessibility statement is mandatory and must be updated every year.
+
+Beyond the French framework, the European Accessibility Act (EAA), applicable since June 2025, considerably widens the scope of organizations concerned. Ignoring accessibility today means accumulating technical and legal debt that will only grow.
+
+## Key criteria for developers
+
+### Semantic structure and navigation
+
+The heading hierarchy (`h1` to `h3`), the use of semantic tags (`<header>`, `<nav>`, `<main>`, `<section>`, `<article>`, `<footer>`), and the presence of ARIA landmarks form the skeleton of accessibility. A screen reader relies on this structure to offer efficient navigation. A site that is visually organized but semantically flat is inaccessible.
+
+Keyboard navigation is just as fundamental. Every interactive element must be reachable with `Tab`, activated with `Enter` or `Space`, and the focus must be visible at all times. Focus traps (modals that do not return focus, menus that do not close with `Escape`) are the most frequent violations.
+
+### Images, media, and forms
+
+Every meaningful image needs relevant alternative text. Decorative images get an `alt=""` so assistive technologies ignore them. Videos are captioned, audio content is transcribed. Forms tie each field to an explicit `<label>`, report errors in an accessible way (through `aria-describedby` and `aria-invalid`), and remain fully operable with the keyboard.
+
+### Contrast and readability
+
+The RGAA requires a minimum contrast ratio of 4.5:1 for standard text and 3:1 for large text. These thresholds are not arbitrary: they guarantee readability in varied conditions (low-quality screen, ambient brightness, mild visual impairments). Responsive design, touch target size (minimum 44x44 pixels), and support for 200% zoom without loss of content complete these requirements. For front-end teams, the [choice of JavaScript framework](/article/quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular) (in French) directly affects how easy it is to implement these accessibility criteria. Our [front-end development](/developpement-frontend) (in French) service builds these RGAA requirements into interface design from the start. These practices fit into the broader effort to [improve the user experience with the web app manifest](/article/ameliorer-lexperience-utilisateur-grace-au-manifeste-des-applications-web) (in French), which makes it possible to offer a native, accessible experience on every device.
+
+## Tooling and continuous integration
+
+A senior developer does not just know the criteria: they automate checking them. Accessibility must be tested as systematically as business logic.
+
+### Automated tests
+
+Axe-core, the engine behind the axe DevTools browser extension, plugs directly into your tests. Combined with Cypress, Playwright, or Testing Library, it can detect about 40% of accessibility issues automatically. That is not enough for full compliance, but it is an indispensable safety net in CI.
+
+Pa11y offers a command-line alternative, suited to CI/CD pipelines in the same way as [Postman tests with Newman in GitLab CI](/article/comment-executer-des-tests-postman-avec-newman-dans-gitlab-ci) (in French). It can scan entire pages and configure acceptable error thresholds, with output that is easy to integrate into build reports.
+
+### Advanced ARIA patterns
+
+Complex interactive components (tabs, accordions, dropdown menus, modals, comboboxes) require a rigorous implementation of ARIA patterns. The WAI-ARIA Authoring Practices document defines the expected roles, properties, and keyboard behaviors for each pattern. A tab without `role="tablist"`, `role="tab"`, `role="tabpanel"`, and without arrow key handling is an inaccessible component even if it works visually.
+
+The golden rule remains: prefer native HTML. A `<button>` is always better than a `<div role="button" tabindex="0">` in terms of reliability, browser support, and default behavior. ARIA is a compensation tool, not a substitute.
+
+### Component libraries and design systems
+
+Modern design systems in the [React](/developpement-react) (in French) ecosystem, such as Radix UI, React Aria (Adobe), or Headless UI, build in accessibility by default. Choosing these foundations over purely visual components is an architectural decision that lowers the compliance effort across the whole project. Every custom component built without these foundations is an accessibility risk to maintain indefinitely.
+
+## Accessibility as an architectural principle
+
+### The design system as a vehicle for compliance
+
+At the scale of an organization, accessibility cannot rely on the individual vigilance of every developer. It must be encoded in the design system. Color tokens respect contrast ratios. Form components natively include accessible labels and error messages. Interactive components implement the expected keyboard patterns. The design system becomes the guarantor of compliance: every team that uses it automatically inherits an accessible foundation.
+
+This approach turns accessibility from a recurring burden into a one-time effort spread across all of the organization's products. It also fits into a broader reflection on [responsible design and eco-design of websites](/article/eco-conception-un-ideal-en-marche-ou-une-illusion-durable) (in French), which shares with accessibility the goal of reducing wasted resources.
+
+### Organizational maturity model
+
+Accessibility follows a four-level maturity model. At the reactive level, the organization fixes accessibility issues after a report or an audit. At the process level, accessibility is built into definitions of done and code reviews. At the system level, the design system and CI guarantee an automated compliance foundation. At the culture level, every team member (designer, developer, product owner, QA) builds accessibility into daily reflexes, and user testing includes people with disabilities.
+
+Moving from the reactive level to the culture level generally takes two to three years. The benefit shows up as a lighter audit workload, fewer accessibility-related support tickets, and an actual widening of the audience.
+
+### Measure the ROI of accessibility
+
+Accessibility improves metrics directly tied to business performance. SEO benefits from semantic structure, text alternatives, and performance (Core Web Vitals overlap largely with the RGAA criteria). This convergence between accessibility and visibility also shows up in [GEO strategies for AI search engines](/article/geo-rendre-votre-application-symfony-visible-dans-les-moteurs-ia) (in French). Conversion rates rise thanks to clearer forms and smoother navigation. Bounce rates fall when content is readable and understandable. Legal risks are avoided.
+
+Beyond the metrics, an accessible site reaches 15 to 20% more users (people with permanent, temporary, or situational disabilities). That is a market of 80 million people in Europe.
+
+### A gradual compliance strategy
+
+Full RGAA compliance does not happen in a single iteration. A gradual strategy has three phases. The first phase stabilizes the foundations: semantic structure, keyboard navigation, contrast, text alternatives. These fixes have the best impact-to-effort ratio. The second phase covers interactive components: accessible forms, modals, tabs, dynamic focus management. The third phase handles complex cases: rich content (WYSIWYG editors, data tables, data visualization), single-page applications with accessible routing, and user-generated content.
+
+Each phase comes with a partial audit (on the most visited pages), an update of the accessibility statement, and the integration of fixes into the design system to avoid regressions. For the operational details of this work on a Symfony application, see our guide to [RGAA technical remediation on Symfony](/article/rgaa-remediation-technique-symfony) (in French).
+
+## Conclusion
+
+The RGAA is not an administrative constraint to satisfy at the end of a project. It is a technical standard that, when built in from the design stage, improves overall code quality, the robustness of interfaces, and the experience of all users. For the experienced developer, it is a set of criteria to master. For the lead, it is a process to equip and automate. For the architect, it is a design principle that structures the design system and the product strategy.
+
+Accessibility is part of a broader compliance effort, alongside [Symfony application security](/securite-application-symfony) (in French) and frameworks like [NIS2](/article/conformite-nis2-application-symfony) (in French) or [DORA](/article/conformite-dora-resilience-symfony) (in French): standards that reward teams who have industrialized their testing, logging, and code quality.
+
+## Going further
+
+- [How to train your teams in IT security effectively](/article/comment-former-vos-equipes-a-la-securite-informatique-en-toute-simplicite) (in French), build compliance and best practices in from the design stage
+- [Technical debt: should you really fear it?](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French), manage technical trade-offs without sacrificing quality in the long run
+- [Coding conventions](/article/coding-conventions) (in French), set shared rules to keep code readable and maintainable over time
+- [RGAA: Référentiel Général d'Amélioration de l'Accessibilité](https://accessibilite.numerique.gouv.fr/), the official standard published by the DINUM
+- [WCAG: Web Content Accessibility Guidelines](https://www.w3.org/WAI/standards-guidelines/wcag/), the W3C international accessibility guidelines
+- [MDN: Accessibilité web](https://developer.mozilla.org/fr/docs/Web/Accessibility), a complete guide to web accessibility by Mozilla

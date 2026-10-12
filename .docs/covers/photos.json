@@ -480,6 +480,10 @@
     "author": "Pipe A. pipeaguileram",
     "url": "https://commons.wikimedia.org/wiki/File:Curved_walkways_new_york_(Unsplash).jpg"
   },
+  "rgaa-web-accessibility-standards": {
+    "name": "rgaa-accessibility",
+    "sameAs": "normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous"
+  },
   "php-9-0-devoile-ce-que-vous-devez-savoir-avant-la-sortie": {
     "name": "php-9",
     "file": "File:Fog Ocean Sunrise (26530071313).jpg",
