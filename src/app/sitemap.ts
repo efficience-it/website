@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { articlePath, getAllPosts } from "@/lib/blog";
 import { BASE_URL } from "@/lib/metadata";
+import { ENGLISH_INDEXABLE } from "@/lib/i18n/config";
 import {
   getStaticRoutes,
   getCategoryRoutes,
@@ -33,7 +34,7 @@ function pairAlternates(frenchSlug: string, englishSlug: string) {
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const posts = getAllPosts();
-  const englishPosts = getAllPosts("en");
+  const englishPosts = ENGLISH_INDEXABLE ? getAllPosts("en") : [];
   const englishBySource = new Map(englishPosts.map((post) => [post.translationOf as string, post]));
 
   const staticPages: MetadataRoute.Sitemap = getStaticRoutes().map(toEntry);
