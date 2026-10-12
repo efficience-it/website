@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-const APP_DIR = path.join(process.cwd(), "src/app");
+const APP_DIR = path.join(process.cwd(), "src/app/(fr)");
 
 function getPageFiles(): { name: string; filePath: string }[] {
   const entries = fs.readdirSync(APP_DIR, { withFileTypes: true });

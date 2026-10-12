@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import BlogPageNumber, { generateMetadata, generateStaticParams } from "@/app/blog/page/[number]/page";
+import BlogPageNumber, { generateMetadata, generateStaticParams } from "@/app/(fr)/blog/page/[number]/page";
 import { getBlogPageCount } from "@/lib/blog";
 
 const params = (number: string) => ({ params: Promise.resolve({ number }) });

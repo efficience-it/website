@@ -59,11 +59,11 @@ export function filesToUrls(files: string[]): string[] {
       if (allUrls.includes(url)) urls.add(url);
       continue;
     }
-    if (f === "src/app/page.tsx") {
+    if (/^src\/app\/(?:\(fr\)\/)?page\.tsx$/.test(f)) {
       urls.add(`${BASE_URL}/`);
       continue;
     }
-    const pageMatch = f.match(/^src\/app\/(.+)\/page\.tsx$/);
+    const pageMatch = f.match(/^src\/app\/(?:\(fr\)\/)?(.+)\/page\.tsx$/);
     if (pageMatch) {
       const segment = pageMatch[1];
       if (segment.includes("[") || segment.includes("(")) continue;

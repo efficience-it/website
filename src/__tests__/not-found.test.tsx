@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import NotFound, { metadata } from "@/app/not-found";
+import NotFound, { metadata } from "@/app/(fr)/not-found";
 
 describe("Not found page", () => {
   it("renders 404 heading", () => {

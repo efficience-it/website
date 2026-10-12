@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import Home, { metadata } from "@/app/page";
+import Home, { metadata } from "@/app/(fr)/page";
 
 describe("Home page", () => {
   it("renders the hero heading", () => {

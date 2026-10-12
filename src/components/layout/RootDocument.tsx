@@ -1,37 +1,28 @@
-import type { Metadata, Viewport } from "next";
-import { montserrat, exo } from "@/lib/fonts";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
 import GoogleAnalytics from "@/components/ui/GoogleAnalytics";
-import CookieConsent from "@/components/ui/CookieConsent";
+import { montserrat, exo } from "@/lib/fonts";
 import { globalGraphJsonLd } from "@/lib/structured-data";
 import { BASE_URL } from "@/lib/metadata";
-import "./globals.css";
+import "../../app/globals.css";
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://www.itefficience.com"),
-  title: {
-    default:
-      "Efficience IT – Agence Symfony experte en développement web",
-    template: "%s",
-  },
-  description:
-    "Agence spécialisée Symfony et PHP, Efficience IT conçoit et développe des applications web sur mesure, robustes et adaptées aux enjeux métiers.",
-};
-
-export const viewport: Viewport = {
-  themeColor: "#0066cc",
-};
+interface RootDocumentProps {
+  readonly lang: string;
+  readonly skipLabel: string;
+  readonly header?: React.ReactNode;
+  readonly footer?: React.ReactNode;
+  readonly children: React.ReactNode;
+}
 
 const themeInitScript = `(function(){try{var storedTheme=localStorage.getItem("theme");var prefersDark=window.matchMedia("(prefers-color-scheme: dark)").matches;var theme=storedTheme==="dark"||storedTheme==="light"?storedTheme:(prefersDark?"dark":"light");var root=document.documentElement;root.classList.remove("light","dark");root.classList.add(theme);root.style.colorScheme=theme;}catch(e){}})();`;
 
-export default function RootLayout({
+export default function RootDocument({
+  lang,
+  skipLabel,
+  header,
+  footer,
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: RootDocumentProps) {
   return (
-    <html lang="fr-FR" suppressHydrationWarning>
+    <html lang={lang} suppressHydrationWarning>
       <head>
         <link rel="ai-metadata" href="/llms.txt" />
         <link
@@ -53,14 +44,13 @@ export default function RootLayout({
         />
         <GoogleAnalytics />
         <a href="#main-content" className="skip-to-content">
-          Aller au contenu
+          {skipLabel}
         </a>
-        <Header />
+        {header}
         <div id="main-content">
           {children}
         </div>
-        <Footer />
-        <CookieConsent />
+        {footer}
       </body>
     </html>
   );

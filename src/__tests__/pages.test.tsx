@@ -1,19 +1,19 @@
 import { render, screen } from "@testing-library/react";
 
-import NotreExpertise, { metadata as notreExpertiseMetadata } from "@/app/notre-expertise/page";
-import DeveloppementWeb, { metadata as developpementWebMetadata } from "@/app/developpement-web-sur-mesure/page";
-import CloudEtDevops, { metadata as cloudEtDevopsMetadata } from "@/app/cloud-et-devops/page";
-import AccompagnementEtConseil, { metadata as accompagnementEtConseilMetadata } from "@/app/accompagnement-et-conseil/page";
-import PreparationConformite, { metadata as preparationConformiteMetadata } from "@/app/preparation-conformite-symfony/page";
-import LEntreprise, { metadata as lEntrepriseMetadata } from "@/app/l-entreprise/page";
-import LaTeam, { metadata as laTeamMetadata } from "@/app/la-team/page";
-import TaCarriere, { metadata as taCarriereMetadata } from "@/app/ta-carriere/page";
-import GreenIt, { metadata as greenItMetadata } from "@/app/green-it/page";
-import NosReferences, { metadata as nosReferencesMetadata } from "@/app/nos-references/page";
-import BlogPage, { metadata as blogMetadata } from "@/app/blog/page";
-import Contact, { metadata as contactMetadata } from "@/app/contact/page";
-import MentionsLegales, { metadata as mentionsLegalesMetadata } from "@/app/mentions-legales/page";
-import PlanDuSite, { metadata as planDuSiteMetadata } from "@/app/plan-du-site/page";
+import NotreExpertise, { metadata as notreExpertiseMetadata } from "@/app/(fr)/notre-expertise/page";
+import DeveloppementWeb, { metadata as developpementWebMetadata } from "@/app/(fr)/developpement-web-sur-mesure/page";
+import CloudEtDevops, { metadata as cloudEtDevopsMetadata } from "@/app/(fr)/cloud-et-devops/page";
+import AccompagnementEtConseil, { metadata as accompagnementEtConseilMetadata } from "@/app/(fr)/accompagnement-et-conseil/page";
+import PreparationConformite, { metadata as preparationConformiteMetadata } from "@/app/(fr)/preparation-conformite-symfony/page";
+import LEntreprise, { metadata as lEntrepriseMetadata } from "@/app/(fr)/l-entreprise/page";
+import LaTeam, { metadata as laTeamMetadata } from "@/app/(fr)/la-team/page";
+import TaCarriere, { metadata as taCarriereMetadata } from "@/app/(fr)/ta-carriere/page";
+import GreenIt, { metadata as greenItMetadata } from "@/app/(fr)/green-it/page";
+import NosReferences, { metadata as nosReferencesMetadata } from "@/app/(fr)/nos-references/page";
+import BlogPage, { metadata as blogMetadata } from "@/app/(fr)/blog/page";
+import Contact, { metadata as contactMetadata } from "@/app/(fr)/contact/page";
+import MentionsLegales, { metadata as mentionsLegalesMetadata } from "@/app/(fr)/mentions-legales/page";
+import PlanDuSite, { metadata as planDuSiteMetadata } from "@/app/(fr)/plan-du-site/page";
 
 describe("Service pages", () => {
   it("renders Notre expertise", () => {
