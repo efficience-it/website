@@ -1,0 +1,193 @@
+---
+title: "MCP, CLI or API: Building a Symfony or PHP MCP Server"
+date: "2026-10-12"
+updatedAt: "2026-10-12"
+author: "Louis-Arnaud Catoire"
+category: "AI"
+excerpt: "MCP, command-line tool or API: the pros and cons of each way to connect an AI assistant to your app, then how to set up an MCP server with Symfony or plain PHP."
+image: "/images/blog/cover-mcp-symfony-php-en.webp"
+proficiencyLevel: "Intermediate"
+translationOf: "mcp-cli-api-quel-choix-serveur-symfony-php"
+translatedFromUpdatedAt: "2026-10-12"
+faq:
+  - question: "Does MCP replace a REST API?"
+    answer: "No. A REST API serves applications whose code is written in advance. MCP serves a model that discovers the available tools at runtime. An MCP server often relies on your existing API or services anyway."
+  - question: "Which transport should I choose for an MCP server: stdio or HTTP?"
+    answer: "The stdio transport suits a local server launched by the client on the developer's machine. The HTTP transport suits a server shared by a team or hosted, with authentication. The Symfony bundle supports both."
+  - question: "Can I create an MCP server without Symfony?"
+    answer: "Yes. The official mcp/sdk works in plain PHP, without a framework. A few lines are enough to expose a method as a tool through an attribute and start the server over stdio."
+  - question: "Is it safe to expose an MCP server?"
+    answer: "Only if you treat it like an API: minimal permissions, read-only by default, authentication on the HTTP transport, and input validation. The model can call any exposed tool, so expose only what you would accept opening to an untrusted user."
+---
+
+When a team wants to connect an AI assistant to its application, the question comes up quickly: should you write an MCP server, let the assistant call a command-line tool, or give it access to an API? All three work, but not under the same conditions.
+
+This article compares the three approaches, then shows how to set up an MCP server with Symfony and with plain PHP. For an introduction to MCP servers on the developer's machine, read [our guide to MCP servers with Claude Code](/article/serveurs-mcp-claude-code-developpeurs-symfony) (in French) first.
+
+## What MCP Brings Compared to an API or a CLI
+
+The [Model Context Protocol](https://modelcontextprotocol.io) is an open protocol that describes how an AI client discovers and calls tools, resources, and prompts exposed by a server. The core idea: the model does not need you to have written an integration for it. It queries the server, gets the list of tools with their input schema, then chooses which ones to call.
+
+A classic API assumes a client whose code knows the endpoints in advance. A CLI assumes a model that knows which command to type and how to read its output. MCP moves that knowledge into the server, in a form the model understands directly.
+
+## Comparison: MCP, CLI, and API
+
+| Criterion | CLI tool | API (REST or GraphQL) | MCP server |
+| --- | --- | --- | --- |
+| Discovery by the model | Weak: `--help` and trial and error | Weak without a provided specification | Native: tool list and schemas |
+| Setup | Very fast, nothing to write | Usually already in place | A server to write and maintain |
+| Authentication | System user permissions | Tokens, OAuth, keys | To handle on the HTTP transport |
+| Permission control | Broad by default, hard to restrict | Fine-grained, via scopes and roles | Fine-grained, per exposed tool |
+| Context weight | Low | Medium to high depending on the specification | Variable: each described tool consumes context |
+| Reuse across AI clients | Depends on each client | Good, but each client must integrate it | Good: one server, several clients |
+
+### When the CLI Is Enough
+
+If the assistant runs on the developer's machine, a command like `bin/console debug:router` or `composer outdated` meets the need without writing anything. It is the simplest solution, and often the lightest in context. Its flaw: it gives the model the shell's permissions, which is broad. On a sensitive project, that scope is hard to restrict.
+
+### When the API Is Enough
+
+If your application already exposes an API documented with OpenAPI, an AI client can call it directly. This makes sense when a developer does the integration, with precise code. The model is less comfortable with it: it has to read an often large specification and produce correct requests. If your API is still to be built, our article on [custom APIs with Symfony](/api-sur-mesure-symfony) (in French) details the approach.
+
+### When MCP Is the Right Choice
+
+MCP becomes relevant when several conditions add up:
+
+- several AI clients must access the same capabilities;
+- you want to expose precise business actions rather than an entire shell;
+- you need fine control over what the model can do;
+- tools must be discovered dynamically, without documentation to hand over manually.
+
+Its burden is real: a server to host, tools to describe properly, and an additional attack surface. A poorly bounded MCP tool is equivalent to direct access to your database.
+
+## Setting Up an MCP Server with Symfony
+
+The official `symfony/mcp-bundle` relies on the `mcp/sdk` PHP SDK, maintained with the PHP Foundation. It is currently [presented as experimental in the Symfony documentation](https://symfony.com/doc/current/ai/bundles/mcp-bundle.html), which means you should pin versions and reread the release notes at every update.
+
+### Installation and Configuration
+
+```bash
+composer require symfony/mcp-bundle
+```
+
+Import the bundle's routes:
+
+```yaml
+mcp:
+    resource: .
+    type: mcp
+```
+
+Then declare a server in `config/packages/mcp.yaml`:
+
+```yaml
+mcp:
+    servers:
+        default:
+            name: 'mon-application'
+            transports:
+                stdio: true
+                http: true
+            http:
+                path: /mcp
+            registry: ['App\Mcp\']
+```
+
+The `registry` parameter limits what the server exposes. It is your first security barrier: only the tools in the `App\Mcp\` namespace are visible, never the rest of the application.
+
+### Declaring a Tool
+
+A tool is a service class carrying an attribute. With Symfony's autoconfiguration, there is nothing else to register:
+
+```php
+namespace App\Mcp;
+
+use Mcp\Capability\Attribute\McpTool;
+use Mcp\Capability\Attribute\Schema;
+
+class ProjectStatusTool
+{
+    public function __construct(private readonly ProjectRepository $projects)
+    {
+    }
+
+    #[McpTool(name: 'project-status')]
+    public function status(
+        #[Schema(description: 'Identifiant du projet')]
+        int $projectId,
+    ): string {
+        $project = $this->projects->find($projectId);
+
+        return $project === null ? 'Projet introuvable' : $project->getStatus()->value;
+    }
+}
+```
+
+PHP types and the `Schema` attribute produce the input schema the model sees. Take care with the descriptions: that text determines whether the model calls the tool at the right time.
+
+Keep one tool per business intent, with typed inputs, rather than a generic tool such as "run an SQL query". This discipline matches that of a [hexagonal architecture with Symfony](/architecture-hexagonale-symfony) (in French): the MCP tool is an input adapter, like a controller, and calls your use cases without containing any logic.
+
+### Starting the Server
+
+For local use, the client launches the server over stdio:
+
+```bash
+php bin/console mcp:server default
+```
+
+For a shared server, the HTTP transport exposes the `/mcp` endpoint configured above. Put it behind your Symfony firewall's authentication, exactly like an API route. On this topic, our article on [Symfony application security](/securite-application-symfony) (in French) lists the checkpoints.
+
+## Setting Up an MCP Server in Plain PHP
+
+Without a framework, the official SDK is enough. Install it with the attribute discovery component:
+
+```bash
+composer require mcp/sdk symfony/finder
+```
+
+A `server.php` file then exposes a method as a tool:
+
+```php
+require __DIR__ . '/vendor/autoload.php';
+
+use Mcp\Capability\Attribute\McpTool;
+use Mcp\Server;
+use Mcp\Server\Transport\StdioTransport;
+
+class MathTools
+{
+    #[McpTool]
+    public function add(int $a, int $b): int
+    {
+        return $a + $b;
+    }
+}
+
+Server::builder()
+    ->setServerInfo('MathServer', '1.0.0')
+    ->setDiscovery(__DIR__, ['.'], excludeDirs: ['vendor'])
+    ->build()
+    ->run(new StdioTransport());
+```
+
+Start it with `php server.php`, and the AI client declares it as a stdio server in its configuration. The [official PHP SDK](https://php.sdk.modelcontextprotocol.io/) also documents the HTTP transport and resources. Plain PHP suits a small standalone tool or a project without Symfony. As soon as you need dependency injection, security, and per-environment configuration, the bundle saves you time.
+
+## Securing and Testing Your Server
+
+An MCP server is an API called by a client that makes decisions on its own. A few rules apply:
+
+- read-only by default, with separate and explicit write tools;
+- strict validation of every input, as with any external request;
+- logging of tool calls to know what the model did;
+- mandatory authentication on the HTTP transport;
+- no secrets returned in responses.
+
+For testing, treat each tool as an ordinary service: a unit test on the method, and a functional test on the endpoint if you expose HTTP. To verify that an assistant actually uses your tools, an end-to-end scenario with [Claude Code and Playwright](/article/playwright-tests-end-to-end-claude-code) (in French) illustrates the approach, and our case study on [Symfony AI on a legacy project](/article/symfony-ai-projet-legacy-retour-experience) (in French) shows what you get in practice.
+
+## Our Recommendation
+
+- An assistant on a developer's machine, simple needs: a CLI is enough.
+- An already documented API and a client you write yourself: stay with the API.
+- Several AI clients, business actions to supervise, exposure to a team: set up an MCP server, with the Symfony bundle if you are already on Symfony.
+
+If you want to scope this choice for your application, we support teams on these topics through our [AI expertise](/expertise-ia) (in French) and our [AI audit for businesses](/audit-ia-entreprise) (in French).

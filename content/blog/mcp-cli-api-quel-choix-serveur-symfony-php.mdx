@@ -36,12 +36,12 @@ Une API classique suppose un client dont le code connaît à l'avance les endpoi
 | Mise en place | Très rapide, rien à écrire | Déjà en place le plus souvent | Un serveur à écrire et à maintenir |
 | Authentification | Droits de l'utilisateur système | Jetons, OAuth, clés | À gérer sur le transport HTTP |
 | Contrôle des droits | Large par défaut, difficile à restreindre | Fin, via scopes et rôles | Fin, par outil exposé |
-| Coût en contexte | Faible | Moyen à élevé selon la spécification | Variable : chaque outil décrit consomme du contexte |
+| Poids en contexte | Faible | Moyen à élevé selon la spécification | Variable : chaque outil décrit consomme du contexte |
 | Réutilisation entre clients IA | Dépend de chaque client | Bonne, mais chaque client doit l'intégrer | Bonne : un serveur, plusieurs clients |
 
 ### Quand la CLI suffit
 
-Si l'assistant tourne sur le poste du développeur, une commande comme `bin/console debug:router` ou `composer outdated` répond au besoin sans rien écrire. C'est la solution la plus simple, et souvent la moins coûteuse en contexte. Son défaut : elle donne au modèle les droits du shell, ce qui est large. Sur un projet sensible, ce périmètre se restreint mal.
+Si l'assistant tourne sur le poste du développeur, une commande comme `bin/console debug:router` ou `composer outdated` répond au besoin sans rien écrire. C'est la solution la plus simple, et souvent la plus légère en contexte. Son défaut : elle donne au modèle les droits du shell, ce qui est large. Sur un projet sensible, ce périmètre se restreint mal.
 
 ### Quand l'API suffit
 
@@ -56,7 +56,7 @@ MCP devient pertinent quand plusieurs conditions se cumulent :
 - vous avez besoin de contrôler finement ce que le modèle peut faire ;
 - les outils doivent être découverts dynamiquement, sans documentation à fournir à la main.
 
-Son coût est réel : un serveur à héberger, des outils à décrire proprement, et une surface d'attaque supplémentaire. Un outil MCP mal borné vaut un accès direct à votre base de données.
+Sa charge est réelle : un serveur à héberger, des outils à décrire proprement, et une surface d'attaque supplémentaire. Un outil MCP mal borné vaut un accès direct à votre base de données.
 
 ## Mettre en place un serveur MCP avec Symfony
 
