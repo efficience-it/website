@@ -521,6 +521,10 @@
     "author": "Great Sand Dunes National Park and Preserve",
     "url": "https://commons.wikimedia.org/wiki/File:Curving_Dune_Ridge_(23991063297).jpg"
   },
+  "claude-code-upskilling": {
+    "name": "claude-code-skills",
+    "sameAs": "monter-en-competence-claude-code"
+  },
   "normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous": {
     "name": "normes-rgaa",
     "file": "File:Curved walkways new york (Unsplash).jpg",
