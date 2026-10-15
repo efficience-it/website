@@ -770,5 +770,12 @@
   "php-dead-code-detection-phpstan": {
     "name": "php-dead-code",
     "sameAs": "code-mort-mission-elimination"
+  },
+  "sbx-run-claude-symfony-node-sandbox": {
+    "name": "sbx-sandbox",
+    "file": "File:Light bulb in a wire cage (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Felix Steininger felexelix",
+    "url": "https://commons.wikimedia.org/wiki/File:Light_bulb_in_a_wire_cage_(Unsplash).jpg"
   }
 }
