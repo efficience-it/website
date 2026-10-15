@@ -5,6 +5,7 @@ import DesktopNav from "./DesktopNav";
 import MobileMenu from "./MobileMenu";
 import HeaderCtas from "./HeaderCtas";
 import ThemeToggle from "./ThemeToggle";
+import PageLanguageSwitch from "@/components/ui/PageLanguageSwitch";
 
 export default function Header() {
   return (
@@ -23,12 +24,14 @@ export default function Header() {
 
         <DesktopNav items={mainNav}>
           <HeaderCtas />
-          <div className="ml-2">
+          <div className="ml-2 flex items-center gap-2">
+            <PageLanguageSwitch />
             <ThemeToggle />
           </div>
         </DesktopNav>
 
         <div className="flex items-center gap-1 lg:hidden">
+          <PageLanguageSwitch />
           <ThemeToggle />
           <MobileMenu items={mainNav} />
         </div>
