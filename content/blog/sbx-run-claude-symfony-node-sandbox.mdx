@@ -1,0 +1,193 @@
+---
+title: "Claude Code en sandbox avec sbx : Symfony et Node"
+date: "2026-10-15"
+author: "Efficience IT"
+category: "IA"
+excerpt: "sbx run claude isole Claude Code dans une microVM. Mise en place sur un projet Symfony et un projet Node, réseau, secrets et limites à connaître."
+image: "/images/blog/cover-serveurs-mcp-symfony.webp"
+proficiencyLevel: "Intermediate"
+updatedAt: "2026-10-15"
+faq:
+  - question: "Pourquoi isoler Claude Code dans une sandbox ?"
+    answer: "Claude Code lit vos fichiers, exécute des commandes et installe des dépendances. Dans une microVM, ces actions n'atteignent ni votre système hôte, ni vos clés SSH, ni votre démon Docker local. Seul le dossier de travail que vous partagez est visible."
+  - question: "Le code modifié par l'agent est-il visible sur ma machine ?"
+    answer: "Oui en mode direct : le dossier courant est monté en lecture-écriture et chaque modification apparaît immédiatement dans votre arbre de travail. Avec l'option --clone, l'agent travaille sur un clone privé et vous récupérez ses commits avec git fetch."
+  - question: "Mes clés d'API sont-elles stockées dans la sandbox ?"
+    answer: "Non. Un proxy côté hôte ajoute les en-têtes d'authentification aux requêtes sortantes, les valeurs brutes n'entrent jamais dans la machine virtuelle. Les clés se déclarent avec sbx secret set."
+  - question: "Faut-il autoriser tout le réseau pour installer les dépendances ?"
+    answer: "Non. La politique par défaut refuse le trafic sortant. Il suffit d'autoriser les registres utiles, par exemple repo.packagist.org pour Composer et registry.npmjs.org pour npm, avec sbx policy allow network."
+  - question: "sbx remplace-t-il la revue de code ?"
+    answer: "Non. La sandbox protège votre machine, pas la qualité du code produit. Les fichiers qui s'exécutent implicitement (hooks Git, Makefile, scripts package.json, configuration CI) doivent être relus avant de lancer le code modifié."
+---
+
+Lancer un agent qui exécute des commandes shell sur votre poste, avec accès à votre dossier personnel, à vos clés SSH et à votre démon Docker, est un pari que beaucoup d'équipes font sans le dire. Le mode de permissions de [Claude Code](/article/monter-en-competence-claude-code) limite les dégâts, mais il repose sur des validations manuelles que l'on finit par accepter en rafale.
+
+`sbx`, la CLI de Docker Sandboxes, propose une autre approche : l'agent tourne dans une microVM jetable et ne voit que ce que vous partagez. Cet article montre comment lancer `sbx run claude` sur un projet Symfony puis sur un projet Node, quelles règles réseau ouvrir, comment gérer les secrets et où se situent les limites.
+
+## Ce que fait sbx run claude
+
+Selon la [documentation Docker Sandboxes](https://docs.docker.com/ai/sandboxes/get-started/), chaque sandbox est une microVM avec son propre noyau, son propre système de fichiers, son propre réseau et son propre démon Docker. Les paquets installés, les images tirées et les conteneurs lancés restent dans la machine virtuelle. Supprimer la sandbox efface tout.
+
+Dans la sandbox, l'agent a les pleins pouvoirs : sudo, installation de paquets, Docker privé. Cela ne pose pas de problème tant que la frontière tient. Elle repose sur quatre points :
+
+- **le dossier de travail** : seul le répertoire que vous montez est partagé avec l'hôte ;
+- **le réseau** : le trafic sortant passe par un proxy hôte, avec une politique de refus par défaut ;
+- **les identifiants** : le proxy injecte les en-têtes d'authentification, les valeurs brutes n'entrent pas dans la machine virtuelle ;
+- **Docker** : le démon de la sandbox n'a aucun accès à celui de l'hôte.
+
+Premier réflexe à connaître : par défaut, `sbx` démarre Claude Code avec `--dangerously-skip-permissions`. Ce n'est pas un défaut inquiétant dans ce contexte, puisque l'isolation remplace les validations manuelles, mais il faut en avoir conscience. Si vous préférez garder les confirmations, passez un argument qui remplace les options par défaut, comme `agents`, après le séparateur `--`.
+
+## Installer et authentifier sbx
+
+L'installation dépend de votre système, la [page d'installation de Docker](https://docs.docker.com/ai/sandboxes/get-started/) la détaille. Une fois la CLI présente, la connexion se fait avec votre compte Docker :
+
+```bash
+sbx login
+```
+
+Au premier lancement, `sbx` vous demande de choisir une politique réseau globale. Trois niveaux existent :
+
+| Niveau | Comportement |
+| --- | --- |
+| Open | tout le trafic est autorisé |
+| Balanced | refus par défaut, sites de développement courants autorisés |
+| Locked Down | tout est bloqué, y compris l'API du modèle, sauf autorisation explicite |
+
+Balanced est un bon point de départ. Vous resserrerez ensuite projet par projet.
+
+Pour l'authentification de Claude, deux options. Avec une clé d'API, stockez-la dans le gestionnaire de secrets de `sbx` :
+
+```bash
+sbx secret set anthropic
+```
+
+Avec un abonnement Claude, lancez simplement la sandbox puis tapez `/login` dans Claude Code. Le jeton de session reste sur l'hôte et n'est jamais écrit dans la sandbox.
+
+## Un projet Symfony dans une sandbox
+
+Un projet [Symfony](https://symfony.com/doc/current/index.html) demande PHP, Composer, souvent une base de données et quelques extensions. Le plus propre est de laisser l'agent construire cet environnement dans la sandbox, grâce à son Docker privé, plutôt que d'exposer votre démon Docker local.
+
+### Lancer la sandbox
+
+Depuis la racine du projet :
+
+```bash
+cd ~/projets/mon-app-symfony
+sbx run --name mon-app claude
+```
+
+Le répertoire courant est monté en lecture-écriture. Si vous voulez nommer la sandbox pour la retrouver, `--name` suffit : `sbx run --name mon-app` rattache ensuite n'importe quel terminal à la même sandbox.
+
+### Ouvrir les bonnes routes réseau
+
+Composer a besoin de Packagist, et probablement de GitHub pour certaines archives. Avec la politique Balanced, une partie est déjà autorisée. Vérifiez l'état réel plutôt que de supposer :
+
+```bash
+sbx policy ls
+sbx policy allow network repo.packagist.org
+```
+
+Ajoutez une règle à la fois, uniquement quand une commande échoue pour une raison réseau. C'est plus lent au début, mais vous obtenez la liste exacte des hôtes dont votre projet a besoin, ce qui se réutilise ensuite en documentation d'équipe.
+
+### Demander à l'agent d'installer l'environnement
+
+Vous pouvez transmettre une consigne initiale à Claude Code après `--` :
+
+```bash
+sbx run --name mon-app claude -- "Installe les dépendances Composer, lance la base de données avec docker compose et exécute la suite PHPUnit"
+```
+
+La base de données tourne alors dans le Docker de la sandbox. Pour la consulter depuis votre navigateur ou votre client SQL, publiez un port :
+
+```bash
+sbx ports mon-app --publish 8080:8000
+```
+
+### Récupérer le travail proprement
+
+En mode direct, les modifications sont immédiatement dans votre arbre de travail. C'est pratique, mais cela signifie que l'agent peut modifier n'importe quel fichier du dépôt, y compris `.git/hooks`. Pour du travail plus sensible, le mode clone est préférable :
+
+```bash
+sbx run --clone --name mon-app-feature claude .
+```
+
+L'agent travaille sur un clone privé à l'intérieur de la machine virtuelle. Vous récupérez ensuite ses commits comme depuis un dépôt distant :
+
+```bash
+git fetch sandbox-mon-app-feature
+git diff main..sandbox-mon-app-feature/ma-branche
+```
+
+Attention : supprimer une sandbox en mode clone supprime aussi ce clone. Récupérez les commits avant de lancer `sbx rm`.
+
+Cette approche s'accorde bien avec les [skills Claude Code partagés par l'équipe](/article/skills-claude-code-equipe-symfony) : les fichiers de configuration du projet restent dans le dépôt, donc disponibles dans la sandbox, alors que la configuration utilisateur de l'hôte (`~/.claude`) n'est pas lue.
+
+## Un projet Node dans une sandbox
+
+Pour un projet Node, le scénario est plus simple : un gestionnaire de paquets, un build, des tests. Le réseau est l'enjeu principal, car npm tire des centaines de paquets.
+
+```bash
+cd ~/projets/mon-app-node
+sbx policy allow network registry.npmjs.org
+sbx run --name mon-app-node claude -- "Installe les dépendances, lance le build puis les tests et corrige les échecs"
+```
+
+Si votre projet utilise un framework serveur comme [Express, Fastify ou Hono](/article/express-fastify-hono-quel-framework-nodejs-choisir), publiez le port de développement pour tester l'application depuis l'hôte :
+
+```bash
+sbx ports mon-app-node --publish 3000:3000
+```
+
+Pour les tests de bout en bout, la sandbox est un très bon terrain : un agent qui lance un navigateur sans tête, installe ses dépendances système et casse son environnement ne touche pas à votre poste. Nous avons décrit le workflow dans l'article sur les [tests end-to-end Playwright avec Claude Code](/article/playwright-tests-end-to-end-claude-code).
+
+Un dernier point propre à Node : les scripts de `package.json` s'exécutent sans que vous les ayez écrits. Si l'agent modifie `postinstall` ou `test`, relisez ces lignes avant de lancer `npm install` côté hôte.
+
+## Gérer les secrets
+
+La règle est simple : aucun secret en clair dans le dossier partagé. Trois mécanismes couvrent l'essentiel :
+
+- `sbx secret set anthropic` pour la clé du modèle ;
+- `sbx secret set github --command 'gh auth token'` pour un jeton GitHub généré à la demande ;
+- un registre privé se déclare avec `gh auth token | sbx secret set --registry ghcr.io --password-stdin`.
+
+Dans tous les cas, c'est le proxy hôte qui ajoute l'authentification aux requêtes. Même si l'agent exécute `env` ou lit tous les fichiers de la machine virtuelle, la valeur brute n'y est pas.
+
+Attention en revanche à ce que vous copiez vous-même. Un fichier `.env.local` présent dans le dossier monté est lisible par l'agent. Pour un projet Symfony, utilisez des valeurs de développement dédiées, jamais celles de production. Les [serveurs MCP](/article/serveurs-mcp-claude-code-developpeurs-symfony) méritent la même vigilance : les serveurs locaux tournent sur l'hôte avec les droits de l'hôte, ils sortent donc de la sandbox.
+
+## Limites et précautions
+
+La sandbox protège votre machine, pas la qualité du résultat ni vos données partagées. Cinq limites reviennent.
+
+**Le mode direct est un mode live.** Tout ce que l'agent écrit dans le dossier monté est immédiatement sur votre disque. La [documentation de sécurité](https://docs.docker.com/ai/sandboxes/security/) recommande de relire avant exécution les fichiers qui s'exécutent implicitement : hooks Git, Makefile, scripts `package.json`, configuration CI.
+
+**La liste d'autorisations par défaut est large.** Certains domaines autorisés, comme `*.googleapis.com`, couvrent bien plus que les API d'IA. Passez en revue `sbx policy ls` et retirez ce dont vous n'avez pas besoin.
+
+**La configuration utilisateur de l'hôte n'est pas reprise.** Seule la configuration du projet est visible. Si vos réglages vivent dans `~/.claude`, déplacez ce qui doit être partagé dans le dépôt.
+
+**Les performances sont celles d'une machine virtuelle.** Le premier démarrage télécharge l'image de base, et les builds lourds consomment les ressources de l'hôte. Pour éviter de reconstruire l'environnement à chaque fois, sauvegardez-le en modèle :
+
+```bash
+sbx template save mon-app mon-app-php:v1
+sbx run -t mon-app-php:v1 claude
+```
+
+**Une sandbox persiste jusqu'à sa suppression.** Les sandboxes arrêtées s'accumulent. `sbx ls` les liste, `sbx stop` les met en pause, `sbx rm` les supprime et `sbx prune --dry-run` montre ce qui serait nettoyé.
+
+## Bonnes pratiques pour une équipe
+
+Quelques règles qui évitent les surprises quand plusieurs développeurs adoptent `sbx` :
+
+1. **Documenter la politique réseau du projet** : la liste des hôtes autorisés pour Composer, npm et les services tiers a sa place dans le dépôt.
+2. **Préférer `--clone` pour les tâches longues ou risquées**, et le mode direct pour les petites corrections surveillées.
+3. **Nommer les sandboxes** avec le sujet de la tâche, pour les retrouver et les nettoyer.
+4. **Partager un modèle de sandbox** par type de projet (Symfony, Node) afin de ne pas réinstaller l'environnement à chaque session.
+5. **Ne jamais monter plus que nécessaire** : un projet par sandbox, les dépendances partagées en lecture seule avec le suffixe `:ro`.
+6. **Garder la revue de code humaine** : l'isolation traite le risque système, pas le risque de qualité.
+
+Le choix de l'assistant reste une décision à part, que nous détaillons dans notre comparatif sur [quel assistant IA choisir pour coder](/article/quel-assistant-ia-choisir-pour-coder). Pour limiter la consommation de contexte pendant ces sessions longues, les [réducteurs de tokens](/article/reducteurs-tokens-assistants-ia-code) s'appliquent aussi dans une sandbox.
+
+## En résumé
+
+`sbx run claude` déplace la frontière de confiance : au lieu de valider chaque commande à la main, vous décidez une fois ce qui est partagé, ce qui est joignable sur le réseau et quels secrets sont disponibles. Pour Symfony comme pour Node, la mise en place tient en quelques commandes, avec un réglage réseau projet par projet.
+
+Si votre équipe utilise déjà des agents de code sur des applications en production, cette isolation est un prérequis raisonnable, à côté d'une [infrastructure Docker maîtrisée](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) et d'une revue systématique des changements.
