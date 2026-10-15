@@ -6,16 +6,23 @@ import type { BlogLanguage } from "@/types/blog";
 
 interface LanguageSwitchProps {
   readonly target?: { language: BlogLanguage; href: string };
+  readonly subject?: "article" | "page";
 }
 
-const LABELS: Record<BlogLanguage, { text: string; ariaLabel: string }> = {
-  fr: { text: "FR", ariaLabel: "Lire cet article en français" },
-  en: { text: "EN", ariaLabel: "Read this article in English" },
+const LABELS: Record<"article" | "page", Record<BlogLanguage, { text: string; ariaLabel: string }>> = {
+  article: {
+    fr: { text: "FR", ariaLabel: "Lire cet article en français" },
+    en: { text: "EN", ariaLabel: "Read this article in English" },
+  },
+  page: {
+    fr: { text: "FR", ariaLabel: "Voir cette page en français" },
+    en: { text: "EN", ariaLabel: "View this page in English" },
+  },
 };
 
-export default function LanguageSwitch({ target }: LanguageSwitchProps) {
+export default function LanguageSwitch({ target, subject = "article" }: LanguageSwitchProps) {
   if (!target) return null;
-  const label = LABELS[target.language];
+  const label = LABELS[subject][target.language];
 
   return (
     <Link

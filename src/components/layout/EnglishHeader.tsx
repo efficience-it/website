@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { getMessages } from "@/lib/i18n/messages";
 import ThemeToggle from "./ThemeToggle";
+import PageLanguageSwitch from "@/components/ui/PageLanguageSwitch";
 
 export default function EnglishHeader() {
   const messages = getMessages("en");
@@ -23,6 +24,7 @@ export default function EnglishHeader() {
           <Link href="/en/blog" className="text-sm font-semibold text-dark hover:text-primary">
             {messages.blog}
           </Link>
+          <PageLanguageSwitch />
           <ThemeToggle />
         </nav>
       </div>

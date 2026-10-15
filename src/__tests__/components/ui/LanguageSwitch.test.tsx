@@ -35,6 +35,11 @@ describe("LanguageSwitch", () => {
     });
   });
 
+  it("labels the page variant", () => {
+    render(<LanguageSwitch subject="page" target={{ language: "en", href: "/en" }} />);
+    expect(screen.getByRole("link", { name: "View this page in English" })).toHaveTextContent("EN");
+  });
+
   it("tracks the language switch from English to French", () => {
     window.gtag = jest.fn();
     render(<LanguageSwitch target={{ language: "fr", href: "/article/exemple" }} />);
