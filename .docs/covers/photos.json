@@ -1168,5 +1168,12 @@
     "license": "CC0",
     "author": "",
     "url": "https://commons.wikimedia.org/wiki/File:Fish_hook_MET_22.1.954.jpg"
+  },
+  "pie-remplacant-pecl-installer-extensions-php": {
+    "name": "pie-extensions-php",
+    "file": "File:Baking a Pie (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Andy Chilton andyc",
+    "url": "https://commons.wikimedia.org/wiki/File:Baking_a_Pie_(Unsplash).jpg"
   }
 }
