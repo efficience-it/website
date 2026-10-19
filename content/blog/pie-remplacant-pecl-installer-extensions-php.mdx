@@ -1,0 +1,106 @@
+---
+title: "PIE : installer les extensions PHP à la place de PECL"
+date: "2026-10-19"
+updatedAt: "2026-10-19"
+author: "Louis-Arnaud Catoire"
+category: "PHP"
+excerpt: "PIE remplace PECL pour installer les extensions PHP. Installation, commandes, Dockerfile pour Symfony, versions verrouillées et plan de migration, testés avec PIE 1.5.2."
+image: "/images/blog/cover-pie-extensions-php.webp"
+faq:
+  - question: "PIE remplace-t-il PECL ?"
+    answer: "Oui. Le dépôt officiel de PIE indique qu'il est l'installateur officiel d'extensions PHP et qu'il remplace PECL, désormais déprécié. PIE fonctionne comme Composer : il s'appuie sur Packagist, résout des contraintes de version et installe l'extension dans la version de PHP ciblée."
+  - question: "Comment installer PIE dans un Dockerfile ?"
+    answer: "L'image ghcr.io/php/pie:bin contient uniquement le binaire. On la monte le temps d'une instruction RUN avec --mount=type=bind,from=ghcr.io/php/pie:bin,source=/pie,target=/usr/local/bin/pie, puis on lance pie install. PIE n'est donc présent qu'au moment du build et n'alourdit pas l'image finale."
+  - question: "Toutes les extensions sont-elles compatibles avec PIE ?"
+    answer: "Non. Une extension doit publier un paquet compatible PIE sur Packagist. Redis, APCu, Xdebug, Imagick, Memcached, MongoDB ou Swoole le sont, d'autres extensions de PECL attendent encore leur migration. La liste à jour est sur packagist.org/extensions et dans la documentation de PIE."
+---
+
+Pendant des années, installer une extension PHP voulait dire `pecl install redis`, puis une édition manuelle du `php.ini` (la [documentation PHP sur PECL](https://www.php.net/manual/en/install.pecl.php) décrit encore cette méthode), puis une prière pour que la compilation passe. Dans un Dockerfile, on y ajoutait souvent un script communautaire pour masquer les détails. Le projet [PIE](https://github.com/php/pie) (PHP Installer for Extensions) vise à remplacer tout cela par un outil officiel, au fonctionnement proche de Composer. Cet article en détaille l'usage sur un projet Symfony. Toutes les commandes ont été exécutées avec PIE 1.5.2 sur PHP 8.4.26, dans l'image Docker `php:8.4-cli`.
+
+## Pourquoi PIE remplace PECL
+
+Le dépôt de PIE est clair : PIE est l'installateur officiel des extensions PHP et il remplace PECL, désormais déprécié. Le changement de modèle est le point important. PECL avait son propre dépôt de paquets et fonctionnait indépendamment de Composer.
+
+PIE reprend les mécanismes que les développeurs PHP connaissent déjà. Les extensions sont des paquets Composer hébergés sur Packagist, les contraintes de version suivent la [syntaxe de Composer](/article/utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques) et PIE est distribué sous forme de PHAR, comme Composer lui-même. Il télécharge les sources, compile l'extension, la copie dans le bon dossier et l'active.
+
+## Installer PIE et vérifier son authenticité
+
+Le plus simple est de télécharger `pie.phar` depuis la page des [versions du dépôt](https://github.com/php/pie/releases), puis de vérifier sa provenance :
+
+```bash
+gh attestation verify --owner php pie.phar
+php pie.phar -V
+```
+
+La première commande retourne le code 0 quand l'attestation correspond au dépôt `php`. La seconde affiche `PHP Installer for Extensions (PIE) 1.5.2`. On peut ensuite copier le fichier dans le `PATH` sous le nom `pie`. PIE a besoin de PHP 8.1 ou plus pour s'exécuter, mais il sait installer une extension pour une autre version de PHP grâce à l'option `--with-php-config`.
+
+Les outils de compilation (`gcc`, `make`, `autoconf`, `libtool`, `phpize`) restent nécessaires sous Linux. La commande `pie check-build-tools` vérifie leur présence, et en mode non interactif il faut passer `--auto-install-build-tools` pour les laisser s'installer.
+
+## Les commandes du quotidien
+
+Les commandes que nous utilisons au quotidien tiennent sur une page :
+
+```bash
+pie search redis
+pie info phpredis/phpredis
+pie install phpredis/phpredis
+pie show
+pie upgrade
+pie uninstall phpredis/phpredis
+```
+
+`pie search` cherche un paquet compatible, `pie info` affiche ses options de configuration, `pie install` télécharge, compile, installe et active l'extension. Voici la sortie de `pie show` après l'installation de Redis et d'APCu :
+
+```text
+Loaded PIE extensions:
+  apcu:5.1.28 (from 🥧 apcu/apcu:v5.1.28 ✅)
+  redis:6.3.0 (from 🥧 phpredis/phpredis:6.3.0 ✅)
+```
+
+Pour Redis, `pie info phpredis/phpredis` liste les options de compilation disponibles, comme `--enable-redis-igbinary` ou `--enable-redis-zstd`. Elles se passent directement à `pie install`, ce qui remplace les questions interactives de `pecl install`.
+
+## Un Dockerfile PHP pour Symfony
+
+L'image `ghcr.io/php/pie:bin` ne contient que le binaire de PIE. On la monte le temps d'une instruction, ce qui laisse l'image finale sans PIE. Voici le Dockerfile que nous avons construit et exécuté :
+
+```dockerfile
+FROM php:8.4-cli
+
+RUN --mount=type=bind,from=ghcr.io/php/pie:bin,source=/pie,target=/usr/local/bin/pie \
+    export DEBIAN_FRONTEND="noninteractive"; \
+    set -eux; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends unzip; \
+    pie install --no-cache phpredis/phpredis apcu/apcu; \
+    apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false unzip; \
+    rm -rf /var/lib/apt/lists/*
+```
+
+PIE a trouvé `phpredis/phpredis:6.3.0` et `apcu/apcu:v5.1.28`, les a compilés, installés dans `/usr/local/lib/php/extensions/no-debug-non-zts-20240924` et activés via les fichiers `docker-php-ext-redis.ini` et `docker-php-ext-apcu.ini`. Dans le conteneur obtenu, `php -m` liste bien `apcu` et `redis`.
+
+Trois remarques pour un projet réel. `unzip` est nécessaire à PIE pour extraire les archives. L'option `--no-cache`, reprise de l'exemple de la documentation, évite de réutiliser un cache de téléchargement entre deux builds. Et épingler la version de l'image PIE (`1.5-bin` plutôt que `bin`) rend le build reproductible : l'étiquette `bin` suit toujours la dernière version stable. C'est un bon complément d'une [stratégie Docker en production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui). Le même principe s'applique si vous déployez avec [FrankenPHP](/article/concretement-cest-quoi-frankenphp), à condition de tester la compilation de chaque extension sur votre variante de PHP.
+
+## Quelles extensions installer avec PIE
+
+Au moment de la rédaction, la documentation de PIE liste notamment comme compatibles : Redis (`phpredis/phpredis`), APCu (`apcu/apcu`), Xdebug (`xdebug/xdebug`), Imagick, Memcached, MongoDB, PCOV, Swoole et UUID. Les extensions fournies avec PHP, comme `opcache`, sont aussi décrites dans la table. La liste complète et à jour est sur [Packagist](https://packagist.org/extensions) et dans la page [des extensions prises en charge](https://github.com/php/pie/blob/1.6.x/docs/supported-extensions.md). Une extension absente de cette liste n'a simplement pas encore publié de paquet PIE : on la garde alors via PECL ou son installateur habituel, le temps de sa migration.
+
+## Reproductibilité et sécurité
+
+PIE enregistre les extensions installées pour chaque version de PHP dans un fichier `pie.json`, avec un `pie.lock` associé. Quand on précise une contrainte, par exemple `pie install "xdebug/xdebug:^3.4.3"`, elle est écrite dans `pie.json`. La commande `pie install --from-lock` réinstalle les versions verrouillées sur une autre machine. La commande `pie upgrade` met à jour les extensions dans la limite des contraintes enregistrées.
+
+Côté projet, `pie install-extensions-for-project` lit le `composer.lock` pour repérer les `ext-*` requis. Nous l'avons exécutée sur un projet exigeant `ext-redis`, `ext-apcu` et `ext-imagick` : elle signale `ext-apcu` comme déjà installée et `ext-imagick` comme manquante. C'est un bon garde-fou avant un déploiement, en plus de la vérification de la plateforme par Composer.
+
+Pour la chaîne d'approvisionnement, l'attestation de `pie.phar` se vérifie avec `gh attestation verify`, et la commande `pie self-verify` permet de vérifier PIE lui-même. Les extensions sont téléchargées depuis les dépôts Packagist déclarés : c'est une raison de plus de revoir les sources avant d'ajouter un paquet inconnu, dans la même logique que pour les [vulnérabilités de vos dépendances](/article/cve-comprendre-les-failles-pour-mieux-se-proteger).
+
+## Statut et plan de migration depuis PECL
+
+PIE est à la version 1.5.2 et la branche de développement est la 1.6. Un binaire autonome existe depuis la 1.4, mais la documentation le qualifie d'expérimental et ne le recommande pas en production. Les extensions ne sont pas toutes migrées, et le comportement peut encore évoluer d'une version mineure à l'autre.
+
+Notre plan de migration est progressif :
+
+1. Lister les extensions installées avec `pecl list` et vérifier lesquelles ont un paquet sur Packagist.
+2. Tester le Dockerfile avec PIE sur une branche, sur la version de PHP visée par votre [plan de fin de support](/article/symfony-php-fin-de-support-eol-plan-action).
+3. Épingler l'image de PIE et les versions des extensions.
+4. Garder PECL uniquement pour les extensions qui n'ont pas encore de paquet PIE.
+
+La table de correspondance entre commandes PECL et PIE de la documentation officielle sert de guide pour remplacer chaque `pecl install` de vos scripts.
