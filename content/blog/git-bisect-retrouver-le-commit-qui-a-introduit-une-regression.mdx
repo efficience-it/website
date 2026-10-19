@@ -1,0 +1,153 @@
+---
+title: "Git bisect : retrouver le commit qui a introduit une régression"
+date: "2026-10-19"
+updatedAt: "2026-10-19"
+author: "Louis-Arnaud Catoire"
+category: "Qualité de code"
+excerpt: "Un test casse et personne ne sait depuis quand. Git bisect isole le commit fautif par recherche dichotomique, à la main ou automatisé avec PHPUnit."
+image: "/images/blog/cover-git-bisect.webp"
+faq:
+  - question: "À quoi sert git bisect ?"
+    answer: "Git bisect retrouve le premier commit qui a introduit un comportement, en général une régression. Il fait une recherche dichotomique dans l'historique : à chaque étape, il se place au milieu de l'intervalle restant et vous demandez si le commit est bon ou mauvais. Pour 1 000 commits, une dizaine d'étapes suffisent."
+  - question: "Que signifie le code de sortie 125 avec git bisect run ?"
+    answer: "Le code 125 indique que le commit ne peut pas être testé, par exemple parce qu'il ne compile pas ou que les dépendances ne s'installent pas. Git le saute et passe à un autre commit. Les autres codes entre 1 et 127, sauf 125, marquent le commit comme mauvais, et 0 le marque comme bon."
+  - question: "Peut-on utiliser git bisect avec PHPUnit ?"
+    answer: "Oui. PHPUnit renvoie un code de sortie non nul quand un test échoue et 0 quand tout passe, ce qui suffit à git bisect run. Il faut cibler le test qui reproduit la régression avec l'option --filter, pour que le résultat ne dépende que du bug recherché."
+---
+
+Un test fonctionnel passait la semaine dernière et échoue ce matin. Entre les deux, quarante commits de six personnes. Relire les diffs un par un prend une heure, parfois plus, et le coupable est rarement celui qu'on soupçonne. `git bisect` règle le problème en quelques minutes, parce qu'il ne regarde pas tous les commits : il en teste seulement une poignée.
+
+## Le principe : une recherche dichotomique dans l'historique
+
+Vous donnez à Git deux repères : un commit où tout fonctionnait et un commit où le bug est présent. Git se place au milieu de l'intervalle et vous demandez si ce commit est bon ou mauvais. Selon votre réponse, il élimine la moitié des commits restants, et recommence. Le nombre d'étapes croît comme le logarithme du nombre de commits : une quarantaine de commits se résout en cinq ou six étapes, mille commits en une dizaine. Le mécanisme est décrit dans la [documentation officielle de git bisect](https://git-scm.com/docs/git-bisect).
+
+La seule condition est que le bug soit déterministe : le même commit doit toujours donner le même verdict.
+
+## Une session manuelle pas à pas
+
+Pour la démonstration, un petit dépôt de neuf commits contient une classe qui calcule un prix TTC. Un commit de refactoring a cassé le calcul, noyé entre des commits de documentation. Le test de référence est un script qui échoue quand le résultat est faux :
+
+```php
+<?php
+
+require __DIR__ . '/src/Price.php';
+
+if (Price::withVat(1000) !== 1200) {
+    fwrite(STDERR, 'withVat(1000) a retourné ' . Price::withVat(1000) . "\n");
+    exit(1);
+}
+
+echo "OK\n";
+```
+
+Sur le dernier commit, le script affiche `withVat(1000) a retourné 1020`. On lance la recherche en désignant le commit actuel comme mauvais et le premier commit comme bon :
+
+```bash
+git bisect start
+git bisect bad HEAD
+git bisect good e68121c
+```
+
+Git répond en se plaçant au milieu de l'intervalle :
+
+```text
+Bisecting: 3 revisions left to test after this (roughly 2 steps)
+[77d353949417094f2d87be545eb638bb645fffd4] docs: update notes 4
+```
+
+À chaque étape, vous lancez votre vérification puis vous répondez `git bisect good` ou `git bisect bad`. Quand Git a convergé, il affiche le premier commit mauvais, son auteur et les fichiers touchés. Il reste alors à revenir sur la branche d'origine :
+
+```bash
+git bisect reset
+```
+
+Sans cette commande, vous restez en tête détachée au milieu de l'historique, ce qui est la source classique de commits égarés.
+
+## Automatiser avec git bisect run
+
+Répondre à la main à chaque étape est vite pénible. `git bisect run` exécute une commande à votre place et interprète son code de sortie : `0` signifie que le commit est bon, un code entre `1` et `127` (sauf `125`) qu'il est mauvais. La même recherche devient :
+
+```bash
+git bisect start HEAD e68121c
+git bisect run php check.php
+```
+
+Voici la sortie réelle de la session automatisée, avec un script qui lance le test dans un conteneur :
+
+```text
+running '../test.sh'
+Bisecting: 1 revision left to test after this (roughly 1 step)
+[f8b7b38cc6a25b4dae28a41ac9eadfde73a851ac] docs: update notes 5
+running '../test.sh'
+Bisecting: 0 revisions left to test after this (roughly 0 steps)
+[0d233a175bac7cb8fab1c5ff94fe4aa437265998] refactor: simplify price computation
+running '../test.sh'
+0d233a175bac7cb8fab1c5ff94fe4aa437265998 is the first bad commit
+bisect found first bad commit
+```
+
+Trois exécutions ont suffi pour désigner le commit de refactoring parmi huit candidats, sans intervention.
+
+## Exemple sur un projet Symfony avec PHPUnit
+
+Sur une application Symfony, la commande à automatiser est tout simplement le test qui échoue. PHPUnit renvoie un code non nul en cas d'échec, ce qui suffit :
+
+```bash
+git bisect start HEAD v2.4.0
+git bisect run vendor/bin/phpunit --filter testWithVat
+```
+
+L'option `--filter` est essentielle. Elle cible le seul test qui reproduit la régression, ce qui évite qu'un autre test cassé sans rapport ne fausse les verdicts. Elle rend aussi la recherche rapide. La [documentation de PHPUnit](https://docs.phpunit.de/en/11.5/textui.html) détaille les options de la ligne de commande et les codes de sortie.
+
+Le test qui sert de sonde peut être écrit après coup, sur le commit actuel, puis copié hors du dépôt. Git change les fichiers du dépôt à chaque étape : un test placé dans l'arbre de travail serait remplacé ou supprimé quand on remonte avant sa création. Le plus simple est de le garder hors du dépôt, ou de le rejouer depuis un commit stable.
+
+## Les cas particuliers
+
+### Un commit impossible à tester
+
+Un commit intermédiaire peut ne pas compiler, ou laisser les dépendances dans un état incohérent. Répondre `good` ou `bad` fausserait la recherche. Deux solutions : `git bisect skip` à la main, ou le code de sortie `125` dans votre script. Un script qui écarte les commits inutilisables ressemble à ceci :
+
+```bash
+#!/bin/sh
+[ -f src/Price.php ] || exit 125
+php -l src/Price.php >/dev/null || exit 125
+php check.php
+```
+
+Si trop de commits sont sautés, Git peut annoncer plusieurs commits suspects au lieu d'un seul. C'est un signal : la zone contient des commits qu'on ne peut pas départager.
+
+### Un historique avec des merges
+
+Avec des branches de fonctionnalité fusionnées, Git peut tomber sur un commit de branche qui ne reflète pas l'état de la branche principale. L'option `--first-parent` limite la recherche aux commits de la ligne principale, donc aux merges. Vous trouvez d'abord la fusion fautive, puis vous relancez une recherche à l'intérieur de cette branche seulement.
+
+### Un bug qui dépend des dépendances ou de la base
+
+Si le comportement change avec les versions de Composer ou le schéma de la base, le script doit remettre l'environnement dans l'état du commit testé : `composer install`, migrations, cache vidé. Cette préparation coûte du temps à chaque étape, mais elle reste bien moins chère qu'une relecture manuelle. Pour les bonnes habitudes autour des dépendances, notre article sur [l'usage de Composer dans un projet Symfony](/article/utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques) donne les bases.
+
+### Changer le vocabulaire
+
+Quand on cherche autre chose qu'une régression, par exemple le commit qui a corrigé un bug, `good` et `bad` prêtent à confusion. Git permet de choisir ses propres termes :
+
+```bash
+git bisect start --term-old=fonctionne --term-new=casse
+git bisect fonctionne e68121c
+git bisect casse HEAD
+```
+
+## Ce qui rend un bisect efficace en équipe
+
+Git bisect est aussi bon que l'historique qu'on lui donne. Trois pratiques font la différence :
+
+- **Des commits atomiques.** Un commit qui mélange un refactoring, une correction et une mise à jour de dépendances désigne trois suspects à la fois. Les [conventions de codage](/article/coding-conventions) d'une équipe gagnent à inclure la taille et la portée des commits.
+- **Un historique propre.** Chaque commit doit idéalement laisser le projet dans un état qui compile et dont les tests passent. Les [hooks Git](/article/git-hooks-php-lefthook-grumphp-husky) aident à le garantir avant même le commit, et la CI sur chaque pull request évite d'accumuler des commits qui cassent la suite de tests.
+- **Un test écrit pour chaque bug.** Le test qui sert de sonde pour le bisect devient ensuite le test de non-régression. Pour repérer tôt une partie de ces erreurs, [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) complète utilement les tests.
+
+Le bisect sert aussi à dater un changement dans du code dont plus personne ne sait pourquoi il existe, comme celui que traite notre retour sur [l'élimination du code mort](/article/code-mort-mission-elimination). Et si le test ne se laisse pas écrire, parler du problème à voix haute, comme dans [la méthode du canard en plastique](/article/la-methode-du-canard-en-plastique-le-secret-des-developpeurs), aide à formuler une hypothèse avant de lancer la recherche.
+
+## À retenir
+
+- Donnez à Git un commit bon et un commit mauvais, il fait le reste en environ `log2(n)` étapes.
+- `git bisect run` automatise la recherche à partir d'un code de sortie : `0` bon, `1` à `127` mauvais, `125` à sauter.
+- Ciblez un seul test avec `--filter`, et gardez-le hors de l'arbre de travail.
+- Terminez toujours par `git bisect reset`.
+- Des commits atomiques et une CI verte transforment une chasse d'une heure en recherche de quelques minutes.

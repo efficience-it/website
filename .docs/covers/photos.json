@@ -1168,5 +1168,12 @@
     "license": "CC0",
     "author": "",
     "url": "https://commons.wikimedia.org/wiki/File:Fish_hook_MET_22.1.954.jpg"
+  },
+  "git-bisect-retrouver-le-commit-qui-a-introduit-une-regression": {
+    "name": "git-bisect",
+    "file": "File:Railway track to nowhere (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Matthew Bedford mattbedford",
+    "url": "https://commons.wikimedia.org/wiki/File:Railway_track_to_nowhere_(Unsplash).jpg"
   }
 }
