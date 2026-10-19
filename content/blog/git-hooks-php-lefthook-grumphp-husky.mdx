@@ -1,0 +1,171 @@
+---
+title: "Git hooks PHP : Lefthook, GrumPHP ou Husky, lequel choisir ?"
+date: "2026-10-19"
+updatedAt: "2026-10-19"
+author: "Louis-Arnaud Catoire"
+category: "Qualité de code"
+excerpt: "Lefthook, GrumPHP ou Husky : comment lancer PHPStan, PHP-CS-Fixer et la vérification des messages de commit avant chaque commit, et quel outil choisir pour votre équipe."
+image: "/images/blog/cover-git-hooks-php.webp"
+proficiencyLevel: "Intermédiaire"
+faq:
+  - question: "Quelle différence entre un hook Git et la CI ?"
+    answer: "Un hook Git s'exécute sur le poste du développeur, au moment du commit, et donne un retour en quelques secondes. La CI s'exécute sur un serveur après l'envoi du code et ne peut pas être contournée par un développeur. Les deux sont complémentaires : le hook fait gagner du temps, la CI garantit le résultat."
+  - question: "Faut-il lancer toute la suite de tests dans un hook pre-commit ?"
+    answer: "Non. Un hook qui dure trop longtemps finit contourné. Gardez dans le pre-commit les contrôles rapides sur les fichiers modifiés : syntaxe, formatage, analyse statique ciblée. Déplacez la suite de tests complète et l'analyse de tout le projet vers un hook pre-push ou vers la CI."
+  - question: "Peut-on contourner un hook Git ?"
+    answer: "Oui, avec git commit --no-verify. Nous l'avons vérifié avec Lefthook, GrumPHP et Husky : le commit passe sans aucun contrôle. C'est pourquoi les mêmes vérifications doivent aussi tourner, de façon bloquante, dans la CI."
+  - question: "Lefthook ou GrumPHP pour un projet Symfony ?"
+    answer: "GrumPHP s'installe seul via Composer et fournit des tâches PHP prêtes à l'emploi, ce qui convient à un projet 100 % PHP. Lefthook demande d'écrire les commandes, mais il fonctionne avec n'importe quel langage et s'adapte mieux à un dépôt qui mélange PHP et JavaScript."
+---
+
+Un développeur pousse son code, la CI échoue dix minutes plus tard sur une règle de style, il corrige, repousse et attend de nouveau. Ce va-et-vient est évitable. Les hooks Git exécutent des contrôles sur le poste du développeur, au moment du commit, quand la correction ne coûte que quelques secondes.
+
+Trois outils reviennent sans cesse dans les projets PHP : Lefthook, GrumPHP, et Husky associé à lint-staged. Nous les avons installés et exécutés sur un même projet, avec PHPStan et PHP-CS-Fixer comme contrôles, pour comparer ce que chacun demande et ce qu'il apporte.
+
+## Pourquoi des hooks en plus de la CI
+
+Un hook est un script que Git lance à un moment précis ([documentation officielle des hooks Git](https://git-scm.com/docs/githooks)). Le hook `pre-commit` s'exécute avant la création du commit, `commit-msg` valide le message, `pre-push` s'exécute avant l'envoi. Si le script échoue, Git annule l'opération.
+
+L'intérêt est double. Le développeur est prévenu tout de suite, sans attendre un serveur. Et l'historique cesse de se remplir de commits « fix style » ou « correction phpstan », ce qui laisse les relecteurs parler de conception plutôt que d'indentation. C'est le prolongement naturel de [conventions de code](/article/coding-conventions) rendues exécutables plutôt que seulement documentées.
+
+## Quels contrôles mettre dans un hook
+
+Une règle simple : un hook doit se terminer en quelques secondes, sinon l'équipe finit par le contourner. On répartit donc les contrôles ainsi :
+
+- **`pre-commit`** : vérification de syntaxe, formatage, analyse statique des seuls fichiers modifiés.
+- **`commit-msg`** : format du message, par exemple Conventional Commits.
+- **`pre-push` ou CI** : suite de tests complète, analyse de tout le projet, détection de secrets avec un outil dédié comme Gitleaks, dans l'esprit de la [sensibilisation à la sécurité informatique](/article/comment-former-vos-equipes-a-la-securite-informatique-en-toute-simplicite).
+
+Rector n'a pas sa place dans un hook : on le lance à chaque montée de version, comme nous l'expliquons dans [notre article sur Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony). Pour le choix des analyseurs eux-mêmes, voyez notre [comparatif des analyseurs statiques PHP](/article/comparateur-analyseurs-statiques-php).
+
+Une limite à garder en tête : analyser uniquement les fichiers modifiés ne voit pas ce qu'un changement casse dans les fichiers voisins. L'analyse complète, notamment [PHPStan à un niveau élevé](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php), reste donc nécessaire en CI.
+
+## Lefthook : un binaire unique, indépendant du langage
+
+[Lefthook](https://github.com/evilmartians/lefthook) est un binaire configuré par un fichier YAML, sous licence MIT. Il n'est pas lié à PHP, ce qui permet d'utiliser la même configuration sur un dépôt qui contient aussi du JavaScript. Il s'installe via Composer :
+
+```bash
+composer require --dev evilmartians/lefthook
+vendor/bin/lefthook install
+```
+
+Voici une configuration qui lance trois contrôles en parallèle sur les fichiers PHP indexés, et vérifie le format du message de commit :
+
+```yaml
+pre-commit:
+  parallel: true
+  jobs:
+    - name: syntaxe
+      run: for f in {staged_files}; do php -l "$f" || exit 1; done
+      glob: "*.php"
+    - name: style
+      run: vendor/bin/php-cs-fixer fix --dry-run --diff --config=.php-cs-fixer.dist.php --using-cache=no --path-mode=intersection {staged_files}
+      glob: "*.php"
+    - name: phpstan
+      run: vendor/bin/phpstan analyse --no-progress --level=6 {staged_files}
+      glob: "*.php"
+commit-msg:
+  commands:
+    format:
+      run: 'grep -qE "^(feat|fix|chore|docs|refactor|test)(\(.+\))?: .+" {1}'
+```
+
+`{staged_files}` désigne les fichiers indexés, `glob` filtre ceux qui concernent le job, et `{1}` est le chemin du fichier contenant le message. Avant PHP 8.3, `php -l` ne contrôle que le premier fichier reçu : la boucle `for` vérifie chaque fichier indexé. Lefthook exécute les jobs l'un après l'autre par défaut : c'est `parallel: true` qui les lance ensemble. Dans notre test, un commit avec une classe mal formatée et un appel à une méthode inexistante a été refusé, avec un résumé par job. Un message de commit libre a lui aussi été refusé.
+
+Plutôt que de refuser un défaut de style, on peut le corriger et le réindexer avec `stage_fixed` :
+
+```yaml
+pre-commit:
+  jobs:
+    - name: style
+      run: vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --using-cache=no --path-mode=intersection {staged_files}
+      glob: "*.php"
+      stage_fixed: true
+```
+
+Dans notre essai, le fichier commité était bien reformaté. Trois pièges rencontrés en chemin :
+
+- **PHP-CS-Fixer exige un fichier de configuration dès qu'on lui passe plusieurs chemins.** Sans `--config`, il répond « For multiple paths config parameter is required ». Ajoutez aussi `--path-mode=intersection` pour qu'il respecte le `Finder` de votre configuration.
+- **Les hooks installés dépendent de la configuration présente au moment de `lefthook install`.** Après avoir ajouté un bloc `commit-msg`, relancez la commande.
+- **Le paquet Composer télécharge le binaire depuis GitHub à la première exécution**, en vérifiant sa somme de contrôle. Dans un conteneur ou une CI sans accès à GitHub, l'installation échoue.
+
+## GrumPHP : le plugin Composer pensé pour PHP
+
+[GrumPHP](https://github.com/phpro/grumphp) est un plugin Composer, également sous licence MIT. Il installe lui-même les hooks : après `composer require --dev phpro/grumphp`, nous avons trouvé les hooks `pre-commit` et `commit-msg` dans `.git/hooks`, et Composer a ajouté `allow-plugins` à `composer.json`. Aucune commande d'installation supplémentaire n'est nécessaire.
+
+Sa configuration décrit des tâches plutôt que des commandes :
+
+```yaml
+grumphp:
+    tasks:
+        phpcsfixer:
+            config: .php-cs-fixer.dist.php
+        phpstan:
+            level: 6
+        git_commit_message:
+            enforce_capitalized_subject: false
+            type_scope_conventions:
+                types: [feat, fix, chore, docs, refactor, test]
+```
+
+Sa documentation liste des tâches prêtes à l'emploi pour PHPStan, PHP-CS-Fixer, PHPUnit, Infection, Deptrac, Rector, Psalm ou encore Mago. GrumPHP sélectionne lui-même les fichiers PHP indexés, sans que vous écriviez `{staged_files}`. L'option `type_scope_conventions` valide le format `type(portée): sujet`. Nous avons désactivé `enforce_capitalized_subject`, activé par défaut, pour accepter des sujets en minuscules.
+
+Dans notre test, le commit fautif a affiché les règles PHP-CS-Fixer enfreintes (par exemple `class_definition` ou `braces_position`) avec la commande de correction, puis l'erreur PHPStan. Le message invalide a été rejeté avec « Invalid Type/Scope Format ». Deux précautions : GrumPHP ne sert que PHP, et son README prévient qu'il écrase des hooks existants, en en gardant une sauvegarde.
+
+## Husky et lint-staged : le choix des projets mixtes
+
+[Husky](https://typicode.github.io/husky/) ne fait qu'une chose : relier Git aux scripts d'un dossier `.husky`. [lint-staged](https://github.com/lint-staged/lint-staged) lance ensuite des commandes sur les fichiers indexés. L'ensemble suppose Node et un `package.json`, ce qui est naturel dans un dépôt qui contient aussi du front.
+
+```bash
+npm install --save-dev husky lint-staged
+npx husky init
+echo "npx lint-staged" > .husky/pre-commit
+```
+
+`npx husky init` crée `.husky/pre-commit` (avec `npm test` par défaut), ajoute `"prepare": "husky"` au `package.json` et configure `core.hooksPath` vers `.husky/_`. La configuration des contrôles PHP se place dans `.lintstagedrc.json` :
+
+```json
+{
+  "*.php": [
+    "vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --path-mode=intersection",
+    "vendor/bin/phpstan analyse --no-progress --level=6"
+  ]
+}
+```
+
+lint-staged réindexe automatiquement les corrections : dans notre essai, une classe mal formatée a été commitée reformatée. Quand PHPStan a échoué, l'outil a remis les fichiers dans leur état d'origine avant de refuser le commit. Husky n'a plus publié de version depuis novembre 2024 (9.1.7 lors de nos tests), ce qui n'empêche pas son fonctionnement mais se surveille.
+
+## Comparatif
+
+Nous avons testé Lefthook 2.2.2, GrumPHP 2.26.0, Husky 9.1.7 et lint-staged 17.6.0.
+
+| Critère | Lefthook | GrumPHP | Husky + lint-staged |
+| --- | --- | --- | --- |
+| Prérequis | Un binaire, installé par Composer, npm ou autre | Composer et PHP | Node et `package.json` |
+| Installation des hooks | `lefthook install` | Automatique, par le plugin Composer | Script `prepare` de npm |
+| Configuration | `lefthook.yml` | `grumphp.yml` | `.husky/` et `.lintstagedrc.json` |
+| Tâches PHP intégrées | Non, commandes à écrire | Oui, nombreuses | Non, commandes à écrire |
+| Dépôt mixte PHP et JavaScript | Très adapté | PHP seulement | Très adapté |
+| Désactivation ponctuelle | `LEFTHOOK=0` | `--no-verify` | `HUSKY=0` |
+
+## Installer les hooks chez tous les développeurs
+
+Le dossier `.git/hooks` n'est pas versionné : un nouvel arrivant n'a donc aucun hook tant qu'il ne les installe pas. GrumPHP règle le problème au `composer install`, Husky au `npm install` grâce au script `prepare`. Avec Lefthook, il faut penser à lancer `lefthook install` : placez cette commande dans la procédure d'installation du projet, par exemple derrière un [task runner comme Castor](/article/castor-ou-make-task-runner-symfony), pour que personne ne l'oublie.
+
+Si PHP ne tourne que dans un conteneur, la commande du hook doit passer par ce conteneur. Cela rejoint les raisons pour lesquelles [Docker devient la base d'un environnement reproductible](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) : testez le hook sur un poste vierge avant de le généraliser.
+
+## Contourner un hook, et pourquoi la CI reste indispensable
+
+`git commit --no-verify` (ou `-n`) saute tous les hooks. Nous l'avons vérifié avec les trois outils : le commit fautif passe sans aucun contrôle. Les hooks sont un confort, pas une barrière. La garantie vient de la CI, qui doit rejouer les mêmes vérifications de façon bloquante, avec en plus les tests complets.
+
+C'est ce travail de fond que nous menons avec les équipes : une chaîne de contrôles rapide en local, stricte en CI, et lisible pour tous. Notre accompagnement sur la [qualité de code PHP](/tests-automatises-php) part toujours de cet existant.
+
+## Quel outil choisir
+
+Notre recommandation :
+
+- **Projet 100 % PHP, équipe qui veut zéro friction** : GrumPHP. L'installation est automatique et les tâches PHP sont déjà écrites.
+- **Dépôt qui mélange PHP et JavaScript, ou besoin de commandes explicites** : Lefthook. Une seule configuration pour tout le dépôt.
+- **Projet qui a déjà Node et Husky pour le front** : Husky avec lint-staged, sans ajouter un outil de plus.
+
+Dans les trois cas, gardez le `pre-commit` rapide, déplacez le lourd vers `pre-push` et la CI, et ne comptez jamais sur un hook comme seule défense.

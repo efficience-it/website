@@ -1161,5 +1161,12 @@
     "license": "CC0",
     "author": "Felix Steininger felexelix",
     "url": "https://commons.wikimedia.org/wiki/File:Light_bulb_in_a_wire_cage_(Unsplash).jpg"
+  },
+  "git-hooks-php-lefthook-grumphp-husky": {
+    "name": "git-hooks-php",
+    "file": "File:Fish hook MET 22.1.954.jpg",
+    "license": "CC0",
+    "author": "",
+    "url": "https://commons.wikimedia.org/wiki/File:Fish_hook_MET_22.1.954.jpg"
   }
 }
