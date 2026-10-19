@@ -1,10 +1,10 @@
 ---
 title: "Analyseurs statiques PHP : PHPStan, Deptrac, Rector, comment les choisir"
 date: "2026-10-12"
-updatedAt: "2026-10-12"
+updatedAt: "2026-10-19"
 author: "Louis-Arnaud Catoire"
 category: "Qualité de code"
-excerpt: "PHPStan, Psalm, PHP-CS-Fixer, Deptrac, Rector, PHPMD : ce que fait chaque outil, ce qu'il ne fait pas, et l'ordre dans lequel les installer sur un projet Symfony."
+excerpt: "PHPStan, Psalm, PHP-CS-Fixer, Deptrac, Rector, PHPMD, Mago : ce que fait chaque outil, ce qu'il ne fait pas, et l'ordre dans lequel les installer sur un projet Symfony."
 image: "/images/blog/cover-analyseurs-statiques-php.webp"
 proficiencyLevel: "Intermédiaire"
 faq:
@@ -16,6 +16,8 @@ faq:
     answer: "Deptrac vérifie les règles d'architecture : quelle couche a le droit d'appeler quelle autre. PHPStan vérifie que le code est correctement typé, pas que le domaine reste indépendant du framework. Deptrac fait échouer la CI si une dépendance interdite apparaît."
   - question: "Par quel outil commencer sur un projet existant ?"
     answer: "Commencez par PHPStan à un niveau bas avec une baseline, puis PHP-CS-Fixer pour supprimer le bruit de style dans les revues. Ajoutez Rector pour automatiser les montées de version, et Deptrac quand l'équipe a défini des couches qu'elle veut protéger."
+  - question: "Mago peut-il remplacer PHPStan, PHP-CS-Fixer et Deptrac ?"
+    answer: "Mago regroupe un formateur, un linter, un analyseur de types et des règles d'architecture dans un seul binaire, donc il recoupe ces trois outils. Il est plus jeune, et sa documentation ne mentionne pas d'équivalent des extensions PHPStan pour Symfony et Doctrine. Sur un projet existant, testez-le en parallèle avant de remplacer quoi que ce soit."
 ---
 
 Un projet PHP sérieux finit toujours par accumuler des outils d'analyse : un fichier `phpstan.neon`, un `.php-cs-fixer.dist.php`, un `rector.php`, parfois un `deptrac.yaml`. Chacun répond à une question différente, et c'est précisément ce qui crée la confusion. Beaucoup d'équipes installent deux outils qui se recouvrent et en oublient un qui leur manquerait vraiment.
@@ -106,6 +108,33 @@ Ici, le Domain ne dépend de rien, et l'Infrastructure peut dépendre du Domain.
 
 C'est l'outil le plus rentable lors d'une montée de version, car il transforme des centaines de modifications mécaniques en une seule revue de diff. Il est aussi utile pour traiter la [dette technique](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) de façon industrielle plutôt qu'à la main. Une règle de prudence : toujours le lancer sur une branche propre, avec les tests verts avant et après.
 
+## Mago : un seul binaire pour plusieurs de ces rôles
+
+[Mago](https://github.com/carthage-software/mago) est une boîte à outils PHP écrite en Rust, sous licence MIT ou Apache-2.0. C'est un binaire unique, sans runtime PHP, qui regroupe quatre commandes : `mago fmt` pour le formatage, `mago lint` pour les règles de style et de bonnes pratiques, `mago analyze` pour l'analyse de types et `mago guard` pour les règles d'architecture. Il recoupe donc en partie PHP-CS-Fixer, PHPStan et Deptrac.
+
+Un fichier `mago.toml`, généré par `mago init`, suffit pour démarrer :
+
+```toml
+php-version = "8.4"
+
+[source]
+paths = ["src"]
+```
+
+Sur une méthode qui passe un `?string` à `strtoupper()`, `mago analyze` remonte une erreur `possibly-null-argument`. Comme PHPStan, il sait figer l'existant : `mago analyze --generate-baseline --baseline analysis-baseline.toml` enregistre les erreurs actuelles, puis `mago analyze --baseline analysis-baseline.toml` ne signale que les nouvelles.
+
+`mago guard` reprend le principe de Deptrac. Avec la règle ci-dessous, un `use` ou un `extends` du namespace `App\Domain\` vers l'infrastructure fait échouer la commande :
+
+```toml
+[[guard.perimeter.rules]]
+namespace = "App\\Domain\\"
+permit = ["@self", "@native"]
+```
+
+Le projet est jeune et son écosystème reste plus restreint que celui de PHPStan. La documentation de l'analyseur ne mentionne pas d'équivalent des extensions PHPStan qui comprennent le conteneur de services Symfony et les repositories Doctrine. Le linter propose en revanche des jeux de règles activables pour Symfony et PHPUnit, avec `integrations = ["symfony", "phpunit"]`. La documentation annonce aussi l'analyse d'un projet entier en quelques secondes : mesurez-le sur votre propre code avant d'en faire un argument. Les exemples d'analyse, de baseline et de `guard` ci-dessus ont été exécutés avec Mago 1.57.0.
+
+Notre recommandation : sur un projet Symfony qui utilise déjà PHPStan et ses extensions, ne remplacez rien d'emblée. Essayez Mago en parallèle en CI, sans le rendre bloquant, pour comparer ce qu'il trouve de plus ou de moins. Sur un projet neuf, ou pour réduire le nombre d'outils à maintenir, il mérite une vraie évaluation.
+
 ## PHPMD, PHPMetrics et les autres
 
 Quelques outils complètent le tableau :
@@ -125,6 +154,7 @@ Pour traquer ce qui n'est plus appelé, les analyseurs de code mort font partie 
 | PHP-CS-Fixer | Écarts de style | Oui | Immédiate |
 | Deptrac | Violations d'architecture | Non | Après définition des couches |
 | Rector | Code à moderniser | Oui | Par lots de règles |
+| Mago | Bugs, types, style, architecture | Partiellement | Progressive, avec baseline |
 | PHPMD | Complexité, design | Non | Optionnelle |
 
 ## Dans quel ordre les installer
@@ -136,10 +166,12 @@ Sur un projet existant, un ordre simple limite les frictions :
 3. **Rector, ponctuellement.** On le lance à chaque montée de version de PHP ou de Symfony, pas en continu.
 4. **Deptrac, une fois les couches décidées.** Inutile de l'installer avant que l'équipe se soit mise d'accord sur l'architecture cible.
 
+Sur un projet neuf, Mago peut remplacer les étapes 1, 2 et 4 par un seul outil, à condition d'accepter un écosystème plus jeune.
+
 Dans une CI, les trois premiers tiennent en quelques lignes et s'exécutent en parallèle. Le plus important n'est pas le nombre d'outils mais qu'ils soient bloquants : un avertissement que personne ne lit n'a aucune valeur.
 
 ## Ce qu'il faut retenir
 
-Il n'existe pas un meilleur analyseur statique PHP, parce que ces outils ne répondent pas à la même question. PHPStan cherche les bugs, PHP-CS-Fixer règle le style, Deptrac protège l'architecture, Rector modernise. Choisissez un outil par question, rendez-les bloquants en CI, et montez le niveau d'exigence progressivement.
+Il n'existe pas un meilleur analyseur statique PHP, parce que ces outils ne répondent pas à la même question. PHPStan cherche les bugs, PHP-CS-Fixer règle le style, Deptrac protège l'architecture, Rector modernise, et Mago tente de réunir plusieurs de ces rôles dans un seul binaire. Choisissez un outil par question, rendez-les bloquants en CI, et montez le niveau d'exigence progressivement.
 
 Si vous voulez un avis extérieur sur la chaîne qualité d'un projet Symfony existant, c'est un point que nous examinons systématiquement lors d'un [audit de code](/audit-code-php).
