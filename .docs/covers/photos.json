@@ -1168,5 +1168,12 @@
     "license": "CC0",
     "author": "",
     "url": "https://commons.wikimedia.org/wiki/File:Fish_hook_MET_22.1.954.jpg"
+  },
+  "cyber-resilience-act-php-symfony": {
+    "name": "cyber-resilience-act",
+    "file": "File:Scandinavian - Padlock with Key - Walters 52176.jpg",
+    "license": "Public domain",
+    "author": "Walters Art Museum",
+    "url": "https://commons.wikimedia.org/wiki/File:Scandinavian_-_Padlock_with_Key_-_Walters_52176.jpg"
   }
 }
