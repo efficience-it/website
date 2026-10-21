@@ -1,0 +1,224 @@
+---
+title: "Architecture multi-tenant d'une application SaaS en PHP"
+date: "2026-10-21"
+updatedAt: "2026-10-21"
+author: "Louis-Arnaud Catoire"
+category: "Architecture"
+excerpt: "Une base par client, un schéma par client ou une base partagée : comparatif des trois modèles et isolation prouvée par test avec Symfony et Doctrine."
+image: "/images/blog/cover-multi-tenant-saas-php.webp"
+proficiencyLevel: "Expert"
+faq:
+  - question: "Quel modèle multi-tenant choisir pour démarrer un SaaS ?"
+    answer: "Pour la plupart des produits qui démarrent, une base partagée avec une colonne tenant_id est le plus simple à exploiter, à condition de tester l'isolation. Une base par client se justifie quand les exigences contractuelles ou réglementaires l'imposent, ou que quelques gros clients ont des besoins de sauvegarde et de performance spécifiques."
+  - question: "Un filtre Doctrine suffit-il à isoler les données de deux clients ?"
+    answer: "Non, il réduit le risque mais ne le supprime pas. Il ne s'applique ni au SQL natif ni aux requêtes DBAL, et une entité déjà chargée dans l'identity map peut être renvoyée à un autre tenant dans un même processus. Il faut des tests d'isolation et, idéalement, une protection complémentaire côté base de données."
+  - question: "Comment éviter qu'une file de messages mélange les tenants ?"
+    answer: "En joignant l'identifiant du tenant à chaque message et en basculant le contexte du tenant au début du traitement, avant toute requête. Le worker est un processus de longue durée : vérifiez que le contexte du tenant et le filtre sont rétablis, et que l'EntityManager est vidé entre deux messages, ce que nous n'avons pas testé ici."
+---
+
+Un produit SaaS sert plusieurs clients, appelés tenants (locataires), avec un seul code. La question d'architecture qui en découle est l'isolation : comment garantir qu'un client ne voie jamais les données d'un autre, sans multiplier la charge d'exploitation ? Trois modèles existent, et la réponse dépend de votre nombre de clients, de vos exigences contractuelles et de votre capacité à exploiter l'infrastructure. Cet article les compare, puis implémente le plus simple à démarrer avec Symfony 8.1 et Doctrine ORM 3.7, et l'accompagne de tests qui prouvent l'isolation et en montrent les limites.
+
+## Les trois modèles d'isolation
+
+- **Une base de données par client.** Chaque tenant a sa propre base. L'isolation est forte, la sauvegarde et la restauration se font client par client, mais le nombre de bases à migrer et à surveiller grandit avec le nombre de clients.
+- **Un schéma par client.** Une seule base, mais un schéma (au sens de PostgreSQL) par tenant. L'isolation est bonne, l'exploitation plus légère qu'avec des bases séparées, mais les migrations doivent s'appliquer à chaque schéma.
+- **Une base partagée avec filtrage.** Toutes les tables sont communes, et chaque ligne porte l'identifiant de son tenant. C'est le modèle le plus léger à exploiter et le plus simple à migrer, mais l'isolation repose entièrement sur le code applicatif.
+
+| Critère | Base par client | Schéma par client | Base partagée |
+|---|---|---|---|
+| Isolation des données | Très forte | Forte | Applicative, à tester |
+| Sauvegarde par client | Simple | Possible | Complexe |
+| Migrations | À jouer sur chaque base | À jouer sur chaque schéma | Une seule fois |
+| Charge d'exploitation | Élevée | Moyenne | Faible |
+| Voisin bruyant | Partiel si le serveur est commun | Partagé | Partagé |
+| Adapté à | Peu de gros clients, contraintes fortes | Nombre moyen de clients | Beaucoup de petits clients |
+
+Un critère absent du tableau mérite aussi attention : la facturation à l'usage. Mesurer le stockage d'un client est simple avec une base dédiée, et demande un comptage explicite avec une base partagée. Pour replacer ce choix dans l'ensemble de votre architecture, notre article sur le [choix entre microservices et monolithe modulaire](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) détaille les compromis voisins.
+
+## Mettre en œuvre le filtrage avec Doctrine
+
+Nous avons implémenté le troisième modèle, celui où l'erreur est la plus facile à commettre. La base du dispositif est un [filtre SQL Doctrine](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/filters.html), qui ajoute une condition à chaque requête portant sur une entité du tenant :
+
+```php
+final class TenantFilter extends SQLFilter
+{
+    public function addFilterConstraint(ClassMetadata $targetEntity, string $targetTableAlias): string
+    {
+        if (!$targetEntity->hasField('tenantId')) {
+            return '';
+        }
+
+        return sprintf('%s.tenant_id = %s', $targetTableAlias, $this->getParameter('tenant'));
+    }
+}
+```
+
+Le filtre est déclaré désactivé dans la configuration, puis activé à chaque requête une fois le tenant connu :
+
+```yaml
+doctrine:
+    orm:
+        filters:
+            tenant:
+                class: App\Doctrine\TenantFilter
+                enabled: false
+```
+
+Un service garde le tenant courant et configure le filtre :
+
+```php
+final class TenantContext
+{
+    private ?string $tenant = null;
+
+    public function __construct(private EntityManagerInterface $entityManager)
+    {
+    }
+
+    public function switchTo(string $tenant): void
+    {
+        $this->tenant = $tenant;
+        $this->entityManager->getFilters()->enable('tenant')->setParameter('tenant', $tenant);
+    }
+
+    public function current(): string
+    {
+        return $this->tenant ?? throw new \LogicException('Aucun tenant actif.');
+    }
+}
+```
+
+## Résoudre le tenant par sous-domaine
+
+Un [écouteur d'événement](https://symfony.com/doc/current/event_dispatcher.html) de requête, de priorité 100 donc exécuté avant le routeur, lit le sous-domaine et refuse les tenants inconnus :
+
+```php
+#[AsEventListener(priority: 100)]
+final class TenantRequestListener
+{
+    private const TENANTS = ['acme', 'globex'];
+
+    public function __construct(private TenantContext $context)
+    {
+    }
+
+    public function __invoke(RequestEvent $event): void
+    {
+        if (!$event->isMainRequest()) {
+            return;
+        }
+
+        $tenant = $this->resolve($event->getRequest());
+
+        if (!in_array($tenant, self::TENANTS, true)) {
+            throw new NotFoundHttpException('Tenant inconnu.');
+        }
+
+        $this->context->switchTo($tenant);
+    }
+
+    private function resolve(Request $request): string
+    {
+        return explode('.', $request->getHost())[0];
+    }
+}
+```
+
+Un tenant inconnu reçoit une erreur 404 et aucune requête n'atteint la base. Le nom d'hôte vient du client : déclarez les hôtes autorisés avec [`trusted_hosts`](https://symfony.com/doc/current/reference/configuration/framework.html#trusted-hosts). Un en-tête personnalisé, du type `X-Tenant`, est encore plus facile à falsifier et ne doit pas désigner le tenant sans authentification. Dans tous les cas, la résolution se fait avant tout accès aux données. Un écouteur Doctrine renseigne en outre automatiquement le tenant à la création d'une entité, pour qu'aucun contrôleur n'ait à s'en charger :
+
+```php
+#[AsDoctrineListener(event: Events::prePersist)]
+final class TenantPersistListener
+{
+    public function __construct(private TenantContext $context)
+    {
+    }
+
+    public function prePersist(PrePersistEventArgs $args): void
+    {
+        $entity = $args->getObject();
+
+        if ($entity instanceof TenantOwned) {
+            $entity->assignTenant($this->context->current());
+        }
+    }
+}
+```
+
+Sur une requête, le filtre produit exactement la condition attendue. Pour un `SELECT` filtré par montant, notre test vérifie que le SQL se termine par `WHERE (i0_.amount_cents > 100) AND (i0_.tenant_id = 'acme')`. Les `UPDATE` et `DELETE` en DQL sont filtrés eux aussi : exécutés sous `acme`, ils ont touché 2 lignes sur 3.
+
+## Tester l'isolation entre deux tenants
+
+Le jeu de test crée deux factures pour le tenant `acme` et une pour `globex`, puis vérifie chaque frontière. Une facture d'un autre tenant ne se charge pas par son identifiant :
+
+```php
+public function testInvoiceOfAnotherTenantCannotBeLoadedById(): void
+{
+    $this->tenants->switchTo('acme');
+
+    self::assertNull($this->entityManager->find(Invoice::class, $this->globexInvoiceId));
+}
+```
+
+Onze tests, pour 16 assertions sous PHPUnit 13.4.3, couvrent le filtrage des listes, les requêtes DQL en lecture et en écriture, le chargement par identifiant, le sous-domaine via HTTP, un tenant inconnu et l'absence de tenant à l'écriture. Mais les plus utiles sont ceux qui mettent en évidence les limites du filtre.
+
+## Les fuites que le filtre ne prévient pas
+
+**L'identity map.** Doctrine garde en mémoire les entités déjà chargées. Si un processus charge une facture de `globex`, puis bascule sur `acme` sans vider l'EntityManager, la même facture est renvoyée à `acme`, sans repasser par le filtre :
+
+```php
+public function testIdentityMapCanLeakAcrossTenants(): void
+{
+    $this->tenants->switchTo('globex');
+    $this->entityManager->find(Invoice::class, $this->globexInvoiceId);
+    $this->tenants->switchTo('acme');
+
+    self::assertNotNull($this->entityManager->find(Invoice::class, $this->globexInvoiceId));
+
+    $this->entityManager->clear();
+
+    self::assertNull($this->entityManager->find(Invoice::class, $this->globexInvoiceId));
+}
+```
+
+Ce test passe : la fuite est réelle. Dans un worker de longue durée, il faut donc vider l'EntityManager à chaque changement de tenant.
+
+**Le SQL natif.** Le filtre ne s'applique qu'aux requêtes DQL et au chargement d'entités. Une requête passant par la connexion DBAL voit toutes les lignes :
+
+```php
+public function testRawSqlBypassesTheFilter(): void
+{
+    $this->tenants->switchTo('acme');
+
+    self::assertSame(3, (int) $this->entityManager->getConnection()->fetchOne('SELECT COUNT(*) FROM invoice'));
+}
+```
+
+Le résultat est 3, c'est-à-dire les factures de tous les tenants. Chaque requête native doit donc porter explicitement la condition sur le tenant, et une revue de code doit les repérer. Troisième cas, le plus sournois : le filtre est désactivé par défaut et seul `switchTo()` l'active. Une commande, un worker ou un chemin de code qui oublie ce basculement lit toutes les données sans la moindre erreur, comme le confirme notre test avec trois factures visibles. Le contexte ne lève d'exception qu'à l'écriture. Pour une application réelle, préférez l'inverse : une exception à la lecture quand aucun tenant n'est actif.
+
+## Détecter et prévenir les fuites
+
+Trois pratiques réduisent le risque. D'abord, des tests d'isolation, comme les nôtres, exécutés en intégration continue : ils transforment une propriété de sécurité en vérification automatique. Ensuite, une chasse systématique aux requêtes natives et aux accès en dehors du contexte de requête, car ce sont les chemins qui contournent le filtre. Enfin, une défense en profondeur côté base de données : PostgreSQL propose la [sécurité au niveau des lignes](https://www.postgresql.org/docs/current/ddl-rowsecurity.html), qui applique la restriction dans la base elle-même, même pour une requête native. Elle a ses propres pièges : le propriétaire de la table contourne les politiques sauf avec `FORCE ROW LEVEL SECURITY`, un superutilisateur aussi, et la politique lit en général une variable de session à renseigner à chaque connexion, ce qui se complique avec un pool de connexions. Nous ne l'avons pas mise en œuvre dans cet exemple. Dans une base partagée, pensez aussi à indexer `tenant_id` et à rendre les contraintes d'unicité propres au tenant, par exemple `(tenant_id, numéro)`, sans quoi deux clients ne pourraient pas avoir la même facture `A-1`. Ces pratiques font partie de la [sécurité d'une application Symfony](/securite-application-symfony) au sens large.
+
+## Les questions transverses
+
+Le choix du modèle d'isolation se répercute sur chaque brique de l'application.
+
+- **Cache.** Une clé de cache sans tenant sert les données d'un client à un autre. Préfixez toutes les clés par le tenant. Les principes généraux du cache sont rappelés dans notre article sur la [mise en cache](/article/tout-savoir-sur-la-mise-en-cache-tips).
+- **Files de messages.** Un message traité plus tard n'a plus de requête HTTP pour porter le tenant : joignez-le au message et basculez le contexte avant tout accès, par exemple avec un stamp de [Messenger](/article/quelles-sont-les-differences-entre-symfony-messenger-php-enqueue-quoi-utiliser).
+- **Fichiers.** Préfixez les chemins de stockage par tenant et contrôlez l'accès côté serveur.
+- **Tâches planifiées.** Elles ne s'exécutent pas dans une requête : une commande doit parcourir les tenants un par un, en basculant le contexte à chaque tour.
+- **Migrations.** Avec une base partagée, les migrations s'appliquent une fois. Avec une base ou un schéma par client, elles se jouent tenant par tenant, ce qui demande un outillage dédié et des reprises en cas d'échec partiel. Notre [guide de migration de MySQL vers PostgreSQL](/article/migration-mysql-postgresql-doctrine-guide) traite d'une évolution de base sur un projet Doctrine, utile si vous changez de moteur, par exemple pour passer aux schémas PostgreSQL.
+
+## Et côté Laravel ?
+
+La logique est la même côté Laravel. Le paquet [spatie/laravel-multitenancy](https://github.com/spatie/laravel-multitenancy) gère la notion de tenant courant et sait fonctionner avec une base unique ou une base par tenant. D'après sa documentation, il ne restreint pas lui-même les requêtes en base unique : le risque est donc le même qu'avec un filtre Doctrine, et il faut des tests d'isolation. Pour comparer les deux frameworks plus largement, consultez notre article sur [Symfony ou Laravel](/article/symfony-vs-laravel-quel-framework-php-choisir). Nous n'avons pas exécuté d'exemple Laravel.
+
+## Quel modèle selon votre situation ?
+
+- **Beaucoup de petits clients, équipe d'exploitation réduite** : base partagée avec filtrage et tests d'isolation en intégration continue.
+- **Quelques gros clients avec des exigences contractuelles fortes** : base par client, pour isoler, sauvegarder et restaurer chacun indépendamment.
+- **Situation intermédiaire, sur PostgreSQL** : schéma par client, avec un outillage de migration solide.
+- **Exigences réglementaires strictes** : faites valider le modèle par votre responsable de la conformité avant de choisir, car la séparation physique est souvent attendue.
+
+Le modèle n'est pas définitif. Un produit peut démarrer en base partagée et déplacer ses plus gros clients vers des bases dédiées, à condition d'avoir toujours accédé aux données par le tenant courant et d'avoir prévu des identifiants qui ne collisionnent pas.
