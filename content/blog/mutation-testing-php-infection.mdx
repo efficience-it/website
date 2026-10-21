@@ -1,0 +1,190 @@
+---
+title: "Mutation testing en PHP avec Infection"
+date: "2026-10-21"
+updatedAt: "2026-10-21"
+author: "Louis-Arnaud Catoire"
+category: "Qualité de code"
+excerpt: "Une couverture de 100 % ne prouve pas que vos tests protègent le code. Infection mesure leur efficacité réelle, exemple PHPUnit chiffré à l'appui."
+image: "/images/blog/cover-mutation-testing-php.webp"
+proficiencyLevel: "Intermediate"
+faq:
+  - question: "Quelle différence entre couverture de code et mutation testing ?"
+    answer: "La couverture indique quelles lignes ont été exécutées par les tests. Le mutation testing vérifie que les tests échouent quand le code est modifié. Un test sans assertion peut atteindre 100 % de couverture, mais il laissera survivre la plupart des mutants."
+  - question: "Quel score MSI viser ?"
+    answer: "Il n'existe pas de bon chiffre universel. Sur du code métier critique, un MSI couvert supérieur à 80 % est un objectif réaliste. Il vaut mieux fixer un seuil que l'équipe tient dans la durée, puis le relever, que viser 100 % partout et finir par ignorer le rapport."
+  - question: "Infection ralentit-il la CI ?"
+    answer: "Oui, car il relance les tests pour chaque mutant. On limite le coût en ne mutant que les lignes modifiées par la branche, en parallélisant et en ne lançant que les tests qui couvrent la ligne mutée. Lancer l'analyse complète la nuit ou avant une mise en production suffit souvent."
+---
+
+Votre suite PHPUnit affiche 100 % de couverture, et pourtant une régression passe en production. Ce n'est pas un paradoxe : la couverture mesure les lignes exécutées par les tests, pas la capacité de ces tests à détecter une erreur. Le mutation testing répond à la question qui compte : si je casse ce code, un test échoue-t-il ? [Infection](https://infection.github.io/guide/) est l'outil de référence en PHP pour le faire. Cet article l'applique à un exemple court, avec les résultats réels d'une exécution.
+
+## Le problème d'un test qui passe sans rien protéger
+
+Un test peut exécuter une ligne sans jamais vérifier son résultat, ou ne vérifier que des cas éloignés des limites. Les lignes sont couvertes, le rapport est vert, mais les erreurs d'écriture classiques passent entre les mailles : un `>` à la place d'un `>=`, un `+ 1` oublié, une condition inversée. Ce sont précisément les erreurs que les développeurs commettent, et que la couverture ne voit pas.
+
+L'[analyse statique](/article/comparateur-analyseurs-statiques-php) contrôle la cohérence du code, les tests vérifient son comportement. Le mutation testing contrôle ce second maillon : la qualité des tests eux-mêmes.
+
+## Le principe du mutation testing : mutants tués et échappés
+
+Infection modifie automatiquement votre code source, un changement à la fois, pour fabriquer des **mutants** : `>=` devient `>`, `+` devient `-`, `&&` devient `||`, une méthode publique devient protégée, une valeur de retour est supprimée. Pour chaque mutant, il relance les tests concernés.
+
+- Si un test échoue, le mutant est **tué** : la suite a détecté le changement.
+- Si tous les tests passent, le mutant **s'échappe** : la modification n'a aucune conséquence visible pour vos tests.
+- Si aucun test n'exécute la ligne, le mutant est **non couvert**. Par défaut, Infection ne mute pas ce code, sauf avec l'option `--with-uncovered`.
+
+Trois indicateurs en découlent. Le **MSI** (Mutation Score Indicator) est la part de mutants tués sur l'ensemble des mutants générés. Le **MSI couvert** ne retient que les mutants situés dans du code exécuté par les tests : il juge la qualité des assertions. Le **taux de couverture des mutations** indique la part de mutants que les tests atteignent : il juge l'étendue de la suite. Avec `--with-uncovered`, le MSI couvert et le taux de couverture des mutations se lisent ensemble, car un MSI couvert de 100 % sur 10 % du code ne prouve pas grand-chose. Sans cette option, les mutants non couverts ne sont pas générés, et le MSI coïncide avec le MSI couvert.
+
+## Un exemple : 100 % de couverture et des mutants vivants
+
+L'exemple tourne sur PHP 8.4.26, PHPUnit 13.4.3 et Infection 0.35.8, avec pcov pour la couverture. Une classe calcule des frais de port : gratuits au-delà d'un certain montant de commande, plus chers au-delà de 2 kg.
+
+```php
+final class ShippingCalculator
+{
+    public const FREE_THRESHOLD_CENTS = 5000;
+
+    public function cost(int $weightGrams, int $orderCents): int
+    {
+        if ($this->isFree($orderCents)) {
+            return 0;
+        }
+
+        if ($weightGrams > 2000) {
+            return 990;
+        }
+
+        return 490;
+    }
+
+    public function isFree(int $orderCents): bool
+    {
+        return $orderCents >= self::FREE_THRESHOLD_CENTS;
+    }
+}
+```
+
+Le test d'origine vérifie les trois résultats possibles, avec des valeurs éloignées des seuils :
+
+```php
+public function testCost(): void
+{
+    $calculator = new ShippingCalculator();
+
+    self::assertSame(0, $calculator->cost(500, 10000));
+    self::assertSame(990, $calculator->cost(3000, 1000));
+    self::assertSame(490, $calculator->cost(500, 1000));
+}
+```
+
+PHPUnit annonce `OK (1 test, 3 assertions)` et la couverture atteint 100 % des lignes (6 sur 6) et des méthodes. Une revue de code rapide validerait ce test. Infection génère 17 mutants et en laisse s'échapper 3 :
+
+```
+Escaped mutants:
+1) src/ShippingCalculator.php:15    [M] GreaterThan
+-        if ($weightGrams > 2000) {
++        if ($weightGrams >= 2000) {
+
+2) src/ShippingCalculator.php:22    [M] PublicVisibility
+-    public function isFree(int $orderCents): bool
++    protected function isFree(int $orderCents): bool
+
+3) src/ShippingCalculator.php:24    [M] GreaterThanOrEqualTo
+-        return $orderCents >= self::FREE_THRESHOLD_CENTS;
++        return $orderCents > self::FREE_THRESHOLD_CENTS;
+
+17 mutations were generated:
+      14 mutants were killed by Test Framework
+       3 covered mutants were not detected
+
+Covered Code MSI: 82%
+```
+
+Chaque mutant raconte une faiblesse précise. Le premier et le troisième sont des erreurs aux limites : aucun test n'essaie 2000 grammes ni 5000 centimes, donc modifier l'opérateur de comparaison ne change rien. Le deuxième est plus subtil : personne n'appelle `isFree()` depuis l'extérieur, donc rien ne prouve que cette méthode doit rester publique. On peut la rendre privée, ou la tester comme une règle métier à part entière.
+
+## Installer et configurer Infection
+
+Dans un projet Symfony, le paquet se pose en dépendance de développement. Composer demande d'autoriser le plugin `infection/extension-installer`, sans quoi l'installation s'interrompt :
+
+```bash
+composer config --no-plugins allow-plugins.infection/extension-installer true
+composer require --dev infection/infection
+```
+
+Infection exige un pilote de couverture : pcov, en général plus rapide, ou Xdebug. Dans l'image Docker de l'exemple, `pecl install pcov` suffit, comme dans tout [environnement de développement conteneurisé](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui). Infection s'appuie ensuite sur votre configuration PHPUnit existante, `phpunit.xml.dist`. Le fichier `infection.json5` reste minimal :
+
+```json
+{
+    "source": {"directories": ["src"]},
+    "logs": {"text": "infection.log"},
+    "mutators": {"@default": true}
+}
+```
+
+Un lancement se résume à `vendor/bin/infection --threads=2`. L'option `--show-mutations` affiche le détail des mutants échappés, comme ci-dessus. Les mutateurs, la liste des fichiers ignorés et les seuils se règlent dans la [documentation d'Infection](https://infection.github.io/guide/), ainsi que dans le [dépôt GitHub du projet](https://github.com/infection/infection).
+
+## Lire un rapport sans se tromper
+
+Un mutant échappé n'est pas forcément un défaut de test. Trois cas se présentent.
+
+### Un vrai trou de test
+
+C'est le cas des deux erreurs aux limites ci-dessus. Il faut ajouter un test, souvent avec une valeur exactement sur le seuil. Sur du code ancien, les [tests de caractérisation](/article/moderniser-application-php-legacy-sans-tout-reecrire) sont d'ailleurs précieux pour poser ce filet.
+
+### Un test sans assertion
+
+Un test qui appelle le code sans rien vérifier ne tue que les mutants qui provoquent une erreur ou une exception, et le rapport montre alors une série de mutants échappés dans le même fichier. [PHPUnit](https://docs.phpunit.de/) signale ces tests comme risqués, et l'attribut `failOnRisky="true"` de `phpunit.xml.dist` en fait une erreur de build.
+
+### Un mutant équivalent
+
+Certaines modifications ne changent pas le comportement. Dans `if ($count > 0) { return $count; } return 0;`, passer à `>=` renvoie toujours 0 pour `$count = 0` : aucun test ne peut le tuer. Ces faux positifs existent, et c'est pourquoi viser 100 % de MSI sur tout le code d'un projet réel n'est pas réaliste. Les mutateurs concernés peuvent être désactivés dans `infection.json5`.
+
+Un dernier cas concerne le code que personne ne teste. Si l'on ajoute à la classe une méthode que personne n'appelle dans les tests (nous l'avons fait avec les tests corrigés plus bas) et que l'on lance `--with-uncovered`, l'exemple passe à 26 mutants, dont 9 non couverts : le MSI tombe à 65 % tandis que le MSI couvert reste à 100 %. C'est la comparaison des deux chiffres qui révèle les zones sans protection.
+
+## Corriger les tests
+
+La correction tient en un jeu de valeurs aux bornes et un appel direct à `isFree()` :
+
+```php
+#[DataProvider('costs')]
+public function testCost(int $weight, int $order, int $expected): void
+{
+    self::assertSame($expected, (new ShippingCalculator())->cost($weight, $order));
+}
+
+public static function costs(): iterable
+{
+    yield 'franco de port' => [500, 10000, 0];
+    yield 'seuil de franco inclus' => [500, 5000, 0];
+    yield 'juste sous le seuil' => [500, 4999, 490];
+    yield 'colis lourd' => [3000, 1000, 990];
+    yield 'poids limite léger' => [2000, 1000, 490];
+    yield 'juste au-dessus de la limite' => [2001, 1000, 990];
+}
+
+public function testIsFree(): void
+{
+    $calculator = new ShippingCalculator();
+
+    self::assertTrue($calculator->isFree(5000));
+    self::assertFalse($calculator->isFree(4999));
+}
+```
+
+Le résultat est net : `OK (7 tests, 8 assertions)`, et les 17 mutants sont tués, soit 100 % de MSI couvert. Le gain ne tient pas au volume de tests, mais au choix des valeurs : chacune est placée là où un opérateur de comparaison peut se tromper. Pour les données de test réalistes, [Alice et Faker](/article/comprendre-et-utiliser-le-bundle-alice-faker-dans-vos-projets-symfony) restent utiles, mais les valeurs limites se choisissent à la main.
+
+## Maîtriser le coût d'exécution
+
+Infection relance les tests pour chaque mutant : sur un grand projet, l'exécution complète peut durer longtemps. Quatre leviers existent.
+
+- **Muter uniquement le diff.** Avec `--git-diff-lines --git-diff-base=main`, seules les lignes modifiées par la branche sont mutées. Sur notre exemple, après la modification d'une ligne, Infection ne génère que 4 mutants au lieu de 17.
+- **Paralléliser.** `--threads` répartit les mutants sur plusieurs processus, `auto` laissant Infection choisir.
+- **Cibler les tests.** `--only-covering-test-cases` n'exécute que les tests qui couvrent la ligne mutée, au lieu de tout le fichier de test.
+- **Fixer des seuils en CI.** `--min-msi` et `--min-covered-msi` font échouer la commande quand le score est insuffisant : avec `--min-msi=90`, l'exemple avec code non couvert sort avec le code 1.
+
+La stratégie la plus réaliste combine un seuil sur le diff à chaque pull request et une exécution complète planifiée. Pour placer chaque contrôle au bon endroit, les [hooks Git avec Lefthook, GrumPHP ou Husky](/article/git-hooks-php-lefthook-grumphp-husky) servent aux vérifications rapides, tandis que la CI porte les analyses longues comme celle-ci.
+
+## Sa place dans une stratégie de tests
+
+Le mutation testing complète les autres outils sans les remplacer. L'[analyse statique avec PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) attrape les erreurs de typage sans exécuter le code, et un niveau élevé, comme dans l'article [PHPStan niveau max sur Symfony](/article/phpstan-niveau-max-symfony-10-erreurs), épargne aux tests la chasse aux erreurs de type. [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) automatise les montées de version, et les tests protègent ces migrations. Les tests d'architecture maintiennent intacte la structure d'une [architecture hexagonale](/article/migration-symfony-architecture-hexagonale-retour-mission).
+
+Notre approche des [tests automatisés PHP](/tests-automatises-php) suit ce principe : des tests qui protègent vraiment le comportement. Reste à doser l'effort. Appliquez Infection d'abord au code qui porte la valeur métier : calculs, règles de gestion, validations. Sur du code de liaison ou des contrôleurs minces, le rapport sera surtout bruyant. Un mutant échappé est une question posée à vos tests : à vous de juger si elle mérite un test de plus.
