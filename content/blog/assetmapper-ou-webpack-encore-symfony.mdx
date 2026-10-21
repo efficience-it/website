@@ -1,0 +1,116 @@
+---
+title: "AssetMapper ou Webpack Encore dans Symfony"
+date: "2026-10-21"
+updatedAt: "2026-10-21"
+author: "Louis-Arnaud Catoire"
+category: "Symfony"
+excerpt: "AssetMapper ou Webpack Encore : ce que chaque outil fait, comment choisir selon TypeScript, React ou Tailwind, et comment migrer, chiffres de build à l'appui."
+image: "/images/blog/cover-assetmapper-encore-symfony.webp"
+proficiencyLevel: "Intermediate"
+faq:
+  - question: "AssetMapper remplace-t-il Webpack Encore ?"
+    answer: "Pour la plupart des applications Symfony rendues côté serveur avec Stimulus et un peu de JavaScript, oui. Pour du TypeScript, du JSX ou un framework comme React ou Vue, qui exigent une compilation, Encore, ou un bundler comme Vite, reste l'outil adapté."
+  - question: "AssetMapper nécessite-t-il Node.js ?"
+    answer: "Non. Les paquets JavaScript se téléchargent avec la commande importmap:require et sont servis tels quels. Il n'y a ni npm, ni node_modules, ni étape de build JavaScript. Seuls certains outils complémentaires, comme le binaire de Tailwind, sont téléchargés séparément."
+  - question: "Peut-on migrer un projet Encore vers AssetMapper sans tout réécrire ?"
+    answer: "Oui, si le projet n'utilise que du JavaScript standard et du CSS. La migration touche surtout la configuration, les fonctions Twig et le Dockerfile. Les fichiers JavaScript restent en grande partie identiques. Si le code repose sur TypeScript ou JSX, la migration passe par une réécriture et n'est pas toujours adaptée."
+---
+
+Chaque application Symfony avec un peu d'interface finit par poser la même question : comment servir ses fichiers JavaScript et CSS ? Pendant des années, la réponse était Webpack Encore, avec Node.js, npm et une étape de build. [AssetMapper](https://symfony.com/doc/current/frontend/asset_mapper.html), introduit en Symfony 6.3 et stable depuis la 6.4, propose une autre voie : servir les fichiers tels quels, sans bundler. Ce comparatif s'appuie sur des projets neufs créés avec Symfony 8.1.9 et PHP 8.5, dans les deux variantes (AssetMapper et Encore), puis sur une migration réelle de l'un vers l'autre.
+
+## Ce que fait chaque outil
+
+**Webpack Encore** est une surcouche de Webpack pour Symfony, décrite dans la [documentation officielle d'Encore](https://symfony.com/doc/current/frontend/encore/index.html). Il compile, assemble en quelques fichiers (*bundling*), transforme le code (Babel, Sass, TypeScript, JSX) et nomme les fichiers avec une empreinte pour le cache. Il exige Node.js et npm.
+
+**AssetMapper** repose sur les standards du navigateur : les modules JavaScript natifs et les [*import maps*](https://developer.mozilla.org/fr/docs/Web/HTML/Reference/Elements/script/type/importmap). Il n'assemble rien. Chaque fichier est copié dans `public/assets` avec une empreinte dans son nom, sans bundling ni transformation du code hormis la réécriture des chemins, et une table d'import indique au navigateur où trouver chaque module. Il tourne entièrement en PHP.
+
+Concrètement, voici ce que produit Encore sur un projet vide, après un `npm run build` d'une seconde :
+
+```
+app.6c94a6e2.js
+app.a5e8e6f2.css
+entrypoints.json
+manifest.json
+runtime.3a27b1ba.js
+```
+
+Et voici l'équivalent côté AssetMapper après `php bin/console asset-map:compile` : quinze fichiers dans `public/assets` (476 Ko) : les assets à empreinte (`app-TNXHCQF.js`, `styles/app-o-APx4z.css`) et trois fichiers JSON, `manifest.json`, `importmap.json` et `entrypoint.app.json`. La commande a pris 73 millisecondes. La page d'accueil déclare une table d'import et des balises `modulepreload` pour que le navigateur charge les modules en parallèle.
+
+## Tableau de décision
+
+| Besoin | AssetMapper | Webpack Encore |
+|---|---|---|
+| JavaScript standard et Stimulus | Oui, natif | Oui |
+| Paquets npm (bootstrap, lodash) | `importmap:require`, sans Node | `npm install` et import |
+| Tailwind CSS | Oui, via un bundle dédié | Oui, via PostCSS |
+| Sass | Via un bundle dédié | Oui, via un loader |
+| TypeScript | Non, pas de compilation | Oui |
+| React, Vue (JSX, SFC) | Non adapté | Oui |
+| Node pour le build en CI | Inutile | Obligatoire |
+| Petite équipe, pas de spécialiste front | Très adapté | Plus lourd à maintenir |
+
+La règle de lecture est simple : dès que le code source doit être transformé avant d'être exécuté par le navigateur, il faut un bundler. Sinon, AssetMapper suffit. Pour des applications riches en JavaScript, la question dépasse Symfony, comme le détaille notre comparatif des [frameworks JavaScript](/article/quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular).
+
+## Mettre en place AssetMapper sur un projet neuf
+
+Sur un squelette Symfony 8.1, quatre paquets suffisent, Twig compris :
+
+```bash
+composer require twig symfony/asset-mapper symfony/asset symfony/stimulus-bundle
+```
+
+Les recettes créent `importmap.php`, un dossier `assets/` avec `app.js` et un contrôleur Stimulus d'exemple, et le fichier de configuration. La commande `importmap:require` ajoute ensuite un paquet npm sans Node :
+
+```bash
+php bin/console importmap:require bootstrap lodash
+```
+
+Elle télécharge les fichiers depuis jsDelivr dans `assets/vendor/` et les déclare dans `importmap.php`. Dans notre essai, `bootstrap` a tiré `@popperjs/core` et son CSS, quatre entrées au total. Dans le gabarit Twig, une seule fonction suffit :
+
+```twig
+<link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+{{ importmap('app') }}
+```
+
+Pour Tailwind, le bundle [`symfonycasts/tailwind-bundle`](https://github.com/SymfonyCasts/tailwind-bundle) (version 1.0.0 dans notre essai), parmi [les bundles les plus utilisés dans les projets Symfony](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony), pilote le binaire autonome de Tailwind CSS :
+
+```bash
+composer require symfonycasts/tailwind-bundle
+php bin/console tailwind:init
+php bin/console cache:clear
+php bin/console tailwind:build --minify
+```
+
+Dans notre essai, le `cache:clear` après `tailwind:init` a été nécessaire : sans lui, la commande de build répond « You must specify a binary or binary_version ». Le binaire de Tailwind 4.3.3 est téléchargé au premier build, et le CSS minifié écrit dans `var/tailwind/`, sans passer par Node.
+
+## Migrer un projet Encore vers AssetMapper
+
+Nous avons migré le projet Encore vide évoqué plus haut, dans l'ordre qui suit. Une migration de ce type s'inscrit dans la démarche d'un [guide de migration Symfony](/article/guide-de-migration-dans-un-projet-symfony) : petites étapes, un projet qui tourne à chaque commit.
+
+1. **Retirer Encore** avec `composer remove symfony/webpack-encore-bundle`. La recette de désinstallation supprime `webpack.config.js` et `package.json`.
+2. **Supprimer à la main** le dossier `node_modules` et le fichier `package-lock.json`, qui restent en place.
+3. **Installer AssetMapper et Stimulus** avec `composer require symfony/asset-mapper symfony/asset symfony/stimulus-bundle`.
+4. **Remplacer les fonctions Twig** : `encore_entry_link_tags('app')` et `encore_entry_script_tags('app')` deviennent `{{ importmap('app') }}`.
+5. **Remplacer les paquets npm** par des appels à `importmap:require`, et supprimer l'ancien dossier `public/build`.
+6. **Compiler en production** avec `php bin/console asset-map:compile` au moment du déploiement, ce qui permet de retirer l'étage Node du Dockerfile.
+
+Deux pièges méritent d'être connus. D'abord, si l'ancien gabarit est conservé, la page répond par une erreur 500 : le noyau cherche encore la classe du bundle Encore, qui n'existe plus. Ensuite, le cache de production construit avant la migration contient encore Encore : il faut le vider, sinon l'erreur persiste même avec le gabarit corrigé. Après cela, notre page répond en 200 avec les fichiers à empreinte.
+
+AssetMapper ne remplace pas tout ce qui dépend d'une compilation, comme TypeScript, JSX ou Sass sans le bundle dédié. Les paquets npm distribués uniquement en CommonJS, ou qui exigent un bundling, ne passent pas non plus par `importmap:require`, d'après la documentation, et il n'y a ni découpage du code ni élimination du code mort. Dans ce cas, mieux vaut rester sur Encore.
+
+## Impact sur la CI, le Dockerfile et les performances
+
+**Build et CI.** Sur notre projet vide, Encore demande un `npm install` de 16 secondes, un dossier `node_modules` de 75 Mo pour 156 paquets, et un build d'une seconde. Ces chiffres grossissent avec le projet, mais ils montrent l'essentiel : une chaîne Node à installer, mettre en cache et sécuriser. Les paquets npm alourdissent aussi votre veille sur les [failles de sécurité de vos dépendances](/article/cve-comprendre-les-failles-pour-mieux-se-proteger), déjà nécessaire pour Composer. AssetMapper n'efface pas ce sujet, car les paquets de `assets/vendor/` restent des dépendances : la commande `importmap:audit` les contrôle. AssetMapper n'a aucune de ces étapes.
+
+**Dockerfile.** Avec Encore, une image de production passe souvent par un étage de build Node, puis copie `public/build` dans l'image PHP. Avec AssetMapper, la compilation tient en une ligne exécutée dans l'étage PHP. Cela aide à garder une [image Docker de production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) simple et reproductible.
+
+**Performances.** Encore regroupe le code en peu de fichiers, donc peu de requêtes. AssetMapper en sert davantage, une par module, mais les noms à empreinte permettent, comme avec Encore, un cache navigateur durable, et le préchargement des modules limite l'effet de cascade. Avec HTTP/2 ou HTTP/3, ce surcoût est généralement faible sur une application rendue côté serveur. Nous n'avons pas mesuré le temps de chargement : sur un projet qui importe des dizaines de modules, faites-le avant de décider. Un détail à noter : sans prise en charge des *import maps* par le navigateur, AssetMapper charge un script de compatibilité depuis un CDN externe, ce qui compte si votre politique de sécurité de contenu est stricte.
+
+## Notre verdict selon le type de projet
+
+- **Application Symfony classique avec Twig, Stimulus et Tailwind** : AssetMapper. Pas de Node, un déploiement plus court, moins de dépendances à surveiller. C'est notre choix par défaut pour un projet neuf.
+- **Application avec TypeScript, React ou Vue** : Encore, ou un bundler comme Vite. AssetMapper ne compile rien.
+- **Projet existant sous Encore qui n'utilise que du JavaScript standard** : la migration est réaliste et réduit la dette, mais elle n'est pas urgente. Encore reste maintenu.
+- **Équipe sans compétence front et besoins JavaScript simples** : AssetMapper, qui réduit la surface technique à maîtriser.
+
+Ce choix s'inscrit dans les décisions d'architecture que nous évoquons dans notre article sur [les raisons de choisir Symfony](/article/pourquoi-choisir-symfony-pour-vos-projets). Le bon critère n'est pas le meilleur outil, mais ce dont votre code a besoin avant d'arriver au navigateur.
