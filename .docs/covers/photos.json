@@ -1168,5 +1168,12 @@
     "license": "CC0",
     "author": "",
     "url": "https://commons.wikimedia.org/wiki/File:Fish_hook_MET_22.1.954.jpg"
+  },
+  "nativephp-application-mobile-php": {
+    "name": "nativephp-mobile",
+    "file": "File:Black smartphone in hand (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Dennis Cortés cortes",
+    "url": "https://commons.wikimedia.org/wiki/File:Black_smartphone_in_hand_(Unsplash).jpg"
   }
 }
