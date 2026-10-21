@@ -133,7 +133,29 @@ namespace = "App\\Domain\\"
 permit = ["@self", "@native"]
 ```
 
-The project is young and its ecosystem is still smaller than PHPStan's. The analyzer documentation does not mention an equivalent of the PHPStan extensions that understand the Symfony service container and Doctrine repositories. The linter does offer rule sets you can enable for Symfony and PHPUnit, with `integrations = ["symfony", "phpunit"]`. The documentation also claims that an entire project is analyzed in a few seconds: measure it on your own code before treating it as an argument. The analysis, baseline and `guard` examples above were run with Mago 1.57.0.
+The project is young and its ecosystem is still smaller than PHPStan's. The analyzer documentation does not mention an equivalent of the PHPStan extensions that understand the Symfony service container and Doctrine repositories. The linter does offer rule sets you can enable for Symfony and PHPUnit, with `integrations = ["symfony", "phpunit"]`. The analysis, baseline and `guard` examples above were run with Mago 1.57.0.
+
+### Mago versus PHPStan: our measurements
+
+The [Mago documentation](https://mago.carthage.software/) claims that an entire project is analyzed in a few seconds. We checked it on the `src/` folder of a real Symfony 8 application, with PHPStan at level 10 and Mago's default configuration, with no baseline on either side to compare on equal terms.
+
+| Tool | Role | Time |
+| --- | --- | --- |
+| PHPStan, cold cache | Type analysis | 15.6 s |
+| PHPStan, warm cache | Type analysis | 3.9 s |
+| `mago analyze` | Type analysis | 4.7 s |
+| `mago lint` | Style and best practices | 1.1 s |
+| PHP-CS-Fixer (`--dry-run`) | Style | 6 s |
+
+Mago has no result cache: every run is a cold run, and it is still more than three times faster than a cold PHPStan. It is close to PHPStan with a warm cache, with nothing to warm up or invalidate. The gain is most visible in CI, where the cache is often missing. The linter runs five times faster than PHP-CS-Fixer.
+
+As for the results, the numbers are not directly comparable, because each tool applies its own rules:
+
+- PHPStan level 10: 446 errors.
+- `mago analyze`: 220 errors, 229 warnings and 115 suggestions, 564 reports in total.
+- `mago lint`: 140 errors, 456 warnings, 2 notes and 113 suggestions, 98 of them automatically fixable. PHPStan has no direct equivalent.
+
+Mago therefore reports more, but it grades what it finds: only 220 errors are of the same nature as PHPStan's, the rest is nuance. This volume proves neither that it finds more real bugs nor that it misses some: you have to sort both lists to know. These measurements come from a single project and a single machine, so run them again on your own code.
 
 Our recommendation: on a Symfony project that already uses PHPStan and its extensions, do not replace anything right away. Try Mago alongside them in CI, without making it blocking, to compare what it finds more or less of. On a new project, or to reduce the number of tools to maintain, it deserves a real evaluation.
 
