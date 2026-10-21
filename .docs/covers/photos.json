@@ -1168,5 +1168,12 @@
     "license": "CC0",
     "author": "",
     "url": "https://commons.wikimedia.org/wiki/File:Fish_hook_MET_22.1.954.jpg"
+  },
+  "mutation-testing-php-infection": {
+    "name": "mutation-testing-php",
+    "file": "File:Plants in beakers (Unsplash).jpg",
+    "license": "CC0",
+    "author": "chuttersnap",
+    "url": "https://commons.wikimedia.org/wiki/File:Plants_in_beakers_(Unsplash).jpg"
   }
 }
