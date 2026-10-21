@@ -1,0 +1,236 @@
+---
+title: "Chiffrement des données avec Doctrine et PostgreSQL"
+date: "2026-10-21"
+updatedAt: "2026-10-21"
+author: "Louis-Arnaud Catoire"
+category: "Sécurité"
+excerpt: "Chiffrer les données sensibles avant leur stockage : exemple Symfony, Doctrine, PostgreSQL et CipherSweet, index aveugles, clés, performances, tests."
+image: "/images/blog/cover-chiffrement-donnees-doctrine.webp"
+proficiencyLevel: "Expert"
+faq:
+  - question: "Quelle différence entre chiffrement au repos et chiffrement applicatif ?"
+    answer: "Le chiffrement au repos protège le disque ou les sauvegardes : la base lit les données en clair. Le chiffrement applicatif intervient avant l'envoi à la base, qui ne voit que du texte chiffré. Il couvre en plus la fuite d'un dump et l'accès d'un administrateur de base, mais pas la compromission de l'application elle-même."
+  - question: "Peut-on rechercher dans des données chiffrées ?"
+    answer: "Seulement de façon limitée, avec un index aveugle : une empreinte calculée avec une clé, qui permet de chercher une valeur exacte sans la révéler. Il n'y a ni recherche partielle, ni tri, et l'empreinte révèle que deux lignes ont la même valeur."
+  - question: "Faut-il écrire son propre chiffrement ?"
+    answer: "Non. Utilisez une bibliothèque éprouvée construite sur libsodium, comme CipherSweet. Les erreurs classiques, comme la réutilisation d'un vecteur d'initialisation, sont évitées par la bibliothèque et non par votre code."
+---
+
+Une base de données qui fuite n'est pas forcément une catastrophe, si ce qu'elle contient est illisible. Le chiffrement applicatif, ou chiffrement au niveau des champs, protège les données sensibles avant même qu'elles atteignent la base : un dump volé ou un administrateur curieux ne voit que du texte chiffré. Cet article implémente ce principe avec Symfony 8.1, Doctrine ORM 3.7, PostgreSQL 16 et la bibliothèque CipherSweet 4.10, puis le prouve par des tests exécutés sur une base réelle.
+
+## Chiffrement des données : les menaces visées
+
+Le chiffrement du disque ou de la base, souvent appelé chiffrement au repos, protège contre le vol d'un support physique ou d'une sauvegarde. Il ne change rien pour l'application : la base lit et sert les données en clair à quiconque s'y connecte. Une injection SQL, un compte de base compromis ou un export malveillant récupèrent donc tout.
+
+Le chiffrement applicatif déplace la frontière. La base ne stocke que du chiffré, et la clé reste dans l'application. Une fuite de base ne suffit plus à lire les données. Il ne protège pas, en revanche, contre une compromission de l'application elle-même, puisque celle-ci détient la clé, et il ne couvre pas les données en transit, qui relèvent de TLS. Il s'ajoute aux autres couches de la [sécurité d'une application Symfony](/securite-application-symfony) sans les remplacer.
+
+## Ne pas inventer de cryptographie
+
+Mieux vaut s'appuyer sur une bibliothèque éprouvée que d'assembler soi-même des primitives. [CipherSweet](https://github.com/paragonie/ciphersweet), de Paragon Initiative, chiffre au niveau des champs avec [libsodium](https://www.php.net/manual/fr/book.sodium.php) et ajoute les index aveugles dont nous parlerons plus bas. Son backend par défaut chiffre avec XChaCha20 et authentifie avec BLAKE2b-MAC, d'après le code de la bibliothèque : toute modification du texte chiffré est détectée au déchiffrement. Le choix des algorithmes, la génération des vecteurs d'initialisation et l'authentification sont gérés par la bibliothèque, ce qui supprime les erreurs les plus courantes.
+
+## Chiffrer les données avec Doctrine dans Symfony
+
+Un service enveloppe CipherSweet. Il sait dériver une clé par table et par colonne à partir d'une clé racine, et expose trois opérations (le type ci-dessous n'utilise qu'une seule paire) :
+
+```php
+final class FieldEncryptor
+{
+    private CipherSweet $engine;
+
+    public function __construct(string $hexKey)
+    {
+        $this->engine = new CipherSweet(new StringProvider($hexKey));
+    }
+
+    public function encrypt(string $table, string $column, string $plaintext): string
+    {
+        return $this->field($table, $column)->encryptValue($plaintext);
+    }
+
+    public function decrypt(string $table, string $column, string $ciphertext): string
+    {
+        return $this->field($table, $column)->decryptValue($ciphertext);
+    }
+
+    public function blindIndex(string $table, string $column, string $plaintext): string
+    {
+        return $this->field($table, $column)->getBlindIndex($plaintext, $column.'_idx');
+    }
+
+    private function field(string $table, string $column): EncryptedField
+    {
+        return (new EncryptedField($this->engine, $table, $column))
+            ->addBlindIndex(new BlindIndex($column.'_idx', [new Lowercase()], 32));
+    }
+}
+```
+
+Un [type personnalisé de Doctrine](https://www.doctrine-project.org/projects/doctrine-orm/en/current/cookbook/custom-mapping-types.html) chiffre à l'écriture et déchiffre à la lecture, sans que l'entité en sache rien :
+
+```php
+final class EncryptedStringType extends Type
+{
+    public const NAME = 'encrypted_string';
+
+    private static ?FieldEncryptor $encryptor = null;
+
+    public static function useEncryptor(FieldEncryptor $encryptor): void
+    {
+        self::$encryptor = $encryptor;
+    }
+
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
+    {
+        return $platform->getStringTypeDeclarationSQL(['length' => 1024]);
+    }
+
+    public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
+    {
+        return null === $value ? null : $this->encryptor()->encrypt('doctrine', self::NAME, $value);
+    }
+
+    public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?string
+    {
+        return null === $value ? null : $this->encryptor()->decrypt('doctrine', self::NAME, $value);
+    }
+
+    private function encryptor(): FieldEncryptor
+    {
+        return self::$encryptor ?? throw new \LogicException('Aucun chiffreur configuré.');
+    }
+}
+```
+
+Un type DBAL n'accède pas au conteneur de services : le noyau lui fournit donc le chiffreur au démarrage.
+
+```php
+public function boot(): void
+{
+    parent::boot();
+
+    EncryptedStringType::useEncryptor($this->getContainer()->get(FieldEncryptor::class));
+}
+```
+
+La clé racine vient de l'environnement, et le type se déclare dans la configuration de Doctrine :
+
+```yaml
+doctrine:
+    dbal:
+        types:
+            encrypted_string: App\Doctrine\EncryptedStringType
+```
+
+```yaml
+services:
+    App\Crypto\FieldEncryptor:
+        arguments:
+            $hexKey: '%env(FIELD_ENCRYPTION_KEY)%'
+        public: true
+```
+
+L'entité déclare ensuite les colonnes sensibles avec ce type, et une colonne d'index pour la recherche :
+
+```php
+#[ORM\Column(type: EncryptedStringType::NAME)]
+private string $email;
+
+#[ORM\Column(length: 64)]
+private ?string $emailIndex = null;
+```
+
+Comme ce type n'a pas connaissance de la colonne qu'il chiffre, toutes les colonnes de ce type partagent ici la même clé dérivée, alors que l'index aveugle de l'e-mail utilise une clé propre à la table et à la colonne. Une conséquence : l'authentification ne lie pas une valeur à sa ligne ni à sa colonne, et un texte chiffré copié d'un champ à un autre du même type se déchiffre sans erreur. CipherSweet accepte des données associées, appelées AAD, pour lier le chiffré à un contexte, mais notre exemple ne les utilise pas. Pour des clés distinctes par champ, déclarez un type par colonne sensible.
+
+## Prouver que la base ne contient que du chiffré
+
+Huit tests totalisant 15 assertions, sous PHPUnit 13.4.3, s'exécutent contre PostgreSQL 16. Le premier lit la ligne telle que la base la stocke :
+
+```php
+public function testStoredValuesAreCiphertext(): void
+{
+    $id = $this->savePatient();
+    $row = $this->connection->fetchAssociative('SELECT last_name, email FROM patient WHERE id = ?', [$id]);
+
+    self::assertStringNotContainsString('Durand', $row['last_name']);
+    self::assertStringNotContainsString('alice', $row['email']);
+    self::assertStringStartsWith('brng:', $row['email']);
+}
+```
+
+Voici ce que contient réellement la table après l'enregistrement d'un patient : `brng:L7Hxwhawvn4rzphtMaG...` pour le nom, `brng:oHXDCVdc1_hjCv3k9yR...` pour l'e-mail. Une sauvegarde `pg_dump` de la table ne contient, elle aussi, que ces valeurs préfixées, jamais une donnée en clair. D'autres tests vérifient que l'entité est bien déchiffrée au chargement, que deux chiffrements d'une même valeur donnent deux textes différents, qu'une autre clé ne peut pas déchiffrer, et qu'une rotation de clé se fait en déchiffrant avec l'ancienne clé puis en chiffrant avec la nouvelle.
+
+Le test suivant montre l'effet d'une altération : la valeur modifiée en base est rejetée au chargement.
+
+```php
+public function testTamperedCiphertextIsRejected(): void
+{
+    $id = $this->savePatient();
+    $email = $this->connection->fetchOne('SELECT email FROM patient WHERE id = ?', [$id]);
+    $tampered = substr($email, 0, -2).(str_ends_with($email, 'A') ? 'B' : 'A').'=';
+    $this->connection->executeStatement('UPDATE patient SET email = ? WHERE id = ?', [$tampered, $id]);
+
+    $this->expectException(\SodiumException::class);
+    $this->entityManager->find(Patient::class, $id);
+}
+```
+
+## Rechercher sur des données chiffrées
+
+On ne peut plus chercher dans une colonne chiffrée avec `WHERE email = ...` : l'égalité en clair ne trouve rien, puisque chaque chiffrement est différent. CipherSweet propose un **index aveugle** : une empreinte calculée avec une clé à partir de la valeur, stockée dans une colonne à part. On cherche en calculant la même empreinte sur la valeur recherchée. Un écouteur renseigne l'index à la création, puis avant chaque `flush`, ce qui couvre aussi les modifications. Nous avions d'abord utilisé l'événement `preUpdate`, qui ignore les changements faits sur l'entité : l'index restait périmé après un changement d'e-mail, et seul un test dédié l'a révélé.
+
+```php
+#[AsEntityListener(event: Events::prePersist, entity: Patient::class)]
+#[AsEntityListener(event: Events::preFlush, entity: Patient::class)]
+final class PatientIndexListener
+{
+    public function __construct(private FieldEncryptor $encryptor)
+    {
+    }
+
+    public function __invoke(Patient $patient): void
+    {
+        $patient->refreshEmailIndex($this->encryptor->blindIndex('patient', 'email', $patient->getEmail()));
+    }
+}
+```
+
+Le test confirme les deux aspects : la recherche en clair échoue, l'index aboutit :
+
+```php
+public function testPlaintextSearchFindsNothingButBlindIndexDoes(): void
+{
+    $this->savePatient();
+
+    self::assertSame(0, (int) $this->connection->fetchOne("SELECT COUNT(*) FROM patient WHERE email = 'alice@example.com'"));
+
+    $index = $this->encryptor->blindIndex('patient', 'email', 'ALICE@example.com');
+    $candidates = $this->entityManager->getRepository(Patient::class)->findBy(['emailIndex' => $index]);
+    $found = array_values(array_filter($candidates, static fn (Patient $p) => 'alice@example.com' === $p->getEmail()));
+
+    self::assertCount(1, $found);
+}
+```
+
+La recherche en clair ne retourne aucune ligne, tandis que l'index trouve l'enregistrement, même avec une casse différente grâce à la transformation en minuscules. Le code récupère les candidats puis compare la valeur déchiffrée, comme le veut la limite décrite plus bas. Un test vérifie aussi que l'index suit un changement d'e-mail. Cette technique a des limites. L'index ne permet que l'égalité exacte, après transformation : pas de recherche partielle ni de tri. Il révèle aussi que deux lignes partagent la même valeur. Avec un index court, comme les 32 bits de notre exemple, des valeurs différentes peuvent produire la même empreinte, par construction : après la recherche, comparez la valeur déchiffrée avant de la renvoyer, et déclarez un index SQL classique sur la colonne de l'empreinte, ce que fait notre entité.
+
+## Performances, migrations, sauvegardes
+
+Nous avons mesuré l'impact sur 2 000 lignes. Le chiffrement d'une valeur a pris 0,015 ms, le déchiffrement 0,046 ms. L'index aveugle est une autre affaire : avec le réglage par défaut, qui utilise Argon2id, un calcul a pris environ 200 ms, soit des dizaines de secondes pour quelques centaines de lignes. C'est voulu : un hachage lent protège les valeurs peu variées contre la force brute. La bibliothèque propose une option de hachage rapide, qui ramène le calcul à 0,01 ms, mais un hachage rapide n'est acceptable que pour des valeurs très variées, impossibles à deviner par essais successifs. Il s'active avec le quatrième argument de `BlindIndex`. Sur 2 000 lignes, l'insertion a pris 279 secondes avec le réglage par défaut, soit environ 140 ms par ligne, et 1 222 ms avec le hachage rapide contre 1 150 ms en clair (médiane de trois exécutions) : la lecture a pris 147 ms contre 19 ms, le déchiffrement de 4 000 valeurs expliquant l'essentiel de l'écart. Pour les 2 000 lignes, les deux colonnes chiffrées et l'index ont fait passer le volume de 229 Ko à 598 Ko. Chaque valeur gagne environ 80 caractères fixes (préfixe, vecteur et marque d'authentification), plus un tiers de la taille du clair à cause du codage en base64.
+
+Côté exploitation, trois conséquences. Les sauvegardes se font normalement, mais elles ne sont utilisables qu'avec la clé : conservez-la séparément de la base. Les exports et les jeux de données de recette sortent chiffrés, ce qui protège, mais interdit de les consulter tels quels : pour un environnement de test, pensez à [anonymiser vos bases de données](/article/dbtoolsbundle-anonymiser-vos-bases-de-donnees). Enfin, chiffrer une colonne existante demande un script qui lit chaque ligne, la chiffre et l'écrit, avec reprise en cas d'échec (nous n'avons pas exécuté cette migration), comme dans un [changement de moteur avec Doctrine](/article/migration-mysql-postgresql-doctrine-guide) : prévoyez d'ajouter la colonne chiffrée, de copier les données, puis de basculer l'application et de supprimer l'ancienne colonne.
+
+## Gestion des clés de chiffrement
+
+La sécurité repose entièrement sur la clé. Elle ne va jamais dans le dépôt : utilisez les [secrets de Symfony](https://symfony.com/doc/current/configuration/secrets.html) ou un coffre dédié, avec une clé distincte par environnement. La clé de test de notre projet d'exemple est une valeur factice, inscrite dans sa configuration PHPUnit, et ne protège aucune donnée réelle. La perte de la clé entraîne la perte définitive des données chiffrées. Prévoyez une rotation : notre test la réalise en déchiffrant avec l'ancienne clé et en chiffrant avec la nouvelle, mais nous n'avons pas testé une migration sur un gros volume.
+
+## Protection des données et conformité
+
+Le RGPD cite le chiffrement parmi les mesures de sécurité appropriées, à l'[article 32](https://www.cnil.fr/fr/reglement-europeen-protection-donnees/chapitre4#Article32), sans qu'il soit suffisant à lui seul : le chiffrement est une pseudonymisation, pas une anonymisation, et les données restent personnelles. Notre article sur la [conformité NIS2 d'une application Symfony](/article/conformite-nis2-application-symfony) et celui sur la [résilience DORA](/article/conformite-dora-resilience-symfony) détaillent les exigences de sécurité de ces textes. Faites valider votre dispositif par votre responsable de la conformité.
+
+## Les erreurs fréquentes
+
+- **La clé dans le dépôt.** Des données chiffrées dont la clé se trouve dans le même dépôt ne sont pas protégées.
+- **Un vecteur d'initialisation réutilisé.** C'est l'erreur type de la cryptographie maison, que la bibliothèque évite : chaque chiffrement de notre test donne un résultat différent.
+- **Des journaux en clair.** Le chiffrement ne protège pas ce que l'application écrit elle-même dans ses logs ou ses messages d'erreur, avant le chiffrement ou après le déchiffrement. Évitez d'y inscrire des valeurs sensibles, et surveillez les [failles de vos dépendances](/article/cve-comprendre-les-failles-pour-mieux-se-proteger).
+- **Un index trop faible.** Un index court ou un hachage rapide sur des valeurs peu variées facilite l'attaque par dictionnaire.
+- **Chiffrer sans nécessité.** Chaque colonne chiffrée perd la recherche, le tri et les index classiques, et le choix des [identifiants et des index](/article/prendre-int-uuid-ou-ulid-pour-un-index-de-base-de-donnees) ne s'applique plus à elle : réservez le chiffrement aux données réellement sensibles.
