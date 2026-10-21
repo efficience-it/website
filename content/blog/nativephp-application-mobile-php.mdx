@@ -1,0 +1,133 @@
+---
+title: "NativePHP : créer une application mobile en PHP"
+date: "2026-10-20"
+updatedAt: "2026-10-20"
+author: "Louis-Arnaud Catoire"
+category: "PHP"
+excerpt: "NativePHP produit des applications iOS et Android avec PHP. Fonctionnement, prérequis, limites et choix face à une PWA, React Native ou Flutter."
+image: "/images/blog/cover-nativephp-mobile.webp"
+proficiencyLevel: "Intermediate"
+faq:
+  - question: "NativePHP fonctionne-t-il avec Symfony ?"
+    answer: "Non, pas directement. Le paquet nativephp/mobile dépend des composants Illuminate de Laravel et la documentation le décrit comme conçu pour Laravel. Une équipe Symfony peut en revanche construire l'application mobile avec Laravel et la faire dialoguer avec son API Symfony existante."
+  - question: "Faut-il un Mac pour publier une application iOS ?"
+    answer: "Pour compiler localement, oui : la compilation iOS exige un Mac avec Xcode, ce qui est une contrainte d'Apple. L'éditeur propose aussi un service de build dans le cloud, et l'application Jump permet de tester sur un iPhone sans Mac. La publication sur l'App Store demande un compte développeur Apple. Pour Android, Android Studio et son SDK suffisent, sur macOS ou sous Windows (hors WSL)."
+  - question: "NativePHP embarque-t-il un serveur web dans l'application ?"
+    answer: "Non. PHP est compilé sous forme de bibliothèque et lié à l'application native : il s'exécute dans le même processus, sans serveur web ni processus séparé. L'application peut donc fonctionner hors ligne, avec SQLite comme base de données embarquée."
+  - question: "NativePHP remplace-t-il une application React Native ou Flutter ?"
+    answer: "Cela dépend de votre équipe et de votre produit. NativePHP convient quand les compétences sont en PHP et en Laravel. Un framework mobile établi comme React Native ou Flutter offre en contrepartie un écosystème et un recul plus importants, ce qui compte pour un produit appelé à durer."
+---
+
+Pour une équipe PHP, une application mobile signifie en général apprendre Swift, Kotlin ou un framework JavaScript. NativePHP propose une autre voie : exécuter une application PHP directement sur le téléphone, sans serveur.
+
+Cet article décrit ce que fait l'outil, ce qu'il demande et ce qu'il ne fait pas, en particulier pour un lecteur Symfony. Il s'appuie sur la [documentation officielle de NativePHP for Mobile](https://nativephp.com/docs/mobile/4/getting-started/introduction) en version 4 et sur le paquet `nativephp/mobile` 4.6.0, publié début octobre 2026. Nous n'avons pas compilé d'application d'exemple pour l'écrire : les commandes citées viennent de cette documentation.
+
+## Comment fonctionne NativePHP
+
+Le principe tient en quatre éléments, que la documentation résume ainsi : une application Laravel, le paquet Composer `nativephp/mobile`, un PHP compilé sur mesure avec une extension NativePHP, et une coque native en Swift et Kotlin.
+
+Concrètement, PHP n'est pas lancé derrière un serveur web. Il est compilé sous forme de bibliothèque (le SAPI « embed »), liée à l'application native, et s'exécute dans le même processus. La version courante embarque PHP 8.4. Votre code tourne donc sur l'appareil, ce qui permet de fonctionner hors ligne, avec SQLite comme base embarquée.
+
+Côté interface, deux modes existent. Par défaut, les composants EDGE (fournis par le paquet `nativephp/mobile-ui`), écrits en Blade, sont transformés en vues natives (SwiftUI sur iOS, Jetpack Compose sur Android). Il n'y a pas de web view dans ce cas. Il reste possible de s'appuyer sur une web view si vous préférez.
+
+```blade
+<native:bottom-nav>
+    <native:bottom-nav-item id="home" icon="home" label="Accueil" url="/home" />
+</native:bottom-nav>
+```
+
+L'extension PHP donne aussi accès à des fonctions de l'appareil, comme la caméra, la biométrie ou les notifications push, et un système de plugins étend cette liste.
+
+## Symfony ou PHP pur : ce qui est utilisable
+
+C'est la question centrale pour nous, et la réponse est nette : NativePHP for Mobile est conçu pour Laravel. Le paquet requiert les composants `illuminate/*`, ses commandes passent par Artisan et la documentation recommande de l'installer dans une nouvelle application Laravel.
+
+Une installation dans un projet Symfony, ou en PHP pur sans framework, n'est ni prévue ni documentée. Deux options restent ouvertes à une équipe Symfony :
+
+- **séparer les rôles** : l'application mobile est écrite avec Laravel, et elle consomme l'API de votre application Symfony, comme le ferait n'importe quel client ;
+- **rester sur le web** : si le besoin est surtout d'afficher votre application sur mobile, une application web progressive évite d'ajouter un second framework.
+
+Cette séparation suppose une API propre et documentée. Nos [bonnes pratiques d'API REST](/article/api-rest-les-bonnes-pratiques) s'appliquent telles quelles. Notre comparatif [Symfony ou Laravel](/article/symfony-vs-laravel-quel-framework-php-choisir) détaille la philosophie des deux frameworks.
+
+## Créer une application mobile NativePHP pas à pas
+
+### Prérequis
+
+Sur la machine de développement, il faut PHP 8.3 ou plus et Laravel 10 ou plus. Le code s'exécute toutefois sur le PHP 8.4 embarqué : vérifiez qu'il y est compatible. Les contraintes diffèrent ensuite selon la plateforme :
+
+- **iOS** : un Mac Apple Silicon sous macOS 15.6 ou plus, Xcode 26 ou plus, les outils en ligne de commande, Homebrew et CocoaPods ;
+- **Android** : Android Studio 2024.2.1 ou plus, un SDK de niveau d'API 29 ou plus, les variables d'environnement `JAVA_HOME` et `ANDROID_HOME`, un JDK parfois à installer séparément, et 7-Zip sous Windows ;
+- **Windows** : NativePHP ne fonctionne pas dans WSL, il faut l'installer directement sous Windows.
+
+Avec `native:run`, un compte développeur Apple n'est pas nécessaire pour un simulateur. Il le devient pour un appareil réel, pour l'App Store et pour les notifications push.
+
+### Installation et lancement
+
+Pour une nouvelle application, la documentation propose un kit de démarrage (`laravel new mon-app --using=nativephp/mobile-starter --no-node`). Dans une application Laravel existante, la séquence est la suivante :
+
+```bash
+composer require nativephp/mobile
+php artisan native:install
+php artisan native:run
+```
+
+Avant `native:install`, renseignez `NATIVEPHP_APP_ID` dans le fichier `.env`, par exemple `com.votresociete.votreapp`. L'installateur crée un dossier `nativephp` contenant les projets natifs et un fichier `config/nativephp.php`. Ce dossier est jetable : `native:install --force` le reconstruit entièrement, et la documentation le demande lors des mises à jour mineures du paquet. Elle conseille aussi de l'ajouter au `.gitignore`.
+
+La documentation conseille aussi de lancer d'abord l'application dans le navigateur, car les erreurs y sont plus faciles à repérer qu'une fois l'application compilée.
+
+### Construire pour la publication
+
+Pour produire un binaire signé à envoyer aux stores, la documentation prévoit une commande dédiée :
+
+```bash
+php artisan native:package android
+php artisan native:package ios
+```
+
+Elle prend en charge la signature et accepte un type de build `release` ou `bundle`. Prévoyez un compte développeur Apple pour iOS et un compte Google Play pour Android.
+
+### Tester sans Xcode ni Android Studio
+
+L'application compagnon Jump (version 2 ou plus) affiche votre application sur un téléphone réel, avec rechargement à chaud, sans installer les outils natifs :
+
+```bash
+php artisan native:jump
+```
+
+Il suffit de scanner le QR code affiché dans le terminal, le téléphone et l'ordinateur étant sur le même réseau Wi-Fi. Attention : avec Jump, PHP tourne sur votre ordinateur et l'application s'affiche dans la web view de Jump. Ce n'est pas un build, et cela ne remplace pas un test sur un build réel.
+
+## Limites à connaître avant de s'engager
+
+- **Un outil jeune** : la documentation reconnaît que l'équipe est petite. La politique de support de l'équipe, datée de septembre 2025, vise iOS 18 ou supérieur et Android 13 ou supérieur, sans le garantir.
+- **Les mises à jour natives** : une version corrective est censée ne changer que le code PHP, mais une version mineure peut modifier le code natif. Elle impose alors de reconstruire le projet avec `php artisan native:install --force` et de repasser par la publication sur les stores. Fixez la version avec un opérateur tilde dans `composer.json`.
+- **Le lien avec Laravel** : tout votre code mobile dépend d'un framework que votre équipe Symfony n'utilise peut-être pas au quotidien.
+- **La publication sur les stores** : elle suit les règles d'Apple et de Google comme n'importe quelle application. Lisez les [règles de validation de l'App Store](https://developer.apple.com/app-store/review/guidelines/) et la [politique de contenu de Google Play](https://play.google.com/about/developer-content-policy/) avant de concevoir vos écrans.
+- **Les API natives** : les fonctions de l'appareil passent par l'extension et par des plugins. Une fonction absente demande d'écrire un plugin avec du code Swift et Kotlin.
+- **La taille** : la documentation ne chiffre pas le poids total d'une application. Elle indique seulement que les coques natives sont volontairement légères, et que le support ICU ajoute environ 30 Mo sur Android.
+- **La licence** : le code de `nativephp/mobile` est publié sous licence MIT, ce qui permet de l'utiliser librement. Les composants EDGE viennent du paquet distinct `nativephp/mobile-ui`, à vérifier séparément.
+
+Côté performances, la documentation annonce une exécution rapide sur du matériel récent, mais nous n'avons pas de mesures indépendantes à citer : testez un écran représentatif de votre produit avant de décider. Le code et les données vivent aussi sur l'appareil de l'utilisateur, ce qui impose de soigner le stockage et les secrets. Enfin, les failles de vos dépendances restent un risque, comme pour tout projet : notre article pour [comprendre les failles CVE](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) l'explique.
+
+## NativePHP, PWA, React Native ou Flutter
+
+| Option | Langage | Interface | Réutilise votre PHP |
+| --- | --- | --- | --- |
+| PWA | HTML, CSS, JavaScript | Web, installable depuis le navigateur | Oui, côté serveur |
+| NativePHP | PHP et Blade (Laravel) | Vues natives, ou web view | Oui si Laravel, sinon via une API |
+| React Native | JavaScript ou TypeScript | Composants natifs | Non, via une API |
+| Flutter | Dart | Moteur de rendu propre à Flutter | Non, via une API |
+
+### Quand choisir quoi
+
+- **PWA** : votre contenu est déjà un site responsive et vous n'avez pas besoin des stores ni de fonctions poussées de l'appareil. C'est souvent le chemin le plus direct, comme l'explique notre article sur le [Web App Manifest](/article/ameliorer-lexperience-utilisateur-grace-au-manifeste-des-applications-web).
+- **NativePHP** : votre équipe est à l'aise avec Laravel, l'application est de taille modérée et vous voulez éviter un nouveau langage. Un prototype ou un outil interne est un bon terrain d'essai.
+- **React Native** : vous avez des compétences JavaScript ou TypeScript, ou un site déjà bâti sur React. Notre comparatif des [frameworks JavaScript](/article/quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular) aide à situer cet écosystème.
+- **Flutter** : vous cherchez une interface identique sur les deux plateformes, avec une équipe prête à adopter Dart.
+
+Le choix du langage serveur reste séparé de celui de l'application mobile. Notre comparatif [PHP et Node.js](/article/php-vs-nodejs-quel-langage-backend-choisir) traite le côté backend.
+
+## Ce qu'il faut retenir
+
+NativePHP tient une promesse précise : exécuter une application Laravel sur un téléphone, avec PHP embarqué et une interface native. Il convient à une équipe Laravel qui veut une application mobile sans apprendre Swift ni Kotlin. Pour une équipe Symfony, il impose d'introduire Laravel côté mobile, ou de choisir une autre voie.
+
+Avant de choisir, vérifiez trois points : les contraintes de matériel (un Mac pour compiler iOS en local), la fréquence des mises à jour natives et la capacité de votre équipe à maintenir deux frameworks. Le [code source sur GitHub](https://github.com/NativePHP/mobile-air) permet de juger l'activité du projet avant de s'engager.
