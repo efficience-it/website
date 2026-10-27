@@ -1,0 +1,229 @@
+---
+title: "JanePHP : générer un client PHP typé depuis OpenAPI"
+date: "2026-10-27"
+updatedAt: "2026-10-27"
+author: "Louis-Arnaud Catoire"
+category: "Symfony"
+excerpt: "Générer des modèles et un client PHP typés depuis OpenAPI avec JanePHP, puis l'utiliser avec HttpClient, le tester et détecter la dérive en CI."
+image: "/images/blog/cover-janephp-client-openapi.webp"
+proficiencyLevel: "Intermediate"
+faq:
+  - question: "Faut-il versionner le code généré par Jane ?"
+    answer: "Oui, dans la plupart des projets. Le code versionné rend la dérive visible : après une régénération, un simple `git diff` montre ce que la spécification a changé, et la CI peut échouer si le résultat diffère de ce qui est versionné. Les classes restent lisibles en revue de code."
+  - question: "JanePHP gère-t-il les spécifications en YAML ou à distance ?"
+    answer: "Oui, l'option `openapi-file` accepte un chemin local ou une URL, au format JSON ou YAML. Pour la reproductibilité, copiez la spécification dans le dépôt plutôt que de la lire à distance à chaque génération."
+  - question: "Pourquoi mon appel GET ne part-il pas ?"
+    answer: "Depuis Jane 8, les requêtes GET et HEAD sont paresseuses par défaut : la requête n'est envoyée qu'au premier accès à la réponse, à condition de tourner sous PHP 8.4 ou plus. Les autres verbes HTTP sont exécutés immédiatement. Lisez une propriété de l'objet retourné pour déclencher l'appel."
+---
+
+Beaucoup de projets Symfony consomment une API tierce avec des clients HTTP écrits à la main et des tableaux associatifs en guise de modèles. Ces clients dérivent : un champ renommé côté fournisseur, un code d'erreur ajouté, et le bug n'apparaît qu'en production. Quand l'API publie une spécification OpenAPI, autant la laisser produire le code. [JanePHP](https://jane.readthedocs.io), développé par JoliCode, génère des modèles typés, des normalizers et un client prêt à l'emploi à partir d'une spécification JSON Schema ou OpenAPI.
+
+Nous avons exécuté ce guide avec PHP 8.5.4, `jane-php/open-api-3` 8.1.1 et Symfony 8.1, sur la spécification publique Petstore (OpenAPI 3.0.4). Les appels HTTP des exemples sont simulés avec `MockHttpClient`. L'extrait de workflow GitHub Actions n'a pas été rejoué, mais la commande de détection de dérive qu'il contient l'a été.
+
+## Pourquoi générer plutôt qu'écrire à la main
+
+Un client écrit à la main pose trois problèmes récurrents.
+
+- **Dérive** : la spécification évolue, le code ne suit pas, et rien ne l'indique avant l'exécution.
+- **Modèles fragiles** : des tableaux associatifs sans type masquent les erreurs que PHPStan ou l'IDE détecteraient sur un objet.
+- **Erreurs oubliées** : chaque code de statut documenté devrait produire un comportement précis, et on en traite rarement plus de deux.
+
+La génération déplace la source de vérité vers la spécification. Le code devient un artefact reproductible, et ce que vous écrivez à la main se limite à la configuration et à l'usage. C'est le même principe que celui qui motive la [documentation OpenAPI générée avec NelmioApiDocBundle](/article/swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on) côté serveur : une spécification fiable sert à produire à la fois la documentation et le code client.
+
+## Installation et configuration
+
+Le générateur n'a besoin d'être présent qu'en développement, alors que le client généré s'appuie sur un paquet d'exécution.
+
+```bash
+composer require --dev jane-php/open-api-3
+composer require jane-php/open-api-runtime symfony/http-client
+```
+
+La version 8 requiert PHP 8.3 minimum et accepte Symfony 7 ou 8 (les requêtes paresseuses demandent PHP 8.4). La configuration tient dans un fichier `.jane-openapi.php` à la racine du projet. Elle a trois options principales :
+
+```php
+<?php
+
+return [
+    'openapi-file' => __DIR__ . '/openapi/petstore.json',
+    'namespace' => 'App\PetStore',
+    'directory' => __DIR__ . '/src/PetStore',
+];
+```
+
+`openapi-file` désigne la spécification (chemin local ou URL, JSON ou YAML), `namespace` la racine des classes générées et `directory` leur emplacement. D'autres options existent, comme `throw-unexpected-status-code` et `default-fetch-mode`, abordées plus bas. Déclarez ensuite l'espace de noms dans l'autoload de `composer.json` pour que Composer retrouve les classes générées. La génération se lance avec une seule commande :
+
+```bash
+vendor/bin/jane-openapi generate
+```
+
+Sur Petstore, Jane a produit 83 fichiers en une fraction de seconde : six modèles, leurs normalizers, 19 endpoints, 35 fichiers d'exceptions, le client et le code d'exécution. Le dossier généré est reproductible : relancer la commande sur la même spécification ne modifie aucun fichier.
+
+## Ce que Jane génère
+
+Chaque schéma de la spécification devient une classe typée. Le modèle `Pet` ressemble à ceci :
+
+```php
+class Pet implements AdditionalPropertiesInterface
+{
+    use AdditionalAndPatternProperties;
+
+    public int $id;
+    public string $name;
+    public Category $category;
+    public array $photoUrls;
+    public array $tags;
+    public string $status;
+}
+```
+
+Le client expose une méthode par opération (`addPet`, `getPetById`, `findPetsByStatus`…), avec des paramètres typés pour les chemins, les requêtes et les corps. Un normalizer dédié transforme chaque modèle en JSON et inversement, branché sur le [composant Serializer de Symfony](https://symfony.com/doc/current/serializer.html). Si la sérialisation devient un point chaud de votre application, notre guide pour [migrer du Serializer vers JsonStreamer](/article/migrer-du-serializer-vers-json-streamer-le-guide-honnete) mesure ce que l'on peut en attendre.
+
+## Utiliser le client avec HttpClient
+
+Le client se construit avec `Client::create()`, qui accepte n'importe quel `HttpClientInterface` de Symfony. Une particularité de Petstore illustre un piège courant : sa spécification déclare un serveur relatif (`/api/v3`), que Jane refuse de résoudre, car le plugin exige une URL absolue. La solution est de désactiver les plugins de serveur par défaut et de fournir l'URL complète.
+
+```php
+use App\PetStore\Client;
+use Jane\Component\OpenApiRuntime\Client\Plugin\ServerUrlHttpClient;
+
+$client = Client::create(
+    $httpClient,
+    [new ServerUrlHttpClient('https://petstore3.swagger.io/api/v3')],
+    applyServerPlugins: false,
+);
+
+$pet = $client->getPetById(10);
+echo $pet->name;
+```
+
+L'objet retourné est une instance de `App\PetStore\Model\Pet`, entièrement typée. En production, injectez un client configuré par le [composant HttpClient](https://symfony.com/doc/current/http_client.html) (délais d'attente, nouvelles tentatives, `base_uri`) plutôt qu'un client par défaut.
+
+### Les requêtes GET sont paresseuses
+
+Depuis Jane 8, les requêtes GET et HEAD sont paresseuses par défaut : la requête n'est envoyée qu'au premier accès à la réponse. Les autres verbes HTTP s'exécutent immédiatement. Ce mode s'appuie sur les objets paresseux natifs de PHP 8.4 : sous PHP 8.3, la version minimale prise en charge, les appels GET s'exécutent immédiatement. Une réponse qui n'est pas un modèle unique (tableau, corps scalaire ou vide) est aussi exécutée immédiatement. Le mode se règle avec l'option de génération `default-fetch-mode` ou, par opération, avec l'extension `x-fetch-mode` de la spécification, qui accepte `lazy`, `eager` et `preload` et n'est autorisée que sur les opérations GET et HEAD. Chaque endpoint généré expose son mode par la méthode `getFetchMode()`.
+
+Dans notre test, sous PHP 8.5, un `getPetById(99)` dont on ne lisait pas le résultat n'a jamais émis de requête, ce qui a décalé les réponses simulées suivantes. Lire `->name` déclenche l'appel et fait remonter les exceptions documentées. Gardez-le en tête avant de supposer qu'un appel sans lecture de résultat a bien eu lieu.
+
+## Erreurs, authentification et versions
+
+### Gérer les erreurs
+
+Jane génère une exception par statut d'erreur documenté pour chaque opération : `GetPetByIdNotFoundException` pour un 404, `GetPetByIdBadRequestException` pour un 400. Elles implémentent des interfaces communes, `ClientException` et `ServerException`, qui étendent toutes deux `ApiException` : l'exception du 404 implémente `ClientException`. Ces exceptions portent aussi la réponse brute, par l'interface `WithResponseInterface`, dont la méthode `getResponse()` est nullable :
+
+```php
+use App\PetStore\Exception\ClientException;
+use App\PetStore\Exception\WithResponseInterface;
+
+try {
+    $client->getPetById(99)->name;
+} catch (ClientException $e) {
+    if ($e instanceof WithResponseInterface && null !== $e->getResponse()) {
+        $status = $e->getResponse()->getStatusCode();
+        $body = $e->getResponse()->getContent(false);
+    }
+}
+```
+
+Dans notre test, un 404 avec le corps `{"message":"Pet not found"}` a bien été attrapé par `ClientException`, avec le statut 404 et le corps intact. C'est le pendant côté client des [bonnes pratiques d'une API REST](/article/api-rest-les-bonnes-pratiques) sur les codes de statut : si le serveur renvoie des codes précis, le client généré les restitue précisément.
+
+Un autre point demande de la vigilance : l'opération `getPetById` de Petstore déclare une réponse `default` en plus du 200, du 400 et du 404. Pour un statut que seule cette réponse couvre, comme un 500, Jane ne lève aucune exception. Dans notre test, sous PHP 8.5 en mode paresseux, un 500 et un 418 ont renvoyé un objet `Pet` dont les propriétés ne sont jamais initialisées, et la lecture de `->name` a produit une `Error` PHP (« must not be accessed before initialization ») au lieu d'une exception d'API. Sous PHP 8.3 ou en mode `eager`, le client renvoie `null` à la place. D'après les tests de la bibliothèque, un statut totalement absent de la spécification lève en revanche une `BadResponseException` par défaut, grâce à l'option `throw-unexpected-status-code`, active par défaut. Cette exception implémente `ClientException` : un `catch (ClientException)` attrape donc aussi des erreurs serveur non déclarées. Écrivez un test pour les erreurs serveur de chaque opération critique, et déclarez explicitement les statuts 5xx dans la spécification quand vous la maîtrisez.
+
+### Authentification
+
+Quand la spécification décrit des schémas de sécurité, Jane génère les classes d'authentification correspondantes. Pour Petstore, `ApiKeyAuthentication` ajoute l'en-tête `api_key`. On l'enregistre avec `AuthenticationRegistry` :
+
+```php
+use App\PetStore\Authentication\ApiKeyAuthentication;
+use App\PetStore\Client;
+use Jane\Component\OpenApiRuntime\Client\Plugin\AuthenticationRegistry;
+use Jane\Component\OpenApiRuntime\Client\Plugin\ServerUrlHttpClient;
+
+$client = Client::create(
+    $httpClient,
+    [
+        new ServerUrlHttpClient('https://petstore3.swagger.io/api/v3'),
+        new AuthenticationRegistry([new ApiKeyAuthentication($apiKey)]),
+    ],
+    applyServerPlugins: false,
+);
+```
+
+Nous avons vérifié que la requête sortante contient bien l'en-tête `api_key` avec la valeur fournie. Lisez la clé depuis une variable d'environnement ou un secret, jamais depuis le code. Si l'API délivre des jetons d'un fournisseur d'identité, voyez comment les obtenir dans l'article sur le [SSO avec Keycloak et OpenID Connect](/article/sso-keycloak-openid-connect-symfony).
+
+### Versions de l'API
+
+Le plus simple est de versionner la spécification avec le code : un fichier par version majeure de l'API, un fichier de configuration et un espace de noms par version (`App\PetStoreV3`, `App\PetStoreV4`). Jane accepte l'option `--config-file` pour pointer vers une autre configuration, ce qui permet de générer plusieurs clients côte à côte pendant une migration.
+
+## Intégration continue et détection de dérive
+
+L'intérêt principal du code généré est qu'il peut être vérifié mécaniquement. Gardez la spécification dans le dépôt, versionnez le dossier généré et régénérez en CI : si la commande modifie ou ajoute des fichiers, c'est que le code versionné ne correspond plus à la spécification. Le `git add -N` de l'extrait compte : sans lui, `git diff` ignore les fichiers non suivis, et un nouvel endpoint ou un nouveau modèle ne ferait pas échouer la CI.
+
+Voici un extrait de job GitHub Actions :
+
+```yaml
+- uses: shivammathur/setup-php@v2
+  with:
+    php-version: '8.5'
+- run: composer install --no-interaction
+- run: vendor/bin/jane-openapi generate
+- run: git add -N src/PetStore
+- run: git diff --exit-code src/PetStore
+```
+
+Nous avons vérifié les deux comportements. Sur la spécification inchangée, la régénération ne produit aucune différence. Quand nous ajoutons un champ `weight` au schéma `Pet`, la régénération ajoute la propriété `public float $weight` et son entrée dans `definedProperties()`, ce qui ferait échouer le `git diff`. Un script Composer évite d'oublier la commande dans votre flux de travail :
+
+```json
+{
+    "scripts": {
+        "jane:generate": "jane-openapi generate"
+    }
+}
+```
+
+`composer jane:generate` lance alors le générateur, car Composer ajoute `vendor/bin` au chemin des scripts. Pour le reste des bonnes pratiques de Composer, voyez notre article sur [l'utilisation de Composer dans le développement Symfony](/article/utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques).
+
+## Tester le code qui utilise le client
+
+Comme le client dépend de `HttpClientInterface`, on le teste avec `MockHttpClient` et `MockResponse`, sans réseau. C'est ce que nous avons fait pour tous les exemples de cet article :
+
+```php
+use App\PetStore\Client;
+use Jane\Component\OpenApiRuntime\Client\Plugin\ServerUrlHttpClient;
+use Symfony\Component\HttpClient\MockHttpClient;
+use Symfony\Component\HttpClient\Response\MockResponse;
+
+$response = new MockResponse(
+    '{"id":10,"name":"Rex","photoUrls":[],"status":"available"}',
+    ['response_headers' => ['content-type: application/json']],
+);
+
+$client = Client::create(
+    new MockHttpClient($response),
+    [new ServerUrlHttpClient('https://petstore3.swagger.io/api/v3')],
+    applyServerPlugins: false,
+);
+
+$pet = $client->getPetById(10);
+```
+
+Le test vérifie à la fois la désérialisation (`$pet->name` vaut `Rex`) et la requête émise (`$response->getRequestUrl()` renvoie l'URL complète). Ce type de test unitaire ne détecte pas qu'un fournisseur a changé son comportement sans toucher à sa spécification. Pour cela, il faut un test de contrat qui rejoue des requêtes réelles contre un environnement de test du fournisseur, ou des collections de requêtes exécutées en CI : notre article sur [Newman dans GitLab CI](/article/comment-executer-des-tests-postman-avec-newman-dans-gitlab-ci) montre comment, et [Bruno](/article/bruno-alternative-open-source-postman-tester-api) propose une alternative open source à Postman pour écrire ces scénarios.
+
+## JanePHP, OpenAPI Generator ou écriture manuelle
+
+[OpenAPI Generator](https://openapi-generator.tech) est le générateur généraliste de référence : il couvre des dizaines de langages et propose un générateur PHP, `php-nextgen`. Il s'installe sous forme de JAR, qui demande Java 11 minimum, ou via un wrapper npm, une image Docker ou Homebrew. Ses classes suivent des conventions configurables, dont la casse `snake_case` par défaut pour les noms de variables, qu'il faut adapter si vous voulez du code PHP idiomatique.
+
+| Critère | JanePHP | OpenAPI Generator | Écriture manuelle |
+|---|---|---|---|
+| Installation | Paquet Composer | JAR (Java 11+), npm ou Docker | Aucune |
+| Intégration Symfony | Serializer et HttpClient natifs | Selon le générateur et ses options | Totale |
+| Langages | PHP uniquement | Dizaines | PHP |
+| Suivi de la spécification | Régénération vérifiable en CI | Régénération possible en CI | Manuel |
+| Contrôle du code | Limité aux options | Limité aux options et aux gabarits | Total |
+| Effort de maintenance | Faible | Faible | Élevé si la spécification bouge |
+
+L'écriture manuelle reste pertinente pour une API à deux ou trois endpoints stables, ou quand aucune spécification fiable n'existe. Au-delà, la dérive pèse plus lourd que l'outil. Entre les deux générateurs, JanePHP s'impose quand tout votre projet est en PHP et en Symfony : l'outillage reste dans Composer, et les types, le Serializer et HttpClient sont ceux que vous utilisez déjà. OpenAPI Generator devient intéressant si votre organisation génère déjà des clients dans plusieurs langages avec le même outil.
+
+## Ce qu'il faut retenir
+
+Pour consommer une API tierce documentée en OpenAPI, générez le client plutôt que de l'écrire. Gardez la spécification et le code généré dans le dépôt, faites échouer la CI sur toute différence après régénération, testez avec `MockHttpClient` et traitez les erreurs par les exceptions typées. Surveillez trois pièges rencontrés pendant nos essais : les serveurs relatifs dans la spécification, les requêtes GET paresseuses qui ne partent qu'à la lecture du résultat, et les statuts couverts seulement par une réponse `default`, qui ne lèvent aucune exception.

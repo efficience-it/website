@@ -1196,5 +1196,12 @@
     "license": "CC0",
     "author": "Katy Belcher katybelcher",
     "url": "https://commons.wikimedia.org/wiki/File:Engraved_key_on_a_branch_(Unsplash).jpg"
+  },
+  "janephp-client-php-type-openapi-symfony": {
+    "name": "janephp-client-openapi",
+    "file": "File:Gear (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Goran Ivos givos",
+    "url": "https://commons.wikimedia.org/wiki/File:Gear_(Unsplash).jpg"
   }
 }
