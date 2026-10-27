@@ -1,0 +1,193 @@
+---
+title: "Lazy objects natifs de PHP 8.4 dans Doctrine et Symfony"
+date: "2026-10-27"
+updatedAt: "2026-10-27"
+author: "Louis-Arnaud Catoire"
+category: "PHP"
+excerpt: "PHP 8.4 gère les objets paresseux nativement. Fantômes et proxies, effet sur Doctrine et les services Symfony, mesures, pièges et plan de migration."
+image: "/images/blog/cover-lazy-objects-php-84.webp"
+proficiencyLevel: "Expert"
+faq:
+  - question: "Quelle est la différence entre un fantôme et un proxy paresseux ?"
+    answer: "Un fantôme s'initialise sur place : l'initialiseur reçoit l'objet et remplit son état, et l'objet n'est ensuite plus distinguable d'un objet ordinaire. Un proxy délègue à une instance réelle créée par une fabrique : les deux objets ont des identités différentes, ce qui demande de la prudence quand on compare ou stocke des identifiants d'objet."
+  - question: "Un appel de méthode initialise-t-il un objet paresseux ?"
+    answer: "Pas en lui-même. L'initialisation se déclenche à la lecture ou à l'écriture d'une propriété. Une méthode qui n'accède pas à l'état de l'objet ne déclenche rien, alors qu'une méthode qui lit une propriété provoque l'initialisation."
+  - question: "Doctrine utilise-t-il les objets natifs sans configuration ?"
+    answer: "Avec Doctrine ORM 3.7 en usage autonome, il faut les activer avec enableNativeLazyObjects(true). Avec DoctrineBundle 3, ils sont toujours actifs. Le mode sans objets natifs est déprécié sous PHP 8.4 et disparaîtra avec l'ORM 4."
+---
+
+Instancier un objet coûteux qui ne servira peut-être pas est un problème ancien : connexion à une base, client HTTP, entité liée jamais lue. Les frameworks l'ont contourné pendant des années avec des classes proxy générées. PHP 8.4 apporte une réponse dans le langage : les objets paresseux (lazy objects), décrits dans la [RFC correspondante](https://wiki.php.net/rfc/lazy-objects) et le [manuel PHP](https://www.php.net/manual/fr/language.oop5.lazy-objects.php). Doctrine et Symfony s'y appuient désormais, dans la lignée des [évolutions à venir du langage](/article/php-9-0-devoile-ce-que-vous-devez-savoir-avant-la-sortie). Ce guide explique le mécanisme, ce qu'il change pour vos services et vos entités, et les pièges à connaître avant de migrer.
+
+Nous avons exécuté tous les exemples avec PHP 8.5.4, Doctrine ORM 3.7.5, Symfony 8.1 (composants `dependency-injection` et `var-exporter` 8.1.9) et SQLite en mémoire. Les sorties reproduites sont celles de nos exécutions. Les mesures de performance viennent d'une seule machine et donnent des ordres de grandeur, pas des garanties.
+
+## Le problème : retarder le travail coûteux
+
+Un objet paresseux existe tout de suite, mais son état n'est construit qu'au moment où l'on en a besoin. Avant PHP 8.4, cela passait par des classes générées qui héritaient de la vôtre et interceptaient les appels. Cette approche a des limites : une classe `final` ne peut pas être étendue, la génération ajoute une étape de compilation, et le type réel de l'objet n'est plus celui que vous avez écrit.
+
+Symfony a longtemps fourni ces outils avec `LazyGhostTrait` et `LazyProxyTrait`. Depuis la version 7.3, ils sont dépréciés au profit des objets natifs, et la version 8.0 les a supprimés, d'après le changelog du composant `var-exporter`. C'est le signe que le langage a pris le relais, ce qui compte pour tout projet qui suit le [calendrier de fin de support de Symfony et de PHP](/article/symfony-php-fin-de-support-eol-plan-action).
+
+## L'API native de PHP 8.4
+
+Tout passe par `ReflectionClass`. Les méthodes que nous avons listées sous PHP 8.5 sont `newLazyGhost`, `newLazyProxy`, `resetAsLazyGhost`, `resetAsLazyProxy`, `initializeLazyObject`, `isUninitializedLazyObject`, `markLazyObjectAsInitialized` et `getLazyInitializer`. `ReflectionProperty` ajoute `skipLazyInitialization`, `setRawValueWithoutLazyInitialization` et `isLazy`.
+
+### Le fantôme : initialisation sur place
+
+Un fantôme est créé avec un initialiseur qui reçoit l'objet lui-même :
+
+```php
+class Report
+{
+    public function __construct(public string $title, public readonly int $id = 0)
+    {
+        echo "  [constructeur] Report \"{$title}\"\n";
+    }
+}
+
+$r = new ReflectionClass(Report::class);
+
+$ghost = $r->newLazyGhost(function (Report $object): void {
+    echo "  [initialiseur]\n";
+    $object->__construct('Rapport', 42);
+});
+
+var_dump($r->isUninitializedLazyObject($ghost));
+echo $ghost->title, "\n";
+var_dump($r->isUninitializedLazyObject($ghost));
+```
+
+Voici la sortie obtenue. Le constructeur ne s'exécute qu'à la lecture de `title`, et l'objet n'est plus paresseux ensuite :
+
+```text
+bool(true)
+  [initialiseur]
+  [constructeur] Report "Rapport"
+Rapport
+bool(false)
+```
+
+Notez que l'initialiseur peut renseigner une propriété `readonly`, ici `id`. L'objet reste de la classe `Report`, sans sous-classe générée.
+
+### Le proxy : une fabrique et deux identités
+
+Un proxy est créé avec une fabrique qui retourne une instance réelle :
+
+```php
+$proxy = $r->newLazyProxy(function (Report $object): Report {
+    return new Report('Proxy', 7);
+});
+
+echo $proxy->title;
+$real = $r->initializeLazyObject($proxy);
+var_dump(spl_object_id($proxy) === spl_object_id($real));
+```
+
+Une fois initialisé, le proxy délègue à l'instance réelle, et `initializeLazyObject()` renvoie cette dernière. Dans notre essai, la comparaison d'identité renvoie `false` : proxy et instance réelle sont deux objets distincts. Utilisez un fantôme quand vous contrôlez la construction, et un proxy quand l'objet réel est produit ailleurs, par exemple par un conteneur ou un dépôt.
+
+### Ce qui déclenche l'initialisation
+
+Le manuel liste les déclencheurs : lecture ou écriture d'une propriété, `isset` et `unset`, `get_object_vars()`, `foreach` sur un objet ordinaire, `serialize()` et `json_encode()`, et le clonage. À l'inverse, `var_dump()` et le cast en tableau n'initialisent pas l'objet. Les appels de méthode qui n'accèdent pas à l'état ne déclenchent rien non plus, et c'est le point le plus surprenant. Nous l'avons vérifié avec un service dont une méthode `ping()` ne touche aucune propriété et une méthode `compute()` qui lit une propriété. `ping()` laisse l'objet non initialisé, `compute()` l'initialise.
+
+## Dans Symfony : les services paresseux
+
+Un service paresseux n'est instancié qu'au premier usage réel. Symfony le configure avec `lazy: true`, l'attribut `#[Autowire(lazy: true)]` ou, depuis la version 7.1, l'attribut `#[Lazy]`, comme l'explique la [documentation des services paresseux](https://symfony.com/doc/current/service_container/lazy_services.html) :
+
+```php
+use Symfony\Component\DependencyInjection\Attribute\Lazy;
+
+#[Lazy]
+class ReportGenerator
+{
+}
+```
+
+Depuis la version 7.3, le conteneur s'appuie sur les objets natifs quand c'est possible, d'après son changelog. Nous l'avons vérifié avec un service `Heavy` déclaré paresseux dans un `ContainerBuilder`, puis compilé et exporté en code PHP comme en production. Le code généré contient bien `new \ReflectionClass('App\Heavy')->newLazyGhost(...)`. La classe obtenue est `App\Heavy`, sans sous-classe, et le constructeur ne s'exécute qu'à `compute()` :
+
+```text
+avant get
+apres get, classe App\Heavy
+bool(true)
+ping(): pong
+bool(true)
+compute():   [Heavy construit]
+42
+bool(false)
+```
+
+Conséquence pratique : un service `final` peut devenir paresseux, et vous n'avez plus de classes proxy à générer ni à déboguer pour ce cas. Nous n'avons pas rejoué ces exemples dans une application Symfony complète : le comportement décrit vient du conteneur et de son dumper, utilisés directement.
+
+## Dans Doctrine : proxies et références
+
+L'ORM crée des objets paresseux pour les références (`getReference()`) et les associations non chargées. D'après le guide de mise à niveau de l'ORM, l'usage des objets natifs est possible depuis la version 3.5, et il recommande de passer à PHP 8.4 d'abord, puis d'aller directement à l'ORM 3.5 ou plus récent pour éviter la génération de proxies. En usage autonome, on l'active explicitement :
+
+```php
+use Doctrine\ORM\ORMSetup;
+
+$config = ORMSetup::createAttributeMetadataConfig([__DIR__], true);
+$config->enableNativeLazyObjects(true);
+```
+
+Sous PHP 8.4 et plus, désactiver les objets natifs est déprécié et deviendra impossible avec l'ORM 4. Dans notre essai avec l'ORM 3.7.5, une référence obtenue par `getReference()` est une instance de `Author`, sans classe proxy, non initialisée au départ. Lire l'identifiant ne fait aucune requête, alors que lire `name` en déclenche une :
+
+```text
+classe: Author
+non initialise: true
+id lu sans requete: 1
+toujours non initialise: true
+name: Ada
+initialise: true
+```
+
+Si vous utilisez Symfony, DoctrineBundle gère cela pour vous : d'après son code actuel, l'option `enable_native_lazy_objects` est activée par défaut, ne peut plus être désactivée et est dépréciée depuis la version 3.1 du bundle. Le guide de mise à niveau de l'ORM recommande par ailleurs DoctrineBundle 2.15 au minimum pour l'ORM 3. Pour le contexte de cette montée de version, notre article sur les [proxies fantômes introduits avec l'ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) détaille les ruptures de la branche 3.
+
+Autre constat de l'essai : avec `symfony/var-exporter` 8.1, désactiver les objets natifs échoue avec une exception qui demande d'installer `var-exporter` en version 6.4 ou 7, ou d'activer les objets natifs de PHP 8.4. Sous Symfony 8, il n'y a donc plus de retour en arrière possible.
+
+## Performances, mémoire et débogage
+
+Un objet paresseux ne coûte presque rien tant qu'il n'est pas lu, mais son initialisation a un coût. Nous avons créé 100 000 objets sous PHP 8.5.4, en gardant le meilleur de cinq passes :
+
+| Cas | Temps | Mémoire |
+|---|---|---|
+| `new` avec un constructeur simple | 6,1 ms | 7,3 Mo |
+| Fantôme non initialisé | 6,4 ms | 13,4 Mo |
+| Fantôme puis lecture (initialisation) | 16,4 ms | 7,3 Mo |
+
+Les durées absolues varient d'une exécution à l'autre selon la charge de la machine (nous avons mesuré entre 6 et 19 ms pour le `new` simple), mais les rapports restent stables. Le fantôme non initialisé coûte autant de temps qu'un `new` simple, mais environ le double de mémoire (13,4 Mo contre 7,3 Mo pour 100 000 objets). Une fois initialisé, il revient à la mémoire d'un objet ordinaire, mais l'ensemble de la création et de l'initialisation prend environ 2,7 fois le temps d'un `new` simple. Ces chiffres montrent que le gain n'existe que si le constructeur est réellement coûteux, ou si l'objet n'est jamais lu dans la plupart des cas. Pour un constructeur de quelques instructions, un objet paresseux est plus lent et plus lourd. Mesurez sur votre code avant de généraliser, par exemple avec un profileur.
+
+Côté débogage, `var_dump()` n'initialise pas l'objet et affiche son état réel :
+
+```text
+lazy ghost object(Report)#6 (0) {
+  ["title"]=>
+  uninitialized(string)
+  ["id"]=>
+  uninitialized(int)
+}
+```
+
+C'est utile pour comprendre pourquoi une requête part ou ne part pas, mais attention : un outil qui lit les propriétés de l'objet peut déclencher l'initialisation et fausser votre observation, selon la façon dont il inspecte l'objet.
+
+## Cas d'usage et pièges
+
+Dans le code applicatif, les objets paresseux conviennent aux dépendances coûteuses rarement utilisées : client d'API, service qui ouvre une connexion, générateur de documents. Voici les pièges que nous avons rencontrés ou que le manuel documente.
+
+- **Propriétés `readonly`** : un initialiseur peut les renseigner, comme `id` plus haut, et une classe `readonly` fonctionne aussi dans notre essai.
+- **Classes `final`** : elles peuvent devenir paresseuses, contrairement aux proxies générés par héritage.
+- **Classes internes** : impossible. Pour `ArrayObject`, PHP lève `Cannot make instance of internal class lazy`. Seules les classes utilisateur et `stdClass` sont prises en charge, et une classe qui hérite d'une classe interne est refusée elle aussi (`B inherits internal class ArrayObject`), ce qui concerne vos exceptions ou collections maison.
+- **Destructeurs** : pour un fantôme jamais initialisé, le destructeur n'est pas appelé. Dans notre essai, `unset` sur un tel fantôme n'affiche rien. Si votre destructeur libère une ressource, vérifiez que cette libération n'est pas indispensable, puisqu'elle n'aura pas lieu.
+- **Sérialisation** : `serialize()` initialise l'objet par défaut. L'option `ReflectionClass::SKIP_INITIALIZATION_ON_SERIALIZE` (valeur 8) l'évite. Cette option se passe en second argument de `newLazyGhost()` ou de `newLazyProxy()`.
+- **Échec de l'initialiseur** : si l'initialiseur lève une exception, l'objet redevient paresseux. Dans notre essai, une exception `base indisponible` laisse `isUninitializedLazyObject()` à `true`. Les effets de bord sur d'autres objets ne sont pas annulés.
+- **Erreurs tardives** : une exception d'initialisation survient à l'endroit du premier accès, souvent loin de la création. Les traces d'erreur deviennent plus difficiles à relier à leur cause.
+
+## Plan de migration vers PHP 8.4
+
+Voici une séquence réaliste, adaptée de ce que recommandent les guides de mise à niveau :
+
+1. **Passer à PHP 8.4 ou plus**, en vous appuyant sur le calendrier de fin de support pour fixer les échéances.
+2. **Monter Symfony à 7.3 au minimum** pour que le conteneur utilise les objets natifs, et retirer vos usages directs de `LazyGhostTrait` et `LazyProxyTrait`, supprimés en 8.0. Notre [guide de migration dans un projet Symfony](/article/guide-de-migration-dans-un-projet-symfony) détaille la démarche, et [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) automatise une partie des changements.
+3. **Monter Doctrine ORM à 3.5 ou plus** et activer les objets natifs. Avec DoctrineBundle 3, c'est automatique. Avec la branche 2.x, où l'option est désactivée par défaut, activez `doctrine.orm.enable_native_lazy_objects: true`.
+4. **Lancer l'analyse statique** : [PHPStan au niveau maximal](/article/phpstan-niveau-max-symfony-10-erreurs) repère les accès à des propriétés non initialisées, et le [comparatif des analyseurs statiques](/article/comparateur-analyseurs-statiques-php) aide à choisir l'outil.
+5. **Tester** les destructeurs, la sérialisation et les chemins où une exception d'initialisation peut survenir.
+
+## Ce qu'il faut retenir
+
+Les objets paresseux natifs remplacent les proxies générés par un mécanisme du langage : plus de sous-classes, plus d'étape de build, et des services `final` qui deviennent possibles. Pour Symfony, la bascule est faite depuis la version 7.3. Pour Doctrine, elle est disponible depuis l'ORM 3.5 et obligatoire à terme. Le gain réel dépend du coût de vos constructeurs : mesurez-le, et gardez en tête les trois comportements qui surprennent, à savoir qu'une méthode sans accès à l'état n'initialise rien, qu'un destructeur ne s'exécute pas pour un objet jamais lu, et que la sérialisation initialise l'objet.
