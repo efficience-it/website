@@ -23,4 +23,15 @@ const config: Config = {
   coverageReporters: ["json-summary", "text"],
 };
 
-export default createJestConfig(config);
+const jestConfig = async () => {
+  const resolved = await createJestConfig(config)();
+  return {
+    ...resolved,
+    transformIgnorePatterns: [
+      "/node_modules/(?!(marked)/)",
+      "^.+\\.module\\.(css|sass|scss)$",
+    ],
+  };
+};
+
+export default jestConfig;
