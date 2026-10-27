@@ -1,0 +1,191 @@
+---
+title: "PHP asynchrone : Fibers, Revolt, Amp et ReactPHP"
+date: "2026-10-27"
+updatedAt: "2026-10-27"
+author: "Louis-Arnaud Catoire"
+category: "PHP"
+excerpt: "Fibers, Revolt, Amp ou ReactPHP : ce que l'asynchrone apporte à PHP, mesuré sur 10 et 50 appels HTTP concurrents, avec les pièges qui annulent le gain."
+image: "/images/blog/cover-php-asynchrone-fibers.webp"
+proficiencyLevel: "Expert"
+faq:
+  - question: "L'asynchrone rend-il PHP plus rapide ?"
+    answer: "Il accélère l'attente, pas le calcul. Dix appels HTTP de 200 ms durent 2 011 ms l'un après l'autre et environ 210 ms en concurrence dans nos mesures. Quatre calculs de 300 ms lancés dans des tâches asynchrones durent toujours 1 200 ms, car un seul processeur exécute le code PHP."
+  - question: "Quelle bibliothèque asynchrone choisir : Amp, ReactPHP ou Revolt ?"
+    answer: "Revolt est la boucle d'événements sur laquelle repose Amp 3, donc le choix se fait surtout entre Amp, avec un style qui ressemble à du code synchrone, et ReactPHP, qui garde les promesses et accepte d'anciennes versions de PHP. Dans nos mesures, les trois tiennent 10 appels en une latence unique, et la différence se joue sur l'API et la mémoire."
+  - question: "Pourquoi mon code asynchrone n'est-il pas plus rapide ?"
+    answer: "Probablement parce qu'un appel bloquant s'y cache. Un usleep() ou un file_get_contents() dans une tâche asynchrone suspend toute la boucle : dans notre essai, dix attentes de 200 ms avec usleep() durent 2 002 ms, contre 204 ms avec la fonction non bloquante delay()."
+---
+
+PHP exécute classiquement une requête à la fois dans un processus : quand le code attend une réponse HTTP, il ne fait rien d'autre. Depuis PHP 8.1 et ses Fibers, et grâce à des bibliothèques comme Revolt, Amp et ReactPHP, on peut lancer plusieurs attentes en même temps dans un seul processus. Ce guide explique ce que cela change, compare les trois approches sur le même exemple, et liste les pièges qui annulent le gain.
+
+Nous avons exécuté tous les exemples avec PHP 8.5.4, `amphp/amp` 3.1.3, `amphp/http-client` 5.3.6, `revolt/event-loop` 1.0.9, `react/http` 1.11.1, `react/async` 4.3.0 et `react/event-loop` 1.6.0, sur un Ryzen 7 PRO 5850U sous Linux (WSL2). Les serveurs à workers persistants (FrankenPHP, RoadRunner, Swoole) et Symfony Messenger ne figurent pas dans nos essais : ils sont décrits d'après leur documentation.
+
+## Concurrence et parallélisme : ne pas confondre
+
+La concurrence fait avancer plusieurs tâches en les entrelaçant : pendant que l'une attend le réseau, une autre s'exécute. Le parallélisme exécute plusieurs tâches au même instant, sur plusieurs cœurs. L'asynchrone PHP de cet article relève de la concurrence : un seul fil d'exécution, qui change de tâche chaque fois que l'une attend, ce qui rapproche PHP du modèle de Node.js décrit dans notre comparatif [PHP vs Node.js](/article/php-vs-nodejs-quel-langage-backend-choisir).
+
+La conséquence se mesure. Quatre tâches de calcul de 300 ms chacune, lancées dans des tâches asynchrones, ont duré 1 200 ms au total, soit la somme exacte. Le calcul n'a pas été accéléré, parce qu'un seul processeur l'exécute à la fois. L'asynchrone profite aux programmes qui attendent surtout (réseau, disque, base de données), pas à ceux qui calculent.
+
+## Les Fibers : l'interruption au niveau du langage
+
+Une Fiber est une fonction que l'on peut suspendre en son milieu et reprendre plus tard, avec une valeur dans chaque sens. C'est une primitive du langage, décrite dans le [manuel PHP](https://www.php.net/manual/fr/language.fibers.php) et évoquée dans notre article sur [PHP 9.0](/article/php-9-0-devoile-ce-que-vous-devez-savoir-avant-la-sortie), et non un système de concurrence complet :
+
+```php
+$fiber = new Fiber(function (string $start): string {
+    echo "1. demarre avec $start\n";
+    $received = Fiber::suspend('pause');
+    echo "3. reprend avec $received\n";
+
+    return 'fini';
+});
+
+echo "0. avant le demarrage\n";
+$value = $fiber->start('A');
+echo "2. suspendue, valeur recue: $value\n";
+$fiber->resume('B');
+echo "4. terminee, retour: ", $fiber->getReturn(), "\n";
+```
+
+La sortie suit l'ordre des numéros : la fonction démarre, se suspend en rendant `pause`, puis reprend avec `B` pour retourner `fini`. Une Fiber seule ne sait pas quand reprendre : il manque un ordonnanceur qui sache quand le réseau a répondu. C'est le rôle de la boucle d'événements.
+
+## Revolt : la boucle d'événements
+
+[Revolt](https://revolt.run) fournit cette boucle. On lui demande de surveiller des flux ou des minuteries, et elle réveille la Fiber concernée quand l'événement arrive. Pour montrer le principe sans bibliothèque HTTP, voici un client HTTP/1.1 minimal écrit directement sur Revolt, qui suspend la Fiber jusqu'à la réponse. Ce code, complété de l'autoload et de `use Revolt\EventLoop;`, récupère 10 réponses en environ 210 ms :
+
+```php
+function get(int $id): int
+{
+    $stream = stream_socket_client('tcp://127.0.0.1:8099', $errno, $error, 5, STREAM_CLIENT_CONNECT | STREAM_CLIENT_ASYNC_CONNECT);
+    stream_set_blocking($stream, false);
+    $suspension = EventLoop::getSuspension();
+    $response = '';
+    $request = "GET /?id=$id HTTP/1.1\r\nHost: 127.0.0.1\r\nConnection: close\r\n\r\n";
+
+    EventLoop::onWritable($stream, function ($watcher) use ($stream, $request) {
+        EventLoop::cancel($watcher);
+        fwrite($stream, $request);
+    });
+    EventLoop::onReadable($stream, function ($watcher) use ($stream, $suspension, &$response) {
+        $chunk = fread($stream, 8192);
+        if ('' === $chunk || false === $chunk) {
+            EventLoop::cancel($watcher);
+            $suspension->resume();
+
+            return;
+        }
+        $response .= $chunk;
+    });
+
+    $suspension->suspend();
+    fclose($stream);
+    [, $body] = explode("\r\n\r\n", $response, 2);
+
+    return json_decode($body, true)['id'];
+}
+
+for ($i = 1; $i <= 10; $i++) {
+    EventLoop::queue(function () use ($i, &$ids) { $ids[] = get($i); });
+}
+EventLoop::run();
+```
+
+Ce client n'a ni TLS, ni redirections, ni gestion d'erreurs : il ne sert qu'à illustrer le mécanisme. Pour un vrai projet, on utilise une bibliothèque construite sur la boucle.
+
+## Amp : du code qui ressemble à du synchrone
+
+[Amp](https://amphp.org) 3 repose sur Revolt : `amphp/amp` et `amphp/http-client` le déclarent comme dépendance. Son style cache les Fibers : on écrit du code séquentiel, `async()` lance une tâche et `Future\await()` attend les résultats :
+
+```php
+$client = HttpClientBuilder::buildDefault();
+
+$futures = [];
+for ($i = 1; $i <= $n; $i++) {
+    $futures[] = async(fn () => json_decode($client->request(new Request("http://127.0.0.1:8099/?id=$i"))->getBody()->buffer(), true)['id']);
+}
+$ids = Future\await($futures);
+```
+
+## ReactPHP : les promesses, puis les Fibers
+
+[ReactPHP](https://reactphp.org) est le plus ancien des trois. Son noyau (`react/event-loop`, `react/http`) déclare PHP 5.3 comme version minimale dans son `composer.json`, et son style historique repose sur les promesses et `then()`. Le paquet `react/async` 4, qui demande PHP 8.1, ce qui peut imposer de [planifier la montée de version de PHP](/article/symfony-php-fin-de-support-eol-plan-action), ajoute `await()` au-dessus des Fibers :
+
+```php
+$browser = new Browser();
+
+$promises = [];
+for ($i = 1; $i <= $n; $i++) {
+    $promises[] = $browser->get("http://127.0.0.1:8099/?id=$i")->then(
+        fn (ResponseInterface $response) => json_decode((string) $response->getBody(), true)['id'],
+    );
+}
+$ids = await(Promise\all($promises));
+```
+
+## Mesures : mêmes appels, quatre approches
+
+Le protocole : un serveur local, écrit avec ReactPHP, répond à chaque requête après 200 ms. Chaque scénario envoie 10 puis 50 requêtes, dans son propre processus PHP. Le temps mesuré court de l'envoi de la première requête à la réception de la dernière réponse, sans compter le chargement de l'autoload. Nous retenons la médiane de 5 exécutions, et le pic de mémoire vient de `memory_get_peak_usage()`. Un premier essai avec le serveur intégré de PHP (`php -S`), lancé avec 20 workers (`PHP_CLI_SERVER_WORKERS=20`), traitait 5 requêtes parallèles en 218 ms mais 10 en 425 ms, au lieu des 220 ms attendus. Nous l'avons écarté, car il faussait la mesure.
+
+| Approche | Version | PHP minimal | 10 requêtes | 50 requêtes | Pic mémoire (10 / 50) |
+|---|---|---|---|---|---|
+| Séquentielle (`file_get_contents`) | natif | aucun | 2 011 ms | 10 063 ms | 0,5 / 0,5 Mo |
+| Revolt (client minimal) | 1.0.9 | 8.1 | 206 ms | 212 ms | 1,5 / 2,3 Mo |
+| Amp + `http-client` | 3.1.3 / 5.3.6 | 8.1 | 222 ms | 242 ms | 4,6 / 9,1 Mo |
+| ReactPHP + `react/http` | 1.11.1 | 5.3 déclaré pour le noyau | 208 ms | 218 ms | 2,7 / 4,5 Mo |
+
+La colonne PHP minimal reprend le `composer.json` de chaque bibliothèque.
+
+Les trois approches asynchrones tiennent 10 requêtes en une latence unique, soit environ 210 à 270 ms, contre 2 011 ms en séquentiel. À 50 requêtes, le temps reste entre 210 et 340 ms, alors que la version séquentielle atteint 10 063 ms. Les durées varient d'environ 15 % d'une série à l'autre : une relecture indépendante a mesuré 228 à 269 ms pour Amp à 10 requêtes, contre 222 ms dans notre tableau. Les écarts entre les bibliothèques sont faibles, et notre client Revolt, très minimal, n'est pas comparable en fonctionnalités à ceux d'Amp et de ReactPHP, plus complets. La différence entre les bibliothèques se joue donc sur le style d'API, l'écosystème et la mémoire : Amp consomme le plus ici (9,1 Mo à 50 requêtes), ReactPHP est intermédiaire.
+
+## Quand l'asynchrone est utile, et quand il ne l'est pas
+
+Il sert dès qu'un programme attend plusieurs réponses indépendantes :
+
+- **Appels d'API en parallèle** : agréger plusieurs services dans une même réponse.
+- **Scripts d'import** : télécharger ou interroger de nombreuses ressources sans les enchaîner.
+- **Serveurs persistants** : gérer de nombreuses connexions ouvertes dans un seul processus, comme le fait Node.js.
+
+Il est inutile pour un seul appel, pour du calcul pur, ou quand la ressource peut être mise en cache : mettre la réponse en cache coûte généralement moins cher que de la redemander, et notre [guide de la mise en cache](/article/tout-savoir-sur-la-mise-en-cache-tips) présente les options.
+
+## Relation avec les workers persistants et Messenger
+
+Les serveurs à workers persistants gardent l'application en mémoire d'une requête à l'autre, ce qui évite de la recharger. Notre article sur [FrankenPHP et son mode worker](/article/concretement-cest-quoi-frankenphp) décrit cette rupture avec le modèle sans partage. Ces serveurs règlent un autre problème que la boucle d'événements : ils réduisent le coût de démarrage, alors que la boucle fait avancer plusieurs attentes dans une même requête. On peut combiner les deux, avec des précautions sur l'état partagé, que nous n'avons pas testées en pratique.
+
+Symfony Messenger répond à un troisième besoin : déléguer un travail à un autre processus, avec reprises sur erreur. C'est de l'asynchronisme entre processus, pas dans un processus. Pour [comparer Messenger à ses alternatives](/article/quelles-sont-les-differences-entre-symfony-messenger-php-enqueue-quoi-utiliser), voyez notre article sur Enqueue, et pour [organiser Messenger en architecture hexagonale](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale), celui sur sa place dans le code.
+
+## Les pièges
+
+### Le code bloquant dans la boucle
+
+C'est le piège principal. Un appel bloquant suspend tout le processus, donc toutes les tâches. Nous avons mesuré dix attentes de 200 ms :
+
+| Attente | Durée |
+|---|---|
+| `Amp\delay()`, non bloquant | 204 ms |
+| `usleep()`, bloquant | 2 002 ms |
+| `file_get_contents()` bloquant dans `async()` | 2 013 ms |
+
+Le code reste correct et produit les bons résultats : il est simplement séquentiel, sans aucune erreur pour le signaler. Les bibliothèques fournissent des équivalents non bloquants des opérations courantes. Une extension bloquante, comme un pilote de base de données classique, a le même effet, mais nous ne l'avons pas mesuré.
+
+### L'état partagé
+
+Une tâche peut être interrompue à chaque attente, donc deux tâches qui lisent puis écrivent la même variable s'écrasent mutuellement. Trois tâches qui incrémentent un compteur après une pause ont toutes lu 0, et le résultat final est 1 au lieu de 3 :
+
+```text
+tache 1 lit 0
+tache 2 lit 0
+tache 3 lit 0
+tache 1 ecrit 1
+tache 2 ecrit 1
+tache 3 ecrit 1
+final: 1
+```
+
+Il n'y a pas de parallélisme, mais une tâche peut être interrompue à chaque attente : il faut éviter les séquences lecture, attente, écriture sur une même donnée, ou les protéger par un verrou.
+
+### Le débogage
+
+Une exception non gérée dans une tâche lancée par `EventLoop::queue()` arrête le processus avec `Fatal error: Uncaught RuntimeException` et une pile d'appels qui traverse le moteur de la boucle (`AbstractDriver`), peu lisible. Il faut gérer les erreurs dans chaque tâche, ou installer un gestionnaire d'erreurs sur la boucle, ce que nous n'avons pas testé.
+
+## Ce qu'il faut retenir
+
+Les Fibers fournissent l'interruption, une boucle d'événements fournit l'ordonnancement, et Amp ou ReactPHP fournissent des clients prêts à l'emploi. Dans nos mesures, dix ou cinquante appels HTTP concurrents coûtent environ une seule latence, au lieu de leur somme. Cela ne vaut que pour l'attente : le calcul reste sur un seul cœur, et un seul appel bloquant annule le gain. PHP 8.1 ou plus est requis par Amp, Revolt et `react/async`.
