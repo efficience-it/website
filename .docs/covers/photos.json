@@ -1196,5 +1196,12 @@
     "license": "CC0",
     "author": "Katy Belcher katybelcher",
     "url": "https://commons.wikimedia.org/wiki/File:Engraved_key_on_a_branch_(Unsplash).jpg"
+  },
+  "jwt-biscuit-paseto-jetons-autorisation-api-symfony": {
+    "name": "jwt-biscuit-paseto",
+    "file": "File:Assortment of Crackers (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Grégoire Jeanneau gregouill",
+    "url": "https://commons.wikimedia.org/wiki/File:Assortment_of_Crackers_(Unsplash).jpg"
   }
 }
