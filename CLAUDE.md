@@ -25,6 +25,7 @@ Clone/reproduction de https://www.itefficience.com en Next.js.
 - **PRs concises** : titres de PR courts, descriptions brèves (quelques bullet points max), pas de pavés
 - **Commits et PRs opaques** : le repo est public. Utiliser des messages de commit génériques et courts qui ne révèlent pas la stratégie (ex: `update`, `fix`, `refactor`). Ne jamais mentionner de mots-clés SEO, de noms de clients, de stratégie marketing ou de détails techniques sensibles dans les commits, titres de PR ou descriptions de PR.
 - **Vérification orthographique avant commit** : avant chaque commit, vérifier les fautes de français (orthographe, grammaire, conjugaison) dans les fichiers modifiés
+- **Veille CI et conflits** : vérifier régulièrement (début de session, après chaque push ou merge) qu'aucune CI n'est cassée et qu'aucune PR ouverte n'est en conflit (`gh pr checks`, `gh pr list --json number,mergeable`). Si c'est le cas, les réparer sans attendre : fusionner `main` dans la branche, résoudre les conflits (notamment `.docs/covers/photos.json` et `.lycheeignore`, en gardant les deux côtés), corriger la cause des échecs de CI, puis pousser
 
 ## SEO — Articles de blog
 
