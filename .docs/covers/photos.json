@@ -1175,5 +1175,12 @@
     "license": "Public domain",
     "author": "Walters Art Museum",
     "url": "https://commons.wikimedia.org/wiki/File:Scandinavian_-_Padlock_with_Key_-_Walters_52176.jpg"
+  },
+  "sso-keycloak-openid-connect-symfony": {
+    "name": "sso-keycloak-symfony",
+    "file": "File:Engraved key on a branch (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Katy Belcher katybelcher",
+    "url": "https://commons.wikimedia.org/wiki/File:Engraved_key_on_a_branch_(Unsplash).jpg"
   }
 }
