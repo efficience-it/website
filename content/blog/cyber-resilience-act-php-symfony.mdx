@@ -1,0 +1,146 @@
+---
+title: "Cyber Resilience Act : ce qui change pour PHP et Symfony"
+date: "2026-10-20"
+updatedAt: "2026-10-20"
+author: "Louis-Arnaud Catoire"
+category: "Sécurité"
+excerpt: "Le Cyber Resilience Act impose de nouvelles obligations aux éditeurs. Qui est concerné, quel calendrier, quelles actions pour un projet PHP et Symfony."
+image: "/images/blog/cover-cyber-resilience-act.webp"
+proficiencyLevel: "Intermediate"
+faq:
+  - question: "Le Cyber Resilience Act s'applique-t-il à une application web Symfony ?"
+    answer: "Cela dépend de ce que vous livrez. Un service en ligne pur (SaaS) est en principe hors du champ du règlement. Selon votre secteur et votre taille, il peut en revanche relever de NIS2. Si vous distribuez un logiciel, une application mobile ou un module installé chez le client, ou si votre service à distance fait partie intégrante d'un produit connecté, le règlement s'applique."
+  - question: "Les projets open source sont-ils concernés ?"
+    answer: "Un logiciel libre fourni hors de toute activité commerciale n'est pas visé, et un mainteneur bénévole d'un projet non commercial n'a aucune obligation légale, mais un projet gratuit qui finance son support ou une offre payante autour de lui peut être considéré comme commercial. Les organisations qui soutiennent durablement un projet open source destiné à un usage commercial relèvent d'un régime allégé, celui de « gestionnaire de logiciel libre ». En revanche, l'entreprise qui intègre un composant libre dans son produit en reste responsable et doit exercer une diligence raisonnable."
+  - question: "Faut-il produire un SBOM pour un projet Symfony ?"
+    answer: "Le règlement demande aux fabricants de documenter les composants de leur produit dans un format lisible par machine, couvrant au moins les dépendances de premier niveau. Ce document se remet aux autorités sur demande, il n'est pas à publier. Pour un projet Composer, le plugin CycloneDX génère ce fichier à partir de composer.lock."
+  - question: "Quand les obligations deviennent-elles applicables ?"
+    answer: "Le règlement est entré en vigueur le 10 décembre 2024. Les obligations de signalement s'appliquent depuis le 11 septembre 2026, et l'ensemble des obligations principales s'appliquera à partir du 11 décembre 2027."
+---
+
+Si vous êtes fabricant dans le champ, une autorité de surveillance peut vous demander la liste des composants de votre application. Une faille est exploitée sur une version que vous maintenez encore, et un délai de 24 heures se met à courir pour prévenir les autorités. Ces deux scénarios, qui relevaient de la bonne pratique, deviennent des obligations avec le Cyber Resilience Act (CRA), un règlement qui fixe des exigences de cybersécurité pour les produits contenant du logiciel.
+
+Cet article explique, sans jargon juridique, ce que ce règlement change pour une équipe qui développe et maintient des applications PHP et Symfony, et pour les mainteneurs open source. Il complète nos articles sur [NIS2](/article/conformite-nis2-application-symfony) et [DORA](/article/conformite-dora-resilience-symfony).
+
+## Ce qu'est le Cyber Resilience Act
+
+Le CRA est le [règlement (UE) 2024/2847](https://eur-lex.europa.eu/eli/reg/2024/2847/oj). Il s'applique à tout « produit comportant des éléments numériques » mis sur le marché européen, c'est-à-dire un logiciel ou un matériel dont l'usage prévu suppose une connexion, directe ou indirecte, à un appareil ou à un réseau.
+
+Il repose sur trois principes :
+
+- **la sécurité dès la conception** : un produit doit être livré avec un niveau de sécurité adapté aux risques, sans configuration dangereuse par défaut ;
+- **la responsabilité dans la durée** : l'éditeur doit corriger les vulnérabilités tout au long de la période de support, et pas seulement à la livraison ;
+- **la transparence** : l'éditeur documente les composants de son produit et signale à l'autorité les vulnérabilités activement exploitées.
+
+Les produits conformes portent le marquage CE. Pour la plupart des logiciels, le fabricant évalue lui-même la conformité de son produit. Une évaluation par un tiers ou une certification est exigée pour les produits critiques et ceux de classe II, des catégories listées par le règlement, comme les pare-feu ou les hyperviseurs, qui ne couvrent pas une application Symfony ordinaire. La classe I peut rester en auto-évaluation si des normes harmonisées sont appliquées. Les amendes peuvent atteindre 2,5 % du chiffre d'affaires mondial, ou un plafond fixe si ce dernier est supérieur, pour un manquement aux exigences essentielles de sécurité ou aux obligations de signalement. Les micro-entreprises et les petites entreprises échappent à l'amende pour un retard sur l'alerte de 24 heures, mais l'obligation demeure.
+
+## Qui est concerné
+
+Le règlement vise des acteurs précis :
+
+- **les fabricants**, c'est-à-dire ceux qui conçoivent ou font concevoir un produit et le commercialisent sous leur nom, ce qui inclut les éditeurs de logiciels ;
+- **les importateurs et les distributeurs**, qui doivent vérifier que le fabricant a rempli ses obligations ;
+- **les gestionnaires de logiciel libre**, qui bénéficient d'un régime allégé.
+
+Pour une équipe PHP, la question décisive est de savoir ce que vous livrez. Un logiciel que vous distribuez ou installez chez vos clients, une application mobile, un CMS ou un plugin commercialisé, ou le service à distance dont dépend un produit connecté, sont dans le périmètre. Un service accessible uniquement en ligne (SaaS) est en principe hors champ, mais peut relever de la directive NIS2 selon votre secteur et votre taille. Une application déployée pour votre seul usage n'est pas « mise sur le marché ». Pour une application sur mesure développée pour un client, la qualification dépend du contrat et de l'usage : analysez-la au cas par cas.
+
+Côté open source, un logiciel fourni en dehors de toute activité commerciale n'est pas concerné. Les simples dons sans but lucratif ne rendent pas un projet commercial, mais un projet gratuit qui finance son support technique ou une plateforme payante autour de lui peut l'être. Les organisations qui soutiennent durablement un projet libre destiné à un usage commercial sont des gestionnaires de logiciel libre. Elles doivent adopter une politique de cybersécurité et coopérer avec les autorités de surveillance, et elles signalent les vulnérabilités activement exploitées dans la mesure où elles participent au développement des produits. Aucune amende ne peut leur être infligée pour une infraction au règlement. Pour un mainteneur, trois cas se présentent : un projet non commercial est hors champ, la politique de divulgation restant une bonne pratique ; un gestionnaire relève de l'article 24 ; un mainteneur qui monétise son projet est un fabricant, avec toutes les obligations. Si vous intégrez une bibliothèque libre dans un produit commercial, vous en restez responsable devant vos clients : le règlement vous demande d'exercer une diligence raisonnable sur ce composant. Nous revenons sur le rôle des mainteneurs dans notre article sur [les contributions open source](/article/les-contributions-open-source-un-enjeu-de-taille-pour-les-developpeurs-et-les-projets).
+
+## Le calendrier à retenir
+
+Le texte est en vigueur depuis le 10 décembre 2024, mais ses obligations arrivent en deux temps, comme le rappelle la [page de la Commission européenne](https://digital-strategy.ec.europa.eu/en/policies/cyber-resilience-act) :
+
+| Date | Ce qui s'applique |
+| --- | --- |
+| 10 décembre 2024 | Entrée en vigueur du règlement |
+| 11 septembre 2026 | Obligations de signalement des vulnérabilités activement exploitées et des incidents graves |
+| 11 décembre 2027 | Application de l'ensemble des obligations principales, dont le marquage CE |
+
+L'échéance de signalement est donc déjà passée. Elle vaut pour tous les produits dans le champ, y compris ceux mis sur le marché avant décembre 2027 : si vous maintenez un produit existant, la procédure doit exister dès maintenant. Les autres exigences ne s'appliqueront aux produits plus anciens qu'en cas de modification substantielle ; pour les nouveaux produits, l'échéance est le 11 décembre 2027.
+
+## Ce que cela implique pour un projet PHP
+
+### Gérer les vulnérabilités
+
+Le règlement attend un processus clair : identifier les vulnérabilités, les corriger sans délai, diffuser gratuitement les correctifs de sécurité disponibles, sauf accord contraire pour un produit sur mesure entre professionnels, si possible séparément des mises à jour fonctionnelles, rendre publiques les vulnérabilités corrigées, avec un délai possible tant que les utilisateurs n'ont pas pu appliquer le correctif, et fournir un contact pour les signalements. Il demande aussi une politique de divulgation coordonnée des vulnérabilités. Un fichier `SECURITY.md` ou une page dédiée est une façon simple de la publier, sans que ce format soit imposé.
+
+Pour comprendre comment une faille est identifiée, publiée et notée, reprenez [notre article sur les CVE](/article/cve-comprendre-les-failles-pour-mieux-se-proteger).
+
+### Tenir une nomenclature logicielle (SBOM)
+
+Le fabricant doit documenter les composants de son produit dans un format lisible par machine, couvrant au moins les dépendances de premier niveau. C'est ce qu'on appelle un SBOM, pour Software Bill of Materials. Pour un projet PHP, la base est le fichier `composer.lock`, complété par les dépendances JavaScript si votre produit embarque des assets compilés. Ce document sert d'abord à votre propre suivi et se remet aux autorités de surveillance sur demande : il n'est pas à publier.
+
+### Notifier les incidents
+
+Une vulnérabilité activement exploitée, ou un incident grave qui touche la sécurité du produit, doit être signalé en trois temps : une alerte précoce sous 24 heures, une notification détaillée sous 72 heures, puis un rapport final sous 14 jours après la mise à disposition d'un correctif pour une vulnérabilité, ou sous un mois après la notification pour un incident grave. Le signalement passe par une plateforme unique gérée par l'ENISA, l'agence européenne de cybersécurité.
+
+Respecter ces délais suppose de pouvoir qualifier un incident rapidement. Concrètement, il faut savoir qui qualifie l'alerte, qui rédige la notification, par quel canal, et pouvoir retrouver dans les journaux Monolog de l'application la date de la première exploitation. Sans cette préparation, les 24 heures passent à chercher qui décide.
+
+### Assurer une durée de support
+
+Le fabricant définit une période de support et la communique à l'utilisateur. Elle est d'au moins cinq ans, sauf si le produit est prévu pour une durée d'usage plus courte. Cela rejoint un sujet que vous connaissez déjà si vous maintenez une application Symfony : savoir jusqu'à quand chaque version reçoit des correctifs, comme l'explique notre [plan d'action pour la fin de support de Symfony et de PHP](/article/symfony-php-fin-de-support-eol-plan-action).
+
+## Mise en pratique dans un projet Symfony
+
+### Auditer les dépendances en continu
+
+La commande [`composer audit`](https://getcomposer.org/doc/03-cli.md#audit) compare vos dépendances aux avis de sécurité publiés. Elle s'appuie par défaut sur l'API de Packagist et retourne un code de sortie 1 dès qu'elle trouve une faille connue, ce qui permet de faire échouer un pipeline.
+
+```bash
+composer audit --locked --no-dev
+```
+
+L'option `--locked` audite le contenu de `composer.lock` plutôt que le dossier `vendor`, et `--no-dev` écarte les dépendances de développement qui ne sont pas livrées. Le même contrôle traite aussi les paquets abandonnés : `--abandoned=report` les liste sans bloquer, `--abandoned=fail` fait échouer le pipeline. Pour la gestion de Composer au quotidien, notre article sur [Composer dans un projet Symfony](/article/utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques) détaille les bonnes pratiques.
+
+### Générer un SBOM
+
+Le plugin [CycloneDX pour Composer](https://github.com/CycloneDX/cyclonedx-php-composer) produit un SBOM au format CycloneDX, un standard ouvert.
+
+```bash
+composer require --dev cyclonedx/cyclonedx-php-composer
+composer CycloneDX:make-sbom --output-format=JSON --omit=dev --output-file=sbom.json
+```
+
+Le format par défaut du plugin est le XML, d'où l'option `--output-format=JSON`, et `--omit=dev` écarte les dépendances de développement pour décrire ce que vous livrez. Depuis Composer 2.2, un plugin doit être autorisé dans la clé `allow-plugins` de `composer.json` ; en CI, déclarez cette autorisation à l'avance. Le plugin préfère une installation réelle au seul fichier de verrouillage : lancez `composer install` avant la génération. Le règlement impose d'établir le SBOM et de conserver la documentation technique dont il fait partie, au moins dix ans ou pendant la période de support si elle est plus longue. Le générer à chaque livraison est la façon la plus simple d'y répondre.
+
+### Suivre les CVE et les mises à jour
+
+Un audit ponctuel ne suffit pas. Mettez en place une veille automatisée (alertes du dépôt, Dependabot ou Renovate) et une règle écrite : une faille critique est corrigée sous un délai interne fixé à l'avance, par exemple sept jours ; une faille mineure suit le cycle normal de mise à jour. C'est la mécanique que nous décrivons dans notre approche de [maintenance applicative Symfony](/maintenance-applicative-symfony).
+
+### Documenter la sécurité
+
+Le règlement exige une documentation technique et des consignes de sécurité pour l'utilisateur. Côté Symfony, la [documentation officielle sur la sécurité](https://symfony.com/doc/current/security.html) sert de base pour décrire l'authentification et la configuration recommandée en production. Ajoutez-y la politique de divulgation, la période de support et la procédure de mise à jour.
+
+## CRA, NIS2 et DORA : lequel s'applique à vous
+
+Ces trois textes ne se concurrencent pas, car ils ne visent pas le même objet :
+
+| Texte | Ce qu'il encadre | Qui est visé |
+| --- | --- | --- |
+| CRA | Le produit logiciel ou matériel mis sur le marché | Fabricants, importateurs, distributeurs |
+| NIS2 | La sécurité de l'organisation et de ses services | Entités essentielles et importantes de nombreux secteurs |
+| DORA | La résilience numérique du secteur financier | Banques, assurances et leurs prestataires TIC |
+
+Un même éditeur peut être soumis à plusieurs textes à la fois. Par exemple, un éditeur de logiciel pour les banques est concerné par le CRA pour son produit, et indirectement par DORA : les entités financières, ses clients, doivent inscrire des clauses de sécurité dans leurs contrats avec leurs prestataires informatiques. Notre article sur [DORA et la résilience des fintech](/article/dora-fintech-resilience-technique-symfony) détaille ce second cas.
+
+## Checklist d'actions, classées par effort
+
+### Cette semaine (effort faible)
+
+- Lister les produits que vous livrez et déterminer lesquels entrent dans le champ du règlement.
+- Écrire la procédure de signalement, dont l'obligation est déjà applicable : qui qualifie, qui notifie, dans quel délai.
+- Ajouter `composer audit --locked --no-dev` à votre pipeline CI.
+- Publier une politique de divulgation avec un contact de signalement.
+
+### Ce trimestre (effort moyen)
+
+- Générer un SBOM à chaque livraison et le conserver.
+- Rédiger et publier la période de support de chaque version.
+- Mettre en place une veille automatisée sur les dépendances.
+- Si vous êtes gestionnaire ou fabricant open source : publier la politique de divulgation et prévoir qui accuse réception des signalements, les qualifie et les corrige.
+
+### D'ici la fin 2027 (effort élevé)
+
+- Faire réaliser des revues et tests de sécurité réguliers, comme le demande le règlement, par exemple avec un [audit de code PHP](/audit-code-php) qui repère les écarts de conception.
+- Remplacer les dépendances abandonnées ou non maintenues.
+- Constituer la documentation technique qui prépare le marquage CE.
