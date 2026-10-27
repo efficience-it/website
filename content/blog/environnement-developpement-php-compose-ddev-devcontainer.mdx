@@ -1,0 +1,190 @@
+---
+title: "DDEV, Docker Compose ou dev container pour PHP ?"
+date: "2026-10-21"
+updatedAt: "2026-10-27"
+author: "Louis-Arnaud Catoire"
+category: "DevOps"
+excerpt: "Docker Compose, DDEV ou dev containers : trois configurations testées sur un même projet Symfony, avec temps de démarrage mesurés et pièges concrets."
+image: "/images/blog/cover-environnement-dev-php.webp"
+proficiencyLevel: "Intermediate"
+faq:
+  - question: "DDEV ou Docker Compose pour une équipe PHP ?"
+    answer: "DDEV propose le HTTPS local, le routage par nom d'hôte et les commandes de base de données, mais ses images sont plus lourdes et son démarrage plus long. Docker Compose seul est plus léger et plus proche de la production, mais l'équipe doit écrire et maintenir sa configuration."
+  - question: "Pourquoi un projet PHP est-il très lent sous Windows avec Docker ?"
+    answer: "Parce que le code se trouve sur le disque Windows et est monté dans WSL2 par un système de fichiers réseau, très lent pour des milliers de petits fichiers. Placez le projet dans le système de fichiers de WSL ou dans un volume Docker, pas dans /mnt/c."
+  - question: "Un dev container remplace-t-il Docker Compose ?"
+    answer: "Non, il s'appuie dessus ou sur une image. Un dev container décrit l'environnement dans lequel l'éditeur s'attache, souvent à partir d'un fichier Compose existant. Il ajoute l'intégration à l'éditeur, pas un nouveau moteur de conteneurs."
+---
+
+Monter un environnement de développement PHP reproductible, c'est ce qui sépare un nouvel arrivant productif en une heure d'un autre qui passe sa première journée à installer des versions de PHP. Docker Compose, DDEV et les dev containers répondent au même besoin avec des compromis différents. Nous les avons testés sur un même projet Symfony 8.1.9, avec PHP 8.5 et PostgreSQL 16, en mesurant le démarrage et les performances du système de fichiers. Notre article sur [Docker en production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) traite l'autre extrémité de la chaîne : ici, il s'agit du poste du développeur.
+
+## Ce qu'on attend d'un environnement de développement
+
+- **Onboarding rapide** : un clone, une commande, une application qui répond.
+- **Parité avec la production** : mêmes versions de PHP, mêmes extensions, même moteur de base de données.
+- **Versions multiples** : passer d'un projet en PHP 8.2 à un projet en PHP 8.5 sans réinstaller.
+- **Services annexes** : base de données, serveur de mails de test, parfois files de messages.
+- **HTTPS local** : certains navigateurs et API l'exigent, y compris en développement.
+- **Débogage** : Xdebug branché sur l'éditeur.
+
+## Notre méthode de mesure
+
+Le projet de référence est un squelette Symfony 8.1.9 avec Doctrine et Twig, soit environ 6 000 fichiers. La machine est un poste sous Docker Desktop 29.5.3 et WSL2 (noyau 6.18), avec 16 cœurs et 14 Go de mémoire, et le projet est dans le système de fichiers de WSL.
+
+Le temps de démarrage est mesuré entre la commande de démarrage et la première réponse HTTP 200 sur `/`, interrogée toutes les 100 millisecondes. Nous donnons la médiane de trois exécutions, conteneurs supprimés ou arrêtés au préalable et images déjà présentes, ainsi que la première exécution avec téléchargement des images quand elle diffère. Nous n'avons pas mesuré macOS ni Xdebug, et le Symfony CLI n'a pas été testé avec un PHP local, faute de PHP installé sur la machine.
+
+## Docker Compose seul
+
+La configuration est entièrement sous votre contrôle. Un fichier `Dockerfile.dev` ajoute les extensions nécessaires à l'image FrankenPHP :
+
+```dockerfile
+FROM dunglas/frankenphp:1-php8.5-alpine
+RUN install-php-extensions pdo_pgsql intl opcache
+```
+
+Le fichier [Compose](https://docs.docker.com/compose/) réunit, dans `compose.dev.yaml`, l'application, PostgreSQL avec sa vérification de santé et un serveur de mails de test :
+
+```yaml
+services:
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    environment:
+      SERVER_NAME: ":80"
+      APP_ENV: dev
+      DATABASE_URL: "postgresql://app:secret@database:5432/app?serverVersion=16&charset=utf8"
+      MAILER_DSN: "smtp://mailer:1025"
+    volumes:
+      - .:/app
+    ports:
+      - "8091:80"
+    depends_on:
+      database:
+        condition: service_healthy
+  database:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: secret
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "app", "-d", "app"]
+      interval: 2s
+      timeout: 3s
+      retries: 10
+    volumes:
+      - database_data:/var/lib/postgresql/data
+  mailer:
+    image: axllent/mailpit
+    ports:
+      - "8092:8025"
+volumes:
+  database_data:
+```
+
+La construction de l'image a pris 103 secondes, surtout pour compiler les extensions, puis le premier démarrage avec téléchargement des images 12,5 secondes. Ensuite, `docker compose up -d` met 4,8 secondes en médiane (4,6, 4,8 et 5,1), et un simple `start` après un `stop` 3,5 secondes. L'image applicative ne pèse que 370 Mo, mais tout est à écrire : routage par nom d'hôte, HTTPS, commandes pratiques.
+
+## DDEV
+
+[DDEV](https://docs.ddev.com/en/stable/) s'appuie sur Docker et y ajoute un jeu de conventions. La configuration tient en quelques lignes générées par `ddev config`, l'extrait ci-dessous étant abrégé :
+
+```yaml
+name: devbench
+type: symfony
+docroot: public
+php_version: "8.5"
+router_http_port: "8081"
+router_https_port: "8444"
+database:
+    type: postgres
+    version: "16"
+```
+
+Nous avons dû fixer les ports du routeur (8081 et 8444), car le port 80 était déjà utilisé sur la machine de test. La version 1.25.4 a mis 145 secondes pour son premier démarrage, le temps de télécharger et de construire ses images (à comparer aux 115 secondes de Compose, construction comprise), puis 25,6 secondes en médiane (25,4, 25,6 et 30,7). L'arrêt prend 5,5 secondes, et l'image du serveur web atteint 1,88 Go, contre 370 Mo pour notre image FrankenPHP. Les deux ne sont pas équivalentes : DDEV utilise nginx avec PHP-FPM et embarque Node et d'autres outils. En contrepartie de ce poids et de ce délai, DDEV offre un confort réel : routage par nom d'hôte (un point que l'on retrouve avec un [reverse proxy en production](/article/traefik-ou-nginx-en-production)), HTTPS local (avec mkcert, absent de notre machine : non testé), commandes de base de données et de Composer prêtes à l'emploi, ces dernières non testées non plus. Ce confort devrait convenir aux équipes mixtes, mais nous n'avons pas testé macOS.
+
+## Dev containers
+
+Un [dev container](https://containers.dev/) décrit l'environnement dans lequel l'éditeur peut s'ouvrir. Il se branche sur un fichier Compose existant en quelques lignes :
+
+```json
+{
+  "name": "symfony-ref",
+  "dockerComposeFile": ["../compose.dev.yaml"],
+  "service": "php",
+  "workspaceFolder": "/app",
+  "overrideCommand": false,
+  "shutdownAction": "stopCompose"
+}
+```
+
+Avec le CLI officiel (version 0.89.0), `devcontainer up` a démarré l'ensemble en 5,3 secondes en médiane depuis un état arrêté (5,1, 5,3 et 5,6), contre 4,8 secondes pour Compose seul. Notre première série de mesures donnait 8,5 secondes : elle incluait une option `forwardPorts` que nous avons retirée, car elle ajoutait environ 3 secondes et faisait double emploi avec les ports déjà publiés par Compose. L'intérêt d'un dev container est ailleurs : il peut versionner avec le projet les extensions d'éditeur et les réglages, par exemple dans une section `customizations`, que notre configuration minimale n'utilise pas.
+
+## Ce que l'outillage Symfony apporte
+
+La recette Doctrine génère un `compose.yaml` qui ne déclare que la base de données, et un `compose.override.yaml` qui publie son port. D'après la [documentation de Symfony](https://symfony.com/doc/current/setup/symfony_server.html), le Symfony CLI détecte ces fichiers pour brancher l'application sur les services, avec un PHP installé localement. Nous avons mesuré le démarrage de cette base seule : 6,7 secondes en médiane, jusqu'à la vérification de santé. Ce chiffre ne concerne que la base : le Symfony CLI et le PHP local n'ont pas été testés. Cette voie devrait être la plus légère en ressources (non mesuré) pour un développeur qui maîtrise déjà son PHP local, mais elle ne garantit pas la parité des versions entre postes.
+
+## Récapitulatif des temps mesurés
+
+| Option | Premier démarrage | Démarrage courant (médiane) | Image applicative |
+|---|---|---|---|
+| Docker Compose | 115 s (construction 103 s, démarrage 12,5 s) | 4,8 s | 370 Mo |
+| DDEV 1.25.4 | 145 s | 25,6 s | 1,88 Go |
+| Dev container sur Compose | non mesuré à part, images déjà présentes | 5,3 s | 370 Mo |
+| `compose.yaml` Symfony (base seule) | non mesuré | 6,7 s | sans objet |
+
+Les temps courants vont de la commande à la première réponse HTTP 200, sauf pour la base seule, qui s'arrête à la vérification de santé. La différence de taille entre Compose et DDEV tient aussi à des contenus différents : DDEV embarque nginx, Node et des outils que notre image minimale n'a pas.
+
+## Les volumes sous WSL2 : le piège de /mnt/c
+
+La mesure la plus parlante de cet article concerne l'emplacement du projet. Nous avons exécuté `cache:clear` et un parcours de `vendor` dans un conteneur, avec le projet à trois endroits :
+
+| Emplacement du projet | `cache:clear` (3 exécutions) | Parcours de `vendor` (5 635 fichiers) |
+|---|---|---|
+| Système de fichiers de WSL (ext4) | 129 à 452 ms (452 ms à froid) | 49 ms |
+| Volume nommé Docker | 195 à 548 ms | 85 ms |
+| Disque Windows (`/mnt/c`) | 33 à 40 secondes | 6,9 secondes |
+
+Copier les 5 978 fichiers du projet a pris 0,9 seconde dans WSL et 79,6 secondes vers `/mnt/c`. L'écart atteint un facteur 300 sur `cache:clear` une fois le cache chaud, et 73 à froid. Placez toujours le code dans le système de fichiers de WSL, ou dans un volume nommé. Sur macOS, les volumes partagés ont leurs propres compromis.
+
+## Dev containers dans VS Code et PhpStorm
+
+Les dev containers sont nés dans VS Code, qui les prend en charge nativement. PhpStorm les prend en charge à des degrés variables selon la version : vérifiez la documentation de votre édition avant de l'imposer à l'équipe. Pour l'équipe, l'apport attendu est de versionner avec le projet les extensions, la version de PHP et les réglages, ce que nous n'avons pas testé dans un éditeur. Le choix de l'éditeur reste une affaire de goût ; pour choisir l'éditeur, voir notre comparatif des [éditeurs de code](/article/phpstorm-vscode-sublimetext-netbeans-quel-editeur-de-code-choisir).
+
+## Masquer la complexité avec un task runner
+
+Plus l'environnement est riche, plus les commandes s'allongent. Un `Makefile` de quatre cibles suffit à les résumer, et nous l'avons exécuté :
+
+```make
+up:
+	docker compose -f compose.dev.yaml up -d --wait
+
+down:
+	docker compose -f compose.dev.yaml down
+
+shell:
+	docker compose -f compose.dev.yaml exec php sh
+
+test:
+	docker compose -f compose.dev.yaml exec php php bin/phpunit
+```
+
+Un `make up` démarre la pile et attend qu'elle soit saine, `make shell` ouvre un terminal dans le conteneur. Pour des besoins plus riches, un [task runner comme Castor](/article/castor-ou-make-task-runner-symfony) ajoute des arguments, du PHP et une aide intégrée. Pensez à lancer [Composer](/article/utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques) dans le conteneur plutôt que sur le poste : ces cibles servent aussi à cela.
+
+## Les pièges rencontrés
+
+- **Permissions de fichiers.** Un conteneur qui tourne en root crée ses fichiers sous root sur le poste : après nos essais, `var/cache/dev` appartenait à l'utilisateur 0 alors que le poste utilise l'identifiant 1000. Lors de nos essais, supprimer un tel cache depuis le poste a d'ailleurs échoué sur un autre projet. Faites tourner le conteneur avec l'identifiant de l'utilisateur du poste, ou configurez l'utilisateur distant du dev container.
+- **Ports déjà utilisés.** Sur notre machine, les ports 80 et 3306 étaient déjà occupés. Le routeur de DDEV a dû changer de port à cause du 80, et notre Compose publie sur des ports hauts. Évitez les ports publiés fixes sur les services communs.
+- **Secrets.** Le fichier `.env` généré contient un mot de passe de démonstration. Notre Compose utilise lui aussi un mot de passe de démonstration, acceptable en local seulement. Gardez les vraies valeurs dans `.env.local`, jamais dans le dépôt, et ne copiez pas les secrets de production dans l'environnement local.
+
+## Quel choix selon votre équipe ?
+
+| Situation | Recommandation |
+|---|---|
+| Développeur seul, sous Linux, à l'aise avec un PHP local | Symfony CLI avec le `compose.yaml` pour les services |
+| Petite équipe, postes mixtes | DDEV pour son confort clés en main |
+| Équipe attachée à la [parité avec la production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) | Docker Compose, avec un Dockerfile partagé |
+| Équipe sous VS Code, onboarding fréquent | Dev container sur un fichier Compose |
+| Poste Windows (toute équipe) | Le projet dans WSL, jamais dans `/mnt/c` |
+
+Ce tableau s'appuie sur nos mesures sous WSL2 ; macOS, Xdebug et le Symfony CLI avec PHP local ne sont pas couverts. Aucune option ne gagne partout. Le critère décisif est l'effort que l'équipe accepte de consacrer à la maintenance de son environnement, mis en balance avec le temps d'attente à chaque démarrage.
