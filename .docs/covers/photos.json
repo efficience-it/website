@@ -1196,5 +1196,12 @@
     "license": "CC0",
     "author": "Katy Belcher katybelcher",
     "url": "https://commons.wikimedia.org/wiki/File:Engraved_key_on_a_branch_(Unsplash).jpg"
+  },
+  "automapper-serialisation-api-symfony-performances": {
+    "name": "automapper-serialisation-api",
+    "file": "File:Highway Horizons (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Cameron Kirby ckirby",
+    "url": "https://commons.wikimedia.org/wiki/File:Highway_Horizons_(Unsplash).jpg"
   }
 }
