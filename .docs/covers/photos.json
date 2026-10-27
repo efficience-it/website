@@ -1176,6 +1176,20 @@
     "author": "Kaley Dykstra kaleyloved",
     "url": "https://commons.wikimedia.org/wiki/File:Chain_link_(Unsplash).jpg"
   },
+  "chiffrement-donnees-doctrine-postgresql": {
+    "name": "chiffrement-donnees-doctrine",
+    "file": "File:Greece padlocked fence (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Jason Blackeye jeisblack",
+    "url": "https://commons.wikimedia.org/wiki/File:Greece_padlocked_fence_(Unsplash).jpg"
+  },
+  "assetmapper-ou-webpack-encore-symfony": {
+    "name": "assetmapper-encore-symfony",
+    "file": "File:Assembly Line (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Samuel Zeller samuelzeller",
+    "url": "https://commons.wikimedia.org/wiki/File:Assembly_Line_(Unsplash).jpg"
+  },
   "environnement-developpement-php-compose-ddev-devcontainer": {
     "name": "environnement-dev-php",
     "file": "File:Shipping container pattern (Unsplash).jpg",
