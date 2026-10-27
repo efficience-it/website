@@ -1,0 +1,269 @@
+---
+title: "JWT, Biscuit ou PASETO : quel jeton pour une API Symfony ?"
+date: "2026-10-27"
+updatedAt: "2026-10-27"
+author: "Louis-Arnaud Catoire"
+category: "Sécurité"
+excerpt: "JWT, Biscuit et PASETO comparés pour autoriser les appels d'une API Symfony : révocation, délégation, bibliothèques PHP et intégration avec access_token."
+image: "/images/blog/cover-jwt-biscuit-paseto.webp"
+proficiencyLevel: "Advanced"
+faq:
+  - question: "PASETO est-il plus sûr que JWT ?"
+    answer: "PASETO supprime la négociation d'algorithme qui a causé de nombreuses failles JWT : la version du protocole impose les primitives cryptographiques. Un JWT correctement validé, avec un algorithme figé côté serveur, reste sûr. PASETO réduit surtout le risque d'erreur de configuration."
+  - question: "Peut-on révoquer un JWT avant son expiration ?"
+    answer: "Pas nativement : un JWT est vérifié sans appel au serveur d'émission. Il faut une durée de vie courte combinée à un jeton de rafraîchissement, ou une liste de révocation consultée à chaque requête, ce qui réintroduit un état côté serveur."
+  - question: "Biscuit est-il prêt pour la production en PHP ?"
+    answer: "La spécification et l'implémentation Rust sont établies, mais la bibliothèque PHP est une extension compilée, encore en version 0.x, à installer sur chaque serveur. Évaluez-la sur un périmètre limité avant de l'imposer à toute une plateforme."
+---
+
+Un jeton d'accès répond à une question simple : l'appelant a-t-il le droit de faire cette requête ? Les réponses techniques diffèrent beaucoup. JWT domine l'écosystème, PASETO veut corriger ses défauts, et [Biscuit](https://www.biscuitsec.org) change le modèle en rendant le jeton capable d'exprimer des droits. Ce guide compare les trois pour une API Symfony et donne des critères de choix.
+
+Nous avons exécuté les exemples JWT et PASETO avec PHP 8.5, `lcobucci/jwt` 5.6.1 et `paragonie/paseto` 3.5.0 : émission, validation, jeton altéré. Les exemples Biscuit reprennent l'API de l'extension `ptondereau/biscuit-php` 0.7.0 telle que documentée et testée par ses auteurs, sans avoir été rejoués ici. L'intégration dans `access_token` n'a pas été exécutée dans une application complète. Les clés sont des valeurs de démonstration.
+
+## Ce qu'un jeton d'API doit garantir
+
+Avant de comparer les formats, fixons les propriétés attendues d'un jeton qui protège une API.
+
+- **Authenticité** : le serveur peut vérifier que le jeton a été émis par une autorité de confiance.
+- **Intégrité** : une modification, même d'un seul caractère, invalide le jeton.
+- **Expiration** : le jeton a une durée de vie limitée.
+- **Révocation** : on peut l'invalider avant son terme, par exemple après le vol d'un appareil.
+- **Délégation** : un service ou un utilisateur peut transmettre une partie de ses droits à un tiers, sans solliciter l'émetteur.
+
+Tous les formats couvrent les trois premiers points. Ils se distinguent sur les deux derniers, et c'est là que le choix se joue. Pour la structure d'une API autour de ces jetons, les [bonnes pratiques d'une API REST](/article/api-rest-les-bonnes-pratiques) restent la base : codes de statut cohérents, versionnage, erreurs lisibles.
+
+## JWT : le standard et ses écueils
+
+Un JWT est composé de trois segments encodés en Base64 URL : un en-tête qui annonce l'algorithme, des claims (`sub`, `exp`, rôles…) et une signature. Le serveur vérifie la signature avec la clé de l'émetteur et lit les claims sans interroger de base.
+
+### Émettre et valider un JWT en PHP
+
+```php
+use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Signer\Hmac\Sha256;
+use Lcobucci\JWT\Signer\Key\InMemory;
+use Lcobucci\JWT\Validation\Constraint\IssuedBy;
+use Lcobucci\JWT\Validation\Constraint\PermittedFor;
+use Lcobucci\JWT\Validation\Constraint\SignedWith;
+use Lcobucci\JWT\Validation\Constraint\StrictValidAt;
+use Symfony\Component\Clock\NativeClock;
+
+$config = Configuration::forSymmetricSigner(
+    new Sha256(),
+    InMemory::plainText(str_repeat('k', 32)),
+);
+
+$now = new DateTimeImmutable();
+
+$token = $config->builder()
+    ->issuedBy('https://auth.example.com')
+    ->permittedFor('api')
+    ->relatedTo('alice')
+    ->issuedAt($now)
+    ->canOnlyBeUsedAfter($now)
+    ->expiresAt($now->modify('+15 minutes'))
+    ->getToken($config->signer(), $config->signingKey());
+
+$parsed = $config->parser()->parse($token->toString());
+
+$valid = $config->validator()->validate(
+    $parsed,
+    new SignedWith($config->signer(), $config->verificationKey()),
+    new IssuedBy('https://auth.example.com'),
+    new PermittedFor('api'),
+    new StrictValidAt(new NativeClock()),
+);
+```
+
+Ce code renvoie `true` pour le jeton intact. Si l'on modifie un caractère de la signature, ou si l'on émet un jeton sans claim `exp`, `validate()` renvoie `false`. La bibliothèque `lcobucci/jwt` refuse de valider sans contrainte, mais c'est à vous de choisir lesquelles : `StrictValidAt` exige la présence de `iat`, `nbf` et `exp`, alors que `LooseValidAt` accepte un jeton sans expiration, donc valable indéfiniment. Cet exemple utilise une clé symétrique (HS256), ce qui suppose que tous les services qui vérifient le jeton partagent le secret et pourraient donc aussi en émettre. Pour une API consommée par plusieurs services, préférez une signature asymétrique.
+
+### Les écueils connus
+
+- **Algorithmes** : l'en-tête annonce l'algorithme, ce qui a permis des attaques comme `alg: none` ou la confusion entre clé publique et secret HMAC. Fixez l'algorithme côté serveur et n'acceptez que lui, comme le recommandent les [bonnes pratiques JWT de la RFC 8725](https://datatracker.ietf.org/doc/html/rfc8725).
+- **Révocation** : la validation sans état est aussi la limite du format. Sans liste de révocation consultée à chaque requête, un jeton volé reste valable jusqu'à son expiration.
+- **Taille** : plus on ajoute de claims, plus le jeton alourdit chaque requête. Un JWT qui embarque des dizaines de permissions finit dans un en-tête de plusieurs kilo-octets.
+- **Validation incomplète** : oublier la vérification de l'expiration, de l'émetteur ou de l'audience est une erreur fréquente. Les [failles connues, à comprendre pour mieux s'en protéger](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) rappellent qu'une configuration par défaut n'est pas une configuration sûre.
+
+## PASETO : supprimer les choix dangereux
+
+PASETO (Platform-Agnostic Security Tokens) garde l'idée d'un jeton signé portant des claims, mais retire la négociation d'algorithme. Chaque version du protocole fixe les primitives : la version 4 utilise Ed25519 pour les jetons publics et XChaCha20 avec BLAKE2b pour les jetons locaux. Un jeton local est chiffré : ses claims restent confidentiels, alors qu'un JWT signé est lisible par tout porteur. Le préfixe (`v4.public.`) indique la version et l'usage, et le serveur n'a aucune décision cryptographique à prendre.
+
+### Un jeton public en PHP
+
+```php
+use ParagonIE\Paseto\Builder;
+use ParagonIE\Paseto\Keys\AsymmetricSecretKey;
+use ParagonIE\Paseto\Parser;
+use ParagonIE\Paseto\Protocol\Version4;
+use ParagonIE\Paseto\ProtocolCollection;
+use ParagonIE\Paseto\Rules\NotExpired;
+
+$secretKey = AsymmetricSecretKey::generate(new Version4());
+$publicKey = $secretKey->getPublicKey();
+
+$token = Builder::getPublic($secretKey, new Version4())
+    ->setSubject('alice')
+    ->setExpiration(new DateTimeImmutable('+15 minutes'))
+    ->toString();
+
+$parser = Parser::getPublic($publicKey, ProtocolCollection::v4())
+    ->addRule(new NotExpired());
+
+$parsed = $parser->parse($token);
+```
+
+Le jeton commence par `v4.public.`, et `$parsed->getSubject()` renvoie `alice`. Un jeton altéré lève une `PasetoException`. La bibliothèque [paragonie/paseto](https://github.com/paragonie/paseto) est maintenue par les auteurs du format, et la version 3 prend en charge les protocoles v3 et v4 à partir de PHP 8.1.
+
+### Les limites de PASETO
+
+PASETO règle la sécurité de la signature, pas vos besoins d'autorisation. Il ne propose ni révocation, ni délégation : un jeton PASETO reste un conteneur de claims signé. Son écosystème est aussi plus étroit que celui de JWT, avec, à notre connaissance, peu de prise en charge native dans les passerelles API et les fournisseurs d'identité. Si votre fournisseur ne délivre que des JWT, choisir PASETO revient à développer vous-même l'émission des jetons.
+
+## Biscuit : des jetons qui portent des droits
+
+Biscuit part d'un autre constat : les claims portent des données (rôles, scopes) que chaque API doit interpréter elle-même, sans langage d'autorisation commun. Un jeton Biscuit contient des faits et des règles en Datalog, signés en chaîne avec une clé Ed25519 ou ECDSA P-256, au choix lors de la génération de la paire de clés. Le serveur définit ses politiques, puis évalue le jeton contre elles.
+
+Trois propriétés le distinguent :
+
+- **Atténuation décentralisée** : n'importe quel porteur peut ajouter un bloc de restrictions à son jeton, sans contacter l'émetteur. Le jeton ne peut que perdre des droits.
+- **Vérification hors ligne** : seule la clé publique de la racine est nécessaire.
+- **Révocation fine** : chaque bloc a un identifiant, que le serveur peut placer sur une liste de révocation. Il faut donc toujours tenir cette liste, mais on peut révoquer une branche d'atténuation sans invalider le jeton racine.
+
+### Créer, atténuer et autoriser en PHP
+
+L'extension se charge avec PIE (`pie install ptondereau/biscuit-php`), puis `ext-biscuit_php` se déclare dans `composer.json`. Le dépôt [ptondereau/biscuit-php](https://github.com/ptondereau/biscuit-php) fournit aussi des fichiers de signatures (stubs) pour l'IDE.
+
+```php
+use Biscuit\Auth\AuthorizerBuilder;
+use Biscuit\Auth\Biscuit;
+use Biscuit\Auth\BiscuitBuilder;
+use Biscuit\Auth\BlockBuilder;
+use Biscuit\Auth\KeyPair;
+use Biscuit\Exception\AuthorizationException;
+
+$root = new KeyPair();
+
+$biscuit = (new BiscuitBuilder(
+    'user("alice"); right("file1", "read"); right("file1", "write")'
+))->build($root->getPrivateKey());
+
+$readOnly = $biscuit->append(new BlockBuilder('check if operation("read")'));
+
+$token = $readOnly->toBase64();
+$parsed = Biscuit::fromBase64($token, $root->getPublicKey());
+
+$policy = 'allow if resource($r), operation($o), right($r, $o)';
+
+$read = new AuthorizerBuilder('resource("file1"); operation("read");' . $policy);
+$read->build($parsed)->authorize();
+
+$denied = false;
+
+try {
+    $write = new AuthorizerBuilder('resource("file1"); operation("write");' . $policy);
+    $write->build($parsed)->authorize();
+} catch (AuthorizationException) {
+    $denied = true;
+}
+```
+
+Le serveur pose les faits de la requête (`resource`, `operation`) et sa politique. Le jeton d'origine accorde la lecture et l'écriture. Le bloc ajouté par `append()` impose `operation("read")` : avec ce jeton, la lecture est autorisée et l'écriture lève une `AuthorizationException` (`$denied` vaut alors `true`), même si le droit d'écriture figure encore dans le bloc d'origine. Alice peut donc transmettre ce jeton à un service tiers sans lui laisser l'écriture et sans solliciter l'émetteur. `authorize()` renvoie la politique qui a autorisé la requête. Le langage de règles Datalog demande un temps d'apprentissage, et c'est le principal frein du format.
+
+### L'état de l'implémentation PHP
+
+L'extension est une liaison avec l'implémentation Rust, publiée en 0.7.0 en octobre 2026, avec des binaires précompilés pour Linux et Windows de PHP 8.1 à 8.5. C'est une extension native, pas un paquet Composer : elle s'ajoute à l'image Docker et à chaque serveur. Les auteurs maintiennent un guide de migration pour les changements incompatibles, signe d'une API encore mobile. Testez-la sur votre version de PHP avant de vous engager.
+
+## Tableau de comparaison
+
+| Critère | JWT | PASETO | Biscuit |
+|---|---|---|---|
+| Choix d'algorithme | Négocié par l'en-tête | Fixé par la version | Fixé par la clé racine (Ed25519 ou P-256) |
+| Révocation | Liste externe | Liste externe | Liste d'identifiants de blocs, granularité fine |
+| Délégation sans émetteur | Non | Non | Oui, par atténuation |
+| Modèle d'autorisation | Claims à interpréter | Claims à interpréter | Règles Datalog |
+| Bibliothèque PHP | Nombreuses, matures | Maintenue par Paragon | Extension native 0.x |
+| Support des fournisseurs d'identité | Universel | Rare | Rare |
+| Courbe d'apprentissage | Faible | Faible | Élevée |
+
+## Intégration avec le composant Security de Symfony
+
+Quel que soit le format, le composant Security de Symfony fournit le même point d'entrée : l'authentificateur [`access_token`](https://symfony.com/doc/current/security/access_token.html). Il extrait le jeton de l'en-tête `Authorization: Bearer` et le confie à un `AccessTokenHandlerInterface` que vous écrivez. Ce service valide le jeton et renvoie un `UserBadge`.
+
+```yaml
+security:
+    firewalls:
+        api:
+            pattern: ^/api
+            stateless: true
+            access_token:
+                token_handler: App\Security\JwtAccessTokenHandler
+```
+
+```php
+use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Exception as JwtException;
+use Lcobucci\JWT\UnencryptedToken;
+use Lcobucci\JWT\Validation\Constraint\IssuedBy;
+use Lcobucci\JWT\Validation\Constraint\PermittedFor;
+use Lcobucci\JWT\Validation\Constraint\SignedWith;
+use Lcobucci\JWT\Validation\Constraint\StrictValidAt;
+use Psr\Clock\ClockInterface;
+use Symfony\Component\Security\Core\Exception\BadCredentialsException;
+use Symfony\Component\Security\Http\AccessToken\AccessTokenHandlerInterface;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
+
+final class JwtAccessTokenHandler implements AccessTokenHandlerInterface
+{
+    public function __construct(
+        private readonly Configuration $config,
+        private readonly ClockInterface $clock,
+    ) {
+    }
+
+    public function getUserBadgeFrom(#[\SensitiveParameter] string $accessToken): UserBadge
+    {
+        try {
+            $token = $this->config->parser()->parse($accessToken);
+        } catch (JwtException) {
+            throw new BadCredentialsException('Invalid credentials.');
+        }
+
+        $constraints = [
+            new SignedWith($this->config->signer(), $this->config->verificationKey()),
+            new IssuedBy('https://auth.example.com'),
+            new PermittedFor('api'),
+            new StrictValidAt($this->clock),
+        ];
+
+        if (!$token instanceof UnencryptedToken
+            || !$this->config->validator()->validate($token, ...$constraints)
+        ) {
+            throw new BadCredentialsException('Invalid credentials.');
+        }
+
+        $subject = $token->claims()->get('sub');
+
+        if (!\is_string($subject) || '' === $subject) {
+            throw new BadCredentialsException('Invalid credentials.');
+        }
+
+        return new UserBadge($subject);
+    }
+}
+```
+
+Le service `Configuration` se déclare dans `services.yaml`, avec la clé lue depuis une variable d'environnement. Le contrôle du claim `sub` compte : un jeton signé sans `sub` passe la validation et `get('sub')` renvoie alors `null`, ce qui provoque une erreur 500 plutôt qu'une réponse 401.
+
+Pour PASETO, le handler remplace la validation par `$parser->parse()` et capture `PasetoException`. Pour Biscuit, l'intégration demande plus de travail : le handler ne reçoit que la chaîne du jeton, alors que la politique a besoin de la ressource et de l'opération demandées. Il faut donc injecter la requête (via `RequestStack`) pour poser ces faits dans l'`AuthorizerBuilder`, extraire l'identifiant de l'utilisateur d'un fait du jeton (`user("alice")`) pour le `UserBadge`, et attraper `AuthorizationException`. Une partie des règles vit dans le jeton, mais la décision finale reste côté serveur. Si votre fournisseur d'identité est déjà en place, par exemple avec un [SSO Keycloak et OpenID Connect](/article/sso-keycloak-openid-connect-symfony), ses jetons d'accès sont le plus souvent des JWT : la validation locale de la signature suffit.
+
+## Quel format choisir selon le cas d'usage
+
+- **API publique ou partenaires** : JWT. L'interopérabilité et l'outillage priment, et les clients attendent un format qu'ils savent lire. Raccourcissez la durée de vie et fixez l'algorithme.
+- **Microservices internes** : JWT si un fournisseur d'identité émet déjà les jetons ; PASETO si vous contrôlez l'émission et voulez éviter les erreurs de configuration cryptographique.
+- **Partage de ressources entre utilisateurs** : Biscuit. L'atténuation permet de déléguer un accès en lecture seule sans appeler l'émetteur, ce que JWT et PASETO ne savent pas faire.
+- **Appels d'agents ou d'outils** : si des clients automatisés consomment votre API, comparez aussi les [protocoles d'accès](/article/mcp-cli-api-quel-choix-serveur-symfony-php) avant de fixer le format du jeton.
+
+Documentez le contrat d'authentification de votre API dans [Swagger avec NelmioApiDocBundle](/article/swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on) : le schéma de sécurité `bearerAuth` apparaît dans la spécification quel que soit le format choisi. Et si vous hésitez sur le style d'API lui-même, [REST face à GraphQL](/article/que-vaut-rest-face-a-son-nouveau-challenger-graphql) détaille ce que chacun change pour l'authentification.
+
+## Ce qu'il faut retenir
+
+JWT reste le choix par défaut tant que vous le validez strictement. PASETO enlève une classe d'erreurs pour un gain réel mais limité. Biscuit n'est pas un remplaçant de JWT : c'est un modèle d'autorisation, pertinent quand la délégation est une exigence du produit et que vous acceptez une extension native et un langage de règles à apprendre. Dans tous les cas, quelques règles s'appliquent, et elles recoupent les exigences de [conformité NIS2 pour une application Symfony](/article/conformite-nis2-application-symfony) : durée de vie courte, algorithme fixé côté serveur, aucune clé dans le dépôt, et une stratégie de révocation décidée avant la mise en production.
