@@ -1169,6 +1169,13 @@
     "author": "",
     "url": "https://commons.wikimedia.org/wiki/File:Fish_hook_MET_22.1.954.jpg"
   },
+  "assetmapper-ou-webpack-encore-symfony": {
+    "name": "assetmapper-encore-symfony",
+    "file": "File:Assembly Line (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Samuel Zeller samuelzeller",
+    "url": "https://commons.wikimedia.org/wiki/File:Assembly_Line_(Unsplash).jpg"
+  },
   "environnement-developpement-php-compose-ddev-devcontainer": {
     "name": "environnement-dev-php",
     "file": "File:Shipping container pattern (Unsplash).jpg",
