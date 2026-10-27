@@ -1175,5 +1175,12 @@
     "license": "CC0",
     "author": "Jason Blackeye jeisblack",
     "url": "https://commons.wikimedia.org/wiki/File:Greece_padlocked_fence_(Unsplash).jpg"
+  },
+  "sso-keycloak-openid-connect-symfony": {
+    "name": "sso-keycloak-symfony",
+    "file": "File:Engraved key on a branch (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Katy Belcher katybelcher",
+    "url": "https://commons.wikimedia.org/wiki/File:Engraved_key_on_a_branch_(Unsplash).jpg"
   }
 }
