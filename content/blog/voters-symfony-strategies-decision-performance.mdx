@@ -1,0 +1,234 @@
+---
+title: "Voters Symfony : stratégies de décision et performance"
+date: "2026-10-27"
+updatedAt: "2026-10-27"
+author: "Louis-Arnaud Catoire"
+category: "Symfony"
+excerpt: "Au-delà du voter de base : stratégies de décision, permissions dynamiques, N+1, coût des voters, journal de vote et tests des règles d'accès dans Symfony."
+image: "/images/blog/cover-voters-symfony-strategies.webp"
+proficiencyLevel: "Expert"
+faq:
+  - question: "Quelle stratégie de décision choisir dans Symfony ?"
+    answer: "La stratégie affirmative, qui est le défaut, accorde l'accès dès qu'un voter accorde. Elle convient quand chaque voter couvre un domaine distinct. Choisissez unanimous quand tous les voters concernés doivent être d'accord, consensus pour une majorité, et priority quand l'ordre des voters doit décider. Dans nos mesures, affirmative et priority s'arrêtent au premier vote utile et sont environ trois fois plus rapides que consensus et unanimous avec dix voters (environ 1,4 à 1,5 µs contre 4,1 à 4,2 µs)."
+  - question: "Pourquoi mon voter déclenche-t-il des requêtes en boucle ?"
+    answer: "Le voter est appelé pour chaque objet testé. Sur une liste de 20 documents, notre voter faisait 11 recherches d'équipe, contre 2 après avoir mémorisé le résultat par couple utilisateur et équipe. Si votre voter garde un état, implémentez ResetInterface pour le vider entre deux requêtes dans les processus longs."
+  - question: "Comment voir pourquoi un accès est refusé ?"
+    answer: "Ajoutez une raison de refus avec Vote::addReason() dans le voter. Elle apparaît dans le journal des décisions de vote et, en environnement de développement, dans le message de l'exception d'accès refusé. Le panneau Sécurité du profileur utilise ce même journal."
+---
+
+Dans Symfony, un voter de base suffit pour une règle simple : l'auteur d'un document peut le modifier. Il devient insuffisant quand les règles se multiplient, dépendent du contexte, ou doivent être affichées dans une interface. Cet article va plus loin que `Voter` : stratégies de décision, permissions dynamiques, coût réel des voters, requêtes en cascade et débogage. Le framework, dont nous détaillons [les atouts pour vos projets](/article/pourquoi-choisir-symfony-pour-vos-projets), fournit tout ce qu'il faut, mais certains comportements ne se découvrent qu'en les mesurant.
+
+Nous avons construit une petite application avec Symfony 8.1.9 (`security-bundle`, `security-core`, `security-http`), PHP 8.5.4 et PHPUnit 13.4.5. Les 15 tests passent, avec 36 assertions. Les mesures viennent d'un Ryzen 7 PRO 5850U sous Linux (WSL2), avec OPcache activé en CLI et JIT désactivé, et donnent des ordres de grandeur. L'interface utilisateur, la base de données et le profileur en navigateur n'ont pas été rejoués : le dépôt de données est un tableau en mémoire qui compte ses appels.
+
+## Rappel : voters et stratégies de décision
+
+Quand le code appelle `isGranted()`, le [composant Security](https://symfony.com/doc/current/security.html) interroge un `AccessDecisionManager`. Chaque voter répond par accord, refus ou abstention, et une stratégie combine ces réponses. Les quatre stratégies sont décrites dans la [documentation des voters](https://symfony.com/doc/current/security/voters.html). Nous les avons testées avec trois voters qui répondent accord, refus, refus :
+
+| Stratégie | Règle | Résultat avec 1 accord et 2 refus |
+|---|---|---|
+| `affirmative` (défaut) | Accès dès qu'un voter accorde | Accordé |
+| `consensus` | Majorité des votes | Refusé |
+| `unanimous` | Aucun refus toléré | Refusé |
+| `priority` | Le premier voter qui ne s'abstient pas décide | Accordé |
+
+Si tous les voters s'abstiennent, l'accès est refusé par défaut, ce que nous avons vérifié, et l'option `allow_if_all_abstain` inverse ce comportement. La stratégie se règle dans `security.yaml` :
+
+```yaml
+security:
+    access_decision_manager:
+        strategy: unanimous
+        allow_if_all_abstain: false
+```
+
+La commande `config:dump-reference security` liste aussi `allow_if_equal_granted_denied`, qui vaut `true` par défaut et départage les égalités du mode `consensus`. Nous avons appliqué la configuration ci-dessus (stratégie `unanimous`) : la commande `debug:config` la reflète et les tests passent toujours.
+
+## Un voter pour Symfony 8
+
+Sous Symfony 8.1, la méthode `voteOnAttribute()` accepte un quatrième paramètre, `?Vote $vote`, qui sert à joindre une raison à un refus. Un voter écrit comme avant, avec trois paramètres, provoque une erreur fatale de compatibilité de signature : nous l'avons constaté en lançant les tests. Voici notre voter, en extrait : le constructeur, les imports, `reset()` et `isMember()` sont omis, et ce dernier apparaît plus bas.
+
+```php
+final class DocumentVoter extends Voter implements ResetInterface
+{
+    public const VIEW = 'DOCUMENT_VIEW';
+    public const EDIT = 'DOCUMENT_EDIT';
+
+    public function supportsAttribute(string $attribute): bool
+    {
+        return in_array($attribute, [self::VIEW, self::EDIT], true);
+    }
+
+    public function supportsType(string $subjectType): bool
+    {
+        return is_a($subjectType, Document::class, true);
+    }
+
+    protected function supports(string $attribute, mixed $subject): bool
+    {
+        return in_array($attribute, [self::VIEW, self::EDIT], true) && $subject instanceof Document;
+    }
+
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token, ?Vote $vote = null): bool
+    {
+        $user = $token->getUser();
+        if (!$user instanceof AppUser) {
+            $vote?->addReason('Utilisateur non authentifié.');
+
+            return false;
+        }
+
+        $granted = match ($attribute) {
+            self::VIEW => $subject->status === 'published'
+                || $subject->ownerId === $user->id
+                || $this->isMember($user->id, $subject->teamId),
+            self::EDIT => $subject->ownerId === $user->id,
+            default => false,
+        };
+
+        if (!$granted) {
+            $vote?->addReason(sprintf('Le document %d n\'appartient pas à l\'utilisateur %d.', $subject->id, $user->id));
+        }
+
+        return $granted;
+    }
+}
+```
+
+## Les limites du voter unique et comment les dépasser
+
+Le piège classique est un voter par règle : cent permissions, cent classes, des conditions dupliquées d'une règle à l'autre. Trois pistes limitent cette dérive.
+
+- **Un voter par objet métier**, qui porte toutes les règles de cet objet (`DocumentVoter` ici). Les règles restent au même endroit. Le voter appartient à la couche d'infrastructure, puisque [le domaine ne devrait jamais connaître Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony), et l'[architecture hexagonale](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) structure le code autour du domaine, avec les adaptateurs en périphérie.
+- **Des expressions de sécurité** pour les règles simples, directement dans l'attribut.
+- **Un voter de permissions dynamiques**, qui lit les droits depuis la base et couvre toute une famille d'attributs.
+
+### `#[IsGranted]` et expressions
+
+L'attribut `#[IsGranted]` branche le voter sur un contrôleur. Nous avons testé la vérification sur un objet, une expression et un code de statut personnalisé (corps des méthodes omis) :
+
+```php
+#[Route('/documents/{id}', methods: ['PUT'])]
+#[IsGranted(DocumentVoter::EDIT, subject: 'document')]
+public function edit(#[ValueResolver(DocumentValueResolver::class)] Document $document): JsonResponse
+
+#[Route('/admin', methods: ['GET'])]
+#[IsGranted(new Expression('is_granted("ROLE_ADMIN") or user.teamId == 2'))]
+public function admin(): JsonResponse
+
+#[Route('/reports/export', methods: ['GET'])]
+#[IsGranted('PERM_REPORT_EXPORT', statusCode: 404, message: 'Introuvable')]
+public function export(): JsonResponse
+```
+
+Notre dépôt n'utilise pas Doctrine, d'où le résolveur de valeur personnalisé qui charge le document. Avec Doctrine, `#[MapEntity]` joue ce rôle. Le refus de l'expression produit un message de la forme `Access Denied. The user doesn't have ROLE_ADMIN. Expression (is_granted("ROLE_ADMIN") or user.teamId == 2) is false.`. Quant à `statusCode: 404`, il cache l'existence d'une ressource à un utilisateur non autorisé, ce qui complète notre guide sur les [codes de statut d'une API REST](/article/api-rest-les-bonnes-pratiques). La documentation des [expressions de sécurité](https://symfony.com/doc/current/security/expressions.html) décrit les variables disponibles.
+
+### Permissions dynamiques stockées en base
+
+Quand les droits changent sans déploiement, un seul voter lit un registre, stocké en base dans un vrai projet, et répond pour tout attribut préfixé par `PERM_`. Notre registre associe des rôles à des permissions. Voici le voter, en extrait (le constructeur reçoit le registre, et `supports()` appelle `supportsAttribute()`) :
+
+```php
+final class PermissionVoter extends Voter
+{
+    public function supportsAttribute(string $attribute): bool
+    {
+        return str_starts_with($attribute, 'PERM_');
+    }
+
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token, ?Vote $vote = null): bool
+    {
+        foreach ($token->getRoleNames() as $role) {
+            if ($this->registry->roleHas($role, $attribute)) {
+                return true;
+            }
+        }
+        $vote?->addReason(sprintf('Aucun rôle ne porte la permission %s.', $attribute));
+
+        return false;
+    }
+}
+```
+
+Le test vérifie qu'un utilisateur avec le rôle analyste accède à l'export, et qu'un autre reçoit un 404. La gestion des rôles côté fournisseur d'identité est un sujet voisin : voyez le [SSO avec Keycloak et OpenID Connect](/article/sso-keycloak-openid-connect-symfony) pour la source des rôles.
+
+## Voter sur une collection et exposer les permissions au front
+
+Symfony ne vote pas sur une collection : on filtre en bouclant. Pour une liste, le contrôleur applique `isGranted(VIEW)` à chaque document, et calcule aussi les actions permises pour chacun :
+
+```php
+foreach ($documents->all() as $document) {
+    if (!$this->isGranted(DocumentVoter::VIEW, $document)) {
+        continue;
+    }
+    $out[] = [
+        'id' => $document->id,
+        'permissions' => ['edit' => $this->isGranted(DocumentVoter::EDIT, $document)],
+    ];
+}
+```
+
+Le client reçoit donc un booléen `permissions.edit` pour chaque ligne, calculé par le même voter que celui qui protège la route de modification. L'interface n'a aucune règle à dupliquer : elle affiche ou masque le bouton selon la réponse. Un test compare ce booléen à la règle attendue pour chaque document de la liste. La contrepartie est l'appel au voter pour chaque objet, ce qui nous amène à la performance.
+
+## Performance : les requêtes en cascade et le coût des voters
+
+### Le N+1 des voters
+
+Un voter est appelé pour chaque objet. Si sa règle interroge la base, vous obtenez un N+1. Dans notre test, avant d'ajouter la mémoïsation, la liste de 20 documents déclenchait 11 recherches d'appartenance à l'équipe pour un même utilisateur, car chaque brouillon d'une autre personne rappelait la même question. En mémorisant le résultat par couple utilisateur et équipe, le même parcours n'en fait plus que 2 :
+
+```php
+private function isMember(int $userId, int $teamId): bool
+{
+    return $this->memberships["$userId:$teamId"] ??= $this->documents->isMemberOfTeam($userId, $teamId);
+}
+```
+
+Cette mémoïsation a un piège : un voter est un service partagé. Dans un processus long, comme un worker, l'état d'une requête survivrait à la suivante. Implémentez `ResetInterface` pour que Symfony vide le cache entre deux requêtes. Nous l'avons vérifié avec le service `services_resetter` : après son passage, le tableau est bien vide. Pour le cache HTTP, notre [guide de la mise en cache](/article/tout-savoir-sur-la-mise-en-cache-tips) détaille les options.
+
+### Le coût d'une décision
+
+Nous avons mesuré 100 000 décisions avec un `AccessDecisionManager` et la stratégie affirmative, médiane de 9 passes. Nous avons lancé l'ensemble trois fois, sur une machine sans autre charge, et le tableau donne la moyenne des trois passes. Elles s'écartent de quelques pourcents pour les voters, et jusqu'à 25 % pour les stratégies. Une première série, prise pendant que d'autres tâches chargeaient la machine, donnait des valeurs presque deux fois plus hautes : ne comparez que des mesures prises dans les mêmes conditions. Chaque voter qui s'abstient avant le nôtre coûte environ 0,3 µs :
+
+| Voters supplémentaires | Voters classiques | Voters qui déclarent leur périmètre |
+|---|---|---|
+| 0 | 1,35 | 1,4 |
+| 4 | 2,5 | 1,7 |
+| 19 | 6,4 | 2,6 |
+| 49 | 14,1 | 4,7 |
+
+Les valeurs sont en microsecondes par décision. La dernière colonne vient d'une fonctionnalité du composant : la classe `Voter` implémente `CacheableVoterInterface`, et le gestionnaire de décision mémorise, pour chaque attribut et chaque type d'objet, les voters qui ne sont pas concernés, puis les saute. Pour en profiter, surchargez `supportsAttribute()` et `supportsType()` : par défaut, `Voter` répond `true` aux deux, donc ne filtre rien. À 50 voters, la décision passe de 14 à 4,7 µs, soit environ trois fois plus vite. Ces durées sont minuscules prises une à une, mais une liste de milliers d'objets les multiplie.
+
+### Le choix de la stratégie
+
+La stratégie compte aussi. Avec un voter qui accorde en premier puis neuf abstentions, nous avons mesuré en moyenne 1,5 µs pour `affirmative`, 1,4 µs pour `priority`, 4,2 µs pour `consensus` et 4,1 µs pour `unanimous`. Les deux premières s'arrêtent dès qu'un voter se prononce, alors que les deux autres interrogent tous les voters concernés. Ces écarts, sur une seule machine, représentent un facteur d'environ 3.
+
+## Déboguer les décisions de vote
+
+Trois outils répondent à la question « pourquoi cet accès est-il refusé ? ».
+
+- **Le journal des décisions** : le service de débogage `debug.security.access.decision_manager`, un `TraceableAccessDecisionManager`, garde pour chaque décision les attributs, le résultat et le détail par voter. Dans notre test, un refus d'édition produit `{"attributes":["DOCUMENT_EDIT"],"result":false,"voterDetails":[["App\\Security\\DocumentVoter",-1,["Le document 1 n'appartient pas à l'utilisateur 3."]]]}`. Le collecteur de données du panneau Sécurité du profileur lit ce même journal.
+- **Les raisons de refus** : elles apparaissent aussi dans le message de l'exception, par exemple `Access Denied. Le document 1 n'appartient pas à l'utilisateur 3.`, en développement.
+- **La console** : `debug:firewall main` affiche les options du pare-feu (fournisseur, mode sans état, authentificateurs), et `debug:container --tag=security.voter` liste les voters avec leur priorité. Dans notre application, les voters du framework (`AuthenticatedVoter`, `RoleVoter`, `ExpressionVoter`, `ClosureVoter`) précèdent le nôtre.
+
+Une précision utile : le journal ne liste que les voters réellement appelés : un voter qui déclare ne pas supporter l'attribut ou le type est écarté avant le vote, et un voter appelé qui s'abstient apparaît avec le vote 0. Dans notre exemple, un seul apparaît pour `DOCUMENT_EDIT`.
+
+## Tester les règles d'accès
+
+Un test unitaire suffit pour une stratégie : on assemble des voters factices autour d'un `AccessDecisionManager`. Un test fonctionnel couvre les règles réelles avec `WebTestCase` et `loginUser()`, décrits dans la [documentation des tests](https://symfony.com/doc/current/testing.html) :
+
+```php
+public function testOwnerCanEditAndOthersCannot(): void
+{
+    $client = static::createClient();
+    $client->loginUser(new AppUser(2, 1), 'main');
+    $client->request('PUT', '/documents/1');
+    self::assertResponseIsSuccessful();
+
+    $client->loginUser(new AppUser(3, 1), 'main');
+    $client->request('PUT', '/documents/1');
+    self::assertResponseStatusCodeSame(403);
+}
+```
+
+Un piège nous a fait perdre du temps : `loginUser()` passe par le fournisseur d'utilisateurs pour recharger l'utilisateur à chaque requête. Les rôles que vous donnez à l'objet de test sont donc remplacés par ceux du fournisseur. Notre test de permission dynamique a d'abord échoué avec un 404 pour cette raison. Assurez-vous que votre fournisseur de test restitue les rôles voulus. Pour le cadre de conformité qui impose de contrôler les accès, voyez aussi notre article sur la [conformité NIS2 d'une application Symfony](/article/conformite-nis2-application-symfony), qui évoque notamment la journalisation exploitable.
+
+## Ce qu'il faut retenir
+
+Choisissez la stratégie selon la façon dont vos voters se répartissent les domaines, et gardez `affirmative` si chaque voter couvre le sien. Regroupez les règles par objet métier, déclarez `supportsAttribute()` et `supportsType()` pour que le gestionnaire saute les voters inutiles, et mémorisez les lectures coûteuses avec un `ResetInterface`. Ajoutez des raisons de refus pour déboguer, et testez les règles d'accès comme du code métier. Enfin, calculez les permissions côté serveur et exposez-les au front, au lieu de les dupliquer.
