@@ -1169,6 +1169,13 @@
     "author": "",
     "url": "https://commons.wikimedia.org/wiki/File:Fish_hook_MET_22.1.954.jpg"
   },
+  "multi-tenant-saas-php-symfony": {
+    "name": "multi-tenant-saas-php",
+    "file": "File:Apartment building balconies (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Naomi Hutchinson naomihutchinson",
+    "url": "https://commons.wikimedia.org/wiki/File:Apartment_building_balconies_(Unsplash).jpg"
+  },
   "chiffrement-donnees-doctrine-postgresql": {
     "name": "chiffrement-donnees-doctrine",
     "file": "File:Greece padlocked fence (Unsplash).jpg",
