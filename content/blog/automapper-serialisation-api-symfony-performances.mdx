@@ -1,0 +1,157 @@
+---
+title: "AutoMapper : accélérer la sérialisation d'une API Symfony"
+date: "2026-10-27"
+updatedAt: "2026-10-27"
+author: "Louis-Arnaud Catoire"
+category: "Symfony"
+excerpt: "AutoMapper génère le code de transformation entre objets. Usage dans Symfony, mesures face au Serializer et à JsonStreamer, limites et débogage."
+image: "/images/blog/cover-automapper-serialisation-api.webp"
+proficiencyLevel: "Expert"
+faq:
+  - question: "AutoMapper est-il plus rapide que le Serializer de Symfony ?"
+    answer: "Dans notre mesure sur 2 000 articles avec leurs auteurs et leurs tags, AutoMapper produit des DTO environ 19 fois plus vite que le Serializer (normalisation puis dénormalisation), et un tableau prêt pour json_encode environ 3,4 fois plus vite. Il reste bien plus lent que du code écrit à la main."
+  - question: "AutoMapper remplace-t-il JsonStreamer pour écrire du JSON ?"
+    answer: "Non. Pour écrire du JSON, JsonStreamer est environ 2,5 fois plus rapide qu'AutoMapper suivi de json_encode dans notre mesure, et son pic de mémoire est bien plus bas. AutoMapper propose en revanche une intégration expérimentale avec JsonStreamer pour conserver ses fonctionnalités de mapping."
+  - question: "Faut-il réchauffer le cache des mappers en production ?"
+    answer: "Oui. Sans cache persistant, chaque exécution régénère les mappers, ce qui ajoute quelques dizaines de millisecondes à la première utilisation, et même avec le bundle le premier appel d'une requête reste lent si les mappers n'ont pas été générés au déploiement. Déclarez les mappers à générer dans la configuration du bundle et lancez cache:warmup au déploiement."
+---
+
+Dans beaucoup d'API Symfony, la transformation des données peut coûter autant que la base de données : conversion des entités en DTO, normalisation en tableaux, encodage en JSON. Le composant Serializer fait tout cela de façon générique, par réflexion, au prix d'un temps d'exécution notable. [AutoMapper](https://github.com/jolicode/automapper), publié par JoliCode, adopte l'approche inverse : il génère du code PHP spécialisé pour chaque couple d'objets. Ce guide explique le principe, l'usage dans Symfony et l'intégration avec API Platform, puis mesure ce que l'on gagne réellement.
+
+Nous avons exécuté tous les exemples et les mesures avec PHP 8.5.4, AutoMapper 10.3.0 et Symfony 8.1 (`serializer` et `json-streamer` 8.1.9). L'intégration avec API Platform et le bundle dans une application complète n'ont pas été exécutés : ils sont décrits d'après la documentation de la bibliothèque.
+
+## Le problème : le coût de la transformation générique
+
+Le [composant Serializer de Symfony](https://symfony.com/doc/current/serializer.html) découvre à l'exécution, pour chaque objet, les propriétés à lire et leurs types. Cette souplesse est précieuse, mais elle se paie à chaque appel. La question se pose surtout pour les points d'accès qui renvoient de grandes collections, et pour les conversions entre entités et DTO, que l'on écrit souvent à la main : du code répétitif qui dérive dès qu'un champ change. Notre article sur la [migration du Serializer vers JsonStreamer](/article/migrer-du-serializer-vers-json-streamer-le-guide-honnete) aborde déjà la question de l'écriture du JSON. Celui-ci s'intéresse à l'autre moitié : transformer des objets en d'autres objets ou en tableaux, sans réflexion à l'exécution.
+
+## Le principe : générer plutôt qu'interpréter
+
+À la première demande pour un couple source et cible, AutoMapper analyse les deux classes, décide comment chaque propriété est transformée, et écrit une classe PHP qui fait ce travail sans réflexion. Cette classe est ensuite réutilisée. Voici le code généré pour un objet `Post` mappé vers un `PostView`, réduit à l'essentiel :
+
+```php
+private function doMap($value, &$result, array $context = []): void
+{
+    if (\AutoMapper\MapperContext::isAllowedAttribute($context, 'title', function () use ($value, $context) {
+        return !isset($value->title) and null === $value->title;
+    }, !array_key_exists('title', (array) $value)) && (!array_key_exists('groups', $context) || !$context['groups'])) {
+        $result->headline = $value->title;
+    }
+}
+```
+
+Le code est lisible et vous pouvez l'ouvrir : c'est un avantage pour le débogage. On y voit aussi d'où vient le surcoût par rapport à du code manuscrit : une vérification d'attribut et de groupe par propriété, que le code généré garde pour respecter le contexte. D'après la documentation, ces vérifications se désactivent par configuration (`check_attributes`, `check_groups`, ou `disableGroupsCheck` sur un attribut) ; nos mesures utilisent les réglages par défaut. Les fichiers générés sont de petite taille : dans notre essai, 2 755 octets pour un mapper de trois propriétés.
+
+## Installation et usage
+
+AutoMapper 10.3.0 demande PHP 8.4 au minimum et Symfony 7.4 ou 8. Si votre projet n'y est pas encore, notre [plan de fin de support de Symfony et de PHP](/article/symfony-php-fin-de-support-eol-plan-action) aide à planifier la montée de version. L'installation tient en une commande :
+
+```bash
+composer require jolicode/automapper
+```
+
+En usage autonome, on crée une instance et on mappe :
+
+```php
+use AutoMapper\AutoMapper;
+
+$mapper = AutoMapper::create(cacheDirectory: __DIR__ . '/var/cache');
+$view = $mapper->map($post, PostView::class);
+$array = $mapper->map($post, 'array');
+```
+
+Dans Symfony, le bundle fait partie du même paquet : il faut l'enregistrer dans `config/bundles.php` avec la classe `AutoMapper\Symfony\Bundle\AutoMapperBundle`, puis injecter `AutoMapperInterface` dans vos services. La [documentation d'AutoMapper](https://jolicode.github.io/automapper/) décrit aussi un panneau dans le profileur et une commande de débogage.
+
+### Les attributs de configuration
+
+Les attributs `#[MapTo]` et `#[MapFrom]` adaptent le mapping. Nous avons testé un renommage, une règle calculée par expression et un groupe :
+
+```php
+use AutoMapper\Attribute\MapTo;
+
+class Post
+{
+    public int $id = 7;
+
+    #[MapTo(target: PostView::class, property: 'headline')]
+    #[MapTo(target: 'array', property: 'headline')]
+    public string $title = 'Bonjour';
+
+    #[MapTo(target: 'array', transformer: "source.views >= 1000 ? 'populaire' : 'normal'", property: 'audience')]
+    public int $views = 1500;
+
+    #[MapTo(target: 'array', groups: ['admin'])]
+    public string $internalNote = 'confidentiel';
+}
+```
+
+Voici ce que nous avons obtenu. Le renommage donne `{"id":7,"headline":"Bonjour","views":1500}` vers le DTO, et `{"audience":"populaire","headline":"Bonjour","id":7}` vers un tableau. Un point surprend : avec le groupe `admin` dans le contexte (`MapperContext::GROUPS`), le résultat se limite à `{"internalNote":"confidentiel"}`. Quand un groupe est demandé, les propriétés sans groupe ne sont plus mappées. Avec un groupe demandé, le Serializer se comporte de la même façon. Sans groupe, il inclut une propriété marquée `#[Groups]`, alors qu'AutoMapper l'exclut, comme le montre l'absence de `internalNote` dans le premier tableau. Testez ce point avant de remplacer un Serializer existant.
+
+Pour une logique plus riche, un transformateur peut être une expression, un appelable ou une classe qui implémente `PropertyTransformerInterface`. La documentation signale que les transformateurs personnalisés sont expérimentaux.
+
+## Intégration avec API Platform
+
+Le bundle peut générer les mappers que [API Platform](https://api-platform.com/docs/core/serialization/) utilise pour sérialiser vos ressources : il suffit d'activer l'option `api_platform`, désactivée par défaut. D'après la documentation, le bundle génère alors les mappers pour vous et injecte des données supplémentaires lorsqu'une classe de ressource est mappée vers ou depuis un tableau. L'objectif est de remplacer le chemin de normalisation générique par du code généré, mais nous n'avons pas mesuré le gain sur une ressource. Deux réserves de la documentation comptent : l'intégration est dans un état expérimental (pour le contrat de vos ressources, revoyez les [bonnes pratiques d'une API REST](/article/api-rest-les-bonnes-pratiques)), et un normaliseur personnalisé qui contient de la logique doit être converti à la façon d'AutoMapper, avec le guide de migration de la bibliothèque. Nous n'avons pas exécuté cette intégration : validez-la sur un périmètre limité avant de l'étendre.
+
+## Mesures : AutoMapper face au Serializer et à JsonStreamer
+
+### Protocole
+
+- **Machine** : AMD Ryzen 7 PRO 5850U (16 threads), 13,9 Go de RAM, Linux sous WSL2.
+- **Logiciels** : PHP 8.5.4 avec OPcache activé en CLI et JIT désactivé, AutoMapper 10.3.0, Symfony Serializer et JsonStreamer 8.1.9.
+- **Données** : 2 000 articles, chacun avec un auteur et trois tags, soit 10 000 objets. Dates en `DateTimeImmutable`, propriétés publiques typées.
+- **Méthode** : un processus PHP par scénario. Un premier appel de chauffe, hors mesure, génère les caches. On retient ensuite la médiane de 15 passes. Le pic de mémoire est l'écart entre `memory_get_peak_usage()` et la mémoire utilisée avant une passe supplémentaire, après `memory_reset_peak_usage()`.
+- **Vérification** : les sorties JSON des quatre méthodes contiennent exactement les mêmes données (l'ordre des clés diffère avec AutoMapper). Les DTO d'AutoMapper et du code manuscrit sont identiques.
+
+Nous avons lancé l'ensemble deux fois, cache effacé au départ. Les deux passes donnent des résultats voisins, et le tableau reprend les valeurs de la première, en indiquant l'écart avec la seconde.
+
+### Résultats
+
+| Scénario | Médiane | Pic mémoire |
+|---|---|---|
+| JSON, code manuscrit + `json_encode` | 3,1 ms | 5,35 Mo |
+| JSON, JsonStreamer | 6,7 ms | 0,83 Mo |
+| JSON, AutoMapper vers tableau + `json_encode` | 16,9 ms | 5,59 Mo |
+| JSON, Serializer | 56,8 ms (61,6 ms à la 2e passe) | 5,35 Mo |
+| DTO, code manuscrit | 0,9 ms | 1,39 Mo |
+| DTO, AutoMapper | 14,9 ms (15,4 ms) | 2,25 Mo |
+| DTO, Serializer (normalisation puis dénormalisation) | 282 ms (287 ms) | 2,02 Mo |
+
+### Ce que disent les chiffres
+
+- **Face au Serializer**, AutoMapper est environ 19 fois plus rapide pour produire des DTO, et environ 3,4 fois plus rapide pour obtenir un tableau prêt à encoder.
+- **Pour écrire du JSON**, JsonStreamer reste le plus rapide des trois outils génériques : environ 2,5 à 3 fois plus vite qu'AutoMapper suivi de `json_encode`, et environ 8,5 fois plus vite que le Serializer. Il a aussi le pic de mémoire le plus bas (0,83 Mo contre 5,35 à 5,59 Mo), vraisemblablement parce qu'il n'a pas de tableau intermédiaire à construire, ce que nous n'avons pas vérifié.
+- **Le code manuscrit gagne toujours** : environ 17 fois plus rapide qu'AutoMapper pour les DTO dans notre cas (0,9 ms contre 14,9 ms). AutoMapper ne bat pas du code écrit à la main, il vous évite de l'écrire et de le maintenir.
+- **Le coût de génération** : la première exécution complète, génération des mappers comprise, a pris entre 40 et 50 ms dans notre essai, contre 15 à 18 ms ensuite, soit environ 25 à 34 ms de surcoût du premier appel, qui regroupe la génération des mappers et le chargement des classes. Sans cache persistant, ce surcoût se répète à chaque exécution.
+- **Réutiliser le mapper** avec `getMapper()` plutôt que de passer par `map()` ne change presque rien : 13,3 ms contre 14,5 ms dans un essai séparé.
+
+Ces mesures concernent un cas précis, sur une seule machine. Les rapports entre scénarios sont plus fiables que les durées absolues, et votre structure d'objets les fera varier. Mesurez sur vos propres ressources.
+
+## Cache, débogage et mise en production
+
+En usage autonome, sans `cacheDirectory`, AutoMapper évalue les mappers en mémoire et les régénère à chaque requête ou commande. Le bundle utilise par défaut le dossier `automapper` du cache de Symfony, mais le premier appel reste lent et le disque peut ne pas être inscriptible en production. En production, fixez un dossier de cache et, dans le bundle, déclarez les mappings à générer pour que `cache:warmup` les produise au déploiement :
+
+```yaml
+automapper:
+  mapping:
+    mappers:
+      - source: App\Entity\User
+        target: App\Api\DTO\User
+```
+
+La documentation prévient que certains changements, comme celui d'une dépendance d'une classe source ou cible, peuvent ne pas être détectés par le cache. Videz-le au déploiement, comme pour les autres caches de votre application, comme le détaille notre [guide de la mise en cache](/article/tout-savoir-sur-la-mise-en-cache-tips). Pour comprendre un mapping, la commande `debug:mapper` affiche pour chaque propriété la source, la cible, leurs types et le transformateur retenu, et le panneau du profileur montre le code généré.
+
+## Limites et maturité
+
+- **Fonctionnalités expérimentales** : l'intégration API Platform, l'intégration JsonStreamer et les transformateurs personnalisés sont annoncés comme expérimentaux dans la documentation. Ne les imposez pas à toute une plateforme sans test.
+- **Compatibilité** : PHP 8.4 et Symfony 7.4 minimum pour la version 10.3.0, donc une montée de version préalable pour beaucoup de projets.
+- **Comportement non identique au Serializer** : dans notre essai, après un aller-retour de dénormalisation, le Serializer reconstruit la date avec un fuseau exprimé en décalage (`+00:00`) alors qu'AutoMapper conserve le fuseau nommé (`UTC`). Comparez les sorties avant de basculer un point d'accès existant.
+- **Pas un gain automatique** : si votre API passe son temps dans la base de données, optimiser la transformation ne changera presque rien. Profilez d'abord.
+- **Gestion des entités** : pour des entités Doctrine, pensez à ce que la transformation déclenche, notamment les relations non chargées, comme le rappelle notre article sur les [objets paresseux et les nouveautés de Doctrine ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees).
+
+## Intégrer AutoMapper dans un projet
+
+Une approche prudente : repérer par un profilage le point d'accès le plus coûteux, remplacer sa transformation par AutoMapper, comparer la sortie avec l'ancienne, mesurer, puis étendre. Gardez aussi en tête qu'un gain de vitesse ne justifie pas de changer le contrat d'une API publique, et la documentation générée avec [NelmioApiDocBundle](/article/swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on) doit continuer à refléter ce que vos DTO exposent. Côté qualité, [PHPStan au niveau maximal](/article/phpstan-niveau-max-symfony-10-erreurs) vérifie les types de vos entités et de vos DTO, ce qui limite les mauvaises surprises à la génération des mappers.
+
+## Ce qu'il faut retenir
+
+AutoMapper est un bon remplaçant du Serializer pour transformer des objets : environ 19 fois plus rapide pour les DTO et 3,4 fois pour les tableaux dans notre mesure, avec du code généré lisible et débogable. Il ne remplace ni du code manuscrit, qui reste le plus rapide, ni JsonStreamer pour écrire du JSON. Son intérêt est de supprimer le code de conversion répétitif sans le coût du Serializer. Mettez en place un cache persistant, vérifiez l'équivalence des sorties et traitez les intégrations expérimentales comme telles.
