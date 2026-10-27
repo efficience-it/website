@@ -1169,6 +1169,13 @@
     "author": "",
     "url": "https://commons.wikimedia.org/wiki/File:Fish_hook_MET_22.1.954.jpg"
   },
+  "htmx-twig-symfony": {
+    "name": "htmx-twig-symfony",
+    "file": "File:Chain link (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Kaley Dykstra kaleyloved",
+    "url": "https://commons.wikimedia.org/wiki/File:Chain_link_(Unsplash).jpg"
+  },
   "chiffrement-donnees-doctrine-postgresql": {
     "name": "chiffrement-donnees-doctrine",
     "file": "File:Greece padlocked fence (Unsplash).jpg",
