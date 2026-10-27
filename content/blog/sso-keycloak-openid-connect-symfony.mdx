@@ -1,0 +1,390 @@
+---
+title: "SSO avec Keycloak et OpenID Connect dans Symfony"
+date: "2026-10-27"
+updatedAt: "2026-10-21"
+author: "Louis-Arnaud Catoire"
+category: "Sécurité"
+excerpt: "Brancher Keycloak sur Symfony en OpenID Connect : realm, client, connexion navigateur, API protégée par jeton, rôles, déconnexion globale et tests."
+image: "/images/blog/cover-sso-keycloak-symfony.webp"
+proficiencyLevel: "Intermediate"
+faq:
+  - question: "Faut-il choisir OpenID Connect ou SAML pour un SSO ?"
+    answer: "OpenID Connect pour toute nouvelle application : il repose sur JSON et OAuth 2.0, fonctionne aussi bien pour un navigateur que pour une API ou une application mobile, et s'intègre simplement avec Symfony. SAML reste pertinent quand un partenaire ou un annuaire d'entreprise l'impose, car il est plus ancien et fondé sur XML."
+  - question: "Faut-il valider le jeton d'accès côté Symfony ou interroger Keycloak à chaque requête ?"
+    answer: "Pour une API, la validation locale de la signature avec les clés publiques de Keycloak évite un aller-retour réseau par requête. L'interrogation de l'endpoint userinfo reste utile quand vous avez besoin d'informations qui ne figurent pas dans le jeton, au prix d'une latence et d'une dépendance supplémentaires."
+  - question: "Que se passe-t-il si Keycloak est indisponible ?"
+    answer: "Les utilisateurs déjà connectés gardent leur session Symfony tant qu'elle est valide, et les API qui valident les jetons localement continuent de fonctionner jusqu'à leur expiration. Les nouvelles connexions échouent. Prévoyez une base de données dédiée, des sauvegardes et au moins deux instances en production."
+---
+
+Chaque application qui gère ses propres mots de passe multiplie les surfaces d'attaque et les réinitialisations à traiter. Le Single Sign-On déplace cette responsabilité vers un fournisseur d'identité unique : l'utilisateur s'authentifie une fois, et toutes vos applications lui font confiance. [Keycloak](https://www.keycloak.org/documentation) est l'un des fournisseurs open source les plus répandus. Ce guide l'intègre à une application Symfony avec OpenID Connect, de l'installation aux tests.
+
+Nous avons exécuté, avec Keycloak 26.4 et Symfony 7.4, la connexion navigateur, la déconnexion globale et l'API protégée (jeton valide, absent et altéré). La rotation des clés, l'option `discovery`, le back-channel logout et le PKCE sont décrits sans avoir été rejoués. Les noms de realm, de client et les secrets sont des valeurs de démonstration.
+
+## SSO, OAuth 2.0, OpenID Connect et SAML : quoi utiliser
+
+Ces quatre sigles se confondent souvent, ce qui conduit à de mauvais choix d'architecture.
+
+- **OAuth 2.0** ([RFC 6749](https://datatracker.ietf.org/doc/html/rfc6749)) est un protocole d'autorisation : il délivre un jeton d'accès qui permet à une application d'appeler une API au nom d'un utilisateur.
+- **OpenID Connect** (OIDC) est une couche d'identité posée sur OAuth 2.0. Il ajoute un jeton d'identité signé (`id_token`), des claims standardisés et un endpoint `userinfo`.
+- **SAML 2.0** remplit le même rôle avec des assertions XML. Il reste courant dans les grandes entreprises.
+- **Le SSO** est le résultat : une seule session chez le fournisseur d'identité, partagée par toutes les applications.
+
+Pour une nouvelle application Symfony, OIDC est le choix par défaut : adapté au navigateur comme aux API, bien documenté. SAML se justifie quand un partenaire l'exige, et Keycloak sait faire les deux.
+
+## Installer Keycloak avec Docker
+
+Pour le développement, un conteneur suffit. Le mode `start-dev` fonctionne en HTTP avec une base embarquée, et l'option `--import-realm` charge un realm décrit dans un fichier JSON, ce qui rend l'environnement reproductible.
+
+```yaml
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.4
+    command: start-dev --import-realm
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_HOSTNAME: http://keycloak:8080
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./keycloak/realm.json:/opt/keycloak/data/import/realm.json
+```
+
+Un **realm** est un espace isolé d'utilisateurs, de rôles et de clients. N'utilisez jamais le realm `master` pour vos applications : il sert à administrer Keycloak. Un **client** représente une application qui délègue son authentification. Ce `realm.json` minimal déclare un realm `demo`, deux rôles, un client confidentiel `symfony-app`, un mapper d'audience (voir plus bas) et un utilisateur de test :
+
+```json
+{
+  "realm": "demo",
+  "enabled": true,
+  "roles": {
+    "realm": [
+      {
+        "name": "ROLE_ADMIN"
+      },
+      {
+        "name": "ROLE_USER"
+      }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "symfony-app",
+      "enabled": true,
+      "publicClient": false,
+      "secret": "change-me",
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "redirectUris": [
+        "http://localhost:8000/connect/keycloak/check"
+      ],
+      "attributes": {
+        "post.logout.redirect.uris": "http://localhost:8000/"
+      },
+      "protocolMappers": [
+        {
+          "name": "aud-symfony",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "config": {
+            "included.client.audience": "symfony-app",
+            "access.token.claim": "true",
+            "id.token.claim": "false"
+          }
+        }
+      ]
+    }
+  ],
+  "users": [
+    {
+      "username": "alice",
+      "enabled": true,
+      "email": "alice@example.com",
+      "emailVerified": true,
+      "firstName": "Alice",
+      "lastName": "Demo",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "alice"
+        }
+      ],
+      "realmRoles": [
+        "ROLE_ADMIN"
+      ]
+    }
+  ]
+}
+```
+
+Le réglage `KC_HOSTNAME` a son importance : l'émetteur (`iss`) inscrit dans les jetons est construit à partir de cette URL, et le conteneur Symfony doit joindre Keycloak par le même nom que le navigateur. Avec `localhost` côté navigateur et `keycloak` côté Symfony, la validation de l'émetteur échoue, et c'est une cause d'erreur très fréquente en Docker. Ici, ajoutez `127.0.0.1 keycloak` à votre fichier `hosts`.
+
+Les identifiants `admin` et le mode `start-dev` ne servent qu'au développement. En production, utilisez le mode `start`, HTTPS et une base PostgreSQL dédiée, avec la rigueur d'[un déploiement Docker en production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) : image figée, configuration par variables d'environnement.
+
+Une fois démarré, Keycloak publie sa configuration à l'adresse `/realms/demo/.well-known/openid-configuration` : endpoints d'autorisation, de jeton, de déconnexion, URL des clés publiques.
+
+## Deux approches côté Symfony
+
+Deux cas d'usage, deux outils.
+
+**Une application web avec des utilisateurs dans un navigateur.** Le flux est l'*authorization code* : Symfony redirige vers Keycloak, l'utilisateur s'authentifie, Keycloak le renvoie avec un code que Symfony échange contre des jetons. Le bundle `knpuniversity/oauth2-client-bundle`, avec le fournisseur tiers `stevenmaguire/oauth2-keycloak` (bâti sur `league/oauth2-client`), gère l'échange de code et les redirections.
+
+**Une API appelée avec un jeton `Bearer`.** Le client (une SPA, une application mobile, un autre service) a déjà obtenu un jeton, et Symfony n'a qu'à le valider. Le composant Security le fait nativement avec l'authenticator [`access_token`](https://symfony.com/doc/current/security/access_token.html) et son handler OIDC.
+
+Le composant Security natif n'implémente ni la redirection ni l'échange de code d'un parcours navigateur, mais couvre très bien la validation d'un jeton. Une application qui sert des pages et une [API REST](/article/api-rest-les-bonnes-pratiques) combine les deux dans deux firewalls.
+
+## Connexion navigateur avec le bundle OAuth2 Client
+
+L'installation tient en une commande :
+
+```bash
+composer require knpuniversity/oauth2-client-bundle stevenmaguire/oauth2-keycloak
+```
+
+Pour les versions et la gestion des dépendances, suivez les [bonnes pratiques Composer dans un projet Symfony](/article/utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques). La configuration du client lit ses valeurs dans l'environnement, avec `KEYCLOAK_URL=http://keycloak:8080` (sans `/auth` depuis Keycloak 17) :
+
+```yaml
+knpu_oauth2_client:
+  clients:
+    keycloak:
+      type: keycloak
+      auth_server_url: '%env(KEYCLOAK_URL)%'
+      realm: demo
+      client_id: symfony-app
+      client_secret: '%env(KEYCLOAK_CLIENT_SECRET)%'
+      redirect_route: connect_keycloak_check
+      version: '26.4.0'
+```
+
+Déclarez aussi dans le client Keycloak l'URI de redirection exacte, ici `http://localhost:8000/connect/keycloak/check`. Deux routes suffisent : une qui redirige vers Keycloak, une qui reçoit le retour.
+
+```php
+#[Route('/connect/keycloak', name: 'connect_keycloak_start')]
+public function connect(ClientRegistry $clientRegistry): RedirectResponse
+{
+    return $clientRegistry
+        ->getClient('keycloak')
+        ->redirect(['openid', 'profile', 'email'], []);
+}
+
+#[Route('/connect/keycloak/check', name: 'connect_keycloak_check')]
+public function check(): never
+{
+    throw new \LogicException('Intercepté par l\'authenticator.');
+}
+```
+
+Le corps de la route de retour ne s'exécute jamais : un authenticator l'intercepte, échange le code contre les jetons, lit le profil de l'utilisateur et fabrique le `Passport`. C'est là que se fait le **provisioning** : si l'utilisateur n'existe pas dans votre base, vous le créez à partir de ses claims, en gardant `sub` comme identifiant externe stable. L'adresse e-mail peut changer, le `sub` non. Cet exemple minimal construit l'utilisateur en mémoire et redirige vers la route `home`, la page d'accueil de votre application :
+
+```php
+use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
+use KnpU\OAuth2ClientBundle\Security\Authenticator\OAuth2Authenticator;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\User\InMemoryUser;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
+use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
+
+class KeycloakAuthenticator extends OAuth2Authenticator
+{
+    public function __construct(
+        private ClientRegistry $clientRegistry,
+        private RouterInterface $router,
+    ) {
+    }
+
+    public function supports(Request $request): ?bool
+    {
+        return 'connect_keycloak_check' === $request->attributes->get('_route');
+    }
+
+    public function authenticate(Request $request): Passport
+    {
+        $client = $this->clientRegistry->getClient('keycloak');
+        $accessToken = $this->fetchAccessToken($client);
+        $request->getSession()->set('id_token', $accessToken->getValues()['id_token'] ?? null);
+
+        return new SelfValidatingPassport(
+            new UserBadge($accessToken->getToken(), function () use ($client, $accessToken) {
+                $profile = $client->fetchUserFromToken($accessToken)->toArray();
+                $roles = $this->rolesFrom($accessToken->getToken());
+
+                return new InMemoryUser($profile['sub'], null, array_unique(['ROLE_USER', ...$roles]));
+            })
+        );
+    }
+
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
+    {
+        return new RedirectResponse($this->router->generate('home'));
+    }
+
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
+    {
+        return new Response('Authentification refusée', Response::HTTP_FORBIDDEN);
+    }
+
+    private function rolesFrom(string $jwt): array
+    {
+        $payload = json_decode(base64_decode(strtr(explode('.', $jwt)[1], '-_', '+/')), true);
+
+        return $payload['realm_access']['roles'] ?? [];
+    }
+}
+```
+
+Le firewall l'active avec `custom_authenticators`. Le profil vient de l'endpoint `userinfo` : l'`id_token` n'est ni validé ni utilisé pour identifier l'utilisateur, il ne sert qu'à la déconnexion. Les rôles sont lus dans le jeton d'accès sans contrôle de signature, ce qui reste acceptable ici puisque ce jeton arrive directement de l'endpoint de jeton, par un canal serveur à serveur. L'utilisateur est rechargé à chaque requête par le fournisseur, qui doit donc savoir le retrouver à partir de son identifiant. Dans une vraie application, il charge une entité Doctrine à partir du `sub` ; ce démonstrateur reste volontairement minimal :
+
+```php
+use Symfony\Component\Security\Core\User\InMemoryUser;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
+
+class AppUserProvider implements UserProviderInterface
+{
+    public function loadUserByIdentifier(string $identifier): UserInterface
+    {
+        return new InMemoryUser($identifier, null, ['ROLE_USER']);
+    }
+
+    public function refreshUser(UserInterface $user): UserInterface
+    {
+        return $user;
+    }
+
+    public function supportsClass(string $class): bool
+    {
+        return InMemoryUser::class === $class;
+    }
+}
+```
+
+Le `security.yaml` complet déclare ce fournisseur et les deux firewalls :
+
+```yaml
+security:
+  providers:
+    app_users:
+      id: App\Security\AppUserProvider
+  firewalls:
+    api:
+      pattern: ^/api
+      stateless: true
+      access_token:
+        token_handler:
+          oidc:
+            claim: sub
+            algorithms: ['RS256']
+            audience: 'symfony-app'
+            issuers: ['%env(KEYCLOAK_URL)%/realms/demo']
+            keyset: '%env(KEYCLOAK_JWKS)%'
+    main:
+      provider: app_users
+      custom_authenticators:
+        - App\Security\KeycloakAuthenticator
+      logout:
+        path: /logout
+  access_control:
+    - { path: ^/connect, roles: PUBLIC_ACCESS }
+    - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+    - { path: ^/, roles: ROLE_USER }
+```
+
+Le firewall `api` doit précéder `main`, sans quoi `main`, qui n'a pas de `pattern`, capte aussi `/api`. Sans la section `access_control`, une requête sans jeton ne serait pas rejetée : seule une requête portant un jeton invalide recevrait une `401`.
+
+Le bundle génère un paramètre `state` aléatoire, le stocke en session et le compare au retour : ne court-circuitez pas ce contrôle et ne rendez pas ce firewall `stateless`.
+
+## Protéger une API avec le handler OIDC
+
+Pour l'API, la configuration du firewall tient en quelques lignes. Le handler `oidc` vérifie la signature du jeton, l'émetteur et l'audience, et utilise `sub` comme identifiant, jamais l'adresse e-mail, qui peut être modifiée ou réattribuée :
+
+```yaml
+security:
+  firewalls:
+    api:
+      pattern: ^/api
+      stateless: true
+      access_token:
+        token_handler:
+          oidc:
+            claim: sub
+            algorithms: ['RS256']
+            audience: 'symfony-app'
+            issuers: ['%env(KEYCLOAK_URL)%/realms/demo']
+            keyset: '%env(KEYCLOAK_JWKS)%'
+```
+
+Le paramètre `audience` est obligatoire, et c'est le piège le plus fréquent : sur ce realm, le jeton d'accès ne contient pas `symfony-app` dans son claim `aud`, et le handler rejette alors tous les jetons. L'audience n'y figure que si un mapper de type *Audience* l'inscrit, d'où le mapper `oidc-audience-mapper` du `realm.json`. Quand la SPA ou le service appelant a son propre client Keycloak, c'est sur ce client que le mapper se place, en visant `symfony-app`.
+
+Le `keyset` est le JWKS, l'ensemble des clés publiques du realm, exposé sous `/realms/demo/protocol/openid-connect/certs`. Il nécessite le paquet `web-token/jwt-library`, et la variable d'environnement contient le JSON complet sur une ligne : `KEYCLOAK_JWKS=$(curl -s http://keycloak:8080/realms/demo/protocol/openid-connect/certs)`, avec `KEYCLOAK_URL=http://keycloak:8080` et `KEYCLOAK_CLIENT_SECRET=change-me`. Cette variable statique doit être renouvelée à chaque rotation de clé, ou remplacée par l'option `discovery` du handler, qui récupère et met en cache les clés (voir la documentation Symfony de votre version).
+
+Pour essayer l'API en développement, le client autorise le grant `password` : un `curl` avec `grant_type=password` et les identifiants d'`alice` sur l'endpoint de jeton renvoie un jeton d'accès. Ce grant est déconseillé par la RFC 9700 : désactivez-le en production.
+
+La validation est locale : aucun appel à Keycloak par requête. Le handler `oidc_user_info`, lui, interroge `userinfo` à chaque appel : plus simple, mais plus lent et dépendant de Keycloak.
+
+## Rôles et déconnexion globale
+
+### Rôles
+
+Keycloak place les rôles de realm dans le claim `realm_access.roles` du jeton d'accès, et ceux d'un client dans `resource_access.<client>.roles`. Symfony ne les convertit pas en rôles `ROLE_*`. Dans le flux navigateur, l'authenticator ci-dessus les copie sur l'utilisateur, et nommer les rôles Keycloak `ROLE_ADMIN` ou `ROLE_USER` évite toute table de correspondance.
+
+Sur l'API, sans fournisseur d'utilisateurs déclaré, le handler fabrique un `OidcUser` qui n'a que `ROLE_USER`, mais `getAdditionalClaims()` expose `realmAccess` : un voter peut le lire. Avec un fournisseur déclaré, comme dans le `security.yaml` complet plus haut, c'est lui qui charge l'utilisateur à partir du `sub` et qui décide des rôles : l'API ne voit alors que ce que le fournisseur retourne.
+
+Gardez des rôles grossiers dans l'annuaire et la logique fine dans des voters Symfony. Isolez aussi l'accès à Keycloak derrière une interface, comme le veut une [architecture hexagonale](/article/migration-symfony-architecture-hexagonale-retour-mission) : le domaine ne doit connaître ni le fournisseur d'identité ni le format de ses jetons.
+
+### Déconnexion globale
+
+Supprimer la session Symfony ne déconnecte pas l'utilisateur de Keycloak : au clic suivant sur « Se connecter », il revient authentifié sans rien saisir. Nous l'avons constaté : seule une redirection vers l'endpoint de fin de session du realm ferme la session Keycloak, et le mot de passe est alors redemandé. Un écouteur sur `LogoutEvent`, de priorité élevée pour s'exécuter avant l'invalidation de la session, remplace la réponse par cette redirection :
+
+```php
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Security\Http\Event\LogoutEvent;
+
+#[AsEventListener(priority: 64)]
+class KeycloakLogoutListener
+{
+    public function __construct(#[Autowire(env: 'KEYCLOAK_URL')] private string $keycloakUrl)
+    {
+    }
+
+    public function __invoke(LogoutEvent $event): void
+    {
+        $idToken = $event->getRequest()->getSession()->get('id_token');
+
+        $event->setResponse(new RedirectResponse($this->keycloakUrl.'/realms/demo/protocol/openid-connect/logout?'.http_build_query([
+            'client_id' => 'symfony-app',
+            'id_token_hint' => $idToken,
+            'post_logout_redirect_uri' => 'http://localhost:8000/',
+        ])));
+    }
+}
+```
+
+C'est pour cela que l'authenticator conserve l'`id_token` en session. Le paramètre `client_id` accompagne `id_token_hint`, et l'URI de retour doit être déclarée dans le client. Si l'`id_token` manque, Keycloak affiche une page de confirmation de déconnexion. Pour fermer aussi les sessions des autres applications du realm, Keycloak propose le *back-channel logout* : il appelle une URL de chaque application, déclarée dans le client Keycloak, qui doit valider le `logout_token` reçu et invalider la session correspondante. Symfony ne le fait pas nativement : c'est un endpoint à écrire, que nous ne traitons pas ici.
+
+## Les pièges à connaître
+
+- **Validation du jeton** : vérifiez toujours la signature, l'émetteur (`iss`), l'audience (`aud`) et l'expiration (`exp`). Un jeton valide émis pour une autre application ne doit pas être accepté chez vous. Imposez aussi l'algorithme attendu : un jeton ne choisit pas le sien.
+- **Expiration** : un jeton d'accès est court. L'exemple navigateur n'en garde que le temps de la connexion ; si votre application appelle ensuite des API avec lui, stockez le `refresh_token` et gérez le refus de rafraîchissement.
+- **Redirections** : déclarez des URI de redirection exactes dans le client, jamais un joker trop large. La [RFC 9700](https://datatracker.ietf.org/doc/html/rfc9700) recense les bonnes pratiques de sécurité OAuth 2.0 à jour.
+- **PKCE** : indispensable sur les clients publics (SPA, mobile), où aucun secret ne peut être gardé, et recommandé aussi sur les clients confidentiels. Le flux navigateur présenté n'utilise pas PKCE : imposez la méthode S256 sur vos clients publics, et seulement là où l'application l'envoie.
+- **Secrets** : le `client_secret` ne se commite pas. Passez par les variables d'environnement ou un coffre de secrets, et surveillez les [alertes de sécurité sur vos dépendances](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) : Keycloak et ses bibliothèques client reçoivent des correctifs réguliers.
+- **Disponibilité** : Keycloak devient un point de défaillance unique pour toute nouvelle connexion. Prévoyez des sauvegardes, plusieurs instances et un plan de reprise, dans l'esprit de la [résilience technique d'une application Symfony](/article/conformite-dora-resilience-symfony).
+
+Centraliser l'authentification contribue à la conformité : authentification multifacteur, journalisation des connexions et révocation d'un compte au même endroit répondent à une partie des exigences de la [directive NIS2](/article/conformite-nis2-application-symfony). Pour une vue d'ensemble, consultez notre page sur la [sécurité d'application Symfony](/securite-application-symfony).
+
+## Tester le parcours d'authentification
+
+**Tests fonctionnels de l'API.** Fabriquez un jeton signé avec une clé de test, publiez la clé publique correspondante dans la configuration de l'environnement `test`, puis appelez vos routes avec `Authorization: Bearer`. Couvrez les cas qui comptent : jeton valide, jeton expiré, mauvaise audience, mauvais émetteur, signature altérée. Seul le premier doit passer : les autres doivent renvoyer `401`.
+
+**Test de bout en bout du parcours navigateur.** Lancez le Keycloak du `docker-compose` avec le realm importé, puis pilotez un vrai navigateur avec un outil comme [Playwright](https://playwright.dev/docs/intro) : clic sur « Se connecter », saisie sur la page Keycloak, retour sur l'application, vérification du nom affiché, déconnexion, puis vérification qu'une nouvelle connexion redemande bien le mot de passe. Ce test est lent : réservez-le au chemin critique.
+
+## Ce qu'il faut retenir
+
+OpenID Connect plutôt que SAML sauf contrainte externe, le bundle OAuth2 Client pour le navigateur, le handler `oidc` pour l'API, et des tests pour les jetons, les redirections et la déconnexion. Avant la production : Keycloak en mode `start` derrière HTTPS avec PostgreSQL, un realm dédié, des secrets hors du dépôt et un plan de rotation des clés.
