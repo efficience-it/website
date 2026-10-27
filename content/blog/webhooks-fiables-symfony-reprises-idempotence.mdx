@@ -1,0 +1,212 @@
+---
+title: "Webhooks fiables avec Symfony : reprises et idempotence"
+date: "2026-10-27"
+updatedAt: "2026-10-27"
+author: "Louis-Arnaud Catoire"
+category: "Architecture"
+excerpt: "Émettre et recevoir des webhooks sans les perdre : reprises avec attente croissante, circuit breaker, signature, idempotence et tests avec Messenger."
+image: "/images/blog/cover-webhooks-fiables-symfony.webp"
+proficiencyLevel: "Expert"
+faq:
+  - question: "Un webhook peut-il être livré exactement une fois ?"
+    answer: "Non, pas de façon garantie. Si l'émetteur ne reçoit pas de réponse, il ne sait pas si le destinataire a traité l'événement, et il doit réémettre : c'est la livraison au moins une fois. Le destinataire doit donc être idempotent, par exemple en mémorisant l'identifiant de chaque événement déjà traité."
+  - question: "Faut-il rejouer un webhook qui reçoit une erreur 4xx ?"
+    answer: "Rarement. Une erreur 4xx comme 400 ou 410 indique que le destinataire refuse définitivement l'événement, donc rejouer ne sert à rien. Les exceptions sont 408 et 429, qui signalent une surcharge ou un délai dépassé. Dans notre essai, un 410 envoie directement le message dans la file des échecs, après un seul appel."
+  - question: "Pourquoi répondre vite côté réception et traiter ensuite ?"
+    answer: "Parce que l'émetteur attend la réponse et la considère comme un échec au-delà de son délai. Avec le composant Webhook, la réception renvoie un 202 immédiatement et le traitement part dans un message asynchrone, ce qui évite les délais dépassés et les reprises inutiles."
+---
+
+Un webhook, c'est un appel HTTP qu'un système envoie à un autre quand un événement survient : paiement confirmé, commande expédiée, document signé. Le principe est simple, la fiabilité ne l'est pas. Le destinataire peut être lent, en panne, ou répondre trop tard, et l'émetteur ne sait jamais avec certitude si l'événement a été traité. Ce guide montre comment émettre et recevoir des webhooks fiables dans une application Symfony, avec le [composant Webhook](https://symfony.com/doc/current/webhook.html) et Messenger.
+
+Nous avons exécuté tous les exemples avec PHP 8.5.4, Symfony 8.1.9, `symfony/webhook` 8.1.7, `symfony/remote-event` 8.1.0 et PHPUnit 13.4.5 : 11 tests, 20 assertions, tous au vert. Les transports Messenger sont en mémoire (`in-memory://`) et le destinataire est simulé, sans réseau. RabbitMQ, un vrai destinataire lent et les métriques de production n'ont pas été testés : ces points sont décrits d'après la documentation.
+
+## Les garanties d'un webhook
+
+Quand l'émetteur n'obtient pas de réponse, deux cas se confondent : le destinataire n'a rien reçu, ou il a tout traité mais la réponse s'est perdue. L'émetteur ne peut pas les distinguer, donc il réémet. On obtient une livraison au moins une fois, avec trois conséquences :
+
+- **Doublons** : un même événement peut arriver plusieurs fois.
+- **Ordre non garanti** : une reprise peut arriver après l'événement suivant.
+- **Pas d'exactement une fois** : cette garantie ne s'obtient pas à l'échelle du réseau. On la simule côté destinataire en rendant le traitement idempotent.
+
+La documentation de [RabbitMQ sur la fiabilité](https://www.rabbitmq.com/docs/reliability) dit la même chose pour les files de messages : les acquittements garantissent une livraison au moins une fois, une confirmation perdue peut provoquer un doublon, et les consommateurs doivent être conçus pour être idempotents plutôt que de dédoublonner explicitement. Pour le choix de la file côté PHP, notre article [Messenger face à PHP Enqueue](/article/quelles-sont-les-differences-entre-symfony-messenger-php-enqueue-quoi-utiliser) explique pourquoi Messenger s'est imposé comme le standard du messaging asynchrone.
+
+## L'émission : Messenger, signature et reprises
+
+Pour émettre, on envoie un `SendWebhookMessage` sur le bus. Il contient un `Subscriber` (URL et secret) et un `RemoteEvent` (nom, identifiant, charge utile) :
+
+```php
+$bus->dispatch(new SendWebhookMessage(
+    new Subscriber('https://client.test/hook', 'secret'),
+    new RemoteEvent('order.paid', 'evt-1', ['order' => 42]),
+));
+```
+
+Le gestionnaire `SendWebhookHandler` délègue au transport (`webhook.transport`), qui encode la charge en JSON, ajoute les en-têtes `Webhook-Event`, `Webhook-Id` et `Webhook-Signature`, et l'envoie avec HttpClient. La signature vaut `sha256=` suivi du HMAC-SHA256 du nom de l'événement, de l'identifiant et du corps, calculé avec le secret de l'abonné. Le destinataire la recalcule pour vérifier l'authenticité et l'intégrité.
+
+### Les erreurs HTTP déclenchent les reprises
+
+Le gestionnaire lève bien une exception sur une réponse en erreur : lors d'un essai séparé des tests, une réponse 404 a déclenché `ClientException` et une réponse 500 `ServerException`. C'est ce qui permet à Messenger de rejouer le message. La réponse HttpClient n'est pas lue explicitement : d'après la [documentation de HttpClient](https://symfony.com/doc/current/http_client.html), l'exception est levée quand l'objet réponse est détruit sans qu'aucune méthode de lecture n'ait été appelée.
+
+### Une attente qui croît
+
+La politique de reprise se configure par transport. Voici un extrait de la nôtre, sans le transport entrant `webhooks_in` utilisé plus bas :
+
+```yaml
+framework:
+    messenger:
+        failure_transport: failed
+        transports:
+            webhooks_out:
+                dsn: 'in-memory://'
+                retry_strategy:
+                    max_retries: 3
+                    delay: 1000
+                    multiplier: 2
+                    max_delay: 30000
+                    jitter: 0
+            failed: 'in-memory://'
+        routing:
+            'Symfony\Component\Webhook\Messenger\SendWebhookMessage': webhooks_out
+```
+
+Avec un destinataire qui répond toujours 503, nous avons observé les délais de reprise `[1000, 2000, 4000]` millisecondes, puis un message dans la file des échecs après quatre appels HTTP : l'appel initial et trois reprises. Le journal Messenger l'indique : `Removing from transport after 3 retries`. Si vos destinataires sont des prestataires tiers d'un établissement financier, la [check-list DORA pour les fintech](/article/dora-fintech-resilience-technique-symfony) détaille les exigences de supervision qui s'appliquent à cette relation. En production, remettez une gigue non nulle (`jitter`) pour éviter que tous les messages en échec repartent au même instant, et un DSN réel, par exemple AMQP pour RabbitMQ.
+
+### Ne pas rejouer ce qui ne passera jamais
+
+Une erreur 4xx comme 400 ou 410 ne guérira pas avec le temps. Notre transport décore celui de Symfony et traite ces erreurs comme définitives, sauf 408 et 429 :
+
+```php
+#[AsDecorator(decorates: 'webhook.transport')]
+final class ResilientTransport implements TransportInterface
+{
+    public function send(Subscriber $subscriber, RemoteEvent $event): void
+    {
+        $key = 'webhook_' . md5($subscriber->getUrl());
+
+        if ($this->breaker->isOpen($key)) {
+            throw new RecoverableMessageHandlingException(
+                sprintf('Circuit ouvert pour %s.', $subscriber->getUrl()),
+                0,
+                null,
+                $this->breaker->retryAfterSeconds($key) * 1000,
+            );
+        }
+
+        try {
+            $this->inner->send($subscriber, $event);
+        } catch (ClientException $e) {
+            $status = $e->getResponse()->getStatusCode();
+            if (!in_array($status, [408, 429], true)) {
+                throw new UnrecoverableMessageHandlingException(sprintf('Rejet définitif (HTTP %d).', $status), 0, $e);
+            }
+            $this->breaker->recordFailure($key);
+
+            throw $e;
+        } catch (\Throwable $e) {
+            $this->breaker->recordFailure($key);
+
+            throw $e;
+        }
+
+        $this->breaker->recordSuccess($key);
+    }
+}
+```
+
+Dans notre test, face à une réponse 410, le destinataire n'est appelé qu'une fois et le message arrive directement dans la file des échecs.
+
+## Le circuit breaker
+
+Quand un destinataire est durablement en panne, continuer à l'appeler gaspille des ressources et retarde les autres. Un circuit breaker coupe les appels après plusieurs échecs, puis réessaie après une pause. Le nôtre compte les échecs par destinataire dans un cache et s'ouvre au bout de trois échecs, pour 30 secondes :
+
+```php
+public function isOpen(string $key): bool
+{
+    $state = $this->load($key);
+
+    return null !== $state['openedAt'] && $this->clock->now()->getTimestamp() < $state['openedAt'] + $this->openSeconds;
+}
+
+public function recordFailure(string $key): void
+{
+    $state = $this->load($key);
+    ++$state['failures'];
+    if ($state['failures'] >= $this->failureThreshold) {
+        $state['openedAt'] = $this->clock->now()->getTimestamp();
+    }
+    $this->save($key, $state);
+}
+```
+
+Nous avons envoyé six messages vers un destinataire qui répond 500 : seuls trois appels HTTP sont partis, les suivants étant bloqués par le circuit ouvert. Après avoir avancé une horloge simulée de 31 secondes, un nouvel appel est parti. Quatre messages vers un destinataire en échec ont donné trois appels et un message replanifié avec un délai de 30 000 ms, soit la durée d'ouverture.
+
+La classe `RecoverableMessageHandlingException` mérite une précaution. D'après son code source dans Symfony 8.1, le paramètre `forceRetry` vaut `true` par défaut et fait rejouer le message quel que soit `max_retries`, ce qui peut produire des reprises sans limite. Ici c'est voulu, car un message bloqué par un circuit ouvert ne doit pas être perdu. Pour un autre cas d'usage, passez `false` pour que la stratégie de reprise borne les essais.
+
+L'alerte à la réouverture n'est pas implémentée dans notre exemple : elle peut s'écouter sur les événements du worker Messenger ou sur une métrique, mais nous ne l'avons pas exécuté. Pour la place de ces mécanismes dans une démarche de résilience, voyez notre article sur la [conformité DORA et la résilience des projets Symfony](/article/conformite-dora-resilience-symfony).
+
+## La réception : signature, idempotence et traitement asynchrone
+
+Côté récepteur, le composant Webhook fournit un point d'entrée `/webhook/{type}` et un analyseur de requêtes. Pour un trafic entre applications Symfony, l'analyseur intégré `RequestParser` vérifie la signature avec `hash_equals`. Il suffit de déclarer le secret :
+
+```yaml
+framework:
+    webhook:
+        routing:
+            acme:
+                service: webhook.request_parser
+                secret: '%env(WEBHOOK_SECRET)%'
+```
+
+Nos tests couvrent les cas de rejet. Une signature fausse, des en-têtes manquants et un corps modifié après signature renvoient tous un code 406. Une requête valide renvoie 202 immédiatement. Le consommateur n'est pas exécuté dans la requête : le contrôleur envoie un `ConsumeRemoteEventMessage` que l'on route vers un transport asynchrone. Un test vérifie que le registre des commandes est vide juste après la réponse, puis rempli après passage du worker. C'est la bonne pratique « répondre vite, traiter ensuite ».
+
+### L'idempotence par identifiant d'événement
+
+Le consommateur mémorise les identifiants déjà traités et ignore les doublons :
+
+```php
+#[AsRemoteEventConsumer('acme')]
+final class AcmeConsumer implements ConsumerInterface
+{
+    public function consume(RemoteEvent $event): void
+    {
+        if (!$this->processed->markIfNew($event->getId())) {
+            return;
+        }
+
+        $this->ledger->recorded[] = $event->getId();
+    }
+}
+```
+
+Nous avons livré deux fois le même événement : le registre ne contient qu'une entrée. Notre `markIfNew` lit puis écrit dans un cache : ce n'est pas atomique, donc deux workers simultanés pourraient traiter le même doublon. En production, appuyez-vous plutôt sur une contrainte d'unicité en base de données, qui tranche la concurrence. La logique métier du consommateur reste du code applicatif pur, dans l'esprit de notre article sur [la séparation entre le domaine et Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony), et la [colonne vertébrale Messenger en architecture hexagonale](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) montre comment structurer ces consommateurs.
+
+## Observabilité et rejeu
+
+Messenger journalise les reprises et la bascule vers la file des échecs, comme le message `Removing from transport after 3 retries` cité plus haut. Pour rejouer à la main, la console fournit `messenger:failed:show`, `messenger:failed:retry` et `messenger:failed:remove`, et `messenger:stats` compte les messages par transport. Nous avons vérifié que ces commandes existent, mais pas leur exécution : nos transports en mémoire ne survivent pas à un processus. Une file persistante, comme AMQP ou Doctrine, est nécessaire pour ce rejeu. Conservez dans vos journaux l'identifiant d'événement et l'URL du destinataire pour retrouver un événement précis : la journalisation exploitable fait partie des attentes décrites dans notre article sur la [conformité NIS2 d'une application Symfony](/article/conformite-nis2-application-symfony).
+
+Les délais d'expiration se règlent dans la configuration de HttpClient :
+
+```yaml
+framework:
+    http_client:
+        default_options:
+            timeout: 5
+            max_duration: 10
+```
+
+La commande `debug:config framework http_client` reflète ces valeurs. Nous n'avons pas testé leur effet avec un destinataire réellement lent : le client simulé n'applique pas de délai.
+
+## Tester un destinataire lent ou en panne
+
+L'option `mock_response_factory` de HttpClient, que nous avons activée uniquement en environnement de test, remplace le réseau par une fonction qui décide du statut de chaque appel. Combinée à une horloge simulée, elle permet de dérouler des minutes de reprises en quelques millisecondes :
+
+```php
+$queue = static::getContainer()->get(ResponseQueue::class);
+$queue->statusFor = static fn (int $call): int => $call < 3 ? 503 : 200;
+```
+
+Notre `ResponseQueue` compte les appels et retient la dernière requête, ce qui permet de rejouer la requête émise vers le récepteur : un test confirme que la signature produite par l'émetteur est acceptée par le récepteur. Deux pièges nous ont coûté du temps. Après `messenger:consume`, nos transports en mémoire étaient vides, même avec l'option `--no-reset`, sans que nous ayons cherché la cause : nous pilotons donc un `Worker` directement dans les tests. Et le transport en mémoire honore les délais d'après l'horloge qu'on lui fournit, d'où l'horloge simulée. Les contrats des API qui reçoivent ces appels relèvent des [bonnes pratiques d'une API REST](/article/api-rest-les-bonnes-pratiques), notamment sur les codes de statut.
+
+## Ce qu'il faut retenir
+
+Considérez qu'un webhook est livré au moins une fois, et que le destinataire doit être idempotent. À l'émission, signez, rejouez avec une attente croissante, ne rejouez pas les refus définitifs, et coupez un destinataire en panne avec un circuit breaker. À la réception, vérifiez la signature, répondez vite et traitez en asynchrone. Documentez le tout avec des tests qui simulent la panne, et réservez le rejeu manuel à une file persistante.
