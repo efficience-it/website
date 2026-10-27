@@ -102,5 +102,7 @@ Notre plan de migration est progressif :
 2. Tester le Dockerfile avec PIE sur une branche, sur la version de PHP visée par votre [plan de fin de support](/article/symfony-php-fin-de-support-eol-plan-action).
 3. Épingler l'image de PIE et les versions des extensions.
 4. Garder PECL uniquement pour les extensions qui n'ont pas encore de paquet PIE.
+5. Contrôler dans la CI que chaque extension attendue apparaît bien dans la sortie de `php -m`, afin qu'une extension manquante fasse échouer la construction de l'image plutôt que l'exécution en production.
+6. Documenter dans le dépôt la liste des extensions et leur version minimale, pour que toute l'équipe sache ce que contient l'image.
 
 La table de correspondance entre commandes PECL et PIE de la documentation officielle sert de guide pour remplacer chaque `pecl install` de vos scripts.
