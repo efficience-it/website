@@ -1238,5 +1238,12 @@
     "license": "CC0",
     "author": "Samuel Zeller samuelzeller",
     "url": "https://commons.wikimedia.org/wiki/File:Archive_storage_(Unsplash).jpg"
+  },
+  "webhooks-fiables-symfony-reprises-idempotence": {
+    "name": "webhooks-fiables-symfony",
+    "file": "File:Envelopes (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Joanna Kosinska joannakosinska",
+    "url": "https://commons.wikimedia.org/wiki/File:Envelopes_(Unsplash).jpg"
   }
 }
