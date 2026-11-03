@@ -1217,5 +1217,12 @@
     "license": "CC0",
     "author": "Jayme McColgan jayme",
     "url": "https://commons.wikimedia.org/wiki/File:Locked_door_of_old_temple._(Unsplash).jpg"
+  },
+  "souverainete-numerique-hebergement-php-symfony": {
+    "name": "souverainete-numerique-hebergement",
+    "file": "File:Scottish castle walls (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Mary-Anne Alejandro maryalejandro",
+    "url": "https://commons.wikimedia.org/wiki/File:Scottish_castle_walls_(Unsplash).jpg"
   }
 }

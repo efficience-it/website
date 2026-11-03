@@ -1,0 +1,113 @@
+---
+title: "Souveraineté numérique : choisir un hébergement PHP souverain"
+date: "2026-12-31"
+updatedAt: "2026-12-31"
+author: "Louis-Arnaud Catoire"
+category: "DevOps"
+excerpt: "Localisation des données, lois extraterritoriales, SecNumCloud, réversibilité : les critères pour choisir un hébergeur de projets PHP et Symfony, éviter l'enfermement et préparer une migration."
+image: "/images/blog/cover-souverainete-numerique-hebergement.webp"
+faq:
+  - question: "Héberger ses données en Europe suffit-il pour être souverain ?"
+    answer: "Non. La localisation des données et la souveraineté sont deux notions distinctes. Un hébergeur peut exploiter un centre de données en France tout en étant soumis à une loi extraterritoriale, par exemple parce que sa société mère relève d'un droit non européen. Il faut regarder la juridiction qui s'applique à l'hébergeur, pas seulement l'adresse du centre de données."
+  - question: "Que garantit la qualification SecNumCloud ?"
+    answer: "SecNumCloud est un référentiel de l'ANSSI. Dans sa version 3.2, il comporte des critères techniques et juridiques visant à protéger les données contre l'application de lois extra-européennes, en plus des exigences de sécurité. Un prestataire qualifié a été évalué sur ces critères. La qualification ne dispense pas de lire le contrat et de vérifier le périmètre exact du service qualifié."
+  - question: "Faut-il changer d'hébergeur pour être conforme à NIS2 ou DORA ?"
+    answer: "Pas automatiquement. NIS2 et DORA imposent des obligations de gestion des risques, de continuité et de contrôle des prestataires, pas un hébergeur d'une nationalité donnée. En revanche, elles obligent à savoir où sont les données, à prévoir une sortie et à maîtriser ses sous-traitants, ce qui rend la question de l'hébergeur centrale."
+  - question: "Comment éviter l'enfermement chez un fournisseur cloud ?"
+    answer: "En s'appuyant sur des conteneurs, des standards ouverts (PostgreSQL, S3 compatible, OpenTelemetry), des sauvegardes exportables dans un format lisible hors du fournisseur, et en testant réellement un plan de sortie au moins une fois. Une migration jamais répétée reste une hypothèse."
+---
+
+Pendant longtemps, choisir un hébergement pour une application Symfony revenait à comparer des prix, des performances et un support. Aujourd'hui, une autre question s'impose, surtout pour les données sensibles, les secteurs régulés et les marchés publics : sous quelle juridiction vivent vos données, et que se passe-t-il si vous devez partir ?
+
+Cet article donne un cadre pour y répondre : définir les termes sans les confondre, choisir selon des critères vérifiables, relier le sujet aux obligations de conformité, éviter l'enfermement et préparer une migration. Il ne nomme pas de palmarès : les offres et les prix changent vite, et le bon choix dépend de votre contexte.
+
+## Quatre notions à ne pas confondre
+
+On emploie « souveraineté » pour tout. Quatre idées distinctes se cachent derrière.
+
+- **La localisation des données.** Où sont stockées physiquement les données : pays, centre de données. C'est la plus simple à vérifier et la moins suffisante.
+- **La souveraineté juridique.** Quel droit s'applique à l'hébergeur. Un prestataire soumis à une loi qui permet à une autorité étrangère d'exiger des données, quel que soit le lieu de stockage, n'est pas protégé par la seule localisation. Le CLOUD Act américain de 2018 en est l'exemple le plus cité.
+- **La protection contre les lois extraterritoriales.** C'est la capacité de l'hébergeur à résister techniquement et juridiquement à ces demandes.
+- **La réversibilité.** La possibilité de récupérer ses données et de repartir ailleurs, dans un délai et un format prévus au contrat.
+
+Un hébergeur peut cocher la première case et échouer sur les trois autres. Posez la question séparément pour chacune.
+
+## Les critères de choix
+
+### La juridiction et l'actionnariat de l'hébergeur
+
+Regardez où se trouve le siège, qui détient le capital, et si une société mère ou un sous-traitant critique relève d'un droit non européen. Ce sont précisément les critères juridiques que l'ANSSI examine pour la qualification SecNumCloud : siège dans un État membre de l'Union, capital détenu par des entités non européennes maintenu minoritaire, limitation du recours à des tiers non européens, autonomie opérationnelle.
+
+### Les certifications reconnues
+
+[SecNumCloud](https://cyber.gouv.fr/enjeux-technologiques/cloud/faq-qualification-secnumcloud/) est le référentiel de qualification de l'ANSSI pour les prestataires de services cloud. D'après la FAQ de l'agence, sa version 3.2 ajoute des critères techniques et juridiques destinés à garantir l'immunité aux lois extra-européennes, ainsi que des tests d'intrusion tout au long de la qualification. Le [texte du référentiel](https://cyber.gouv.fr/sites/default/files/document/secnumcloud-referentiel-exigences-v3.2.pdf) demande notamment au prestataire de recenser les risques résiduels liés à ces lois et de les réévaluer chaque année.
+
+Ces informations ont été vérifiées sur les pages de l'ANSSI le 3 novembre 2026. Avant de vous en servir, contrôlez qu'une version plus récente du référentiel n'a pas été publiée, consultez la liste des prestataires qualifiés et le périmètre exact de chaque qualification, qui peut ne couvrir qu'une partie de l'offre.
+
+Une certification de sécurité plus générale (ISO 27001 par exemple) atteste d'un système de management de la sécurité. Elle ne dit rien de la juridiction applicable.
+
+### La localisation des centres de données
+
+Demandez la liste des sites pour la production, les sauvegardes et la reprise après sinistre. Une sauvegarde hors de l'Union casse l'argument de la localisation, et les outils de supervision ou de support peuvent aussi transférer des données.
+
+### Les engagements contractuels
+
+Lisez ce que le contrat promet réellement : lieu de traitement, sous-traitants autorisés, procédure en cas de demande d'une autorité, délai et format de restitution des données, niveau de service, conditions de sortie. Le [RGPD](https://eur-lex.europa.eu/eli/reg/2016/679/oj/fra) encadre les transferts de données personnelles hors de l'Union dans son chapitre V, et vous restez responsable du choix de vos sous-traitants.
+
+## Le lien avec NIS2 et DORA
+
+Ces textes ne désignent pas un hébergeur, mais ils rendent la question incontournable.
+
+La directive [NIS2](https://eur-lex.europa.eu/eli/dir/2022/2555/oj/fra) impose aux entités concernées des mesures de gestion des risques, dont la sécurité de la chaîne d'approvisionnement. Notre guide sur la [conformité NIS2 d'une application Symfony](/article/conformite-nis2-application-symfony) détaille ce que cela change côté code et infrastructure.
+
+Le règlement [DORA](https://eur-lex.europa.eu/eli/reg/2022/2554/oj/fra) s'applique depuis janvier 2025 au secteur financier : il exige de maîtriser les prestataires TIC, de documenter les stratégies de sortie et de tester la résilience. Voir notre article sur la [résilience opérationnelle numérique avec Symfony](/article/conformite-dora-resilience-symfony).
+
+Dans les deux cas, savoir où sont vos données et pouvoir partir proprement fait partie des preuves à fournir.
+
+## Choisir un hébergeur pour PHP et Symfony : la grille factuelle
+
+Plutôt qu'un classement, voici ce qu'il faut demander à chaque candidat, et noter de la même façon.
+
+| Critère | Question à poser |
+|---|---|
+| Juridiction | Siège, actionnariat, société mère, sous-traitants critiques |
+| Qualification | SecNumCloud ou équivalent, avec le périmètre exact |
+| PHP | Versions supportées, extensions, cycle de mise à jour |
+| Exécution | Conteneurs, machines virtuelles, FrankenPHP ou PHP-FPM possibles ? |
+| Base de données | PostgreSQL, MySQL ou MariaDB managés, sauvegardes, réplication |
+| Stockage | Compatibilité S3, chiffrement, localisation |
+| Réseau | Pare-feu, réseau privé, répartiteur de charge |
+| Sortie | Export des données, format, délai, coût |
+| Prix | Tarifs publics, frais de sortie, engagement de durée |
+
+Les offres évoluent : relevez les prix et les fonctionnalités le jour où vous comparez, directement sur le site de chaque fournisseur, et datez votre grille.
+
+## Éviter l'enfermement
+
+La souveraineté, c'est aussi pouvoir changer d'avis. Quelques principes réduisent la dépendance à un fournisseur.
+
+- **Les conteneurs.** Une application packagée dans une image tourne chez n'importe quel hébergeur compatible. Notre article sur [Docker en production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) explique pourquoi c'est devenu la base, et celui sur [WebAssembly ou conteneur](/article/wasm-ou-container-que-choisir-en-2026) compare les options plus récentes.
+- **Les standards ouverts.** PostgreSQL plutôt qu'un moteur propriétaire, stockage compatible S3, observabilité avec OpenTelemetry, files de messages standard.
+- **Les sauvegardes exportables.** Une sauvegarde que seul votre fournisseur sait relire n'en est pas une. Testez la restauration hors de son infrastructure.
+- **Un reverse proxy portable.** Un [reverse proxy bien choisi](/article/traefik-ou-nginx-en-production) et configuré comme du code se déplace avec l'application.
+- **Un plan de sortie écrit et répété.** Inventaire des services, ordre de bascule, durée de coupure acceptable, critères de retour arrière.
+
+## Migrer pas à pas depuis un fournisseur non européen
+
+1. **Inventorier.** Applications, bases, stockages, secrets, noms de domaine, certificats, tâches planifiées, intégrations tierces. Notez aussi les services managés propriétaires, ce sont eux qui compliquent la sortie.
+2. **Classer les données.** Toutes n'ont pas le même niveau de sensibilité. Migrer d'abord ce qui est critique ou réglementé.
+3. **Choisir la cible** avec la grille ci-dessus, puis la valider sur un environnement de préproduction.
+4. **Rendre l'application portable** : conteneurs, configuration par variables d'environnement, remplacement des services propriétaires par des équivalents ouverts.
+5. **Migrer les données** avec une période de synchronisation. Pour un changement de moteur, appuyez-vous sur notre [guide de migration MySQL vers PostgreSQL avec Doctrine](/article/migration-mysql-postgresql-doctrine-guide).
+6. **Répéter à blanc**, mesurer la durée réelle de la bascule, puis choisir une fenêtre de basculement avec un retour arrière possible.
+7. **Basculer, vérifier, décommissionner**, en supprimant les données de l'ancien fournisseur et en conservant la preuve de cette suppression.
+
+Si vous préférez déléguer l'exploitation, notre offre d'[infogérance cloud Symfony](/cloud-et-devops) couvre la mise en place et le suivi de ce type d'infrastructure.
+
+## Et l'IA ?
+
+Les assistants et les modèles de langage posent la même question que le reste : où partent vos données, et qui peut y accéder. Envoyer du code, des données clients ou des documents internes à une API hébergée hors de l'Union crée un transfert que le RGPD encadre, et un risque de confidentialité. Les options sont de privilégier des modèles hébergés en Europe, de faire tourner un modèle local ou auto-hébergé pour les données sensibles, et d'écrire une règle claire sur ce qui peut ou non être envoyé à un service externe. La même grille de critères s'applique : juridiction, localisation, contrat, sortie.
+
+## Ce qu'il faut retenir
+
+Localisation, souveraineté juridique, protection contre les lois extraterritoriales et réversibilité sont quatre sujets distincts. Choisissez un hébergeur selon sa juridiction, ses qualifications comme SecNumCloud, ses sites et ses engagements contractuels, et datez votre comparaison. NIS2 et DORA rendent la maîtrise des prestataires et la stratégie de sortie incontournables. Conteneurs, standards ouverts et sauvegardes exportables réduisent l'enfermement, et une migration répétée à blanc vaut mieux qu'un plan jamais testé.
