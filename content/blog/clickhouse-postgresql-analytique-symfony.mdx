@@ -1,0 +1,148 @@
+---
+title: "ClickHouse et PostgreSQL pour l'analytique dans une application Symfony"
+date: "2027-02-15"
+updatedAt: "2027-02-15"
+author: "Louis-Arnaud Catoire"
+category: "Architecture"
+excerpt: "Tableaux de bord, événements, journaux : jusqu'où PostgreSQL suffit pour l'analytique d'une application Symfony, ce que ClickHouse apporte, comment l'alimenter avec Messenger et comment trancher avec vos propres mesures."
+image: "/images/blog/cover-clickhouse-postgresql-analytique.webp"
+faq:
+  - question: "PostgreSQL peut-il suffire pour l'analytique ?"
+    answer: "Souvent, jusqu'à plusieurs dizaines de millions de lignes, avec des index adaptés, un partitionnement, des vues matérialisées et des requêtes bien écrites. Le seuil dépend de vos requêtes, de votre matériel et de vos exigences de latence : il se détermine en mesurant sur vos données, pas en suivant une règle générale."
+  - question: "Qu'est-ce qui rend ClickHouse rapide pour les agrégations ?"
+    answer: "Son stockage en colonnes : une requête ne lit que les colonnes dont elle a besoin, et les données d'une même colonne se compressent très bien. Il parallélise aussi le calcul sur les cœurs disponibles. En contrepartie, il est conçu pour de grosses insertions par lots et pour des données qui ne changent presque pas."
+  - question: "Peut-on modifier ou supprimer des lignes dans ClickHouse ?"
+    answer: "Oui, mais par des mutations (ALTER TABLE UPDATE ou DELETE), que la documentation décrit comme des opérations lourdes, non prévues pour un usage fréquent. On conçoit donc les données comme des événements en ajout seul, en évitant les mises à jour ligne à ligne."
+  - question: "Comment alimenter ClickHouse depuis Symfony ?"
+    answer: "En envoyant des lots d'événements, plutôt qu'une insertion par événement. Avec Symfony Messenger, on accumule les messages et on les insère en une seule requête, par exemple via l'interface HTTP de ClickHouse. De nombreuses petites insertions créent trop de fragments et dégradent les performances."
+---
+
+Un tableau de bord qui met quarante secondes à s'afficher, une base de production qui ralentit quand quelqu'un lance un export : l'analytique sur une base transactionnelle finit par poser problème. La réponse n'est pas toujours d'ajouter un nouveau système. Ce guide aide à décider quand [PostgreSQL](https://www.postgresql.org/docs/current/) suffit et quand [ClickHouse](https://clickhouse.com/docs) devient justifié, depuis une application Symfony.
+
+Précision d'honnêteté : nous n'avons pas exécuté de requêtes sur les deux bases pour cet article, donc aucun chiffre comparatif n'y figure. Vous trouverez à la place un protocole de mesure précis à appliquer sur vos propres données. À la date du 3 novembre 2026, la dernière version stable de ClickHouse publiée sur GitHub est la 26.10.
+
+## Les limites d'une base transactionnelle
+
+Une base transactionnelle (OLTP) est optimisée pour lire et modifier quelques lignes à la fois, en respectant la cohérence. L'analytique (OLAP) fait l'inverse : elle parcourt des millions de lignes pour les agréger. Trois frictions apparaissent :
+
+- **Les agrégations sur de gros volumes.** Un `COUNT` ou une `SUM` regroupée sur des centaines de millions de lignes lit beaucoup de données, même si seules deux colonnes comptent, car le stockage est organisé par lignes.
+- **Les index.** Ils accélèrent les recherches précises, mais pas les agrégations complètes, et chaque index ralentit les écritures et occupe de la place.
+- **Les verrous et la concurrence.** Une requête analytique longue côtoie les écritures de l'application et peut dégrader l'expérience des utilisateurs.
+
+Une première parade est d'interroger une réplique en lecture plutôt que la base principale. Elle isole la charge, sans changer de moteur.
+
+## Ce que PostgreSQL sait faire
+
+PostgreSQL va plus loin qu'on ne le croit, et c'est souvent la bonne première étape.
+
+- **Des index adaptés.** Pour des tables d'événements écrites dans l'ordre chronologique, un index BRIN est très compact. Des index partiels ou couvrants ciblent les requêtes de tableaux de bord.
+- **Le partitionnement.** Le [partitionnement déclaratif](https://www.postgresql.org/docs/current/ddl-partitioning.html) par plage de dates limite la lecture aux partitions utiles et simplifie la purge des anciennes données.
+- **Les vues matérialisées.** Elles pré-calculent une agrégation, que l'on rafraîchit périodiquement, comme décrit dans la documentation des vues matérialisées.
+- **Les CTE et les fonctions de fenêtrage.** Cumuls, classements et comparaisons entre périodes s'écrivent directement en SQL, grâce aux fonctions de fenêtrage.
+- **Le parallélisme de requête**, qui répartit certaines lectures et agrégations sur plusieurs processus.
+
+Exemple d'une agrégation journalière servie par une vue matérialisée :
+
+```sql
+CREATE MATERIALIZED VIEW daily_events AS
+SELECT date_trunc('day', created_at) AS day,
+       event_type,
+       count(*) AS total
+FROM events
+GROUP BY 1, 2;
+
+CREATE UNIQUE INDEX ON daily_events (day, event_type);
+
+REFRESH MATERIALIZED VIEW CONCURRENTLY daily_events;
+```
+
+L'index unique permet un rafraîchissement sans bloquer les lectures. Côté Symfony, Doctrine sait interroger une telle vue avec une requête native ou une entité en lecture seule. Si vous venez d'une autre base, notre [guide de migration de MySQL vers PostgreSQL](/article/migration-mysql-postgresql-doctrine-guide) détaille ce passage, et le choix des identifiants influence aussi la taille des index : voir [UUID, ULID ou entier](/article/prendre-int-uuid-ou-ulid-pour-un-index-de-base-de-donnees).
+
+## Ce que ClickHouse apporte
+
+ClickHouse est une base orientée colonnes conçue pour l'analytique. Trois idées expliquent ses performances :
+
+- **Le stockage en colonnes.** Une requête qui agrège deux colonnes ne lit que ces deux colonnes, pas les lignes entières.
+- **La compression.** Les valeurs d'une même colonne se ressemblent et se compressent bien, ce qui réduit le volume lu sur le disque.
+- **Le parallélisme.** Le calcul est réparti sur les cœurs disponibles.
+
+Une table se définit avec un moteur, le plus courant étant [MergeTree](https://clickhouse.com/docs/en/engines/table-engines/mergetree-family/mergetree) :
+
+```sql
+CREATE TABLE events
+(
+    created_at DateTime,
+    event_type LowCardinality(String),
+    user_id UInt64,
+    payload String
+)
+ENGINE = MergeTree
+PARTITION BY toYYYYMM(created_at)
+ORDER BY (event_type, created_at);
+```
+
+### Les contraintes à accepter
+
+- **Les mises à jour.** Modifier ou supprimer des lignes passe par des mutations. La documentation de ALTER TABLE UPDATE les décrit comme des opérations lourdes, non prévues pour un usage fréquent. On modélise donc les données comme des événements ajoutés, sans les modifier.
+- **Les jointures.** Elles sont prises en charge, mais ce n'est pas le point fort du moteur : on préfère des tables dénormalisées, qui contiennent déjà les champs nécessaires.
+- **Les insertions par lots.** De nombreuses petites insertions créent trop de fragments de données et dégradent les performances. La documentation recommande de regrouper les insertions, ou d'utiliser les [insertions asynchrones](https://clickhouse.com/docs/en/optimize/asynchronous-inserts) quand le regroupement côté client est difficile.
+- **Pas de transactions comme en OLTP.** Le moteur n'a pas été conçu pour la cohérence ligne à ligne d'une application métier.
+
+## L'architecture : alimenter ClickHouse depuis Symfony
+
+PostgreSQL reste la source de vérité de l'application. ClickHouse reçoit une copie des événements à analyser, et sert uniquement les lectures analytiques.
+
+1. Votre application émet un événement (commande, clic, connexion), en plus de son écriture habituelle.
+2. Un message part dans Symfony Messenger, ce qui ne ralentit pas la requête de l'utilisateur. Pour choisir l'outil de messagerie, voir notre comparatif [Messenger ou PHP-Enqueue](/article/quelles-sont-les-differences-entre-symfony-messenger-php-enqueue-quoi-utiliser).
+3. Un consommateur accumule les événements et les insère en **lots** dans ClickHouse.
+4. Les tableaux de bord interrogent ClickHouse.
+
+L'interface HTTP de ClickHouse permet d'insérer sans client dédié. Avec le composant HttpClient de Symfony :
+
+```php
+$lines = array_map(
+    static fn (array $event): string => json_encode($event, JSON_THROW_ON_ERROR),
+    $events,
+);
+
+$this->httpClient->request('POST', 'http://clickhouse:8123/', [
+    'query' => ['query' => 'INSERT INTO events FORMAT JSONEachRow'],
+    'body' => implode("\n", $lines),
+]);
+```
+
+Il existe aussi un client PHP communautaire, `smi2/phpClickHouse`, sous licence MIT et maintenu à la date de notre vérification. Gardez des insertions de plusieurs milliers de lignes, avec un délai maximal d'attente pour ne pas retarder indéfiniment l'arrivée des données. Prévoyez la reprise : si l'insertion échoue, le message doit pouvoir être rejoué, et ClickHouse doit tolérer un éventuel doublon, par exemple avec un identifiant d'événement et une déduplication.
+
+Côté interrogation, gardez les requêtes analytiques derrière un service dédié, séparé des dépôts Doctrine : ce n'est pas le même modèle de données ni les mêmes garanties.
+
+## Comparer sur vos données : un protocole de mesure
+
+Aucun benchmark publié ne remplace une mesure sur vos propres requêtes. Voici un protocole reproductible :
+
+1. **Le jeu de données** : prenez un extrait réaliste de votre table d'événements, avec un volume proche de celui que vous aurez dans un an (dix à cent millions de lignes, par exemple), et précisez-le.
+2. **Les requêtes** : choisissez cinq à dix requêtes représentatives de vos tableaux de bord (agrégation par jour, top N, filtre sur une période, comptage de valeurs distinctes).
+3. **La machine** : notez le processeur, le nombre de cœurs, la mémoire et le type de disque, à l'identique pour les deux bases.
+4. **L'état du cache** : mesurez une première exécution à froid, puis la médiane de plusieurs exécutions à chaud.
+5. **Les outils** : sous PostgreSQL, `EXPLAIN (ANALYZE, BUFFERS)` ; sous ClickHouse, le journal des requêtes du système.
+6. **Les coûts annexes** : temps d'import, espace disque occupé, mémoire consommée pendant la requête.
+7. **Les versions** : consignez celles des deux moteurs, avec leur configuration.
+
+Comparez ensuite les résultats à votre objectif, par exemple « tableau de bord affiché en moins de deux secondes ». Si PostgreSQL l'atteint avec un index, une vue matérialisée ou un partitionnement, inutile d'ajouter un système.
+
+## Coût d'exploitation et critères de décision
+
+Ajouter ClickHouse, c'est un système de plus à installer, sauvegarder, surveiller, mettre à jour, et une compétence de plus à entretenir dans l'équipe. Ce coût est rentable si le gain mesuré justifie cette charge.
+
+| Situation | Choix recommandé |
+|---|---|
+| Quelques millions de lignes, requêtes de tableau de bord | PostgreSQL, avec index et vues matérialisées |
+| Charge analytique qui gêne la base principale | Réplique en lecture PostgreSQL d'abord |
+| Séries d'événements en ajout seul, centaines de millions de lignes | ClickHouse, après mesure |
+| Données modifiées souvent, jointures complexes | PostgreSQL |
+| Équipe réduite sans temps d'exploitation | PostgreSQL, ou une offre hébergée de ClickHouse |
+
+Notez aussi que les limites d'un entier peuvent surgir sur des tables d'événements très volumineuses : voir notre article sur [le dépassement de l'identifiant entier](/article/arrives-au-max-des-id-int-2147483647).
+
+## Ce qu'il faut retenir
+
+Pour la plupart des applications Symfony, PostgreSQL bien outillé (index, partitionnement, vues matérialisées, réplique en lecture) couvre l'analytique pendant longtemps. ClickHouse devient pertinent sur de très gros volumes d'événements en ajout seul, à condition d'accepter les insertions par lots et l'absence de modifications fréquentes. Alimentez-le par Messenger, gardez PostgreSQL comme source de vérité, et tranchez avec le protocole ci-dessus plutôt qu'avec des benchmarks génériques.
