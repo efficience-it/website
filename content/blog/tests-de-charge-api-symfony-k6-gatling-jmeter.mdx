@@ -1,0 +1,199 @@
+---
+title: "Tests de charge d'une API Symfony : k6, Gatling ou JMeter ?"
+date: "2027-01-10"
+updatedAt: "2027-01-10"
+author: "Louis-Arnaud Catoire"
+category: "DevOps"
+excerpt: "k6, Gatling et JMeter comparés sur un même scénario d'API Symfony : scripts, seuils de réussite, lecture des percentiles, intégration à la CI et choix selon le profil de l'équipe."
+image: "/images/blog/cover-tests-charge-api-symfony.webp"
+faq:
+  - question: "Quel outil de test de charge choisir pour une API Symfony ?"
+    answer: "k6 convient aux équipes qui écrivent déjà du JavaScript et veulent des scénarios lisibles dans le dépôt. Gatling s'adresse aux équipes à l'aise avec la JVM et recherchant des rapports détaillés. JMeter reste pertinent pour son interface graphique et sa très large palette de protocoles. Le meilleur choix est celui que l'équipe maintiendra réellement dans la CI."
+  - question: "Pourquoi regarder les percentiles plutôt que la moyenne ?"
+    answer: "La moyenne cache les requêtes lentes. Un temps de réponse moyen correct peut coexister avec un percentile 95 ou 99 qui dégrade l'expérience d'une partie des utilisateurs. Les seuils de réussite se fixent donc sur les percentiles et sur le taux d'erreur."
+  - question: "Faut-il tester la charge en production ?"
+    answer: "Non, sauf cadre très maîtrisé. On teste un environnement de préproduction aussi proche que possible de la production, avec un jeu de données réaliste, et on surveille les métriques côté serveur pendant l'essai."
+  - question: "Comment faire échouer la CI quand les performances se dégradent ?"
+    answer: "En déclarant des seuils dans le script. k6 renvoie un code de sortie non nul quand un seuil est franchi, et les assertions de Gatling font échouer la construction. Avec JMeter, il faut lire le fichier de résultats pour décider du succès."
+---
+
+Une API qui répond en 40 ms avec dix utilisateurs ne dit rien de son comportement avec mille. Le test de charge sert à trouver le point où elle casse avant que vos utilisateurs ne le fassent. Trois outils dominent le sujet : [k6](https://k6.io), [Gatling](https://gatling.io) et [Apache JMeter](https://jmeter.apache.org).
+
+Cet article les compare sur un même scénario d'API Symfony, avec les scripts complets et les seuils de réussite. Une précision d'emblée : **aucune mesure chiffrée n'est publiée ici**. Des temps de réponse dépendent de la machine, du jeu de données et du réseau, et un chiffre sorti de son contexte induit en erreur. Vous trouverez à la place la méthode pour obtenir vos propres résultats et les lire correctement.
+
+## Pourquoi tester la charge
+
+Trois objectifs, qui ne demandent pas le même test :
+
+- **Trouver le point de rupture** : augmenter la charge jusqu'à ce que les erreurs ou les temps de réponse explosent.
+- **Valider un objectif de débit** : « 200 requêtes par seconde avec un percentile 95 sous 300 ms » est un objectif vérifiable.
+- **Détecter les régressions** : rejouer le même test à chaque version pour repérer une dégradation avant la mise en production.
+
+Un test de charge ne remplace pas le profilage : il vous dit que c'est lent, pas pourquoi. Pour trouver la cause, partez de la [documentation de performance de Symfony](https://symfony.com/doc/current/performance.html) et d'un profileur.
+
+## Le scénario commun
+
+Pour comparer des outils, il faut un scénario identique. Celui-ci suit un usage réel :
+
+1. **S'authentifier** : `POST /api/login` renvoie un jeton.
+2. **Lire une liste** : `GET /api/products`, avec le jeton.
+3. **Écrire** : `POST /api/products` pour créer une ressource.
+
+Les seuils de réussite : moins de 1 % d'erreurs et un percentile 95 sous 300 ms. Ces valeurs sont des exemples à adapter à votre contexte. Le jeu de données doit ressembler à celui de production : une table de dix lignes ne révèle ni index manquant ni requête N+1.
+
+## k6 : des scénarios en JavaScript
+
+k6 s'écrit en JavaScript, tourne comme un binaire unique et se prête bien au versionnement. Le scénario complet :
+
+```javascript
+import http from 'k6/http';
+import { check, sleep } from 'k6';
+
+export const options = {
+  stages: [
+    { duration: '30s', target: 20 },
+    { duration: '1m', target: 20 },
+    { duration: '10s', target: 0 },
+  ],
+  thresholds: {
+    http_req_failed: ['rate<0.01'],
+    http_req_duration: ['p(95)<300'],
+  },
+};
+
+const BASE_URL = __ENV.BASE_URL || 'http://localhost:8000';
+const JSON_HEADERS = { 'Content-Type': 'application/json' };
+
+export function setup() {
+  const res = http.post(
+    `${BASE_URL}/api/login`,
+    JSON.stringify({ username: 'demo', password: 'demo' }),
+    { headers: JSON_HEADERS },
+  );
+  return { token: res.json('token') };
+}
+
+export default function (data) {
+  const headers = { ...JSON_HEADERS, Authorization: `Bearer ${data.token}` };
+
+  const list = http.get(`${BASE_URL}/api/products`, { headers });
+  check(list, { 'liste 200': (r) => r.status === 200 });
+
+  const created = http.post(
+    `${BASE_URL}/api/products`,
+    JSON.stringify({ name: 'Article de test' }),
+    { headers },
+  );
+  check(created, { 'création 201': (r) => r.status === 201 });
+
+  sleep(1);
+}
+```
+
+On le lance avec `k6 run script.js`. La section `thresholds` déclare les seuils de la [documentation k6](https://grafana.com/docs/k6/latest/using-k6/thresholds/) : si un seuil est franchi, le processus se termine avec un code de sortie non nul, ce qui suffit à faire échouer un pipeline. Au 3 novembre 2026, la dernière version publiée sur GitHub est la v2.3.0.
+
+Points forts : lisibilité, démarrage rapide, faible empreinte du générateur de charge. Limite : pas d'interface graphique d'enregistrement de scénario, et les rapports détaillés passent par une sortie vers un outil de visualisation.
+
+## Gatling : un DSL sur la JVM
+
+Gatling décrit les scénarios dans un DSL (Java, Kotlin ou Scala) et produit un rapport HTML détaillé. Le même scénario en Java :
+
+```java
+import static io.gatling.javaapi.core.CoreDsl.*;
+import static io.gatling.javaapi.http.HttpDsl.*;
+
+import io.gatling.javaapi.core.*;
+import io.gatling.javaapi.http.*;
+
+public class ApiSimulation extends Simulation {
+
+  HttpProtocolBuilder protocol = http
+      .baseUrl(System.getProperty("baseUrl", "http://localhost:8000"))
+      .acceptHeader("application/json")
+      .contentTypeHeader("application/json");
+
+  ScenarioBuilder scenario = scenario("API produits")
+      .exec(http("login")
+          .post("/api/login")
+          .body(StringBody("{\"username\":\"demo\",\"password\":\"demo\"}"))
+          .check(jsonPath("$.token").saveAs("token")))
+      .exec(http("liste")
+          .get("/api/products")
+          .header("Authorization", "Bearer #{token}")
+          .check(status().is(200)))
+      .exec(http("creation")
+          .post("/api/products")
+          .header("Authorization", "Bearer #{token}")
+          .body(StringBody("{\"name\":\"Article de test\"}"))
+          .check(status().is(201)));
+
+  {
+    setUp(scenario.injectOpen(rampUsers(20).during(30)))
+        .protocols(protocol)
+        .assertions(
+            global().failedRequests().percent().lt(1.0),
+            global().responseTime().percentile(95.0).lt(300));
+  }
+}
+```
+
+Les [assertions](https://docs.gatling.io/concepts/assertions/) font échouer la construction quand elles ne sont pas respectées. Au 3 novembre 2026, la dernière version publiée sur GitHub est la 3.16.0. Points forts : rapport HTML très complet, modèle de charge expressif (ouvert ou fermé). Limites : un projet Maven ou Gradle à maintenir et une JVM à installer sur le poste ou l'agent de CI.
+
+## JMeter : une interface graphique et un large éventail de protocoles
+
+[JMeter](https://jmeter.apache.org/usermanual/get-started.html) décrit un plan de test dans un fichier `.jmx`, construit depuis une interface graphique. Pour notre scénario, le plan contient un groupe d'utilisateurs, trois requêtes HTTP, un extracteur JSON qui récupère le jeton, un gestionnaire d'en-têtes qui le renvoie, et des assertions de réponse.
+
+On ne lance pas un vrai test depuis l'interface, mais en ligne de commande, qui consomme moins de ressources :
+
+```bash
+jmeter -n -t plan.jmx -Jthreads=20 -Jrampup=30 -l resultats.jtl -e -o rapport/
+```
+
+Le rapport HTML est généré dans `rapport/`. À notre connaissance, JMeter ne fait pas échouer la commande de lui-même quand un seuil est dépassé : on lit le fichier de résultats dans un script ou on s'appuie sur une extension. À la date de cet article, JMeter 5.6.3 est la dernière version taguée sur GitHub. Points forts : interface graphique, nombreux protocoles, écosystème de plugins. Limites : fichiers `.jmx` volumineux et peu lisibles en revue de code, générateur de charge plus gourmand en mémoire.
+
+## Comparatif
+
+| Critère | k6 | Gatling | JMeter |
+|---|---|---|---|
+| Langage de script | JavaScript | Java, Kotlin, Scala | Interface graphique, XML |
+| Installation | Un binaire | JVM et projet Maven ou Gradle | JVM |
+| Lisibilité du scénario | Très bonne | Bonne | Moyenne en revue de code |
+| Seuils qui font échouer la CI | Oui, nativement | Oui, par assertions | Non, à scripter |
+| Rapport intégré | Résumé console, export externe | Rapport HTML détaillé | Rapport HTML |
+| Ressources du générateur | À mesurer chez vous | À mesurer chez vous | À mesurer chez vous |
+
+Pour les ressources consommées par le générateur de charge, nous ne donnons pas de chiffres : mesurez-les sur votre propre infrastructure, en surveillant le processeur et la mémoire de la machine qui génère la charge. Un générateur saturé fausse les résultats.
+
+## Interpréter les résultats
+
+- **Les percentiles plutôt que la moyenne.** Le percentile 95 dit que 5 % des requêtes sont plus lentes que cette valeur, ce que la moyenne dissimule.
+- **Le taux d'erreur.** Un temps de réponse court sur des réponses 500 n'a aucun intérêt. Comptez les erreurs séparément.
+- **La saturation.** Cherchez le palier où le débit cesse de croître alors que la charge augmente : c'est le signe d'une ressource saturée.
+
+Rapprochez ces courbes des métriques du serveur pendant l'essai. Avec PHP-FPM, surveillez le nombre de processus actifs par rapport à `pm.max_children` : quand tous sont occupés, les requêtes s'empilent. Avec [FrankenPHP](/article/concretement-cest-quoi-frankenphp), regardez le nombre de workers et leur mémoire. Côté base de données, les connexions ouvertes et les requêtes lentes expliquent souvent un plafond. La [mise en cache](/article/tout-savoir-sur-la-mise-en-cache-tips) est le premier levier quand la lecture domine.
+
+## Brancher le test dans la CI
+
+L'idée est de rejouer un test court à chaque changement important, avec des seuils qui font échouer le pipeline. Exemple avec GitHub Actions et k6 en conteneur :
+
+```yaml
+performance:
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v4
+    - run: docker run --rm -i -e BASE_URL=${{ vars.STAGING_URL }} grafana/k6 run - < tests/charge/script.js
+```
+
+Le code de sortie de k6 fait échouer l'étape si un seuil est franchi. Avec Gatling, `mvn gatling:test` échoue de la même façon quand une assertion n'est pas respectée. N'exécutez pas ces tests contre la production et gardez une durée courte en CI : les essais longs ou de saturation se planifient séparément. Si vos tests d'API fonctionnels sont déjà en place, la même logique s'applique à [Newman dans GitLab CI](/article/comment-executer-des-tests-postman-avec-newman-dans-gitlab-ci), et [Bruno](/article/bruno-alternative-open-source-postman-tester-api) fournit une alternative pour les vérifications fonctionnelles.
+
+## Quel outil pour quelle équipe
+
+- **Une équipe PHP ou JavaScript qui veut des scénarios dans le dépôt, vite** : k6.
+- **Une équipe à l'aise avec la JVM qui veut des rapports détaillés et un modèle de charge fin** : Gatling.
+- **Une équipe qui préfère construire ses scénarios dans une interface graphique, ou qui teste d'autres protocoles que HTTP** : JMeter.
+
+Dans tous les cas, commencez par un scénario simple, un seuil réaliste et un environnement de préproduction représentatif. Un test modeste exécuté à chaque version vaut mieux qu'un grand test lancé une fois.
+
+## Ce qu'il faut retenir
+
+Choisissez l'outil que votre équipe maintiendra : k6 pour la simplicité, Gatling pour la profondeur des rapports, JMeter pour son interface et ses protocoles. Définissez des seuils sur les percentiles et le taux d'erreur, corrélez les résultats avec les métriques du serveur, et branchez un test court dans la CI. Les chiffres, vous les obtiendrez sur votre propre infrastructure, avec vos données.
