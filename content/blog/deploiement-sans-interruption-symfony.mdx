@@ -25,7 +25,7 @@ Ce guide présente trois stratégies, les contraintes propres à PHP, la gestion
 
 Le principe est simple : l'ancienne et la nouvelle version cohabitent un court moment, et le trafic ne passe sur la nouvelle que lorsqu'elle est prête. Côté PHP, quatre contraintes reviennent.
 
-- **OPcache.** Le cache d'opcode garde le code compilé. Avec une bascule par lien symbolique, PHP peut continuer à servir les fichiers de l'ancienne release tant qu'il n'a pas été rechargé. La [documentation d'OPcache](https://www.php.net/manual/en/opcache.configuration.php) décrit les directives de revalidation ; en pratique, on recharge PHP-FPM après la bascule.
+- **OPcache.** Le cache d'opcode garde le code compilé. Avec une bascule par lien symbolique, PHP peut continuer à servir les fichiers de l'ancienne release tant qu'il n'a pas été rechargé. La documentation d'OPcache décrit les directives de revalidation ; en pratique, on recharge PHP-FPM après la bascule.
 - **Le cache Symfony.** Il doit être réchauffé (`cache:warmup`) avant que le trafic n'arrive sur la nouvelle version, sinon les premières requêtes paient la construction du cache.
 - **Les workers de messagerie.** Ils chargent le code en mémoire : ils continuent d'exécuter l'ancienne version jusqu'à leur arrêt.
 - **Les sessions.** Elles doivent vivre hors du dossier de la release, dans un stockage partagé comme Redis ou la base, sinon les utilisateurs sont déconnectés à chaque bascule.
