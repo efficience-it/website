@@ -1,0 +1,148 @@
+---
+title: "Podman ou Docker pour un projet PHP et Symfony ?"
+date: "2027-01-19"
+updatedAt: "2027-01-19"
+author: "Louis-Arnaud Catoire"
+category: "DevOps"
+excerpt: "Podman et Docker comparés pour un projet Symfony : architecture sans démon, mode rootless, compatibilité des fichiers compose, permissions de volumes, WSL2, licences et guide de migration."
+image: "/images/blog/cover-podman-docker-php-symfony.webp"
+faq:
+  - question: "Podman peut-il remplacer Docker sans modifier les Dockerfile ?"
+    answer: "Dans la grande majorité des cas, oui : Podman lit les Dockerfile et construit des images au même format. Les écarts apparaissent ailleurs : fichiers compose avec des fonctionnalités récentes, accès au socket Docker par certains outils, ports inférieurs à 1024 en mode rootless et permissions des volumes."
+  - question: "Qu'est-ce que le mode rootless ?"
+    answer: "Les conteneurs tournent sous un utilisateur ordinaire, sans privilèges administrateur sur la machine. Si un processus s'échappe du conteneur, il n'obtient que les droits de cet utilisateur. Podman fonctionne ainsi par défaut ; Docker propose aussi ce mode, mais il demande une configuration dédiée."
+  - question: "Docker est-il payant en entreprise ?"
+    answer: "Docker Engine sur Linux est un logiciel libre. Docker Desktop, l'application pour Windows et macOS, est soumis à une licence payante pour les grandes organisations. Les seuils et tarifs évoluent : vérifiez-les sur le site de Docker avant de décider."
+  - question: "Faut-il migrer toute une équipe vers Podman ?"
+    answer: "Pas forcément. Les raisons qui poussent à migrer sont la sécurité par défaut, l'absence de démon central, ou la licence de Docker Desktop. Si vos pipelines, vos dev containers et vos outils fonctionnent bien avec Docker, le gain peut ne pas justifier le coût. Un essai sur un projet pilote tranche la question."
+---
+
+Pendant dix ans, « faire des conteneurs » voulait dire Docker. Aujourd'hui, [Podman](https://podman.io) est une alternative sérieuse, souvent évoquée pour sa sécurité par défaut et l'absence de démon. Pour une équipe Symfony, la question est concrète : peut-on faire tourner le même projet avec l'un ou l'autre, et qu'est-ce que cela change au quotidien ?
+
+Cet article compare les deux outils sur les points qui comptent pour un projet PHP, puis propose une marche de migration. Précision d'honnêteté : les exemples sont fondés sur les documentations officielles et ne résultent pas d'un essai chronométré réalisé pour cet article. À la date du 3 novembre 2026, les dernières versions publiées sur GitHub sont Podman 6.1.4, Docker (Moby) 29.9.2 et Docker Compose 5.7.0 ; vérifiez les versions de votre propre poste.
+
+## Deux architectures différentes
+
+**Docker** repose sur un démon, un processus central qui tourne en arrière-plan et reçoit les ordres du client en ligne de commande. C'est pratique, mais ce démon est un point unique : s'il s'arrête, les conteneurs qu'il gère sont concernés, et il tourne classiquement avec des privilèges élevés.
+
+**Podman** n'a pas de démon central. Chaque conteneur est lancé directement comme un processus enfant de la commande. Il fonctionne par défaut en mode **rootless**, c'est-à-dire sous votre utilisateur et non sous `root`.
+
+Podman introduit aussi la notion de **pod**, un groupe de conteneurs qui partagent le même réseau, comme dans Kubernetes. On peut exporter une définition de pods vers un fichier Kubernetes, ce qui facilite le passage du poste de développement à un cluster. Docker propose le mode rootless dans sa [documentation de sécurité](https://docs.docker.com/engine/security/rootless/), mais il demande une installation et une configuration dédiées.
+
+## Compatibilité avec Dockerfile et compose
+
+Les `Dockerfile` existants fonctionnent avec Podman, qui construit des images au format standard. La commande `podman` reprend aussi presque toutes les options de `docker` : un alias `alias docker=podman` suffit souvent pour les usages courants.
+
+Pour les fichiers `compose.yaml`, la [commande `podman compose`](https://docs.podman.io/en/latest/markdown/podman-compose.1.html) délègue à un fournisseur externe : Docker Compose ou podman-compose. Elle ne réimplémente pas la spécification elle-même. Conséquence : le comportement dépend du fournisseur choisi, et des fonctionnalités récentes de la spécification peuvent ne pas être gérées de la même façon.
+
+### Les points de rupture connus
+
+- **Le socket Docker.** Des outils s'attendent à trouver `/var/run/docker.sock`. Podman expose un socket compatible, qu'il faut activer, puis référencer dans la variable `DOCKER_HOST`. C'est notamment le cas de certaines bibliothèques de test qui démarrent des conteneurs.
+- **Les ports inférieurs à 1024.** En mode rootless, un utilisateur ordinaire ne peut pas les ouvrir par défaut. On publie sur 8080 en développement, ou on abaisse la valeur de `net.ipv4.ip_unprivileged_port_start`.
+- **Les fonctionnalités spécifiques.** Réseau, builds avancés, extensions de Docker Desktop : à vérifier au cas par cas.
+
+## Un projet Symfony complet
+
+Prenons un projet classique : serveur web et PHP, base de données, boîte de messagerie de test.
+
+```yaml
+services:
+  app:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/app
+    depends_on:
+      - database
+      - mailer
+
+  database:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: dev
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  mailer:
+    image: axllent/mailpit
+    ports:
+      - "8025:8025"
+
+volumes:
+  db-data:
+```
+
+Le même fichier se lance avec `docker compose up -d` ou `podman compose up -d`. Les images viennent de registres publics ; avec Podman, indiquez le nom complet de registre (par exemple `docker.io/library/postgres:16`) si votre configuration ne résout pas les noms courts.
+
+### Sous Linux
+
+C'est le terrain naturel de Podman : installation par le gestionnaire de paquets de la distribution, mode rootless immédiat. Pour lancer des conteneurs au démarrage, Podman s'intègre à systemd, par exemple avec les unités Quadlet, qui décrivent un conteneur dans un fichier de configuration lu par systemd.
+
+### Sous WSL2
+
+Sous Windows, deux voies. Docker passe par Docker Desktop avec l'intégration WSL, ou par un Docker Engine installé directement dans la distribution. Podman peut s'installer dans la distribution WSL comme sous Linux, ou via Podman Desktop, qui gère une machine virtuelle. Dans tous les cas, gardez le code dans le système de fichiers Linux de WSL, et non sous `/mnt/c` : l'accès aux fichiers Windows est nettement plus lent et pose des problèmes de permissions. Notre article sur [l'isolation d'un agent IA dans une microVM](/article/sbx-run-claude-symfony-node-sandbox) montre une autre façon d'isoler un environnement de travail sur son poste.
+
+## Volumes et permissions de fichiers
+
+C'est le sujet qui fait perdre le plus de temps aux équipes qui changent d'outil. En mode rootless, l'utilisateur à l'intérieur du conteneur est associé à un autre utilisateur sur l'hôte, par un mécanisme d'espaces de noms. Résultat : des fichiers créés par PHP dans `var/cache` peuvent appartenir à un identifiant étrange sur votre disque, et inversement.
+
+Les remèdes usuels :
+
+- l'option `--userns=keep-id` de Podman, qui conserve votre identifiant dans le conteneur ;
+- le suffixe `:U` sur un volume, qui ajuste le propriétaire ;
+- sous une distribution avec SELinux, le suffixe `:Z` ou `:z`, qui étiquette le volume pour que le conteneur puisse l'écrire ;
+- d'exécuter PHP avec un utilisateur dont l'identifiant correspond au vôtre.
+
+Côté performances, les différences dépendent surtout du système de fichiers et du système d'exploitation, pas de l'outil : nous n'avons pas de mesure à publier, et nous vous invitons à comparer sur votre projet.
+
+## Sécurité, licences et coût
+
+Sur la sécurité, l'avantage de Podman est qu'il est rootless par défaut et sans démon central : la surface d'attaque est réduite d'emblée. Docker peut atteindre un niveau comparable, au prix d'une configuration explicite.
+
+Côté licences, Podman est un logiciel libre. Docker Engine sur Linux l'est aussi, mais Docker Desktop, souvent utilisé sous Windows et macOS, est soumis à une licence payante pour les grandes organisations. Les seuils et les tarifs changent : consultez la page officielle de Docker avant de décider. C'est souvent ce poste de coût qui déclenche une réflexion sur Podman en entreprise.
+
+Pour la production, le choix n'est pas le même que pour le poste de développement : voir notre article [pourquoi Docker est indispensable en production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui), et celui sur [WebAssembly ou conteneur](/article/wasm-ou-container-que-choisir-en-2026) pour les évolutions possibles.
+
+## IDE, dev containers et CI
+
+- **Dev containers.** Les éditeurs compatibles permettent d'indiquer un exécutable de conteneurs autre que Docker. Cela fonctionne, avec quelques réglages, notamment sur le socket.
+- **IDE.** Les intégrations s'appuient généralement sur l'API de Docker : le socket compatible de Podman les rend utilisables, mais testez celles dont vous dépendez.
+- **CI.** Beaucoup de plateformes d'intégration continue sont construites autour de Docker. Avec Podman, la construction d'images peut se faire sans démon, ce qui simplifie les environnements d'exécution isolés. Vérifiez le support de votre plateforme avant de migrer, et le rôle du [reverse proxy](/article/traefik-ou-nginx-en-production) si vous en pilotez un par conteneur.
+
+## Migrer pas à pas
+
+1. **Installer Podman** et vérifier le mode rootless avec un conteneur simple.
+2. **Lancer le projet tel quel** avec `podman compose`, sans modifier les fichiers.
+3. **Corriger les noms d'images** si nécessaire (noms complets de registre).
+4. **Traiter les permissions** de volumes avec `--userns=keep-id`, `:U` ou `:Z`.
+5. **Activer le socket compatible** si un outil le demande.
+6. **Tester les outils annexes** : IDE, dev containers, tests qui démarrent des conteneurs.
+7. **Mesurer le gain réel** avant de généraliser, et conserver un moyen de revenir à Docker.
+
+## Recommandation par contexte
+
+| Contexte | Recommandation |
+|---|---|
+| Poste Linux, équipe sensible à la sécurité | Podman, à essayer en premier |
+| Windows ou macOS, licence Docker Desktop gênante | Podman Desktop, ou Docker Engine sous WSL2 |
+| Pipelines et outils fortement liés à Docker | Docker, tant que le coût de migration dépasse le gain |
+| Cible Kubernetes | Podman est cohérent avec la notion de pod, Docker reste très répandu |
+| Compose avancé et outillage tiers | Docker, plus prévisible |
+
+| Critère | Docker | Podman |
+|---|---|---|
+| Démon central | Oui | Non |
+| Rootless | Possible, configuration dédiée | Par défaut |
+| Lecture des Dockerfile | Natif | Compatible |
+| Compose | Docker Compose | Délégué à un fournisseur |
+| Pods | Non | Oui |
+| Licence Desktop payante pour grande entreprise | Docker Desktop | Non |
+
+Limites actuelles : la compatibilité n'est pas parfaite sur les cas avancés, le comportement de compose dépend du fournisseur, et chaque équipe doit apprendre les subtilités des volumes en rootless.
+
+Pour une équipe qui préfère déléguer ce type de choix d'infrastructure, notre offre d'[infogérance cloud Symfony](/cloud-et-devops) couvre le sujet.
+
+## Ce qu'il faut retenir
+
+Podman et Docker lisent les mêmes Dockerfile et font tourner les mêmes images. Podman apporte le rootless par défaut, l'absence de démon et les pods ; Docker garde l'avantage de l'écosystème et de la prévisibilité de compose. Pour un projet Symfony, les vrais écarts se jouent sur les permissions de volumes, le socket, les ports privilégiés et les outils annexes. Essayez sur un projet pilote, mesurez sur votre machine, et ne migrez que si le gain est réel.
