@@ -1,0 +1,154 @@
+---
+title: "Mode worker de FrankenPHP : éviter les fuites d'état dans Symfony"
+date: "2027-02-06"
+updatedAt: "2027-02-06"
+author: "Louis-Arnaud Catoire"
+category: "Symfony"
+excerpt: "Le mode worker de FrankenPHP garde Symfony en mémoire entre les requêtes. Comment détecter et corriger les fuites d'état : ResetInterface, tests de requêtes enchaînées, audit avec Igor-PHP, surveillance et checklist."
+image: "/images/blog/cover-mode-worker-frankenphp-symfony.webp"
+faq:
+  - question: "Qu'est-ce qu'une fuite d'état en mode worker ?"
+    answer: "En mode worker, l'application reste en mémoire et traite plusieurs requêtes avec les mêmes objets. Une fuite d'état se produit quand une donnée d'une requête survit et devient visible lors de la suivante : un utilisateur conservé, un cache en mémoire, un compteur, un tableau qui grossit. Les conséquences vont du bug étrange à la faille de confidentialité."
+  - question: "Symfony réinitialise-t-il automatiquement mes services ?"
+    answer: "Seulement ceux qui le demandent. Les services qui implémentent ResetInterface sont réinitialisés entre deux requêtes via le mécanisme kernel.reset. Un service avec état qui ne l'implémente pas, une propriété statique ou un singleton maison ne sont pas remis à zéro : c'est à vous de les traiter."
+  - question: "Comment détecter ces fuites avant la production ?"
+    answer: "En combinant trois moyens : un audit statique du code, comme celui d'Igor-PHP, des tests qui enchaînent plusieurs requêtes sur le même noyau et vérifient l'absence de contamination, et une surveillance de la mémoire en préproduction avec une charge réaliste."
+  - question: "Faut-il redémarrer périodiquement les workers ?"
+    answer: "C'est un filet de sécurité utile contre une croissance lente de la mémoire, par exemple avec une limite du nombre de requêtes par worker. Mais ce n'est pas un correctif : une fuite d'état qui expose des données d'un utilisateur à un autre se corrige dans le code, pas par un redémarrage."
+---
+
+Le mode worker de FrankenPHP charge l'application une fois, puis la garde en mémoire pour traiter les requêtes suivantes. Le gain de performance est réel : plus de démarrage du noyau à chaque requête. Notre article sur [ce qu'est FrankenPHP](/article/concretement-cest-quoi-frankenphp) présente le serveur ; celui-ci traite la mise en production du mode worker, et plus précisément son piège principal : l'état qui survit d'une requête à l'autre.
+
+Précision : les exemples de code illustrent des cas typiques, d'après la documentation de [FrankenPHP](https://frankenphp.dev/docs/worker/) et de Symfony. Nous ne les avons pas exécutés pour cet article et nous ne publions donc aucune sortie de test : rejouez-les sur votre application avant de vous y fier.
+
+## Le principe et son revers
+
+Dans le modèle classique, PHP repart de zéro à chaque requête : tout ce qui est en mémoire disparaît avec elle. En mode worker, le script de démarrage boucle sur les requêtes, et les objets du conteneur de services restent en vie. La documentation de FrankenPHP précise que les variables superglobales et `php://input` sont réinitialisées à chaque requête, mais pas vos propres objets.
+
+Depuis Symfony 7.4, le mode worker de FrankenPHP est pris en charge nativement ; pour les versions plus anciennes, le paquet `runtime/frankenphp-symfony` du composant Runtime fait le lien. La [page dédiée de FrankenPHP](https://frankenphp.dev/docs/symfony/) décrit la configuration, avec une directive `worker ./public/index.php` dans le Caddyfile.
+
+## Où se cachent les fuites d'état
+
+- **Les services avec état.** Un service qui accumule des données dans une propriété : compteur, tableau de résultats, cache maison.
+- **Les propriétés et variables statiques.** Elles vivent aussi longtemps que le processus.
+- **Les singletons et les registres.** Un « get instance » maison ne se réinitialise jamais tout seul.
+- **Les caches en mémoire** qui n'ont ni limite ni invalidation.
+- **Les connexions.** Une connexion à la base de données ou à un service distant garde un état et peut expirer entre deux requêtes.
+- **L'utilisateur authentifié conservé par erreur.** C'est le cas le plus grave : si un service garde l'utilisateur courant dans une propriété, la requête suivante, d'un autre utilisateur, peut en hériter. C'est alors une faille de sécurité, pas un simple bug. Notre article sur [comprendre les failles pour mieux se protéger](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) rappelle comment ces défauts se transforment en vulnérabilités.
+
+### Un exemple type
+
+```php
+final class RequestStats
+{
+    private array $seen = [];
+
+    public function track(string $path): int
+    {
+        $this->seen[] = $path;
+
+        return count($this->seen);
+    }
+}
+```
+
+En fonctionnement classique, `track()` renvoie toujours 1 : l'objet est recréé à chaque requête. En mode worker, il renvoie 1, puis 2, puis 3, et le tableau grossit sans fin. C'est à la fois une contamination entre requêtes et une fuite de mémoire.
+
+## Comment Symfony réinitialise l'état
+
+Symfony fournit un mécanisme dédié : l'interface `ResetInterface` et la balise `kernel.reset`. D'après la [documentation des balises](https://symfony.com/doc/current/reference/dic_tags.html), un service marqué `kernel.reset` voit sa méthode de réinitialisation appelée entre deux requêtes. Avec l'autoconfiguration, il suffit d'implémenter l'interface :
+
+```php
+use Symfony\Contracts\Service\ResetInterface;
+
+final class RequestStats implements ResetInterface
+{
+    private array $seen = [];
+
+    public function track(string $path): int
+    {
+        $this->seen[] = $path;
+
+        return count($this->seen);
+    }
+
+    public function reset(): void
+    {
+        $this->seen = [];
+    }
+}
+```
+
+Symfony et ses bundles, dont Doctrine, réinitialisent déjà leurs propres services. Ce que ce mécanisme ne couvre pas : vos propriétés statiques, les singletons faits maison, les variables locales statiques, les connexions qui expirent et tout ce que vous stockez hors du conteneur. Ceux-là exigent une correction explicite.
+
+## Détecter avant la production
+
+### L'audit statique avec Igor-PHP
+
+[Igor-PHP](https://github.com/igor-php/igor-php) est un outil d'analyse statique conçu pour le mode worker de FrankenPHP. D'après son dépôt, il est écrit en Go, sous licence MIT, et sa dernière version publiée est la 0.10.1 (octobre 2026). Il détecte notamment les mutations de propriétés sur des services partagés, les propriétés statiques, les appels à `exit()` ou `die()`, les superglobales et les destructeurs sur des services partagés.
+
+On l'installe en dépendance de développement :
+
+```bash
+composer require --dev igor-php/igor-php
+vendor/bin/igor-php .
+```
+
+Le dépôt recommande d'activer le bundle Symfony fourni : il donne à l'outil la carte réelle des services du conteneur, ce qui réduit les faux positifs et lui permet d'ignorer les services déjà marqués `kernel.reset`. Il se termine avec un code de sortie 1 en cas d'erreur, ce qui convient à une étape de CI. L'outil est volontairement strict : traitez ses alertes comme des pistes à examiner, avec la possibilité d'ignorer un cas justifié par un commentaire ou un attribut dédiés. Un outil jeune, à évaluer vous-même avant de lui confier un contrôle bloquant.
+
+### Les tests de requêtes enchaînées
+
+Un audit statique ne voit pas tout. Complétez-le par un test fonctionnel qui envoie plusieurs requêtes de suite sur le même noyau et vérifie qu'aucune donnée ne passe de l'une à l'autre :
+
+```php
+public function testStateDoesNotLeakBetweenRequests(): void
+{
+    $client = static::createClient();
+    $client->disableReboot();
+
+    $client->request('GET', '/stats');
+    $first = $client->getResponse()->getContent();
+
+    $client->request('GET', '/stats');
+    $second = $client->getResponse()->getContent();
+
+    self::assertSame($first, $second);
+}
+```
+
+`disableReboot()` empêche le noyau d'être redémarré entre deux requêtes du client de test, ce qui rapproche le test du fonctionnement d'un worker. Écrivez ce type de test pour chaque endroit sensible : authentification, panier, contexte du locataire, tout ce qui dépend de l'utilisateur courant. Comme toute nouvelle règle, il doit échouer avant la correction.
+
+## Les corrections habituelles
+
+- **Implémenter `ResetInterface`** sur les services qui gardent un état, et vider ce qu'ils accumulent.
+- **Supprimer l'état persistant** : remplacer une propriété statique par un service injecté, et un singleton maison par un service du conteneur.
+- **Limiter les caches** en mémoire par une taille maximale ou les déléguer à un cache dédié. Notre article sur [la mise en cache](/article/tout-savoir-sur-la-mise-en-cache-tips) aide à choisir le bon niveau.
+- **Ne jamais stocker l'utilisateur courant** dans un service : le lire depuis la sécurité à chaque besoin.
+- **Gérer les connexions** : vérifier qu'elles sont encore valides ou prévoir leur reconnexion.
+- **Éviter `exit()` et `die()`** : ils arrêtent le worker entier et pas seulement la requête.
+
+## Surveiller en production
+
+Même un code propre mérite une surveillance :
+
+- **La mémoire par worker**, observée dans le temps : une courbe qui monte sans redescendre signale une fuite.
+- **Un redémarrage périodique des workers**, par exemple en limitant le nombre de requêtes qu'un worker traite avant de repartir (la documentation évoque une variable `MAX_REQUESTS`). C'est un filet de sécurité, pas un remède.
+- **Des métriques** sur les workers et les temps de réponse, avec des alertes sur les erreurs et les redémarrages anormaux.
+- **Un déploiement progressif**, en basculant une partie du trafic d'abord.
+
+Un défaut qui se manifeste seulement sous charge est une vraie préoccupation de résilience : pensez à l'inclure dans vos scénarios décrits dans notre article sur la [résilience numérique et DORA](/article/conformite-dora-resilience-symfony).
+
+## Checklist avant la bascule
+
+1. Le projet fonctionne en mode worker sur un environnement de préproduction, avec une charge réaliste.
+2. Aucun service avec état sans `ResetInterface` ou sans justification écrite.
+3. Aucune propriété statique ni singleton maison, sauf cas explicitement analysé.
+4. L'utilisateur courant n'est stocké nulle part en dehors de la sécurité.
+5. Un test de requêtes enchaînées couvre les parcours sensibles.
+6. L'audit statique passe en CI, avec une liste d'exceptions justifiées.
+7. La mémoire des workers est surveillée, avec un redémarrage périodique en filet.
+8. Un retour au mode classique est prêt si un problème apparaît.
+
+## Ce qu'il faut retenir
+
+Le mode worker accélère Symfony en gardant l'application en mémoire, et c'est précisément ce qui crée les fuites d'état. Symfony sait remettre à zéro les services qui implémentent `ResetInterface`, pas vos propriétés statiques ni vos singletons. Combinez audit statique, tests de requêtes enchaînées et surveillance de la mémoire, corrigez dans le code plutôt que par des redémarrages, et déroulez la checklist avant de basculer.
