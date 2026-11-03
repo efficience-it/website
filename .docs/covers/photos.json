@@ -1217,5 +1217,12 @@
     "license": "CC0",
     "author": "Jayme McColgan jayme",
     "url": "https://commons.wikimedia.org/wiki/File:Locked_door_of_old_temple._(Unsplash).jpg"
+  },
+  "gestion-secrets-symfony-sops-vault": {
+    "name": "gestion-secrets-symfony",
+    "file": "File:Udine, Italy (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Giulio Magnifico giuliomagnifico",
+    "url": "https://commons.wikimedia.org/wiki/File:Udine,_Italy_(Unsplash).jpg"
   }
 }
