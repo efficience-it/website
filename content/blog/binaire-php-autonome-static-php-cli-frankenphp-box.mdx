@@ -17,7 +17,7 @@ faq:
     answer: "C'est fortement recommandé pour la confiance et, sur certains systèmes, nécessaire : macOS impose la signature et la notarisation pour éviter les avertissements, Windows affiche des alertes sur les exécutables non signés. On publie aussi des sommes de contrôle avec chaque version."
 ---
 
-Livrer un outil PHP à un client qui n'a pas PHP, ou distribuer une commande à toute une équipe sans lui faire installer un interpréteur et des extensions : le besoin est courant. Trois approches répondent à des cas différents : le PHAR avec Box, le binaire statique avec [static-php-cli](https://github.com/crazywhalecc/static-php-cli), et l'application web embarquée avec [FrankenPHP](https://frankenphp.dev/docs/embed/).
+Livrer un outil PHP à un client qui n'a pas PHP, ou distribuer une commande à toute une équipe sans lui faire installer un interpréteur et des extensions : le besoin est courant. Trois approches répondent à des cas différents : le PHAR avec [Box](https://github.com/box-project/box), le binaire statique avec [static-php-cli](https://github.com/crazywhalecc/static-php-cli), et l'application web embarquée avec [FrankenPHP](https://frankenphp.dev/docs/embed/).
 
 Cet article les présente d'après leurs documentations, avec les commandes à adapter à votre projet. Précision d'honnêteté : nous n'avons pas construit de binaire pour cet article, donc nous ne publions ni taille mesurée ni durée de compilation. Au 3 novembre 2026, les dernières versions publiées sur GitHub sont Box 4.7.1, static-php-cli 2.8.5 et FrankenPHP 1.13.4 ; contrôlez celles que vous utilisez.
 
