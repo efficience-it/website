@@ -1217,5 +1217,12 @@
     "license": "CC0",
     "author": "Jayme McColgan jayme",
     "url": "https://commons.wikimedia.org/wiki/File:Locked_door_of_old_temple._(Unsplash).jpg"
+  },
+  "tests-de-charge-api-symfony-k6-gatling-jmeter": {
+    "name": "tests-charge-api-symfony",
+    "file": "File:Busy daytime traffic at Leaside Bridge (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Matthew Henry matthewhenry",
+    "url": "https://commons.wikimedia.org/wiki/File:Busy_daytime_traffic_at_Leaside_Bridge_(Unsplash).jpg"
   }
 }
