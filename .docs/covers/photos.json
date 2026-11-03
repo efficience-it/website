@@ -1176,6 +1176,13 @@
     "author": "Walters Art Museum",
     "url": "https://commons.wikimedia.org/wiki/File:Scandinavian_-_Padlock_with_Key_-_Walters_52176.jpg"
   },
+  "git-bisect-retrouver-le-commit-qui-a-introduit-une-regression": {
+    "name": "git-bisect",
+    "file": "File:Railway track to nowhere (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Matthew Bedford mattbedford",
+    "url": "https://commons.wikimedia.org/wiki/File:Railway_track_to_nowhere_(Unsplash).jpg"
+  },
   "pie-remplacant-pecl-installer-extensions-php": {
     "name": "pie-extensions-php",
     "file": "File:Baking a Pie (Unsplash).jpg",
