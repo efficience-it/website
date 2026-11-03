@@ -1217,5 +1217,12 @@
     "license": "CC0",
     "author": "Jayme McColgan jayme",
     "url": "https://commons.wikimedia.org/wiki/File:Locked_door_of_old_temple._(Unsplash).jpg"
+  },
+  "podman-ou-docker-projet-php-symfony": {
+    "name": "podman-docker-php-symfony",
+    "file": "File:Shipping containers in a port (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Igor Ovsyannykov igorovsyannykov",
+    "url": "https://commons.wikimedia.org/wiki/File:Shipping_containers_in_a_port_(Unsplash).jpg"
   }
 }
