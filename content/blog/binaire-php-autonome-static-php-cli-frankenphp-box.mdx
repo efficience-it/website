@@ -1,0 +1,136 @@
+---
+title: "Distribuer un binaire PHP autonome : Box, static-php-cli et FrankenPHP"
+date: "2027-02-01"
+updatedAt: "2027-02-01"
+author: "Louis-Arnaud Catoire"
+category: "PHP"
+excerpt: "Livrer une application PHP sans PHP installé : PHAR avec Box, binaire statique avec static-php-cli, application web embarquée avec FrankenPHP. Méthodes, limites, signature, CI et tableau de choix."
+image: "/images/blog/cover-binaire-php-autonome.webp"
+faq:
+  - question: "Peut-on distribuer une application PHP sans installer PHP sur la machine cible ?"
+    answer: "Oui, en embarquant l'interpréteur avec l'application. static-php-cli compile PHP et ses extensions en un binaire statique ; combiné à un PHAR, il produit un exécutable unique. FrankenPHP peut aussi embarquer une application web complète, avec son serveur, dans un binaire statique."
+  - question: "Quelle différence entre un PHAR et un binaire statique ?"
+    answer: "Un PHAR est une archive de code PHP : il a besoin d'un PHP installé sur la machine pour s'exécuter. Un binaire statique contient l'interpréteur lui-même. On combine souvent les deux : un PHAR construit avec Box, collé à un interpréteur statique, donne un exécutable sans dépendance."
+  - question: "Toutes les extensions PHP peuvent-elles être compilées en statique ?"
+    answer: "Non. Certaines extensions dépendent de bibliothèques système difficiles à lier statiquement, ou ne sont pas prises en charge par l'outil de compilation. Il faut consulter la liste des extensions supportées et tester le binaire avec celles dont l'application a besoin."
+  - question: "Faut-il signer un binaire PHP distribué ?"
+    answer: "C'est fortement recommandé pour la confiance et, sur certains systèmes, nécessaire : macOS impose la signature et la notarisation pour éviter les avertissements, Windows affiche des alertes sur les exécutables non signés. On publie aussi des sommes de contrôle avec chaque version."
+---
+
+Livrer un outil PHP à un client qui n'a pas PHP, ou distribuer une commande à toute une équipe sans lui faire installer un interpréteur et des extensions : le besoin est courant. Trois approches répondent à des cas différents : le PHAR avec [Box](https://github.com/box-project/box), le binaire statique avec [static-php-cli](https://github.com/crazywhalecc/static-php-cli), et l'application web embarquée avec [FrankenPHP](https://frankenphp.dev/docs/embed/).
+
+Cet article les présente d'après leurs documentations, avec les commandes à adapter à votre projet. Précision d'honnêteté : nous n'avons pas construit de binaire pour cet article, donc nous ne publions ni taille mesurée ni durée de compilation. Au 3 novembre 2026, les dernières versions publiées sur GitHub sont Box 4.7.1, static-php-cli 2.8.5 et FrankenPHP 1.13.4 ; contrôlez celles que vous utilisez.
+
+## Quand un binaire autonome a du sens
+
+- **Les outils en ligne de commande** : un générateur, un outil d'audit ou de migration que vous distribuez à des équipes qui n'ont pas PHP.
+- **Les applications embarquées ou de bureau** : un serveur local qui accompagne un autre produit.
+- **La livraison chez un client** dont l'environnement est contraint, sans possibilité d'installer PHP ni des extensions.
+- **Des conteneurs plus légers** : remplacer une image de base complète par un binaire dans une image minimale. Notre article [pourquoi Docker est indispensable en production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) pose le contexte des conteneurs ; le comparatif [WebAssembly ou conteneur](/article/wasm-ou-container-que-choisir-en-2026) explore d'autres formats de livraison.
+
+## Première approche : le PHAR avec Box
+
+Un PHAR est une archive qui regroupe le code d'une application PHP en un seul fichier. Box simplifie sa construction : empaquetage rapide, isolation du code, vérificateur de prérequis, signature. Une configuration minimale dans `box.json` :
+
+```json
+{
+  "main": "bin/console",
+  "output": "build/mon-outil.phar",
+  "directories": ["src", "config"],
+  "finder": [
+    {
+      "in": "vendor",
+      "exclude": ["tests", "test"]
+    }
+  ],
+  "compression": "GZ"
+}
+```
+
+On construit avec `box compile`. Le résultat est un fichier unique, mais il **demande toujours un PHP installé** pour s'exécuter : c'est une distribution simplifiée, pas un binaire autonome. Sa taille se réduit en excluant les tests et les fichiers inutiles des dépendances.
+
+## Deuxième approche : un binaire statique avec static-php-cli
+
+static-php-cli compile l'interpréteur PHP et les extensions de votre choix en un exécutable statique, qui n'exige ni PHP ni bibliothèques système sur la machine cible. Sa documentation précise qu'elle porte désormais sur StaticPHP v3, encore en alpha, et que la v2 sera dépréciée après la version stable : à surveiller si vous bâtissez une chaîne de construction dessus.
+
+Le flux typique, en deux temps : télécharger les sources puis compiler en listant les extensions nécessaires :
+
+```bash
+spc download --for-extensions="mbstring,pcntl,posix,tokenizer,phar,filter,ctype"
+spc build "mbstring,pcntl,posix,tokenizer,phar,filter,ctype" --build-cli --build-micro
+```
+
+Le choix des extensions est déterminant : une extension absente à la compilation est introuvable à l'exécution. Pour une application Symfony Console, listez-les d'après `composer.json` et les messages d'erreur d'un premier essai.
+
+La variante `micro` fusionne l'interpréteur et un PHAR dans un seul exécutable :
+
+```bash
+cat buildroot/bin/micro.sfx build/mon-outil.phar > mon-outil
+chmod +x mon-outil
+```
+
+Le résultat est un fichier unique, sans dépendance, que l'utilisateur lance comme n'importe quelle commande. La documentation de l'outil décrit ce principe sous le nom de phpmicro.
+
+### Une plateforme à la fois
+
+Un binaire dépend du système d'exploitation et de l'architecture cibles. La construction se fait généralement sur la plateforme visée, ou dans un conteneur adapté pour Linux. Prévoyez une construction par couple système et architecture (Linux x86_64 et ARM, macOS), et vérifiez la matrice de plateformes prises en charge à la date où vous lisez ceci : la compilation croisée n'est pas toujours possible de Linux vers macOS.
+
+## Troisième approche : une application web embarquée avec FrankenPHP
+
+FrankenPHP sait embarquer le code et les ressources d'une application dans un binaire statique qui contient l'application, l'interpréteur PHP et le serveur web Caddy. Pour un projet Symfony, la documentation décrit la préparation : exporter le projet sans l'historique Git, passer en mode production, supprimer les tests, installer les dépendances sans les paquets de développement et optimiser le fichier d'environnement.
+
+La construction Linux passe par un constructeur Docker fourni par le projet :
+
+```dockerfile
+FROM --platform=linux/amd64 dunglas/frankenphp:static-builder-gnu
+
+WORKDIR /go/src/app/dist/app
+COPY . .
+
+WORKDIR /go/src/app/
+RUN EMBED=dist/app/ ./build-static.sh
+```
+
+Attention, signale la documentation : certains fichiers `.dockerignore`, comme celui du modèle Symfony Docker par défaut, ignorent `vendor/` et les fichiers `.env`, qu'il faut garder pour l'embarquement. Une variante `musl` existe pour les systèmes qui utilisent musl plutôt que la bibliothèque GNU. Pour le serveur lui-même et son fonctionnement, voir [ce qu'est FrankenPHP](/article/concretement-cest-quoi-frankenphp).
+
+Cette approche convient aux applications web livrées en un fichier : démonstrations, produits installés chez un client, services auto-hébergés.
+
+## Les limites à connaître
+
+- **Extensions non compilables en statique.** Certaines dépendent de bibliothèques système difficiles à lier ou ne sont pas prises en charge. Testez celles dont vous avez besoin avant de choisir.
+- **Bibliothèques système.** Un binaire statique embarque ses propres bibliothèques : il ne profite plus des correctifs de sécurité du système, et il faut le reconstruire pour intégrer une mise à jour.
+- **Mises à jour.** L'utilisateur remplace le fichier à chaque version. Prévoyez un mécanisme de mise à jour, ou une commande qui le vérifie.
+- **Signature.** Pour la confiance et pour éviter les avertissements : signature des PHAR avec Box, signature et notarisation sous macOS, signature sous Windows. Publiez aussi des sommes de contrôle.
+- **Licences.** Un binaire statique rassemble le code de PHP, de ses extensions et de bibliothèques tierces, chacun sous sa licence. Relisez-les avant de redistribuer, surtout en contexte commercial.
+
+## Publier les versions depuis la CI
+
+Le schéma habituel : à chaque étiquette de version, une tâche construit le binaire pour chaque plateforme, calcule les sommes de contrôle, puis publie les fichiers sur les versions GitHub.
+
+```yaml
+release:
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v4
+    - run: ./build.sh
+    - run: sha256sum mon-outil > mon-outil.sha256
+    - run: gh release upload "$GITHUB_REF_NAME" mon-outil mon-outil.sha256
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
+Pour plusieurs plateformes, utilisez une matrice de tâches avec un exécuteur par système. Pour organiser les commandes de construction du projet, un lanceur de tâches comme [Castor ou Make](/article/castor-ou-make-task-runner-symfony) évite de dupliquer les scripts entre le poste et la CI.
+
+## Quelle approche choisir
+
+| Besoin | Approche | Dépendance à l'exécution | Complexité |
+|---|---|---|---|
+| Outil CLI pour des développeurs qui ont PHP | PHAR avec Box | PHP installé | Faible |
+| Outil CLI pour des utilisateurs sans PHP | PHAR + binaire statique (micro) | Aucune | Moyenne |
+| Application web livrée en un fichier | FrankenPHP embarqué | Aucune | Moyenne |
+| Conteneur très léger | Binaire statique dans une image minimale | Aucune | Moyenne |
+| Besoin d'extensions rares | Image Docker classique | Docker | Faible |
+
+## Ce qu'il faut retenir
+
+Box produit un PHAR simple à distribuer mais qui nécessite PHP. static-php-cli et FrankenPHP embarquent l'interpréteur pour supprimer cette dépendance : le premier pour des outils en ligne de commande, le second pour des applications web. Choisissez vos extensions dès le début, prévoyez une construction par plateforme, signez vos livrables et publiez des sommes de contrôle. Construisez un premier binaire de test avant de vous engager, et mesurez sa taille sur votre propre projet.
