@@ -17,7 +17,7 @@ faq:
     answer: "C'est fortement recommandé pour la confiance et, sur certains systèmes, nécessaire : macOS impose la signature et la notarisation pour éviter les avertissements, Windows affiche des alertes sur les exécutables non signés. On publie aussi des sommes de contrôle avec chaque version."
 ---
 
-Livrer un outil PHP à un client qui n'a pas PHP, ou distribuer une commande à toute une équipe sans lui faire installer un interpréteur et des extensions : le besoin est courant. Trois approches répondent à des cas différents : le PHAR avec [Box](https://github.com/box-project/box), le binaire statique avec [static-php-cli](https://github.com/crazywhalecc/static-php-cli), et l'application web embarquée avec [FrankenPHP](https://frankenphp.dev/docs/embed/).
+Livrer un outil PHP à un client qui n'a pas PHP, ou distribuer une commande à toute une équipe sans lui faire installer un interpréteur et des extensions : le besoin est courant. Trois approches répondent à des cas différents : le PHAR avec Box, le binaire statique avec [static-php-cli](https://github.com/crazywhalecc/static-php-cli), et l'application web embarquée avec [FrankenPHP](https://frankenphp.dev/docs/embed/).
 
 Cet article les présente d'après leurs documentations, avec les commandes à adapter à votre projet. Précision d'honnêteté : nous n'avons pas construit de binaire pour cet article, donc nous ne publions ni taille mesurée ni durée de compilation. Au 3 novembre 2026, les dernières versions publiées sur GitHub sont Box 4.7.1, static-php-cli 2.8.5 et FrankenPHP 1.13.4 ; contrôlez celles que vous utilisez.
 
@@ -30,7 +30,7 @@ Cet article les présente d'après leurs documentations, avec les commandes à a
 
 ## Première approche : le PHAR avec Box
 
-Un PHAR est une archive qui regroupe le code d'une application PHP en un seul fichier. [Box](https://github.com/box-project/box) simplifie sa construction : empaquetage rapide, isolation du code, vérificateur de prérequis, signature. Une configuration minimale dans `box.json` :
+Un PHAR est une archive qui regroupe le code d'une application PHP en un seul fichier. Box simplifie sa construction : empaquetage rapide, isolation du code, vérificateur de prérequis, signature. Une configuration minimale dans `box.json` :
 
 ```json
 {
@@ -51,7 +51,7 @@ On construit avec `box compile`. Le résultat est un fichier unique, mais il **d
 
 ## Deuxième approche : un binaire statique avec static-php-cli
 
-[static-php-cli](https://github.com/crazywhalecc/static-php-cli) compile l'interpréteur PHP et les extensions de votre choix en un exécutable statique, qui n'exige ni PHP ni bibliothèques système sur la machine cible. Sa [documentation](https://static-php.dev/en/guide/) précise qu'elle porte désormais sur StaticPHP v3, encore en alpha, et que la v2 sera dépréciée après la version stable : à surveiller si vous bâtissez une chaîne de construction dessus.
+static-php-cli compile l'interpréteur PHP et les extensions de votre choix en un exécutable statique, qui n'exige ni PHP ni bibliothèques système sur la machine cible. Sa documentation précise qu'elle porte désormais sur StaticPHP v3, encore en alpha, et que la v2 sera dépréciée après la version stable : à surveiller si vous bâtissez une chaîne de construction dessus.
 
 Le flux typique, en deux temps : télécharger les sources puis compiler en listant les extensions nécessaires :
 
@@ -77,7 +77,7 @@ Un binaire dépend du système d'exploitation et de l'architecture cibles. La co
 
 ## Troisième approche : une application web embarquée avec FrankenPHP
 
-[FrankenPHP](https://frankenphp.dev/docs/embed/) sait embarquer le code et les ressources d'une application dans un binaire statique qui contient l'application, l'interpréteur PHP et le serveur web Caddy. Pour un projet Symfony, la documentation décrit la préparation : exporter le projet sans l'historique Git, passer en mode production, supprimer les tests, installer les dépendances sans les paquets de développement et optimiser le fichier d'environnement.
+FrankenPHP sait embarquer le code et les ressources d'une application dans un binaire statique qui contient l'application, l'interpréteur PHP et le serveur web Caddy. Pour un projet Symfony, la documentation décrit la préparation : exporter le projet sans l'historique Git, passer en mode production, supprimer les tests, installer les dépendances sans les paquets de développement et optimiser le fichier d'environnement.
 
 La construction Linux passe par un constructeur Docker fourni par le projet :
 
