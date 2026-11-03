@@ -1,0 +1,136 @@
+---
+title: "Déploiement sans interruption d'une application Symfony"
+date: "2027-01-14"
+updatedAt: "2027-01-14"
+author: "Louis-Arnaud Catoire"
+category: "DevOps"
+excerpt: "Releases avec Deployer, blue-green derrière un reverse proxy, mise à jour progressive avec Kubernetes, migrations compatibles et retour arrière : comment déployer Symfony sans couper le service."
+image: "/images/blog/cover-deploiement-sans-interruption-symfony.webp"
+faq:
+  - question: "Qu'est-ce qu'un déploiement sans interruption ?"
+    answer: "C'est un déploiement pendant lequel l'application continue de répondre : aucune requête n'est perdue ou en erreur à cause de la bascule vers la nouvelle version. Il repose sur le fait que l'ancienne et la nouvelle version peuvent coexister brièvement, et que le trafic ne bascule que lorsque la nouvelle est prête."
+  - question: "Pourquoi OPcache pose-t-il problème avec les liens symboliques de release ?"
+    answer: "Avec un lien symbolique current vers la dernière release, PHP peut conserver en cache le chemin résolu de l'ancienne release. Après la bascule, il faut recharger PHP-FPM, ou régler la revalidation des chemins, pour que les nouveaux fichiers soient bien lus."
+  - question: "Comment faire une migration de base de données sans coupure ?"
+    answer: "En deux temps, dits expand puis contract : d'abord une migration qui ajoute sans rien casser pour l'ancien code, puis, une fois la nouvelle version déployée partout, une seconde migration qui supprime ce qui n'est plus utilisé. Chaque version du code doit fonctionner avec le schéma de la précédente."
+  - question: "Comment faire un retour arrière ?"
+    answer: "Avec des releases conservées sur le serveur, il suffit de repointer le lien symbolique vers la précédente et de recharger PHP. En blue-green, on rebascule vers l'ancien environnement, resté intact. Le point délicat reste la base de données : les migrations destructives sont irréversibles, d'où l'intérêt de la méthode expand et contract."
+---
+
+Un déploiement qui coupe le site cinq minutes à 17 h le vendredi n'est plus acceptable pour la plupart des applications. Heureusement, avec Symfony, déployer sans interruption demande moins de magie que de discipline : une nouvelle version prête avant la bascule, une base de données compatible avec deux versions du code, et une porte de sortie.
+
+Ce guide présente trois stratégies, les contraintes propres à PHP, la gestion des migrations, les vérifications automatiques et le retour arrière. Les commandes et configurations sont données à titre d'exemple : nous n'avons pas rejoué ce déploiement pour cet article, et vous devez le tester sur votre propre environnement de préproduction avant de vous y fier.
+
+## Ce que signifie « sans interruption » pour une application PHP
+
+Le principe est simple : l'ancienne et la nouvelle version cohabitent un court moment, et le trafic ne passe sur la nouvelle que lorsqu'elle est prête. Côté PHP, quatre contraintes reviennent.
+
+- **OPcache.** Le cache d'opcode garde le code compilé. Avec une bascule par lien symbolique, PHP peut continuer à servir les fichiers de l'ancienne release tant qu'il n'a pas été rechargé. La [documentation d'OPcache](https://www.php.net/manual/en/opcache.configuration.php) décrit les directives de revalidation ; en pratique, on recharge PHP-FPM après la bascule.
+- **Le cache Symfony.** Il doit être réchauffé (`cache:warmup`) avant que le trafic n'arrive sur la nouvelle version, sinon les premières requêtes paient la construction du cache.
+- **Les workers de messagerie.** Ils chargent le code en mémoire : ils continuent d'exécuter l'ancienne version jusqu'à leur arrêt.
+- **Les sessions.** Elles doivent vivre hors du dossier de la release, dans un stockage partagé comme Redis ou la base, sinon les utilisateurs sont déconnectés à chaque bascule.
+
+## Stratégie 1 : les releases avec liens symboliques
+
+C'est le modèle de [Deployer](https://github.com/deployphp/deployer), très répandu pour Symfony. Chaque déploiement crée un dossier daté, prépare la release, puis fait pointer un lien symbolique `current` vers elle.
+
+```text
+/var/www/app
+├── current -> releases/20270114120000
+├── releases
+│   ├── 20270114120000
+│   └── 20270113093000
+└── shared
+    ├── var/log
+    ├── var/sessions
+    └── public/uploads
+```
+
+Le déroulé typique :
+
+1. Récupérer le code dans une nouvelle release.
+2. Installer les dépendances (`composer install --no-dev --optimize-autoloader`).
+3. Lier les dossiers partagés (journaux, fichiers téléversés) et réchauffer le cache de production.
+4. Exécuter les migrations compatibles (voir plus bas).
+5. Redémarrer les workers de messagerie.
+6. Basculer le lien symbolique, puis recharger PHP-FPM.
+7. Nettoyer les anciennes releases, en gardant les dernières pour un retour arrière.
+
+Le dernier point est un avantage majeur : revenir en arrière revient à repointer le lien et recharger PHP, sans reconstruction. Deployer propose une commande de retour arrière dédiée.
+
+## Stratégie 2 : le blue-green derrière un reverse proxy
+
+On fait tourner deux environnements, « bleu » (actuel) et « vert » (nouveau). On déploie et on vérifie le vert pendant que le bleu sert les utilisateurs, puis on bascule le trafic d'un coup. Notre article [Traefik ou Nginx en production](/article/traefik-ou-nginx-en-production) compare les deux reverse proxies utilisés pour cette bascule.
+
+Avec Nginx, la bascule peut tenir à un fichier inclus qui désigne l'environnement actif :
+
+```nginx
+upstream app {
+    include /etc/nginx/conf.d/active-upstream.conf;
+}
+```
+
+Le fichier contient une seule ligne, par exemple `server 127.0.0.1:8082;` pour le vert. Pour basculer, on remplace le contenu puis on recharge la configuration :
+
+```bash
+nginx -t && nginx -s reload
+```
+
+Le rechargement de Nginx est progressif : les connexions en cours se terminent sur l'ancien processus. Le bleu reste intact tant qu'on n'a pas validé le vert, ce qui rend le retour arrière immédiat. Le coût : deux environnements à faire tourner, et une base de données partagée entre les deux, donc des migrations compatibles.
+
+## Stratégie 3 : la mise à jour progressive avec des conteneurs
+
+Avec Docker et Kubernetes, on remplace les instances une par une. Un déploiement Kubernetes en `RollingUpdate`, avec `maxUnavailable: 0` et `maxSurge: 1`, démarre une nouvelle instance avant d'en arrêter une ancienne. Ce modèle est expliqué dans la [documentation Kubernetes sur les mises à jour](https://kubernetes.io/docs/tutorials/kubernetes-basics/update/update-intro/).
+
+Il repose sur les [sondes de disponibilité](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) : une instance ne reçoit du trafic que lorsque sa sonde `readiness` répond correctement. Il faut aussi laisser un délai d'arrêt (`terminationGracePeriodSeconds`) pour que les requêtes en cours se terminent. Cette approche suppose que vos images soient bien construites, un sujet traité dans [pourquoi Docker est indispensable en production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui).
+
+Le déploiement canary est une variante : une petite fraction du trafic va vers la nouvelle version, que l'on observe avant d'étendre. Il demande un répartiteur capable de pondérer le trafic et une observabilité suffisante pour comparer les deux versions.
+
+## Les migrations de base de données : expand puis contract
+
+C'est l'endroit où un déploiement « sans coupure » se brise le plus souvent. Pendant la bascule, l'ancien et le nouveau code utilisent la même base. Chaque migration doit donc fonctionner avec les deux.
+
+**Étape expand.** On ajoute sans rien casser : une colonne nullable ou avec valeur par défaut, une nouvelle table, un nouvel index. L'ancien code ignore ces ajouts.
+
+**Déploiement du code** qui utilise la nouvelle structure, et éventuellement migration des données existantes.
+
+**Étape contract**, dans une release ultérieure : suppression de l'ancienne colonne ou de l'ancienne table, une fois que plus aucune instance n'en dépend.
+
+Un renommage de colonne, par exemple, devient : ajouter la nouvelle colonne, écrire dans les deux, migrer les données, lire la nouvelle, puis supprimer l'ancienne. C'est plus long, mais sans coupure. Les migrations s'exécutent avec la [commande de DoctrineMigrationsBundle](https://symfony.com/bundles/DoctrineMigrationsBundle/current/index.html), en mode non interactif dans le pipeline. Pour un changement de moteur, voir notre [guide de migration MySQL vers PostgreSQL avec Doctrine](/article/migration-mysql-postgresql-doctrine-guide).
+
+## Redémarrer proprement les workers
+
+D'après la [documentation de Symfony Messenger](https://symfony.com/doc/current/messenger.html), il faut lancer `messenger:stop-workers` une fois le nouveau code sur le disque et le cache réchauffé, avant la bascule du trafic. Chaque worker termine son message en cours puis s'arrête, et le gestionnaire de processus (Supervisor, systemd) le relance sur le nouveau code. L'architecture de la messagerie est détaillée dans notre article sur [Messenger comme colonne vertébrale](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale).
+
+Si l'application tourne sur plusieurs machines, le cache applicatif doit être partagé, sinon le signal d'arrêt n'atteint pas tous les workers.
+
+## Vérifier et revenir en arrière
+
+Un déploiement sans surveillance n'est qu'un pari. Trois garde-fous :
+
+- **Une sonde de santé** : une route `/health` qui vérifie que l'application démarre, que la base répond et que le cache fonctionne, appelée avant la bascule et par l'orchestrateur.
+- **Un test de disponibilité continu pendant la bascule.** Lancez, pendant le déploiement, une boucle qui interroge une page et note les codes de réponse :
+
+```bash
+while true; do
+  curl -s -o /dev/null -w "%{http_code} %{time_total}\n" https://staging.example.test/health
+  sleep 0.2
+done
+```
+
+Toute réponse différente de 200 ou toute latence anormale pendant la bascule est un signal à investiguer. Faites cet essai en préproduction avant de vous fier au processus.
+
+- **Un critère de retour arrière écrit** : par exemple, un taux d'erreurs au-dessus d'un seuil pendant cinq minutes déclenche le retour à la version précédente, automatiquement ou à la main.
+
+## Les pièges à anticiper
+
+- **Les tâches planifiées.** Une tâche cron lancée pendant la bascule peut s'exécuter sur l'ancien code avec le nouveau schéma. Pensez à les suspendre ou à les rendre tolérantes.
+- **Les fichiers téléversés.** Ils doivent vivre dans un stockage partagé, pas dans le dossier de la release, sinon ils disparaissent à la bascule.
+- **Les jobs longs.** Un traitement de plusieurs minutes peut être interrompu par un redémarrage : prévoyez des reprises, de l'idempotence, et un délai d'arrêt suffisant.
+- **Les caches partagés.** Si Redis contient des objets sérialisés par l'ancienne version, la nouvelle peut ne pas les relire. Préfixez les clés par version ou prévoyez la compatibilité.
+
+Pour déléguer la mise en place de ces chaînes de déploiement, notre offre d'[infogérance cloud Symfony](/cloud-et-devops) les prend en charge de bout en bout.
+
+## Ce qu'il faut retenir
+
+Un déploiement sans interruption repose sur trois idées : une nouvelle version prête avant la bascule, une base compatible avec deux versions du code grâce aux migrations en deux temps, et un retour arrière prévu. Les liens symboliques de Deployer conviennent aux serveurs classiques, le blue-green à ceux qui veulent un retour immédiat, la mise à jour progressive aux environnements de conteneurs. Dans tous les cas, redémarrez les workers, rechargez PHP, surveillez la bascule et répétez le processus en préproduction.
