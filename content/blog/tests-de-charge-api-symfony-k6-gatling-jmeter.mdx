@@ -17,7 +17,7 @@ faq:
     answer: "En déclarant des seuils dans le script. k6 renvoie un code de sortie non nul quand un seuil est franchi, et les assertions de Gatling font échouer la construction. Avec JMeter, il faut lire le fichier de résultats pour décider du succès."
 ---
 
-Une API qui répond en 40 ms avec dix utilisateurs ne dit rien de son comportement avec mille. Le test de charge sert à trouver le point où elle casse avant que vos utilisateurs ne le fassent. Trois outils dominent le sujet : [k6](https://k6.io), [Gatling](https://gatling.io) et [Apache JMeter](https://jmeter.apache.org).
+Une API qui répond en 40 ms avec dix utilisateurs ne dit rien de son comportement avec mille. Le test de charge sert à trouver le point où elle casse avant que vos utilisateurs ne le fassent. Trois outils dominent le sujet : k6, Gatling et [Apache JMeter](https://jmeter.apache.org).
 
 Cet article les compare sur un même scénario d'API Symfony, avec les scripts complets et les seuils de réussite. Une précision d'emblée : **aucune mesure chiffrée n'est publiée ici**. Des temps de réponse dépendent de la machine, du jeu de données et du réseau, et un chiffre sorti de son contexte induit en erreur. Vous trouverez à la place la méthode pour obtenir vos propres résultats et les lire correctement.
 
@@ -141,7 +141,7 @@ Les [assertions](https://docs.gatling.io/concepts/assertions/) font échouer la 
 
 ## JMeter : une interface graphique et un large éventail de protocoles
 
-[JMeter](https://jmeter.apache.org/usermanual/get-started.html) décrit un plan de test dans un fichier `.jmx`, construit depuis une interface graphique. Pour notre scénario, le plan contient un groupe d'utilisateurs, trois requêtes HTTP, un extracteur JSON qui récupère le jeton, un gestionnaire d'en-têtes qui le renvoie, et des assertions de réponse.
+JMeter décrit un plan de test dans un fichier `.jmx`, construit depuis une interface graphique. Pour notre scénario, le plan contient un groupe d'utilisateurs, trois requêtes HTTP, un extracteur JSON qui récupère le jeton, un gestionnaire d'en-têtes qui le renvoie, et des assertions de réponse.
 
 On ne lance pas un vrai test depuis l'interface, mais en ligne de commande, qui consomme moins de ressources :
 
