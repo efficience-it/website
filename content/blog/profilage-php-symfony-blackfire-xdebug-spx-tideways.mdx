@@ -1,0 +1,142 @@
+---
+title: "Profiler une application PHP : Blackfire, Xdebug, SPX et Tideways"
+date: "2027-01-23"
+updatedAt: "2027-01-23"
+author: "Louis-Arnaud Catoire"
+category: "PHP"
+excerpt: "Blackfire, Xdebug en mode profilage, SPX et Tideways comparés : méthode de profilage, lecture d'un graphe d'appels, repérage d'un N+1 et d'une sérialisation coûteuse, budgets de performance en CI."
+image: "/images/blog/cover-profilage-php-symfony.webp"
+faq:
+  - question: "Quelle différence entre profilage et débogage ?"
+    answer: "Le débogage cherche pourquoi le code fait une chose incorrecte, en s'arrêtant sur des points précis. Le profilage cherche où le temps et la mémoire sont dépensés, sur l'ensemble d'une exécution. Les deux utilisent parfois la même extension, comme Xdebug, mais pas dans le même mode."
+  - question: "Peut-on profiler en production ?"
+    answer: "Certains outils sont conçus pour être déclenchés à la demande ou par échantillonnage, avec un coût limité, ce qui les rend utilisables en production. Xdebug en mode profilage ralentit fortement l'exécution et se réserve au développement. Dans tous les cas, limitez le profilage à des requêtes ciblées."
+  - question: "Que signifient temps inclusif et temps exclusif ?"
+    answer: "Le temps inclusif d'une fonction compte son propre temps et celui de tous les appels qu'elle fait. Le temps exclusif ne compte que son propre code. Une fonction à fort temps inclusif mais faible temps exclusif délègue le coût à ses appels : c'est plus bas dans l'arbre qu'il faut chercher."
+  - question: "Le profileur Symfony suffit-il ?"
+    answer: "Il suffit souvent pour repérer un problème de requêtes : il liste les requêtes SQL, les doublons et le temps par panneau. Il ne donne pas le graphe d'appels complet ni l'utilisation mémoire par fonction, pour lesquels un profileur dédié est plus adapté."
+---
+
+« L'application est lente » n'est pas un diagnostic. Avant de mettre en cache ou de changer d'infrastructure, il faut savoir où le temps part. C'est le rôle d'un profileur : il enregistre ce que fait réellement le code et vous montre les fonctions, les requêtes et les appels qui coûtent.
+
+Cet article compare quatre outils pour PHP et Symfony : [Blackfire](https://blackfire.io), [Xdebug](https://xdebug.org/docs/profiler) en mode profilage, [SPX](https://github.com/NoiseByNorthwest/php-spx) et [Tideways](https://tideways.com). Précision : nous décrivons leur usage d'après leurs documentations, sans publier de captures ni de mesures d'une session réalisée pour l'article. Les chiffres de surcharge varient trop d'une application à l'autre pour être généralisés.
+
+## Profilage et débogage : deux usages
+
+Le **débogage** s'arrête sur une ligne pour inspecter l'état du programme. Le **profilage** observe une exécution entière et agrège le temps passé, le nombre d'appels et la mémoire. Xdebug fait les deux, mais dans des modes distincts : `xdebug.mode=debug` d'un côté, `xdebug.mode=profile` de l'autre.
+
+Il existe deux grandes approches de profilage :
+
+- **L'instrumentation** enregistre chaque appel de fonction. Les données sont exactes (nombre d'appels, temps), mais l'enregistrement a un coût qui ralentit l'exécution.
+- **L'échantillonnage** interroge périodiquement la pile d'appels. Le coût est faible, au prix d'une précision statistique : on repère bien les fonctions coûteuses, moins les appels très courts.
+
+Ce coût conditionne l'usage : un outil lourd se réserve au poste de développement, un outil léger peut être déclenché sur un environnement de production, sur une requête ciblée.
+
+## Lire un rapport de profilage
+
+Quel que soit l'outil, trois notions reviennent :
+
+- **Le graphe d'appels** (ou graphe de flammes) montre qui appelle qui, avec une largeur proportionnelle au temps.
+- **Le temps inclusif** d'une fonction englobe ses appels enfants.
+- **Le temps exclusif** ne compte que son propre code. C'est lui qui désigne les vrais points chauds.
+
+Cherchez d'abord ce qui est appelé très souvent, puis ce qui est lent à chaque appel. Un appel de 2 ms exécuté 400 fois pèse plus qu'un appel de 100 ms exécuté une fois.
+
+## Le scénario commun : une page lente
+
+Imaginons une page de liste de commandes qui cumule deux défauts fréquents :
+
+- un **problème de requêtes N+1** : pour chaque commande, le code accède au client et déclenche une requête supplémentaire ;
+- une **sérialisation coûteuse** : un objet complet, avec ses relations, est normalisé alors que la page n'a besoin que de quelques champs.
+
+Dans un profil, le premier se manifeste par un nombre d'exécutions de requêtes SQL proportionnel au nombre de lignes. Le second, par une part importante du temps dans le normaliseur du composant Serializer. Notre article sur [la nouvelle version majeure de Doctrine ORM](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) revient sur le chargement des relations, et celui sur la [migration du Serializer vers JsonStreamer](/article/migrer-du-serializer-vers-json-streamer-le-guide-honnete) sur le coût de la sérialisation.
+
+## Le profileur intégré de Symfony
+
+Avant d'installer quoi que ce soit, ouvrez le [profileur Symfony](https://symfony.com/doc/current/profiler.html) et sa barre de débogage. Le panneau Doctrine liste les requêtes, signale les requêtes identiques répétées et donne le temps cumulé. Pour un N+1, c'est souvent suffisant : le compteur de requêtes saute aux yeux.
+
+Il a ses limites : il ne fournit pas le graphe d'appels complet ni l'attribution de la mémoire par fonction, et il se limite à l'environnement de développement. C'est là qu'interviennent les outils suivants.
+
+## Xdebug en mode profilage
+
+Xdebug, [décrit dans sa documentation](https://xdebug.org/docs/profiler), écrit un fichier de profil au format Cachegrind. Configuration minimale :
+
+```ini
+xdebug.mode=profile
+xdebug.start_with_request=trigger
+xdebug.output_dir=/tmp/xdebug
+```
+
+Avec `trigger`, le profilage ne démarre que lorsque la requête porte le déclencheur (par exemple le paramètre `XDEBUG_PROFILE`), ce qui évite de profiler chaque appel. On ouvre ensuite le fichier avec un visualiseur compatible, comme KCachegrind, QCachegrind ou Webgrind.
+
+À l'usage : gratuit, déjà présent dans beaucoup d'environnements de développement, mais le profilage ralentit nettement l'exécution et produit des fichiers volumineux. Il se réserve au poste de développement. Au 3 novembre 2026, la dernière version publiée sur GitHub est une préversion 3.6.0 : vérifiez la version stable de votre environnement.
+
+## SPX
+
+[SPX](https://github.com/NoiseByNorthwest/php-spx) est une extension de profilage légère avec une interface web intégrée. On l'active par la configuration, puis on déclenche le profilage avec une clé :
+
+```ini
+extension=spx.so
+spx.http_enabled=1
+spx.http_key="dev"
+spx.http_ip_whitelist="127.0.0.1"
+```
+
+En ligne de commande, on profile un script avec `SPX_ENABLED=1 SPX_REPORT=full php script.php`. L'interface web liste les profils enregistrés et permet de les explorer en graphe et en chronologie, sans visualiseur externe. Le projet est libre ; la dernière version publiée sur GitHub est la 0.4.22, sortie en octobre 2025, ce qui est à prendre en compte dans votre décision de maintenance.
+
+## Blackfire
+
+[Blackfire](https://docs.blackfire.io/introduction) se compose d'une sonde (extension PHP) et d'un agent. On déclenche un profil depuis l'extension de navigateur, en ligne de commande avec `blackfire curl` ou `blackfire run`, et on lit le résultat dans une interface web : graphe d'appels, comparaison entre deux profils, métriques SQL et mémoire.
+
+Sa force tient dans la comparaison et les tests automatisés. Un fichier `.blackfire.yaml` permet de définir des budgets :
+
+```yaml
+tests:
+  "Liste des commandes":
+    path: "/orders"
+    assertions:
+      - "metrics.sql.queries.count < 20"
+      - "main.wall_time < 100ms"
+```
+
+Ces assertions peuvent être vérifiées dans la CI, et la [documentation des tests](https://docs.blackfire.io/testing-cookbooks/tests) en détaille la syntaxe. C'est un service commercial avec une offre d'essai : le budget est un critère à part entière.
+
+## Tideways
+
+[Tideways](https://tideways.com) combine profilage et supervision de performance (APM). Il collecte des traces en continu à faible coût, avec un profilage déclenchable sur les requêtes lentes, ce qui le destine plus naturellement à la production. On s'en sert pour répondre à « quelles pages sont lentes en ce moment chez les vrais utilisateurs ? », en plus de « pourquoi cette page est lente ? ». C'est aussi un service payant.
+
+## Comment chaque outil révèle le N+1 et la sérialisation
+
+| Signal recherché | Profileur Symfony | Xdebug, SPX | Blackfire, Tideways |
+|---|---|---|---|
+| Nombre de requêtes SQL | Panneau Doctrine, doublons signalés | Nombre d'appels à l'exécution des requêtes | Métriques SQL dédiées, comparaison entre deux profils |
+| Coût de la sérialisation | Temps global par panneau | Part du temps dans le normaliseur | Graphe d'appels et attribution du temps |
+| Mémoire | Pic global | Variable selon l'outil | Mémoire par fonction |
+
+Une fois le N+1 localisé, la correction se trouve côté requête (jointure ou chargement groupé), et pour la sérialisation, du côté des groupes ou d'une représentation dédiée. Si la lecture reste coûteuse, la [mise en cache](/article/tout-savoir-sur-la-mise-en-cache-tips) prend le relais, et un runtime comme [FrankenPHP](/article/concretement-cest-quoi-frankenphp) retire le coût de démarrage de chaque requête.
+
+## Budgets de performance en CI
+
+Profiler une fois ne suffit pas : une régression revient. Deux approches complémentaires :
+
+- **Des assertions sur des métriques stables**, comme le nombre de requêtes SQL ou le nombre d'appels, plus fiables en CI que le temps brut, qui varie selon la machine ;
+- **Des tests de temps de réponse** avec un seuil large, exécutés sur un environnement dédié.
+
+Une approche robuste consiste à fixer un budget sur le nombre de requêtes par page critique, vérifié à chaque changement : il est stable et détecte justement les N+1 qui reviennent.
+
+## Quel outil selon votre situation
+
+| Critère | Xdebug | SPX | Blackfire | Tideways |
+|---|---|---|---|---|
+| Coût | Gratuit | Gratuit | Payant | Payant |
+| Surcharge | Élevée | Modérée | À la demande | Faible |
+| Usage en production | Non | Prudent | Oui, à la demande | Oui |
+| Interface | Visualiseur externe | Web intégrée | Web, comparaisons | Web, supervision |
+| Tests en CI | À scripter | À scripter | Assertions intégrées | Selon l'offre |
+| Convient à | Dépannage local | Profilage local rapide | Équipes avec budgets de performance | Supervision de production |
+
+Commencez par le profileur Symfony, passez à SPX ou Xdebug pour un graphe d'appels sur le poste de développement, et ajoutez un outil commercial si vous avez besoin de comparaisons, de budgets en CI ou de visibilité en production.
+
+## Ce qu'il faut retenir
+
+Le profilage répond à la question « où part le temps ? » avant toute optimisation. Distinguez instrumentation et échantillonnage, lisez le temps exclusif, cherchez d'abord ce qui est appelé trop souvent. Le profileur Symfony révèle déjà les N+1, SPX et Xdebug donnent le graphe d'appels en local, Blackfire apporte les comparaisons et les budgets, Tideways la supervision de production. Testez l'outil que vous retenez sur votre propre application avant de généraliser.
