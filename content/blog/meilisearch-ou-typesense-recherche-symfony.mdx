@@ -1,0 +1,162 @@
+---
+title: "Meilisearch ou Typesense pour la recherche dans Symfony ?"
+date: "2027-02-10"
+updatedAt: "2027-02-10"
+author: "Louis-Arnaud Catoire"
+category: "Symfony"
+excerpt: "Meilisearch et Typesense comparés pour la recherche d'une application Symfony : installation Docker, indexation depuis Doctrine avec Messenger, intégrations, mémoire, licences, et quand préférer Elasticsearch ou Algolia."
+image: "/images/blog/cover-meilisearch-typesense-symfony.webp"
+faq:
+  - question: "Quelle différence principale entre Meilisearch et Typesense ?"
+    answer: "Typesense garde l'intégralité de l'index en mémoire vive, ce qui donne des réponses très rapides mais demande de dimensionner la RAM selon les données indexées. Meilisearch s'appuie sur le disque et son cache. Les licences diffèrent aussi : Meilisearch est sous licence MIT pour son édition communautaire, Typesense sous GPL 3."
+  - question: "Faut-il choisir Meilisearch ou Typesense plutôt qu'Elasticsearch ?"
+    answer: "Quand le besoin est une recherche instantanée tolérante aux fautes de frappe, avec des filtres et des facettes, sur un volume modéré. Elasticsearch devient pertinent pour de très gros volumes, des agrégations complexes, des analyses de journaux ou des besoins d'écosystème avancés, au prix d'une exploitation plus lourde."
+  - question: "Comment garder l'index synchronisé avec Doctrine ?"
+    answer: "En réagissant aux modifications des entités : un écouteur d'événements Doctrine envoie un message à Symfony Messenger, dont le gestionnaire met à jour le document dans le moteur. On prévoit aussi une commande de réindexation complète, pour reconstruire l'index après un changement de schéma ou un incident."
+  - question: "Existe-t-il des bundles Symfony pour ces moteurs ?"
+    answer: "Oui. Meilisearch propose un bundle Symfony officiel sous licence MIT. Pour Typesense, un client PHP officiel existe, et un bundle communautaire (ACSEO) s'appuie dessus. Leur maintenance est à vérifier avant de les adopter."
+---
+
+Elasticsearch fait tout, mais il se paie en exploitation. Algolia est excellent, mais facturé à l'usage. Entre les deux, deux moteurs open source plus simples à faire tourner séduisent de plus en plus d'équipes Symfony : [Meilisearch](https://www.meilisearch.com/docs) et [Typesense](https://typesense.org/docs/). Notre article [Elasticsearch ou Algolia](/article/elasticsearch-ou-algolia-moteur-de-recherche-symfony) compare les deux options plus lourdes ; celui-ci traite l'option légère.
+
+Précision d'honnêteté : nous n'avons pas installé ni interrogé les deux moteurs sur un même jeu de données pour cet article. Il ne contient donc aucune mesure de pertinence, de vitesse ou de mémoire, et nous vous invitons à les obtenir sur vos propres données. À la date du 3 novembre 2026, les dernières versions publiées sur GitHub sont Meilisearch 1.56.1 et Typesense 30.2.
+
+## Les besoins typiques
+
+Une recherche moderne attend plus qu'un `LIKE '%mot%'` :
+
+- **La recherche instantanée**, au fil de la frappe, avec des réponses en quelques millisecondes.
+- **La tolérance aux fautes de frappe**, pour trouver « chausure » quand on cherche « chaussure ».
+- **Les filtres et les facettes** : catégorie, prix, marque, avec des compteurs.
+- **Les synonymes**, pour qu'« ordi » trouve « ordinateur ».
+- **Le classement personnalisé** : mettre en avant les produits en stock, les plus récents, les mieux notés.
+
+Les deux moteurs couvrent ces besoins avec une configuration plus simple qu'Elasticsearch.
+
+## Installation avec Docker
+
+Dans un projet Symfony déjà conteneurisé, ajouter un moteur de recherche tient en quelques lignes de `compose.yaml` :
+
+```yaml
+services:
+  meilisearch:
+    image: getmeili/meilisearch:v1.56
+    environment:
+      MEILI_MASTER_KEY: "${MEILI_MASTER_KEY}"
+    volumes:
+      - meili-data:/meili_data
+    ports:
+      - "7700:7700"
+
+  typesense:
+    image: typesense/typesense:30.2
+    command: "--data-dir /data --api-key=${TYPESENSE_API_KEY}"
+    volumes:
+      - typesense-data:/data
+    ports:
+      - "8108:8108"
+
+volumes:
+  meili-data:
+  typesense-data:
+```
+
+Vous n'avez besoin que de l'un des deux ; nous les montrons côte à côte pour comparer. Fixez la version des images et gardez la clé d'API hors du dépôt. Pour le contexte des conteneurs en production, lisez [pourquoi Docker est indispensable](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui).
+
+### Les ressources
+
+La différence d'architecture pèse sur le dimensionnement. D'après la [documentation de Typesense](https://typesense.org/docs/guide/system-requirements.html), le moteur stocke l'ensemble de l'index en mémoire, avec une copie des données brutes sur le disque : la RAM nécessaire dépend directement de la taille des champs que vous indexez, avec une règle indicative de deux à trois fois la taille de ces champs. Meilisearch repose davantage sur le disque et le cache du système. Pour un petit catalogue, aucun des deux n'est contraignant ; pour des millions de documents, calculez avant de choisir.
+
+Chaque éditeur propose aussi une offre hébergée (Meilisearch Cloud, Typesense Cloud), pratique pour ne pas exploiter soi-même le service.
+
+## Indexer depuis les entités Doctrine
+
+### Les intégrations Symfony
+
+- **Meilisearch** propose un [bundle Symfony officiel](https://github.com/meilisearch/meilisearch-symfony), sous licence MIT, dont la dernière version publiée est la 0.16.1 (février 2026). Il déclare les index dans un fichier de configuration et indexe les entités Doctrine.
+- **Typesense** fournit un [client PHP officiel](https://github.com/typesense/typesense-php) (version 6.0.0, janvier 2026) et un bundle communautaire, ACSEO TypesenseBundle, sous licence MIT, qui s'appuie sur ce client. À évaluer selon votre appétit pour un bundle non officiel.
+
+Dans les deux cas, un développement maison reste raisonnable : un service d'indexation de quelques dizaines de lignes, qui garde la maîtrise des champs envoyés. Exemple avec le client Typesense :
+
+```php
+$client = new Typesense\Client([
+    'api_key' => $_ENV['TYPESENSE_API_KEY'],
+    'nodes' => [['host' => 'typesense', 'port' => '8108', 'protocol' => 'http']],
+    'connection_timeout_seconds' => 2,
+]);
+
+$client->collections->create([
+    'name' => 'products',
+    'fields' => [
+        ['name' => 'name', 'type' => 'string'],
+        ['name' => 'category', 'type' => 'string', 'facet' => true],
+        ['name' => 'price', 'type' => 'float'],
+    ],
+]);
+
+$results = $client->collections['products']->documents->search([
+    'q' => 'chausure',
+    'query_by' => 'name',
+    'facet_by' => 'category',
+]);
+```
+
+Vérifiez la signature exacte dans le README du client pour votre version : l'API évolue entre versions majeures.
+
+### Synchroniser à chaque modification
+
+Mettre à jour l'index dans la requête HTTP ralentit l'utilisateur et fragilise l'écriture si le moteur est indisponible. Le bon schéma passe par la messagerie : un écouteur d'événements Doctrine détecte la modification, envoie un message, et un gestionnaire met à jour le document.
+
+```php
+final class IndexProductHandler
+{
+    public function __construct(private ProductIndexer $indexer) {}
+
+    #[AsMessageHandler]
+    public function __invoke(IndexProduct $message): void
+    {
+        $this->indexer->upsert($message->productId);
+    }
+}
+```
+
+La messagerie apporte les reprises en cas d'échec : un moteur de recherche arrêté pendant cinq minutes ne fait pas perdre les mises à jour. Si vous hésitez sur l'outil, notre article sur [Symfony Messenger et PHP-Enqueue](/article/quelles-sont-les-differences-entre-symfony-messenger-php-enqueue-quoi-utiliser) aide à choisir. N'oubliez pas les suppressions : une entité supprimée doit disparaître de l'index.
+
+### Réindexer en totalité
+
+Prévoyez une commande de réindexation complète, qui lit toutes les entités par lots et les renvoie au moteur. Elle sert après un changement de schéma, une restauration ou un doute sur la cohérence. Lisez les entités par pages et videz le gestionnaire d'entités entre les lots : les bonnes pratiques de chargement sont détaillées dans notre article sur [Doctrine ORM 3](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees). Une technique fiable consiste à construire un nouvel index sous un autre nom, puis à basculer vers lui, par alias ou par échange d'index selon le moteur, une fois qu'il est complet.
+
+## Régler la pertinence
+
+Une fois les données indexées, l'essentiel du travail consiste à ajuster le classement. Les deux moteurs permettent de déclarer les champs filtrables, les champs de recherche et leur ordre d'importance, ainsi que des synonymes, par exemple « ordi » et « ordinateur ». Ils permettent aussi de régler la tolérance aux fautes de frappe, utile pour les noms de produits mais gênante pour les références exactes, où une approximation donne de mauvais résultats.
+
+Le classement personnalisé se traduit par un critère de tri secondaire : à pertinence égale, on remonte le produit en stock, le plus récent ou le mieux noté. Documentez chaque réglage et son motif, car les ajustements successifs finissent par se contredire. Rejouez votre échantillon de requêtes de référence après chaque changement : c'est le seul moyen de savoir si un réglage améliore vraiment la recherche ou s'il déplace simplement le problème.
+
+## Comparaison
+
+| Critère | Meilisearch | Typesense |
+|---|---|---|
+| Licence | MIT pour l'édition communautaire ; une édition entreprise (fonctions avancées comme le sharding) sous licence commerciale | GPL 3 |
+| Stockage de l'index | Disque avec cache | Intégralement en mémoire |
+| Intégration Symfony | Bundle officiel | Client PHP officiel, bundle communautaire |
+| Option hébergée | Meilisearch Cloud | Typesense Cloud |
+| Facettes, synonymes, tolérance aux fautes | Oui | Oui |
+| Pertinence, vitesse, mémoire | À mesurer sur vos données | À mesurer sur vos données |
+
+Pour la pertinence, testez avec vos vraies requêtes : un échantillon de vingt à cinquante recherches représentatives, avec le résultat attendu pour chacune, vaut mieux qu'un benchmark générique. Mesurez aussi le temps d'indexation initial et la mémoire consommée sur votre volume.
+
+## Quand préférer Elasticsearch ou Algolia
+
+- **Elasticsearch** si vous avez de très gros volumes, des agrégations complexes, de l'analyse de journaux, ou si l'écosystème (outils, connecteurs, compétences) pèse dans la décision.
+- **Algolia** si vous voulez déléguer entièrement l'exploitation et acceptez un coût lié à l'usage.
+- **Meilisearch ou Typesense** quand une recherche instantanée, tolérante et à facettes suffit, et que vous voulez la faire tourner simplement et à coût maîtrisé.
+
+## Le choix en pratique
+
+- **Équipe qui veut une licence permissive et un bundle officiel** : Meilisearch.
+- **Équipe qui a de la mémoire à revendre et veut une latence minimale, ou qui apprécie la GPL** : Typesense.
+- **Doute** : comparez les deux sur un extrait de vos données, en une demi-journée. Les deux s'installent en quelques minutes avec Docker.
+
+## Ce qu'il faut retenir
+
+Meilisearch et Typesense couvrent la recherche instantanée, la tolérance aux fautes et les facettes avec une exploitation bien plus simple qu'Elasticsearch. Ils diffèrent surtout par leur modèle mémoire, leur licence et leurs intégrations Symfony. Synchronisez l'index par Messenger, prévoyez une réindexation complète, et tranchez avec vos propres données plutôt qu'avec les benchmarks des éditeurs.
