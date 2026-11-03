@@ -131,7 +131,29 @@ namespace = "App\\Domain\\"
 permit = ["@self", "@native"]
 ```
 
-Le projet est jeune et son écosystème reste plus restreint que celui de PHPStan. La documentation de l'analyseur ne mentionne pas d'équivalent des extensions PHPStan qui comprennent le conteneur de services Symfony et les repositories Doctrine. Le linter propose en revanche des jeux de règles activables pour Symfony et PHPUnit, avec `integrations = ["symfony", "phpunit"]`. La documentation annonce aussi l'analyse d'un projet entier en quelques secondes : mesurez-le sur votre propre code avant d'en faire un argument. Les exemples d'analyse, de baseline et de `guard` ci-dessus ont été exécutés avec Mago 1.57.0.
+Le projet est jeune et son écosystème reste plus restreint que celui de PHPStan. La documentation de l'analyseur ne mentionne pas d'équivalent des extensions PHPStan qui comprennent le conteneur de services Symfony et les repositories Doctrine. Le linter propose en revanche des jeux de règles activables pour Symfony et PHPUnit, avec `integrations = ["symfony", "phpunit"]`. Les exemples d'analyse, de baseline et de `guard` ci-dessus ont été exécutés avec Mago 1.57.0.
+
+### Mago face à PHPStan : nos mesures
+
+La [documentation de Mago](https://mago.carthage.software/) annonce l'analyse d'un projet entier en quelques secondes. Nous l'avons vérifié sur le dossier `src/` d'une application Symfony 8 réelle, avec PHPStan au niveau 10 et la configuration de Mago par défaut, sans baseline des deux côtés pour comparer à armes égales.
+
+| Outil | Rôle | Temps |
+| --- | --- | --- |
+| PHPStan, cache froid | Analyse de types | 15,6 s |
+| PHPStan, cache réchauffé | Analyse de types | 3,9 s |
+| `mago analyze` | Analyse de types | 4,7 s |
+| `mago lint` | Style et bonnes pratiques | 1,1 s |
+| PHP-CS-Fixer (`--dry-run`) | Style | 6 s |
+
+Mago n'a pas de cache de résultats : chaque exécution est une exécution à froid, et elle reste plus de trois fois plus rapide que PHPStan à froid. Elle est proche de PHPStan avec un cache chaud, sans avoir rien à réchauffer ni à invalider. Le gain se voit surtout en CI, où le cache est souvent absent. Le linter, lui, passe cinq fois plus vite que PHP-CS-Fixer.
+
+Côté résultats, les chiffres ne sont pas directement comparables, car chaque outil applique ses propres règles :
+
+- PHPStan niveau 10 : 446 erreurs.
+- `mago analyze` : 220 erreurs, 229 avertissements et 115 suggestions, soit 564 signalements.
+- `mago lint` : 140 erreurs, 456 avertissements, 2 notes et 113 suggestions, dont 98 corrigeables automatiquement. PHPStan n'a pas d'équivalent direct.
+
+Mago remonte donc davantage de signalements, mais il les gradue : seules 220 erreurs sont de même nature que celles de PHPStan, le reste étant de la nuance. Ce volume ne prouve ni qu'il trouve plus de vrais bugs, ni qu'il en rate : il faut trier les deux listes pour le savoir. Ces mesures viennent d'un seul projet et d'une seule machine, refaites-les sur votre code.
 
 Notre recommandation : sur un projet Symfony qui utilise déjà PHPStan et ses extensions, ne remplacez rien d'emblée. Essayez Mago en parallèle en CI, sans le rendre bloquant, pour comparer ce qu'il trouve de plus ou de moins. Sur un projet neuf, ou pour réduire le nombre d'outils à maintenir, il mérite une vraie évaluation.
 

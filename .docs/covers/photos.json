@@ -1176,6 +1176,13 @@
     "author": "Walters Art Museum",
     "url": "https://commons.wikimedia.org/wiki/File:Scandinavian_-_Padlock_with_Key_-_Walters_52176.jpg"
   },
+  "pie-remplacant-pecl-installer-extensions-php": {
+    "name": "pie-extensions-php",
+    "file": "File:Baking a Pie (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Andy Chilton andyc",
+    "url": "https://commons.wikimedia.org/wiki/File:Baking_a_Pie_(Unsplash).jpg"
+  },
   "chiffrement-donnees-doctrine-postgresql": {
     "name": "chiffrement-donnees-doctrine",
     "file": "File:Greece padlocked fence (Unsplash).jpg",
@@ -1203,5 +1210,12 @@
     "license": "CC0",
     "author": "Katy Belcher katybelcher",
     "url": "https://commons.wikimedia.org/wiki/File:Engraved_key_on_a_branch_(Unsplash).jpg"
+  },
+  "voters-symfony-strategies-decision-performance": {
+    "name": "voters-symfony-strategies",
+    "file": "File:Locked door of old temple. (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Jayme McColgan jayme",
+    "url": "https://commons.wikimedia.org/wiki/File:Locked_door_of_old_temple._(Unsplash).jpg"
   }
 }
