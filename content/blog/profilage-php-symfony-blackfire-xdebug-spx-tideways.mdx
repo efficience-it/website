@@ -19,7 +19,7 @@ faq:
 
 « L'application est lente » n'est pas un diagnostic. Avant de mettre en cache ou de changer d'infrastructure, il faut savoir où le temps part. C'est le rôle d'un profileur : il enregistre ce que fait réellement le code et vous montre les fonctions, les requêtes et les appels qui coûtent.
 
-Cet article compare quatre outils pour PHP et Symfony : [Blackfire](https://blackfire.io), [Xdebug](https://xdebug.org/docs/profiler) en mode profilage, [SPX](https://github.com/NoiseByNorthwest/php-spx) et [Tideways](https://tideways.com). Précision : nous décrivons leur usage d'après leurs documentations, sans publier de captures ni de mesures d'une session réalisée pour l'article. Les chiffres de surcharge varient trop d'une application à l'autre pour être généralisés.
+Cet article compare quatre outils pour PHP et Symfony : Blackfire, [Xdebug](https://xdebug.org/docs/profiler) en mode profilage, SPX et Tideways. Précision : nous décrivons leur usage d'après leurs documentations, sans publier de captures ni de mesures d'une session réalisée pour l'article. Les chiffres de surcharge varient trop d'une application à l'autre pour être généralisés.
 
 ## Profilage et débogage : deux usages
 
@@ -59,7 +59,7 @@ Il a ses limites : il ne fournit pas le graphe d'appels complet ni l'attribution
 
 ## Xdebug en mode profilage
 
-Xdebug, [décrit dans sa documentation](https://xdebug.org/docs/profiler), écrit un fichier de profil au format Cachegrind. Configuration minimale :
+Xdebug, décrit dans sa documentation, écrit un fichier de profil au format Cachegrind. Configuration minimale :
 
 ```ini
 xdebug.mode=profile
@@ -73,7 +73,7 @@ Avec `trigger`, le profilage ne démarre que lorsque la requête porte le décle
 
 ## SPX
 
-[SPX](https://github.com/NoiseByNorthwest/php-spx) est une extension de profilage légère avec une interface web intégrée. On l'active par la configuration, puis on déclenche le profilage avec une clé :
+SPX est une extension de profilage légère avec une interface web intégrée. On l'active par la configuration, puis on déclenche le profilage avec une clé :
 
 ```ini
 extension=spx.so
@@ -99,11 +99,11 @@ tests:
       - "main.wall_time < 100ms"
 ```
 
-Ces assertions peuvent être vérifiées dans la CI, et la [documentation des tests](https://docs.blackfire.io/testing-cookbooks/tests) en détaille la syntaxe. C'est un service commercial avec une offre d'essai : le budget est un critère à part entière.
+Ces assertions peuvent être vérifiées dans la CI, et la documentation des tests en détaille la syntaxe. C'est un service commercial avec une offre d'essai : le budget est un critère à part entière.
 
 ## Tideways
 
-[Tideways](https://tideways.com) combine profilage et supervision de performance (APM). Il collecte des traces en continu à faible coût, avec un profilage déclenchable sur les requêtes lentes, ce qui le destine plus naturellement à la production. On s'en sert pour répondre à « quelles pages sont lentes en ce moment chez les vrais utilisateurs ? », en plus de « pourquoi cette page est lente ? ». C'est aussi un service payant.
+Tideways combine profilage et supervision de performance (APM). Il collecte des traces en continu à faible coût, avec un profilage déclenchable sur les requêtes lentes, ce qui le destine plus naturellement à la production. On s'en sert pour répondre à « quelles pages sont lentes en ce moment chez les vrais utilisateurs ? », en plus de « pourquoi cette page est lente ? ». C'est aussi un service payant.
 
 ## Comment chaque outil révèle le N+1 et la sérialisation
 
