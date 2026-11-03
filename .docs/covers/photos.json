@@ -1217,5 +1217,12 @@
     "license": "CC0",
     "author": "Jayme McColgan jayme",
     "url": "https://commons.wikimedia.org/wiki/File:Locked_door_of_old_temple._(Unsplash).jpg"
+  },
+  "binaire-php-autonome-static-php-cli-frankenphp-box": {
+    "name": "binaire-php-autonome",
+    "file": "File:Unsplash Backpack (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Scott Webb scottwebb",
+    "url": "https://commons.wikimedia.org/wiki/File:Unsplash_Backpack_(Unsplash).jpg"
   }
 }
