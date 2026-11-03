@@ -1217,5 +1217,12 @@
     "license": "CC0",
     "author": "Jayme McColgan jayme",
     "url": "https://commons.wikimedia.org/wiki/File:Locked_door_of_old_temple._(Unsplash).jpg"
+  },
+  "mode-worker-frankenphp-symfony-fuites-etat": {
+    "name": "mode-worker-frankenphp-symfony",
+    "file": "File:The Ghost Tree (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Kirill Zakharov kirillz",
+    "url": "https://commons.wikimedia.org/wiki/File:The_Ghost_Tree_(Unsplash).jpg"
   }
 }
