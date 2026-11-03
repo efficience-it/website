@@ -1217,5 +1217,12 @@
     "license": "CC0",
     "author": "Jayme McColgan jayme",
     "url": "https://commons.wikimedia.org/wiki/File:Locked_door_of_old_temple._(Unsplash).jpg"
+  },
+  "parallelisme-php-extension-parallel": {
+    "name": "parallelisme-php-parallel",
+    "file": "File:Swimming laps (Unsplash rAyIvNqlwCY).jpg",
+    "license": "CC0",
+    "author": "Artem Verbo artemverbo",
+    "url": "https://commons.wikimedia.org/wiki/File:Swimming_laps_(Unsplash_rAyIvNqlwCY).jpg"
   }
 }

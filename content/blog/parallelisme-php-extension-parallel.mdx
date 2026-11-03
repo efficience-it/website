@@ -1,0 +1,136 @@
+---
+title: "Parallélisme en PHP avec l'extension parallel"
+date: "2027-01-28"
+updatedAt: "2027-01-28"
+author: "Louis-Arnaud Catoire"
+category: "PHP"
+excerpt: "Exécuter du code PHP sur plusieurs threads avec l'extension parallel : prérequis ZTS, Runtime, Future et Channel, exemples, limites, et comparaison avec Messenger, les processus fils et les Fibers."
+image: "/images/blog/cover-parallelisme-php-parallel.webp"
+faq:
+  - question: "Faut-il un PHP particulier pour utiliser l'extension parallel ?"
+    answer: "Oui, un PHP compilé en mode ZTS (Zend Thread Safety), qui ne peut pas être activé après la compilation. Les images Docker officielles de PHP proposent des variantes zts, par exemple 8.4-zts. Les paquets des distributions et la plupart des hébergements fournissent en général un PHP non ZTS."
+  - question: "Quelle différence entre parallel, les Fibers et Messenger ?"
+    answer: "Les Fibers organisent plusieurs tâches dans un même thread et n'accélèrent que les attentes d'entrées-sorties. parallel exécute réellement du code PHP en même temps sur plusieurs cœurs. Messenger répartit le travail entre plusieurs processus, indépendants de la requête, avec une file de messages."
+  - question: "Peut-on partager des objets entre threads ?"
+    answer: "Non. Chaque thread a son propre environnement PHP, et les arguments et valeurs de retour sont copiés. Les objets ne sont pas transférables en général : on échange des scalaires, des tableaux et quelques types spécifiques à l'extension. Il faut donc concevoir les tâches comme des fonctions pures qui reçoivent des données et en renvoient."
+  - question: "Quand utiliser parallel plutôt que des workers ?"
+    answer: "Pour un calcul ponctuel qui se découpe en morceaux indépendants, à l'intérieur d'une même commande ou d'un même script, et dont on attend le résultat. Pour des tâches de fond déclenchées par des événements, avec reprise en cas d'échec, des workers Messenger sont plus adaptés."
+---
+
+PHP exécute classiquement une requête dans un seul thread. Pour un traitement lourd qui se découpe en morceaux indépendants, comme le redimensionnement de milliers d'images ou des calculs sur de gros volumes, cela laisse des cœurs inutilisés. L'extension [parallel](https://www.php.net/manual/en/book.parallel.php) permet d'exécuter du code PHP sur plusieurs threads en même temps.
+
+Cet article présente ses prérequis, son API, deux exemples, ses limites et la façon de la situer face aux alternatives. Précision : les exemples s'appuient sur la documentation officielle et n'ont pas été chronométrés pour cet article. Nous ne publions donc aucune mesure de gain : celui-ci dépend du nombre de cœurs, de la nature du traitement et de la taille des tâches, et se mesure chez vous.
+
+## Les prérequis : un PHP en mode ZTS
+
+L'extension demande un PHP compilé avec le support des threads, dit **ZTS** (Zend Thread Safety). Le manuel précise que ce mode est un choix de compilation : il ne s'active pas après coup. La plupart des paquets de distribution et des hébergements mutualisés fournissent un PHP non ZTS, ce qui est le premier frein à l'adoption.
+
+Les images Docker officielles de PHP proposent des variantes ZTS (par exemple `8.4-zts`), ce qui donne un point de départ simple :
+
+```dockerfile
+FROM php:8.4-zts-cli
+RUN pecl install parallel && docker-php-ext-enable parallel
+```
+
+L'installation passe par PECL, comme l'indique la [page d'installation du manuel](https://www.php.net/manual/en/parallel.setup.php). Au 3 novembre 2026, la dernière version publiée sur le [dépôt de l'extension](https://github.com/krakjoe/parallel) est la 1.2.15 (juin 2026). Vérifiez sa compatibilité avec votre version de PHP avant de bâtir un projet dessus. Contrôlez ensuite le chargement avec `php -m | grep parallel` et `php -r 'echo PHP_ZTS;'`, qui doit afficher 1.
+
+## L'API en trois notions
+
+- **`Runtime`** : un fil d'exécution isolé avec son propre environnement PHP. On lui confie du travail avec `run()`.
+- **`Future`** : le résultat promis d'une tâche. `value()` attend la fin et renvoie la valeur.
+- **`Channel`** : un canal de communication entre threads, pour échanger des données pendant l'exécution (`send()` et `recv()`).
+
+Un `Events` permet d'attendre plusieurs sources en même temps, sans bloquer sur une seule.
+
+### Un exemple minimal
+
+```php
+<?php
+
+use parallel\Runtime;
+
+$runtime = new Runtime();
+
+$future = $runtime->run(function (int $n): int {
+    $sum = 0;
+    for ($i = 1; $i <= $n; $i++) {
+        $sum += $i * $i;
+    }
+
+    return $sum;
+}, [50_000_000]);
+
+echo $future->value(), PHP_EOL;
+```
+
+La tâche s'exécute dans un autre thread pendant que le thread principal peut continuer son travail. L'appel à `value()` bloque jusqu'à la fin de la tâche. Le constructeur de `Runtime` accepte aussi un fichier d'amorçage, indispensable pour charger l'autoloader de Composer dans le thread.
+
+### Un exemple réaliste : découper un traitement
+
+Voici un traitement de fichiers réparti entre plusieurs threads. On découpe la liste en morceaux, on lance un thread par morceau, puis on additionne les résultats :
+
+```php
+<?php
+
+use parallel\Runtime;
+
+$files = glob(__DIR__ . '/uploads/*.jpg');
+$workers = 4;
+$chunks = array_chunk($files, (int) ceil(count($files) / $workers));
+
+$futures = [];
+foreach ($chunks as $chunk) {
+    $runtime = new Runtime(__DIR__ . '/vendor/autoload.php');
+    $futures[] = $runtime->run(static function (array $paths): int {
+        $done = 0;
+        foreach ($paths as $path) {
+            $image = new Imagick($path);
+            $image->thumbnailImage(320, 0);
+            $image->writeImage($path . '.thumb.jpg');
+            $done++;
+        }
+
+        return $done;
+    }, [$chunk]);
+}
+
+$total = array_sum(array_map(static fn ($future) => $future->value(), $futures));
+echo "$total images traitées\n";
+```
+
+Le principe est toujours le même : chaque tâche reçoit ses données en argument, travaille de façon indépendante et renvoie un résultat simple. Le nombre de threads doit rester proche du nombre de cœurs disponibles : au-delà, on ajoute du coût de changement de contexte sans gain.
+
+## Les limites à connaître
+
+- **Pas d'état partagé.** Chaque thread a son propre environnement. Les arguments et les valeurs de retour sont copiés, et les objets ne sont en général pas transférables. On conçoit des tâches qui reçoivent des données simples et renvoient un résultat simple.
+- **Un coût de démarrage.** Créer un `Runtime` n'est pas gratuit : paralléliser une tâche très courte coûte plus qu'elle ne rapporte. Le gain apparaît quand chaque tâche dure assez longtemps pour amortir la création du thread.
+- **La mémoire.** Chaque thread charge son propre environnement PHP, donc la consommation augmente avec le nombre de threads.
+- **Le débogage.** Suivre un problème sur plusieurs threads est plus difficile qu'en exécution linéaire : journaux détaillés et tâches courtes à tester isolément sont de mise.
+- **L'hébergement.** L'obligation d'un PHP ZTS exclut une grande part des offres d'hébergement. L'extension se destine surtout à des commandes exécutées dans des conteneurs que vous maîtrisez, comme présenté dans [pourquoi Docker est indispensable en production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui).
+- **Les bibliothèques.** Toutes ne sont pas sûres en environnement multithread. Testez celles que vous employez, notamment les extensions natives.
+
+## Les alternatives
+
+| Approche | Principe | Convient à | Limite |
+|---|---|---|---|
+| Extension parallel | Threads dans un même processus | Calcul découpable, résultat attendu tout de suite | PHP ZTS requis, pas d'état partagé |
+| Processus fils (`proc_open`, composant Process) | Un processus par tâche | Tâches isolées, tout PHP standard | Démarrage plus lourd, échange par flux |
+| Symfony Messenger avec plusieurs workers | File de messages, workers indépendants | Tâches de fond, reprises, résilience | Pas de résultat immédiat, infrastructure de file |
+| Fibers et bibliothèques asynchrones | Plusieurs tâches dans un thread | Attentes d'entrées-sorties (réseau, disque) | N'accélèrent pas le calcul sur plusieurs cœurs |
+
+Pour comparer Messenger à d'autres solutions de file, voir [les différences entre Symfony Messenger et PHP-Enqueue](/article/quelles-sont-les-differences-entre-symfony-messenger-php-enqueue-quoi-utiliser). Si votre problème est de calcul pur, le choix d'un autre langage peut aussi se poser : notre comparatif [PHP ou Node.js](/article/php-vs-nodejs-quel-langage-backend-choisir) aide à cadrer. Et si l'attente vient du démarrage à chaque requête plutôt que du calcul, un runtime comme [FrankenPHP](/article/concretement-cest-quoi-frankenphp) résout un autre problème que parallel.
+
+## Mesurer le gain chez vous
+
+Pour obtenir vos propres chiffres, comparez à charge constante la version séquentielle et la version parallèle, avec des nombres de threads croissants (1, 2, 4, jusqu'au nombre de cœurs). Relevez le temps total et la mémoire maximale, répétez plusieurs fois et notez la machine, le nombre de cœurs et les versions de PHP et de l'extension. Le gain dépasse rarement une accélération proportionnelle au nombre de cœurs, et il plafonne quand le traitement est limité par le disque ou le réseau plutôt que par le processeur.
+
+## Recommandation
+
+- **Choisissez parallel** pour un calcul ponctuel, découpable en tâches indépendantes et assez longues, dans un script ou une commande que vous exécutez dans un environnement maîtrisé.
+- **Choisissez des workers Messenger** pour des tâches de fond déclenchées par des événements, qui doivent être reprises en cas d'échec et supervisées.
+- **Choisissez des processus fils** si vous ne pouvez pas utiliser un PHP ZTS.
+- **Choisissez les Fibers** quand le temps est perdu à attendre des réponses réseau, pas à calculer.
+
+## Ce qu'il faut retenir
+
+L'extension parallel apporte de vrais threads à PHP, à condition d'avoir un PHP ZTS et de concevoir des tâches isolées qui échangent des données simples. Son gain se mesure sur votre matériel, et son coût de démarrage la réserve aux tâches assez longues. Pour la majorité des applications web, des workers Messenger restent le choix le plus simple et le plus robuste ; parallel se justifie pour un calcul lourd précis.
