@@ -126,6 +126,12 @@ La messagerie apporte les reprises en cas d'échec : un moteur de recherche arr�
 
 Prévoyez une commande de réindexation complète, qui lit toutes les entités par lots et les renvoie au moteur. Elle sert après un changement de schéma, une restauration ou un doute sur la cohérence. Lisez les entités par pages et videz le gestionnaire d'entités entre les lots : les bonnes pratiques de chargement sont détaillées dans notre article sur [Doctrine ORM 3](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees). Une technique fiable consiste à construire un nouvel index sous un autre nom, puis à basculer vers lui, par alias ou par échange d'index selon le moteur, une fois qu'il est complet.
 
+## Régler la pertinence
+
+Une fois les données indexées, l'essentiel du travail consiste à ajuster le classement. Les deux moteurs permettent de déclarer les champs filtrables, les champs de recherche et leur ordre d'importance, ainsi que des synonymes, par exemple « ordi » et « ordinateur ». Ils permettent aussi de régler la tolérance aux fautes de frappe, utile pour les noms de produits mais gênante pour les références exactes, où une approximation donne de mauvais résultats.
+
+Le classement personnalisé se traduit par un critère de tri secondaire : à pertinence égale, on remonte le produit en stock, le plus récent ou le mieux noté. Documentez chaque réglage et son motif, car les ajustements successifs finissent par se contredire. Rejouez votre échantillon de requêtes de référence après chaque changement : c'est le seul moyen de savoir si un réglage améliore vraiment la recherche ou s'il déplace simplement le problème.
+
 ## Comparaison
 
 | Critère | Meilisearch | Typesense |
