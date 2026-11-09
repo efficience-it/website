@@ -14,7 +14,7 @@ translatedFromUpdatedAt: "2026-01-13"
 
 Monofony is a [Symfony](https://symfony.com/doc/current/setup.html) project skeleton that reuses the internal components of Sylius without shipping its e-commerce layer. The idea is simple: extract the resource system, the admin panel, fixture management, and the API Platform integration, and put them at the service of any application project.
 
-If you know [Sylius, the e-commerce solution of the Symfony framework](/article/sylius-la-solution-e-commerce-du-framework-symfony) (in French), you know its strength does not lie only in product or cart management. It comes from its resource architecture, its grid system, and the way each building block fits together. Monofony builds on this engineering work and makes it available for business cases that have nothing to do with online commerce: internal applications, CRMs, dashboards, SaaS back offices, APIs for mobile applications.
+If you know [Sylius, the e-commerce solution of the Symfony framework](/en/article/sylius-php-ecommerce-platform), you know its strength does not lie only in product or cart management. It comes from its resource architecture, its grid system, and the way each building block fits together. Monofony builds on this engineering work and makes it available for business cases that have nothing to do with online commerce: internal applications, CRMs, dashboards, SaaS back offices, APIs for mobile applications.
 
 ## What you get at installation
 
@@ -26,7 +26,7 @@ The back office relies on the Sylius grid system. Lists are filterable, sortable
 
 ### An API through API Platform
 
-The API Platform integration provides REST and GraphQL endpoints generated from your resource declarations. The [Swagger documentation through the Nelmio bundle](/article/swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on) (in French) is available from the start. For decoupled architectures (SPA front end, mobile application), the foundation is ready.
+The API Platform integration provides REST and GraphQL endpoints generated from your resource declarations. The [Swagger documentation through the Nelmio bundle](/en/article/nelmio-api-doc-swagger-symfony) is available from the start. For decoupled architectures (SPA front end, mobile application), the foundation is ready.
 
 ### User management
 
@@ -34,7 +34,7 @@ Two types of users are preconfigured: administrators (back office access) and ap
 
 ### A structured fixture system
 
-Monofony reuses the Sylius fixture system, comparable to the [Alice Faker bundle](/article/comprendre-et-utiliser-le-bundle-alice-faker-dans-vos-projets-symfony) (in French), which lets you define realistic data scenarios in YAML. It is an underrated asset: well-built fixtures speed up development, make functional tests more reliable, and make onboarding new developers easier.
+Monofony reuses the Sylius fixture system, comparable to the [Alice Faker bundle](/en/article/alice-faker-symfony-fixtures), which lets you define realistic data scenarios in YAML. It is an underrated asset: well-built fixtures speed up development, make functional tests more reliable, and make onboarding new developers easier.
 
 ## The resource system in depth
 
@@ -86,7 +86,7 @@ Assembling EasyAdmin, API Platform, an authentication system, and fixtures yours
 
 ### Maturity of the admin layer
 
-For simple cases, [EasyAdmin has different advantages than Forest Admin](/article/easy-admin-vs-forest-admin-differences-et-avantages) (in French) that are worth comparing. But when needs for filtering, custom actions, and complex relationship management grow, the Sylius grid system offers greater flexibility. It was designed to handle e-commerce catalogs with dozens of filters and polymorphic relationships. This robustness benefits Monofony projects directly.
+For simple cases, [EasyAdmin has different advantages than Forest Admin](/en/article/easyadmin-vs-forest-admin) that are worth comparing. But when needs for filtering, custom actions, and complex relationship management grow, the Sylius grid system offers greater flexibility. It was designed to handle e-commerce catalogs with dozens of filters and polymorphic relationships. This robustness benefits Monofony projects directly.
 
 ### When Symfony alone is still preferable
 
@@ -116,9 +116,9 @@ Monofony holds a precise place in the PHP ecosystem: between pure Symfony, which
 
 ## Going further
 
-- [Symfony for beginners](/article/symfony-pour-les-moldus) (in French), understand the basics of the Symfony framework
-- [Why choose Symfony for your projects](/article/pourquoi-choisir-symfony-pour-vos-projets) (in French), the strengths of Symfony for your applications
-- [The most used bundles in Symfony projects](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony) (in French), discover the bundle ecosystem that complements Monofony
+- [Symfony for beginners](/en/article/symfony-explained-php-framework), understand the basics of the Symfony framework
+- [Why choose Symfony for your projects](/en/article/why-choose-symfony), the strengths of Symfony for your applications
+- [The most used bundles in Symfony projects](/en/article/top-symfony-bundles), discover the bundle ecosystem that complements Monofony
 - [Monofony GitHub repository](https://github.com/Monofony/Monofony), source code and project documentation
 - [Official Sylius documentation](https://docs.sylius.com/), the complete guide to the e-commerce framework
 - [Symfony documentation](https://symfony.com/doc/current/index.html), the official reference for the framework

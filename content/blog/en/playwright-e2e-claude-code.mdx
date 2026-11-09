@@ -17,7 +17,7 @@ faq:
     answer: "Yes. Claude Code can read your application's source code, analyze user journeys, and generate complete Playwright tests with selectors, assertions, and test data handling. The developer reviews and adjusts the generated tests instead of writing them from scratch."
 ---
 
-End-to-end tests are the ultimate safety net for a web application. They simulate a real user: clicking, navigating, filling in forms, checking the displayed result. But that power comes with a trade-off. E2E tests take a long time to write, break easily when the interface changes, and are heavy to maintain. Playwright, Microsoft's testing framework, solves part of these problems. [Claude Code](/article/monter-en-competence-claude-code) (in French) handles the rest by speeding up how you write and maintain tests.
+End-to-end tests are the ultimate safety net for a web application. They simulate a real user: clicking, navigating, filling in forms, checking the displayed result. But that power comes with a trade-off. E2E tests take a long time to write, break easily when the interface changes, and are heavy to maintain. Playwright, Microsoft's testing framework, solves part of these problems. [Claude Code](/en/article/claude-code-upskilling) handles the rest by speeding up how you write and maintain tests.
 
 ## Why Playwright Won
 
@@ -25,7 +25,7 @@ Before Playwright, the E2E testing landscape was split between Selenium (powerfu
 
 The framework natively supports three rendering engines: Chromium, Firefox, and WebKit. A single test validates behavior on Chrome, Safari, and Firefox with no extra configuration. This cross-browser coverage is built in, not a plugin added after the fact.
 
-The architecture is also an advantage. Unlike Cypress, which runs inside the browser, Playwright communicates through the DevTools protocol from an external process. That lets it handle scenarios Cypress cannot: multiple simultaneous tabs, nested iframes, fine-grained network interception, file downloads, and isolated authentication contexts. For teams testing [applications that follow RGAA accessibility standards](/article/normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous) (in French), Playwright includes ARIA role selectors that encourage test code aligned with accessibility best practices.
+The architecture is also an advantage. Unlike Cypress, which runs inside the browser, Playwright communicates through the DevTools protocol from an external process. That lets it handle scenarios Cypress cannot: multiple simultaneous tabs, nested iframes, fine-grained network interception, file downloads, and isolated authentication contexts. For teams testing [applications that follow RGAA accessibility standards](/en/article/rgaa-web-accessibility-standards), Playwright includes ARIA role selectors that encourage test code aligned with accessibility best practices.
 
 ## Getting Started: Structure of a Test Project
 
@@ -111,7 +111,7 @@ The `state.json` file contains the cookies and localStorage. Later tests load th
 
 ## Integration into a CI/CD Pipeline
 
-Playwright is designed for CI. Headless mode is the default behavior, and the official Docker image ships with all the browsers and their system dependencies. For teams that already [automate their API tests with Newman in CI/CD](/article/comment-executer-des-tests-postman-avec-newman-dans-gitlab-ci) (in French), Playwright completes the test pyramid with the E2E layer.
+Playwright is designed for CI. Headless mode is the default behavior, and the official Docker image ships with all the browsers and their system dependencies. For teams that already [automate their API tests with Newman in CI/CD](/en/article/postman-newman-gitlab-ci-api-tests), Playwright completes the test pyramid with the E2E layer.
 
 ```yaml
 stages:
@@ -135,7 +135,7 @@ e2e_tests:
     - if: $CI_COMMIT_BRANCH == "main"
 ```
 
-The Microsoft Docker image is the recommended approach. It guarantees that the browsers and system libraries stay in sync with the Playwright version. Building a custom image with [Docker](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) (in French) is possible but rarely necessary.
+The Microsoft Docker image is the recommended approach. It guarantees that the browsers and system libraries stay in sync with the Playwright version. Building a custom image with [Docker](/en/article/docker-production-reliability) is possible but rarely necessary.
 
 Playwright traces are the main debugging tool in CI. When a test fails, the trace holds a complete record: every action, every network request, the DOM state at each step, and screenshots. The Trace Viewer (available through `npx playwright show-trace trace.zip`) replays the execution step by step, which eliminates the classic "rerun locally to understand" cycle.
 
@@ -145,9 +145,9 @@ This is where the approach changes. The main barrier to E2E testing is not techn
 
 The workflow is straightforward. The developer asks Claude Code to read the source code of a page or component, then generate the matching Playwright test. Claude Code analyzes the HTML structure, identifies the interactive elements, and produces a test with semantic selectors and relevant assertions.
 
-[Claude Code skills](/article/skills-claude-code-equipe-symfony) (in French) let you standardize this approach. An `/e2e-gen` skill encodes the team's conventions: test file structure, authentication patterns, preferred selectors, expected minimum assertions. Every developer generates consistent tests without knowing the conventions by heart.
+[Claude Code skills](/en/article/claude-code-skills-symfony-team) let you standardize this approach. An `/e2e-gen` skill encodes the team's conventions: test file structure, authentication patterns, preferred selectors, expected minimum assertions. Every developer generates consistent tests without knowing the conventions by heart.
 
-Maintenance benefits from the same leverage. When an interface redesign breaks 15 tests, Claude Code can analyze the markup changes and update the selectors in bulk. The developer reviews the diff instead of fixing each file by hand. This time savings matters even more in projects where [technical debt](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French) has piled up fragile tests built on overly specific CSS selectors.
+Maintenance benefits from the same leverage. When an interface redesign breaks 15 tests, Claude Code can analyze the markup changes and update the selectors in bulk. The developer reviews the diff instead of fixing each file by hand. This time savings matters even more in projects where [technical debt](/en/article/technical-debt-explained) has piled up fragile tests built on overly specific CSS selectors.
 
 ## Best Practices for Durable Tests
 
@@ -163,11 +163,11 @@ E2E tests cover business scenarios, not exhaustive functional coverage. A contac
 
 ### Use Semantic Selectors
 
-Prefer `getByRole('button', { name: 'Valider' })` over `page.locator('.btn-primary.mt-4')`. The first survives a design change, the second breaks at the first CSS redesign. Playwright encourages this approach with its selector [coding conventions](/article/coding-conventions) (in French), and with strict mode, which fails if a selector matches several elements. For an E2E suite that fits into an [end-to-end and PHPUnit testing strategy](/tests-automatises-php) (in French), you need to cover both the browser and the backend with the same reliability requirements.
+Prefer `getByRole('button', { name: 'Valider' })` over `page.locator('.btn-primary.mt-4')`. The first survives a design change, the second breaks at the first CSS redesign. Playwright encourages this approach with its selector [coding conventions](/en/article/php-coding-standards-best-practices), and with strict mode, which fails if a selector matches several elements. For an E2E suite that fits into an [end-to-end and PHPUnit testing strategy](/tests-automatises-php) (in French), you need to cover both the browser and the backend with the same reliability requirements.
 
 ## Going Further
 
 - Newman API tests in GitLab CI, test your APIs alongside your E2E tests
-- [Which code editor to choose](/article/phpstorm-vscode-sublimetext-netbeans-quel-editeur-de-code-choisir) (in French), Playwright integrates natively into VS Code with a dedicated extension
+- [Which code editor to choose](/en/article/best-code-editor-2026), Playwright integrates natively into VS Code with a dedicated extension
 - [Playwright](https://playwright.dev/), the framework's official documentation
 - [Playwright on GitHub](https://github.com/microsoft/playwright), the project's source code and issues

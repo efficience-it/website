@@ -20,7 +20,7 @@ This article is meant to be read progressively. We start with an overview of the
 
 ### Docusaurus
 
-Maintained by Meta, Docusaurus is a React-based static site generator built for documentation. It natively handles versioning, multilingual content, and integration with Algolia DocSearch. Its JavaScript or TypeScript configuration makes it familiar to front-end teams, especially those working with [JavaScript frameworks like React or Vue.js](/article/quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular) (in French). It is a solid choice for projects that want a professional result without excessive investment in customization.
+Maintained by Meta, Docusaurus is a React-based static site generator built for documentation. It natively handles versioning, multilingual content, and integration with Algolia DocSearch. Its JavaScript or TypeScript configuration makes it familiar to front-end teams, especially those working with [JavaScript frameworks like React or Vue.js](/en/article/javascript-frameworks-comparison). It is a solid choice for projects that want a professional result without excessive investment in customization.
 
 ### MkDocs and Material for MkDocs
 
@@ -44,9 +44,9 @@ VuePress, driven by the Vue.js ecosystem, offers deep customization through Vue 
 
 ## Docs-as-Code: Treating Documentation Like Software
 
-The docs-as-code approach means applying software development practices to documentation: plain text files versioned in Git, review through pull requests, automated deployment. It is not only a tooling question, it is a culture change. Documentation lives in the same repository as the code (or in a dedicated repository with the same standards), follows the same contribution workflow, and meets the same quality requirements. For [Symfony](/article/pourquoi-choisir-symfony-pour-vos-projets) (in French) projects, this repository fits naturally into the project's CI/CD pipeline.
+The docs-as-code approach means applying software development practices to documentation: plain text files versioned in Git, review through pull requests, automated deployment. It is not only a tooling question, it is a culture change. Documentation lives in the same repository as the code (or in a dedicated repository with the same standards), follows the same contribution workflow, and meets the same quality requirements. For [Symfony](/en/article/why-choose-symfony) projects, this repository fits naturally into the project's CI/CD pipeline.
 
-The main advantage is reduced friction. A developer who fixes a bug can update the documentation in the same pull request, without switching context or tools. This discipline matches the best practices of [coding conventions](/article/coding-conventions) (in French), which unify style across the team. Reviewers see the documentation diff alongside the code diff. Deployment is atomic.
+The main advantage is reduced friction. A developer who fixes a bug can update the documentation in the same pull request, without switching context or tools. This discipline matches the best practices of [coding conventions](/en/article/php-coding-standards-best-practices), which unify style across the team. Reviewers see the documentation diff alongside the code diff. Deployment is atomic.
 
 ### Versioning Strategies
 
@@ -64,7 +64,7 @@ The Diataxis framework proposes a taxonomy of four quadrants: tutorials (learnin
 
 The most common mistake is mixing quadrants in a single document. A tutorial that drifts into reference loses the beginner reader. A reference page that interleaves conceptual explanations becomes impossible to scan. Diataxis provides a framework to avoid these drifts and distribute content predictably. Docusaurus, MkDocs, and Sphinx lend themselves to it naturally thanks to their configurable sidebars and categories.
 
-For a concrete application, our article on [Symfony documentation with the Diataxis approach](/article/comment-produire-la-documentation-sur-votre-projet-symfony-avec-lapproche-diataxis) (in French) details how to apply this framework on a real project.
+For a concrete application, our article on [Symfony documentation with the Diataxis approach](/en/article/symfony-documentation-diataxis) details how to apply this framework on a real project.
 
 ## Documentation as a Product
 
@@ -78,7 +78,7 @@ The question of a documentation monorepo versus distributed repositories also ar
 
 ### Measuring Documentation Effectiveness
 
-What you do not measure does not improve. Several indicators help assess the health of documentation: the rate of pages never viewed (dead content), the ratio between support tickets and existing documentation pages on the same topic (a sign of ineffective or unfindable docs, a form of documentation [technical debt](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French)), the average time between a feature's release and the publication of its documentation (freshness), and the number of unique contributors per quarter (a sign of ownership by the teams).
+What you do not measure does not improve. Several indicators help assess the health of documentation: the rate of pages never viewed (dead content), the ratio between support tickets and existing documentation pages on the same topic (a sign of ineffective or unfindable docs, a form of documentation [technical debt](/en/article/technical-debt-explained)), the average time between a feature's release and the publication of its documentation (freshness), and the number of unique contributors per quarter (a sign of ownership by the teams).
 
 These metrics do not replace qualitative feedback. A "Was this page helpful?" button at the bottom of each page, paired with a free-text field, provides valuable signals for prioritizing rewrites.
 
@@ -88,7 +88,7 @@ Beyond a certain scale, the question arises: should you assemble a solution from
 
 ## A Testimonial from One of Our Developers
 
-At Efficience IT, we place great importance on documenting our projects. The choice of [code editor](/article/phpstorm-vscode-sublimetext-netbeans-quel-editeur-de-code-choisir) (in French) also affects how smoothly documentation gets written, with PhpStorm and VS Code offering advanced Markdown extensions. Here is the testimonial of Gaëtan, one of our developers, who uses Docusaurus and Diataxis every day.
+At Efficience IT, we place great importance on documenting our projects. The choice of [code editor](/en/article/best-code-editor-2026) also affects how smoothly documentation gets written, with PhpStorm and VS Code offering advanced Markdown extensions. Here is the testimonial of Gaëtan, one of our developers, who uses Docusaurus and Diataxis every day.
 
 > "Docusaurus, because it is a turnkey tool. It is React, but very simple to use in the end. All we have to do as a Docusaurus user is place our Markdown documents wherever we want. At build time, the application generates the routes, handles the dropdown list, and organizes our pages automatically. Docusaurus takes care of the repetitive part and we only write the documents. On top of that, the app does not require a database and can be treated as a showcase site, which is much simpler to deploy and set up."
 >
@@ -97,7 +97,7 @@ At Efficience IT, we place great importance on documenting our projects. The cho
 ## Going Further
 
 - Symfony documentation with the Diataxis approach, structuring your documentation with the Diataxis framework
-- [Swagger: NelmioBundle and its features](/article/swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on) (in French), automatically generating API documentation in your Symfony projects
+- [Swagger: NelmioBundle and its features](/en/article/nelmio-api-doc-swagger-symfony), automatically generating API documentation in your Symfony projects
 - [Docusaurus](https://docusaurus.io/), the open source documentation site generator by Meta
 - [MkDocs](https://www.mkdocs.org/), a static documentation generator based on Python
 - [Diataxis](https://diataxis.fr/), the reference framework for structuring technical documentation

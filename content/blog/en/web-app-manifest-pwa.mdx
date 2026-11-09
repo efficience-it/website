@@ -43,7 +43,7 @@ The manifest alone is not enough to create a working PWA. The Service Worker bri
 
 ### Caching strategies
 
-The choice of caching strategy depends directly on the type of content served. These mechanisms follow the broader principles covered in our guide on [caching applied to web applications](/article/tout-savoir-sur-la-mise-en-cache-tips) (in French):
+The choice of caching strategy depends directly on the type of content served. These mechanisms follow the broader principles covered in our guide on [caching applied to web applications](/en/article/caching-guide-web-applications):
 
 - **Cache First**: static resources (CSS, JavaScript, images) are served from the cache, with a background update. This approach favors speed over freshness
 - **Network First**: dynamic data (APIs, personalized content) goes through the network first. The cache is used only when the network fails, which guarantees fresh data while providing an offline fallback
@@ -55,7 +55,7 @@ Cache granularity must be planned upfront. Aggressively pre-caching the app shel
 
 Push notifications are a major engagement lever for PWAs. They rely on the Push API and the Notification API, both orchestrated by the Service Worker. The flow involves an application server that sends a message through a push service (FCM, Web Push Protocol), and the Service Worker that receives it and displays the notification even when the application is closed.
 
-Consent management is critical, in particular to comply with the [RGAA accessibility standards](/article/normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous) (in French): asking for permission too early or without context leads to a high refusal rate. The best practice is to trigger the request after a meaningful user action, along with a clear explanation of the added value.
+Consent management is critical, in particular to comply with the [RGAA accessibility standards](/en/article/rgaa-web-accessibility-standards): asking for permission too early or without context leads to a high refusal rate. The best practice is to trigger the request after a meaningful user action, along with a clear explanation of the added value.
 
 ## Limits and technical constraints
 
@@ -71,7 +71,7 @@ For an architect or a tech lead, the question is not whether PWAs are better tha
 
 ### When a PWA is the right choice
 
-A PWA is the best choice when the product targets a broad audience on heterogeneous devices, when resources do not allow maintaining separate iOS and Android codebases (choosing the right [JavaScript framework](/article/quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular) (in French) then becomes central), when the deployment cycle must be fast and independent of store review processes, or when the target markets include regions with intermittent connectivity.
+A PWA is the best choice when the product targets a broad audience on heterogeneous devices, when resources do not allow maintaining separate iOS and Android codebases (choosing the right [JavaScript framework](/en/article/javascript-frameworks-comparison) then becomes central), when the deployment cycle must be fast and independent of store review processes, or when the target markets include regions with intermittent connectivity.
 
 Twitter Lite illustrates this scenario perfectly. By adopting the PWA approach, Twitter saw a 65% increase in pages viewed per session, a 75% reduction in data consumption and a 30% shorter load time compared to the native application. The PWA let them reach users on entry-level devices in emerging markets, where installing a native application of several dozen megabytes is a real barrier.
 
@@ -83,7 +83,7 @@ A native application keeps the advantage when the product relies on intensive ha
 
 The most durable approach is to adopt progressive enhancement as a guiding principle. The manifest embodies this philosophy: it adds application capabilities to a website without taking anything away from the base experience. A user without PWA support still reaches the content through their browser. A user on Chrome for Android benefits from installation, offline mode and push notifications. Each layer enriches the experience without creating a dependency.
 
-This strategy of progressive enrichment, consistent with [eco-design](/article/eco-conception-un-ideal-en-marche-ou-une-illusion-durable) (in French) principles, extends beyond the manifest. It guides architecture choices: a [REST API that follows best practices](/article/api-rest-les-bonnes-pratiques) (in French) serves a PWA just as well as a future native application, and a well-structured Service Worker prepares the ground for real-time features without a rewrite. Integrating the manifest into a Symfony project naturally fits a performance-oriented [custom web development](/developpement-web-sur-mesure) (in French) approach.
+This strategy of progressive enrichment, consistent with [eco-design](/en/article/eco-design-web-sustainable) principles, extends beyond the manifest. It guides architecture choices: a [REST API that follows best practices](/en/article/php-rest-api-best-practices) serves a PWA just as well as a future native application, and a well-structured Service Worker prepares the ground for real-time features without a rewrite. Integrating the manifest into a Symfony project naturally fits a performance-oriented [custom web development](/developpement-web-sur-mesure) (in French) approach.
 
 ## Conclusion
 

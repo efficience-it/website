@@ -13,7 +13,7 @@ translatedFromUpdatedAt: "2026-10-12"
 
 The web is going through its deepest change since the rise of search engines. Users no longer type keyword queries. They ask ChatGPT, Gemini, Perplexity, or Claude questions in natural language. These interfaces no longer return ten blue links. They return a synthesized, sourced, contextual answer. A new discipline has emerged to address this: GEO, Generative Engine Optimization.
 
-For technical teams, this shift has major architectural consequences. A website must no longer be just fast and well ranked: language models must be able to understand it. That is precisely where [Symfony, with its structural rigor and its ecosystem](/article/pourquoi-choisir-symfony-pour-vos-projets) (in French), proves to be a competitive advantage.
+For technical teams, this shift has major architectural consequences. A website must no longer be just fast and well ranked: language models must be able to understand it. That is precisely where [Symfony, with its structural rigor and its ecosystem](/en/article/why-choose-symfony), proves to be a competitive advantage.
 
 ## Understanding GEO and How It Differs from SEO
 
@@ -38,7 +38,7 @@ These pillars are interdependent. Structure without freshness produces obsolete 
 
 ### JSON-LD and schema.org with API Platform
 
-API Platform natively generates JSON-LD contexts compliant with schema.org. Every exposed resource becomes a knowledge node that language models can consume directly, with no extra transformation. The [official Symfony Serializer documentation](https://symfony.com/doc/current/serializer.html) details the available JSON-LD serialization options. To get the most out of these endpoints, it is essential to follow [REST API best practices](/article/api-rest-les-bonnes-pratiques) (in French) when designing your resources.
+API Platform natively generates JSON-LD contexts compliant with schema.org. Every exposed resource becomes a knowledge node that language models can consume directly, with no extra transformation. The [official Symfony Serializer documentation](https://symfony.com/doc/current/serializer.html) details the available JSON-LD serialization options. To get the most out of these endpoints, it is essential to follow [REST API best practices](/en/article/php-rest-api-best-practices) when designing your resources.
 
 The most strategic types for GEO are `Article` (with author, date, image, summary), `Product` (with stock, reviews), `Service` (with geographic area and description), and `LocalBusiness` (with contact details and opening hours). Every Symfony entity can be serialized to JSON-LD through the Serializer component and a few lines of configuration.
 
@@ -60,7 +60,7 @@ This format is directly usable. When a user asks, "What cultural events take pla
 
 ### The llms.txt File
 
-The [llms.txt file](/article/llms-txt-le-nouveau-levier-seo-a-lere-de-lintelligence-artificielle) (in French), placed at the root of your site, guides language models to your priority content. For GEO, it plays a role similar to the one robots.txt plays for SEO. In a Symfony project, expose it through a dedicated route or a static file in the public directory. List your strategic pages, your API endpoints, and the hierarchy of your content.
+The [llms.txt file](/en/article/llms-txt-seo-ai), placed at the root of your site, guides language models to your priority content. For GEO, it plays a role similar to the one robots.txt plays for SEO. In a Symfony project, expose it through a dedicated route or a static file in the public directory. List your strategic pages, your API endpoints, and the hierarchy of your content.
 
 ### Sitemap Optimization
 
@@ -68,7 +68,7 @@ The sitemap remains relevant for GEO, but its role is evolving. AI crawlers such
 
 ## Performance and Consumability
 
-AI crawlers measure latency and DOM readability. A slow response time or a DOM overloaded with client-side JavaScript discourages indexing. A good [caching strategy](/article/tout-savoir-sur-la-mise-en-cache-tips) (in French) is a prerequisite for meeting the performance thresholds these bots require. Symfony's HttpKernel component natively includes HTTP caching, ETags, and conditional validation. Combined with Varnish or Caddy as a reverse proxy, it guarantees response times under 100ms on static pages.
+AI crawlers measure latency and DOM readability. A slow response time or a DOM overloaded with client-side JavaScript discourages indexing. A good [caching strategy](/en/article/caching-guide-web-applications) is a prerequisite for meeting the performance thresholds these bots require. Symfony's HttpKernel component natively includes HTTP caching, ETags, and conditional validation. Combined with Varnish or Caddy as a reverse proxy, it guarantees response times under 100ms on static pages.
 
 This performance is not a bonus. It is a prerequisite. AI bots can only crawl a limited number of pages per visit. A slow site wastes that capacity with nothing in return.
 
@@ -102,7 +102,7 @@ For architects, three principles help you stay resilient through these changes:
 2. **Decouple data from presentation.** A headless or API-first architecture lets you expose the same structured data to any consumer, whether a browser, a Google bot, or an AI crawler.
 3. **Automate freshness.** With Messenger or the Symfony Scheduler, schedule the update and republication of your strategic content. Models favor recent sources, and this freshness must be systematic, not manual.
 
-With its component-oriented architecture, native compatibility with semantic web standards, and mature ecosystem, Symfony provides a solid technical foundation for a lasting GEO strategy. To go further on integrating AI into existing Symfony projects, the [case study on Symfony AI in a legacy project](/article/symfony-ai-projet-legacy-retour-experience) (in French) offers concrete lessons.
+With its component-oriented architecture, native compatibility with semantic web standards, and mature ecosystem, Symfony provides a solid technical foundation for a lasting GEO strategy. To go further on integrating AI into existing Symfony projects, the [case study on Symfony AI in a legacy project](/en/article/symfony-ai-legacy-lessons) offers concrete lessons.
 
 ## Conclusion
 
@@ -112,7 +112,7 @@ The teams that invest in this structure now are the ones ChatGPT, Gemini, and Pe
 
 ## Going Further
 
-- [RAG with Symfony AI and Doctrine](/article/rag-symfony-ai-doctrine-indexer-base-metier) (in French), building a RAG in PHP
+- [RAG with Symfony AI and Doctrine](/en/article/rag-symfony-ai-doctrine), building a RAG in PHP
 - [Schema.org](https://schema.org/), structured data vocabulary
 - [Google Search Central: SEO Starter Guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide), SEO fundamentals
 - [Symfony Sitemap Bundle](https://github.com/prestaconcept/PrestaSitemapBundle), generate a dynamic sitemap

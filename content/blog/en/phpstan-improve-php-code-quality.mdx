@@ -90,7 +90,7 @@ function findUser(int $id): User
 
 If `find()` returns `User|null`, PHPStan detects the inconsistency. In production, that means a crash on the first call with an invalid ID.
 
-PHPStan is also great at spotting [dead code in your projects](/article/code-mort-mission-elimination) (in French), those branches that are never reached and weigh down the codebase. Pairing PHPStan with [automated tests](/tests-automatises-php) (in French) ensures maximum coverage of errors, both structural and behavioral.
+PHPStan is also great at spotting [dead code in your projects](/en/article/php-dead-code-detection-phpstan), those branches that are never reached and weigh down the codebase. Pairing PHPStan with [automated tests](/tests-automatises-php) (in French) ensures maximum coverage of errors, both structural and behavioral.
 
 A duplicated condition, a sign of copy-paste:
 
@@ -102,7 +102,7 @@ PHPStan spots the redundancy. The second condition probably hides another state 
 
 ## The baseline: technical debt under control
 
-On an existing project, running PHPStan at level 6 can generate hundreds of errors. This pile-up is a classic symptom of [technical debt](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French) that must be handled methodically. The baseline solves this problem by freezing the current state:
+On an existing project, running PHPStan at level 6 can generate hundreds of errors. This pile-up is a classic symptom of [technical debt](/en/article/technical-debt-explained) that must be handled methodically. The baseline solves this problem by freezing the current state:
 
 ```bash
 ./vendor/bin/phpstan analyse --generate-baseline
@@ -126,7 +126,7 @@ A useful habit: add a check to your CI that counts the baseline entries and fail
 
 ## CI integration and team workflow
 
-PHPStan delivers its full value in a continuous integration pipeline. It fits naturally alongside PHP-CS-Fixer and [PHP coding conventions](/article/coding-conventions) (in French) to form a complete quality pipeline. In a `.gitlab-ci.yml`:
+PHPStan delivers its full value in a continuous integration pipeline. It fits naturally alongside PHP-CS-Fixer and [PHP coding conventions](/en/article/php-coding-standards-best-practices) to form a complete quality pipeline. In a `.gitlab-ci.yml`:
 
 ```yaml
 phpstan:
@@ -217,7 +217,7 @@ services:
             - phpstan.rules.rule
 ```
 
-Other common use cases for custom rules: forbidding the use of `new` in controllers (everything must go through injection), forcing the use of value objects for certain parameters, or preventing circular dependencies between bounded contexts. This type of rule fits the philosophy of the [domain that should never know about Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony) (in French), where PHPStan becomes the guardian of architectural boundaries.
+Other common use cases for custom rules: forbidding the use of `new` in controllers (everything must go through injection), forcing the use of value objects for certain parameters, or preventing circular dependencies between bounded contexts. This type of rule fits the philosophy of the [domain that should never know about Symfony](/en/article/domain-layer-symfony-independence), where PHPStan becomes the guardian of architectural boundaries.
 
 ## The advanced type system: generics and template types
 
@@ -243,10 +243,10 @@ Conditional return types (`@return ($flag is true ? Foo : Bar)`) and assertions 
 
 ## PHPStan as a design philosophy
 
-Beyond the tool, adopting PHPStan at the maximum level changes the way you design code. The need to satisfy the analyzer pushes you toward more explicit designs: less `mixed`, less magic, clear contracts between layers. The code becomes its own documentation. To discover the most frequent concrete errors at this level, the article on [the 10 PHPStan max level errors on a Symfony project](/article/phpstan-niveau-max-symfony-10-erreurs) (in French) provides examples and fixes you can apply directly.
+Beyond the tool, adopting PHPStan at the maximum level changes the way you design code. The need to satisfy the analyzer pushes you toward more explicit designs: less `mixed`, less magic, clear contracts between layers. The code becomes its own documentation. To discover the most frequent concrete errors at this level, the article on [the 10 PHPStan max level errors on a Symfony project](/en/article/phpstan-max-level-symfony-errors) provides examples and fixes you can apply directly.
 
 An architect who configures PHPStan with custom rules, generics, and level 9 is not trying to satisfy a tool. They encode the invariants of their system in an automated checker that runs on every commit. This is executable technical governance. Our [PHP code analysis](/audit-code-php) (in French) service relies on this type of tooling to identify the structural flaws of a project, the first step of an [application modernization](/modernisation-applicative) (in French) journey.
 
 ## Going further
 
-- [PHPStan 2.0: level 10 and new features](/article/phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable) (in French), what is new in version 2.0
+- [PHPStan 2.0: level 10 and new features](/en/article/phpstan-2-level-10-features), what is new in version 2.0

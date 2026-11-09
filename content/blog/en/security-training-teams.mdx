@@ -16,7 +16,7 @@ The real challenge is not to tick a compliance box. It is to turn security into 
 
 ## Understanding the application threat landscape
 
-Before training, you need to align the teams on a shared reference. The OWASP Top 10 remains the essential starting point: injection, broken authentication, sensitive data exposure, XXE, broken access control, security misconfiguration, XSS, insecure deserialization, vulnerable components, insufficient logging. These categories often match [CVEs published on well-known libraries](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) (in French), which are worth knowing how to interpret to put a threat in context.
+Before training, you need to align the teams on a shared reference. The OWASP Top 10 remains the essential starting point: injection, broken authentication, sensitive data exposure, XXE, broken access control, security misconfiguration, XSS, insecure deserialization, vulnerable components, insufficient logging. These categories often match [CVEs published on well-known libraries](/en/article/cve-vulnerability-management), which are worth knowing how to interpret to put a threat in context.
 
 Every developer should be able to recognize these vulnerability categories in the code they write. This is not theoretical knowledge: it is the foundation of critical reading that every development professional needs to assess the attack surface of a feature they implement.
 
@@ -36,7 +36,7 @@ Secrets hardcoded in the code or in versioned configuration files remain one of 
 
 ### Authentication and session management
 
-Implementing your own authentication system is almost always a mistake. Modern frameworks like [Symfony](/article/pourquoi-choisir-symfony-pour-vos-projets) (in French) provide battle-tested components. The team's responsibility is to configure them correctly: hashing policy (bcrypt, Argon2id), token lifetime, server-side session invalidation, CSRF protection, security headers (HSTS, CSP, X-Content-Type-Options). Every configuration choice has implications for the attack surface that you need to understand, not just apply by copying and pasting from Stack Overflow.
+Implementing your own authentication system is almost always a mistake. Modern frameworks like [Symfony](/en/article/why-choose-symfony) provide battle-tested components. The team's responsibility is to configure them correctly: hashing policy (bcrypt, Argon2id), token lifetime, server-side session invalidation, CSRF protection, security headers (HSTS, CSP, X-Content-Type-Options). Every configuration choice has implications for the attack surface that you need to understand, not just apply by copying and pasting from Stack Overflow.
 
 ## Code review as a security lever
 
@@ -48,19 +48,19 @@ This skill is not acquired in a lecture. It develops through repeated practice, 
 
 ### SAST and DAST in the build pipeline
 
-Static (SAST) and dynamic (DAST) analysis does not replace human review, but it complements it by catching patterns that can be detected mechanically. Semgrep, SonarQube, [PHPStan with custom security rules](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French), or Snyk Code integrate directly into CI. The challenge is not to enable the tool. It is to configure it with rules relevant to your stack, handle false positives to avoid alert fatigue, and define blocking thresholds that prevent a merge when a critical vulnerability is found. [Financial sector companies](/secteur/finance) (in French) are subject to compliance obligations that make these thresholds non-negotiable.
+Static (SAST) and dynamic (DAST) analysis does not replace human review, but it complements it by catching patterns that can be detected mechanically. Semgrep, SonarQube, [PHPStan with custom security rules](/en/article/phpstan-improve-php-code-quality), or Snyk Code integrate directly into CI. The challenge is not to enable the tool. It is to configure it with rules relevant to your stack, handle false positives to avoid alert fatigue, and define blocking thresholds that prevent a merge when a critical vulnerability is found. [Financial sector companies](/secteur/finance) (in French) are subject to compliance obligations that make these thresholds non-negotiable.
 
 On the DAST side, tools like OWASP ZAP or Nuclei let you scan staging environments continuously. Integrating them into the CI/CD pipeline turns these one-off scans into a permanent safety net.
 
 ### Auditing dependencies
 
-The supply chain has become a major attack vector. [Composer](/article/utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques) (in French) Audit, npm audit, or Dependabot are not enough if they are not paired with a response process. Every alert must have an owner, a handling SLA, and a defined escalation path. The dependency update policy must be proactive, not reactive: regular, incremental updates are less risky than a massive catch-up after months of inaction.
+The supply chain has become a major attack vector. [Composer](/en/article/composer-symfony-best-practices) Audit, npm audit, or Dependabot are not enough if they are not paired with a response process. Every alert must have an owner, a handling SLA, and a defined escalation path. The dependency update policy must be proactive, not reactive: regular, incremental updates are less risky than a massive catch-up after months of inaction.
 
 ## Building a lasting security culture
 
 ### The Security Champions program
 
-Security cannot rest solely on a dedicated team. The Security Champions model consists of identifying a volunteer reference person in each development team, continuously trained in security practices, who becomes the link between the security team and the product team. To kick-start this culture in a playful way, [Chocoblast shows how gamification can make security awareness more engaging](/article/le-chocoblast-un-premier-pas-vers-la-securite-par-le-jeu) (in French).
+Security cannot rest solely on a dedicated team. The Security Champions model consists of identifying a volunteer reference person in each development team, continuously trained in security practices, who becomes the link between the security team and the product team. To kick-start this culture in a playful way, [Chocoblast shows how gamification can make security awareness more engaging](/en/article/chocoblast-security-game).
 
 This champion takes part in code reviews with a security-oriented eye, raises architectural concerns, and keeps the team's awareness level up. The program works when it is backed by dedicated time (at least half a day per week), a community of practice among champions, and explicit recognition of the role in career progression.
 
@@ -80,7 +80,7 @@ Every step must have clearly defined gates: which vulnerabilities block the depl
 
 ### Infrastructure as Code and security
 
-When infrastructure is defined as code (Terraform, Ansible, Helm), it can be audited like code, especially when [Docker is used in production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) (in French). Tools like Checkov, tfsec, or Trivy let you verify that configurations follow best practices: no public S3 buckets, no security groups open to 0.0.0.0/0, encryption enabled at rest and in transit. These checks fit into the same pipeline as the application code, unifying security governance across the whole stack.
+When infrastructure is defined as code (Terraform, Ansible, Helm), it can be audited like code, especially when [Docker is used in production](/en/article/docker-production-reliability). Tools like Checkov, tfsec, or Trivy let you verify that configurations follow best practices: no public S3 buckets, no security groups open to 0.0.0.0/0, encryption enabled at rest and in transit. These checks fit into the same pipeline as the application code, unifying security governance across the whole stack.
 
 ## Measuring security maturity
 
@@ -106,9 +106,9 @@ The most frequent mistake is to treat security as a separate topic, delegated to
 
 ## Going further
 
-- [DbToolsBundle: anonymize your databases](/article/dbtoolsbundle-anonymiser-vos-bases-de-donnees) (in French), securing development data
+- [DbToolsBundle: anonymize your databases](/en/article/dbtoolsbundle-database-anonymization), securing development data
 - How PHPStan can improve the quality of your PHP code, automatically detecting typing errors and potential vulnerabilities
-- [RGAA standards: a successful user experience for everyone](/article/normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous) (in French), building compliance and accessibility into the overall quality approach
+- [RGAA standards: a successful user experience for everyone](/en/article/rgaa-web-accessibility-standards), building compliance and accessibility into the overall quality approach
 - [ANSSI: SecNumacadémie](https://secnumacademie.gouv.fr/), free MOOC on cybersecurity
 - [OWASP: free resources](https://owasp.org/), the foundation for application security
 - [Symfony Security documentation](https://symfony.com/doc/current/security.html), securing a Symfony application

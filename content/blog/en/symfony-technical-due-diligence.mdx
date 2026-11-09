@@ -66,7 +66,7 @@ The first signal is the framework version. An application on a version whose [ac
 
 The third signal is knowledge concentrated in one or two developers, the famous bus factor. The fourth is the presence of abandoned Composer dependencies with no maintained alternative. The fifth is the total absence of tooled GDPR compliance in the code: no user export, no purge, no register.
 
-The other seven signals, in order of observed impact: [technical debt](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French) above 30% as measured by analysis tools, a missing or broken CI/CD pipeline, infrastructure that cannot be reproduced without manual intervention, a strong dependency on a single non-replaceable vendor (hosting, payment, ERP), extreme coupling between the Doctrine and Symfony layers and the business logic, the absence of application monitoring in production, and finally dead code representing more than 20% of the codebase, a sign of a chronic lack of maintenance discipline.
+The other seven signals, in order of observed impact: [technical debt](/en/article/technical-debt-explained) above 30% as measured by analysis tools, a missing or broken CI/CD pipeline, infrastructure that cannot be reproduced without manual intervention, a strong dependency on a single non-replaceable vendor (hosting, payment, ERP), extreme coupling between the Doctrine and Symfony layers and the business logic, the absence of application monitoring in production, and finally dead code representing more than 20% of the codebase, a sign of a chronic lack of maintenance discipline.
 
 Each of these signals has a financial weight. The due diligence does not simply list them: it quantifies them and cross-references them with the acquirer's business plan to identify what blocks the planned value creation.
 
@@ -76,7 +76,7 @@ A rigorous Symfony due diligence covers five axes, which should be handled in th
 
 ### Axis 1: The Code
 
-The code audit starts with static analysis. [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French) configured at the strictest level the codebase supports, Psalm as a complement, and a file-by-file measure of cyclomatic complexity. On a healthy Symfony codebase, we expect zero PHPStan errors at level 9 or 10. On an unaudited target, the counter typically climbs between five thousand and several tens of thousands of errors. The raw number matters less than the distribution: if the errors are concentrated in the critical modules, the risk is high.
+The code audit starts with static analysis. [PHPStan](/en/article/phpstan-improve-php-code-quality) configured at the strictest level the codebase supports, Psalm as a complement, and a file-by-file measure of cyclomatic complexity. On a healthy Symfony codebase, we expect zero PHPStan errors at level 9 or 10. On an unaudited target, the counter typically climbs between five thousand and several tens of thousands of errors. The raw number matters less than the distribution: if the errors are concentrated in the critical modules, the risk is high.
 
 Test coverage is the other defining metric. We distinguish line coverage (often flattering) from mutation coverage (Infection PHP), which measures the real quality of the assertions. Line coverage of 70% with mutation coverage of 20% indicates tests that pass but test nothing useful. Our guide on [automated PHP tests](/tests-automatises-php) (in French) details the expectations by project type.
 
@@ -90,7 +90,7 @@ We also look for structural anti-patterns: God Objects, services with multiple d
 
 ### Axis 3: Security
 
-The security audit starts with CVEs. A `composer audit` scan, a cross-check with the [OWASP vulnerability database](https://owasp.org/www-project-top-ten/) and a review of [dependency CVEs](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) (in French) identify known vulnerabilities. On an unmaintained target, we typically find between ten and fifty active CVEs, of which one to five are classified as critical.
+The security audit starts with CVEs. A `composer audit` scan, a cross-check with the [OWASP vulnerability database](https://owasp.org/www-project-top-ten/) and a review of [dependency CVEs](/en/article/cve-vulnerability-management) identify known vulnerabilities. On an unmaintained target, we typically find between ten and fifty active CVEs, of which one to five are classified as critical.
 
 The audit then covers secrets management (Vault, environment variables, versioned `.env` files), authentication flows (hash strength, session handling, MFA), and access controls at the Symfony Security route level. The GDPR part checks for a register, a coded and testable retention policy, and export and deletion mechanisms that comply with the [CNIL's GDPR guide](https://www.cnil.fr/fr/rgpd-passer-a-laction).
 
@@ -104,13 +104,13 @@ One signal that often surprises acquirers: deployment time. A pipeline that take
 
 The last axis is the least technical but often the most decisive. It evaluates the human transferability of the project. The bus factor measures how many people can disappear before the project becomes inoperable. A bus factor of 1 or 2 on the critical modules is a major risk, especially in a closing context where the people who hold the knowledge may leave.
 
-The audit then examines the technical documentation (architecture, decisions, runbooks), the knowledge shared across the team (who knows what, who can do what) and the engineering culture (code review, shared [coding conventions](/article/coding-conventions) (in French), ownership). A team without systematic code review mechanically accumulates debt. Our [Symfony project takeover](/reprise-projet-symfony) (in French) offering includes this dimension from the first assessment.
+The audit then examines the technical documentation (architecture, decisions, runbooks), the knowledge shared across the team (who knows what, who can do what) and the engineering culture (code review, shared [coding conventions](/en/article/php-coding-standards-best-practices), ownership). A team without systematic code review mechanically accumulates debt. Our [Symfony project takeover](/reprise-projet-symfony) (in French) offering includes this dimension from the first assessment.
 
 ## The Tools of a Serious Symfony Due Diligence
 
 A technical due diligence is distinguished by the tooling it uses. Here is the stack we use on Symfony engagements.
 
-PHPStan at the highest level the codebase supports, Psalm for the cross-check, [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) (in French) in dry-run mode to measure the gap with up-to-date standards. Infection PHP for mutation coverage. PHPMetrics for cyclomatic complexity and coupling mapping. Deptrac to check that the declared architectural boundaries are respected. Composer audit and Symfony Security Checker for CVEs.
+PHPStan at the highest level the codebase supports, Psalm for the cross-check, [Rector](/en/article/rector-php-code-refactoring) in dry-run mode to measure the gap with up-to-date standards. Infection PHP for mutation coverage. PHPMetrics for cyclomatic complexity and coupling mapping. Deptrac to check that the declared architectural boundaries are respected. Composer audit and Symfony Security Checker for CVEs.
 
 On the operations side: analysis of CI logs over the last 12 months to measure deployment frequency and stability, a secrets audit using repository scanning tools (TruffleHog, GitLeaks), and a check of Docker compliance and environment reproducibility.
 
@@ -128,7 +128,7 @@ The remediation plan is the centerpiece. For each critical finding, it lists the
 
 Three recurring pitfalls bias poorly run due diligences. The first is showmanship: a firm delivers a 200-page report with colorful charts but no financial translation of the findings. The report impresses but does not help the negotiation.
 
-The second is the statistical false positive. PHPStan reports 12,000 errors? Spectacular on the surface. But if 11,500 of them concern [dead code](/article/code-mort-mission-elimination) (in French) or historical migration files that never run, the indicator is misleading. A good due diligence weights the findings by their real risk exposure, not by their raw volume.
+The second is the statistical false positive. PHPStan reports 12,000 errors? Spectacular on the surface. But if 11,500 of them concern [dead code](/en/article/php-dead-code-detection-phpstan) or historical migration files that never run, the indicator is misleading. A good due diligence weights the findings by their real risk exposure, not by their raw volume.
 
 The third is the confusion between technical debt and the need for modernization. A Symfony 5 application without tests is technically healthy on the framework but fragile on handover. A Symfony 7 application with an outdated architecture is modern on the version but blocked on the roadmap. The two situations call for different remediation plans, and the report must reflect this explicitly. Our [progressive modernization approach](/modernisation-application-php) (in French) details these nuances.
 

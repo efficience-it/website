@@ -34,6 +34,14 @@ function getValidRoutes(): Set<string> {
     routes.add(`/article/${file.replace(/\.mdx$/, "")}`);
   }
 
+  const englishDir = path.join(CONTENT_DIR, "en");
+  const englishFiles = fs.existsSync(englishDir)
+    ? fs.readdirSync(englishDir).filter((f) => f.endsWith(".mdx"))
+    : [];
+  for (const file of englishFiles) {
+    routes.add(`/en/article/${file.replace(/\.mdx$/, "")}`);
+  }
+
   routes.add("/blog/symfony");
   routes.add("/blog/outils-utiles");
   routes.add("/blog/green-it");

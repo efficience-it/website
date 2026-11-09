@@ -19,9 +19,9 @@ An auto-incremented integer remains the default choice for most projects. An INT
 
 Auto-increment guarantees sequential inserts. Each new row is appended to the end of the last page of the clustered index. There are no page splits and no tree reorganization. On MySQL InnoDB, where the primary key is also the clustered index, this is the optimal scenario for writes.
 
-The limits appear as the project grows. An unsigned INT tops out at 4.3 billion rows, and [hitting the maximum INT ID](/article/arrives-au-max-des-id-int-2147483647) (in French) forces you to migrate to BIGINT, an operation that locks the table for long minutes on a large table. A sequential identifier also exposes the data volume: a `GET /api/users/42` reveals that there are at least 42 users, and an attacker can enumerate resources by simple incrementing.
+The limits appear as the project grows. An unsigned INT tops out at 4.3 billion rows, and [hitting the maximum INT ID](/en/article/mysql-int-max-id-bigint) forces you to migrate to BIGINT, an operation that locks the table for long minutes on a large table. A sequential identifier also exposes the data volume: a `GET /api/users/42` reveals that there are at least 42 users, and an attacker can enumerate resources by simple incrementing.
 
-The most structural point concerns architecture: the identifier can only be generated at insertion time, by the DBMS. This is a constraint you also meet during a [migration to hexagonal architecture](/article/migration-symfony-architecture-hexagonale-retour-mission) (in French), where the aggregate's identity must exist from the moment it is built. You cannot create an identifier on the application side before the flush, which is a problem in event-driven architectures where an aggregate must know its identity from construction.
+The most structural point concerns architecture: the identifier can only be generated at insertion time, by the DBMS. This is a constraint you also meet during a [migration to hexagonal architecture](/en/article/symfony-hexagonal-migration), where the aggregate's identity must exist from the moment it is built. You cannot create an identifier on the application side before the flush, which is a problem in event-driven architectures where an aggregate must know its identity from construction.
 
 ### INT in Doctrine
 
@@ -60,7 +60,7 @@ The structural cost stays constant regardless of the version: 16 bytes per key, 
 private ?Uuid $id;
 ```
 
-The Symfony Uid component provides the Doctrine `uuid` type and the matching generator. Storage is binary (16 bytes) through `BINARY(16)`, never `VARCHAR(36)`, which would double the space and degrade comparisons. [Doctrine ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) (in French) also improved the handling of custom types, including UUID and ULID. For projects that use [PostgreSQL with Symfony](/base-de-donnees-postgresql-symfony) (in French), the DBMS's native `uuid` type delivers optimal storage and comparison performance.
+The Symfony Uid component provides the Doctrine `uuid` type and the matching generator. Storage is binary (16 bytes) through `BINARY(16)`, never `VARCHAR(36)`, which would double the space and degrade comparisons. [Doctrine ORM 3.0](/en/article/doctrine-orm-3-changes) also improved the handling of custom types, including UUID and ULID. For projects that use [PostgreSQL with Symfony](/base-de-donnees-postgresql-symfony) (in French), the DBMS's native `uuid` type delivers optimal storage and comparison performance.
 
 ## ULID: The Monotonic Compromise
 
@@ -109,7 +109,7 @@ Auto-increment stops working without coordination. The historical solutions (seq
 
 In a sharding context, the identifier directly influences the distribution strategy. A global auto-incremented INT requires a central coordinator (Snowflake ID at Twitter, or a dedicated service). A ULID or UUIDv7, generated locally, lets each node write independently. The built-in timestamp also provides a natural criterion for time-based partitioning.
 
-For CQRS/Event Sourcing architectures, often implemented with [Symfony Messenger](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) (in French), the identifier must exist before persistence. The aggregate receives its identity at creation, and events reference it immediately. Only application-generated identifiers (UUID, ULID) make this pattern possible without contortions.
+For CQRS/Event Sourcing architectures, often implemented with [Symfony Messenger](/en/article/symfony-messenger-hexagonal-core), the identifier must exist before persistence. The aggregate receives its identity at creation, and events reference it immediately. Only application-generated identifiers (UUID, ULID) make this pattern possible without contortions.
 
 ## Migrating an Existing System
 
@@ -137,7 +137,7 @@ public function getId(): ?Ulid {
 
 ### Migration Pitfalls to Anticipate
 
-On tables with more than a million rows, each `ALTER TABLE` can lock the table. MySQL 8 supports instant DDL for adding columns, but not for dropping or renaming them. Tools like `pt-online-schema-change` or `gh-ost` allow migrations without locking. To automate the related code transformations, [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) (in French) can help with the identifier type change in Doctrine entities.
+On tables with more than a million rows, each `ALTER TABLE` can lock the table. MySQL 8 supports instant DDL for adding columns, but not for dropping or renaming them. Tools like `pt-online-schema-change` or `gh-ost` allow migrations without locking. To automate the related code transformations, [Rector](/en/article/rector-php-code-refactoring) can help with the identifier type change in Doctrine entities.
 
 External references are the classic blind spot: message queues being processed, Redis caches, identifiers stored in third-party systems, and URLs bookmarked by users. Plan for a double-resolution period where the old INT and the new ULID coexist and both remain resolvable.
 
@@ -151,8 +151,8 @@ Migration is always possible. What matters is to choose with full awareness, by 
 
 ## Going Further
 
-- [Symfony for Muggles](/article/symfony-pour-les-moldus) (in French), discover the fundamentals of the Symfony framework
-- [Which architecture to choose between microservices and a modular monolith?](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) (in French), understand how the choice of identifier influences distributed architectures
+- [Symfony for Muggles](/en/article/symfony-explained-php-framework), discover the fundamentals of the Symfony framework
+- [Which architecture to choose between microservices and a modular monolith?](/en/article/microservices-vs-modular-monolith), understand how the choice of identifier influences distributed architectures
 - Symfony migration to hexagonal architecture, see why application-generated identifiers are a must in hexagonal architecture
 - [Symfony Uid Component](https://symfony.com/doc/current/components/uid.html), the Symfony component to generate and manipulate UUIDs and ULIDs
 - [RFC 4122: UUID](https://datatracker.ietf.org/doc/html/rfc4122), the official UUID specification

@@ -10,7 +10,7 @@ translationOf: "phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-
 translatedFromUpdatedAt: "2026-03-09"
 ---
 
-PHPStan 2.0 marks a turning point in PHP static analysis. Beyond the performance gains and the new level 10, this version changes how you design, document, and secure a codebase. Whether you want to migrate from 1.x or understand how the type system can support your architecture decisions, this article covers the essentials. To get straight to concrete cases, the [10 PHPStan max level errors on a Symfony project](/article/phpstan-niveau-max-symfony-10-erreurs) (in French) illustrate the most frequent ones.
+PHPStan 2.0 marks a turning point in PHP static analysis. Beyond the performance gains and the new level 10, this version changes how you design, document, and secure a codebase. Whether you want to migrate from 1.x or understand how the type system can support your architecture decisions, this article covers the essentials. To get straight to concrete cases, the [10 PHPStan max level errors on a Symfony project](/en/article/phpstan-max-level-symfony-errors) illustrate the most frequent ones.
 
 ## What level 10 actually changes
 
@@ -89,7 +89,7 @@ On a legacy project with several hundred thousand lines, enabling level 10 all a
 phpstan analyse --generate-baseline
 ```
 
-This command generates a `phpstan-baseline.neon` file that lists all existing errors. PHPStan no longer reports them in later analyses, but any new error is detected immediately. The recommended strategy is to shrink this baseline gradually, module by module, starting with the most critical layers (business domain, shared services). To speed up this refactoring work, [Rector automates repetitive transformations](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) (in French) and fits naturally into the process.
+This command generates a `phpstan-baseline.neon` file that lists all existing errors. PHPStan no longer reports them in later analyses, but any new error is detected immediately. The recommended strategy is to shrink this baseline gradually, module by module, starting with the most critical layers (business domain, shared services). To speed up this refactoring work, [Rector automates repetitive transformations](/en/article/rector-php-code-refactoring) and fits naturally into the process.
 
 Configuration options deprecated since 1.x are removed. If your `phpstan.neon` uses obsolete keys, PHPStan displays a clear message with the replacement syntax.
 
@@ -125,7 +125,7 @@ function process(int $value): void
 }
 ```
 
-The inner condition is always true. PHPStan detects it and reports it. This type of alert reveals dead branches, redundant checks, or misunderstandings of the data flow. This ability to detect [dead code](/article/code-mort-mission-elimination) (in French) is a powerful cleanup lever. On a mature project, fixing these alerts simplifies the code and reduces the cognitive load for the developers who maintain it.
+The inner condition is always true. PHPStan detects it and reports it. This type of alert reveals dead branches, redundant checks, or misunderstandings of the data flow. This ability to detect [dead code](/en/article/php-dead-code-detection-phpstan) is a powerful cleanup lever. On a mature project, fixing these alerts simplifies the code and reduces the cognitive load for the developers who maintain it.
 
 ## Consistency of @var annotations
 
@@ -185,11 +185,11 @@ This completeness of the type system has direct architectural consequences. A se
 
 PHPStan then becomes a form of living documentation. Unlike a comment or a wiki, a PHPStan type is verified on every CI run. It cannot drift from the real code. For an architect, this is a powerful lever: design decisions (layer separation, contracts between modules, shared data structures) are encoded in types and enforced automatically.
 
-Enforcing level 10 across an entire project amounts to saying: every interaction between components is explicit and verified. Combined with strict [coding conventions](/article/coding-conventions) (in French), it is a significant upfront investment, but the return is measured in bugs avoided, faster onboarding, and safe refactorings. To assess the maturity of your codebase before this level increase, a PHP technical assessment can map the critical areas. And to lock in these guarantees over time, PHPStan fits into a [Symfony test coverage strategy](/tests-automatises-php) (in French) that combines static analysis, PHPUnit, and functional tests.
+Enforcing level 10 across an entire project amounts to saying: every interaction between components is explicit and verified. Combined with strict [coding conventions](/en/article/php-coding-standards-best-practices), it is a significant upfront investment, but the return is measured in bugs avoided, faster onboarding, and safe refactorings. To assess the maturity of your codebase before this level increase, a PHP technical assessment can map the critical areas. And to lock in these guarantees over time, PHPStan fits into a [Symfony test coverage strategy](/tests-automatises-php) (in French) that combines static analysis, PHPUnit, and functional tests.
 
 ## Going further
 
-- [How PHPStan can improve the quality of your PHP code](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French), an introduction guide
+- [How PHPStan can improve the quality of your PHP code](/en/article/phpstan-improve-php-code-quality), an introduction guide
 - [Official PHPStan blog: PHPStan 2.0 announcement](https://phpstan.org/blog/phpstan-2-0-released-level-10-elephpants), full release details
 - [PHPStan on GitHub](https://github.com/phpstan/phpstan), source code and issues
 - [PHP 8.4: new features](https://www.php.net/releases/8.4/en.php), the latest PHP version when PHPStan 2.0 was released

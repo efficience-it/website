@@ -30,7 +30,7 @@ Gemini 2 fixed the weaknesses of the first generation. The reliability of its an
 
 ### Perplexity
 
-Perplexity has evolved beyond a simple sourced search engine. In 2026, it combines real-time search, document synthesis and code generation, all with verifiable citations. For technology watch, solving obscure bugs or comparing libraries such as the [most widely used bundles in Symfony projects](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony) (in French), its traceability remains a significant advantage. But for complex code generation or refactoring, it does not reach the level of specialized models.
+Perplexity has evolved beyond a simple sourced search engine. In 2026, it combines real-time search, document synthesis and code generation, all with verifiable citations. For technology watch, solving obscure bugs or comparing libraries such as the [most widely used bundles in Symfony projects](/en/article/top-symfony-bundles), its traceability remains a significant advantage. But for complex code generation or refactoring, it does not reach the level of specialized models.
 
 ### Open Source Models: Llama 4, Mistral Large 2, DeepSeek V3
 
@@ -42,7 +42,7 @@ The coding assistant segment has seen the most radical transformation between 20
 
 ### Claude Code
 
-Claude Code has redefined what a development assistant can do. As a command-line agent, it reads the source code, runs commands, modifies files, launches tests and iterates until it gets a result that passes CI. Integration with a `CLAUDE.md` file lets you encode architecture conventions, naming rules and project-specific patterns. On our Symfony projects, this approach cut the time spent on repetitive refactoring tasks by 60%, in combination with tools such as [Rector to automate code evolution](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) (in French). Our case study on [using Claude as a legacy Symfony architecture assistant](/article/claude-assistant-architecture-symfony-legacy) (in French) shows concretely how to configure this agent for an existing project, and our [Claude Code upskilling guide](/article/monter-en-competence-claude-code) (in French) covers skills, hooks and MCP servers to go further.
+Claude Code has redefined what a development assistant can do. As a command-line agent, it reads the source code, runs commands, modifies files, launches tests and iterates until it gets a result that passes CI. Integration with a `CLAUDE.md` file lets you encode architecture conventions, naming rules and project-specific patterns. On our Symfony projects, this approach cut the time spent on repetitive refactoring tasks by 60%, in combination with tools such as [Rector to automate code evolution](/en/article/rector-php-code-refactoring). Our case study on [using Claude as a legacy Symfony architecture assistant](/en/article/claude-code-symfony-legacy-architecture) shows concretely how to configure this agent for an existing project, and our [Claude Code upskilling guide](/en/article/claude-code-upskilling) covers skills, hooks and MCP servers to go further.
 
 ### GitHub Copilot
 
@@ -62,7 +62,7 @@ With 2026 models, prompt engineering has evolved. Models understand implicit int
 
 ### Segment Your Usage by Tool
 
-Using a single tool for everything is still a common mistake. The optimal segmentation in 2026: Claude Code for refactoring, architecture reviews and multi-file tasks. Copilot or Cursor for daily autocomplete and continuous development flow. Perplexity for documentation research and technology watch. GPT-5 for brainstorming, technical writing and business use cases through custom GPTs. This specialization reduces the time lost rephrasing prompts and improves the relevance of results. If you want to go further in choosing your main tool, the [practical guide to choosing your AI coding assistant](/article/quel-assistant-ia-choisir-pour-coder) (in French) details the selection criteria for your context.
+Using a single tool for everything is still a common mistake. The optimal segmentation in 2026: Claude Code for refactoring, architecture reviews and multi-file tasks. Copilot or Cursor for daily autocomplete and continuous development flow. Perplexity for documentation research and technology watch. GPT-5 for brainstorming, technical writing and business use cases through custom GPTs. This specialization reduces the time lost rephrasing prompts and improves the relevance of results. If you want to go further in choosing your main tool, the [practical guide to choosing your AI coding assistant](/en/article/best-ai-coding-assistant-2026) details the selection criteria for your context.
 
 ### API Access and Automation
 
@@ -88,18 +88,18 @@ Beyond public benchmarks, evaluating an LLM for professional use rests on criter
 
 Generative AI reproduces and amplifies the biases present in its training data. Lawsuits over the intellectual property of training data are still ongoing, with first rulings that differ between the United States and Europe. The AI Act imposes transparency obligations that technical teams must build into their processes.
 
-For a senior developer, this translates into concrete practices: systematically verifying generated code with [static analysis tools like PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French), not delegating architectural responsibility to a model, and maintaining technical expertise that does not depend on the availability of a third-party service. For an architect, it means writing these practices into the team's standards and planning review mechanisms suited to AI-generated code.
+For a senior developer, this translates into concrete practices: systematically verifying generated code with [static analysis tools like PHPStan](/en/article/phpstan-improve-php-code-quality), not delegating architectural responsibility to a model, and maintaining technical expertise that does not depend on the availability of a third-party service. For an architect, it means writing these practices into the team's standards and planning review mechanisms suited to AI-generated code.
 
 ## Trajectory and Medium-Term Positioning
 
-The underlying trend in 2026 is clear: LLMs are becoming agents capable of carrying out complete tasks rather than simply answering questions. Claude Code, Copilot Agent, Cursor Composer: these tools no longer just suggest code, they modify it, test it and iterate on it. This evolution shifts the developer's added value toward design, critical review and architecture decisions, such as the choice between [hexagonal architecture and classic approaches](/article/migration-symfony-architecture-hexagonale-retour-mission) (in French).
+The underlying trend in 2026 is clear: LLMs are becoming agents capable of carrying out complete tasks rather than simply answering questions. Claude Code, Copilot Agent, Cursor Composer: these tools no longer just suggest code, they modify it, test it and iterate on it. This evolution shifts the developer's added value toward design, critical review and architecture decisions, such as the choice between [hexagonal architecture and classic approaches](/en/article/symfony-hexagonal-migration).
 
 Specialization keeps accelerating, and our [artificial intelligence expertise](/expertise-ia) (in French) lets us support teams in these strategic choices. [Optimizing for AI engines](/geo-optimisation-ia) (in French) is becoming a major SEO challenge for companies that want to stay visible in the answers generated by these models. Smaller, faster models trained on specific domains are becoming viable for local deployment. This evolution favors organizations that have structured their adoption around composability: abstract integration interfaces, controlled data flows, and the ability to replace one provider with another without rewriting the infrastructure. The architect who prepares their team for this transition will get the most out of each generation of models without suffering the disruptions.
 
 ## Going Further
 
-- [Symfony and AI: lessons learned on a legacy project](/article/symfony-ai-projet-legacy-retour-experience) (in French), how to use AI concretely in Symfony projects
-- [RAG with Symfony: indexing a business database with AI](/article/rag-symfony-ai-doctrine-indexer-base-metier) (in French), putting generative AI into practice in a Symfony context
-- [LLMs.txt: the new SEO lever in the age of artificial intelligence](/article/llms-txt-le-nouveau-levier-seo-a-lere-de-lintelligence-artificielle) (in French), making your application visible to generative AI
-- [GEO: making your Symfony application visible in AI engines](/article/geo-rendre-votre-application-symfony-visible-dans-les-moteurs-ia) (in French), optimizing your presence in LLM-generated answers
-- [PHPStorm, VS Code, Sublime Text: which editor to choose?](/article/phpstorm-vscode-sublimetext-netbeans-quel-editeur-de-code-choisir) (in French), the development tools that integrate these AI assistants
+- [Symfony and AI: lessons learned on a legacy project](/en/article/symfony-ai-legacy-lessons), how to use AI concretely in Symfony projects
+- [RAG with Symfony: indexing a business database with AI](/en/article/rag-symfony-ai-doctrine), putting generative AI into practice in a Symfony context
+- [LLMs.txt: the new SEO lever in the age of artificial intelligence](/en/article/llms-txt-seo-ai), making your application visible to generative AI
+- [GEO: making your Symfony application visible in AI engines](/en/article/geo-symfony-ai-visibility), optimizing your presence in LLM-generated answers
+- [PHPStorm, VS Code, Sublime Text: which editor to choose?](/en/article/best-code-editor-2026), the development tools that integrate these AI assistants

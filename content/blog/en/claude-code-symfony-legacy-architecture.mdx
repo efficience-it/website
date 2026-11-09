@@ -11,7 +11,7 @@ translationOf: "claude-assistant-architecture-symfony-legacy"
 translatedFromUpdatedAt: "2026-03-26"
 ---
 
-You open Claude Code on your Symfony project. You ask it to create a use case. It generates a service with 15 dependencies, Doctrine annotations in the domain, and a 200-line controller. Exactly what you spend your days fixing in code review. And on a legacy project, this [accumulated technical debt](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French) only gets worse if the AI reproduces it.
+You open Claude Code on your Symfony project. You ask it to create a use case. It generates a service with 15 dependencies, Doctrine annotations in the domain, and a 200-line controller. Exactly what you spend your days fixing in code review. And on a legacy project, this [accumulated technical debt](/en/article/technical-debt-explained) only gets worse if the AI reproduces it.
 
 The problem is not Claude. It is that Claude does not know your architecture. It generates "standard" Symfony code because that is what it has seen most often. When it comes to a [Symfony project takeover](/reprise-projet-symfony) (in French), this gap between the generated code and the existing architecture is even more problematic. Your hexagonal architecture, your DDD conventions, your rules on Doctrine repositories: it does not know them until you explain them.
 
@@ -92,7 +92,7 @@ The concrete example matters. Claude learns better from an example than from an 
 
 DDD badly applied by an AI assistant gives worse code than no DDD at all. Value Objects everywhere for no reason, Aggregates that aggregate nothing, Domain Events that serve no one.
 
-If you have a legacy project to evolve, a [structured migration guide](/article/guide-de-migration-dans-un-projet-symfony) (in French) helps define the steps before you even configure the AI.
+If you have a legacy project to evolve, a [structured migration guide](/en/article/symfony-upgrade-guide) helps define the steps before you even configure the AI.
 
 Be prescriptive about what you actually use:
 
@@ -190,7 +190,7 @@ Combine that with PHPStan:
 }
 ```
 
-Claude receives PHPStan's feedback in real time and fixes its own typing errors. The "generate, check, fix" cycle runs without human intervention. To get the most out of this integration, reading [the 10 most common errors PHPStan detects at max level on Symfony](/article/phpstan-niveau-max-symfony-10-erreurs) (in French) helps refine the rules to encode in the CLAUDE.md.
+Claude receives PHPStan's feedback in real time and fixes its own typing errors. The "generate, check, fix" cycle runs without human intervention. To get the most out of this integration, reading [the 10 most common errors PHPStan detects at max level on Symfony](/en/article/phpstan-max-level-symfony-errors) helps refine the rules to encode in the CLAUDE.md.
 
 ## CLAUDE.md subfiles per context
 
@@ -243,7 +243,7 @@ Abstract rules are ambiguous. "Use Value Objects" can produce anything. A concre
 
 ### Do not freeze system prompts
 
-The `CLAUDE.md` evolves with your project. When the team adopts a new convention, it updates the `CLAUDE.md` in the same PR. Treat it like code: it is versioned, reviewed and maintained. [PHP and Symfony coding conventions](/article/coding-conventions) (in French) are a good starting point to define the base set of rules to encode.
+The `CLAUDE.md` evolves with your project. When the team adopts a new convention, it updates the `CLAUDE.md` in the same PR. Treat it like code: it is versioned, reviewed and maintained. [PHP and Symfony coding conventions](/en/article/php-coding-standards-best-practices) are a good starting point to define the base set of rules to encode.
 
 ### Do not ignore legacy edge cases
 
@@ -271,10 +271,10 @@ The most unexpected part: the `CLAUDE.md` has become the project's reference arc
 
 ## Going further
 
-- [Symfony AI in a legacy project](/article/symfony-ai-projet-legacy-retour-experience) (in French), integrating AI into existing code
-- [RAG with Symfony AI and Doctrine](/article/rag-symfony-ai-doctrine-indexer-base-metier) (in French), indexing your business database for AI
+- [Symfony AI in a legacy project](/en/article/symfony-ai-legacy-lessons), integrating AI into existing code
+- [RAG with Symfony AI and Doctrine](/en/article/rag-symfony-ai-doctrine), indexing your business database for AI
 - [Bringing your tools up to current standards](/modernisation-applicative) (in French), our complete path to taking a legacy application back in hand
-- [Migrating Symfony to hexagonal architecture](/article/migration-symfony-architecture-hexagonale-retour-mission) (in French), structuring legacy code
-- [Upskilling on Claude Code](/article/monter-en-competence-claude-code) (in French), the complete guide: skills, hooks and MCP servers
-- [MCP servers for Symfony developers](/article/serveurs-mcp-claude-code-developpeurs-symfony) (in French), connecting Claude Code to your database and tools
+- [Migrating Symfony to hexagonal architecture](/en/article/symfony-hexagonal-migration), structuring legacy code
+- [Upskilling on Claude Code](/en/article/claude-code-upskilling), the complete guide: skills, hooks and MCP servers
+- [MCP servers for Symfony developers](/en/article/mcp-servers-claude-code-symfony), connecting Claude Code to your database and tools
 - [Claude Code documentation](https://docs.anthropic.com/en/docs/claude-code), the official guide and memory file configuration

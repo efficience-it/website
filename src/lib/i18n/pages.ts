@@ -1,6 +1,8 @@
 import type { BlogLanguage } from "@/types/blog";
 
-const TRANSLATED_PAGES: Readonly<Record<string, string>> = {};
+const TRANSLATED_PAGES: Readonly<Record<string, string>> = {
+  "/blog": "/en/blog",
+};
 
 export interface PageTranslation {
   readonly language: BlogLanguage;

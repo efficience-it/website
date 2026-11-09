@@ -22,7 +22,7 @@ faq:
 
 **DORA took effect on January 17, 2025.** For a fintech, it is no longer a regulatory watch topic but an enforceable requirement: a financial client can now ask for concrete proof of resilience before signing. Yet very few technical agencies know how to translate this regulation into architecture decisions and contract clauses. This article is an actionable checklist for fintech CTOs and CISOs who build or operate a Symfony application.
 
-For the fundamentals of DORA application resilience (traceability, continuity, observability), our article on [application resilience on the Symfony side](/article/conformite-dora-resilience-symfony) (in French) sets the general framework. Here, we focus on the fintech side: what to verify, require and document. For the support itself, see our [NIS2 and DORA compliance preparation](/preparation-conformite-symfony) (in French).
+For the fundamentals of DORA application resilience (traceability, continuity, observability), our article on [application resilience on the Symfony side](/en/article/dora-symfony-resilience) sets the general framework. Here, we focus on the fintech side: what to verify, require and document. For the support itself, see our [NIS2 and DORA compliance preparation](/preparation-conformite-symfony) (in French).
 
 ## Who Is Affected in Fintech
 
@@ -42,7 +42,7 @@ Each of these pillars translates into requirements that can be verified in the c
 
 ## DORA vs NIS2: The Differences That Matter
 
-Many fintechs confuse the two frameworks. DORA is a directly applicable regulation specific to the financial sector, while the [NIS2 directive](/article/conformite-nis2-application-symfony) (in French) is cross-sector and transposed into national law. For a financial entity, DORA takes precedence over NIS2 on the topics it covers.
+Many fintechs confuse the two frameworks. DORA is a directly applicable regulation specific to the financial sector, while the [NIS2 directive](/en/article/nis2-symfony-compliance) is cross-sector and transposed into national law. For a financial entity, DORA takes precedence over NIS2 on the topics it covers.
 
 Three differences matter in practice. First, DORA goes further on **third-party providers**: it introduces direct oversight of IT providers deemed critical at the European level. Second, it requires **advanced resilience testing** (TLPT) that NIS2 does not. Finally, its **incident reporting regime** is more prescriptive, with harmonized templates and deadlines. A fintech already engaged in a NIS2 effort has a solid base, but must strengthen these three areas to reach DORA compliance.
 
@@ -60,11 +60,11 @@ For the most critical entities, DORA goes further with threat-led penetration te
 
 ### Contractual and Technical Reversibility
 
-The exit strategy is one of the points authorities scrutinize most. You must be able to migrate an application and its data to another provider without irreversible dependencies: containerization, infrastructure as code, open data formats and usable archives. Decoupling the business code from the framework and the infrastructure, as a [hexagonal architecture](/architecture-hexagonale-symfony) (in French) allows, makes this reversibility real rather than theoretical. Our [project retrospective on a migration to hexagonal architecture](/article/migration-symfony-architecture-hexagonale-retour-mission) (in French) illustrates this decoupling concretely.
+The exit strategy is one of the points authorities scrutinize most. You must be able to migrate an application and its data to another provider without irreversible dependencies: containerization, infrastructure as code, open data formats and usable archives. Decoupling the business code from the framework and the infrastructure, as a [hexagonal architecture](/architecture-hexagonale-symfony) (in French) allows, makes this reversibility real rather than theoretical. Our [project retrospective on a migration to hexagonal architecture](/en/article/symfony-hexagonal-migration) illustrates this decoupling concretely.
 
 ### Monitorable SLAs and OpenTelemetry Observability
 
-You cannot prove a resilience you do not measure. SLAs must be instrumented and verifiable, not just written in a contract. We instrument Symfony applications with OpenTelemetry to produce correlated traces, metrics and logs, and we base SLAs on these measurements. Observability lets you detect a degradation before the outage and provide the evidence expected during an inspection. A strategy of [well-managed caching](/article/tout-savoir-sur-la-mise-en-cache-tips) (in French) completes the setup by absorbing load spikes.
+You cannot prove a resilience you do not measure. SLAs must be instrumented and verifiable, not just written in a contract. We instrument Symfony applications with OpenTelemetry to produce correlated traces, metrics and logs, and we base SLAs on these measurements. Observability lets you detect a degradation before the outage and provide the evidence expected during an inspection. A strategy of [well-managed caching](/en/article/caching-guide-web-applications) completes the setup by absorbing load spikes.
 
 ### Usable Incident Logs
 
@@ -76,7 +76,7 @@ The regulation also requires you to classify incidents by severity and to meet h
 
 Here are the points we systematically verify during a DORA resilience audit of a Symfony application:
 
-- Supported PHP and Symfony versions, dependencies scanned continuously and known vulnerabilities understood thanks to [CVE](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) (in French) monitoring
+- Supported PHP and Symfony versions, dependencies scanned continuously and known vulnerabilities understood thanks to [CVE](/en/article/cve-vulnerability-management) monitoring
 - Signed commits and artifacts, reproducible and traceable CI/CD pipeline
 - Tested backups with quantified and verified recovery objectives (RTO, RPO)
 - Continuity plan proven by controlled failure scenarios
