@@ -32,7 +32,7 @@ export const metadata = pageMetadata({
 const breadcrumb = breadcrumbJsonLd([{ name: "Jobs", path: "/ta-carriere" }]);
 
 const webPage = webPageJsonLd({
-  name: "On recrute | Efficience IT - Opportunités de carrière",
+  name: "On recrute | Efficience IT – Opportunités de carrière",
   description:
     "Découvrez les opportunités de carrière chez Efficience IT : développement, business et communication au sein d'une agence web spécialisée Symfony.",
   path: "/ta-carriere",

@@ -40,7 +40,7 @@ export default function PolitiqueDeConfidentialite() {
               vous accédez aux services depuis votre appareil.
             </p>
             <p className="mt-2">
-              Avant d&apos;accéder ou d&apos;utiliser l&apos;un de nos services,
+              Avant d&apos;accéder à l&apos;un de nos services ou de l&apos;utiliser,
               veuillez lire attentivement cette politique de confidentialité et
               vous assurer que vous comprenez parfaitement nos pratiques
               concernant vos informations. Si vous lisez et comprenez pleinement
@@ -148,7 +148,7 @@ export default function PolitiqueDeConfidentialite() {
               utilisateurs ou du grand public ; (iv) si nous ou l&apos;une de nos
               sociétés affiliées subissons un changement de contrôle, y compris
               par le biais d&apos;une fusion, d&apos;une acquisition ou
-              d&apos;un achat de tous ou de la quasi-totalité de nos actifs ; (v)
+              d&apos;un achat de la totalité ou de la quasi-totalité de nos actifs ; (v)
               pour collecter, détenir et/ou gérer vos informations par le biais
               de nos fournisseurs de services tiers autorisés (par exemple, des
               sociétés de services en ligne), dans la mesure où cela est

@@ -8,7 +8,7 @@ excerpt: "Un test casse et personne ne sait depuis quand. Git bisect isole le co
 image: "/images/blog/cover-git-bisect.webp"
 faq:
   - question: "À quoi sert git bisect ?"
-    answer: "Git bisect retrouve le premier commit qui a introduit un comportement, en général une régression. Il fait une recherche dichotomique dans l'historique : à chaque étape, il se place au milieu de l'intervalle restant et vous demandez si le commit est bon ou mauvais. Pour 1 000 commits, une dizaine d'étapes suffisent."
+    answer: "Git bisect retrouve le premier commit qui a introduit un comportement, en général une régression. Il fait une recherche dichotomique dans l'historique : à chaque étape, il se place au milieu de l'intervalle restant et vous demande si le commit est bon ou mauvais. Pour 1 000 commits, une dizaine d'étapes suffisent."
   - question: "Que signifie le code de sortie 125 avec git bisect run ?"
     answer: "Le code 125 indique que le commit ne peut pas être testé, par exemple parce qu'il ne compile pas ou que les dépendances ne s'installent pas. Git le saute et passe à un autre commit. Les autres codes entre 1 et 127, sauf 125, marquent le commit comme mauvais, et 0 le marque comme bon."
   - question: "Peut-on utiliser git bisect avec PHPUnit ?"
@@ -19,7 +19,7 @@ Un test fonctionnel passait la semaine dernière et échoue ce matin. Entre les 
 
 ## Le principe : une recherche dichotomique dans l'historique
 
-Vous donnez à Git deux repères : un commit où tout fonctionnait et un commit où le bug est présent. Git se place au milieu de l'intervalle et vous demandez si ce commit est bon ou mauvais. Selon votre réponse, il élimine la moitié des commits restants, et recommence. Le nombre d'étapes croît comme le logarithme du nombre de commits : une quarantaine de commits se résout en cinq ou six étapes, mille commits en une dizaine. Le mécanisme est décrit dans la [documentation officielle de git bisect](https://git-scm.com/docs/git-bisect).
+Vous donnez à Git deux repères : un commit où tout fonctionnait et un commit où le bug est présent. Git se place au milieu de l'intervalle et vous demande si ce commit est bon ou mauvais. Selon votre réponse, il élimine la moitié des commits restants, et recommence. Le nombre d'étapes croît comme le logarithme du nombre de commits : une quarantaine de commits se résout en cinq ou six étapes, mille commits en une dizaine. Le mécanisme est décrit dans la [documentation officielle de git bisect](https://git-scm.com/docs/git-bisect).
 
 La seule condition est que le bug soit déterministe : le même commit doit toujours donner le même verdict.
 

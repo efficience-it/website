@@ -71,7 +71,7 @@ const stackItems = [
   },
   {
     name: "Jest",
-    description: "Tests unitaires et d'intégration avec la suite de test intégrée à NestJS.",
+    description: "Tests unitaires et d'intégration avec la suite de tests intégrée à NestJS.",
   },
   {
     name: "Docker",
@@ -123,7 +123,7 @@ const faqItems = [
   {
     title: "Quelle est la différence entre NestJS et Express ?",
     content:
-      "Express est un micro-framework minimaliste : il fournit le routing HTTP et peu d'autre chose. NestJS est un framework applicatif complet construit par-dessus Express (ou Fastify). Il apporte l'injection de dépendances, la modularité, les guards, les interceptors, les pipes de validation et des conventions structurantes. Pour un projet d'entreprise, NestJS réduit considérablement la dette architecturale par rapport à un projet Express sans conventions.",
+      "Express est un micro-framework minimaliste : il fournit le routing HTTP et pas grand-chose d'autre. NestJS est un framework applicatif complet construit par-dessus Express (ou Fastify). Il apporte l'injection de dépendances, la modularité, les guards, les interceptors, les pipes de validation et des conventions structurantes. Pour un projet d'entreprise, NestJS réduit considérablement la dette architecturale par rapport à un projet Express sans conventions.",
   },
   {
     title: "NestJS est-il adapté aux gros projets ?",

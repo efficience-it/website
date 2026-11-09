@@ -100,7 +100,7 @@ const stack = [
 const whenToChoose = [
   "Vous voulez intégrer progressivement de la réactivité dans une application Symfony ou Twig existante, sans tout réécrire.",
   "Votre équipe backend monte en compétence sur le frontend : la courbe d'apprentissage de Vue.js est nettement plus douce que celle de React.",
-  "Vous cherchez un framework opinioné avec un cadre clair (routing, state, build) plutôt qu'un puzzle d'outils à assembler.",
+  "Vous cherchez un framework prescriptif avec un cadre clair (routing, state, build) plutôt qu'un puzzle d'outils à assembler.",
   "Le SEO compte : Nuxt apporte SSR, génération statique et rendu hybride avec une configuration minimale.",
 ];
 
