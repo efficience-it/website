@@ -108,7 +108,7 @@ Une fois l'exposition mesurée, trois stratégies sont possibles. Le choix dépe
 
 ### Stratégie 1 : mise à jour mineure progressive
 
-La première stratégie consiste à monter de version mineure en version mineure, sans changer de version majeure. Elle s'applique aux applications proches de leur LTS (Symfony 6.2 vers 6.4 LTS, PHP 8.1 vers 8.2). L'effort est limité, la régression contenue, et la couverture de tests existante reste pertinente. Cette stratégie ne résout pas le saut majeur quand il sera nécessaire, mais elle gagne du temps.
+La première stratégie consiste à monter de version mineure en version mineure, sans changer de version majeure. Elle s'applique aux applications proches de leur LTS (Symfony 7.2 vers 7.4 LTS, PHP 8.3 vers 8.4). L'effort est limité, la régression contenue, et la couverture de tests existante reste pertinente. Cette stratégie ne résout pas le saut majeur quand il sera nécessaire, mais elle gagne du temps.
 
 ### Stratégie 2 : saut majeur planifié
 
@@ -134,9 +134,9 @@ Phase 5, en continu : prévention. Analyse statique au niveau maximum, calendrie
 
 ## Cas concrets observés
 
-Deux situations reviennent souvent. Premier cas : un SaaS B2B en Symfony 4.4 et PHP 7.4, EOL passé depuis dix-huit mois, équipe réduite à un développeur senior. La migration vers Symfony 6.4 et PHP 8.3 se déroule sur cinq mois, avec un effort majeur sur la couverture de tests les deux premiers mois. Déclencheur : un questionnaire sécurité d'un client grand compte exigeant la liste des versions exécutées.
+Deux situations reviennent souvent. Premier cas : un SaaS B2B en Symfony 4.4 et PHP 7.4, EOL passé depuis dix-huit mois, équipe réduite à un développeur senior. La migration vers Symfony 6.4 puis 7.4 LTS et PHP 8.4 se déroule sur cinq mois, avec un effort majeur sur la couverture de tests les deux premiers mois. Déclencheur : un questionnaire sécurité d'un client grand compte exigeant la liste des versions exécutées.
 
-Second cas : une application interne d'un groupe industriel en Symfony 5.4 et PHP 8.1, équipe IT généraliste. Symfony 5.4 ne reçoit plus que des correctifs de sécurité et l'EOL de PHP 8.1 est passé depuis plusieurs mois. La direction lance un audit après une remarque de l'auditeur conformité. La migration vers Symfony 6.4 et PHP 8.3 prend trois mois avec un appui externe. Notre offre de [sécurisation d'application Symfony](/securite-application-symfony) couvre ce type de chantier.
+Second cas : une application interne d'un groupe industriel en Symfony 5.4 et PHP 8.1, équipe IT généraliste. Symfony 5.4 ne reçoit plus que des correctifs de sécurité et l'EOL de PHP 8.1 est passé depuis plusieurs mois. La direction lance un audit après une remarque de l'auditeur conformité. La migration vers Symfony 7.4 LTS et PHP 8.4, avec Symfony 6.4 comme étape intermédiaire, prend trois mois avec un appui externe. Notre offre de [sécurisation d'application Symfony](/securite-application-symfony) couvre ce type de chantier.
 
 ## Conclusion
 

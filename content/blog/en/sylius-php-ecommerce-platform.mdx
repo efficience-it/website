@@ -59,11 +59,11 @@ The API Platform integration also brings automatic OpenAPI documentation, pagina
 
 ## Sylius 2: What Changes for a Project
 
-Sylius 2.0 was released in November 2024 and the 2.x branch is the active one. The 1.x branch ends with 1.14, an LTS version that only receives security fixes, until December 2026 according to the [official release cycle](https://docs.sylius.com/public/open-source/release-cycle). For a new project, start directly on 2.x.
+Sylius 2.0 was released in November 2024 and the 2.x branch is the active one. The 1.x branch ends with 1.14, an LTS version that only receives security fixes, until December 2026, that is in a few weeks, according to the [official release cycle](https://docs.sylius.com/public/open-source/release-cycle). For a new project, start directly on 2.x.
 
 Two changes shape the upgrade of a 1.x application:
 
-- **Twig Hooks** take over from the template events and template overrides of 1.x.
+- **Twig Hooks** take over from the template events of 1.x.
 - **Symfony's Workflow component** replaces winzou/state-machine-bundle for state machines (order, payment, shipping).
 
 The migration documentation recommends first moving to the latest 1.x (1.14), fixing deprecations, then migrating to 2.0 as a separate step. Third-party plugins are the main blocker: a plugin that works on 1.x does not necessarily have a 2.x version, so check before planning.
