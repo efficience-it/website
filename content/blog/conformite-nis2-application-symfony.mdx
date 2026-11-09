@@ -5,7 +5,7 @@ author: "Louis-Arnaud Catoire"
 category: "Sécurité"
 excerpt: "La directive NIS2 élargit les obligations de cybersécurité. Comment préparer techniquement une application Symfony : hardening, MFA, journalisation."
 image: "/images/blog/cover-conformite-nis2.webp"
-updatedAt: "2026-06-16"
+updatedAt: "2026-11-09"
 faq:
   - question: "NIS2 impose-t-elle des technologies précises ?"
     answer: "Non. NIS2 fixe une obligation de moyens proportionnée au risque, pas une liste d'outils. Elle exige une gestion des risques, des mesures techniques minimales (contrôle d'accès, chiffrement, journalisation) et la notification des incidents significatifs. La traduction concrète de ces exigences dépend de votre architecture applicative."
@@ -79,7 +79,7 @@ NIS2 insiste sur le contrôle d'accès. L'authentification multifacteur (MFA) n'
 
 ### Journalisation et détection
 
-Sans journaux exploitables, l'obligation de notification d'incident est intenable : on ne peut pas déclarer ce qu'on ne voit pas. Nous structurons la journalisation applicative avec Monolog, en distinguant les événements de sécurité (connexions, échecs d'authentification, élévations de privilèges) du bruit applicatif. Ces journaux doivent rester exploitables tout en respectant le RGPD, ce qui suppose de filtrer les données personnelles à la source et de borner leur conservation. La centralisation vers une stack d'observabilité permet ensuite la corrélation et l'alerte en temps quasi réel.
+Sans journaux exploitables, l'obligation de notification d'incident est intenable : on ne peut pas déclarer ce qu'on ne voit pas. Nous structurons la journalisation applicative avec Monolog, en distinguant les événements de sécurité (connexions, échecs d'authentification, élévations de privilèges) du bruit applicatif. Ces journaux doivent rester exploitables tout en respectant le RGPD, ce qui suppose de filtrer les données personnelles à la source et de borner leur conservation. La centralisation vers une stack d'observabilité permet ensuite la corrélation et l'alerte en temps quasi réel. Pour les données métier, un [audit trail avec Doctrine](/article/audit-trail-symfony-doctrine-tracer-modifications) complète ces journaux en conservant la trace de qui a modifié quel enregistrement, quand et avec quelles valeurs.
 
 ### Gestion des dépendances et des vulnérabilités
 
