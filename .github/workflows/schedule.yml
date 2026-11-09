@@ -1,0 +1,43 @@
+name: Schedule
+
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: schedule
+  cancel-in-progress: false
+
+jobs:
+  merge:
+    name: Schedule
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Merge due pull requests
+        env:
+          GH_TOKEN: ${{ secrets.MERGE_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          today=$(TZ=Europe/Paris date +%F)
+          gh pr list --repo "$REPO" --state open --limit 300 --json mergeable > /dev/null
+          sleep 30
+          gh pr list --repo "$REPO" --state open --limit 300 --json number,body,isDraft,mergeable,statusCheckRollup > prs.json
+          jq -r --arg today "$today" '
+            .[]
+            | select(.isDraft | not)
+            | (.body // "" | capture("(?m)^/schedule (?<d>[0-9]{4}-[0-9]{2}-[0-9]{2})") | .d) as $d
+            | select($d <= $today)
+            | "\(.number) \(.mergeable) \([.statusCheckRollup[] | (.conclusion // .state)] | map(select(. != "SUCCESS" and . != "SKIPPED" and . != "NEUTRAL")) | length)"
+          ' prs.json | while read -r n mergeable failing; do
+            if [ "$mergeable" != "MERGEABLE" ] || [ "$failing" != "0" ]; then
+              echo "#$n bloquée ($mergeable, $failing check(s) non verts)" >> "$GITHUB_STEP_SUMMARY"
+              continue
+            fi
+            gh pr merge "$n" --repo "$REPO" --squash --delete-branch
+            echo "#$n mergée" >> "$GITHUB_STEP_SUMMARY"
+          done
