@@ -5,9 +5,9 @@ author: "Florian Chenot"
 category: "Project"
 excerpt: "Sylius is an open source e-commerce platform built on Symfony. Explore its features, strengths and trade-offs, and learn when it is the right choice for you."
 image: "/images/blog/cover-sylius-platform.webp"
-updatedAt: "2026-10-12"
+updatedAt: "2026-11-09"
 translationOf: "sylius-la-solution-e-commerce-du-framework-symfony"
-translatedFromUpdatedAt: "2026-10-12"
+translatedFromUpdatedAt: "2026-11-09"
 faq:
   - question: "Is Sylius free and open source?"
     answer: "Yes, Sylius is fully open source under the MIT license. The code is available on GitHub and you can use it freely for commercial projects. Sylius also offers Sylius Plus, with advanced features (marketplace, multi-store)."
@@ -45,7 +45,7 @@ Admin grids follow the same declarative logic. Columns, filters, actions and sor
 
 Sylius exposes several levels of customization, from the simplest to the most invasive. The first lever is the event: the ResourceController dispatches Symfony events on every CRUD operation, which lets you inject business logic without overriding the controller. The second lever is service decoration: thanks to the Symfony container, any Sylius service can be decorated to change its behavior while keeping the original interface contract.
 
-The third lever is the Twig template system. Sylius uses a mechanism of blocks and template events (SyliusUiBundle) that lets you inject HTML into the admin or the storefront without overriding entire templates. This approach considerably reduces conflicts during upgrades.
+The third lever is the Twig template system. Sylius uses a mechanism of blocks and template events (SyliusUiBundle) that lets you inject HTML into the admin or the storefront without overriding entire templates. This approach considerably reduces conflicts during upgrades. Sylius 2 replaces this mechanism with Twig Hooks, covered below.
 
 The plugin system is the last level. A Sylius plugin is a standard Symfony bundle, but it follows specific conventions: a standardized directory structure, a Flex recipe and built-in Behat functional tests. For an overview of the most common packages in the ecosystem, our article on the [most widely used bundles in Symfony projects](/en/article/top-symfony-bundles) gives a good picture. The Sylius ecosystem has several dozen maintained plugins covering accounting, marketplaces, recurring sales and multi-vendor setups.
 
@@ -56,6 +56,17 @@ Since version 1.10, Sylius natively integrates API Platform to expose a complete
 For a tech lead, this approach opens up decoupled architectures where the front end is a React or Vue SPA, a mobile application, or even a conversational channel. The Sylius back office keeps serving business teams, while the customer experience is fully customized on the front end.
 
 The API Platform integration also brings automatic OpenAPI documentation, pagination, filtering, validation and serialization configurable by groups. Developers familiar with API Platform find their bearings: state providers, state processors and Doctrine extensions.
+
+## Sylius 2: What Changes for a Project
+
+Sylius 2.0 was released in November 2024 and the 2.x branch is the active one. The 1.x branch ends with 1.14, an LTS version that only receives security fixes, until December 2026, that is in a few weeks, according to the [official release cycle](https://docs.sylius.com/public/open-source/release-cycle). For a new project, start directly on 2.x.
+
+Two changes shape the upgrade of a 1.x application:
+
+- **Twig Hooks** take over from the template events of 1.x.
+- **Symfony's Workflow component** replaces winzou/state-machine-bundle for state machines (order, payment, shipping).
+
+The migration documentation recommends first moving to the latest 1.x (1.14), fixing deprecations, then migrating to 2.0 as a separate step. Third-party plugins are the main blocker: a plugin that works on 1.x does not necessarily have a 2.x version, so check before planning.
 
 ## Sylius in the ecosystem: strategic positioning
 
@@ -77,7 +88,7 @@ Analyzing the overall workload is decisive for an architect evaluating Sylius. T
 
 Initial development takes more effort than with a SaaS solution, but less than an equivalent Magento project. Maintenance benefits from the Symfony release cycle: minor updates are backward compatible, and migration tools (Rector, Flex) automate part of the work. For teams who want the benefits of the Sylius architecture without the full e-commerce layer, [Monofony](/en/article/monofony-beginners-guide) offers a minimalist base built on the same foundations. The infrastructure is standard (PHP, MySQL/PostgreSQL, Redis, Elasticsearch) and containerizes without friction.
 
-In terms of longevity, Sylius is backed by the Sylius company (formerly Lakion) and an active community. The project follows the Symfony release schedule, which guarantees long-term support aligned with the framework. The [Sylius certification](/en/article/symfony-twig-sylius-certifications), separate from the Symfony certification, lets you validate your teams' skills.
+In terms of longevity, Sylius is backed by the Sylius company (formerly Lakion) and an active community. The project publishes its own release cycle, documented with the end-of-maintenance and end-of-support dates of each version. The [Sylius certification](/en/article/symfony-twig-sylius-certifications), separate from the Symfony certification, lets you validate your teams' skills.
 
 ## Conclusion
 

@@ -1,14 +1,14 @@
 ---
 title: "Symfony and PHP End of Life: The Action Plan"
 date: "2026-05-13"
-updatedAt: "2026-10-12"
+updatedAt: "2026-11-09"
 author: "Louis-Arnaud Catoire"
 category: "Symfony"
 excerpt: "Symfony and PHP end-of-life calendar for 2026, real consequences (CVEs, NIS2, GDPR) and three exit strategies depending on how critical your application is."
 image: "/images/blog/cover-symfony-php-eol.webp"
 proficiencyLevel: "Intermediate"
 translationOf: "symfony-php-fin-de-support-eol-plan-action"
-translatedFromUpdatedAt: "2026-05-13"
+translatedFromUpdatedAt: "2026-11-09"
 faq:
   - question: "What actually happens when a Symfony or PHP version reaches end of support?"
     answer: "No more official patches are released, including for critical vulnerabilities. CVEs discovered after the EOL date stay open on the affected version. In practice, a zero-day vulnerability published the day after EOL will never be patched by the core team. Cloud hosts and some Linux distributors gradually remove the version from their base images, which blocks redeployments. Security scanning tools (Composer audit, enterprise SCA) flag the version as an active risk, which shows up in compliance reports."
@@ -44,30 +44,33 @@ Three operational effects appear from the EOL date. First effect: CVEs discovere
 
 None of these three effects is immediate on the EOL date. It is a slow degradation that gives a false sense of security for six to eighteen months. Then an incident triggers awareness: a high-profile CVE, an insurance audit, a client questionnaire. At that point, the remediation time is measured in months, and the exposure in the meantime is total.
 
-## End-of-Support Calendar, Updated May 13, 2026
+## End-of-Support Calendar, Updated November 9, 2026
 
 The table below summarizes the key dates. It is updated as of the displayed date and relies on the official Symfony and PHP calendars. A second useful source for cross-checking is [endoflife.date](https://endoflife.date/symfony), which aggregates the EOLs of the open source ecosystem.
 
-| Version | Status as of May 13, 2026 | End of active support | End of security support |
+| Version | Status as of November 9, 2026 | End of active support | End of security support |
 | --- | --- | --- | --- |
 | Symfony 4.4 LTS | EOL | Nov 2022 | Nov 2023 |
-| Symfony 5.4 LTS | EOL | Nov 2024 | Nov 2025 |
+| Symfony 5.4 LTS | Security only | Nov 2024 | Feb 2029 |
 | Symfony 6.4 LTS | Active support | Nov 2026 | Nov 2027 |
 | Symfony 7.0 | EOL | Jul 2024 | Jul 2024 |
 | Symfony 7.1 | EOL | Jan 2025 | Jan 2025 |
 | Symfony 7.2 | EOL | Jul 2025 | Jul 2025 |
 | Symfony 7.3 | EOL | Jan 2026 | Jan 2026 |
 | Symfony 7.4 LTS | Active support | Nov 2028 | Nov 2029 |
+| Symfony 8.0 | EOL | Jul 2026 | Jul 2026 |
+| Symfony 8.1 | Active support | Jan 2027 | Jan 2027 |
 | PHP 7.4 | EOL | Nov 2021 | Nov 2022 |
 | PHP 8.0 | EOL | Nov 2022 | Nov 2023 |
 | PHP 8.1 | EOL | Nov 2023 | Dec 2025 |
 | PHP 8.2 | Security only | Dec 2024 | Dec 2026 |
 | PHP 8.3 | Security only | Dec 2025 | Dec 2027 |
 | PHP 8.4 | Active support | Dec 2026 | Dec 2028 |
+| PHP 8.5 | Active support | Dec 2027 | Dec 2029 |
 
-Standard versions of the 7.x cycle have no public security support phase: at the end of active support, the version is immediately EOL. Symfony 5.4 LTS benefits from a commercial extended support program until February 2029, independent of free community support.
+Standard versions of the 7.x and 8.x cycles have no public security support phase: at the end of active support, the version is immediately EOL. Symfony 5.4 LTS now only receives security fixes, published until February 2029 thanks to [Ibexa's sponsorship](https://symfony.com/blog/symfony-5-4-lts-will-receive-security-fixes-until-february-2029-thanks-to-ibexa).
 
-Practical reading. Any application still running on Symfony 4.4, 5.4, 7.0, 7.1, 7.2 or 7.3 is actively exposed: no CVE published since the EOL is patched. The same goes for PHP 7.4, 8.0 or 8.1. Symfony 6.4 LTS and 7.4 LTS are the two reasonable targets for the next twelve months. On PHP, 8.4 is now the actively supported version, and 8.3 remains acceptable until the end of 2027 in its security phase.
+In practice, any application still running on Symfony 4.4, 7.0, 7.1, 7.2, 7.3 or 8.0 is actively exposed: no CVE published since the EOL is patched. The same goes for PHP 7.4, 8.0 or 8.1. Symfony 5.4 LTS avoids immediate exposure but only receives security fixes: it is a reprieve, not a target. Symfony 7.4 LTS is the reasonable target for the coming years. Symfony 6.4 LTS stops receiving bug fixes in November 2026 and remains covered for security until November 2027. Symfony 8.2 is expected in November 2026. On PHP, 8.5 has the longest support, 8.4 stays in active support until the end of 2026, 8.3 is acceptable until the end of 2027 in its security phase, and 8.2 until the end of 2026.
 
 ## Real Consequences of a Version at End of Support
 
@@ -107,7 +110,7 @@ Once the exposure is measured, three strategies are possible. The choice depends
 
 ### Strategy 1: Gradual Minor Updates
 
-The first strategy is to move from minor version to minor version, without changing the major version. It applies to applications close to their LTS (Symfony 6.2 to 6.4 LTS, PHP 8.1 to 8.2). The effort is limited, regressions are contained, and the existing test coverage stays relevant. This strategy does not solve the major jump when it becomes necessary, but it buys time.
+The first strategy is to move from minor version to minor version, without changing the major version. It applies to applications close to their LTS (Symfony 7.2 to 7.4 LTS, PHP 8.3 to 8.4). The effort is limited, regressions are contained, and the existing test coverage stays relevant. This strategy does not solve the major jump when it becomes necessary, but it buys time.
 
 ### Strategy 2: Planned Major Jump
 
@@ -133,9 +136,9 @@ Phase 5, ongoing: prevention. Static analysis at the highest level, a semiannual
 
 ## Real-World Cases
 
-Two situations come up often. First case: a B2B SaaS on Symfony 4.4 and PHP 7.4, EOL passed for eighteen months, team reduced to one senior developer. The migration to Symfony 6.4 and PHP 8.3 takes five months, with a major effort on test coverage in the first two months. Trigger: a security questionnaire from a large client requiring the list of versions in use.
+Two situations come up often. First case: a B2B SaaS on Symfony 4.4 and PHP 7.4, EOL passed for eighteen months, team reduced to one senior developer. The migration to Symfony 6.4 then 7.4 LTS and PHP 8.4 takes five months, with a major effort on test coverage in the first two months. Trigger: a security questionnaire from a large client requiring the list of versions in use.
 
-Second case: an internal application of an industrial group on Symfony 5.4 and PHP 8.1, with a generalist IT team. The Symfony EOL passed six months ago, the PHP EOL four. Management launches an audit after a remark from the compliance auditor. The migration to Symfony 6.4 and PHP 8.3 takes three months with external support. Our [Symfony application hardening](/securite-application-symfony) (in French) offer covers this kind of project.
+Second case: an internal application of an industrial group on Symfony 5.4 and PHP 8.1, with a generalist IT team. Symfony 5.4 now only receives security fixes and the PHP 8.1 EOL passed several months ago. Management launches an audit after a remark from the compliance auditor. The migration to Symfony 7.4 LTS and PHP 8.4, with Symfony 6.4 as an intermediate step, takes three months with external support. Our [Symfony application hardening](/securite-application-symfony) (in French) offer covers this kind of project.
 
 ## Conclusion
 
