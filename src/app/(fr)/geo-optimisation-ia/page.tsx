@@ -17,7 +17,7 @@ import LastUpdated from "@/components/ui/LastUpdated";
 export const metadata = pageMetadata({
   title: "GEO : optimisez votre visibilité dans les moteurs IA",
   description:
-    "Generative Engine Optimization (GEO) : rendez votre site visible dans ChatGPT, Perplexity et les AI Overviews de Google. Données structurées et llms.txt.",
+    "Generative Engine Optimization (GEO) : rendez votre contenu citable par ChatGPT, Perplexity et les AI Overviews de Google. Passages clairs et données structurées valides.",
   path: "/geo-optimisation-ia",
 });
 
@@ -25,22 +25,22 @@ const techniques = [
   {
     title: "Données structurées avancées",
     description:
-      "Nous implémentons les schémas FAQPage, HowTo, TechArticle et SpeakableSpecification pour que les moteurs IA comprennent précisément le contenu de vos pages et le citent dans leurs réponses.",
+      "Nous implémentons des schémas valides (TechArticle, Organization, BreadcrumbList, FAQPage quand la page contient une vraie FAQ) qui reflètent le contenu visible et aident les moteurs à identifier clairement vos entités.",
   },
   {
     title: "Fichier llms.txt",
     description:
-      "Nous créons et maintenons un fichier llms.txt à la racine de votre site. Ce fichier standardisé indique aux LLM quelles pages indexer, comment les interpréter et quelles informations privilégier.",
+      "Nous pouvons créer un fichier llms.txt à la racine de votre site. Ce fichier facultatif est lu par certains outils et assistants, il résume votre activité et vos contenus clés. Il n'a aucun effet sur Google et ne sert pas à indexer vos pages.",
   },
   {
     title: "Optimisation pour les AI Overviews",
     description:
-      "Nous structurons vos contenus pour apparaître dans les réponses générées par Google SGE et les AI Overviews : réponses directes, listes, tableaux et définitions claires.",
+      "Nous structurons vos contenus pour qu'ils puissent être repris dans les AI Overviews et AI Mode de Google : réponses directes, passages autonomes, listes, tableaux et définitions claires. Google ne demande aucun balisage spécifique pour ces fonctionnalités.",
   },
   {
     title: "Contenu cité par les LLM",
     description:
-      "Nous reformulons et enrichissons vos pages pour maximiser les chances d'être cités par ChatGPT, Perplexity, Gemini et les autres moteurs conversationnels. Chaque paragraphe est conçu pour être extractible.",
+      "Nous reformulons et enrichissons vos pages pour augmenter les chances d'être cités par ChatGPT, Perplexity, Gemini et les autres moteurs conversationnels. Chaque passage est rédigé pour être compréhensible seul, sans garantie de citation.",
   },
   {
     title: "Audit de visibilité IA",
@@ -50,7 +50,7 @@ const techniques = [
   {
     title: "Suivi et mesure",
     description:
-      "Nous mettons en place un suivi des citations de votre marque et de vos pages dans les réponses IA pour mesurer l'impact réel de l'optimisation GEO sur votre visibilité.",
+      "Nous relevons périodiquement, sur un panel de requêtes défini avec vous, si vos pages sont citées, et nous analysons les accès des robots IA dans vos logs et le trafic référent. Ces mesures restent indicatives : les moteurs IA ne publient pas de statistiques officielles de citation.",
   },
 ];
 
@@ -63,17 +63,50 @@ const livrables = [
   {
     title: "Implémentation technique",
     description:
-      "Mise en place des données structurées (FAQPage, HowTo, TechArticle, SpeakableSpecification), création du fichier llms.txt et optimisation du balisage sémantique.",
+      "Mise en place et validation des données structurées (TechArticle, Organization, BreadcrumbList), création optionnelle du fichier llms.txt et amélioration du balisage sémantique.",
   },
   {
     title: "Optimisation du contenu",
     description:
-      "Reformulation et structuration de vos pages clés pour maximiser les citations par les moteurs IA, sans sacrifier le référencement classique.",
+      "Reformulation et structuration de vos pages clés pour augmenter leurs chances d'être citées par les moteurs IA, sans sacrifier le référencement classique.",
   },
   {
-    title: "Tableau de bord de suivi",
+    title: "Suivi périodique",
     description:
-      "Un outil de mesure pour suivre l'évolution de vos citations IA dans le temps et identifier les nouvelles opportunités.",
+      "Un point régulier sur un panel de requêtes défini ensemble, pour observer l'évolution de vos citations IA dans le temps. Les résultats sont indicatifs.",
+  },
+];
+
+const seoGeoRows = [
+  {
+    criterion: "Objectif",
+    seo: "Positionner vos pages dans une liste de résultats",
+    geo: "Faire reprendre vos contenus dans une réponse générée",
+  },
+  {
+    criterion: "Résultat affiché",
+    seo: "Un lien et un extrait",
+    geo: "Une synthèse qui cite ses sources",
+  },
+  {
+    criterion: "Ce qui compte",
+    seo: "Contenu utile, accessibilité technique, autorité, liens",
+    geo: "Les mêmes bases, avec des passages autonomes et des entités claires",
+  },
+  {
+    criterion: "Données structurées",
+    seo: "Valides et conformes au contenu visible",
+    geo: "Idem, sans effet garanti sur les réponses IA",
+  },
+  {
+    criterion: "llms.txt",
+    seo: "Sans effet sur Google",
+    geo: "Facultatif, lu par certains outils",
+  },
+  {
+    criterion: "Mesure",
+    seo: "Search Console, positions, trafic organique",
+    geo: "Relevés périodiques, logs des robots IA, trafic référent",
   },
 ];
 
@@ -81,17 +114,17 @@ const faqItems = [
   {
     title: "Quelle est la différence entre le SEO classique et le GEO ?",
     content:
-      "Le SEO classique optimise votre site pour apparaître dans les résultats de recherche traditionnels de Google. Le GEO (Generative Engine Optimization) optimise votre contenu pour être cité dans les réponses générées par les moteurs IA comme ChatGPT, Perplexity ou les AI Overviews de Google. Les deux approches sont complémentaires : un bon GEO s'appuie sur les fondamentaux du SEO.",
+      "Le SEO classique optimise votre site pour apparaître dans les résultats de recherche traditionnels de Google. Le GEO (Generative Engine Optimization) optimise votre contenu pour être cité dans les réponses générées par les moteurs IA comme ChatGPT, Perplexity ou les AI Overviews de Google. Les deux approches sont complémentaires : un bon GEO s'appuie sur les fondamentaux du SEO, et Google précise que ses fonctionnalités IA reposent sur les mêmes bases que la recherche.",
   },
   {
     title: "Qu'est-ce qu'un fichier llms.txt et à quoi sert-il ?",
     content:
-      "Le fichier llms.txt est un standard émergent qui permet d'indiquer aux LLM (Large Language Models) comment interpréter votre site. Placé à la racine de votre domaine, il fonctionne comme un robots.txt mais pour les moteurs IA : il liste les pages à privilégier, les informations clés à retenir et le contexte de votre activité.",
+      "Le fichier llms.txt est une proposition de format Markdown, facultative, qui résume votre site pour les outils et assistants IA qui choisissent de le lire. Contrairement à un robots.txt, il ne contrôle ni l'accès ni l'indexation. Google ne l'utilise pas pour la recherche et aucun grand moteur ne s'en sert pour indexer : c'est un fichier d'orientation, pas un levier de classement.",
   },
   {
     title: "Quels types de données structurées utilisez-vous pour le GEO ?",
     content:
-      "Nous implémentons principalement les schémas FAQPage (pour les questions-réponses), HowTo (pour les guides étape par étape), TechArticle (pour les contenus techniques) et SpeakableSpecification (pour indiquer les passages les plus pertinents à lire ou citer). Ces schémas aident les moteurs IA à extraire et citer correctement vos contenus.",
+      "Nous implémentons principalement TechArticle (contenus techniques), Organization, BreadcrumbList et FAQPage lorsque la page contient réellement une FAQ. Le balisage doit être valide et refléter le contenu visible : il aide à identifier les entités, sans garantie d'influence sur les réponses IA. Nous n'utilisons pas HowTo, dont Google a retiré les résultats enrichis, ni SpeakableSpecification, limité aux actualités.",
   },
   {
     title: "Est-ce que le GEO remplace le SEO traditionnel ?",
@@ -101,7 +134,7 @@ const faqItems = [
   {
     title: "Comment mesurez-vous les résultats d'une stratégie GEO ?",
     content:
-      "Nous suivons plusieurs indicateurs : le nombre de citations de votre marque et de vos pages dans les réponses des moteurs IA, les requêtes sur lesquelles vous apparaissez, le trafic référent depuis les moteurs conversationnels et l'évolution de votre visibilité par rapport à vos concurrents sur les mêmes requêtes.",
+      "La mesure reste indicative, car les moteurs IA ne fournissent pas de statistiques officielles. Nous combinons des relevés périodiques sur un panel de requêtes, l'analyse des accès des robots IA dans vos logs serveur et le trafic référent depuis les moteurs conversationnels, puis nous comparons l'évolution sur les mêmes requêtes.",
   },
 ];
 
@@ -125,17 +158,17 @@ const breadcrumb = breadcrumbJsonLd([
 const service = serviceJsonLd({
   name: "GEO - Generative Engine Optimization",
   description:
-    "Optimisation de votre visibilité dans les moteurs IA : données structurées, fichier llms.txt, optimisation du contenu pour ChatGPT, Perplexity et les AI Overviews de Google.",
+    "Optimisation de votre visibilité dans les moteurs IA : contenu clair et extractible, données structurées valides, fichier llms.txt facultatif, pour ChatGPT, Perplexity et les AI Overviews de Google.",
   path: "/geo-optimisation-ia",
 });
 
 const webPage = webPageJsonLd({
   name: "GEO : optimisez votre visibilité dans les moteurs IA",
   description:
-    "Generative Engine Optimization (GEO) : rendez votre site visible dans ChatGPT, Perplexity et les AI Overviews de Google. Données structurées et llms.txt.",
+    "Generative Engine Optimization (GEO) : rendez votre contenu citable par ChatGPT, Perplexity et les AI Overviews de Google. Passages clairs et données structurées valides.",
   path: "/geo-optimisation-ia",
   datePublished: "2026-03-12",
-  dateModified: "2026-03-12",
+  dateModified: "2026-11-09",
 });
 
 const geoRelatedLinks: RelatedLink[] = [
@@ -158,9 +191,9 @@ const geoRelatedLinks: RelatedLink[] = [
     href: "/article/geo-rendre-votre-application-symfony-visible-dans-les-moteurs-ia",
   },
   {
-    title: "llms.txt : le nouveau levier SEO",
+    title: "llms.txt : un fichier d'orientation pour les IA",
     description:
-      "Comment le fichier llms.txt améliore la visibilité dans les IA génératives",
+      "Ce que fait le fichier llms.txt, et ce qu'il ne fait pas",
     href: "/article/llms-txt-le-nouveau-levier-seo-a-lere-de-lintelligence-artificielle",
   },
   {
@@ -198,14 +231,14 @@ export default function GeoOptimisationIa() {
                   ChatGPT, Perplexity, Gemini, Google AI Overviews : vos clients
                   posent des questions aux moteurs IA et obtiennent des réponses
                   sans jamais visiter votre site. Si votre contenu n&apos;est pas
-                  optimisé pour ces nouveaux moteurs, vous êtes invisible.
+                  optimisé pour ces nouveaux moteurs, vous risquez de ne pas y être cité.
                 </p>
                 <p className="mt-4 max-w-3xl text-lg text-gray">
                   Le <strong>GEO (Generative Engine Optimization)</strong> est la
                   discipline qui rend votre site citable par les intelligences
-                  artificielles. Chez Efficience IT, nous appliquons des techniques
-                  concrètes pour que vos pages soient sélectionnées, citées et
-                  recommandées par les LLM.
+                  artificielles. Chez Efficience IT, nous améliorons la clarté et la
+                  structure de vos pages pour augmenter leurs chances d&apos;être
+                  reprises par les moteurs IA, sans promesse de résultat.
                 </p>
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                   <Button href="/contact">
@@ -254,13 +287,21 @@ export default function GeoOptimisationIa() {
                 c&apos;est votre expertise qui doit être citée.
               </p>
               <p>
-                Le GEO s&apos;appuie sur trois piliers : les{" "}
-                <strong>données structurées</strong> (schémas FAQPage, HowTo,
-                TechArticle, SpeakableSpecification), le{" "}
-                <strong>fichier llms.txt</strong> qui guide les LLM dans
-                l&apos;interprétation de votre site, et l&apos;
-                <strong>optimisation du contenu</strong> pour qu&apos;il soit
-                facilement extractible et citable par les modèles de langage.
+                Le GEO s&apos;appuie sur trois piliers : un{" "}
+                <strong>contenu utile</strong> rédigé en passages autonomes, des{" "}
+                <strong>données structurées valides</strong> et des entités
+                clairement identifiées, et, de façon facultative, un{" "}
+                <strong>fichier llms.txt</strong> lu par certains outils IA.
+                Ce sont les mêmes fondamentaux que ceux décrits dans la{" "}
+                <a
+                  href="https://developers.google.com/search/docs/appearance/ai-features"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline"
+                >
+                  documentation de Google sur les fonctionnalités IA
+                </a>
+                .
                 Cette approche fait partie de notre{" "}
                 <Link
                   href="/expertise-ia"
@@ -289,6 +330,46 @@ export default function GeoOptimisationIa() {
         <FadeIn>
         <section className="bg-light-gray py-16 md:py-24">
           <Container>
+            <SectionTitle>SEO et GEO : ce qui change</SectionTitle>
+            <div className="mx-auto mt-8 max-w-4xl overflow-x-auto">
+              <table className="w-full min-w-[32rem] border-collapse text-left">
+                <caption className="mb-3 text-left text-sm text-gray">
+                  Comparaison des deux approches, d&apos;après la{" "}
+                  <a
+                    href="https://developers.google.com/search/docs/appearance/ai-features"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline"
+                  >
+                    documentation de Google
+                  </a>
+                  .
+                </caption>
+                <thead>
+                  <tr className="border-b border-border text-sm text-gray">
+                    <th scope="col" className="py-2 pr-4 font-semibold">Critère</th>
+                    <th scope="col" className="py-2 pr-4 font-semibold">SEO</th>
+                    <th scope="col" className="py-2 font-semibold">GEO</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {seoGeoRows.map((row) => (
+                    <tr key={row.criterion} className="border-b border-border">
+                      <th scope="row" className="py-3 pr-4 font-semibold text-dark">{row.criterion}</th>
+                      <td className="py-3 pr-4 text-gray">{row.seo}</td>
+                      <td className="py-3 text-gray">{row.geo}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </Container>
+        </section>
+        </FadeIn>
+
+        <FadeIn>
+        <section className="py-16 md:py-24">
+          <Container>
             <SectionTitle>Nos techniques d&apos;optimisation GEO</SectionTitle>
             <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
               Six leviers concrets que nous activons pour rendre votre site
@@ -310,16 +391,17 @@ export default function GeoOptimisationIa() {
                 href="/article/llms-txt-le-nouveau-levier-seo-a-lere-de-lintelligence-artificielle"
                 className="text-primary hover:underline"
               >
-                llms.txt est un levier SEO majeur à l&apos;ère de l&apos;IA
+                llms.txt est un fichier d&apos;orientation facultatif
               </Link>
-              . Nous vous accompagnons dans sa mise en place et son maintien.
+              , sans effet sur Google. Nous pouvons vous accompagner dans sa mise
+              en place si cela a du sens pour votre site.
             </p>
           </Container>
         </section>
         </FadeIn>
 
         <FadeIn>
-        <section className="py-16 md:py-24">
+        <section className="bg-light-gray py-16 md:py-24">
           <Container>
             <SectionTitle>Ce que nous livrons</SectionTitle>
             <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
@@ -398,9 +480,9 @@ export default function GeoOptimisationIa() {
                   href="/article/llms-txt-le-nouveau-levier-seo-a-lere-de-lintelligence-artificielle"
                   className="text-primary hover:underline"
                 >
-                  llms.txt : le nouveau levier SEO à l&apos;ère de l&apos;IA
+                  llms.txt : un fichier d&apos;orientation pour les IA, pas un levier SEO
                 </Link>{" "}
-                , comprendre et implémenter le fichier llms.txt
+                , comprendre ce que fait le fichier llms.txt et ce qu&apos;il ne fait pas
               </li>
               <li>
                 <Link
@@ -419,6 +501,17 @@ export default function GeoOptimisationIa() {
                   Améliorer l&apos;expérience utilisateur grâce au manifeste des applications web
                 </Link>{" "}
                 , un complément naturel à l&apos;optimisation GEO
+              </li>
+              <li>
+                <a
+                  href="https://developers.google.com/search/docs/appearance/ai-features"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline"
+                >
+                  Google : fonctionnalités IA dans la recherche
+                </a>{" "}
+                , ce que Google documente pour les AI Overviews et AI Mode
               </li>
               <li>
                 <a

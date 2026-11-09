@@ -64,7 +64,7 @@ export const STATIC_SILOS: RouteSilo[] = [
       { path: "/formation-symfony-entreprise", label: "Formation Symfony entreprise", lastModified: "2026-11-09", changeFrequency: "monthly", priority: 0.8 },
       { path: "/expertise-ia", label: "Expertise IA", lastModified: "2026-11-09", changeFrequency: "monthly", priority: 0.8 },
       { path: "/audit-ia-entreprise", label: "Audit IA en entreprise", lastModified: "2026-09-03", changeFrequency: "monthly", priority: 0.8 },
-      { path: "/geo-optimisation-ia", label: "Optimisation géographique IA", lastModified: "2026-03-12", changeFrequency: "monthly", priority: 0.8 },
+      { path: "/geo-optimisation-ia", label: "GEO et optimisation IA", lastModified: "2026-11-09", changeFrequency: "monthly", priority: 0.8 },
       { path: "/ecommerce-sylius", label: "E-commerce Sylius", lastModified: "2026-11-09", changeFrequency: "monthly", priority: 0.8 },
       { path: "/hebergement-symfony", label: "Hébergement Symfony", lastModified: "2026-06-18", changeFrequency: "monthly", priority: 0.8 },
       { path: "/integration-docker-symfony", label: "Intégration Docker Symfony", lastModified: "2026-11-09", changeFrequency: "monthly", priority: 0.8 },
