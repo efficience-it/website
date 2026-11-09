@@ -13,7 +13,7 @@ faq:
   - question: "Pourquoi un projet PHP est-il très lent sous Windows avec Docker ?"
     answer: "Parce que le code se trouve sur le disque Windows et est monté dans WSL2 par un système de fichiers réseau, très lent pour des milliers de petits fichiers. Placez le projet dans le système de fichiers de WSL ou dans un volume Docker, pas dans /mnt/c."
   - question: "Un dev container remplace-t-il Docker Compose ?"
-    answer: "Non, il s'appuie dessus ou sur une image. Un dev container décrit l'environnement dans lequel l'éditeur s'attache, souvent à partir d'un fichier Compose existant. Il ajoute l'intégration à l'éditeur, pas un nouveau moteur de conteneurs."
+    answer: "Non, il s'appuie dessus ou sur une image. Un dev container décrit l'environnement auquel l'éditeur s'attache, souvent à partir d'un fichier Compose existant. Il ajoute l'intégration à l'éditeur, pas un nouveau moteur de conteneurs."
 ---
 
 Monter un environnement de développement PHP reproductible, c'est ce qui sépare un nouvel arrivant productif en une heure d'un autre qui passe sa première journée à installer des versions de PHP. Docker Compose, DDEV et les dev containers répondent au même besoin avec des compromis différents. Nous les avons testés sur un même projet Symfony 8.1.9, avec PHP 8.5 et PostgreSQL 16, en mesurant le démarrage et les performances du système de fichiers. Notre article sur [Docker en production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) traite l'autre extrémité de la chaîne : ici, il s'agit du poste du développeur.

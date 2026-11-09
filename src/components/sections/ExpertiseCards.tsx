@@ -46,7 +46,7 @@ const expertises = [
     cta: "Découvrir notre parcours de modernisation",
   },
   {
-    title: "Accompagnement et Conseil",
+    title: "Accompagnement et conseil",
     intro:
       "Un regard extérieur, des méthodes solides, et un vrai partenaire pour avancer dans la bonne direction.",
     items: [

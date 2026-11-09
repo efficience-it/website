@@ -140,7 +140,7 @@ const faqItems = [
   {
     title: "Peut-on reprendre une API existante développée par une autre équipe ?",
     content:
-      "Oui. Nous commençons par un audit technique pour évaluer la qualité du code, la couverture de tests et la dette accumulée. Selon les résultats, nous proposons un refactoring progressif ou une rearchitecture partielle, toujours en préservant la compatibilité avec les clients existants.",
+      "Oui. Nous commençons par un audit technique pour évaluer la qualité du code, la couverture de tests et la dette accumulée. Selon les résultats, nous proposons un refactoring progressif ou une réarchitecture partielle, toujours en préservant la compatibilité avec les clients existants.",
   },
 ];
 

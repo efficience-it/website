@@ -67,7 +67,7 @@ const targets = [
   {
     title: "Zend Framework / Laminas",
     description:
-      "Nombreuses applications d'entreprise tournent encore sur Zend 1 ou 2, avec des dépendances incompatibles avec les versions récentes de PHP.",
+      "De nombreuses applications d'entreprise tournent encore sur Zend 1 ou 2, avec des dépendances incompatibles avec les versions récentes de PHP.",
   },
   {
     title: "Symfony 2, 3 ou 4",
@@ -115,7 +115,7 @@ const steps = [
     num: "5",
     title: "Déploiement continu",
     description:
-      "Nous configurons une pipeline CI/CD pour automatiser les tests et les déploiements. Votre équipe gagne en confiance et en vélocité de livraison.",
+      "Nous configurons un pipeline CI/CD pour automatiser les tests et les déploiements. Votre équipe gagne en confiance et en vélocité de livraison.",
   },
 ];
 
@@ -133,7 +133,7 @@ const symfonyReasons = [
   {
     title: "Communauté et recrutement",
     description:
-      "Symfony est le framework PHP le plus demandé en France. Recruter des développeurs Symfony est beaucoup plus simple qu'un framework exotique.",
+      "Symfony est le framework PHP le plus demandé en France. Recruter des développeurs Symfony est beaucoup plus simple que sur un framework exotique.",
   },
   {
     title: "Performance native",
