@@ -93,7 +93,7 @@ export default function AuditForm() {
             name="name"
             autoComplete="given-name"
             required
-            className="mt-1 w-full rounded-md border border-border bg-white px-4 py-2 text-dark focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:bg-light-gray dark:text-dark"
+            className="mt-1 w-full rounded-md border border-input-border bg-white px-4 py-2 text-dark focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:bg-light-gray dark:text-dark"
           />
         </div>
         <div>
@@ -109,7 +109,7 @@ export default function AuditForm() {
             name="email"
             autoComplete="email"
             required
-            className="mt-1 w-full rounded-md border border-border bg-white px-4 py-2 text-dark focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:bg-light-gray dark:text-dark"
+            className="mt-1 w-full rounded-md border border-input-border bg-white px-4 py-2 text-dark focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:bg-light-gray dark:text-dark"
           />
         </div>
       </div>
@@ -125,7 +125,7 @@ export default function AuditForm() {
             id="symfonyVersion"
             name="symfonyVersion"
             required
-            className="mt-1 w-full rounded-md border border-border bg-white px-4 py-2 text-dark focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:bg-light-gray dark:text-dark"
+            className="mt-1 w-full rounded-md border border-input-border bg-white px-4 py-2 text-dark focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:bg-light-gray dark:text-dark"
           >
             <option
               style={{
@@ -161,7 +161,7 @@ export default function AuditForm() {
             id="teamSize"
             name="teamSize"
             required
-            className="mt-1 w-full rounded-md border border-border bg-white px-4 py-2 text-dark focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:bg-light-gray dark:text-dark"
+            className="mt-1 w-full rounded-md border border-input-border bg-white px-4 py-2 text-dark focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:bg-light-gray dark:text-dark"
           >
             <option
               style={{
@@ -198,7 +198,7 @@ export default function AuditForm() {
           id="problem"
           name="problem"
           required
-          className="mt-1 w-full rounded-md border border-border bg-white px-4 py-2 text-dark focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:bg-light-gray dark:text-dark"
+          className="mt-1 w-full rounded-md border border-input-border bg-white px-4 py-2 text-dark focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:bg-light-gray dark:text-dark"
         >
           <option
             style={{
@@ -235,7 +235,7 @@ export default function AuditForm() {
           name="message"
           rows={4}
           placeholder="Décrivez brièvement votre projet, les difficultés rencontrées ou toute information utile pour préparer l'audit."
-          className="mt-1 w-full rounded-md border border-border bg-white px-4 py-2 text-dark focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:bg-light-gray dark:text-dark"
+          className="mt-1 w-full rounded-md border border-input-border bg-white px-4 py-2 text-dark focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:bg-light-gray dark:text-dark"
         />
       </div>
       <Button type="submit">Demander mon audit gratuit</Button>
