@@ -1,0 +1,169 @@
+---
+title: "Relire du code écrit par un agent IA : process et garde-fous"
+date: "2026-12-21"
+updatedAt: "2026-12-21"
+author: "Louis-Arnaud Catoire"
+category: "IA"
+excerpt: "Relire du code généré par un agent IA : ce que la machine vérifie, ce que l'humain relit, règles d'équipe et checklist pour une équipe Symfony."
+image: "/images/blog/cover-relire-code-agent-ia.webp"
+proficiencyLevel: "Expert"
+faq:
+  - question: "Faut-il relire le code d'un agent IA autrement que celui d'un collègue ?"
+    answer: "Oui, sur deux points. Le code est souvent propre en apparence, donc la forme ne renseigne plus sur la qualité, et il arrive en plus grand volume. On automatise ce qu'une machine vérifie mieux (types, style, vulnérabilités connues, tests), et l'humain se concentre sur l'intention métier, l'architecture, la sécurité et les migrations de données."
+  - question: "Peut-on laisser l'agent écrire aussi les tests ?"
+    answer: "Oui, à condition de ne pas s'y fier seul. Un test écrit par l'agent qui a écrit le code tend à reproduire le code au lieu de vérifier le besoin. Faites écrire ou valider les cas attendus par un humain, et mesurez la qualité des tests avec du mutation testing."
+  - question: "Qui est responsable d'un bug dans du code généré ?"
+    answer: "Le développeur qui ouvre la pull request. L'agent est un outil : celui qui soumet le code doit pouvoir l'expliquer et en répondre, exactement comme pour du code copié depuis une documentation."
+  - question: "Quelle taille maximale pour une pull request générée par un agent ?"
+    answer: "Il n'existe pas de seuil universel, mais une pull request qu'un relecteur ne peut pas lire en une séance est trop grosse. Fixez une limite dans l'équipe, de l'ordre de quelques centaines de lignes modifiées, et découpez au-delà."
+---
+
+Relire du code écrit par un agent IA demande de changer la répartition du travail : les contrôles mécaniques passent dans la CI, et le relecteur humain se concentre sur ce qu'aucun outil ne vérifie, c'est-à-dire l'intention métier, les frontières d'architecture, la sécurité et les migrations de données. Cet article décrit un process complet pour une équipe Symfony, du défaut typique à la checklist de relecture.
+
+## Ce qui change quand personne n'a tapé le code
+
+Trois effets rendent la relecture plus difficile qu'avant.
+
+Le volume d'abord. Un agent produit en quelques minutes ce qu'un développeur écrit en une demi-journée, et les pull requests s'accumulent plus vite que les relecteurs ne les traitent. Une équipe qui n'adapte pas son process finit par valider sans lire.
+
+La fausse impression de qualité ensuite. Le code généré est formaté, nommé proprement et commenté : la forme ne signale plus les approximations comme le faisait un code écrit à la hâte. Le défaut se cache derrière une apparence soignée.
+
+La circularité des tests enfin. Quand le même agent écrit le code et les tests, ceux-ci passent presque toujours, puisqu'ils décrivent ce que le code fait et non ce qu'il devrait faire. C'est un problème de fond, que traite aussi notre article sur l'[échelle DALIA et la part d'IA dans le code](/article/echelle-dalia-niveaux-ia-developpement) : plus l'IA prend de place dans l'exécution, plus le jugement humain doit rester explicite.
+
+## Les défauts typiques du code généré
+
+Voici ceux qu'il faut chercher en priorité, parce qu'ils passent facilement à travers une relecture rapide.
+
+- **Des API inventées ou périmées** : une méthode de Doctrine ou de Symfony qui n'existe pas, ou qui a été retirée dans la version du projet. Le code est plausible, il ne s'exécute pas, ou pire, il s'exécute différemment.
+- **Des dépendances ajoutées sans raison** : un paquet pour une fonction de trois lignes, ou un nom de paquet vraisemblable mais inexistant, qu'un attaquant peut ensuite enregistrer. On parle de slopsquatting.
+- **De la duplication et de la sur-abstraction** : l'agent recrée un helper qui existe déjà dans le projet, ou introduit une interface et trois classes pour un cas d'usage unique.
+- **Des tests qui valident l'implémentation** : ils recalculent la valeur attendue avec la même formule que le code.
+- **Des failles de sécurité** : entrées non validées, requêtes SQL construites par concaténation, secrets copiés dans le code ou dans un fichier de configuration.
+
+Un exemple de test circulaire pour un calcul de remise :
+
+```php
+public function testTotalWithDiscount(): void
+{
+    $calculator = new PriceCalculator();
+
+    self::assertSame(
+        round(100 * (1 - 0.2), 2),
+        $calculator->totalWithDiscount(100.0, 0.2),
+    );
+}
+```
+
+Ce test répète la formule du code : si la formule est fausse, le test l'est aussi. Un test utile fixe le résultat attendu par le besoin et couvre les cas limites :
+
+```php
+public function testTotalWithDiscount(): void
+{
+    $calculator = new PriceCalculator();
+
+    self::assertSame(80.0, $calculator->totalWithDiscount(100.0, 0.2));
+}
+
+public function testDiscountAboveOneIsRejected(): void
+{
+    $this->expectException(InvalidDiscount::class);
+
+    (new PriceCalculator())->totalWithDiscount(100.0, 1.5);
+}
+```
+
+Côté SQL, la version attendue passe toujours par des paramètres liés, jamais par une concaténation :
+
+```php
+$connection->executeQuery(
+    'SELECT * FROM invoice WHERE customer_id = :customer',
+    ['customer' => $customerId],
+);
+```
+
+## Ce que la machine vérifie avant l'humain
+
+Tout ce qui peut être contrôlé automatiquement doit l'être avant qu'un humain ouvre la pull request. C'est moins coûteux et surtout non négociable : une règle appliquée par la CI ne dépend pas de la fatigue du relecteur.
+
+- **[PHPStan](https://phpstan.org/) au niveau maximal** repère les méthodes inexistantes, les types incohérents et les appels invalides, c'est-à-dire une bonne part des API inventées. Nous détaillons les erreurs les plus fréquentes dans notre article sur [PHPStan niveau max sur Symfony](/article/phpstan-niveau-max-symfony-10-erreurs).
+- **Rector en mode simulation** signale le code qui s'écarte des règles de modernisation du projet. Voir [Rector et l'évolution du code Symfony](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony).
+- **Les tests** vérifient le comportement, à condition d'avoir été relus (voir plus haut).
+- **Le mutation testing** mesure la qualité des tests eux-mêmes. [Infection](https://infection.github.io/) modifie le code (un `>` devient `>=`, une condition est inversée) et vérifie que les tests échouent. Un mutant qui survit révèle un test qui ne vérifie rien. C'est le meilleur antidote aux tests circulaires.
+- **`composer audit`** compare les dépendances installées aux avis de sécurité connus et fait échouer la commande s'il en trouve.
+- **Les hooks Git** exécutent les contrôles les plus rapides avant même le commit : voir notre comparatif [Lefthook, GrumPHP ou Husky](/article/git-hooks-php-lefthook-grumphp-husky).
+- **Une CI bloquante** rend ces contrôles obligatoires : la protection de branche refuse la fusion tant que les vérifications ne sont pas vertes.
+
+Un exemple de workflow GitHub Actions, à adapter à votre projet :
+
+```yaml
+name: Qualité
+on: pull_request
+
+jobs:
+  qualite:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          coverage: pcov
+      - run: composer install --no-interaction --prefer-dist
+      - run: composer audit --locked
+      - run: vendor/bin/phpstan analyse --no-progress
+      - run: vendor/bin/rector process --dry-run --no-progress-bar
+      - run: vendor/bin/phpunit
+      - run: vendor/bin/infection --threads=2 --min-msi=80
+```
+
+Le seuil de 80 pour Infection est un point de départ : mesurez d'abord le score actuel, puis relevez-le progressivement.
+
+## Ce que l'humain relit en priorité
+
+Une fois les contrôles automatiques verts, le relecteur peut consacrer son attention à quatre zones.
+
+### L'intention métier
+
+Le code fait-il ce que la demande exigeait, y compris dans les cas limites ? C'est la seule question qu'aucun outil ne tranche. Lisez la description de la pull request avant le code : si elle ne permet pas de savoir ce qui était attendu, renvoyez-la à son auteur.
+
+### Les frontières d'architecture
+
+Un agent respecte rarement les couches du projet de lui-même : il importe un composant du framework dans le domaine, ou court-circuite un service pour aller plus vite. Si votre projet suit une architecture hexagonale, vérifiez que [le domaine ne connaît toujours pas Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony).
+
+### La sécurité
+
+Contrôlez les autorisations, pas seulement l'authentification : qui a le droit d'appeler cette route, de lire cet enregistrement ? Les [voters Symfony](/article/voters-symfony-strategies-decision-performance) formalisent ces règles et se relisent facilement. Vérifiez aussi les entrées utilisateur, les requêtes SQL et l'absence de secrets dans le diff. Si l'agent dispose lui-même d'accès à des outils, à des fichiers ou à un terminal, relisez ses permissions : l'[OWASP](https://owasp.org/www-project-top-10-for-large-language-model-applications/) classe parmi les risques majeurs des applications fondées sur des LLM l'octroi de droits excessifs à un agent.
+
+### Les migrations de données
+
+Une migration de schéma ou de données est le changement le plus difficile à défaire. Relisez-la ligne à ligne : verrous de table, suppression de colonnes, volumétrie, possibilité de retour arrière.
+
+## Les règles d'équipe qui rendent le process tenable
+
+Les outils ne suffisent pas, il faut des règles que toute l'équipe applique.
+
+- **Limiter la taille des pull requests.** Une pull request que l'on ne peut pas lire en une séance est découpée, même si l'agent l'a produite en une fois.
+- **L'auteur humain reste responsable.** Celui qui ouvre la pull request doit pouvoir expliquer chaque ligne. « L'agent l'a écrit » n'est pas une réponse en revue.
+- **La description explique le pourquoi.** Elle indique l'intention, ce que l'agent a produit et ce qu'un humain a décidé ou modifié.
+- **Un relecteur différent de l'auteur, jamais l'agent seul.** Un agent peut préparer une relecture, ce que fait par exemple le skill de revue décrit dans nos [10 skills Claude Code pour une équipe Symfony](/article/skills-claude-code-equipe-symfony), mais il ne remplace pas l'approbation humaine.
+- **Les règles du projet sont versionnées dans le dépôt.** Conventions, architecture, commandes de test et interdits doivent figurer dans un fichier lu par l'agent, comme nous l'expliquons dans notre retour sur [Claude comme assistant d'architecture](/article/claude-assistant-architecture-symfony-legacy).
+
+Ces règles évitent aussi d'accumuler de la [dette technique](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) invisible : du code que personne ne comprend vraiment est un passif, même s'il passe les tests. Pour la montée en compétence de l'équipe sur ces outils, voyez [comment monter en compétence sur Claude Code](/article/monter-en-competence-claude-code).
+
+Le sujet est à l'affiche de plusieurs conférences PHP. Gaël Crispyn au [Forum PHP 2026](https://event.afup.org/forum-php-2026/programme/), avec « La review qu'on aurait dû faire depuis toujours », ainsi que Kateryna Dvornichenko et Jonas Kröger à [SymfonyCon Varsovie 2026](https://live.symfony.com/2026-warsaw-con/schedule), avec « Nobody typed this: reviewing agentic code » et « Works on my machine. The agent said so. », traitent la question de la relecture à l'ère des agents.
+
+## Checklist de relecture
+
+À copier dans le modèle de pull request de votre dépôt :
+
+- [ ] La description explique le pourquoi et distingue ce que l'agent a produit de ce qu'un humain a décidé.
+- [ ] La CI est verte : PHPStan, Rector, tests, mutation testing, `composer audit`.
+- [ ] Chaque dépendance ajoutée existe, est maintenue et est réellement nécessaire.
+- [ ] Les méthodes et API utilisées existent dans les versions du projet.
+- [ ] Les tests vérifient le besoin et les cas limites, pas la formule du code.
+- [ ] Aucune duplication d'un service ou d'un helper existant.
+- [ ] Les couches d'architecture sont respectées.
+- [ ] Les autorisations sont vérifiées, les entrées validées, les requêtes paramétrées.
+- [ ] Aucun secret dans le diff.
+- [ ] Les migrations sont relues et réversibles, ou leur irréversibilité est assumée.
+- [ ] L'auteur peut expliquer chaque partie du changement.
