@@ -1,26 +1,30 @@
 ---
-title: "llms.txt: The New SEO Lever in the Age of AI"
+title: "llms.txt: A Guidance File for AI, Not an SEO Lever"
 date: "2026-01-13"
-updatedAt: "2026-10-12"
+updatedAt: "2026-11-09"
 author: "Louis-Arnaud Catoire"
 category: "AI"
-excerpt: "The llms.txt file helps AI systems understand your website. Learn how to write it, implement it in Symfony or Next.js, and boost your generative visibility."
+excerpt: "The llms.txt file is an optional guidance file, read by some AI tools and with no effect on Google. What it does, what it does not do, and how to write it."
 image: "/images/blog/cover-llms-txt-seo.webp"
 translationOf: "llms-txt-le-nouveau-levier-seo-a-lere-de-lintelligence-artificielle"
-translatedFromUpdatedAt: "2026-03-05"
+translatedFromUpdatedAt: "2026-11-09"
 ---
 
 The web is going through a quiet transformation. Search engines no longer just index pages and return blue links: they understand, synthesize, and generate answers. Google AI Overviews, Perplexity, ChatGPT Search, Claude: these systems read the web on behalf of the user. And the way they read it changes everything. To understand what these models do well and poorly, it helps to know the [strengths and weaknesses of the most widely used generative AIs](/article/forces-et-faiblesses-des-ia-generatives-les-plus-utilisees) (in French).
 
-In this new paradigm, a new file appears: `llms.txt`. If you know `robots.txt`, the analogy is immediate. Where `robots.txt` tells crawlers what they are allowed to do, `llms.txt` tells AI systems what they need to know. One controls access, the other guides understanding.
+In this context, a new file has appeared: `llms.txt`. It resembles `robots.txt` in its location, not in its role. Where `robots.txt` tells crawlers what they are allowed to do, `llms.txt` is a simple, optional guidance document that summarizes what a site does for the tools that choose to read it. It controls neither access nor indexing, and Google does not use it for search.
 
-## From robots.txt to llms.txt: A Paradigm Shift
+## robots.txt, sitemap.xml and llms.txt: Three Different Roles
 
 `robots.txt` dates back to 1994. It answers a binary question: "can this crawler access this URL?" `sitemap.xml`, introduced in 2005, answers an inventory question: "which URLs exist and when did they change?" Both files speak the language of classic search engines, that of indexing and crawling.
 
 `llms.txt`, proposed by Jeremy Howard (cofounder of fast.ai), answers a radically different question: "what does this site do, and which content deserves to be understood first?" It is no longer a permissions file or a technical inventory. It is a semantic guide, written in natural language, for systems that reason about text.
 
-The problem it solves is concrete. When an LLM tries to understand a site, it has to parse HTML cluttered with menus, footers, pop-ups, tracking scripts, and CSS frameworks. The signal drowns in noise. `llms.txt` bypasses this complexity by giving direct access to the essentials, in pure Markdown.
+The problem it targets is concrete. When an LLM tries to understand a site, it has to parse HTML cluttered with menus, footers, pop-ups, tracking scripts, and CSS frameworks. The signal drowns in noise. For the tools that read it, such as some coding assistants and agents, `llms.txt` gives direct access to the essentials, in pure Markdown.
+
+## What llms.txt Does Not Do
+
+Its limits deserve to be stated clearly. Google does not use `llms.txt`, and its [documentation on AI features in Search](https://developers.google.com/search/docs/appearance/ai-features) makes no mention of it: AI Overviews and AI Mode rely on the same fundamentals as classic search (helpful content, self-contained passages, valid structured data, clear entities). No major engine uses it today to index or rank your pages. The file is therefore not a ranking lever: it is a guidance file, read by some tools, with no guaranteed effect on your citations.
 
 ## The Specification: A Deliberately Minimal Format
 
@@ -76,7 +80,7 @@ Beyond the technical implementation, `llms.txt` is part of a broader reflection 
 
 ### Measuring the Impact
 
-Unlike classic SEO, where measurement tools are mature (Search Console, analytics, rank tracking), the impact of an `llms.txt` is harder to quantify. A few approaches are emerging, though. Regularly submit queries to generative engines and see whether your site is cited. Compare the quality of generated answers before and after you add the file. Monitor server logs to identify AI crawlers (GPTBot, ClaudeBot, PerplexityBot) and check that they access `llms.txt`. These metrics are still crude, but they provide a useful signal.
+Unlike classic SEO, where measurement tools are mature (Search Console, analytics, rank tracking), the impact of an `llms.txt` is harder to quantify. A few approaches are emerging, though. Regularly submit queries to generative engines and see whether your site is cited. Compare the quality of generated answers before and after you add the file. Monitor server logs to identify AI crawlers (GPTBot, ClaudeBot, PerplexityBot) and check that they access `llms.txt`. These metrics are still crude and no effect of the file on visibility has been demonstrated to date, but they provide a useful signal.
 
 ### Crawlability vs. Intellectual Property Protection
 
@@ -88,13 +92,13 @@ This tension between visibility and protection is new. `robots.txt` let you bloc
 
 `llms.txt` is not yet a W3C or IETF standard. Its proposal has nonetheless catalyzed a broader reflection on how AI and the web interact. Other initiatives are emerging: AI-specific `<meta>` tags, Schema.org extensions for semantic content, and negotiation protocols between AI crawlers and web servers.
 
-Tomorrow's web architecture will probably need to serve three distinct audiences: humans (HTML/CSS), classic crawlers (robots.txt + sitemap.xml + structured data), and generative AI (llms.txt + Markdown content + semantic metadata). Teams that anticipate this convergence gain a structural advantage. On the technical side, the approach of [GEO to make a Symfony application visible in AI engines](/article/geo-rendre-votre-application-symfony-visible-dans-les-moteurs-ia) (in French) naturally complements setting up an llms.txt. Our [GEO and AI optimization](/geo-optimisation-ia) (in French) offering supports this setup, from llms.txt to structured data to monitoring AI citations.
+Tomorrow's web architecture will probably need to serve three distinct audiences: humans (HTML/CSS), classic crawlers (robots.txt + sitemap.xml + structured data), and generative AI (llms.txt + Markdown content + semantic metadata). Teams that anticipate this convergence gain a structural advantage. On the technical side, the approach of [GEO to make a Symfony application visible in AI engines](/article/geo-rendre-votre-application-symfony-visible-dans-les-moteurs-ia) (in French) naturally complements setting up an llms.txt. Our [GEO and AI optimization](/geo-optimisation-ia) (in French) offering covers content, valid structured data, and indicative tracking of AI citations, with llms.txt remaining an optional complement.
 
-## llms.txt as a Sign of a Deeper Transformation
+## llms.txt: An Optional Complement, Not a Lever
 
 `llms.txt` is a text file of a few dozen lines. Its real value lies not in its technical complexity, which is almost nil, but in the change of mindset it requires. Thinking about your web content from the point of view of an AI that must understand and restate it, rather than a crawler that must index it, means accepting that the web is entering a new phase.
 
-The return on investment is immediate: as soon as the file is online, AI systems can use it. Our [artificial intelligence expertise](/expertise-ia) (in French) includes setting up these visibility levers for generative engines. But the long-term stakes lie elsewhere. The next generation of web visibility will be won by building a content strategy that speaks to humans, classic engines, and generative AI at the same time.
+The cost is minimal, and so is the effect: as soon as the file is online, some tools can read it, but no major engine uses it to rank or index. Our [artificial intelligence expertise](/expertise-ia) (in French) includes optimizing visibility in generative engines, starting with what Google documents. But the long-term stakes lie elsewhere. The next generation of web visibility will be won by building a content strategy that speaks to humans, classic engines, and generative AI at the same time.
 
 ## Going Further
 
@@ -102,4 +106,5 @@ The return on investment is immediate: as soon as the file is online, AI systems
 - Which AI assistant to choose for coding?, picking the AI tool that fits your development workflow
 - [Claude as a legacy Symfony architecture assistant](/article/claude-assistant-architecture-symfony-legacy) (in French), using an LLM to support the modernization of a codebase
 - [llms.txt: official specification](https://llmstxt.org/), the proposed standard
+- [Google: AI features in Search](https://developers.google.com/search/docs/appearance/ai-features), what Google documents for AI Overviews and AI Mode
 - [Google: Structured Data Guidelines](https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data), Google's reference on structured data
