@@ -1218,6 +1218,13 @@
     "author": "Jayme McColgan jayme",
     "url": "https://commons.wikimedia.org/wiki/File:Locked_door_of_old_temple._(Unsplash).jpg"
   },
+  "audit-trail-symfony-doctrine-tracer-modifications": {
+    "name": "audit-trail-doctrine-symfony",
+    "file": "File:Archive storage (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Samuel Zeller samuelzeller",
+    "url": "https://commons.wikimedia.org/wiki/File:Archive_storage_(Unsplash).jpg"
+  },
   "gestion-secrets-symfony-sops-vault": {
     "name": "gestion-secrets-symfony",
     "file": "File:Udine, Italy (Unsplash).jpg",
