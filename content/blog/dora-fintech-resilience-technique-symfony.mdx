@@ -6,7 +6,7 @@ category: "Sécurité"
 excerpt: "DORA est applicable depuis janvier 2025. Check-list technique et clauses contractuelles : ce que les fintechs doivent exiger d'une application Symfony."
 image: "/images/blog/cover-dora-fintech-symfony.webp"
 proficiencyLevel: "Expert"
-updatedAt: "2026-10-12"
+updatedAt: "2026-11-09"
 faq:
   - question: "Ma fintech est-elle concernée par DORA ?"
     answer: "DORA s'applique à un large éventail d'entités financières : établissements de crédit, prestataires de services de paiement, établissements de monnaie électronique, sociétés de gestion, assurances, plateformes de crypto-actifs. Les fintechs qui opèrent sous l'un de ces statuts, ou qui fournissent un service informatique critique à l'une de ces entités, entrent dans le périmètre, directement ou par leur statut de prestataire tiers."
@@ -66,7 +66,7 @@ On ne prouve pas une résilience qu'on ne mesure pas. Les SLA doivent être inst
 
 ### Logs d'incident exploitables
 
-Le reporting d'incident DORA est intenable sans journalisation structurée. Les événements de sécurité (authentifications, élévations de privilèges, accès aux données sensibles) doivent être distingués du bruit applicatif, horodatés et centralisés, tout en respectant le RGPD. La capacité à reconstituer la chronologie d'un incident en quelques minutes, et non en quelques jours, fait la différence entre une déclaration maîtrisée et une crise.
+Le reporting d'incident DORA est intenable sans journalisation structurée. Les événements de sécurité (authentifications, élévations de privilèges, accès aux données sensibles) doivent être distingués du bruit applicatif, horodatés et centralisés, tout en respectant le RGPD. La capacité à reconstituer la chronologie d'un incident en quelques minutes, et non en quelques jours, fait la différence entre une déclaration maîtrisée et une crise. Cette reconstitution s'appuie aussi sur l'[historique des modifications de données](/article/audit-trail-symfony-doctrine-tracer-modifications) : il montre quels enregistrements ont été touchés, par qui et quand.
 
 Le règlement impose en outre de classifier les incidents selon leur gravité et de respecter des délais de notification harmonisés : une notification initiale rapide, puis un rapport intermédiaire et un rapport final à mesure que l'analyse progresse. Tenir ces délais suppose que la classification ne soit pas un travail manuel improvisé le jour J. Nous outillons cette étape avec des tableaux de bord qui font remonter les signaux faibles et des seuils d'alerte définis à l'avance, afin que l'équipe puisse qualifier l'impact d'un incident (nombre de clients touchés, durée, données concernées) en s'appuyant sur des données fiables plutôt que sur des estimations sous pression.
 
