@@ -58,9 +58,9 @@ Clone/reproduction de https://www.itefficience.com en Next.js.
 - Les pages `/domain/*` ne sont pas dans le sitemap (volontaire)
 - Le sitemap du live contient des pages hors périmètre (checkout, login, etc.) — on ne les reproduit pas, c'est voulu
 
-## Prompts d'audit (.docs/reference/)
+## Prompts d'audit
 
-Le dossier `.docs/reference/` contient les prompts d'audit. Le fichier `mega-audit-seo-ux.md` regroupe tout : SEO, UX/UI, design, copywriting, orthographe, accessibilité, performance. Le fichier `tracking.md` documente l'implémentation GA4. Quand l'utilisateur donne un retour ou une correction, proposer de l'inscrire dans le prompt correspondant.
+Le skill `.claude/skills/mega-audit/SKILL.md` regroupe l'audit complet : SEO technique, FR/EN, contenu et E-E-A-T, recherche IA, maillage, UX/CRO/accessibilité, orthographe. Dans `.docs/reference/`, le fichier `tracking.md` documente l'implémentation GA4. Quand l'utilisateur donne un retour ou une correction, proposer de l'inscrire dans le prompt correspondant.
 
 ## Hors périmètre
 
