@@ -9,13 +9,13 @@ proficiencyLevel: "Expert"
 translationOf: "concretement-cest-quoi-frankenphp"
 faq:
   - question: "Is FrankenPHP ready for production?"
-    answer: "Yes. FrankenPHP is stable and used in production. Symfony officially supports it, and it is part of the official PHP Docker distribution. Performance gains are significant thanks to worker mode, which avoids bootstrapping PHP on every request."
+    answer: "Yes. FrankenPHP is stable and used in production. Symfony officially supports it, and the PHP Foundation has backed it since May 2025. Its Docker images are built from the official PHP images. Performance gains are significant thanks to worker mode, which avoids bootstrapping PHP on every request."
   - question: "What is the difference between FrankenPHP and PHP-FPM?"
     answer: "PHP-FPM uses the FastCGI protocol to communicate between the web server (Nginx) and PHP, which adds overhead to every request. FrankenPHP embeds the PHP interpreter directly in a Caddy server written in Go, removing that intermediate layer. Worker mode keeps the application in memory between requests."
   - question: "Does FrankenPHP work with Symfony and Laravel?"
     answer: "Yes. FrankenPHP is compatible with all PHP frameworks. Symfony supports it officially through the Runtime component, and Laravel works with FrankenPHP through Laravel Octane. Configuration is minimal: a single line in the Dockerfile is enough."
-updatedAt: "2026-10-12"
-translatedFromUpdatedAt: "2026-10-12"
+updatedAt: "2026-11-09"
+translatedFromUpdatedAt: "2026-11-09"
 ---
 
 PHP still powers a considerable share of the web today, carried by mature frameworks like Symfony and Laravel and by CMSs like WordPress and Drupal. Yet its historical execution model suffers from a fundamental limitation: every HTTP request triggers a full cycle of initialization, execution and teardown. FrankenPHP aims to solve this structural problem by rethinking how PHP runs on the server.
@@ -105,6 +105,10 @@ The third step is the production deployment with enhanced monitoring. For teams 
 ### Production Considerations
 
 In production, several points deserve particular attention. Memory management in worker mode requires monitoring the workers and restarting them periodically to prevent leaks. Debugging with Xdebug is still natively supported, but behavior differs in worker mode because the context persists. PHP extensions compiled in C remain compatible, since FrankenPHP runs the same Zend Engine as PHP-FPM. Finally, Caddy's configuration offers enough granularity for production needs (rate limiting, WAF, observability through structured access logs).
+
+## Current Status of the Project
+
+Since May 2025, FrankenPHP has been officially backed by the [PHP Foundation](https://thephp.foundation/blog/2025/05/15/frankenphp/) and its code is hosted in the official PHP GitHub organization. The project, created by Kévin Dunglas and sponsored by Les-Tilleuls.coop, keeps its original governance. Its Docker images, published as `dunglas/frankenphp`, are built from the official PHP images.
 
 ## Summary
 
