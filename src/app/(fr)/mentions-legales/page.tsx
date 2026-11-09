@@ -30,7 +30,7 @@ export default function MentionsLegales() {
               https://www.itefficience.com, est édité par la société Efficience
               IT SAS, inscrite au registre du commerce et des sociétés de Lille
               sous le SIRET 839 527 900, ayant pour numéro de TVA
-              intra-communautaire FR 52 839527900, dont le siège social est
+              intracommunautaire FR 52 839527900, dont le siège social est
               situé au 7 Rue du petit Mesnil, 59390 Sailly-Lez-Lannoy.
             </p>
             <p className="mt-2">
@@ -132,9 +132,9 @@ export default function MentionsLegales() {
               Droit applicable
             </h2>
             <p className="mt-2">
-              L&apos;application et les activités de Efficience IT sont régies
+              L&apos;application et les activités d&apos;Efficience IT sont régies
               par le droit français. En cas de litige résultant de votre
-              utilisation du site web, seuls les Tribunaux français sont
+              utilisation du site web, seuls les tribunaux français sont
               compétents.
             </p>
             <p className="mt-2">

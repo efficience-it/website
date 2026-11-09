@@ -11,7 +11,7 @@ faq:
   - question: "Quelle différence entre un hook Git et la CI ?"
     answer: "Un hook Git s'exécute sur le poste du développeur, au moment du commit, et donne un retour en quelques secondes. La CI s'exécute sur un serveur après l'envoi du code et ne peut pas être contournée par un développeur. Les deux sont complémentaires : le hook fait gagner du temps, la CI garantit le résultat."
   - question: "Faut-il lancer toute la suite de tests dans un hook pre-commit ?"
-    answer: "Non. Un hook qui dure trop longtemps finit contourné. Gardez dans le pre-commit les contrôles rapides sur les fichiers modifiés : syntaxe, formatage, analyse statique ciblée. Déplacez la suite de tests complète et l'analyse de tout le projet vers un hook pre-push ou vers la CI."
+    answer: "Non. Un hook qui dure trop longtemps finit par être contourné. Gardez dans le pre-commit les contrôles rapides sur les fichiers modifiés : syntaxe, formatage, analyse statique ciblée. Déplacez la suite de tests complète et l'analyse de tout le projet vers un hook pre-push ou vers la CI."
   - question: "Peut-on contourner un hook Git ?"
     answer: "Oui, avec git commit --no-verify. Nous l'avons vérifié avec Lefthook, GrumPHP et Husky : le commit passe sans aucun contrôle. C'est pourquoi les mêmes vérifications doivent aussi tourner, de façon bloquante, dans la CI."
   - question: "Lefthook ou GrumPHP pour un projet Symfony ?"

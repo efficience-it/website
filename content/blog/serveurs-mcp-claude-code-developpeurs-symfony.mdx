@@ -22,7 +22,7 @@ Vous utilisez Claude Code au quotidien sur vos projets Symfony. Vous avez config
 
 ## Le Model Context Protocol en bref
 
-MCP est un protocole ouvert créé par Anthropic et publié sur [modelcontextprotocol.io](https://modelcontextprotocol.io). Il standardise la communication entre un agent IA et des services externes. Sans MCP, Claude Code est limité à ce qu'il voit dans votre arborescence de fichiers. Avec MCP, il peut interroger une base de données, lire tes erreurs Sentry, consulter une PR GitHub ou appeler une API interne.
+MCP est un protocole ouvert créé par Anthropic et publié sur [modelcontextprotocol.io](https://modelcontextprotocol.io). Il standardise la communication entre un agent IA et des services externes. Sans MCP, Claude Code est limité à ce qu'il voit dans votre arborescence de fichiers. Avec MCP, il peut interroger une base de données, lire vos erreurs Sentry, consulter une PR GitHub ou appeler une API interne.
 
 Un serveur MCP expose deux types de capacités : des **outils** (des fonctions que Claude Code peut appeler, comme "execute cette requête SQL") et des **ressources** (des données consultables, comme le schéma d'une table). Le protocole gère la découverte automatique : quand Claude Code se connecte à un serveur, il apprend quels outils sont disponibles et sait quand les utiliser. Pour exposer votre propre application, [un serveur MCP se monte en Symfony ou en PHP](/article/mcp-cli-api-quel-choix-serveur-symfony-php), même si une CLI ou une API suffit parfois.
 
@@ -62,7 +62,7 @@ Le serveur MCP GitHub connecte Claude Code à votre repository. Vous pouvez lui 
 claude mcp add --transport http github https://api.githubcopilot.com/mcp/
 ```
 
-En pratique, vous ouvrez Claude Code sur ta branche et vous lui dites : "Revois la PR #42 et identifie les problèmes d'architecture." Il lit le diff complet, le compare aux conventions de votre CLAUDE.md, et produit une review structurée. Si vous développez une [API REST](/article/api-rest-les-bonnes-pratiques), il peut vérifier que les endpoints respectent les conventions de nommage et les codes de retour HTTP.
+En pratique, vous ouvrez Claude Code sur votre branche et vous lui dites : "Revois la PR #42 et identifie les problèmes d'architecture." Il lit le diff complet, le compare aux conventions de votre CLAUDE.md, et produit une review structurée. Si vous développez une [API REST](/article/api-rest-les-bonnes-pratiques), il peut vérifier que les endpoints respectent les conventions de nommage et les codes de retour HTTP.
 
 L'intégration GitHub devient encore plus intéressante quand vous la combinez avec d'autres serveurs MCP. Claude Code peut lire une issue, consulter le schéma de la base pour comprendre le contexte, proposer une implémentation, puis créer la PR. Le tout sans que vous ayez tapé une seule commande git.
 

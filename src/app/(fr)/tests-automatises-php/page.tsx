@@ -82,7 +82,7 @@ const faqItems = [
   {
     title: "Les tests ralentissent-ils le développement ?",
     content:
-      "À court terme, écrire des tests prend du temps. Mais dès le premier mois, le gain est net : moins de bugs en production, moins de régressions, des refactorings sereins. Sur un projet de 6 mois ou plus, les tests font gagner du temps plutôt qu'en perdre.",
+      "À court terme, écrire des tests prend du temps. Mais dès le premier mois, le gain est net : moins de bugs en production, moins de régressions, des refactorings sereins. Sur un projet de 6 mois ou plus, les tests font gagner du temps plutôt que d'en faire perdre.",
   },
   {
     title: "Comment intégrer les tests dans un pipeline CI/CD existant ?",
