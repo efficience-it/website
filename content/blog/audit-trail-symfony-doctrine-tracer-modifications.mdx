@@ -1,0 +1,220 @@
+---
+title: "Audit trail Symfony : tracer les modifications avec Doctrine"
+date: "2026-11-09"
+updatedAt: "2026-11-09"
+author: "Louis-Arnaud Catoire"
+category: "Sécurité"
+excerpt: "Tracer qui a modifié quelle donnée dans Symfony : listener Doctrine, auditor-bundle, Gedmo Loggable, trigger PostgreSQL. Code testé, pièges et mesures."
+image: "/images/blog/cover-audit-trail-doctrine-symfony.webp"
+proficiencyLevel: "Expert"
+faq:
+  - question: "Qu'est-ce qu'un audit trail dans une application ?"
+    answer: "C'est l'historique des modifications de données : pour chaque création, modification ou suppression, il conserve qui l'a faite, quand, sur quel enregistrement, et les valeurs avant et après. Contrairement à un simple journal applicatif, il doit être complet et ne pas pouvoir être modifié après coup."
+  - question: "Un listener Doctrine suffit-il pour auditer toutes les modifications ?"
+    answer: "Non. Les requêtes DQL UPDATE et DELETE, le SQL brut et les modifications faites directement en base ne déclenchent aucun événement Doctrine. Si ces chemins existent dans votre application, seul un mécanisme côté base, comme un trigger ou la réplication logique, les capture."
+  - question: "auditor-bundle ou Gedmo Loggable : lequel choisir ?"
+    answer: "auditor-bundle stocke les valeurs avant et après de chaque champ modifié et propose une interface de consultation. Gedmo Loggable stocke des versions successives et permet de revenir à un état antérieur. Sous DBAL 4, Loggable demande de déclarer sa propre entité de journal avec une colonne JSON. Aucun des deux ne voit les mises à jour DQL en masse."
+  - question: "Faut-il stocker les données personnelles dans l'historique ?"
+    answer: "Le moins possible. L'historique est une copie des données : il est soumis aux mêmes règles de protection, de durée de conservation et de droit à l'effacement. Masquez ou excluez les champs sensibles dès la conception."
+---
+
+Un audit trail, ou piste d'audit, répond à une question simple : qui a modifié cette donnée, quand, et quelle était sa valeur avant ? Dans une application Symfony, il existe quatre façons d'y répondre : un listener Doctrine écrit soi-même, le bundle `damienharper/auditor-bundle`, l'extension Gedmo Loggable, ou un déclencheur (trigger) PostgreSQL. Nous les avons toutes mises en œuvre sur la même pile (Symfony 8.1, Doctrine ORM 3.7, PostgreSQL 16, PHP 8.5) et la même entité, avec des tests exécutés sur une base réelle. Aucune ne couvre tous les cas : les trois solutions côté PHP laissent passer la même catégorie de modifications.
+
+## Ce qu'un audit trail doit garantir
+
+Un historique utile en cas d'audit ou de litige enregistre, pour chaque opération : l'auteur, la date, l'enregistrement concerné, le type d'opération (création, modification, suppression), et les valeurs avant et après pour chaque champ modifié. Il doit aussi être **complet**, c'est-à-dire qu'aucune modification ne lui échappe, et **non modifiable** : un historique qu'un développeur ou un attaquant peut réécrire ne prouve rien.
+
+Ces exigences reviennent dans les textes réglementaires. La directive NIS2 suppose de pouvoir retracer les incidents (voir notre article sur la [conformité NIS2 d'une application Symfony](/article/conformite-nis2-application-symfony)), et le règlement DORA attend la même chose des entités financières, comme le détaille notre article sur la [conformité DORA](/article/conformite-dora-resilience-symfony). Lors d'une [due diligence technique](/article/due-diligence-technique-application-symfony-checklist-repreneur), l'absence d'historique des données sensibles est d'ailleurs un point que nous relevons souvent.
+
+## Un listener Doctrine onFlush écrit soi-même
+
+Doctrine publie un événement `onFlush` juste avant d'écrire en base. À ce moment, l'unité de travail connaît toutes les entités à insérer, modifier ou supprimer, avec leurs changements. Un listener peut donc y créer une ligne d'historique par opération, dans la même transaction que la modification elle-même, comme le décrit la [documentation des événements Doctrine](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/events.html#onflush). Dans Symfony, l'attribut `AsDoctrineListener` suffit à l'enregistrer (voir la [documentation Symfony sur les événements Doctrine](https://symfony.com/doc/current/doctrine/events.html)).
+
+```php
+#[AsDoctrineListener(event: Events::onFlush)]
+final class AuditListener
+{
+    public function __construct(private readonly Security $security)
+    {
+    }
+
+    public function onFlush(OnFlushEventArgs $args): void
+    {
+        $em = $args->getObjectManager();
+        $uow = $em->getUnitOfWork();
+        $actor = $this->security->getUser()?->getUserIdentifier();
+
+        $operations = [];
+        foreach ($uow->getScheduledEntityInsertions() as $entity) {
+            $operations[] = [$entity, 'insert', $uow->getEntityChangeSet($entity)];
+        }
+        foreach ($uow->getScheduledEntityUpdates() as $entity) {
+            $operations[] = [$entity, 'update', $uow->getEntityChangeSet($entity)];
+        }
+        foreach ($uow->getScheduledEntityDeletions() as $entity) {
+            $operations[] = [$entity, 'delete', []];
+        }
+
+        $entryMetadata = $em->getClassMetadata(AuditEntry::class);
+
+        foreach ($operations as [$entity, $action, $changeSet]) {
+            $metadata = $em->getClassMetadata($entity::class);
+            $reflection = new \ReflectionClass($metadata->getName());
+            if ([] === $reflection->getAttributes(Auditable::class)) {
+                continue;
+            }
+
+            $changes = [];
+            foreach ($changeSet as $field => [$old, $new]) {
+                $sensitive = [] !== $reflection->getProperty($field)->getAttributes(Sensitive::class);
+                $changes[$field] = $sensitive ? ['***', '***'] : [$old, $new];
+            }
+
+            $id = implode('-', array_map('strval', $metadata->getIdentifierValues($entity)));
+
+            $entry = new AuditEntry($metadata->getName(), $id, $action, $changes, $actor);
+            $em->persist($entry);
+            $uow->computeChangeSet($entryMetadata, $entry);
+        }
+    }
+}
+```
+
+Plusieurs détails comptent. D'abord, l'appel à `computeChangeSet()` : sans lui, Doctrine tente d'insérer la ligne d'historique sans ses valeurs, et PostgreSQL refuse la requête (`bind message supplies 0 parameters, but prepared statement "" requires 6`). Nous l'avons vérifié en le retirant : tous nos tests échouent alors. Ensuite, l'identifiant : avec une colonne `IDENTITY`, le choix par défaut de Doctrine ORM 3 avec DBAL 4 sous PostgreSQL, l'identifiant d'une nouvelle entité n'est connu qu'après l'insertion, donc trop tard, et le listener enregistrerait un identifiant vide. Notre entité `Invoice` génère un UUID v7 dans son constructeur, ce qui le rend disponible dès `onFlush` (voir notre comparatif [INT, UUID ou ULID](/article/prendre-int-uuid-ou-ulid-pour-un-index-de-base-de-donnees)). Enfin, deux attributs maison, `#[Auditable]` sur la classe et `#[Sensitive]` sur une propriété, déterminent ce qui est tracé et ce qui est masqué. Attention à l'auteur : dans une commande console ou un worker Messenger, aucun utilisateur n'est connecté et `getUser()` renvoie `null`. Prévoyez une valeur de repli explicite, comme `cli:app:relance-factures`, plutôt qu'un auteur vide. Dernière limite : ce listener ne gère que les champs simples : les relations (le changeset contient alors des objets), les collections et les objets embarqués demandent un traitement dédié.
+
+Le test principal modifie une facture et lit l'historique :
+
+```php
+public function testUpdateRecordsBeforeAfterAndActor(): void
+{
+    $invoice = $this->createInvoice();
+    $invoice->amountInCents = 99000;
+    $invoice->status = 'sent';
+    $this->em->flush();
+
+    $entries = $this->entries('update');
+    self::assertCount(1, $entries);
+    self::assertSame([
+        'status' => ['draft', 'sent'],
+        'amountInCents' => [120000, 99000],
+    ], $entries[0]->changes);
+    self::assertSame('alice@example.com', $entries[0]->actor);
+    self::assertSame((string) $invoice->getId(), $entries[0]->entityId);
+}
+```
+
+D'autres tests vérifient que les créations et les suppressions sont tracées, que l'IBAN n'apparaît jamais en clair dans la table d'historique, et qu'un `flush` qui échoue n'écrit aucune ligne d'historique : la modification et sa trace partagent la même transaction et réussissent ou échouent ensemble.
+
+## Ce que le listener ne trace pas : DQL et SQL brut
+
+Un listener Doctrine ne voit ni les requêtes DQL `UPDATE` et `DELETE`, ni le SQL brut, ni les interventions manuelles en base. Le test suivant passe, et c'est bien là le problème :
+
+```php
+public function testDqlBulkUpdateBypassesListener(): void
+{
+    $this->createInvoice();
+    $this->em->createQuery('UPDATE App\Entity\Invoice i SET i.status = :s')
+        ->setParameter('s', 'cancelled')
+        ->execute();
+
+    self::assertCount(0, $this->entries('update'));
+}
+```
+
+Une requête DQL `UPDATE` ou `DELETE` part directement en SQL, sans passer par l'unité de travail : aucun événement, donc aucune trace. Il en va de même pour les scripts de migration et de maintenance. Or ce sont souvent les opérations les plus sensibles : une annulation en masse ou une correction faite en urgence en production. Avant de choisir une solution, repérez ces chemins d'exécution dans le code : requêtes DQL `UPDATE` et `DELETE`, méthodes `update()` et `delete()` du QueryBuilder, méthodes `executeStatement()`, `insert()`, `update()` et `delete()` de la connexion DBAL.
+
+## auditor-bundle ou Gedmo Loggable
+
+Deux bibliothèques, que nous avons testées sur la même pile, dispensent d'écrire le listener soi-même.
+
+Le bundle [auditor-bundle](https://github.com/DamienHarper/auditor-bundle), en version 7.2.1, requiert PHP 8.4 et Symfony 8. Il crée une table d'historique par entité (`invoice_audit` pour `Invoice`) et y stocke, en JSON, les valeurs avant et après de chaque champ modifié, l'utilisateur connecté, son adresse IP lors d'une requête HTTP et un identifiant de transaction qui regroupe les modifications d'un même `flush`. La configuration tient en quelques lignes :
+
+```yaml
+dh_auditor:
+    providers:
+        doctrine:
+            entities:
+                App\Entity\Invoice:
+                    ignored_columns: [iban]
+```
+
+Dans notre test, la modification du montant produit `{"amountInCents":{"old":120000,"new":99000}}` avec `alice@example.com` comme auteur, et le changement d'IBAN n'est pas tracé, comme demandé. Le bundle propose aussi une interface de consultation de l'historique, désactivée par défaut, à activer et à protéger. Il repose sur les événements Doctrine : la mise à jour DQL en masse de notre test ne laisse aucune trace, exactement comme avec notre listener.
+
+[Gedmo Loggable](https://github.com/doctrine-extensions/DoctrineExtensions), intégré à Symfony par `stof/doctrine-extensions-bundle`, fonctionne par versions : on annote la classe avec `#[Gedmo\Loggable]` et chaque propriété suivie avec `#[Gedmo\Versioned]`. Il n'enregistre que les nouvelles valeurs, accompagnées d'un numéro de version, ce qui permet de restaurer un état antérieur grâce à la méthode `revert()` du repository fourni (`LogEntryRepository`). Il ne dit pas directement ce que valait le champ avant : il faut relire l'entrée précédente. Reposant lui aussi sur les événements Doctrine, il ne voit pas davantage la mise à jour DQL en masse. Un point bloquant sous DBAL 4 : l'entité de journal fournie par Gedmo (v3.22.2) déclare sa colonne `data` en type `array`, supprimé dans DBAL 4, et la création du schéma échoue (`Unknown column type "array" requested`). Il faut déclarer sa propre entité de journal, dotée d'une colonne JSON et implémentant `LogEntryInterface`, puis la référencer dans `#[Gedmo\Loggable(logEntryClass: InvoiceLogEntry::class)]`. Gardez `LogEntryRepository` comme repository de cette entité pour conserver `revert()`. Sur un projet qui utilisait déjà Loggable, la [mise à jour de Doctrine](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) est plus délicate : les entrées existantes sont stockées au format de `serialize()` de PHP. Il ne suffit pas de changer le type de la colonne, il faut convertir les données en JSON.
+
+## Le trigger PostgreSQL, filet de sécurité
+
+Pour capturer ce que Doctrine ne voit pas, il faut descendre dans la base. Un trigger s'exécute pour chaque ligne modifiée, quelle que soit l'origine de la requête, à deux exceptions près : `TRUNCATE` ne déclenche pas les triggers de ligne, et une session en mode `session_replication_role = replica` les désactive.
+
+```sql
+CREATE FUNCTION invoice_history_capture() RETURNS trigger AS $$
+BEGIN
+    INSERT INTO invoice_history (operation, row_id, old_row, new_row, actor)
+    VALUES (
+        TG_OP,
+        COALESCE(NEW.id, OLD.id),
+        CASE WHEN TG_OP = 'INSERT' THEN NULL ELSE to_jsonb(OLD) - 'iban' END,
+        CASE WHEN TG_OP = 'DELETE' THEN NULL ELSE to_jsonb(NEW) - 'iban' END,
+        NULLIF(current_setting('app.actor', true), '')
+    );
+    RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER invoice_history_capture
+    AFTER INSERT OR UPDATE OR DELETE ON invoice
+    FOR EACH ROW EXECUTE FUNCTION invoice_history_capture();
+```
+
+La base ne connaît pas l'utilisateur Symfony. L'application le lui transmet avec `set_config()`, qui définit une variable valable uniquement pour la transaction en cours. Il faut donc envelopper la modification dans une transaction explicite :
+
+```php
+$em->wrapInTransaction(function (EntityManagerInterface $em) use ($invoice, $actor): void {
+    $em->getConnection()->executeStatement("SELECT set_config('app.actor', ?, true)", [$actor]);
+    $invoice->status = 'paid';
+    $em->flush();
+});
+```
+
+Notre test le confirme : la modification faite dans ce bloc est attribuée au bon auteur, tandis qu'un `flush` ordinaire, hors de ce bloc, arrive au trigger sans auteur. Le `NULLIF` est nécessaire : une fois la variable définie dans une session, `current_setting()` renvoie une chaîne vide, et non `NULL`, dans les transactions suivantes. Après une mise à jour SQL en masse, l'historique contient cette fois l'ancien et le nouveau statut, l'auteur, mais pas l'IBAN. L'opérateur `-` sur le JSONB et `current_setting()` rendent ce trigger court ; c'est un argument de plus si vous envisagez une [migration de MySQL vers PostgreSQL](/article/migration-mysql-postgresql-doctrine-guide). Les [triggers PL/pgSQL](https://www.postgresql.org/docs/16/plpgsql-trigger.html) ont toutefois leurs limites : l'historique est stocké ligne par ligne au format de la table, sans notion d'entité, et la logique, écrite en PL/pgSQL, est moins visible et moins naturelle à tester pour une équipe PHP.
+
+Deux autres triggers rendent la table d'historique du listener non modifiable : toute requête `UPDATE`, `DELETE` ou `TRUNCATE` sur `audit_entry` lève une erreur, ce que vérifie un test dédié. Ajoutez un `REVOKE UPDATE, DELETE, TRUNCATE` sur cette table pour le rôle utilisé par l'application, à condition que ce rôle n'en soit pas propriétaire : créez-la avec un rôle de migration distinct. Ces verrous protègent contre une erreur de code ou un script de remise à zéro, pas contre un administrateur de la base, qui peut supprimer les triggers. Si l'historique doit servir de preuve, exportez-le régulièrement vers un stockage externe non modifiable (de type WORM, où l'on ne peut qu'ajouter).
+
+## Impact de l'audit trail sur les performances
+
+Le trigger ajoute environ 15 % à la durée d'un `flush`, le listener la multiplie par 2,6. Nous avons mesuré un `flush` de 5 000 factures modifiées (médiane de cinq exécutions) sur un poste de développement, avec PostgreSQL 16 en conteneur. Seuls les écarts comptent :
+
+| Configuration | Durée du `flush` |
+| --- | --- |
+| Sans audit | 1,37 s |
+| Trigger PostgreSQL | 1,57 s |
+| Listener `onFlush` | 3,60 s |
+
+Le listener ajoute, pour chaque entité modifiée, un calcul de changeset et une insertion gérée par Doctrine ; le trigger écrit directement dans la base, sans aller-retour avec PHP. Pour un import massif, il devient significatif, et c'est justement là que le trigger est le plus utile. Pensez aussi au volume : la table d'historique grossit sans cesse. Indexez-la sur le couple entité et identifiant, comme le fait notre classe `AuditEntry`, et partitionnez-la par date quand elle devient volumineuse.
+
+## Données personnelles et durée de conservation
+
+L'historique est une copie des données : il contient les mêmes informations personnelles que la table d'origine, et souvent leurs anciennes versions. Il entre donc dans le périmètre du RGPD, avec les mêmes obligations. Quatre règles :
+
+- **Exclure ou masquer** les champs sensibles dès la conception, comme l'IBAN dans nos exemples. Attention aux champs protégés par le [chiffrement des données avec Doctrine](/article/chiffrement-donnees-doctrine-postgresql) : chiffrés par un type Doctrine, ils arrivent en clair dans le changeset. Excluez-les de l'historique (`#[Sensitive]`, `ignored_columns`), sinon l'historique annule le chiffrement.
+- **Fixer une durée de conservation**, adresses IP comprises, et purger les entrées anciennes, en accord avec votre responsable de la conformité. Avec une table partitionnée par date, la purge consiste à détacher ou supprimer les partitions anciennes, ce qui ne déclenche pas les triggers de ligne.
+- **Traiter les demandes d'effacement** : supprimer une personne de la table principale ne suffit pas, il faut aussi purger ou anonymiser les entrées d'historique qui la concernent. Avec une table protégée par un trigger, prévoyez une procédure dédiée et tracée.
+- **Ne pas copier l'historique en recette** tel quel : il faut l'anonymiser comme le reste de la base, par exemple [avec DbToolsBundle](/article/dbtoolsbundle-anonymiser-vos-bases-de-donnees).
+
+## Et l'event sourcing ?
+
+L'event sourcing recalcule l'état de l'application à partir de la suite des événements métier (« facture émise », « facture annulée ») : l'historique devient la source de vérité. C'est un choix d'architecture à part entière, pas une fonctionnalité d'audit à ajouter à une application existante. Si vos événements métier transitent déjà par Messenger, ils peuvent alimenter un historique métier, comme le montre notre article sur [Messenger au cœur d'une architecture hexagonale](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale).
+
+## Quelle solution choisir ?
+
+Pour la plupart des applications, la bonne réponse combine auditor-bundle ou un listener côté application, et un trigger PostgreSQL sur les tables critiques.
+
+| Besoin | Solution |
+| --- | --- |
+| Historique détaillé avec interface de consultation, peu de code | auditor-bundle |
+| Versions successives et retour arrière | Gedmo Loggable, avec une entité de journal en JSON |
+| Contrôle total du format et des règles de masquage | Listener `onFlush` maison |
+| Mises à jour en masse, SQL brut, interventions en base | Trigger PostgreSQL, en complément |
+| Le métier raisonne en événements | Event sourcing |
+
+Si votre application n'a aucun historique aujourd'hui, commencez par ces tables critiques et vérifiez leur couverture par des tests comme ceux de cet article. Nous accompagnons ce type de chantier dans le cadre de la [sécurité des applications Symfony](/securite-application-symfony).

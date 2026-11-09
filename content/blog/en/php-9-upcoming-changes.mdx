@@ -2,18 +2,18 @@
 title: "PHP 9.0: New Features, Breaking Changes, and Impact"
 kind: "news"
 date: "2025-05-06"
-updatedAt: "2026-10-12"
+updatedAt: "2026-11-09"
 author: "Florian Chenot"
 category: "PHP"
 excerpt: "PHP 9.0 will remove the deprecations accumulated since PHP 8.1. Stricter typing, no more implicit behaviors: here is how to prepare your projects now."
 image: "/images/blog/cover-php-9-changes.webp"
 translationOf: "php-9-0-devoile-ce-que-vous-devez-savoir-avant-la-sortie"
-translatedFromUpdatedAt: "2026-10-12"
+translatedFromUpdatedAt: "2026-11-09"
 ---
 
 PHP 9.0 does not have an official release date yet. The next version will be PHP 8.6, planned for late 2026. But PHP 9 is already taking shape: every 8.x version accumulates deprecations that will be turned into errors or removed in the next major version. The approach has been the same since PHP 7: progressively stricter typing, warnings promoted to errors, and a cleanup of the standard API. This evolution continues the work of the [PSRs, the standards of the PHP ecosystem](/article/qu-est-ce-que-les-psrs-et-a-quoi-servent-ils) (in French) that have gradually unified development practices.
 
-While waiting for PHP 9, the ecosystem is not standing still. PHP 8.5 (November 2025) brought its share of deprecations and cleanups. Among the RFCs under discussion for later versions, the pipe operator (`|>`) and partial function application could enrich the language syntax, but their inclusion is not yet confirmed. These proposals show the direction of the language toward more expressiveness.
+While waiting for PHP 9, the ecosystem is not standing still. PHP 8.5 (November 2025) brought its share of deprecations and cleanups, but also the pipe operator (`|>`), which chains function calls from left to right without intermediate variables. Partial function application, unanimously accepted in late 2025, is set to complement it in a future 8.x release. These changes show the direction of the language toward more expressiveness.
 
 This article lists the confirmed changes (deprecations that were voted on and accepted) and the likely trends. It will be updated as RFC votes come in.
 
