@@ -22,7 +22,7 @@ export default function BlogCard({ post, headingLevel = 3 }: BlogCardProps) {
             src={post.image}
             alt={post.title}
             width={400}
-            height={220}
+            height={210}
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="h-48 w-full object-cover"
           />

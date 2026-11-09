@@ -146,3 +146,11 @@ describe("ArticleView in English", () => {
     expect(html).not.toContain('href="/blog/');
   });
 });
+
+describe("ArticleView cover image", () => {
+  it("declares the real 1200x630 ratio of the cover files", () => {
+    const html = render(makePost(), "fr");
+
+    expect(html).toMatch(/<img[^>]*width="1200"[^>]*height="630"/);
+  });
+});
