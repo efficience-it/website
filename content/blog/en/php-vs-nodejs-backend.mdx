@@ -27,7 +27,7 @@ As an [agency that works with both technologies](/developpement-php) (in French)
 
 PHP follows a classic synchronous model: a request comes in, the script runs, the response is sent back, and memory is freed. This model, often criticized for its lack of native concurrency, is actually an advantage for most web applications. It eliminates memory leak problems, simplifies debugging, and makes the application's behavior predictable.
 
-With PHP 8.x and the [JIT compiler](https://www.php.net/manual/fr/opcache.configuration.php), raw performance has made a significant leap. Servers like [FrankenPHP](/article/concretement-cest-quoi-frankenphp) (in French) introduce worker mode, which keeps processes alive between requests, combining the best of both worlds.
+With PHP 8.x and the [JIT compiler](https://www.php.net/manual/fr/opcache.configuration.php), raw performance has made a significant leap. Servers like [FrankenPHP](/en/article/frankenphp-explained) introduce worker mode, which keeps processes alive between requests, combining the best of both worlds.
 
 ### Node.js: event loop and non-blocking I/O
 
@@ -39,13 +39,13 @@ The downside: asynchronous code is harder to debug, unhandled errors can crash t
 
 ### PHP: Symfony and Laravel
 
-The PHP ecosystem is dominated by two mature frameworks: Symfony and Laravel. Symfony provides decoupled components, a robust dependency injection system, and an architecture designed for complex applications. Laravel offers strong conventions and high initial productivity. For a detailed comparison, see our [Symfony vs Laravel article](/article/symfony-vs-laravel-quel-framework-php-choisir) (in French).
+The PHP ecosystem is dominated by two mature frameworks: Symfony and Laravel. Symfony provides decoupled components, a robust dependency injection system, and an architecture designed for complex applications. Laravel offers strong conventions and high initial productivity. For a detailed comparison, see our [Symfony vs Laravel article](/en/article/symfony-vs-laravel-2026).
 
 The PHP ecosystem has industrial-grade tools: PHPStan for static analysis, Rector for automated migrations, PHPUnit for testing, Composer for dependency management. These tools are mature and widely adopted in enterprises.
 
 ### Node.js: Express, NestJS, and the npm ecosystem
 
-Node.js benefits from the npm ecosystem, the largest package registry in the world. Frameworks like [Express, Fastify, and Hono](/article/express-fastify-hono-quel-framework-nodejs-choisir) (in French) cover a wide range of needs. [NestJS](/api-nodejs-nestjs) (in French) brings a more opinionated structure, inspired by Angular, with dependency injection and modules.
+Node.js benefits from the npm ecosystem, the largest package registry in the world. Frameworks like [Express, Fastify, and Hono](/en/article/nodejs-framework-comparison) cover a wide range of needs. [NestJS](/api-nodejs-nestjs) (in French) brings a more opinionated structure, inspired by Angular, with dependency injection and modules.
 
 The downside of the npm ecosystem is its fragmentation: thousands of packages of uneven quality, deep dependencies, and recurring security problems (supply chain attacks). The maturity of quality tools (eslint, jest, prettier) is good, but they provide less structure than the PHP ecosystem for enterprise applications.
 

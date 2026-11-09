@@ -124,7 +124,7 @@ The component requires PHP 8.4 minimum (`"php": ">=8.4"` in its `composer.json`)
 php -v | head -1
 ```
 
-If the output shows PHP 8.2 or 8.3: stop. There is nothing else to read here, so plan your PHP version upgrade first. Our article on [PHP 9.0 and the changes to anticipate](/article/php-9-0-devoile-ce-que-vous-devez-savoir-avant-la-sortie) (in French) can help you plan that path. If you are on 8.4+, we continue.
+If the output shows PHP 8.2 or 8.3: stop. There is nothing else to read here, so plan your PHP version upgrade first. Our article on [PHP 9.0 and the changes to anticipate](/en/article/php-9-upcoming-changes) can help you plan that path. If you are on 8.4+, we continue.
 
 ### Auditing Your Serialized Objects
 
@@ -161,7 +161,7 @@ foreach ($phpFiles as $file) {
 }
 ```
 
-On a typical Symfony project, do not be surprised if 70% of your classes are incompatible. That is normal: Doctrine entities, services, and value objects with a constructor are all excluded. Only your pure DTOs are candidates. Note that the changes introduced by [Doctrine ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) (in French) can influence the structure of your entities in this context.
+On a typical Symfony project, do not be surprised if 70% of your classes are incompatible. That is normal: Doctrine entities, services, and value objects with a constructor are all excluded. Only your pure DTOs are candidates. Note that the changes introduced by [Doctrine ORM 3.0](/en/article/doctrine-orm-3-changes) can influence the structure of your entities in this context.
 
 ### Inventory of the Serializer Features You Use
 
@@ -178,7 +178,7 @@ Before migrating an endpoint, check which Serializer features it uses. Here is t
 | DateTime | Via ValueTransformer |
 | Circular reference handler | Not applicable (no circular references in a DTO) |
 
-If your endpoint uses groups or dynamic context, the migration requires structural refactoring, not just a change of call. A tool like [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) (in French) can automate part of these transformations.
+If your endpoint uses groups or dynamic context, the migration requires structural refactoring, not just a change of call. A tool like [Rector](/en/article/rector-php-code-refactoring) can automate part of these transformations.
 
 ## What You Lose, Let's Be Honest
 
@@ -195,7 +195,7 @@ $dto = PublicUserDto::fromEntity($user);
 $json = $jsonStreamer->serialize($dto);
 ```
 
-It is more verbose, but architecturally cleaner. Each representation is explicit in the code, not hidden in an annotation. If you work with hexagonal architecture, you probably already have these DTOs: the [migration to hexagonal architecture](/article/migration-symfony-architecture-hexagonale-retour-mission) (in French) is precisely the context where this separation emerges naturally.
+It is more verbose, but architecturally cleaner. Each representation is explicit in the code, not hidden in an annotation. If you work with hexagonal architecture, you probably already have these DTOs: the [migration to hexagonal architecture](/en/article/symfony-hexagonal-migration) is precisely the context where this separation emerges naturally.
 
 ### Dynamic Context
 
@@ -330,11 +330,11 @@ On 50,000 products, we go from ~340 ms to ~54 ms and from ~24 MB to ~8 MB.
 
 ## Going Further
 
-- [REST API: best practices](/article/api-rest-les-bonnes-pratiques) (in French), structuring your endpoints before optimizing them
-- [Which architecture to choose between microservices and a modular monolith](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) (in French), the architectural context that influences the Serializer vs. JsonStreamer choice
-- [Why Docker is essential in production today](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) (in French), containerizing to control PHP versions
-- [Everything about caching](/article/tout-savoir-sur-la-mise-en-cache-tips) (in French), complementing JSON performance with a suitable cache strategy
-- [Swagger and NelmioApiDocBundle](/article/swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on) (in French), documenting your serialized endpoints
+- [REST API: best practices](/en/article/php-rest-api-best-practices), structuring your endpoints before optimizing them
+- [Which architecture to choose between microservices and a modular monolith](/en/article/microservices-vs-modular-monolith), the architectural context that influences the Serializer vs. JsonStreamer choice
+- [Why Docker is essential in production today](/en/article/docker-production-reliability), containerizing to control PHP versions
+- [Everything about caching](/en/article/caching-guide-web-applications), complementing JSON performance with a suitable cache strategy
+- [Swagger and NelmioApiDocBundle](/en/article/nelmio-api-doc-swagger-symfony), documenting your serialized endpoints
 - [Streaming JSON: Symfony documentation](https://symfony.com/doc/current/serializer/streaming_json.html), the official reference
 
 JsonStreamer is not the future of the Serializer, it is a specialized tool for a specific problem. If you work at volume, it is unbeatable. If you need view flexibility with groups and dynamic context, keep the Serializer. The two coexist, so use them together. Smart migration goes endpoint by endpoint, starting with the ones where the gain is measurable. This kind of targeted optimization is one of the levers we use in our [custom web development](/developpement-web-sur-mesure) (in French) projects.

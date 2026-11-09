@@ -32,13 +32,13 @@ This share-nothing model guarantees total isolation between requests. A bug, a m
 
 On a typical Symfony application, bootstrapping accounts for 30 to 60% of a request's processing time: reading configuration files, building the dependency injection container, compiling routes, initializing listeners. OPcache reduces the cost by caching compiled bytecode, but instantiating objects and assembling the service graph remain incompressible on every request.
 
-On top of this computational load comes operational complexity. A classic production architecture requires coordinating several services: Nginx or Apache as a reverse proxy, PHP-FPM for execution, Certbot or another tool for managing TLS certificates, and sometimes Varnish for HTTP caching. We cover caching strategies in detail in our guide to [caching applied to PHP applications](/article/tout-savoir-sur-la-mise-en-cache-tips) (in French). Each service brings its own configuration file, logs, reload mechanisms and failure modes. This search for simpler execution echoes the debate between [WASM and server-side containers](/article/wasm-ou-container-que-choisir-en-2026) (in French).
+On top of this computational load comes operational complexity. A classic production architecture requires coordinating several services: Nginx or Apache as a reverse proxy, PHP-FPM for execution, Certbot or another tool for managing TLS certificates, and sometimes Varnish for HTTP caching. We cover caching strategies in detail in our guide to [caching applied to PHP applications](/en/article/caching-guide-web-applications). Each service brings its own configuration file, logs, reload mechanisms and failure modes. This search for simpler execution echoes the debate between [WASM and server-side containers](/en/article/wasm-vs-containers-2026).
 
 ## FrankenPHP: A Native Application Server for PHP
 
 FrankenPHP is an application server written in Go, built on [Caddy](https://caddyserver.com/), that embeds the PHP interpreter directly in its process. It is not a simple wrapper around PHP-FPM: FrankenPHP uses CGO to link the Go runtime to the C code of the Zend Engine, PHP's virtual machine. This approach lets the web server and the interpreter coexist in the same memory space, with no inter-process communication and no intermediate protocol.
 
-The concrete result: a single binary that can serve a PHP application with native HTTP/1.1, HTTP/2 and HTTP/3 support, automatic TLS certificate generation through Let's Encrypt or ZeroSSL, and real-time support through the Mercure protocol. This simpler runtime is an asset for [Symfony hosting](/hebergement-symfony) (in French): a single process replaces a whole stack of services to configure and maintain. FrankenPHP can natively run Symfony, Laravel, API Platform, WordPress, Drupal or any standard PHP application. Combined with [Docker in production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) (in French), the single binary considerably simplifies container orchestration.
+The concrete result: a single binary that can serve a PHP application with native HTTP/1.1, HTTP/2 and HTTP/3 support, automatic TLS certificate generation through Let's Encrypt or ZeroSSL, and real-time support through the Mercure protocol. This simpler runtime is an asset for [Symfony hosting](/hebergement-symfony) (in French): a single process replaces a whole stack of services to configure and maintain. FrankenPHP can natively run Symfony, Laravel, API Platform, WordPress, Drupal or any standard PHP application. Combined with [Docker in production](/en/article/docker-production-reliability), the single binary considerably simplifies container orchestration.
 
 ## Internal Architecture and Technical Choices
 
@@ -58,7 +58,7 @@ Worker mode is FrankenPHP's most significant contribution. In this mode, the PHP
 
 The measured gain is substantial. Benchmarks show response times three to five times lower than PHP-FPM on Symfony or Laravel applications. On a typical REST API, processing time drops from 15-20 ms to 3-5 ms per request, since bootstrapping runs only once.
 
-FrankenPHP integrates particularly well with Symfony, whose [strengths for web projects](/article/pourquoi-choisir-symfony-pour-vos-projets) (in French) combine naturally with the performance gains of worker mode. To enable worker mode with Symfony, the integration goes through the [Runtime component](https://symfony.com/doc/current/components/runtime.html):
+FrankenPHP integrates particularly well with Symfony, whose [strengths for web projects](/en/article/why-choose-symfony) combine naturally with the performance gains of worker mode. To enable worker mode with Symfony, the integration goes through the [Runtime component](https://symfony.com/doc/current/components/runtime.html):
 
 ```bash
 composer require runtime/frankenphp-symfony
@@ -100,7 +100,7 @@ ENTRYPOINT ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]
 
 The second step enables worker mode in a staging environment. This phase requires auditing application services to identify those that keep state between requests. Check ORMs, caching systems and connections to external services.
 
-The third step is the production deployment with enhanced monitoring. For teams considering a [microservices or modular monolith architecture](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) (in French), FrankenPHP simplifies deployment in both cases. The official FrankenPHP Docker images support Caddy's native health checks, graceful shutdown for Kubernetes rolling updates, and configuration through environment variables.
+The third step is the production deployment with enhanced monitoring. For teams considering a [microservices or modular monolith architecture](/en/article/microservices-vs-modular-monolith), FrankenPHP simplifies deployment in both cases. The official FrankenPHP Docker images support Caddy's native health checks, graceful shutdown for Kubernetes rolling updates, and configuration through environment variables.
 
 ### Production Considerations
 
@@ -116,6 +116,6 @@ FrankenPHP represents a significant architectural evolution for the PHP ecosyste
 
 ## Going Further
 
-- [Looking back at Forum PHP 2024](/article/retour-sur-le-forum-php-2024) (in French), trends and news from the PHP ecosystem
+- [Looking back at Forum PHP 2024](/en/article/forum-php-symfonycon-2024-recap), trends and news from the PHP ecosystem
 - [Official FrankenPHP website](https://frankenphp.dev/), documentation, installation and getting-started guides
-- [PHP 9.0: what you need to know](/article/php-9-0-devoile-ce-que-vous-devez-savoir-avant-la-sortie) (in French), upcoming changes to the PHP language
+- [PHP 9.0: what you need to know](/en/article/php-9-upcoming-changes), upcoming changes to the PHP language

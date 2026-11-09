@@ -24,7 +24,7 @@ howTo:
       text: "Generate an HTML report with --reporters htmlextra and expose it as a GitLab artifact to make debugging failures easier."
 ---
 
-Testing an API manually works at the start of a project. But as soon as you adopt [coding conventions](/article/coding-conventions) (in French) as a team, test automation becomes a necessity. Once the team grows, endpoints multiply and deployments speed up, the absence of automated tests becomes a concrete risk: silent regressions, broken contracts, fragile integrations. Newman, Postman's CLI runner, lets you turn collections of requests into a test suite that runs in a GitLab CI pipeline. Teams that version everything in Git also look at [Bruno, the open source alternative to Postman](/article/bruno-alternative-open-source-postman-tester-api) (in French), whose collections are stored as text files. Here is how to set this up, then how to go beyond a basic configuration.
+Testing an API manually works at the start of a project. But as soon as you adopt [coding conventions](/en/article/php-coding-standards-best-practices) as a team, test automation becomes a necessity. Once the team grows, endpoints multiply and deployments speed up, the absence of automated tests becomes a concrete risk: silent regressions, broken contracts, fragile integrations. Newman, Postman's CLI runner, lets you turn collections of requests into a test suite that runs in a GitLab CI pipeline. Teams that version everything in Git also look at [Bruno, the open source alternative to Postman](/en/article/bruno-api-testing-postman-alternative), whose collections are stored as text files. Here is how to set this up, then how to go beyond a basic configuration.
 
 ## Postman and Newman: the API testing tandem
 
@@ -71,7 +71,7 @@ To get the collection and the environment, two approaches coexist. The first is 
 
 ## Managing environments and secrets
 
-Managing environment variables is the first point where the configuration gets interesting. As with [secrets management in a Symfony project](/article/dbtoolsbundle-anonymiser-vos-bases-de-donnees) (in French), a robust strategy combines three levels.
+Managing environment variables is the first point where the configuration gets interesting. As with [secrets management in a Symfony project](/en/article/dbtoolsbundle-database-anonymization), a robust strategy combines three levels.
 
 The versioned environment file contains the complete structure: variable names, default values for local development, placeholders for sensitive values. This file is part of the Git repository and serves as living documentation of the test suite's dependencies.
 
@@ -89,7 +89,7 @@ It is a powerful lever to increase coverage without duplicating requests. The sa
 
 ## Effective assertion strategies
 
-The quality of a Postman test suite rests on the relevance of its assertions, just as code quality rests on [static analysis tooling like PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French). Testing only for HTTP 200 is not enough. A progressive assertion strategy covers several levels: the HTTP return code, the payload structure (expected fields present, correct types), business values (a calculation returns the right result, a list is sorted correctly) and response headers (Content-Type, Cache-Control, CORS).
+The quality of a Postman test suite rests on the relevance of its assertions, just as code quality rests on [static analysis tooling like PHPStan](/en/article/phpstan-improve-php-code-quality). Testing only for HTTP 200 is not enough. A progressive assertion strategy covers several levels: the HTTP return code, the payload structure (expected fields present, correct types), business values (a calculation returns the right result, a list is sorted correctly) and response headers (Content-Type, Cache-Control, CORS).
 
 Pre-request scripts let you prepare the context: generate unique data, store timestamps for later checks, chain setup calls. Test scripts use the Chai library built into Postman for expressive assertions. Combining the two turns a collection of requests into a true functional test suite.
 
@@ -99,7 +99,7 @@ On a project with dozens of endpoints, the Newman job's execution time becomes a
 
 Parallelization is the most effective. Newman's `--folder` option targets a specific folder of the collection. You then split the single job into several parallel jobs, each responsible for a functional subset. GitLab runs these jobs simultaneously, and the total time is that of the longest job rather than the sum of all of them.
 
-Caching Node.js dependencies avoids reinstalling Newman on every run. A GitLab CI cache on the global npm directory reduces the `before_script` from 15 seconds to under 2. GitLab CI runners often run in containers: [why Docker is essential in production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) (in French) explains how to configure this execution environment well. For more ambitious projects, our [cloud and DevOps support](/cloud-et-devops) (in French) covers the full industrialization of this kind of pipeline.
+Caching Node.js dependencies avoids reinstalling Newman on every run. A GitLab CI cache on the global npm directory reduces the `before_script` from 15 seconds to under 2. GitLab CI runners often run in containers: [why Docker is essential in production](/en/article/docker-production-reliability) explains how to configure this execution environment well. For more ambitious projects, our [cloud and DevOps support](/cloud-et-devops) (in French) covers the full industrialization of this kind of pipeline.
 
 GitLab Pipeline Schedules let you separate runs by frequency. Critical tests run on every merge request with `--bail` for fast feedback. The full, slower suite runs every night against the staging environment through a scheduled pipeline.
 
@@ -113,7 +113,7 @@ The `htmlextra` reporter is the main debugging tool: the HTML report downloadabl
 
 ## Designing your API test architecture
 
-Newman and Postman solve a specific problem: running functional HTTP tests against a deployed API. For these tests to be reliable, the API itself must be well designed: [REST best practices](/article/api-rest-les-bonnes-pratiques) (in French) define stable contracts that simplify writing assertions. This approach has its place in the test pyramid, but it is essential to understand where it sits and what it does not cover.
+Newman and Postman solve a specific problem: running functional HTTP tests against a deployed API. For these tests to be reliable, the API itself must be well designed: [REST best practices](/en/article/php-rest-api-best-practices) define stable contracts that simplify writing assertions. This approach has its place in the test pyramid, but it is essential to understand where it sits and what it does not cover.
 
 Postman/Newman tests are end-to-end integration tests. They cross the network, the web server, the application framework and the database. Their strength is validating the real behavior of the API as the consumer perceives it. Their weakness is their fragility (dependence on infrastructure, data and service availability) and their relative slowness.
 
@@ -125,9 +125,9 @@ When the Postman suite exceeds a hundred requests, when maintaining the collecti
 
 ## Going further
 
-- [Deploying Nuxt.js with GitLab CI: S3 and CloudFront](/article/deployer-nuxtjs-avec-gitlab-ci-s3-et-cloudfront) (in French), another GitLab CI/CD use case for deployment
-- [Swagger Nelmio bundle and its features](/article/swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on) (in French), document your APIs to make creating test collections easier
-- [Training your teams in IT security effectively](/article/comment-former-vos-equipes-a-la-securite-informatique-en-toute-simplicite) (in French), integrate security tests into your CI/CD pipelines
+- [Deploying Nuxt.js with GitLab CI: S3 and CloudFront](/en/article/nuxtjs-gitlab-ci-s3-cloudfront), another GitLab CI/CD use case for deployment
+- [Swagger Nelmio bundle and its features](/en/article/nelmio-api-doc-swagger-symfony), document your APIs to make creating test collections easier
+- [Training your teams in IT security effectively](/en/article/security-training-teams), integrate security tests into your CI/CD pipelines
 - [Postman](https://www.postman.com/), the official Postman site for API testing
 - [Newman on GitHub](https://github.com/postmanlabs/newman), the CLI tool for running Postman collections
 - [GitLab CI/CD documentation](https://docs.gitlab.com/ee/ci/), the official GitLab CI/CD guide

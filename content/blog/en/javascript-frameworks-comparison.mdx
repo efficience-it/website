@@ -22,9 +22,9 @@ Understanding these differences goes beyond comparing syntaxes. It is a matter o
 
 Node.js is built on a non-blocking, event-driven I/O model. The server never sits idle waiting for a database response or a file read: it immediately processes the next request and runs a callback as soon as the result is available. This single-threaded model with an event loop makes it remarkably efficient for applications with a high rate of simultaneous connections: instant messaging, real-time APIs, collaborative dashboards.
 
-The NPM ecosystem, with several million packages, is both its strength and a risk. The ease of adding dependencies speeds up development, but it demands rigorous discipline in package auditing, version management, and monitoring [vulnerabilities (CVEs) in the dependency tree](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) (in French).
+The NPM ecosystem, with several million packages, is both its strength and a risk. The ease of adding dependencies speeds up development, but it demands rigorous discipline in package auditing, version management, and monitoring [vulnerabilities (CVEs) in the dependency tree](/en/article/cve-vulnerability-management).
 
-Node.js also underpins front-end meta-frameworks. Next.js, Nuxt, and Angular Universal all rely on it for server-side rendering. Mastering Node.js means understanding the execution layer shared by the entire modern JavaScript ecosystem. These frameworks consume backend APIs, and the choice between [REST and GraphQL](/article/que-vaut-rest-face-a-son-nouveau-challenger-graphql) (in French) directly influences how the front end queries the server. For projects that need a robust backend, [custom Node.js development](/developpement-nodejs) (in French) lets you take full advantage of this runtime for high-traffic applications or real-time architectures.
+Node.js also underpins front-end meta-frameworks. Next.js, Nuxt, and Angular Universal all rely on it for server-side rendering. Mastering Node.js means understanding the execution layer shared by the entire modern JavaScript ecosystem. These frameworks consume backend APIs, and the choice between [REST and GraphQL](/en/article/rest-vs-graphql) directly influences how the front end queries the server. For projects that need a robust backend, [custom Node.js development](/developpement-nodejs) (in French) lets you take full advantage of this runtime for high-traffic applications or real-time architectures.
 
 ## React: Maximum Flexibility, Maximum Responsibility
 
@@ -43,11 +43,11 @@ Next.js turned React into a full-stack platform. It offers four rendering strate
 
 ### The Complexity of State Management
 
-State management in the React ecosystem has gone through several generations: Redux, MobX, Zustand, Jotai, Recoil. Each solution reflects a different philosophy, centralized store versus distributed atoms, strict immutability versus reactive proxies. The choice directly affects testability, re-rendering performance, and the team's learning curve. On a large project, poorly designed state management becomes the leading source of [technical debt](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French).
+State management in the React ecosystem has gone through several generations: Redux, MobX, Zustand, Jotai, Recoil. Each solution reflects a different philosophy, centralized store versus distributed atoms, strict immutability versus reactive proxies. The choice directly affects testability, re-rendering performance, and the team's learning curve. On a large project, poorly designed state management becomes the leading source of [technical debt](/en/article/technical-debt-explained).
 
 ## Vue.js: Progressiveness as a Philosophy
 
-[Vue.js](/developpement-vuejs) (in French) takes a progressively adoptable approach. You can drop it into an existing page with a simple script tag, then scale up to a full SPA with router, store, and server rendering through Nuxt. To go further on modern web applications, our article on [improving user experience with the web app manifest](/article/ameliorer-lexperience-utilisateur-grace-au-manifeste-des-applications-web) (in French) covers turning these SPAs into installable PWAs. This progressiveness is not a compromise: it is an architectural decision that lowers the entry barrier without sacrificing advanced capabilities.
+[Vue.js](/developpement-vuejs) (in French) takes a progressively adoptable approach. You can drop it into an existing page with a simple script tag, then scale up to a full SPA with router, store, and server rendering through Nuxt. To go further on modern web applications, our article on [improving user experience with the web app manifest](/en/article/web-app-manifest-pwa) covers turning these SPAs into installable PWAs. This progressiveness is not a compromise: it is an architectural decision that lowers the entry barrier without sacrificing advanced capabilities.
 
 Vue 3's reactivity system, based on JavaScript Proxies, offers granular dependency tracking. Unlike React's reconciliation model, which compares entire trees, Vue knows precisely which components must be updated when a piece of data changes. On interfaces with many components, this granularity translates into better re-rendering performance without manual optimization.
 
@@ -57,7 +57,7 @@ The Composition API, introduced with Vue 3, transformed code organization. It le
 
 Angular takes a radically different "batteries included" philosophy. The framework natively integrates the router, the HTTP client, reactive form handling, dependency injection, unit testing, and animations. This completeness eliminates the time spent evaluating and assembling third-party libraries.
 
-Mandatory TypeScript and the module system impose a strict structure, similar to what [Symfony offers for the PHP backend](/article/pourquoi-choisir-symfony-pour-vos-projets) (in French). On a project with ten developers, this rigidity becomes an asset: the code is consistent, conventions are shared, and onboarding new members is accelerated by the predictability of the architecture.
+Mandatory TypeScript and the module system impose a strict structure, similar to what [Symfony offers for the PHP backend](/en/article/why-choose-symfony). On a project with ten developers, this rigidity becomes an asset: the code is consistent, conventions are shared, and onboarding new members is accelerated by the predictability of the architecture.
 
 ### Bundle Optimization and Performance
 
@@ -89,13 +89,13 @@ The analysis must also consider the cadence of major versions, the backward comp
 
 There is no universally superior framework. Node.js is the essential foundation of server-side JavaScript. React offers maximum flexibility for teams able to make informed architectural choices. Vue.js offers the best simplicity-to-power ratio for mid-sized projects and growing teams. Angular is the natural fit for long-lived enterprise applications where architectural consistency outweighs initial velocity. Our [front-end development](/developpement-frontend) (in French) offering covers React, Vue.js, and TypeScript to adapt to the context of each project.
 
-The real question is not which framework is the best, but which framework lets this team, on this project, with these constraints, deliver and maintain a quality product over time. If your project involves a Node.js API, choosing the server framework is a separate decision: the [Express, Fastify, and Hono comparison](/article/express-fastify-hono-quel-framework-nodejs-choisir) (in French) details the performance and ergonomics differences between the three main options. For projects that need a structured API, [API development with NestJS](/api-nodejs-nestjs) (in French) offers an architectural framework that is familiar to teams used to Symfony or Angular.
+The real question is not which framework is the best, but which framework lets this team, on this project, with these constraints, deliver and maintain a quality product over time. If your project involves a Node.js API, choosing the server framework is a separate decision: the [Express, Fastify, and Hono comparison](/en/article/nodejs-framework-comparison) details the performance and ergonomics differences between the three main options. For projects that need a structured API, [API development with NestJS](/api-nodejs-nestjs) (in French) offers an architectural framework that is familiar to teams used to Symfony or Angular.
 
 ## Going Further
 
-- [Which code editor to choose?](/article/phpstorm-vscode-sublimetext-netbeans-quel-editeur-de-code-choisir) (in French), picking the editor that fits your development workflow
-- [Deploy Nuxt.js with GitLab CI: S3 and CloudFront](/article/deployer-nuxtjs-avec-gitlab-ci-s3-et-cloudfront) (in French), putting a Vue/Nuxt project into production with an automated CI/CD pipeline
-- [RGAA standards: accessibility for everyone](/article/normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous) (in French), building accessibility requirements into your front-end applications
+- [Which code editor to choose?](/en/article/best-code-editor-2026), picking the editor that fits your development workflow
+- [Deploy Nuxt.js with GitLab CI: S3 and CloudFront](/en/article/nuxtjs-gitlab-ci-s3-cloudfront), putting a Vue/Nuxt project into production with an automated CI/CD pipeline
+- [RGAA standards: accessibility for everyone](/en/article/rgaa-web-accessibility-standards), building accessibility requirements into your front-end applications
 - [React](https://react.dev/), the official React documentation by Meta
 - [Vue.js](https://vuejs.org/), the official Vue.js framework website
 - [Angular](https://angular.dev/), the official Angular framework documentation by Google

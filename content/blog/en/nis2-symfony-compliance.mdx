@@ -85,7 +85,7 @@ Without usable logs, the incident reporting obligation is untenable: you cannot 
 
 ### Dependency and Vulnerability Management
 
-A modern Symfony application ships with dozens of Composer dependencies. Each one is a potential entry point. We set up automated monitoring (composer audit, security alerts) and an update policy prioritized by real criticality, not just the raw score. Understanding the lifecycle of a vulnerability is essential: our article on [CVEs and how to protect yourself](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) (in French) details this mechanism. [Security awareness training for your teams](/article/comment-former-vos-equipes-a-la-securite-informatique-en-toute-simplicite) (in French) completes the picture, because most incidents start with human error rather than a zero-day vulnerability.
+A modern Symfony application ships with dozens of Composer dependencies. Each one is a potential entry point. We set up automated monitoring (composer audit, security alerts) and an update policy prioritized by real criticality, not just the raw score. Understanding the lifecycle of a vulnerability is essential: our article on [CVEs and how to protect yourself](/en/article/cve-vulnerability-management) details this mechanism. [Security awareness training for your teams](/en/article/security-training-teams) completes the picture, because most incidents start with human error rather than a zero-day vulnerability.
 
 ## Incident Reporting, an Operational Obligation
 
@@ -109,6 +109,6 @@ In practice, the trajectory splits into independent batches. First secure the co
 
 To get started with a working document, download our [technical NIS2 checklist for Symfony, 40 points (PDF)](/documents/checklist-nis2-symfony.pdf) (in French). It lists, axis by axis, the checks to run on your application before requesting an official audit.
 
-Operational resilience workstreams overlap largely with those required by the [DORA regulation for the resilience of financial applications](/article/conformite-dora-resilience-symfony) (in French), and with the accessibility obligations of [RGAA for the public sector and public service delegates](/article/normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous) (in French). Tackling these frameworks together avoids doing the same groundwork three times on logging, testing and dependency management.
+Operational resilience workstreams overlap largely with those required by the [DORA regulation for the resilience of financial applications](/en/article/dora-symfony-resilience), and with the accessibility obligations of [RGAA for the public sector and public service delegates](/en/article/rgaa-web-accessibility-standards). Tackling these frameworks together avoids doing the same groundwork three times on logging, testing and dependency management.
 
 To gauge your exposure in a few minutes, the [NIS2 self-assessment tool](/outil-evaluation-nis2-symfony) (in French) gives you a first score. To build a concrete action plan, start with a [security audit of your Symfony application](/audit-symfony-gratuit) (in French) or [talk directly with our team](/contact) (in French).
