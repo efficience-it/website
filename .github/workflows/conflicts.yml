@@ -12,7 +12,7 @@ permissions:
   pull-requests: write
 
 concurrency:
-  group: conflicts
+  group: conflicts-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
