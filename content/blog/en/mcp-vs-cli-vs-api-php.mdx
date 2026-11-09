@@ -22,7 +22,7 @@ faq:
 
 When a team wants to connect an AI assistant to its application, the question comes up quickly: should you write an MCP server, let the assistant call a command-line tool, or give it access to an API? All three work, but not under the same conditions.
 
-This article compares the three approaches, then shows how to set up an MCP server with Symfony and with plain PHP. For an introduction to MCP servers on the developer's machine, read [our guide to MCP servers with Claude Code](/article/serveurs-mcp-claude-code-developpeurs-symfony) (in French) first.
+This article compares the three approaches, then shows how to set up an MCP server with Symfony and with plain PHP. For an introduction to MCP servers on the developer's machine, read [our guide to MCP servers with Claude Code](/en/article/mcp-servers-claude-code-symfony) first.
 
 ## What MCP Brings Compared to an API or a CLI
 
@@ -182,7 +182,7 @@ An MCP server is an API called by a client that makes decisions on its own. A fe
 - mandatory authentication on the HTTP transport;
 - no secrets returned in responses.
 
-For testing, treat each tool as an ordinary service: a unit test on the method, and a functional test on the endpoint if you expose HTTP. To verify that an assistant actually uses your tools, an end-to-end scenario with [Claude Code and Playwright](/article/playwright-tests-end-to-end-claude-code) (in French) illustrates the approach, and our case study on [Symfony AI on a legacy project](/article/symfony-ai-projet-legacy-retour-experience) (in French) shows what you get in practice.
+For testing, treat each tool as an ordinary service: a unit test on the method, and a functional test on the endpoint if you expose HTTP. To verify that an assistant actually uses your tools, an end-to-end scenario with [Claude Code and Playwright](/en/article/playwright-e2e-claude-code) illustrates the approach, and our case study on [Symfony AI on a legacy project](/en/article/symfony-ai-legacy-lessons) shows what you get in practice.
 
 ## Our Recommendation
 

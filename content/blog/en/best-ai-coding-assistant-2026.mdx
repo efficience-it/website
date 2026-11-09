@@ -17,7 +17,7 @@ The right tool depends on your context: code generation, debugging, code review,
 
 ## GitHub Copilot: The IDE-Integrated Assistant
 
-GitHub Copilot remains the most widespread AI assistant in development teams. Its native integration in VS Code and JetBrains IDEs makes it the default choice for many developers, as our comparison on [which code editor to choose](/article/phpstorm-vscode-sublimetext-netbeans-quel-editeur-de-code-choisir) (in French) shows.
+GitHub Copilot remains the most widespread AI assistant in development teams. Its native integration in VS Code and JetBrains IDEs makes it the default choice for many developers, as our comparison on [which code editor to choose](/en/article/best-code-editor-2026) shows.
 
 ### What Changed in 2026
 
@@ -61,7 +61,7 @@ ChatGPT with GPT-4o and GPT-5 remains a reference tool for code generation, espe
 
 ### Best For
 
-Complex debugging, exploring architectural solutions, writing [technical documentation](/article/quel-outil-choisir-pour-votre-documentation-technique) (in French), and developers who prefer a conversational interface.
+Complex debugging, exploring architectural solutions, writing [technical documentation](/en/article/technical-documentation-tools), and developers who prefer a conversational interface.
 
 ## Claude Code: The CLI That Understands Your Project
 
@@ -71,7 +71,7 @@ Claude Code is a command-line tool that runs directly in your terminal. It has a
 
 The fundamental difference from other assistants is the way it works. Claude Code is not an IDE plugin: it is an autonomous agent that works in your terminal. It reads your files, understands your project structure, runs your tests, and proposes changes that it can apply directly.
 
-The `CLAUDE.md` file at the project root lets you define architecture conventions, code rules, and patterns to follow. Claude Code reads them automatically at every session, which lets it generate code that follows your standards from the first interaction. Our case study on [using Claude as a Symfony architecture assistant](/article/claude-assistant-architecture-symfony-legacy) (in French) details how to set up this tool on a legacy project.
+The `CLAUDE.md` file at the project root lets you define architecture conventions, code rules, and patterns to follow. Claude Code reads them automatically at every session, which lets it generate code that follows your standards from the first interaction. Our case study on [using Claude as a Symfony architecture assistant](/en/article/claude-code-symfony-legacy-architecture) details how to set up this tool on a legacy project.
 
 ### Strengths
 
@@ -85,11 +85,11 @@ The `CLAUDE.md` file at the project root lets you define architecture convention
 
 - **CLI interface**: the terminal is not as comfortable as an IDE for some developers. You have to accept working in text mode.
 - **Token consumption**: on large projects, Claude Code can consume many tokens to explore the codebase.
-- **Learning curve**: getting the most out of Claude Code requires configuring `CLAUDE.md` well and understanding how to phrase your requests. Our [guide to upskilling on Claude Code](/article/monter-en-competence-claude-code) (in French) details skills, hooks, and best practices.
+- **Learning curve**: getting the most out of Claude Code requires configuring `CLAUDE.md` well and understanding how to phrase your requests. Our [guide to upskilling on Claude Code](/en/article/claude-code-upskilling) details skills, hooks, and best practices.
 
 ### Best For
 
-Experienced developers working on projects with strict conventions, legacy refactoring, and tasks that require a deep understanding of the codebase. Our case study on [Symfony and AI in a legacy project](/article/symfony-ai-projet-legacy-retour-experience) (in French) illustrates this type of use.
+Experienced developers working on projects with strict conventions, legacy refactoring, and tasks that require a deep understanding of the codebase. Our case study on [Symfony and AI in a legacy project](/en/article/symfony-ai-legacy-lessons) illustrates this type of use.
 
 ## Cursor: The AI-Augmented IDE
 
@@ -116,7 +116,7 @@ Individual developers or small teams who want the most integrated AI experience 
 
 ### Windsurf
 
-Windsurf (formerly Codeium) offers an approach similar to Cursor with an augmented IDE. Its Cascade mode enables multi-file changes guided by AI. It positions itself as a cheaper alternative to Cursor with comparable AI integration. For an in-depth comparison of the models behind these tools, our analysis of the [strengths and weaknesses of generative AI](/article/forces-et-faiblesses-des-ia-generatives-les-plus-utilisees) (in French) covers the main LLMs on the market.
+Windsurf (formerly Codeium) offers an approach similar to Cursor with an augmented IDE. Its Cascade mode enables multi-file changes guided by AI. It positions itself as a cheaper alternative to Cursor with comparable AI integration. For an in-depth comparison of the models behind these tools, our analysis of the [strengths and weaknesses of generative AI](/en/article/generative-ai-tools-strengths-weaknesses) covers the main LLMs on the market.
 
 ### Amazon Q Developer
 
@@ -146,7 +146,7 @@ For as-you-type autocompletion, **Copilot** remains the smoothest. For generatin
 
 ### Architecture and Refactoring
 
-For architecture decisions, **ChatGPT** and **Claude** (in conversation) are the best suited. They let you discuss trade-offs, explore alternatives such as the choice between [microservices and a modular monolith](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) (in French), and challenge technical choices. For the actual refactoring of code, **Claude Code** is the most effective because it can apply the changes, check the tests, and iterate. This capability also covers [end-to-end tests with Playwright](/article/playwright-tests-end-to-end-claude-code) (in French), where the agent updates selectors in bulk after an interface change.
+For architecture decisions, **ChatGPT** and **Claude** (in conversation) are the best suited. They let you discuss trade-offs, explore alternatives such as the choice between [microservices and a modular monolith](/en/article/microservices-vs-modular-monolith), and challenge technical choices. For the actual refactoring of code, **Claude Code** is the most effective because it can apply the changes, check the tests, and iterate. This capability also covers [end-to-end tests with Playwright](/en/article/playwright-e2e-claude-code), where the agent updates selectors in bulk after an interface change.
 
 ### Autonomous Tasks
 
@@ -173,7 +173,7 @@ Beyond features, several criteria should guide the choice for a team.
 
 ### Security and Privacy
 
-Where does your data go? Copilot and ChatGPT send code to their vendors' servers. Claude Code does the same with Anthropic. Cursor lets you choose the provider. For sensitive projects, understanding [CVEs and security vulnerabilities](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) (in French) should guide your data retention policies and your choice of provider.
+Where does your data go? Copilot and ChatGPT send code to their vendors' servers. Claude Code does the same with Anthropic. Cursor lets you choose the provider. For sensitive projects, understanding [CVEs and security vulnerabilities](/en/article/cve-vulnerability-management) should guide your data retention policies and your choice of provider.
 
 ### Integration with the Existing Stack
 
@@ -193,11 +193,11 @@ The underlying trend is clear: these tools are converging. Copilot adds agent ca
 
 ## Going Further
 
-- [RAG with Symfony AI and Doctrine](/article/rag-symfony-ai-doctrine-indexer-base-metier) (in French), indexing your business database for AI
+- [RAG with Symfony AI and Doctrine](/en/article/rag-symfony-ai-doctrine), indexing your business database for AI
 - Symfony AI in a legacy project, integrating AI into existing code
-- [GEO: making your application visible in AI engines](/article/geo-rendre-votre-application-symfony-visible-dans-les-moteurs-ia) (in French), optimizing for AI search engines
+- [GEO: making your application visible in AI engines](/en/article/geo-symfony-ai-visibility), optimizing for AI search engines
 - Which code editor to choose: PhpStorm, VS Code, Cursor, picking the IDE that will host your AI assistant
-- [LLMs.txt: the new SEO lever in the age of artificial intelligence](/article/llms-txt-le-nouveau-levier-seo-a-lere-de-lintelligence-artificielle) (in French), making your site readable by LLMs
+- [LLMs.txt: the new SEO lever in the age of artificial intelligence](/en/article/llms-txt-seo-ai), making your site readable by LLMs
 - [GitHub Copilot](https://github.com/features/copilot), the official GitHub Copilot website
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview), the official Claude Code documentation
 - [Cursor](https://www.cursor.com/), the official Cursor website

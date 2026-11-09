@@ -24,7 +24,7 @@ Automated refactorings go well beyond simple renaming. Method extraction, variab
 
 JetBrains has integrated its own AI assistant, JetBrains AI Assistant, based on several LLMs including Claude and GPT-4. It offers contextual completion, test generation, code explanation, and assisted refactoring. The advantage over a third-party plugin is native integration with the IDE's static analysis capabilities: the AI has access to the type graph, cross-references, and the full project context. GitHub Copilot is also available through an official plugin, which leaves you free to choose the assistance engine.
 
-Native support for Docker, databases, and quality tools ([PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French), PHP CS Fixer) makes it a complete environment. To [choose Symfony for your projects](/article/pourquoi-choisir-symfony-pour-vos-projets) (in French), PhpStorm remains the most natural IDE. It is justified as soon as the time saved on debugging and refactoring exceeds a few hours per month.
+Native support for Docker, databases, and quality tools ([PHPStan](/en/article/phpstan-improve-php-code-quality), PHP CS Fixer) makes it a complete environment. To [choose Symfony for your projects](/en/article/why-choose-symfony), PhpStorm remains the most natural IDE. It is justified as soon as the time saved on debugging and refactoring exceeds a few hours per month.
 
 ## VS Code: flexibility through the ecosystem
 
@@ -42,7 +42,7 @@ Cursor is a code editor launched in 2023, based on the VS Code source code. Its 
 
 The difference from VS Code + Copilot lies in the depth of integration. Cursor indexes the entire codebase to provide rich context for every AI interaction. Composer mode lets you describe a change in natural language and watch Cursor generate the changes across several files at once, with a diff the developer can accept or reject file by file. Agent mode goes further: it plans, runs commands, reads errors, and fixes in a loop until it gets a working result.
 
-For PHP development, Cursor inherits all of VS Code's compatibility. The Intelephense and PHP Debug extensions and the others work without modification, including [static analysis tools like PHPStan at max level](/article/phpstan-niveau-max-symfony-10-erreurs) (in French). The advantage is therefore additive: the same PHP features as VS Code, plus a significantly more polished AI layer.
+For PHP development, Cursor inherits all of VS Code's compatibility. The Intelephense and PHP Debug extensions and the others work without modification, including [static analysis tools like PHPStan at max level](/en/article/phpstan-max-level-symfony-errors). The advantage is therefore additive: the same PHP features as VS Code, plus a significantly more polished AI layer.
 
 Cursor gives access to several models (Claude, GPT-4, and others) and handles rotation between them depending on the type of task. The free plan is limited in the number of requests but lets you evaluate the tool.
 
@@ -66,7 +66,7 @@ Real-time collaboration is built in natively. Several developers can edit the sa
 
 Zed integrates AI directly into the editor with an inline assistant and a chat panel. It supports several providers (Anthropic, OpenAI, local models through Ollama) and lets you switch between them as needed. Codebase indexing provides relevant context without manual configuration.
 
-PHP support is functional but less mature than that of VS Code or PhpStorm. The extension system is still young, and the PHP ecosystem is not a priority for the Zed community. For a PHP developer, Zed remains a choice to watch rather than a tool to adopt in production today. For polyglot teams that work mainly with [JavaScript frameworks like React or Vue.js](/article/quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular) (in French) in TypeScript, or Rust with PHP on the side, Zed deserves a serious evaluation.
+PHP support is functional but less mature than that of VS Code or PhpStorm. The extension system is still young, and the PHP ecosystem is not a priority for the Zed community. For a PHP developer, Zed remains a choice to watch rather than a tool to adopt in production today. For polyglot teams that work mainly with [JavaScript frameworks like React or Vue.js](/en/article/javascript-frameworks-comparison) in TypeScript, or Rust with PHP on the side, Zed deserves a serious evaluation.
 
 ## AI in editors: a paradigm shift
 
@@ -76,7 +76,7 @@ Integrating AI into code editors is no longer an optional feature. It has become
 
 GitHub Copilot remains the most widely deployed assistant. Available in VS Code, PhpStorm, Cursor, and most major editors, it offers predictive autocompletion, contextual chat, and an agent mode capable of multi-file tasks. The Enterprise version adds customization and access control features suited to organizations.
 
-Claude (Anthropic) stands out for its ability to handle long contexts and follow complex instructions. Claude Code, usable on the command line, and the extensions for VS Code and JetBrains make it particularly suited to refactoring, architecture review, and tasks that require a global understanding of the project. To get the most out of it, [upskilling on Claude Code](/article/monter-en-competence-claude-code) (in French) involves setting up CLAUDE.md, custom skills, and hooks.
+Claude (Anthropic) stands out for its ability to handle long contexts and follow complex instructions. Claude Code, usable on the command line, and the extensions for VS Code and JetBrains make it particularly suited to refactoring, architecture review, and tasks that require a global understanding of the project. To get the most out of it, [upskilling on Claude Code](/en/article/claude-code-upskilling) involves setting up CLAUDE.md, custom skills, and hooks.
 
 Other players occupy specific niches. Sourcegraph's Cody excels at source code search. Codeium offers a free alternative to Copilot with decent performance. Supermaven bets on completion speed. The ecosystem is evolving fast and positions are not fixed.
 
@@ -84,7 +84,7 @@ Other players occupy specific niches. Sourcegraph's Cody excels at source code s
 
 The choice of editor directly shapes the AI experience. Cursor offers the deepest integration, but with a specific editor. VS Code offers the greatest diversity of AI extensions. PhpStorm integrates AI into its static analysis engine, which gives more precise suggestions in a PHP context. Zed lets teams concerned about privacy use local models.
 
-For a PHP team, the strategic question is whether AI is an occasional helper or a central component of the workflow. In the first case, VS Code or PhpStorm with Copilot is enough. In the second, Cursor or a heavily customized VS Code setup deserves evaluation. Our comparison on [which AI assistant to choose for coding in 2026](/article/quel-assistant-ia-choisir-pour-coder) (in French) details the criteria for aligning your tool choice with your IDE choice.
+For a PHP team, the strategic question is whether AI is an occasional helper or a central component of the workflow. In the first case, VS Code or PhpStorm with Copilot is enough. In the second, Cursor or a heavily customized VS Code setup deserves evaluation. Our comparison on [which AI assistant to choose for coding in 2026](/en/article/best-ai-coding-assistant-2026) details the criteria for aligning your tool choice with your IDE choice.
 
 ## Editor comparison table
 
@@ -107,11 +107,11 @@ For an experienced developer, the choice of editor is a matter of personal effic
 
 A mature project benefits from a shared configuration. PhpStorm lets you export and version inspections, code styles, and run configurations. VS Code offers the same mechanism through the `.vscode` directory and the recommended extensions in `extensions.json`. Cursor inherits this mechanism. This standardization reduces onboarding time and ensures that quality rules are applied uniformly.
 
-The IDE then becomes an enforcement tool: blocking inspections flag violations before the commit, the automatic formatter ends style debates in line with the team's [coding conventions](/article/coding-conventions) (in French), and tools like [Rector automate the evolution of Symfony code](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) (in French) directly from the IDE. File templates ensure structural consistency. This guardrail role is all the more valuable on large or distributed teams.
+The IDE then becomes an enforcement tool: blocking inspections flag violations before the commit, the automatic formatter ends style debates in line with the team's [coding conventions](/en/article/php-coding-standards-best-practices), and tools like [Rector automate the evolution of Symfony code](/en/article/rector-php-code-refactoring) directly from the IDE. File templates ensure structural consistency. This guardrail role is all the more valuable on large or distributed teams.
 
 ### Developer Experience as a strategic lever
 
-Developer Experience (DX) is a retention and performance factor that is often underestimated. A smooth development environment, where feedback is immediate and friction is minimal, directly affects team velocity. Conversely, unsuitable tooling generates invisible [technical debt](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French): workarounds, local setups that cannot be reproduced, time lost on tasks that should be automated.
+Developer Experience (DX) is a retention and performance factor that is often underestimated. A smooth development environment, where feedback is immediate and friction is minimal, directly affects team velocity. Conversely, unsuitable tooling generates invisible [technical debt](/en/article/technical-debt-explained): workarounds, local setups that cannot be reproduced, time lost on tasks that should be automated.
 
 The choice between a commercial IDE and a free editor must take this hidden effort into account. If the tool saves even one hour per week on debugging, refactoring, or navigation, the return on investment is immediate.
 
@@ -124,8 +124,8 @@ The final choice depends on the context: team size, tech stack, maturity of deve
 ## Going further
 
 - PHPStan max level on Symfony, improve the quality of your PHP code with static analysis
-- [Better understand web developer vocabulary](/article/mieux-comprendre-le-vocabulaire-des-developpeurs-web-guide-complet) (in French), IDE, framework, language: the essential definitions
-- [Generative AI: strengths and weaknesses](/article/forces-et-faiblesses-des-ia-generatives-les-plus-utilisees) (in French), an overview of AI tools for developers
+- [Better understand web developer vocabulary](/en/article/web-developer-vocabulary-glossary), IDE, framework, language: the essential definitions
+- [Generative AI: strengths and weaknesses](/en/article/generative-ai-tools-strengths-weaknesses), an overview of AI tools for developers
 - Rector: master the evolution of your Symfony code, the automated refactoring to integrate into your IDE
 - How PHPStan can help you improve the quality of your PHP code, the static analysis to configure in PhpStorm or VS Code
 - [PhpStorm: JetBrains official website](https://www.jetbrains.com/phpstorm/), download and documentation for PhpStorm

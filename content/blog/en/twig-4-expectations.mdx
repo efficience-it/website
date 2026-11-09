@@ -12,7 +12,7 @@ translatedFromUpdatedAt: "2026-01-13"
 
 ## Fifteen Years of Evolution for Symfony's Template Engine
 
-[Twig](https://twig.symfony.com/) turns fifteen. Since its creation in 2009, Symfony's template engine has gone through three major versions, each marked by a modernization effort without a break in philosophy. Twig 2 accompanied the transition to PHP 7 and restructured the internal architecture. Twig 3, released in 2019, purged deprecated features and tightened the engine's contract. For developers who have lived through these cycles, the pattern is familiar: deprecation, removal, new possibilities. For those who want to have this expertise recognized, [certifications](/article/les-certifications-symfony-twig-symfony-sylius) (in French) exist.
+[Twig](https://twig.symfony.com/) turns fifteen. Since its creation in 2009, Symfony's template engine has gone through three major versions, each marked by a modernization effort without a break in philosophy. Twig 2 accompanied the transition to PHP 7 and restructured the internal architecture. Twig 3, released in 2019, purged deprecated features and tightened the engine's contract. For developers who have lived through these cycles, the pattern is familiar: deprecation, removal, new possibilities. For those who want to have this expertise recognized, [certifications](/en/article/symfony-twig-sylius-certifications) exist.
 
 Twig 4 continues in this line, but the context has changed. The PHP ecosystem now has mature static analysis tools, front-end architectures have popularized the component approach, and the performance requirements of modern applications push us to rethink the rendering pipeline. Here is what we can reasonably anticipate.
 
@@ -29,7 +29,7 @@ Twig 4 could introduce a `types` tag to declare the variables expected as input 
 <p>Prix : {{ price|number_format(2, ',', ' ') }} €</p>
 ```
 
-The value goes beyond simple documentation. Such a tag would open the door to static analysis by [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French) or Psalm: detecting nonexistent properties, incompatible types and variables that were not passed. The template would become a verifiable artifact in the CI pipeline, just like a PHP class. For teams that maintain hundreds of templates, the gain in reliability would be considerable.
+The value goes beyond simple documentation. Such a tag would open the door to static analysis by [PHPStan](/en/article/phpstan-improve-php-code-quality) or Psalm: detecting nonexistent properties, incompatible types and variables that were not passed. The template would become a verifiable artifact in the CI pipeline, just like a PHP class. For teams that maintain hundreds of templates, the gain in reliability would be considerable.
 
 This approach draws on what Askama does in the Rust ecosystem, where templates are compiled and checked at compile time. Twig would not go that far, but the principle is the same: surface errors as early as possible in the development cycle.
 
@@ -89,7 +89,7 @@ Twig macros have long been the main reuse mechanism. But their ergonomics did no
 {{ ui.button('Envoyer') }}
 ```
 
-But the real break lies elsewhere. The Symfony UX ecosystem introduced Twig Components with a declarative HTML syntax that could be integrated more deeply into the engine. These components are, incidentally, among the [most used bundles in modern Symfony projects](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony) (in French):
+But the real break lies elsewhere. The Symfony UX ecosystem introduced Twig Components with a declarative HTML syntax that could be integrated more deeply into the engine. These components are, incidentally, among the [most used bundles in modern Symfony projects](/en/article/top-symfony-bundles):
 
 ```twig
 <twig:Alert type="warning" dismissible>
@@ -128,7 +128,7 @@ The landscape of PHP template engines has evolved. Blade (Laravel) has gained po
 
 Twig 4 does not aim to become a front-end framework. Its positioning remains that of a server-side template engine, but one that absorbs the best ideas of its time: explicit typing, declarative components, an optimized rendering pipeline. Choosing to stay in this space, rather than attempting an artificial convergence with JavaScript frameworks, is an architectural decision in itself. It acknowledges that server rendering has its own legitimacy and that the hypermedia approach (Turbo, htmx) is a viable alternative to all-SPA.
 
-For architects designing Symfony applications, Twig 4 would confirm a trend: the Symfony front end is not a cut-rate front end, but an opinionated one, which treats the server as the main control point and JavaScript as progressive enhancement. To understand why this approach fits the framework's philosophy, the article [why choose Symfony for your projects](/article/pourquoi-choisir-symfony-pour-vos-projets) (in French) lays out its foundations. These evolutions directly enrich the [custom web development](/developpement-web-sur-mesure) (in French) projects we deliver.
+For architects designing Symfony applications, Twig 4 would confirm a trend: the Symfony front end is not a cut-rate front end, but an opinionated one, which treats the server as the main control point and JavaScript as progressive enhancement. To understand why this approach fits the framework's philosophy, the article [why choose Symfony for your projects](/en/article/why-choose-symfony) lays out its foundations. These evolutions directly enrich the [custom web development](/developpement-web-sur-mesure) (in French) projects we deliver.
 
 ## Going Further
 

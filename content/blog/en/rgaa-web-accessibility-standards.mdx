@@ -38,7 +38,7 @@ Every meaningful image needs relevant alternative text. Decorative images get an
 
 ### Contrast and readability
 
-The RGAA requires a minimum contrast ratio of 4.5:1 for standard text and 3:1 for large text. These thresholds are not arbitrary: they guarantee readability in varied conditions (low-quality screen, ambient brightness, mild visual impairments). Responsive design, touch target size (minimum 44x44 pixels), and support for 200% zoom without loss of content complete these requirements. For front-end teams, the [choice of JavaScript framework](/article/quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular) (in French) directly affects how easy it is to implement these accessibility criteria. Our [front-end development](/developpement-frontend) (in French) service builds these RGAA requirements into interface design from the start. These practices fit into the broader effort to [improve the user experience with the web app manifest](/article/ameliorer-lexperience-utilisateur-grace-au-manifeste-des-applications-web) (in French), which makes it possible to offer a native, accessible experience on every device.
+The RGAA requires a minimum contrast ratio of 4.5:1 for standard text and 3:1 for large text. These thresholds are not arbitrary: they guarantee readability in varied conditions (low-quality screen, ambient brightness, mild visual impairments). Responsive design, touch target size (minimum 44x44 pixels), and support for 200% zoom without loss of content complete these requirements. For front-end teams, the [choice of JavaScript framework](/en/article/javascript-frameworks-comparison) directly affects how easy it is to implement these accessibility criteria. Our [front-end development](/developpement-frontend) (in French) service builds these RGAA requirements into interface design from the start. These practices fit into the broader effort to [improve the user experience with the web app manifest](/en/article/web-app-manifest-pwa), which makes it possible to offer a native, accessible experience on every device.
 
 ## Tooling and continuous integration
 
@@ -48,7 +48,7 @@ A senior developer does not just know the criteria: they automate checking them.
 
 Axe-core, the engine behind the axe DevTools browser extension, plugs directly into your tests. Combined with Cypress, Playwright, or Testing Library, it can detect about 40% of accessibility issues automatically. That is not enough for full compliance, but it is an indispensable safety net in CI.
 
-Pa11y offers a command-line alternative, suited to CI/CD pipelines in the same way as [Postman tests with Newman in GitLab CI](/article/comment-executer-des-tests-postman-avec-newman-dans-gitlab-ci) (in French). It can scan entire pages and configure acceptable error thresholds, with output that is easy to integrate into build reports.
+Pa11y offers a command-line alternative, suited to CI/CD pipelines in the same way as [Postman tests with Newman in GitLab CI](/en/article/postman-newman-gitlab-ci-api-tests). It can scan entire pages and configure acceptable error thresholds, with output that is easy to integrate into build reports.
 
 ### Advanced ARIA patterns
 
@@ -66,7 +66,7 @@ Modern design systems in the [React](/developpement-react) (in French) ecosystem
 
 At the scale of an organization, accessibility cannot rely on the individual vigilance of every developer. It must be encoded in the design system. Color tokens respect contrast ratios. Form components natively include accessible labels and error messages. Interactive components implement the expected keyboard patterns. The design system becomes the guarantor of compliance: every team that uses it automatically inherits an accessible foundation.
 
-This approach turns accessibility from a recurring burden into a one-time effort spread across all of the organization's products. It also fits into a broader reflection on [responsible design and eco-design of websites](/article/eco-conception-un-ideal-en-marche-ou-une-illusion-durable) (in French), which shares with accessibility the goal of reducing wasted resources.
+This approach turns accessibility from a recurring burden into a one-time effort spread across all of the organization's products. It also fits into a broader reflection on [responsible design and eco-design of websites](/en/article/eco-design-web-sustainable), which shares with accessibility the goal of reducing wasted resources.
 
 ### Organizational maturity model
 
@@ -76,7 +76,7 @@ Moving from the reactive level to the culture level generally takes two to three
 
 ### Measure the ROI of accessibility
 
-Accessibility improves metrics directly tied to business performance. SEO benefits from semantic structure, text alternatives, and performance (Core Web Vitals overlap largely with the RGAA criteria). This convergence between accessibility and visibility also shows up in [GEO strategies for AI search engines](/article/geo-rendre-votre-application-symfony-visible-dans-les-moteurs-ia) (in French). Conversion rates rise thanks to clearer forms and smoother navigation. Bounce rates fall when content is readable and understandable. Legal risks are avoided.
+Accessibility improves metrics directly tied to business performance. SEO benefits from semantic structure, text alternatives, and performance (Core Web Vitals overlap largely with the RGAA criteria). This convergence between accessibility and visibility also shows up in [GEO strategies for AI search engines](/en/article/geo-symfony-ai-visibility). Conversion rates rise thanks to clearer forms and smoother navigation. Bounce rates fall when content is readable and understandable. Legal risks are avoided.
 
 Beyond the metrics, an accessible site reaches 15 to 20% more users (people with permanent, temporary, or situational disabilities). That is a market of 80 million people in Europe.
 
@@ -84,19 +84,19 @@ Beyond the metrics, an accessible site reaches 15 to 20% more users (people with
 
 Full RGAA compliance does not happen in a single iteration. A gradual strategy has three phases. The first phase stabilizes the foundations: semantic structure, keyboard navigation, contrast, text alternatives. These fixes have the best impact-to-effort ratio. The second phase covers interactive components: accessible forms, modals, tabs, dynamic focus management. The third phase handles complex cases: rich content (WYSIWYG editors, data tables, data visualization), single-page applications with accessible routing, and user-generated content.
 
-Each phase comes with a partial audit (on the most visited pages), an update of the accessibility statement, and the integration of fixes into the design system to avoid regressions. For the operational details of this work on a Symfony application, see our guide to [RGAA technical remediation on Symfony](/article/rgaa-remediation-technique-symfony) (in French).
+Each phase comes with a partial audit (on the most visited pages), an update of the accessibility statement, and the integration of fixes into the design system to avoid regressions. For the operational details of this work on a Symfony application, see our guide to [RGAA technical remediation on Symfony](/en/article/rgaa-symfony-accessibility-fixes).
 
 ## Conclusion
 
 The RGAA is not an administrative constraint to satisfy at the end of a project. It is a technical standard that, when built in from the design stage, improves overall code quality, the robustness of interfaces, and the experience of all users. For the experienced developer, it is a set of criteria to master. For the lead, it is a process to equip and automate. For the architect, it is a design principle that structures the design system and the product strategy.
 
-Accessibility is part of a broader compliance effort, alongside [Symfony application security](/securite-application-symfony) (in French) and frameworks like [NIS2](/article/conformite-nis2-application-symfony) (in French) or [DORA](/article/conformite-dora-resilience-symfony) (in French): standards that reward teams who have industrialized their testing, logging, and code quality.
+Accessibility is part of a broader compliance effort, alongside [Symfony application security](/securite-application-symfony) (in French) and frameworks like [NIS2](/en/article/nis2-symfony-compliance) or [DORA](/en/article/dora-symfony-resilience): standards that reward teams who have industrialized their testing, logging, and code quality.
 
 ## Going further
 
-- [How to train your teams in IT security effectively](/article/comment-former-vos-equipes-a-la-securite-informatique-en-toute-simplicite) (in French), build compliance and best practices in from the design stage
-- [Technical debt: should you really fear it?](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French), manage technical trade-offs without sacrificing quality in the long run
-- [Coding conventions](/article/coding-conventions) (in French), set shared rules to keep code readable and maintainable over time
+- [How to train your teams in IT security effectively](/en/article/security-training-teams), build compliance and best practices in from the design stage
+- [Technical debt: should you really fear it?](/en/article/technical-debt-explained), manage technical trade-offs without sacrificing quality in the long run
+- [Coding conventions](/en/article/php-coding-standards-best-practices), set shared rules to keep code readable and maintainable over time
 - [RGAA: Référentiel Général d'Amélioration de l'Accessibilité](https://accessibilite.numerique.gouv.fr/), the official standard published by the DINUM
 - [WCAG: Web Content Accessibility Guidelines](https://www.w3.org/WAI/standards-guidelines/wcag/), the W3C international accessibility guidelines
 - [MDN: Accessibilité web](https://developer.mozilla.org/fr/docs/Web/Accessibility), a complete guide to web accessibility by Mozilla

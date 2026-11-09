@@ -14,16 +14,16 @@ Web development is like gardening: without regular upkeep, forgotten and useless
 
 ## PHPStan: the essential tool for clean PHP code
 
-PHPStan is a static analysis tool for PHP. For a full overview of what it can do, [our guide to PHPStan and PHP code quality](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French) covers installation, rule levels and common use cases. Its main goal is to detect errors in your code before it even runs. It acts as an advanced type checker that inspects the source code and spots potential problems, such as inconsistent typing and incorrect or incompatible types in variables, parameters or return values. It catches calls to methods that do not exist, warning you when you try to call a method missing from a class. It also reports missing properties that are used without being defined, and identifies common logic errors, such as conditions that are always true or always false.
+PHPStan is a static analysis tool for PHP. For a full overview of what it can do, [our guide to PHPStan and PHP code quality](/en/article/phpstan-improve-php-code-quality) covers installation, rule levels and common use cases. Its main goal is to detect errors in your code before it even runs. It acts as an advanced type checker that inspects the source code and spots potential problems, such as inconsistent typing and incorrect or incompatible types in variables, parameters or return values. It catches calls to methods that do not exist, warning you when you try to call a method missing from a class. It also reports missing properties that are used without being defined, and identifies common logic errors, such as conditions that are always true or always false.
 
-PHPStan is especially useful in projects where robustness and maintainability matter. Its configuration is flexible, so it adapts to the standards and constraints of each project. It also plugs easily into CI/CD pipelines to automate the analysis and keep code quality constant. [PHPStan 2.0 and its level 10](/article/phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable) (in French) push this rigor even further.
+PHPStan is especially useful in projects where robustness and maintainability matter. Its configuration is flexible, so it adapts to the standards and constraints of each project. It also plugs easily into CI/CD pipelines to automate the analysis and keep code quality constant. [PHPStan 2.0 and its level 10](/en/article/phpstan-2-level-10-features) push this rigor even further.
 
 ## What is dead code?
 
 In software development, dead code, also known as unused or obsolete code, refers to parts of the code that are never executed or used in an application. It can include functions, methods, classes or even blocks of code that are no longer needed for the program to work. It may look harmless, but dead code can have a significant impact on a project:
 
 - **Project evolution**: as requirements change, some parts of the code become obsolete.
-- **Refactoring**: new implementations can make parts of the old code useless. Tools like [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) (in French) automate these transformations and help identify code that has become redundant. On the JavaScript side, [TypeScript](/developpement-typescript) (in French) also flags unreachable code thanks to its type analysis.
+- **Refactoring**: new implementations can make parts of the old code useless. Tools like [Rector](/en/article/rector-php-code-refactoring) automate these transformations and help identify code that has become redundant. On the JavaScript side, [TypeScript](/developpement-typescript) (in French) also flags unreachable code thanks to its type analysis.
 - **Development mistakes**: sometimes code is written but never used because of design or implementation errors.
 
 ## How dead code affects a project
@@ -34,7 +34,7 @@ Dead code adds a needless layer of complexity to the codebase. It makes the code
 
 ### Security risks
 
-Dead code can contain vulnerabilities that are not immediately obvious. Because it is not used, these [CVE flaws](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) (in French) can go unnoticed and stay unpatched, which puts the application's security at risk.
+Dead code can contain vulnerabilities that are not immediately obvious. Because it is not used, these [CVE flaws](/en/article/cve-vulnerability-management) can go unnoticed and stay unpatched, which puts the application's security at risk.
 
 ### Slower tooling
 
@@ -42,7 +42,7 @@ Dead code usually has no direct effect on runtime performance: thanks to PSR-4 a
 
 ### Maintenance effort
 
-Maintaining dead code takes extra time and resources. Developers have to spend time understanding and handling it, time that would be better used improving existing features or building new ones. This untreated buildup feeds directly into [technical debt, whose consequences deserve to be anticipated](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French).
+Maintaining dead code takes extra time and resources. Developers have to spend time understanding and handling it, time that would be better used improving existing features or building new ones. This untreated buildup feeds directly into [technical debt, whose consequences deserve to be anticipated](/en/article/technical-debt-explained).
 
 ### Lower code quality
 
@@ -108,5 +108,5 @@ By adopting this extension, you take one more step toward PHP code that is clean
 
 ## Going further
 
-- [The 10 PHPStan max-level errors on Symfony](/article/phpstan-niveau-max-symfony-10-erreurs) (in French), going further with PHPStan level 10
+- [The 10 PHPStan max-level errors on Symfony](/en/article/phpstan-max-level-symfony-errors), going further with PHPStan level 10
 - [shipmonk/dead-code-detector on GitHub](https://github.com/shipmonk-rnd/dead-code-detector), the extension used in this article

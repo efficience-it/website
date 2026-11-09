@@ -33,11 +33,11 @@ The right approach is gradual modernization. You do not throw away what exists: 
 
 ## Step 1: assess the real state
 
-Before any intervention, you need to understand what you are dealing with. A [thorough technical audit](/audit-code-php) (in French) maps the technical debt, identifies risks, and prioritizes actions. Our article on [how an audit works at Efficience IT](/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede) (in French) details the process. In an acquisition or takeover context, the [technical due diligence checklist](/article/due-diligence-technique-application-symfony-checklist-repreneur) (in French) lists the signals to check first.
+Before any intervention, you need to understand what you are dealing with. A [thorough technical audit](/audit-code-php) (in French) maps the technical debt, identifies risks, and prioritizes actions. Our article on [how an audit works at Efficience IT](/en/article/web-audit-methodology) details the process. In an acquisition or takeover context, the [technical due diligence checklist](/en/article/symfony-technical-due-diligence) lists the signals to check first.
 
 The points to evaluate first:
 
-- **Framework version**: Symfony 3, 4, or 5? Laravel 5 or 6? No framework at all? The [Symfony migration guide](/article/guide-de-migration-dans-un-projet-symfony) (in French) details the implications of each version.
+- **Framework version**: Symfony 3, 4, or 5? Laravel 5 or 6? No framework at all? The [Symfony migration guide](/en/article/symfony-upgrade-guide) details the implications of each version.
 - **Test coverage**: zero tests is common in legacy projects. It is the first obstacle to any change. Automated tests are the number one priority.
 - **Code quality**: static analysis with PHPStan reveals structural problems invisible to the naked eye. Accumulated dead code is also a sign of debt.
 - **Infrastructure**: manual deployments, no CI/CD, an unmaintained server? Moving to Docker and a continuous integration pipeline stabilizes the environment before you even touch the code.

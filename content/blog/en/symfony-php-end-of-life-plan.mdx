@@ -75,7 +75,7 @@ Security is the first consequence, but not the only one. Four risks pile up and 
 
 ### Unpatched Vulnerabilities and CVE Exposure
 
-EOL versions no longer receive patches. Vulnerabilities published since the EOL stay open, and the topic of [PHP dependency CVEs](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) (in French) remains central in any security review. On a medium-sized application with about fifty Composer dependencies, a typical scan of a target unmaintained for eighteen months returns between ten and fifty active CVEs, one to five of them classified as critical: remote code execution, authentication bypass, SQL injection, denial of service.
+EOL versions no longer receive patches. Vulnerabilities published since the EOL stay open, and the topic of [PHP dependency CVEs](/en/article/cve-vulnerability-management) remains central in any security review. On a medium-sized application with about fifty Composer dependencies, a typical scan of a target unmaintained for eighteen months returns between ten and fifty active CVEs, one to five of them classified as critical: remote code execution, authentication bypass, SQL injection, denial of service.
 
 ### Cyber Insurance Refusal and Contractual Exclusions
 
@@ -87,13 +87,13 @@ NIS2 requires essential and important entities to manage vulnerabilities in a do
 
 ### Recruiting Difficulties and Talent Drain
 
-An often underestimated effect: senior Symfony developers avoid assignments on EOL versions. A job post on Symfony 4.4 or PHP 7.4 gets on average two to three times fewer applications than an equivalent post on Symfony 6.4 or PHP 8.3. The profiles that respond are less demanding about quality, which mechanically worsens [technical debt](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French) over time. Our [Symfony application maintenance](/maintenance-applicative-symfony) (in French) offer helps break this vicious circle when the internal team no longer has the capacity to migrate alone.
+An often underestimated effect: senior Symfony developers avoid assignments on EOL versions. A job post on Symfony 4.4 or PHP 7.4 gets on average two to three times fewer applications than an equivalent post on Symfony 6.4 or PHP 8.3. The profiles that respond are less demanding about quality, which mechanically worsens [technical debt](/en/article/technical-debt-explained) over time. Our [Symfony application maintenance](/maintenance-applicative-symfony) (in French) offer helps break this vicious circle when the internal team no longer has the capacity to migrate alone.
 
 ## How to Assess Your Exposure in Thirty Minutes
 
 Before building a plan, you need to quantify the exposure. Three questions are enough for a first diagnosis led by the IT department itself.
 
-First question: which Symfony and PHP versions run in production? The `php -v` command on the application server gives PHP. The Symfony version is readable in `composer.json` or via `bin/console --version`. Good discipline in [using Composer](/article/utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques) (in French) means this information is aligned across all environments.
+First question: which Symfony and PHP versions run in production? The `php -v` command on the application server gives PHP. The Symfony version is readable in `composer.json` or via `bin/console --version`. Good discipline in [using Composer](/en/article/composer-symfony-best-practices) means this information is aligned across all environments.
 
 Second question: what is the EOL date of each of these versions? The table above gives it for current versions. For older versions, [endoflife.date](https://endoflife.date) remains the aggregation reference.
 
@@ -111,11 +111,11 @@ The first strategy is to move from minor version to minor version, without chang
 
 ### Strategy 2: Planned Major Jump
 
-The second strategy is to plan the jump to the next LTS over three to six months, with a dedicated team and a formal migration plan. This is the standard path to move from Symfony 4.4 to 6.4 LTS, or from PHP 7.4 to 8.3. Our [migration guide for a Symfony project](/article/guide-de-migration-dans-un-projet-symfony) (in French) details the phases: initial audit, Composer dependency upgrade, framework upgrade through intermediate versions, PHP upgrade, regression tests, gradual deployment. [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) (in French) tooling automates a significant part of the code transformations, and static analysis with [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French) secures each step.
+The second strategy is to plan the jump to the next LTS over three to six months, with a dedicated team and a formal migration plan. This is the standard path to move from Symfony 4.4 to 6.4 LTS, or from PHP 7.4 to 8.3. Our [migration guide for a Symfony project](/en/article/symfony-upgrade-guide) details the phases: initial audit, Composer dependency upgrade, framework upgrade through intermediate versions, PHP upgrade, regression tests, gradual deployment. [Rector](/en/article/rector-php-code-refactoring) tooling automates a significant part of the code transformations, and static analysis with [PHPStan](/en/article/phpstan-improve-php-code-quality) secures each step.
 
 ### Strategy 3: Targeted Rebuild
 
-The third strategy only concerns applications whose debt is so heavy that a direct migration costs more effort than a targeted rebuild of the critical modules. It does not mean rewriting everything (the big rewrite is still a bad idea), but isolating the most exposed modules and rebuilding them alongside the existing system. Our approach to [legacy PHP application modernization](/modernisation-application-php) (in French), detailed in the article on [modernizing a legacy PHP application without rewriting everything](/article/moderniser-application-php-legacy-sans-tout-reecrire) (in French), covers this path. It is justified when the application combines an old EOL version and a total absence of tests.
+The third strategy only concerns applications whose debt is so heavy that a direct migration costs more effort than a targeted rebuild of the critical modules. It does not mean rewriting everything (the big rewrite is still a bad idea), but isolating the most exposed modules and rebuilding them alongside the existing system. Our approach to [legacy PHP application modernization](/modernisation-application-php) (in French), detailed in the article on [modernizing a legacy PHP application without rewriting everything](/en/article/modernize-legacy-php-app), covers this path. It is justified when the application combines an old EOL version and a total absence of tests.
 
 ## Typical Timeline of a Major Migration
 
