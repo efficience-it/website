@@ -36,6 +36,11 @@ const dockerRelatedLinks: RelatedLink[] = [
     href: "/article/concretement-cest-quoi-frankenphp",
   },
   {
+    title: "DDEV, Docker Compose ou dev container pour PHP ?",
+    description: "Trois environnements de développement comparés sur un projet Symfony",
+    href: "/article/environnement-developpement-php-compose-ddev-devcontainer",
+  },
+  {
     title: "Docker, documentation officielle",
     description: "La référence pour la conteneurisation d'applications",
     href: "https://docs.docker.com/",
