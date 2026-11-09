@@ -1,13 +1,13 @@
 ---
 title: "Sylius vs PrestaShop: Which E-Commerce Platform?"
 date: "2026-03-22"
-updatedAt: "2026-10-12"
+updatedAt: "2026-11-09"
 author: "Louis-Arnaud Catoire"
 category: "Symfony"
 excerpt: "Sylius and PrestaShop are two open source PHP e-commerce platforms. A technical comparison of architecture, flexibility, security and upkeep to help you choose."
 image: "/images/blog/cover-sylius-prestashop.webp"
 translationOf: "sylius-vs-prestashop-quelle-solution-e-commerce-choisir"
-translatedFromUpdatedAt: "2026-10-12"
+translatedFromUpdatedAt: "2026-11-09"
 faq:
   - question: "Is Sylius suited to large catalogs?"
     answer: "Yes. Sylius is built on Doctrine and Symfony, with a flexible product management system (variants, attributes, options). For large catalogs, you can integrate Elasticsearch for search and filtering. The architecture lets you scale horizontally without a rewrite."
@@ -65,13 +65,13 @@ PrestaShop can also handle large catalogs, but optimizations often require third
 
 PrestaShop benefits from a large, long-established community, with thousands of modules and partner agencies. That is an advantage for finding resources and help, but quality varies widely.
 
-Sylius has a smaller but more technical community, driven by the Symfony ecosystem. PHP and Symfony conferences regularly include talks about Sylius. Longevity is ensured by its backing from Symfony, whose long-term support (LTS) versions guarantee long-term maintenance.
+Sylius has a smaller but more technical community, driven by the Symfony ecosystem. PHP and Symfony conferences regularly include talks about Sylius. Sylius is built on Symfony and publishes its own release cycle: the 2.x branch is the active one, and 1.14 (LTS) only receives security fixes until December 2026.
 
 ## Long-term maintenance
 
 The effort of an e-commerce project is not limited to initial development. It includes maintenance, updates, bug fixes and functional changes. This is where the two solutions diverge the most.
 
-With Sylius, the initial effort is generally higher because development is custom. But application maintenance is more predictable: the code is clean and tested, and Symfony version upgrades are documented. The workload over 3 to 5 years is often lower than PrestaShop's.
+With Sylius, the initial effort is generally higher because development is custom. But application maintenance is more predictable: the code is clean and tested, and Symfony version upgrades are documented. Moving from Sylius 1.x to 2.x, however, is a project in its own right (Twig Hooks, Workflow component, plugin compatibility): for a new project, start directly on 2.x. The workload over 3 to 5 years is often lower than PrestaShop's.
 
 With PrestaShop, the initial effort is lower thanks to marketplace modules. But modules pile up, incompatibilities between modules generate support work, and major updates regularly break features. The hidden workload is real and often underestimated at the initial decision.
 
