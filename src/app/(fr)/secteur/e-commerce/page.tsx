@@ -371,8 +371,8 @@ export default function SecteurEcommerce() {
 
         <FadeIn>
         <CallToAction />
-        <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );

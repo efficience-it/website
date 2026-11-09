@@ -365,8 +365,8 @@ export default function SecteursIndex() {
 
         <FadeIn>
           <CallToAction />
-          <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );

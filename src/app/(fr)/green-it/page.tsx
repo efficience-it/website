@@ -236,8 +236,8 @@ export default function GreenIt() {
 
       <FadeIn>
       <CallToAction />
-      <StickyMobileCta />
       </FadeIn>
+      <StickyMobileCta />
     </main>
     </>
   );

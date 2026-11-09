@@ -374,8 +374,8 @@ export default function HebergementSymfony() {
 
         <FadeIn>
           <CallToAction />
-          <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );

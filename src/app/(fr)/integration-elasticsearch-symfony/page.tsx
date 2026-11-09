@@ -418,8 +418,8 @@ export default function IntegrationElasticsearchSymfony() {
 
         <FadeIn>
           <CallToAction />
-          <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );

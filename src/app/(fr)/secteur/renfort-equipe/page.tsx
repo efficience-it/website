@@ -402,8 +402,8 @@ export default function SecteurRenfortEquipe() {
 
         <FadeIn>
         <CallToAction />
-        <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );

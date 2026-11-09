@@ -389,8 +389,8 @@ export default function SecteurIndustrie() {
 
         <FadeIn>
         <CallToAction />
-        <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );

@@ -690,8 +690,8 @@ export default function SecuriteApplicationSymfony() {
 
         <FadeIn>
           <CallToAction />
-          <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );

@@ -459,8 +459,8 @@ export default function DeveloppementTypescript() {
 
         <FadeIn>
           <CallToAction />
-          <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );

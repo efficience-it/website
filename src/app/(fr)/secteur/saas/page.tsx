@@ -388,8 +388,8 @@ export default function SecteurSaas() {
 
         <FadeIn>
         <CallToAction />
-        <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );

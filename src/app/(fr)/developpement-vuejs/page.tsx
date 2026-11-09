@@ -442,8 +442,8 @@ export default function DeveloppementVuejs() {
 
         <FadeIn>
           <CallToAction />
-          <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );

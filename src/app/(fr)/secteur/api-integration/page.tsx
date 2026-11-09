@@ -390,8 +390,8 @@ export default function SecteurApiIntegration() {
 
         <FadeIn>
         <CallToAction />
-        <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );

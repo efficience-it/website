@@ -492,8 +492,8 @@ export default function CloudEtDevops() {
 
       <FadeIn>
       <CallToAction />
-      <StickyMobileCta />
       </FadeIn>
+      <StickyMobileCta />
     </main>
     </>
   );

@@ -452,8 +452,8 @@ export default function DeveloppementNodejs() {
 
         <FadeIn>
         <CallToAction />
-        <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );

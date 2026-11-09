@@ -417,8 +417,8 @@ export default function DeveloppementFrontend() {
 
         <FadeIn>
           <CallToAction />
-          <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );

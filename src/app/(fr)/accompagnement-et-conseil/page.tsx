@@ -474,8 +474,8 @@ export default function AccompagnementEtConseil() {
 
       <FadeIn>
       <CallToAction />
-      <StickyMobileCta />
       </FadeIn>
+      <StickyMobileCta />
     </main>
     </>
   );

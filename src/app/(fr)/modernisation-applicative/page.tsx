@@ -487,8 +487,8 @@ export default function ModernisationApplicative() {
 
         <FadeIn>
         <RelatedLinks links={relatedLinks} className="bg-light-gray" />
-        <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );

@@ -400,8 +400,8 @@ export default function SecteurMigrationLegacy() {
 
         <FadeIn>
         <CallToAction />
-        <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );

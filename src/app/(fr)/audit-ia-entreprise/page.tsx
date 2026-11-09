@@ -527,8 +527,8 @@ export default function AuditIaEntreprise() {
 
         <FadeIn>
           <CallToAction />
-          <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );

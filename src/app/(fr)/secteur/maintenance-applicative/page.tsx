@@ -393,8 +393,8 @@ export default function SecteurMaintenanceApplicative() {
 
         <FadeIn>
         <CallToAction />
-        <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );

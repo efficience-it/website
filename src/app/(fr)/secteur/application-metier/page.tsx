@@ -389,8 +389,8 @@ export default function SecteurApplicationMetier() {
 
         <FadeIn>
         <CallToAction />
-        <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );

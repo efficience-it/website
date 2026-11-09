@@ -402,8 +402,8 @@ export default function SecteurSecuriteConformite() {
 
         <FadeIn>
         <CallToAction />
-        <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );

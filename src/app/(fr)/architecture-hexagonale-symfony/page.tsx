@@ -443,8 +443,8 @@ export default function ArchitectureHexagonaleSymfony() {
 
         <FadeIn>
         <CallToAction />
-        <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );

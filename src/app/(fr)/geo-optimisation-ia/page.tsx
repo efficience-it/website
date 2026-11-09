@@ -546,8 +546,8 @@ export default function GeoOptimisationIa() {
 
         <FadeIn>
         <CallToAction />
-        <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );
