@@ -14,7 +14,7 @@ describe("Accents dans les fichiers LLM", () => {
   ];
 
   it.each(files)("$name ne contient pas de formes non accentuees connues", ({ build }) => {
-    const content = sanitizeForSpellingCheck(build());
+    const content = sanitizeForSpellingCheck(build().split("## English articles")[0]);
 
     const forbiddenWords = [
       "specialisee",
