@@ -22,7 +22,7 @@ const steps = [
   {
     title: "Lancement et mise à l'échelle",
     description:
-      "Le projet final est installé, et nous ajoutons des outils de supervision, et de scalabilité pour assumer les montées en charge.",
+      "Le projet final est installé, et nous ajoutons des outils de supervision et de scalabilité pour assumer les montées en charge.",
   },
 ];
 
@@ -32,8 +32,8 @@ export default function ProcessSteps() {
       <Container>
         <SectionTitle>Notre fonctionnement</SectionTitle>
         <p className="mx-auto mt-5 max-w-3xl text-center text-base leading-relaxed text-gray md:text-lg">
-          Basé sur le Lean Startup, l&apos;amélioration continue, le suivi se
-          fait en méthode agile et en totale transparence sur les avancées de
+          Fondé sur le Lean Startup et l&apos;amélioration continue, notre suivi
+          se fait en méthode agile et en totale transparence sur les avancées de
           votre projet.
         </p>
         <p className="mx-auto mt-4 max-w-3xl text-center text-lg font-semibold text-dark">

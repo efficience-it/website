@@ -73,7 +73,7 @@ const timeline = [
   },
   {
     year: "Aujourd'hui",
-    title: "Notre Collaboration",
+    title: "Notre collaboration",
     description:
       "Développement back-end, développement front-end, accompagnement à la migration, automatisation et performance, audits et corrections, formation et montée en compétences… nos développeurs experts sauront vous accompagner au mieux.",
   },

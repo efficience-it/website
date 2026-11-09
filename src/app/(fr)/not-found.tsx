@@ -25,7 +25,7 @@ export default function NotFound() {
         <p className="mt-4 text-lg text-gray">
           Mayday, mayday !
           <br />
-          Nous avons un 404, je répète nous avons un 404 !
+          Nous avons un 404, je répète, nous avons un 404 !
         </p>
         <div className="mt-8 flex gap-4">
           <Button href="/notre-expertise" variant="outline">

@@ -118,11 +118,11 @@ const faqJsonLd = {
 
 const breadcrumb = breadcrumbJsonLd([
   { name: "Nos expertises", path: "/notre-expertise" },
-  { name: "Accompagnement et Conseil", path: "/accompagnement-et-conseil" },
+  { name: "Accompagnement et conseil", path: "/accompagnement-et-conseil" },
 ]);
 
 const service = serviceJsonLd({
-  name: "Accompagnement et Conseil Symfony",
+  name: "Accompagnement et conseil Symfony",
   description:
     "Conseil, coaching, formation et audit technique pour les équipes de développement Symfony et les projets web professionnels.",
   path: "/accompagnement-et-conseil",
@@ -154,7 +154,7 @@ export default function AccompagnementEtConseil() {
       {/* Hero */}
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
-          <Breadcrumb items={[{ label: "Accompagnement et Conseil" }]} />
+          <Breadcrumb items={[{ label: "Accompagnement et conseil" }]} />
           <LastUpdated path="/accompagnement-et-conseil" />
           <div className="grid items-center gap-12 md:grid-cols-2">
             <div>

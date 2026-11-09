@@ -543,7 +543,7 @@ export default function ExpertiseIa() {
             <Link href="/accompagnement-et-conseil" className="group">
               <Card>
                 <h3 className="font-display text-lg font-bold text-dark group-hover:text-primary">
-                  Accompagnement et Conseil
+                  Accompagnement et conseil
                 </h3>
                 <p className="mt-2 text-gray">
                   Coaching technique, formation Symfony et audit de code pour

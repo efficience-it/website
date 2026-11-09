@@ -31,7 +31,7 @@ const processSteps = [
     description:
       "Tout commence par un échange de 30 minutes en visio, gratuit et sans engagement. Nous écoutons votre besoin, analysons votre contexte technique et identifions les premières pistes. Si vous avez déjà une application existante, nous réalisons un premier état des lieux technique.",
     deliverables: [
-      "Compte-rendu écrit sous 48h",
+      "Compte rendu écrit sous 48 h",
       "Premières recommandations",
       "Estimation de la faisabilité",
     ],
@@ -66,7 +66,7 @@ const processSteps = [
     title: "Revue de code et assurance qualité",
     duration: "En continu",
     description:
-      "Chaque ligne de code passe par une revue de code systématique. Nous utilisons PHPStan au niveau maximum, les tests automatisés (unitaires, fonctionnels, d'intégration) et une pipeline CI/CD pour garantir la qualité. Le code est déployé automatiquement sur un environnement de recette pour validation.",
+      "Chaque ligne de code passe par une revue de code systématique. Nous utilisons PHPStan au niveau maximum, les tests automatisés (unitaires, fonctionnels, d'intégration) et un pipeline CI/CD pour garantir la qualité. Le code est déployé automatiquement sur un environnement de recette pour validation.",
     deliverables: [
       "Couverture de tests",
       "Rapports d'analyse statique",

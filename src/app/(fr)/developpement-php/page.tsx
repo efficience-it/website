@@ -166,7 +166,7 @@ const faqItems = [
   {
     title: "Comment vous intégrez-vous à une équipe interne déjà en place ?",
     content:
-      "Oui. Selon le contexte, nous intervenons en équipe autonome, en renfort d'une équipe interne, ou en mode pair programming pour faire monter vos développeurs en compétence. Le mode de collaboration est défini en début de mission et peut évoluer selon vos besoins, avec des rituels d'équipe partagés (daily, revue de sprint, rétro).",
+      "Selon le contexte, nous intervenons en équipe autonome, en renfort d'une équipe interne, ou en mode pair programming pour faire monter vos développeurs en compétence. Le mode de collaboration est défini en début de mission et peut évoluer selon vos besoins, avec des rituels d'équipe partagés (daily, revue de sprint, rétro).",
   },
 ];
 
