@@ -16,7 +16,7 @@ This article takes stock of that shift and gathers best practices for using Mess
 
 ## The Rise of Messenger, the Decline of Enqueue
 
-Messenger appeared with Symfony 4.1 in 2018. At first it was minimal: a bus, a few transports, a decent but unremarkable integration. For an overview of the bundles available in the Symfony ecosystem, our article on the [most used bundles in Symfony projects](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony) (in French) places Messenger in that context. Enqueue, already mature, offered a much wider catalog of transports (Kafka, Google PubSub, Kinesis, MongoDB, Stomp) and built-in monitoring. For polyglot projects or those needing an exotic transport, Enqueue was the logical choice.
+Messenger appeared with Symfony 4.1 in 2018. At first it was minimal: a bus, a few transports, a decent but unremarkable integration. For an overview of the bundles available in the Symfony ecosystem, our article on the [most used bundles in Symfony projects](/en/article/top-symfony-bundles) places Messenger in that context. Enqueue, already mature, offered a much wider catalog of transports (Kafka, Google PubSub, Kinesis, MongoDB, Stomp) and built-in monitoring. For polyglot projects or those needing an exotic transport, Enqueue was the logical choice.
 
 Since then, Messenger has caught up and pulled ahead. Every Symfony release brought improvements: stamps to enrich messages with metadata, the failure transport to handle failures, the scheduler to plan recurring tasks, native support for a variety of transports. Meanwhile, the community has produced third-party transports to cover specific needs.
 
@@ -26,7 +26,7 @@ Enqueue, for its part, has gradually slowed down. The last significant commit on
 
 If you are new to Messenger or want to consolidate the basics, here is how the component works at its core.
 
-Installation takes a single command, handled through [Composer](/article/utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques) (in French):
+Installation takes a single command, handled through [Composer](/en/article/composer-symfony-best-practices):
 
 ```bash
 composer require symfony/messenger
@@ -93,7 +93,7 @@ Dispatching goes through the `MessageBusInterface`:
 $this->bus->dispatch(new GenererRapportMessage(42, 'xlsx'));
 ```
 
-Messenger's strength is its conceptual simplicity. A POPO as the message, a callable as the handler, a bus as the mediator. No dependency on a specific messaging protocol. This clean separation between business logic and infrastructure is also at the heart of what makes [Symfony a relevant choice for large-scale projects](/article/pourquoi-choisir-symfony-pour-vos-projets) (in French).
+Messenger's strength is its conceptual simplicity. A POPO as the message, a callable as the handler, a bus as the mediator. No dependency on a specific messaging protocol. This clean separation between business logic and infrastructure is also at the heart of what makes [Symfony a relevant choice for large-scale projects](/en/article/why-choose-symfony).
 
 ## The Middleware Pipeline, a Powerful Lever
 
@@ -105,7 +105,7 @@ Stamps are another powerful mechanism. They are metadata attached to the message
 
 ## Choosing Your Transport: An Architecture Decision
 
-The transport determines where and how messages are stored while waiting to be processed. It is an architecture decision more than a code decision, much like the choice between [microservices and a modular monolith](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) (in French).
+The transport determines where and how messages are stored while waiting to be processed. It is an architecture decision more than a code decision, much like the choice between [microservices and a modular monolith](/en/article/microservices-vs-modular-monolith).
 
 ### Doctrine: Acceptable to Get Started
 
@@ -140,7 +140,7 @@ SQS is the natural choice on AWS. No maintenance, automatic scaling, native dead
 
 ### Kafka Through Community Transports
 
-Enqueue was often chosen for its native Kafka support. Today, community packages such as `koco/messenger-kafka` provide a Kafka transport for Messenger. Integration is straightforward and benefits from Messenger's middleware pipeline. When data volume calls for fast search, [integrating Elasticsearch with Symfony](/integration-elasticsearch-symfony) (in French) is a natural complement to Messenger for indexing results asynchronously. The choice of engine is not neutral: our [comparison of Elasticsearch and Algolia](/article/elasticsearch-ou-algolia-moteur-de-recherche-symfony) (in French) weighs the control of a self-hosted index against the simplicity of a managed service.
+Enqueue was often chosen for its native Kafka support. Today, community packages such as `koco/messenger-kafka` provide a Kafka transport for Messenger. Integration is straightforward and benefits from Messenger's middleware pipeline. When data volume calls for fast search, [integrating Elasticsearch with Symfony](/integration-elasticsearch-symfony) (in French) is a natural complement to Messenger for indexing results asynchronously. The choice of engine is not neutral: our [comparison of Elasticsearch and Algolia](/en/article/elasticsearch-vs-algolia-symfony) weighs the control of a self-hosted index against the simplicity of a managed service.
 
 ## Retry Strategies and Failure Handling
 
@@ -210,7 +210,7 @@ Every handler must therefore be **idempotent**: processing the same message twic
 
 To absorb a load spike, you add workers. With Doctrine as the transport, multiplying workers causes contention. With RabbitMQ or SQS, horizontal scaling is linear: each extra worker consumes its share of messages without conflict.
 
-Supervise your workers with `supervisor` or `systemd`, ideally in [Docker](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) (in French) containers. Set a `--memory-limit` and a `--time-limit` to force regular process recycling and avoid memory leaks:
+Supervise your workers with `supervisor` or `systemd`, ideally in [Docker](/en/article/docker-production-reliability) containers. Set a `--memory-limit` and a `--time-limit` to force regular process recycling and avoid memory leaks:
 
 ```bash
 php bin/console messenger:consume async --memory-limit=128M --time-limit=3600
@@ -218,7 +218,7 @@ php bin/console messenger:consume async --memory-limit=128M --time-limit=3600
 
 ## Messenger as a CQRS Foundation
 
-Messenger is not limited to async. By declaring several buses (command bus, query bus, event bus), it becomes the [backbone of a CQRS architecture](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) (in French). Commands change state, queries read it, events propagate side effects. This pattern decouples your business domain from the infrastructure and makes testing easier.
+Messenger is not limited to async. By declaring several buses (command bus, query bus, event bus), it becomes the [backbone of a CQRS architecture](/en/article/symfony-messenger-hexagonal-core). Commands change state, queries read it, events propagate side effects. This pattern decouples your business domain from the infrastructure and makes testing easier.
 
 Enqueue did not offer this abstraction. It was a queuing tool, not an application bus. If your goal is to structure your architecture around messaging, Messenger is the natural choice and the only one actively maintained.
 
@@ -257,6 +257,6 @@ If you want to go further, we provide developers specialized in **Symfony** who 
 
 - Symfony Messenger: the backbone of hexagonal architecture, going further with Messenger
 - Which architecture to choose: microservice or modular monolith? An architecture decision
-- [The domain should never know about Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony) (in French), isolating the domain from the framework
+- [The domain should never know about Symfony](/en/article/domain-layer-symfony-independence), isolating the domain from the framework
 - [Symfony Messenger: official documentation](https://symfony.com/doc/current/messenger.html), complete guide to the component
 - [RabbitMQ: official website](https://www.rabbitmq.com/), message broker

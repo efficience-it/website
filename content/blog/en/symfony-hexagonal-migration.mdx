@@ -64,7 +64,7 @@ src/
 │           └── ProductController.php
 ```
 
-The `Product` model in the domain is no longer a Doctrine entity. It is a pure PHP object, with no annotations and no framework dependency. It carries the business logic and nothing else. This is precisely what the principle that [the domain should never know Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony) (in French) expresses: business logic must stay ignorant of the framework around it.
+The `Product` model in the domain is no longer a Doctrine entity. It is a pure PHP object, with no annotations and no framework dependency. It carries the business logic and nothing else. This is precisely what the principle that [the domain should never know Symfony](/en/article/domain-layer-symfony-independence) expresses: business logic must stay ignorant of the framework around it.
 
 ### The First Problem: Duplication
 
@@ -92,7 +92,7 @@ final class DoctrineProductRepository implements ProductRepositoryInterface
 }
 ```
 
-A mapper converts between the Doctrine entity and the domain model. It is boring code to write, but it completely isolates the domain from the ORM. This kind of mapping is all the more important given the changes brought by [Doctrine ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) (in French).
+A mapper converts between the Doctrine entity and the domain model. It is boring code to write, but it completely isolates the domain from the ORM. This kind of mapping is all the more important given the changes brought by [Doctrine ORM 3.0](/en/article/doctrine-orm-3-changes).
 
 ## Step 2: Use Cases as the Entry Point
 
@@ -265,14 +265,14 @@ We would start with domain events before touching the directory structure. Doctr
 
 We would invest earlier in a shared ADR (Architecture Decision Record). Every trade-off, every exception to the rule, should be documented. Six months later, nobody remembers why a given service was left in the old code.
 
-And we would put in place [PHPStan at max level](/article/phpstan-niveau-max-symfony-10-erreurs) (in French) from the very start of the migration. Static analysis catches architecture violations in real time. A use case that imports a Doctrine class is a PHPStan error before it is even a design error.
+And we would put in place [PHPStan at max level](/en/article/phpstan-max-level-symfony-errors) from the very start of the migration. Static analysis catches architecture violations in real time. A use case that imports a Doctrine class is a PHPStan error before it is even a design error.
 
 Hexagonal architecture is not an end in itself. It is a tool to make business code independent of infrastructure. On a Symfony project of this size, it is the difference between an application you endure and an application you master. Our [Symfony hexagonal architecture](/architecture-hexagonale-symfony) (in French) offering supports teams through this kind of transformation.
 
 ## Going Further
 
-- [Symfony Messenger: the backbone of hexagonal architecture](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) (in French), implementing CQRS with Messenger
-- [Migration guide for a Symfony project](/article/guide-de-migration-dans-un-projet-symfony) (in French), migration methodology
-- [Which architecture to choose between microservices and a modular monolith?](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) (in French), choosing the right project structure before starting a migration
+- [Symfony Messenger: the backbone of hexagonal architecture](/en/article/symfony-messenger-hexagonal-core), implementing CQRS with Messenger
+- [Migration guide for a Symfony project](/en/article/symfony-upgrade-guide), migration methodology
+- [Which architecture to choose between microservices and a modular monolith?](/en/article/microservices-vs-modular-monolith), choosing the right project structure before starting a migration
 - [Alistair Cockburn: Hexagonal Architecture](https://web.archive.org/web/2025/https://alistair.cockburn.us/hexagonal-architecture/), the founding article on hexagonal architecture
 - [Symfony Messenger documentation](https://symfony.com/doc/current/messenger.html), the official guide to the component

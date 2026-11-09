@@ -29,7 +29,7 @@ The spirit of the text matters. DORA does not ask you to promise that outages wi
 
 The scope is broad: credit institutions, investment firms, insurers, asset management companies, payment service providers, crypto-asset platforms, and notably their third-party IT providers deemed critical. A fintech that builds its own platform, like a software vendor that supplies a component to a financial player, is affected, either directly or through contractual ripple effects.
 
-For these teams, DORA is not only a legal compliance topic. It is a software quality specification that largely overlaps with what a serious engineering team already does, but with an obligation to formalize and prove it. If you operate in fintech, our [DORA checklist for financial players](/article/dora-fintech-resilience-technique-symfony) (in French) details the contractual clauses to demand and the penalties you face.
+For these teams, DORA is not only a legal compliance topic. It is a software quality specification that largely overlaps with what a serious engineering team already does, but with an obligation to formalize and prove it. If you operate in fintech, our [DORA checklist for financial players](/en/article/dora-fintech-symfony-checklist) details the contractual clauses to demand and the penalties you face.
 
 ## What We Cover Technically
 
@@ -39,11 +39,11 @@ DORA requires you to control the integrity of your systems. That starts with the
 
 ### Continuity and Disaster Recovery Plan
 
-Continuity rests on concrete foundations: tested backups, documented restoration procedures, redundancy of critical components and quantified recovery objectives (RTO and RPO). We design architectures where the database, the message queue and storage can be restored within controlled timeframes. Above all, we actually test these procedures: a backup that has never been restored is only a hypothesis, not a guarantee. A well-designed [caching and invalidation strategy](/article/tout-savoir-sur-la-mise-en-cache-tips) (in French) also contributes to resilience by absorbing spikes and reducing reliance on a single component.
+Continuity rests on concrete foundations: tested backups, documented restoration procedures, redundancy of critical components and quantified recovery objectives (RTO and RPO). We design architectures where the database, the message queue and storage can be restored within controlled timeframes. Above all, we actually test these procedures: a backup that has never been restored is only a hypothesis, not a guarantee. A well-designed [caching and invalidation strategy](/en/article/caching-guide-web-applications) also contributes to resilience by absorbing spikes and reducing reliance on a single component.
 
 ### Exit Strategy and Reversibility
 
-DORA requires exit plans for critical third-party providers, cloud first of all. The goal is to avoid lock-in: being able to migrate an application to another provider without a rewrite. Containerization plays a central role here, as we explain in our article on [why Docker is essential in production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) (in French). Decoupling business code from infrastructure, for example through a [hexagonal architecture drawn from a project retrospective](/article/migration-symfony-architecture-hexagonale-retour-mission) (in French), makes this reversibility real rather than theoretical.
+DORA requires exit plans for critical third-party providers, cloud first of all. The goal is to avoid lock-in: being able to migrate an application to another provider without a rewrite. Containerization plays a central role here, as we explain in our article on [why Docker is essential in production](/en/article/docker-production-reliability). Decoupling business code from infrastructure, for example through a [hexagonal architecture drawn from a project retrospective](/en/article/symfony-hexagonal-migration), makes this reversibility real rather than theoretical.
 
 ### Observability With OpenTelemetry
 
@@ -51,7 +51,7 @@ You cannot manage resilience without measurement. We instrument Symfony applicat
 
 ## Testing Resilience, Not Only Code
 
-DORA insists on resilience testing. Beyond unit and functional tests, the goal is to verify how the system behaves under degraded conditions: loss of a service, abnormal latency, sudden load spikes. A solid base of [automated tests](/tests-automatises-php) (in French) is the essential prerequisite before introducing controlled failure scenarios. Understanding how a vulnerability spreads, as our article on [CVEs and how to handle them](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) (in French) details, also helps you design relevant tests rather than cosmetic ones.
+DORA insists on resilience testing. Beyond unit and functional tests, the goal is to verify how the system behaves under degraded conditions: loss of a service, abnormal latency, sudden load spikes. A solid base of [automated tests](/tests-automatises-php) (in French) is the essential prerequisite before introducing controlled failure scenarios. Understanding how a vulnerability spreads, as our article on [CVEs and how to handle them](/en/article/cve-vulnerability-management) details, also helps you design relevant tests rather than cosmetic ones.
 
 ## Oversight of Third-Party Providers
 
@@ -59,7 +59,7 @@ DORA gives unprecedented weight to third-party IT providers. A financial entity 
 
 ## Aligning DORA With NIS2 and RGAA
 
-DORA is a lex specialis: for a financial entity, it takes precedence over the [NIS2 directive](/article/conformite-nis2-application-symfony) (in French) on the topics it covers. But the two share a common backbone: risk management, logging, incident reporting, control of dependencies. If your application also serves the public sector, the [RGAA accessibility](/article/normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous) (in French) obligations complete the picture. Handling these frameworks in a coordinated way avoids fragmentation and redundant workstreams.
+DORA is a lex specialis: for a financial entity, it takes precedence over the [NIS2 directive](/en/article/nis2-symfony-compliance) on the topics it covers. But the two share a common backbone: risk management, logging, incident reporting, control of dependencies. If your application also serves the public sector, the [RGAA accessibility](/en/article/rgaa-web-accessibility-standards) obligations complete the picture. Handling these frameworks in a coordinated way avoids fragmentation and redundant workstreams.
 
 ## Getting Started
 

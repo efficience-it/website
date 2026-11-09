@@ -35,9 +35,9 @@ Knowing which quadrant each piece of debt falls into fundamentally changes how y
 
 Beyond individual shortcuts, technical debt has systemic roots that you must identify to act for the long term.
 
-**Tight deadlines** push teams to ship fast at the expense of quality. The absence of [automated tests](/tests-automatises-php) (in French) prevents regression detection and makes every change risky. **Team turnover** causes a loss of tacit knowledge about the project: undocumented conventions disappear with their authors. **Systematically postponing version upgrades** creates a growing gap between the project and the supported ecosystem, until the [end of support for Symfony and PHP](/article/symfony-php-fin-de-support-eol-plan-action) (in French) turns debt into an immediate security risk. Finally, **a lack of architectural vision** leads to local decisions that are inconsistent with each other.
+**Tight deadlines** push teams to ship fast at the expense of quality. The absence of [automated tests](/tests-automatises-php) (in French) prevents regression detection and makes every change risky. **Team turnover** causes a loss of tacit knowledge about the project: undocumented conventions disappear with their authors. **Systematically postponing version upgrades** creates a growing gap between the project and the supported ecosystem, until the [end of support for Symfony and PHP](/en/article/symfony-php-end-of-life-plan) turns debt into an immediate security risk. Finally, **a lack of architectural vision** leads to local decisions that are inconsistent with each other.
 
-A concrete example: an e-commerce application built on PHP 5.6 with a homegrown framework. Nonexistent [coding conventions](/article/coding-conventions) (in French) speed up debt accumulation. Over the years, developers add features without refactoring the existing code. Five years later, deployment time goes from a few minutes to several hours, every bug fix introduces two new ones, and nobody on the team understands some critical modules anymore. The debt has reached a threshold where it paralyzes the organization.
+A concrete example: an e-commerce application built on PHP 5.6 with a homegrown framework. Nonexistent [coding conventions](/en/article/php-coding-standards-best-practices) speed up debt accumulation. Over the years, developers add features without refactoring the existing code. Five years later, deployment time goes from a few minutes to several hours, every bug fix introduces two new ones, and nobody on the team understands some critical modules anymore. The debt has reached a threshold where it paralyzes the organization.
 
 ## Measuring Debt: Tooling and Indicators
 
@@ -51,7 +51,7 @@ What you do not measure, you cannot manage. Quantifying technical debt is a prer
 
 ### Measurement Tools
 
-SonarQube remains the reference for estimating debt in workdays. [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French) and Psalm offer progressive static analysis: you start at level 0 and climb gradually. [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) (in French) detects obsolete patterns and proposes automated fixes. These tools identify hotspots, the files that are both heavily modified and highly complex, and that usually concentrate most of the problems. Another effective approach is to [eliminate dead code in your PHP projects](/article/code-mort-mission-elimination) (in French): removing what is no longer used mechanically reduces the maintenance surface and clarifies the real scope of the application.
+SonarQube remains the reference for estimating debt in workdays. [PHPStan](/en/article/phpstan-improve-php-code-quality) and Psalm offer progressive static analysis: you start at level 0 and climb gradually. [Rector](/en/article/rector-php-code-refactoring) detects obsolete patterns and proposes automated fixes. These tools identify hotspots, the files that are both heavily modified and highly complex, and that usually concentrate most of the problems. Another effective approach is to [eliminate dead code in your PHP projects](/en/article/php-dead-code-detection-phpstan): removing what is no longer used mechanically reduces the maintenance surface and clarifies the real scope of the application.
 
 The most effective approach combines static analysis with Git history. A 2,000-line file with a cyclomatic complexity of 45 and 300 commits over the last six months is a top candidate for refactoring, much more than an equally complex file that is never touched.
 
@@ -65,7 +65,7 @@ Rank each piece of debt along two axes: impact on team velocity and remediation 
 
 ### Repayment Strategies
 
-The **Strangler Fig Pattern**, detailed in our [Symfony migration guide](/article/guide-de-migration-dans-un-projet-symfony) (in French), consists of wrapping the existing system and replacing it module by module. Every new development happens in the new system, while the old one is gradually decommissioned. The application stays functional throughout the process, which considerably limits risk.
+The **Strangler Fig Pattern**, detailed in our [Symfony migration guide](/en/article/symfony-upgrade-guide), consists of wrapping the existing system and replacing it module by module. Every new development happens in the new system, while the old one is gradually decommissioned. The application stays functional throughout the process, which considerably limits risk.
 
 The **Boy Scout Rule**, popularized by Robert C. Martin, suggests leaving the code in a better state than you found it. With each change, developers improve a small piece of the existing code. This approach is particularly effective for keeping debt under control day to day without dedicating separate resources.
 
@@ -83,7 +83,7 @@ Code debt, such as a method that is too long, inconsistent naming, or a missing 
 
 The biggest challenge is not technical, it is political. Developers see the debt every day; decision-makers only see velocity dropping. To get the means to repay the debt, you must translate it into business language.
 
-Rather than saying "we need to refactor the payment module," say: "the payment module makes us lose 15 days per quarter in development time and accounts for 60% of our production incidents. An investment of 30 development days would cut that by 80%." Quantify the impact of inaction as much as the effort of action. A [structured web audit](/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede) (in French) lets you quantify and prioritize technical debt with factual data to present to decision-makers. For a first [free diagnosis of your application](/audit-symfony-gratuit) (in French), it is the ideal starting point.
+Rather than saying "we need to refactor the payment module," say: "the payment module makes us lose 15 days per quarter in development time and accounts for 60% of our production incidents. An investment of 30 development days would cut that by 80%." Quantify the impact of inaction as much as the effort of action. A [structured web audit](/en/article/web-audit-methodology) lets you quantify and prioritize technical debt with factual data to present to decision-makers. For a first [free diagnosis of your application](/audit-symfony-gratuit) (in French), it is the ideal starting point.
 
 ### Planning for Long-Term Sustainability
 
@@ -107,10 +107,10 @@ The key lies in a multilevel approach: developers apply the Boy Scout Rule daily
 
 ## Going Further
 
-- [Core Team: structuring a project team](/article/core-team-organisation-projet) (in French), reduce debt by giving decision-making power to a qualified core
+- [Core Team: structuring a project team](/en/article/core-team-project-structure), reduce debt by giving decision-making power to a qualified core
 - Symfony migration guide, how to modernize an existing project
 - Rector: master the evolution of your Symfony code, automate refactoring
-- [Find out why you should trust us with the maintenance of your web applications](/article/decouvrez-les-raisons-de-nous-confier-la-maintenance-de-vos-applications-web) (in French), avoid debt accumulation through regular maintenance
+- [Find out why you should trust us with the maintenance of your web applications](/en/article/web-application-maintenance-why-us), avoid debt accumulation through regular maintenance
 - [Martin Fowler: Technical Debt](https://martinfowler.com/bliki/TechnicalDebt.html), the foundational article on technical debt
 - [Symfony: Upgrade Guide](https://symfony.com/doc/current/setup/upgrade_major.html), stay up to date to limit debt
 - [SonarQube](https://www.sonarsource.com/products/sonarqube/), measure your project's technical debt

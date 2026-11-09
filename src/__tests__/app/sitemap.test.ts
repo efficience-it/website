@@ -77,6 +77,29 @@ describe("sitemap", () => {
     expect(entries.find((e) => e.url === `${BASE_URL}/article/article-seul`)!.alternates).toBeUndefined();
   });
 
+  it("pairs the French and English blog listings when English articles exist", () => {
+    mockPosts([french], [english, { ...englishNoImage, updatedAt: "2026-03-01" }]);
+    const entries = sitemap();
+    const expected = {
+      languages: {
+        fr: `${BASE_URL}/blog`,
+        en: `${BASE_URL}/en/blog`,
+        "x-default": `${BASE_URL}/blog`,
+      },
+    };
+    expect(entries.find((e) => e.url === `${BASE_URL}/blog`)!.alternates).toEqual(expected);
+    const englishBlog = entries.find((e) => e.url === `${BASE_URL}/en/blog`)!;
+    expect(englishBlog.alternates).toEqual(expected);
+    expect(englishBlog.lastModified).toBe("2026-03-01");
+  });
+
+  it("leaves the French blog listing unpaired without English articles", () => {
+    mockPosts([french], []);
+    const entries = sitemap();
+    expect(entries.find((e) => e.url === `${BASE_URL}/blog`)!.alternates).toBeUndefined();
+    expect(entries.some((e) => e.url === `${BASE_URL}/en/blog`)).toBe(false);
+  });
+
   it("lists an English article without cover", () => {
     mockPosts([frenchAlone], [englishNoImage]);
     const entry = sitemap().find((e) => e.url === `${BASE_URL}/en/article/article-en-sans-image`)!;
