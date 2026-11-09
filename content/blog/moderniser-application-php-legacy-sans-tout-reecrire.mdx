@@ -1,7 +1,7 @@
 ---
 title: "Moderniser une application PHP legacy sans tout réécrire"
 date: "2026-03-22"
-updatedAt: "2026-10-12"
+updatedAt: "2026-12-19"
 author: "Louis-Arnaud Catoire"
 category: "Projet"
 excerpt: "Votre application PHP vieillit, mais une réécriture complète est risquée. Voici l'approche progressive pour moderniser sans casser ce qui fonctionne."
@@ -70,7 +70,7 @@ Notre retour d'expérience sur la migration vers une architecture hexagonale dé
 
 ### Migrer le framework
 
-Si l'application tourne sur un framework obsolète (Symfony 3, Zend Framework, CodeIgniter), la [migration vers une version LTS de Symfony](/migration-symfony) est une priorité. L'outil Rector automatise une grande partie des modifications de code. Le reste se fait manuellement, en s'appuyant sur les tests mis en place à l'étape 2.
+Si l'application tourne sur un framework obsolète (Symfony 3, Zend Framework, CodeIgniter), la [migration vers une version LTS de Symfony](/migration-symfony) est une priorité. Pour Zend Framework 1 ou Laminas, notre méthode détaillée pour [migrer de Zend Framework ou Laminas vers Symfony](/article/migrer-zend-framework-laminas-vers-symfony) décrit la cohabitation progressive des deux applications. L'outil Rector automatise une grande partie des modifications de code. Le reste se fait manuellement, en s'appuyant sur les tests mis en place à l'étape 2.
 
 ### Extraire les services
 

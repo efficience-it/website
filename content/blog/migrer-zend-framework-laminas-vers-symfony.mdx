@@ -1,0 +1,219 @@
+---
+title: "Migrer de Zend Framework 1 ou Laminas vers Symfony"
+date: "2026-12-19"
+updatedAt: "2026-12-19"
+author: "Louis-Arnaud Catoire"
+category: "Symfony"
+excerpt: "Migrer une application Zend Framework 1 ou Laminas vers Symfony sans tout réécrire : strangler pattern, session partagée, correspondances et ordre de migration."
+image: "/images/blog/cover-migrer-zend-laminas-symfony.webp"
+proficiencyLevel: "Expert"
+faq:
+  - question: "Zend Framework 1 fonctionne-t-il encore sur PHP 8 ?"
+    answer: "Pas sans patchs. Le framework n'est plus maintenu depuis 2016 et plusieurs de ses composants reposent sur des fonctions retirées des versions récentes de PHP. Des forks communautaires comme zf1-future corrigent ces incompatibilités, mais c'est un sursis, pas une stratégie."
+  - question: "Faut-il quitter Laminas pour Symfony ?"
+    answer: "Pas par urgence : Laminas est maintenu. La migration se justifie par l'écosystème, le recrutement, ou la volonté d'unifier plusieurs applications sur un même framework. Si aucune de ces raisons ne s'applique, une montée de version de Laminas peut suffire."
+  - question: "Par quoi commencer une migration progressive ?"
+    answer: "Par le cadre : un point d'entrée commun, une session partagée et des tests de caractérisation sur les routes existantes. Ensuite, par les pages les plus simples et les moins risquées, en lecture seule, avant les formulaires et les écritures."
+  - question: "Comment savoir quand débrancher l'ancienne application ?"
+    answer: "Quand plus aucune requête réelle n'atteint le code legacy depuis plusieurs semaines, que les tâches planifiées et les scripts en ligne de commande ont été repris, et que le code ne contient plus aucune référence à Zend."
+---
+
+Migrer une application Zend Framework 1 ou Laminas vers Symfony se fait presque toujours mieux par petites étapes que par réécriture : on place Symfony devant l'ancienne application, on déplace les URLs une à une, et on débranche le legacy quand il ne reçoit plus de trafic. Cet article détaille la méthode, le partage de session, les correspondances entre composants et l'ordre de migration conseillé.
+
+## Où en est Zend Framework
+
+Zend Framework 1 n'est plus maintenu depuis 2016. Ses dernières versions ne tournent pas sur les PHP récents sans correctifs, et plus aucune faille n'est corrigée par ses auteurs. Des forks communautaires, comme zf1-future, adaptent le code à PHP 8, mais ils prolongent la situation sans la résoudre.
+
+Zend Framework 3 est devenu Laminas, sous l'égide de la Linux Foundation. Ce projet est maintenu, et son [site officiel](https://getlaminas.org/) documente les composants et leur cycle de vie. Pour une application Laminas, la migration vers Symfony n'est donc pas une urgence de sécurité : c'est un choix d'écosystème, de recrutement ou d'unification entre plusieurs applications.
+
+Pour une application ZF1, les risques sont concrets :
+
+- impossible de monter la version de PHP : vous restez sur des versions sorties de support, un sujet traité dans notre [plan d'action pour la fin de support de Symfony et PHP](/article/symfony-php-fin-de-support-eol-plan-action) ;
+- aucun correctif de sécurité sur le framework ;
+- des profils de plus en plus rares pour maintenir le code.
+
+C'est une forme de [dette technique](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) qui ne se résorbe pas toute seule.
+
+## Pourquoi la migration progressive l'emporte
+
+Une réécriture complète immobilise l'équipe pendant des mois sans rien livrer, pendant que l'application existante continue d'évoluer et de diverger. Au moment de la bascule, il faut reproduire des règles métier que personne n'a documentées. C'est le scénario détaillé dans notre article sur la [modernisation d'une application PHP legacy sans tout réécrire](/article/moderniser-application-php-legacy-sans-tout-reecrire).
+
+La migration progressive inverse le risque : chaque étape est petite, réversible et livrée en production. Si une page migrée pose problème, on remet l'ancienne route en service. Ce n'est pas non plus une simple montée de version : contrairement à la [montée de version dans un projet Symfony](/article/guide-de-migration-dans-un-projet-symfony), vous changez de framework, donc de conventions, de routage et d'accès aux données.
+
+## Strangler pattern : un point d'entrée, deux applications
+
+Le strangler pattern consiste à faire cohabiter les deux applications derrière le même nom de domaine, puis à déplacer les URLs de l'ancienne vers la nouvelle. Le plus simple est de laisser le serveur web aiguiller les requêtes. Avec nginx et PHP-FPM, deux points d'entrée suffisent :
+
+```nginx
+location ~ ^/(factures|clients) {
+    fastcgi_pass php-fpm;
+    include fastcgi_params;
+    fastcgi_param SCRIPT_FILENAME /var/www/symfony/public/index.php;
+    fastcgi_param DOCUMENT_ROOT /var/www/symfony/public;
+}
+
+location / {
+    fastcgi_pass php-fpm;
+    include fastcgi_params;
+    fastcgi_param SCRIPT_FILENAME /var/www/legacy/public/index.php;
+    fastcgi_param DOCUMENT_ROOT /var/www/legacy/public;
+}
+```
+
+Chaque nouvelle route migrée s'ajoute à la première expression régulière. Les deux applications restent indépendantes : version de PHP, dépendances Composer et déploiement peuvent différer, ce qui permet aussi de monter la version de PHP côté Symfony sans attendre.
+
+Une variante place Symfony en frontal et lui fait déléguer au legacy toute route qu'il ne connaît pas. Elle évite de toucher à la configuration du serveur, mais exécute l'application ZF1 dans le processus de Symfony, avec des conflits possibles sur les en-têtes et la sortie. Je la réserve aux cas où la configuration du serveur n'est pas modifiable.
+
+## Partager session, authentification et configuration
+
+Tant que les deux applications coexistent, l'utilisateur ne doit pas se reconnecter en passant de l'une à l'autre.
+
+### La session
+
+Les deux applications peuvent s'appuyer sur la session native de PHP. Il faut alors que le nom du cookie, son domaine et son chemin soient identiques, et que le stockage soit le même (fichiers, Redis ou base). Côté Symfony, la [documentation sur les sessions](https://symfony.com/doc/current/session.html) décrit les options `cookie_domain`, `name` et le gestionnaire de stockage. Côté ZF1, `Zend_Session::setOptions()` accepte les mêmes réglages.
+
+### L'authentification
+
+`Zend_Auth` range par défaut l'identité dans `$_SESSION['Zend_Auth']['storage']`. Un authenticator Symfony peut lire cette valeur et créer le jeton de sécurité correspondant :
+
+```php
+final class LegacySessionAuthenticator extends AbstractAuthenticator
+{
+    public function supports(Request $request): ?bool
+    {
+        return $request->hasPreviousSession();
+    }
+
+    public function authenticate(Request $request): Passport
+    {
+        $request->getSession()->start();
+        $identity = $_SESSION['Zend_Auth']['storage'] ?? null;
+
+        if (!is_string($identity)) {
+            throw new CustomUserMessageAuthenticationException('Session legacy absente.');
+        }
+
+        return new SelfValidatingPassport(new UserBadge($identity));
+    }
+
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
+    {
+        return null;
+    }
+
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
+    {
+        return null;
+    }
+}
+```
+
+Ce code suppose que l'identité est une chaîne, ce qui dépend de ce que stocke votre application : à vérifier avant de s'y fier. Les bases du mécanisme sont dans la [documentation des authenticators personnalisés](https://symfony.com/doc/current/security/custom_authenticator.html). Pour les droits, les règles de `Zend_Acl` se traduisent naturellement en [voters Symfony](/article/voters-symfony-strategies-decision-performance).
+
+### La configuration
+
+Évitez de dupliquer les paramètres de connexion et les secrets. Déplacez-les dans des variables d'environnement lues par les deux applications : `getenv()` côté ZF1, `%env()%` côté Symfony.
+
+## Appeler le conteneur Symfony depuis le code legacy
+
+Pendant la transition, le code legacy a souvent besoin d'un service déjà migré, par exemple un calcul de facturation, pour ne pas le réécrire en double. Le plus propre est d'exposer un point d'accès unique et public au conteneur, qui ne distribue que les services autorisés :
+
+```php
+#[Autoconfigure(public: true)]
+final class LegacyBridge
+{
+    public function __construct(
+        #[AutowireLocator([InvoiceCalculator::class, CustomerRepository::class])]
+        private readonly ContainerInterface $services,
+    ) {
+    }
+
+    public function get(string $id): object
+    {
+        return $this->services->get($id);
+    }
+}
+```
+
+Le code legacy démarre alors le noyau Symfony une seule fois par requête :
+
+```php
+require '/var/www/symfony/vendor/autoload.php';
+(new Dotenv())->bootEnv('/var/www/symfony/.env');
+
+$kernel = new App\Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
+$kernel->boot();
+
+$calculator = $kernel->getContainer()
+    ->get(App\Legacy\LegacyBridge::class)
+    ->get(App\Billing\InvoiceCalculator::class);
+```
+
+Rachelle Scheijen a consacré un talk à ce sujet à SymfonyCon Varsovie 2026 : « [Calling the Symfony Container from Legacy Code](https://live.symfony.com/2026-warsaw-con/schedule) ». L'intérêt est d'éviter que deux versions d'une même règle métier divergent. Le noyau ne démarre qu'une fois par requête : prévoyez un cache de conteneur réchauffé en production.
+
+## Les correspondances entre composants
+
+| Zend Framework 1 | Symfony |
+| --- | --- |
+| `Zend_Controller_Action` | Contrôleur étendant `AbstractController` |
+| Routage `/controller/action` | Routes déclarées avec l'attribut `#[Route]` |
+| `Zend_Db_Table` | Entités et repositories Doctrine |
+| `Zend_Form`, `Zend_Validate` | Formulaires Symfony et contraintes du Validator |
+| Vues `.phtml` et view helpers | Templates Twig et extensions Twig |
+| `Zend_Registry` | Injection de dépendances par autowiring |
+| `Zend_Auth`, `Zend_Acl` | Composant Security et voters |
+| `Zend_Config_Ini` | Variables d'environnement et paramètres |
+
+Deux points demandent plus d'attention que les autres. Pour l'accès aux données, mappez les tables existantes à la main avec des attributs Doctrine, sans modifier le schéma, puis contrôlez la cohérence avec `doctrine:schema:validate`. N'utilisez pas `doctrine:schema:update` sur une base alimentée par l'ancienne application. Pour les vues, les deux applications doivent partager leur en-tête et leur pied de page : extrayez-les dans un gabarit servi aux deux côtés, sinon l'utilisateur voit la couture à chaque changement de page.
+
+## Outillage : caractériser avant de toucher
+
+Avant de migrer une route, il faut figer son comportement actuel. Sur une application sans tests, la méthode la plus rentable est le test de caractérisation : on interroge l'ancienne et la nouvelle implémentation et on compare les réponses.
+
+```php
+final class ParityTest extends TestCase
+{
+    #[DataProvider('paths')]
+    public function testSameResponse(string $path): void
+    {
+        $client = HttpClient::create(['max_redirects' => 0]);
+        $legacy = $client->request('GET', 'http://legacy.test'.$path);
+        $symfony = $client->request('GET', 'http://symfony.test'.$path);
+
+        self::assertSame($legacy->getStatusCode(), $symfony->getStatusCode());
+        self::assertJsonStringEqualsJsonString(
+            $legacy->getContent(false),
+            $symfony->getContent(false),
+        );
+    }
+
+    public static function paths(): iterable
+    {
+        yield 'liste des factures' => ['/factures'];
+        yield 'détail d\'une facture' => ['/factures/42'];
+    }
+}
+```
+
+Ce test convient aux réponses JSON. Pour les pages HTML, comparez plutôt un extrait normalisé, car le balisage diffère forcément entre ZF1 et Twig.
+
+Deux outils complètent le dispositif. Rector n'a pas de règle de passage de Zend à Symfony, mais il sert à moderniser le code legacy avant et pendant la migration : version de PHP, suppression du code mort. Notre article sur [Rector et l'évolution du code Symfony](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) détaille cet usage. PHPStan, lancé au niveau 0 puis relevé progressivement avec une baseline, repère les erreurs qui se cachent derrière les appels dynamiques de ZF1 : voir nos retours sur [PHPStan niveau max sur Symfony](/article/phpstan-niveau-max-symfony-10-erreurs).
+
+Robin Chalas a présenté une recette complète du même chemin, de ZF1 vers API Platform, dans son talk « [From Zend Framework 1 to API Platform 4: Migration recipe](https://api-platform.com/con/2026/schedule/) » à l'API Platform Conference 2026.
+
+## L'ordre de migration conseillé
+
+1. **Le cadre** : point d'entrée commun, session partagée, authenticator, tests de caractérisation. Aucune page n'est encore migrée, mais tout est prêt.
+2. **Les pages en lecture seule** : listes, fiches, exports. Pas d'écriture en base, donc retour arrière trivial.
+3. **Les API et les formulaires simples** : on migre les écritures une fois que le mapping Doctrine a fait ses preuves en lecture.
+4. **Les parcours métier complexes** : tunnels, back-office, tâches planifiées, scripts en ligne de commande.
+5. **Le noyau partagé** : authentification et gestion des droits, qui restent côté legacy tant qu'une page en dépend.
+
+Pour savoir quand débrancher ZF1, vérifiez ces critères :
+
+- les journaux du serveur ne montrent plus aucune requête vers le legacy depuis plusieurs semaines ;
+- les tâches cron et commandes ont été reprises dans Symfony ;
+- une recherche de `Zend_` dans le code ne renvoie plus rien ;
+- plus aucun service externe n'appelle d'ancienne URL, vérifié avec des redirections 301 et leur suivi.
+
+Si l'application a changé de mains pendant ce temps, relisez aussi notre article sur la [reprise d'une application Symfony laissée par un prestataire](/article/reprise-application-symfony-prestataire). Et pour cadrer un chantier de ce type avec une équipe externe, voyez notre offre de [migration vers Symfony](/migration-symfony).
