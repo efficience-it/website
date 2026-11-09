@@ -1,7 +1,7 @@
 ---
 title: "Chiffrement des données avec Doctrine et PostgreSQL"
 date: "2026-10-30"
-updatedAt: "2026-10-30"
+updatedAt: "2026-11-09"
 author: "Louis-Arnaud Catoire"
 category: "Sécurité"
 excerpt: "Chiffrer les données sensibles avant leur stockage : exemple Symfony, Doctrine, PostgreSQL et CipherSweet, index aveugles, clés, performances, tests."
@@ -225,7 +225,7 @@ La sécurité repose entièrement sur la clé. Elle ne va jamais dans le dépôt
 
 ## Protection des données et conformité
 
-Le RGPD cite le chiffrement parmi les mesures de sécurité appropriées, à l'[article 32](https://www.cnil.fr/fr/reglement-europeen-protection-donnees/chapitre4#Article32), sans qu'il soit suffisant à lui seul : le chiffrement est une pseudonymisation, pas une anonymisation, et les données restent personnelles. Notre article sur la [conformité NIS2 d'une application Symfony](/article/conformite-nis2-application-symfony) et celui sur la [résilience DORA](/article/conformite-dora-resilience-symfony) détaillent les exigences de sécurité de ces textes. Faites valider votre dispositif par votre responsable de la conformité.
+Le RGPD cite le chiffrement parmi les mesures de sécurité appropriées, à l'[article 32](https://www.cnil.fr/fr/reglement-europeen-protection-donnees/chapitre4#Article32), sans qu'il soit suffisant à lui seul : le chiffrement est une pseudonymisation, pas une anonymisation, et les données restent personnelles. Notre article sur la [conformité NIS2 d'une application Symfony](/article/conformite-nis2-application-symfony) et celui sur la [résilience DORA](/article/conformite-dora-resilience-symfony) détaillent les exigences de sécurité de ces textes. Si vous tracez aussi les modifications de ces données, masquez les champs chiffrés dans votre [audit trail Doctrine](/article/audit-trail-symfony-doctrine-tracer-modifications) : l'historique ne doit pas réintroduire en clair ce que le chiffrement protège. Faites valider votre dispositif par votre responsable de la conformité.
 
 ## Les erreurs fréquentes
 

@@ -203,7 +203,7 @@ class NoDomainToInfrastructureDependencyRule implements Rule
 }
 ```
 
-Cette règle transforme une convention verbale ("le domaine ne dépend pas de l'infra") en une contrainte vérifiée à chaque commit. C'est la différence entre un ADR (Architecture Decision Record) que personne ne lit et une garde-fou automatisée.
+Cette règle transforme une convention verbale ("le domaine ne dépend pas de l'infra") en une contrainte vérifiée à chaque commit. C'est la différence entre un ADR (Architecture Decision Record) que personne ne lit et une garde-fou automatisée. Un [hook Git avec Lefthook ou GrumPHP](/article/git-hooks-php-lefthook-grumphp-husky) lance cette vérification avant même le push.
 
 Enregistrez vos règles custom dans la configuration :
 

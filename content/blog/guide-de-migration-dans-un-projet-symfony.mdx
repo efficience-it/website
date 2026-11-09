@@ -42,7 +42,7 @@ Avant de toucher à `composer.json`, mesurez votre couverture de tests. Notre se
 
 PHPUnit avec l'option `--coverage-html` génère un rapport exploitable. Identifiez les zones non couvertes qui touchent à des services utilisant des API Symfony susceptibles de changer. Concentrez l'effort de test sur ces zones avant de démarrer la migration.
 
-Behat ou Panther complètent cette couverture en validant les parcours utilisateurs de bout en bout. Un scénario Behat qui déroule le tunnel de commande détectera une régression que des tests unitaires isolés manqueront.
+Behat ou Panther complètent cette couverture en validant les parcours utilisateurs de bout en bout. Un scénario Behat qui déroule le tunnel de commande détectera une régression que des tests unitaires isolés manqueront. Si une régression apparaît entre deux versions, [git bisect isole le commit responsable](/article/git-bisect-retrouver-le-commit-qui-a-introduit-une-regression) par recherche dichotomique.
 
 ### Construire la matrice de compatibilité des bundles
 

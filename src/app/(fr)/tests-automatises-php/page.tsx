@@ -135,6 +135,8 @@ const testsRelatedLinks: RelatedLink[] = [
   { title: "Modernisation applicative", description: "sécuriser le refactoring dans un parcours de modernisation", href: "/modernisation-applicative" },
   { title: "Audit Symfony gratuit", description: "30 minutes pour évaluer l'état de votre application", href: "/audit-symfony-gratuit" },
   { title: "Comment PHPStan peut vous aider à améliorer la qualité de votre code PHP", description: "analyse statique pour compléter vos tests", href: "/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php" },
+  { title: "Git hooks PHP : Lefthook, GrumPHP ou Husky", description: "lancer les contrôles qualité avant chaque commit", href: "/article/git-hooks-php-lefthook-grumphp-husky" },
+  { title: "Git bisect : retrouver le commit d'une régression", description: "isoler le commit fautif, à la main ou avec PHPUnit", href: "/article/git-bisect-retrouver-le-commit-qui-a-introduit-une-regression" },
   { title: "Exécuter des tests Postman avec Newman dans GitLab CI", description: "automatiser les tests d'API dans votre pipeline", href: "/article/comment-executer-des-tests-postman-avec-newman-dans-gitlab-ci" },
   { title: "Playwright et Claude Code pour les tests end-to-end", description: "générer et maintenir des tests E2E avec l'IA", href: "/article/playwright-tests-end-to-end-claude-code" },
   { title: "Bruno, l'alternative open source à Postman", description: "tester ses API REST avec des collections versionnées dans Git", href: "/article/bruno-alternative-open-source-postman-tester-api" },

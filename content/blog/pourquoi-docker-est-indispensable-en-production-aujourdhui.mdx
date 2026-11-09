@@ -29,7 +29,7 @@ Docker résout ce problème par un principe fondamental : embarquer l'applicatio
 
 ### Le Dockerfile comme contrat d'exécution
 
-En production, l'imprévu est l'ennemi. Le Dockerfile formalise un contrat d'exécution versionné, lisible et auditable. Chaque modification passe par une revue de code, chaque build est reproductible. Un nouveau développeur rejoint l'équipe ? Un simple `docker compose up` suffit pour disposer d'un environnement identique à celui de la production en quelques minutes. Les scripts bash fragiles, les configurations non versionnées et les serveurs « bricolés » disparaissent au profit d'une infrastructure déclarative, versionnée dans Git et automatisable.
+En production, l'imprévu est l'ennemi. Le Dockerfile formalise un contrat d'exécution versionné, lisible et auditable. Chaque modification passe par une revue de code, chaque build est reproductible. Un nouveau développeur rejoint l'équipe ? Un simple `docker compose up` suffit pour disposer d'un environnement identique à celui de la production en quelques minutes. Les scripts bash fragiles, les configurations non versionnées et les serveurs « bricolés » disparaissent au profit d'une infrastructure déclarative, versionnée dans Git et automatisable. Pour le poste de développement, [Docker Compose, DDEV et les dev containers](/article/environnement-developpement-php-compose-ddev-devcontainer) offrent trois façons de partager cet environnement.
 
 ## Builds multi-stage et optimisation des images
 
@@ -58,7 +58,7 @@ WORKDIR /app
 USER www-data
 ```
 
-L'image finale ne contient ni Composer, ni les headers de compilation, ni les paquets de développement. Le résultat pèse quelques dizaines de mégaoctets, se transfère rapidement et démarre en millisecondes. Le warmup du cache Symfony au build garantit une première requête aussi rapide que les suivantes.
+L'image finale ne contient ni Composer, ni les headers de compilation, ni les paquets de développement. Le résultat pèse quelques dizaines de mégaoctets, se transfère rapidement et démarre en millisecondes. Le warmup du cache Symfony au build garantit une première requête aussi rapide que les suivantes. Pour les extensions absentes de `docker-php-ext-install`, [PIE remplace PECL](/article/pie-remplacant-pecl-installer-extensions-php) avec des versions verrouillées.
 
 ### Exploiter OPcache sur des images immuables
 

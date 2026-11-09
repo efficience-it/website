@@ -42,6 +42,11 @@ const frontendRelatedLinks: RelatedLink[] = [
     href: "/article/quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular",
   },
   {
+    title: "AssetMapper ou Webpack Encore dans Symfony",
+    description: "Choisir l'outil d'assets selon TypeScript, React ou Tailwind",
+    href: "/article/assetmapper-ou-webpack-encore-symfony",
+  },
+  {
     title: "React, documentation officielle",
     description: "La référence pour le développement d'interfaces React",
     href: "https://react.dev/",
