@@ -1,11 +1,4 @@
-import fs from "node:fs";
-import path from "node:path";
-
-const ROOT = process.cwd();
-
-function read(relativePath: string): string {
-  return fs.readFileSync(path.join(ROOT, relativePath), "utf-8");
-}
+import { buildLlmsFullTxt, buildLlmsTxt } from "@/lib/llms";
 
 function sanitizeForSpellingCheck(content: string): string {
   return content
@@ -15,10 +8,13 @@ function sanitizeForSpellingCheck(content: string): string {
 }
 
 describe("Accents dans les fichiers LLM", () => {
-  const files = ["public/llms.txt", "public/llms-full.txt"];
+  const files = [
+    { name: "llms.txt", build: buildLlmsTxt },
+    { name: "llms-full.txt", build: buildLlmsFullTxt },
+  ];
 
-  it.each(files)("%s ne contient pas de formes non accentuees connues", (file) => {
-    const content = sanitizeForSpellingCheck(read(file));
+  it.each(files)("$name ne contient pas de formes non accentuees connues", ({ build }) => {
+    const content = sanitizeForSpellingCheck(build());
 
     const forbiddenWords = [
       "specialisee",
@@ -28,6 +24,15 @@ describe("Accents dans les fichiers LLM", () => {
       "Ministere",
       "evenements",
       "Evenements",
+      "securite",
+      "donnees",
+      "equipe",
+      "deploiement",
+      "developpeur",
+      "specifique",
+      "ecosysteme",
+      "qualite",
+      "competences",
     ];
 
     for (const forbiddenWord of forbiddenWords) {
