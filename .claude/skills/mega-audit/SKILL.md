@@ -9,6 +9,23 @@ Le site est une agence de développement PHP/Symfony (itefficience.com), reprodu
 
 Contrainte absolue : respecter `CLAUDE.md` (pages hors périmètre, décisions SEO volontaires, h2/h3 uniquement, pas de tiret cadratin, jamais de budget ni de prix). Ne jamais recommander une page ou une fonctionnalité exclue.
 
+Décisions volontaires à ne jamais remonter, en plus de celles de `CLAUDE.md` :
+
+- Les formulaires de contact et de demande d'audit ouvrent le client mail (`mailto:`). C'est un choix assumé : ne pas le signaler, ne pas proposer de backend d'envoi.
+
+## Ce que l'audit doit produire
+
+Des pistes concrètes, simples, faisables et à gros retour sur investissement. Pas de pinaillage.
+
+Un constat n'entre dans le rapport que s'il passe les quatre filtres :
+
+1. **Concret** : on sait exactement quoi changer et dans quel fichier.
+2. **Simple** : faisable en une PR courte, sans chantier de refonte ni décision lourde.
+3. **Impact réel** : il change de façon visible le classement, le trafic, la conversion ou la crédibilité. Un écart théorique sans effet mesurable ne compte pas.
+4. **Gros retour** : le gain est nettement supérieur à l'effort.
+
+Sont exclus d'office : les finitions cosmétiques, les écarts de contraste ou de typographie marginaux, les balisages sans effet sur Google, les reformulations de goût, les optimisations de quelques octets ou pixels, les règles d'accessibilité de détail sans blocage réel, les préférences de style d'écriture. Un agent qui hésite écarte le constat.
+
 Argument optionnel : un domaine (`seo`, `i18n`, `contenu`, `ia`, `maillage`, `ux`, `ortho`) ou un chemin pour restreindre l'audit. Sans argument, audit complet.
 
 ## Étape 1 : collecter les preuves mesurables
@@ -28,7 +45,7 @@ Données réelles : si un export Search Console (requêtes, pages, positions, CT
 
 ## Étape 2 : agents par domaine
 
-Lancer en parallèle, dans le même message, un agent par domaine retenu (outil Agent, sans `isolation`, sans worktree, en lecture seule). Chaque agent reçoit : ce fichier, les règles de `CLAUDE.md`, les résultats de l'étape 1, et la consigne de ne rien valider par complaisance ni d'inventer un défaut pour remplir une section.
+Lancer en parallèle, dans le même message, un agent par domaine retenu (outil Agent, sans `isolation`, sans worktree, en lecture seule). Chaque agent reçoit : ce fichier, les règles de `CLAUDE.md`, les résultats de l'étape 1, et la consigne de ne rien valider par complaisance ni d'inventer un défaut pour remplir une section. Chaque agent applique les quatre filtres de « Ce que l'audit doit produire » avant de rendre ses constats, et en rend au plus 5, les plus rentables.
 
 ### A. SEO technique
 
@@ -108,13 +125,14 @@ Un constat sans preuve est rejeté. Pour chacun :
 - **Gravité** :
   - Critique : bloque l'indexation, casse une page ou un parcours de conversion, ou nuit à la crédibilité (faute visible en titre, lien mort).
   - Haute : pénalise nettement le classement ou la conversion.
-  - Moyenne : optimisation réelle.
-  - Basse : finition.
+  - Moyenne : optimisation réelle à gain clair.
+  - Pas de niveau Basse : ce qui serait Basse n'est pas rapporté.
+- **Gain attendu** : en une phrase, ce que la correction rapporte concrètement.
 - **Preuve** : fichier et ligne, texte cité, ou sortie de test ou de script.
 - **Correction** : précise et applicable.
 - **Effort** : faible, moyen, élevé.
 
-Orthographe : fichier, texte original, correction, type (orthographe, grammaire, conjugaison, typographie, ligature, style), gravité.
+Orthographe : uniquement les vraies fautes visibles (orthographe, grammaire, conjugaison, rupture du vouvoiement), avec fichier, texte original et correction. Pas de remarques de style, d'espaces insécables ni d'harmonisation typographique globale.
 
 Chaque domaine se termine par une note sur 10 et ses points forts à ne pas toucher.
 
@@ -126,7 +144,7 @@ Les agents lisent le même code avec le même modèle : leur accord ne prouve ri
 
 1. Sources utilisées : tests et scripts lancés, données réelles fournies ou absence de données.
 2. Tableau de synthèse : domaine, note, nombre de constats par gravité.
-3. Top 10 des actions, par impact SEO puis conversion : action, preuve, impact attendu, effort, fichiers.
+3. Top des actions, 10 au maximum, classées par rapport gain sur effort : action, preuve, gain attendu, effort, fichiers. Chaque action tient en une PR courte. Mieux vaut 5 actions solides que 10 dont la moitié de pinaillage.
 4. Pages stratégiques manquantes : URL, sujet, intention, avec l'origine de l'idée (données ou estimation non sourcée).
 5. Bilan orthographique : décompte par type et gravité, fichiers les plus touchés.
 6. Points forts à préserver.
