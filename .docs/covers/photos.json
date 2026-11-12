@@ -1224,5 +1224,12 @@
     "license": "CC0",
     "author": "Samuel Zeller samuelzeller",
     "url": "https://commons.wikimedia.org/wiki/File:Archive_storage_(Unsplash).jpg"
+  },
+  "parallelisme-php-extension-parallel": {
+    "name": "parallelisme-php-parallel",
+    "file": "File:Swimming laps (Unsplash rAyIvNqlwCY).jpg",
+    "license": "CC0",
+    "author": "Artem Verbo artemverbo",
+    "url": "https://commons.wikimedia.org/wiki/File:Swimming_laps_(Unsplash_rAyIvNqlwCY).jpg"
   }
 }
