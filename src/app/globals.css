@@ -10,6 +10,7 @@
   --color-gray: #4b5563;
   --color-light-gray: #fafbfc;
   --color-border: #eef0f3;
+  --color-input-border: #7f8794;
   --color-white: #ffffff;
   color-scheme: light;
 }
@@ -22,6 +23,7 @@
   --color-gray: #c2c8d0;
   --color-light-gray: #1a1f27;
   --color-border: #2d3440;
+  --color-input-border: #68737f;
   --color-white: #0f141b;
   color-scheme: dark;
 }
@@ -34,6 +36,7 @@
   --color-gray: #4b5563;
   --color-light-gray: #fafbfc;
   --color-border: #eef0f3;
+  --color-input-border: #7f8794;
   --color-white: #ffffff;
   color-scheme: light;
 }
@@ -47,6 +50,7 @@
     --color-gray: #c2c8d0;
     --color-light-gray: #1a1f27;
     --color-border: #2d3440;
+    --color-input-border: #68737f;
     --color-white: #0f141b;
     color-scheme: dark;
   }
@@ -60,6 +64,7 @@
   --color-gray: var(--color-gray);
   --color-light-gray: var(--color-light-gray);
   --color-border: var(--color-border);
+  --color-input-border: var(--color-input-border);
   --font-sans: var(--font-montserrat);
   --font-display: var(--font-exo);
 }
