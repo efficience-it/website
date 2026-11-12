@@ -1224,5 +1224,12 @@
     "license": "CC0",
     "author": "Samuel Zeller samuelzeller",
     "url": "https://commons.wikimedia.org/wiki/File:Archive_storage_(Unsplash).jpg"
+  },
+  "souverainete-numerique-hebergement-php-symfony": {
+    "name": "souverainete-numerique-hebergement",
+    "file": "File:Scottish castle walls (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Mary-Anne Alejandro maryalejandro",
+    "url": "https://commons.wikimedia.org/wiki/File:Scottish_castle_walls_(Unsplash).jpg"
   }
 }
