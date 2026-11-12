@@ -489,8 +489,8 @@ export default function ApiNodejsNestjs() {
 
         <FadeIn>
         <CallToAction />
-        <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );

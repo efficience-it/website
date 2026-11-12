@@ -580,8 +580,8 @@ export default function ExpertiseIa() {
 
       <FadeIn>
       <CallToAction />
-      <StickyMobileCta />
       </FadeIn>
+      <StickyMobileCta />
     </main>
     </>
   );

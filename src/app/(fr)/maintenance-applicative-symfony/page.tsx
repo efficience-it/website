@@ -481,8 +481,8 @@ export default function MaintenanceApplicativeSymfony() {
 
         <FadeIn>
         <CallToAction />
-        <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );

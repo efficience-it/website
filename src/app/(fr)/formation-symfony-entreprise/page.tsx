@@ -401,8 +401,8 @@ export default function FormationSymfonyEntreprise() {
 
         <FadeIn>
         <RelatedLinks links={formationRelatedLinks} className="bg-light-gray" />
-        <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );

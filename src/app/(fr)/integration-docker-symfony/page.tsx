@@ -431,8 +431,8 @@ export default function IntegrationDockerSymfony() {
 
         <FadeIn>
           <CallToAction />
-          <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );

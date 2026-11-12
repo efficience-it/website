@@ -486,8 +486,8 @@ export default function ModernisationApplicationPhp() {
 
         <FadeIn>
         <RelatedLinks links={modernisationRelatedLinks} className="bg-light-gray" />
-        <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );

@@ -449,8 +449,8 @@ export default function PreparationConformiteSymfony() {
 
         <FadeIn>
           <CallToAction />
-          <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );

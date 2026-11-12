@@ -470,8 +470,8 @@ export default function ApiSurMesureSymfony() {
           links={apiRelatedLinks}
           className="bg-light-gray"
         />
-        <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );

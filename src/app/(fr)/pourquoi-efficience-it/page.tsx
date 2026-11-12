@@ -477,8 +477,8 @@ export default function PourquoiEfficienceIt() {
 
         <FadeIn>
           <CallToAction />
-          <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );

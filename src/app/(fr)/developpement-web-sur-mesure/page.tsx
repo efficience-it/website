@@ -685,8 +685,8 @@ export default function DeveloppementWeb() {
 
       <FadeIn>
       <CallToAction />
-      <StickyMobileCta />
       </FadeIn>
+      <StickyMobileCta />
     </main>
     </>
   );

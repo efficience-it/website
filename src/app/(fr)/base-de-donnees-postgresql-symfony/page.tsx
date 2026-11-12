@@ -424,8 +424,8 @@ export default function BaseDeDonneesPostgresqlSymfony() {
 
         <FadeIn>
           <CallToAction />
-          <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );

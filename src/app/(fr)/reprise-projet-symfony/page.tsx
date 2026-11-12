@@ -505,8 +505,8 @@ export default function RepriseProjetSymfony() {
 
         <FadeIn>
         <RelatedLinks links={repriseRelatedLinks} className="bg-light-gray" />
-        <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );

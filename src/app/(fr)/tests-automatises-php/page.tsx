@@ -452,8 +452,8 @@ export default function TestsAutomatisesPhp() {
 
         <FadeIn>
         <CallToAction />
-        <StickyMobileCta />
         </FadeIn>
+        <StickyMobileCta />
       </main>
     </>
   );
