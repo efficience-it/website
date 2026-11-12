@@ -1224,5 +1224,12 @@
     "license": "CC0",
     "author": "Samuel Zeller samuelzeller",
     "url": "https://commons.wikimedia.org/wiki/File:Archive_storage_(Unsplash).jpg"
+  },
+  "deploiement-sans-interruption-symfony": {
+    "name": "deploiement-sans-interruption-symfony",
+    "file": "File:Train tracks (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Jonathan Pendleton jonathanpendleton",
+    "url": "https://commons.wikimedia.org/wiki/File:Train_tracks_(Unsplash).jpg"
   }
 }
