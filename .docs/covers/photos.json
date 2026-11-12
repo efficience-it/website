@@ -1224,5 +1224,12 @@
     "license": "CC0",
     "author": "Samuel Zeller samuelzeller",
     "url": "https://commons.wikimedia.org/wiki/File:Archive_storage_(Unsplash).jpg"
+  },
+  "gestion-secrets-symfony-sops-vault": {
+    "name": "gestion-secrets-symfony",
+    "file": "File:Udine, Italy (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Giulio Magnifico giuliomagnifico",
+    "url": "https://commons.wikimedia.org/wiki/File:Udine,_Italy_(Unsplash).jpg"
   }
 }
