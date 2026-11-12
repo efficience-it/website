@@ -1224,5 +1224,12 @@
     "license": "CC0",
     "author": "Samuel Zeller samuelzeller",
     "url": "https://commons.wikimedia.org/wiki/File:Archive_storage_(Unsplash).jpg"
+  },
+  "tests-de-charge-api-symfony-k6-gatling-jmeter": {
+    "name": "tests-charge-api-symfony",
+    "file": "File:Busy daytime traffic at Leaside Bridge (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Matthew Henry matthewhenry",
+    "url": "https://commons.wikimedia.org/wiki/File:Busy_daytime_traffic_at_Leaside_Bridge_(Unsplash).jpg"
   }
 }
