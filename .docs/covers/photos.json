@@ -1224,5 +1224,12 @@
     "license": "CC0",
     "author": "Samuel Zeller samuelzeller",
     "url": "https://commons.wikimedia.org/wiki/File:Archive_storage_(Unsplash).jpg"
+  },
+  "binaire-php-autonome-static-php-cli-frankenphp-box": {
+    "name": "binaire-php-autonome",
+    "file": "File:Unsplash Backpack (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Scott Webb scottwebb",
+    "url": "https://commons.wikimedia.org/wiki/File:Unsplash_Backpack_(Unsplash).jpg"
   }
 }
