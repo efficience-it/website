@@ -1224,5 +1224,12 @@
     "license": "CC0",
     "author": "Samuel Zeller samuelzeller",
     "url": "https://commons.wikimedia.org/wiki/File:Archive_storage_(Unsplash).jpg"
+  },
+  "meilisearch-ou-typesense-recherche-symfony": {
+    "name": "meilisearch-typesense-symfony",
+    "file": "File:Observer (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Mari Lezhava",
+    "url": "https://commons.wikimedia.org/wiki/File:Observer_(Unsplash).jpg"
   }
 }
