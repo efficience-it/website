@@ -1224,5 +1224,12 @@
     "license": "CC0",
     "author": "Samuel Zeller samuelzeller",
     "url": "https://commons.wikimedia.org/wiki/File:Archive_storage_(Unsplash).jpg"
+  },
+  "podman-ou-docker-projet-php-symfony": {
+    "name": "podman-docker-php-symfony",
+    "file": "File:Shipping containers in a port (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Igor Ovsyannykov igorovsyannykov",
+    "url": "https://commons.wikimedia.org/wiki/File:Shipping_containers_in_a_port_(Unsplash).jpg"
   }
 }
