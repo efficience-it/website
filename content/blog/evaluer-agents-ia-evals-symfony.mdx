@@ -1,0 +1,171 @@
+---
+title: "Évaluer un agent IA : mesurer sa fiabilité avec des evals"
+date: "2026-12-17"
+updatedAt: "2026-12-17"
+author: "Louis-Arnaud Catoire"
+category: "IA"
+excerpt: "Jeu d'évaluation, règles exactes, juge par un autre modèle, métriques de RAG et d'agent, évaluations en CI et suivi de la dérive : mesurer la fiabilité d'une application à base de LLM plutôt que la juger au ressenti."
+image: "/images/blog/cover-evaluer-agents-ia-evals.webp"
+faq:
+  - question: "Pourquoi les tests unitaires ne suffisent-ils pas pour un LLM ?"
+    answer: "Un test unitaire suppose qu'une même entrée donne la même sortie. Un modèle de langage peut répondre différemment à deux appels identiques, et plusieurs réponses différentes peuvent être également correctes. On évalue donc un taux de réussite sur un ensemble de cas, avec des critères adaptés, plutôt qu'une égalité exacte sur un cas."
+  - question: "Combien de cas faut-il dans un jeu d'évaluation ?"
+    answer: "Commencez petit : trente à cinquante cas bien choisis, issus d'usages réels, de cas limites et de cas adverses, valent mieux que des milliers de cas génériques. Le jeu grandit à chaque bug observé en production, qui devient un nouveau cas."
+  - question: "Peut-on faire confiance à un modèle pour juger un autre modèle ?"
+    answer: "Avec précaution. Des travaux de recherche ont montré que les modèles juges présentent des biais, comme une préférence pour les réponses longues ou pour leur propre style. On cadre le juge avec une grille précise, on le compare régulièrement à des jugements humains, et on réserve les cas critiques à une relecture humaine."
+  - question: "Comment suivre la dérive après un changement de modèle ?"
+    answer: "En rejouant le même jeu d'évaluation avant et après le changement, en figeant la version du modèle et du prompt, et en comparant les résultats cas par cas. On répète les exécutions plusieurs fois pour distinguer une vraie régression de la variabilité naturelle."
+---
+
+« Ça a l'air de marcher » : c'est souvent là que s'arrête l'évaluation d'un assistant à base de modèle de langage. Quelques essais convaincants, une démonstration réussie, puis la mise en production. Quand un utilisateur obtient une réponse fausse, personne ne sait si c'est rare ou fréquent, ni si la dernière modification du prompt a aggravé les choses.
+
+Les **evals** remplacent le ressenti par une mesure. Cet article présente la méthode et illustre un harnais d'évaluation dans une application Symfony. Précision d'honnêteté : le code ci-dessous est un exemple d'architecture que nous n'avons pas exécuté contre un modèle pour cet article. Il ne comporte donc aucun résultat chiffré ni nom de modèle évalué : vos résultats dépendront de votre modèle, de vos prompts et de vos données. Nos articles sur [le RAG avec Symfony AI](/article/rag-symfony-ai-doctrine-indexer-base-metier) et le [retour d'expérience Symfony AI sur un projet legacy](/article/symfony-ai-projet-legacy-retour-experience) décrivent les applications que l'on cherche à évaluer.
+
+## Pourquoi les tests unitaires ne suffisent pas
+
+Un test classique pose une entrée et attend une sortie exacte. Avec un modèle de langage, deux obstacles apparaissent :
+
+- **La sortie n'est pas déterministe.** Même avec une température basse, deux appels peuvent différer, et le fournisseur peut mettre à jour le modèle.
+- **Plusieurs réponses sont correctes.** Une formulation différente n'est pas une erreur ; une réponse fausse mais bien écrite est un échec qu'un test d'égalité ne voit pas.
+
+La qualité devient une **distribution** : sur cent cas, combien sont réussis ? On évalue donc un taux de réussite, avec des critères adaptés à chaque cas, et on surveille son évolution. Pour situer les limites des modèles avant de concevoir les cas, notre article sur [les forces et faiblesses des IA génératives](/article/forces-et-faiblesses-des-ia-generatives-les-plus-utilisees) est un bon point de départ.
+
+## Construire un jeu d'évaluation
+
+C'est l'élément le plus précieux, et celui que l'on ne peut pas acheter. Un bon jeu mélange quatre familles de cas :
+
+- **Les cas réels**, tirés de l'usage : vraies questions d'utilisateurs, anonymisées, avec la réponse attendue validée par quelqu'un qui connaît le domaine.
+- **Les cas limites** : questions ambiguës, hors périmètre, entrées vides ou très longues, langues mélangées.
+- **Les cas adverses** : tentatives de contourner les consignes, d'extraire le prompt système ou d'injecter des instructions dans un document. La liste [OWASP des risques des applications à base de LLM](https://genai.owasp.org/llm-top-10/) aide à les recenser.
+- **Les régressions** : chaque erreur constatée en production devient un cas, pour qu'elle ne revienne pas.
+
+Quelques règles : versionnez le jeu dans le dépôt, étiquetez chaque cas (catégorie, gravité), séparez les cas qui servent à régler le prompt de ceux qui servent à valider, et commencez petit. Trente à cinquante cas bien choisis suffisent pour démarrer.
+
+## Les types d'évaluation
+
+### Les règles exactes
+
+Elles vérifient ce qui peut l'être sans interprétation : la sortie est du JSON valide, elle contient un champ obligatoire, elle cite une source, elle ne contient pas de terme interdit, le bon outil a été appelé avec les bons paramètres. Elles sont rapides, gratuites et fiables : utilisez-les autant que possible.
+
+### La comparaison à une référence
+
+On compare la réponse à une réponse attendue : égalité pour des valeurs courtes, présence des informations clés, similarité pour des textes. Utile quand une bonne réponse existe en nombre limité de formulations.
+
+### L'évaluation par un autre modèle
+
+Un modèle « juge » note la réponse selon une grille. C'est flexible, mais des biais sont documentés. L'étude [Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena](https://arxiv.org/abs/2306.05685) met en évidence des biais de position, de verbosité et d'auto-préférence. Pour les limiter : une grille précise avec des critères séparés, une comparaison régulière avec des jugements humains, un juge différent du modèle évalué et une relecture humaine des cas critiques.
+
+### L'évaluation humaine
+
+Plus lente et coûteuse, elle reste la référence. On l'utilise pour calibrer le juge automatique, pour les cas sensibles et pour échantillonner la production.
+
+## Les métriques utiles
+
+### Pour un RAG
+
+- **La pertinence des passages récupérés** : le bon document est-il dans les résultats de recherche (taux de présence dans les k premiers) ?
+- **La fidélité** : la réponse s'appuie-t-elle uniquement sur les passages fournis, sans inventer ?
+- **La couverture** : la réponse contient-elle les informations attendues ?
+
+Ces notions sont formalisées dans le cadre [Ragas](https://arxiv.org/abs/2309.15217), qui propose des métriques automatiques pour la génération augmentée par la recherche. Séparez toujours l'évaluation de la recherche de celle de la génération : une mauvaise réponse peut venir d'un mauvais passage ou d'une mauvaise rédaction, et les corrections ne sont pas les mêmes.
+
+### Pour un agent
+
+- **La réussite de la tâche**, mesurée par un état final vérifiable (la commande a été créée, le fichier est modifié).
+- **Le nombre d'étapes** et d'appels d'outils : un agent qui y arrive en trente étapes est moins fiable qu'un qui y arrive en cinq.
+- **Le coût** en jetons et le temps de réponse.
+- **Les erreurs d'outils** et les actions dangereuses évitées.
+
+Quand l'agent appelle des outils exposés par un serveur MCP, évaluez aussi la qualité de ces appels : notre article sur [le choix entre MCP, CLI et API](/article/mcp-cli-api-quel-choix-serveur-symfony-php) éclaire la conception de ces interfaces.
+
+## Un harnais d'évaluation dans Symfony
+
+L'idée : un jeu de cas en fichier, une commande qui les rejoue, des contrôles, un rapport, et un code de sortie utilisable en CI. Un cas, au format JSON Lines :
+
+```json
+{"id":"refund-01","input":"Puis-je être remboursé après 20 jours ?","expect":{"contains":["14 jours"],"forbidden":["garantie à vie"],"must_cite":true},"tags":["edge"]}
+```
+
+Le modèle est isolé derrière une interface, ce qui permet de tester le harnais sans appeler de service externe :
+
+```php
+interface AnswerGenerator
+{
+    public function answer(string $input): GeneratedAnswer;
+}
+
+final class GeneratedAnswer
+{
+    public function __construct(
+        public readonly string $text,
+        public readonly int $tokens,
+        public readonly array $sources,
+    ) {}
+}
+```
+
+Chaque règle est un contrôle indépendant :
+
+```php
+final class ContainsCheck implements Check
+{
+    public function run(EvalCase $case, GeneratedAnswer $answer): bool
+    {
+        foreach ($case->expect['contains'] ?? [] as $needle) {
+            if (!str_contains(mb_strtolower($answer->text), mb_strtolower($needle))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
+```
+
+La commande rejoue les cas et décide du succès :
+
+```php
+#[AsCommand(name: 'app:evals:run')]
+final class RunEvalsCommand extends Command
+{
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $passed = 0;
+        $total = 0;
+        $tokens = 0;
+
+        foreach ($this->cases->load($input->getArgument('file')) as $case) {
+            $answer = $this->generator->answer($case->input);
+            $total++;
+            $tokens += $answer->tokens;
+
+            if ($this->allChecksPass($case, $answer)) {
+                $passed++;
+            }
+        }
+
+        $rate = $total > 0 ? $passed / $total : 0.0;
+        $output->writeln(sprintf('%d/%d réussis (%.0f %%), %d jetons', $passed, $total, $rate * 100, $tokens));
+
+        return $rate >= (float) $input->getOption('threshold') ? Command::SUCCESS : Command::FAILURE;
+    }
+}
+```
+
+Le rapport gagne à lister, cas par cas, l'identifiant, le résultat de chaque contrôle, les jetons consommés et la réponse obtenue, pour comprendre un échec sans rejouer. Testez le harnais lui-même avec un faux générateur, via les outils de test habituels de [Symfony](https://symfony.com/doc/current/testing.html).
+
+## Mettre les évaluations en CI
+
+- **Un jeu court à chaque changement** de prompt, de code ou de configuration, avec un seuil de réussite qui fait échouer la construction.
+- **Un jeu complet** planifié (chaque nuit, ou avant une mise en production), plus coûteux.
+- **Des exécutions répétées** (trois à cinq) pour séparer la variabilité naturelle d'une vraie régression, en comparant des moyennes et non un tirage unique.
+- **Une version du modèle figée** quand le fournisseur le permet, notée dans le rapport avec le prompt utilisé.
+- **Un historique** des résultats pour voir la tendance.
+
+### Suivre la dérive
+
+Un changement de modèle, de prompt ou de documents indexés peut dégrader des cas qui marchaient. Rejouez le jeu avant et après, comparez cas par cas plutôt que sur la moyenne seule, et regardez en priorité les cas qui passent de réussi à échoué. Un taux global stable peut cacher des régressions compensées par des progrès ailleurs.
+
+## Ce qu'il faut retenir
+
+Évaluer une application à base de LLM, c'est mesurer un taux de réussite sur un jeu de cas versionné : réels, limites, adverses, et tirés des erreurs de production. Privilégiez les règles exactes, ajoutez un juge automatique avec prudence et calibrez-le sur des jugements humains. Mesurez la recherche et la génération séparément pour un RAG, la réussite, les étapes et le coût pour un agent. Branchez un jeu court en CI, rejouez le jeu complet à chaque changement de modèle, et construisez votre propre mesure avant de la comparer à celle des autres.

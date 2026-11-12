@@ -1224,5 +1224,12 @@
     "license": "CC0",
     "author": "Samuel Zeller samuelzeller",
     "url": "https://commons.wikimedia.org/wiki/File:Archive_storage_(Unsplash).jpg"
+  },
+  "evaluer-agents-ia-evals-symfony": {
+    "name": "evaluer-agents-ia-evals",
+    "file": "File:Top view of a compass on a map (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Himesh Kumar Behera thehopefultraveller",
+    "url": "https://commons.wikimedia.org/wiki/File:Top_view_of_a_compass_on_a_map_(Unsplash).jpg"
   }
 }
