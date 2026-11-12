@@ -1224,5 +1224,12 @@
     "license": "CC0",
     "author": "Samuel Zeller samuelzeller",
     "url": "https://commons.wikimedia.org/wiki/File:Archive_storage_(Unsplash).jpg"
+  },
+  "clickhouse-postgresql-analytique-symfony": {
+    "name": "clickhouse-postgresql-analytique",
+    "file": "File:Giant white pillars (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Chris Brignola cjbrignola",
+    "url": "https://commons.wikimedia.org/wiki/File:Giant_white_pillars_(Unsplash).jpg"
   }
 }
