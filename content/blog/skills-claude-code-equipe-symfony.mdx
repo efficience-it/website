@@ -6,7 +6,7 @@ category: "IA"
 excerpt: "Dix skills Claude Code prêts à l'emploi pour une équipe Symfony : revue de code, tests, migrations, sécurité et refactoring."
 image: "/images/blog/cover-skills-claude-code.webp"
 proficiencyLevel: "Intermediate"
-updatedAt: "2026-10-12"
+updatedAt: "2026-12-21"
 faq:
   - question: "Où placer les fichiers de skills Claude Code dans un projet Symfony ?"
     answer: "Les skills se placent dans le dossier .claude/skills/ à la racine du projet. Ils se commitent dans le dépôt Git pour que toute l'équipe y accède. Vous pouvez aussi créer des skills globaux dans ~/.claude/skills/ pour des commandes personnelles."
@@ -20,7 +20,7 @@ Les skills Claude Code sont des prompts réutilisables que chaque membre de l'é
 
 ## /review : la revue de code standardisée
 
-La revue de code est le premier skill à mettre en place. Chaque équipe a ses propres critères de qualité, mais ils restent souvent implicites. Un développeur senior vérifie instinctivement les violations d'architecture, les failles de sécurité et les tests manquants. Un junior, lui, passe à côté. Le skill `/review` rend ces critères explicites et accessibles à tous.
+La revue de code est le premier skill à mettre en place. Chaque équipe a ses propres critères de qualité, mais ils restent souvent implicites. Un développeur senior vérifie instinctivement les violations d'architecture, les failles de sécurité et les tests manquants. Un junior, lui, passe à côté. Le skill `/review` rend ces critères explicites et accessibles à tous. Il prépare la relecture sans la remplacer : voyez la [revue humaine du code généré](/article/relire-code-agent-ia-process-garde-fous) pour les règles d'équipe.
 
 ```markdown
 Analyse le diff git staged. Identifie :
