@@ -1224,5 +1224,12 @@
     "license": "CC0",
     "author": "Samuel Zeller samuelzeller",
     "url": "https://commons.wikimedia.org/wiki/File:Archive_storage_(Unsplash).jpg"
+  },
+  "mode-worker-frankenphp-symfony-fuites-etat": {
+    "name": "mode-worker-frankenphp-symfony",
+    "file": "File:The Ghost Tree (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Kirill Zakharov kirillz",
+    "url": "https://commons.wikimedia.org/wiki/File:The_Ghost_Tree_(Unsplash).jpg"
   }
 }
