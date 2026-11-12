@@ -193,8 +193,8 @@ export default function ArticleView({
                     <ResponsiveImage
                       src={post.image}
                       alt={post.title}
-                      width={720}
-                      height={405}
+                      width={1200}
+                      height={630}
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 28rem, (max-width: 1280px) 32rem, 36rem"
                       className="h-auto w-full max-w-full rounded-md object-contain sm:max-w-md lg:max-w-lg xl:max-w-xl"
                       loading="eager"
