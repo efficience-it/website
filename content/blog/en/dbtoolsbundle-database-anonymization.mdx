@@ -20,11 +20,11 @@ The GDPR imposes the data minimization principle: process only the data strictly
 
 The CNIL has already sanctioned French companies for exposing personal data in unsecured environments. Beyond the fine, the liability of the DPO and the CTO is at stake. Anonymization is therefore not a technical luxury: it is an operational obligation, part of a global approach to [Symfony application security](/securite-application-symfony) (in French), particularly to ensure [compliance in finance](/secteur/finance) (in French) or in the healthcare sector.
 
-You also need to consider internal risk. A compromised developer workstation, a stolen laptop, a poorly revoked VPN access: all of these leak vectors disappear if data is anonymized upstream. More broadly, understanding [CVE vulnerabilities and how to protect yourself](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) (in French) helps you cover every angle of application security, including personal data protection.
+You also need to consider internal risk. A compromised developer workstation, a stolen laptop, a poorly revoked VPN access: all of these leak vectors disappear if data is anonymized upstream. More broadly, understanding [CVE vulnerabilities and how to protect yourself](/en/article/cve-vulnerability-management) helps you cover every angle of application security, including personal data protection.
 
 ## Installation and Getting Started
 
-You install it with [Composer](/article/utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques) (in French):
+You install it with [Composer](/en/article/composer-symfony-best-practices):
 
 ```bash
 composer require makinacorpus/db-tools-bundle
@@ -99,7 +99,7 @@ The built-in anonymizers do not cover formats specific to your domain: social se
 
 A custom anonymizer is a standard Symfony service, injectable and unit-testable. It receives the original value and returns the anonymized value. The logic can range from a simple replacement to a transformation that keeps the structure of the format (length, prefixes, checksums) so that application validators keep working on anonymized data.
 
-Best practice is to centralize these anonymizers in a dedicated namespace and cover them with tests that verify the output format respects business constraints. An anonymized IBAN that no longer passes MOD-97 validation will cause false positives in your test suites. Pairing this approach with [the Alice Faker bundle in your Symfony projects](/article/comprendre-et-utiliser-le-bundle-alice-faker-dans-vos-projets-symfony) (in French) gives you both realistic anonymized data and a robust fixture strategy for test environments.
+Best practice is to centralize these anonymizers in a dedicated namespace and cover them with tests that verify the output format respects business constraints. An anonymized IBAN that no longer passes MOD-97 validation will cause false positives in your test suites. Pairing this approach with [the Alice Faker bundle in your Symfony projects](/en/article/alice-faker-symfony-fixtures) gives you both realistic anonymized data and a robust fixture strategy for test environments.
 
 ## CI/CD Integration
 
@@ -118,7 +118,7 @@ One often overlooked point: the anonymization pipeline itself must run in an eph
 
 DbToolsBundle generates native SQL queries executed directly by the database engine, without going through the ORM or loading PHP objects into memory. This architecture changes the order of magnitude: where a row-by-row Doctrine approach would exhaust memory beyond a few hundred thousand rows, the bundle processes tables with several million records at constant memory consumption.
 
-The bundle adapts the generated SQL to the target engine's dialect: PostgreSQL, MySQL and MariaDB are supported natively. To guarantee that these operations are reproducible, containerizing the environment with [Docker](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) (in French) is strongly recommended. The queries use each database engine's native mechanisms (hash functions, random generators, string operations) to maximize throughput.
+The bundle adapts the generated SQL to the target engine's dialect: PostgreSQL, MySQL and MariaDB are supported natively. To guarantee that these operations are reproducible, containerizing the environment with [Docker](/en/article/docker-production-reliability) is strongly recommended. The queries use each database engine's native mechanisms (hash functions, random generators, string operations) to maximize throughput.
 
 On databases beyond ten million rows, a few additional levers deserve attention: temporarily disable non-essential indexes and foreign key constraints during anonymization, then recreate them afterward. The time needed to rebuild indexes is largely offset by the gain on massive UPDATEs.
 
@@ -136,7 +136,7 @@ An often underestimated aspect is the risk of re-identification through cross-re
 
 In a mature organization, anonymization is part of a broader data governance policy. Several architectural questions deserve an answer upfront.
 
-Who is responsible for configuring the anonymizers? If the rule lives in the code (PHP attributes), it follows the code lifecycle: review, merge, deployment. This is a considerable advantage over externalized configuration that silently drifts. Every sensitive field added without an associated anonymizer can be caught by a CI rule, in the same way that [PHPStan catches typing errors](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French) (a test that scans entities and checks anonymization coverage).
+Who is responsible for configuring the anonymizers? If the rule lives in the code (PHP attributes), it follows the code lifecycle: review, merge, deployment. This is a considerable advantage over externalized configuration that silently drifts. Every sensitive field added without an associated anonymizer can be caught by a CI rule, in the same way that [PHPStan catches typing errors](/en/article/phpstan-improve-php-code-quality) (a test that scans entities and checks anonymization coverage).
 
 How do you prove compliance during an audit? The CI/CD pipeline provides a natural audit trail: timestamped logs, signed artifacts, execution history. Pairing this with a register of processing activities (GDPR Article 30 obligation) closes the compliance loop.
 
@@ -144,7 +144,7 @@ How do you prove compliance during an audit? The CI/CD pipeline provides a natur
 
 Modern applications often extend beyond a single database. Microservices each with their own database, read replicas, analytical databases fed by CDC: anonymization must cover the entire data graph.
 
-DbToolsBundle operates at the level of a Doctrine connection. The changes introduced by [Doctrine ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) (in French) do not affect how the bundle works, since it works directly in native SQL. In a multi-database architecture, each connection has its own anonymization configuration. The point to watch is cross-database consistency: if a `customer_id` is anonymized in the application database but remains in clear text in the analytical database, anonymization is compromised.
+DbToolsBundle operates at the level of a Doctrine connection. The changes introduced by [Doctrine ORM 3.0](/en/article/doctrine-orm-3-changes) do not affect how the bundle works, since it works directly in native SQL. In a multi-database architecture, each connection has its own anonymization configuration. The point to watch is cross-database consistency: if a `customer_id` is anonymized in the application database but remains in clear text in the analytical database, anonymization is compromised.
 
 The recommended strategy is to anonymize as early as possible in the flow, ideally at the source, then propagate the anonymized dumps to downstream environments. Replication pipelines (Debezium, pg_logical) must be fed from the already anonymized environment, never from raw production.
 
@@ -154,8 +154,8 @@ DbToolsBundle fills a concrete need: giving development teams realistic data wit
 
 ## Going Further
 
-- [Training your teams in IT security](/article/comment-former-vos-equipes-a-la-securite-informatique-en-toute-simplicite) (in French), raising awareness of best practices
-- [The most widely used bundles in Symfony projects](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony) (in French), exploring the ecosystem
-- [Web audit at Efficience IT: method, criteria and content](/article/comment-se-passe-un-audit-chez-efficience-it-quel-contenu-comment-procede-t-on-quels-sont-les-criteres-quel-procede) (in French), checking GDPR compliance during a complete technical audit
+- [Training your teams in IT security](/en/article/security-training-teams), raising awareness of best practices
+- [The most widely used bundles in Symfony projects](/en/article/top-symfony-bundles), exploring the ecosystem
+- [Web audit at Efficience IT: method, criteria and content](/en/article/web-audit-methodology), checking GDPR compliance during a complete technical audit
 - [GDPR: official CNIL website](https://www.cnil.fr/fr/rgpd-de-quoi-parle-t-on), understanding the regulatory framework
 - [Symfony: Secrets management](https://symfony.com/doc/current/configuration/secrets.html), managing secrets in Symfony

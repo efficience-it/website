@@ -56,9 +56,9 @@ const faqItems = [
       "Symfony est notre framework principal. Nous travaillons aussi avec Sylius pour le e-commerce, API Platform pour les API, et des outils comme Docker, Redis et ElasticSearch selon les besoins du projet.",
   },
   {
-    title: "Combien coûte le développement d'une application web sur mesure ?",
+    title: "Comment cadrer un projet de développement web sur mesure ?",
     content:
-      "Le budget dépend de la complexité du projet. Un site vitrine Symfony démarre autour de 10 000 euros, une application métier complète entre 30 000 et 100 000 euros. Nous proposons un audit gratuit de 30 minutes pour estimer votre projet.",
+      "Nous commençons par un atelier de cadrage avec vos équipes pour définir le périmètre, les priorités et les contraintes techniques. Les intégrations prévues, le nombre de profils utilisateurs et les exigences de sécurité déterminent l'ampleur du projet. Nous proposons un échange de 30 minutes pour qualifier votre besoin.",
   },
   {
     title: "Quelle est la durée moyenne d'un projet de développement ?",

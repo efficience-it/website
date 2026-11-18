@@ -26,13 +26,13 @@ Predictability is REST's first asset. An endpoint always returns the same data s
 
 HTTP caching works natively thanks to standard headers (`Cache-Control`, `ETag`, `Last-Modified`). A reverse proxy or a CDN can cache GET responses with no application configuration. For high-traffic APIs, this advantage translates directly into infrastructure savings.
 
-The ecosystem is also extremely mature. Tools like [Swagger via NelmioApiDocBundle](/article/swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on) (in French) automatically generate interactive documentation, client SDKs, and conformance tests. Most backend frameworks offer native support for building REST APIs.
+The ecosystem is also extremely mature. Tools like [Swagger via NelmioApiDocBundle](/en/article/nelmio-api-doc-swagger-symfony) automatically generate interactive documentation, client SDKs, and conformance tests. Most backend frameworks offer native support for building REST APIs.
 
 ### Known Limitations
 
 The over-fetching and under-fetching problem is inherent to the model. An endpoint returns a fixed structure: the client receives either too much data or not enough. To display an article page with its author and comments, three separate requests are needed, which multiplies network round trips and degrades perceived latency, especially on mobile.
 
-Versioning management adds to maintenance over time and contributes to [technical debt](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French). Maintaining several versions in parallel (v1, v2, v3) forces different API contracts to coexist, with the risk of divergence and the burden of gradual deprecation.
+Versioning management adds to maintenance over time and contributes to [technical debt](/en/article/technical-debt-explained). Maintaining several versions in parallel (v1, v2, v3) forces different API contracts to coexist, with the risk of divergence and the burden of gradual deprecation.
 
 ## GraphQL: A Query Language for APIs
 
@@ -72,7 +72,7 @@ REST requires an explicit choice of versioning strategy: by URI (`/v2/articles`)
 
 GraphQL sidesteps this problem through its additive nature, but in return demands rigorous discipline in schema design. A poorly thought-out schema from the start can lead to architectural dead ends that are hard to fix without a breaking change. Type granularity, mutation naming, and the handling of unions and interfaces call for upfront thinking that REST does not demand with the same intensity.
 
-In practice, experienced teams adopt a schema-first approach, comparable to the [coding conventions](/article/coding-conventions) (in French) that formalize contracts between developers: the schema is defined, discussed, and validated before any implementation, just like an OpenAPI contract for REST.
+In practice, experienced teams adopt a schema-first approach, comparable to the [coding conventions](/en/article/php-coding-standards-best-practices) that formalize contracts between developers: the schema is defined, discussed, and validated before any implementation, just like an OpenAPI contract for REST.
 
 ## REST vs GraphQL Comparison Table
 
@@ -94,7 +94,7 @@ At the scale of a distributed system, the question is no longer REST or GraphQL,
 
 ### The BFF (Backend for Frontend) Pattern
 
-Backend for Frontend means placing an aggregation layer between clients and microservices. A GraphQL BFF can aggregate data from several internal REST APIs, giving the client a unified interface while keeping REST's simplicity for backend services. On the server side, a [structured Node.js framework like NestJS](/api-nodejs-nestjs) (in French) or lighter options like [Express, Fastify, or Hono](/article/express-fastify-hono-quel-framework-nodejs-choisir) (in French) are common choices for implementing this aggregation layer. This architecture is especially relevant when several clients (web, mobile, IoT) consume the same services with very different data needs.
+Backend for Frontend means placing an aggregation layer between clients and microservices. A GraphQL BFF can aggregate data from several internal REST APIs, giving the client a unified interface while keeping REST's simplicity for backend services. On the server side, a [structured Node.js framework like NestJS](/api-nodejs-nestjs) (in French) or lighter options like [Express, Fastify, or Hono](/en/article/nodejs-framework-comparison) are common choices for implementing this aggregation layer. This architecture is especially relevant when several clients (web, mobile, IoT) consume the same services with very different data needs.
 
 ### Performance at Scale
 
@@ -104,22 +104,22 @@ GraphQL's operational overhead is therefore higher, but it is justified when cli
 
 ### Organizational Implications
 
-The choice between REST and GraphQL has repercussions beyond the code. It is also closely tied to the [decision between microservices and a modular monolith](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) (in French). REST favors an organization by business domain: each team owns its endpoints and its API contract. GraphQL tends toward a federated schema where several teams contribute to a unified graph, which requires schema governance, shared naming conventions, and composition tools like Apollo Federation.
+The choice between REST and GraphQL has repercussions beyond the code. It is also closely tied to the [decision between microservices and a modular monolith](/en/article/microservices-vs-modular-monolith). REST favors an organization by business domain: each team owns its endpoints and its API contract. GraphQL tends toward a federated schema where several teams contribute to a unified graph, which requires schema governance, shared naming conventions, and composition tools like Apollo Federation.
 
 For a team of five developers, the question is rarely relevant. For an organization of fifty developers working on the same product, the architectural choice directly influences team autonomy, delivery speed, and the coordination surface needed.
 
 ## In Conclusion
 
-REST and GraphQL are not competing technologies but complementary ones. REST remains the most natural choice for simple, CRUD-oriented APIs, where [HTTP caching](/article/tout-savoir-sur-la-mise-en-cache-tips) (in French) and standardization bring immediate value. To dig deeper into REST design best practices, our article on [REST API best practices](/article/api-rest-les-bonnes-pratiques) (in French) covers the essential patterns. GraphQL excels in contexts where data is highly interconnected, where clients have heterogeneous needs, and where query flexibility reduces the proliferation of specialized endpoints.
+REST and GraphQL are not competing technologies but complementary ones. REST remains the most natural choice for simple, CRUD-oriented APIs, where [HTTP caching](/en/article/caching-guide-web-applications) and standardization bring immediate value. To dig deeper into REST design best practices, our article on [REST API best practices](/en/article/php-rest-api-best-practices) covers the essential patterns. GraphQL excels in contexts where data is highly interconnected, where clients have heterogeneous needs, and where query flexibility reduces the proliferation of specialized endpoints.
 
-The most robust architectures often combine both: REST APIs for well-defined operations and internal services, and a GraphQL endpoint as a facade for clients that need aggregation and flexibility. To build a [custom API with Symfony](/api-sur-mesure-symfony) (in French), the choice between REST and GraphQL should be driven by the real needs of the consumers. The deciding criterion is not how modern the technology is, but the fit between the system's constraints, the team's skills, and the real needs of the API's clients. Once the API is designed, you still have to test it: [Bruno, the open source alternative to Postman](/article/bruno-alternative-open-source-postman-tester-api) (in French), validates your endpoints in development as well as in CI/CD.
+The most robust architectures often combine both: REST APIs for well-defined operations and internal services, and a GraphQL endpoint as a facade for clients that need aggregation and flexibility. To build a [custom API with Symfony](/api-sur-mesure-symfony) (in French), the choice between REST and GraphQL should be driven by the real needs of the consumers. The deciding criterion is not how modern the technology is, but the fit between the system's constraints, the team's skills, and the real needs of the API's clients. Once the API is designed, you still have to test it: [Bruno, the open source alternative to Postman](/en/article/bruno-api-testing-postman-alternative), validates your endpoints in development as well as in CI/CD.
 
 At Efficience IT, we understood this well and both approaches are an integral part of our technical stack, notably in our [Node.js development](/developpement-nodejs) (in French) projects, so we can offer our clients personalized solutions optimized for their problems.
 
 ## Going Further
 
-- [Which JavaScript framework to choose?](/article/quel-framework-javascript-choisir-node-js-react-js-vue-js-ou-angular) (in French), choosing the right front-end framework to consume your APIs
-- [Migrating from the Serializer to JsonStreamer](/article/migrer-du-serializer-vers-json-streamer-le-guide-honnete) (in French), optimizing the JSON serialization of your API responses
+- [Which JavaScript framework to choose?](/en/article/javascript-frameworks-comparison), choosing the right front-end framework to consume your APIs
+- [Migrating from the Serializer to JsonStreamer](/en/article/serializer-to-jsonstreamer-migration), optimizing the JSON serialization of your API responses
 - Which architecture to choose between microservices and a modular monolith?, understand how architecture influences the design of your APIs
 - [GraphQL](https://graphql.org/), the official GraphQL website and documentation
 - [Swagger / OpenAPI](https://swagger.io/), the specification and tools for designing REST APIs
