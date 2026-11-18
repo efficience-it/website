@@ -297,7 +297,6 @@ exports[`structured-data snapshots globalGraphJsonLd 1`] = `
           "opens": "09:00",
         },
       ],
-      "priceRange": "$$",
       "sameAs": [
         "https://github.com/efficience-it",
         "https://www.linkedin.com/company/efficience-it",

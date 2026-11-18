@@ -234,7 +234,7 @@ describe("GET /feed.xml", () => {
     const xml = await response.text();
 
     expect(xml).toContain("<![CDATA[");
-    expect(xml).toContain("<h2 id=\"titre\">Titre</h2>");
+    expect(xml).toContain("<h2>Titre</h2>");
     expect(xml).toContain("<strong>gras</strong>");
     expect(xml).toContain("<em>italique</em>");
   });
@@ -257,8 +257,8 @@ describe("GET /feed.xml", () => {
     const response = await GET();
     const xml = await response.text();
 
-    expect(xml).toContain("<h1 id=\"titre-h1\">Titre H1</h1>");
-    expect(xml).toContain("<h3 id=\"titre-h3\">Titre H3</h3>");
+    expect(xml).toContain("<h1>Titre H1</h1>");
+    expect(xml).toContain("<h3>Titre H3</h3>");
     expect(xml).toContain("<ul>");
     expect(xml).toContain("<li>Item un</li>");
     expect(xml).toContain("<li>Item deux</li>");

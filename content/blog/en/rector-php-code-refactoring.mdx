@@ -59,11 +59,11 @@ php vendor/bin/rector process
 
 The choice and ordering of rule sets determine the quality of a migration. Rector offers several categories of sets, each with a precise scope:
 
-- `SetList::DEAD_CODE` removes [dead code](/article/code-mort-mission-elimination) (in French): unused variables, always-true conditions, private methods that are never called.
+- `SetList::DEAD_CODE` removes [dead code](/en/article/php-dead-code-detection-phpstan): unused variables, always-true conditions, private methods that are never called.
 - `SetList::CODE_QUALITY` simplifies conditions, eliminates redundancies, and improves readability.
 - `SetList::CODING_STYLE` standardizes style: ternaries, early returns, writing conventions.
 - `SetList::TYPE_DECLARATION` adds missing type hints on parameters, return values, and properties.
-- `SetList::NAMING` renames variables and methods according to the [PSR conventions](/article/qu-est-ce-que-les-psrs-et-a-quoi-servent-ils) (in French).
+- `SetList::NAMING` renames variables and methods according to the [PSR conventions](/en/article/php-psr-standards-explained).
 
 For Symfony, dedicated sets cover each major version and structural transformations:
 
@@ -166,7 +166,7 @@ For a team that maintains dozens of internal rules, organizing them in a dedicat
 
 Behind the simplified `AbstractRector` API lies the full machinery of `nikic/php-parser`. Node Visitors let you step in at different moments of the traversal (`beforeTraverse`, `enterNode`, `leaveNode`, `afterTraverse`). Rector orchestrates these visitors in a deterministic order, resolves dependencies between rules, and handles cases where one transformation invalidates another's context.
 
-For developers who want to go deeper into these concepts, the [evolutions of PHP 9.0](/article/php-9-0-devoile-ce-que-vous-devez-savoir-avant-la-sortie) (in French) will add new opportunities for automated refactoring. Understanding this level of detail becomes necessary when a rule must perform multi-node transformations: moving a method from a class to a trait, extracting a service from procedural code, or restructuring an inheritance hierarchy. These operations require manipulating `ClassLike`, `ClassMethod`, and `Stmt` nodes in coordination, making sure that imports (`use` statements) and cross-references stay consistent.
+For developers who want to go deeper into these concepts, the [evolutions of PHP 9.0](/en/article/php-9-upcoming-changes) will add new opportunities for automated refactoring. Understanding this level of detail becomes necessary when a rule must perform multi-node transformations: moving a method from a class to a trait, extracting a service from procedural code, or restructuring an inheritance hierarchy. These operations require manipulating `ClassLike`, `ClassMethod`, and `Stmt` nodes in coordination, making sure that imports (`use` statements) and cross-references stay consistent.
 
 ## Rector as a Technical Governance Tool
 
@@ -188,7 +188,7 @@ Each module migrates independently, with its own PR, its own tests, and its own 
 
 Rector cannot guarantee behavioral equivalence for every transformation. Purely syntactic transformations (constructor property promotion, match expressions) are safe. Semantic transformations (pattern replacement, naming changes) require solid test coverage and human review.
 
-The mitigation strategy rests on three pillars: a test suite with sufficient coverage on the transformed code, a PHPStan pass at the highest possible level before and after migration, and PRs small enough for a reviewer to analyze in depth. If one of these pillars is missing, slowing the migration pace is the responsible decision. Rector is also a top ally for automating a [Symfony migration](/migration-symfony) (in French) between major versions, as part of a structured application modernization effort. To structure the overall approach, a [migration guide for a Symfony project](/article/guide-de-migration-dans-un-projet-symfony) (in French) details the full methodology, step by step.
+The mitigation strategy rests on three pillars: a test suite with sufficient coverage on the transformed code, a PHPStan pass at the highest possible level before and after migration, and PRs small enough for a reviewer to analyze in depth. If one of these pillars is missing, slowing the migration pace is the responsible decision. Rector is also a top ally for automating a [Symfony migration](/migration-symfony) (in French) between major versions, as part of a structured application modernization effort. To structure the overall approach, a [migration guide for a Symfony project](/en/article/symfony-upgrade-guide) details the full methodology, step by step.
 
 ## Conclusion
 
@@ -196,9 +196,9 @@ Rector turns [Symfony application maintenance](/maintenance-applicative-symfony)
 
 ## Going Further
 
-- [PHPStan 2.0: level 10 and new features](/article/phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable) (in French), complementing Rector with static analysis
-- [How PHPStan can help you improve your PHP code quality](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French), static analysis alongside refactoring
-- [Technical debt: should you really be afraid of it?](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French), understanding the debt that Rector helps pay down
+- [PHPStan 2.0: level 10 and new features](/en/article/phpstan-2-level-10-features), complementing Rector with static analysis
+- [How PHPStan can help you improve your PHP code quality](/en/article/phpstan-improve-php-code-quality), static analysis alongside refactoring
+- [Technical debt: should you really be afraid of it?](/en/article/technical-debt-explained), understanding the debt that Rector helps pay down
 - [Official Rector documentation](https://getrector.com/documentation), complete guide
 - [Rector on GitHub](https://github.com/rectorphp/rector), source code and contributions
 - [Symfony Upgrade Fixer](https://symfony.com/doc/current/setup/upgrade_major.html), official Symfony migration guide

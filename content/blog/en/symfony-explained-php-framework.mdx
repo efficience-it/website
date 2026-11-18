@@ -19,7 +19,7 @@ PHP powers about 77% of websites worldwide. Symfony has established itself as th
 
 ## Component-Based Architecture
 
-What sets Symfony apart from most frameworks is that it is not monolithic. It breaks down into about sixty independent components: HttpFoundation, Routing, Security, Console, Mailer, [Messenger](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) (in French), Serializer, and many more. Each component solves a specific technical problem and can be used on its own, outside the full framework.
+What sets Symfony apart from most frameworks is that it is not monolithic. It breaks down into about sixty independent components: HttpFoundation, Routing, Security, Console, Mailer, [Messenger](/en/article/symfony-messenger-hexagonal-core), Serializer, and many more. Each component solves a specific technical problem and can be used on its own, outside the full framework.
 
 This granularity is not anecdotal. It means that projects like Laravel, Drupal or PrestaShop include Symfony components in their own foundations. The HttpFoundation component, for example, has become a de facto standard for handling HTTP requests and responses in PHP.
 
@@ -31,7 +31,7 @@ In practice, Flex talks to a recipe server that maps each Composer package to a 
 
 ## The Dependency Injection Container
 
-The service container is the heart of the framework. Any PHP class declared as a service is automatically instantiated, configured and injected where it is required. This injection mechanism is at the core of Symfony's decoupling philosophy, a principle pushed to the extreme in [hexagonal architecture where the domain does not know the framework](/article/domain-ne-devrait-jamais-connaitre-symfony) (in French). The mechanism relies on autowiring: Symfony analyzes constructor type hints to resolve dependencies without explicit configuration.
+The service container is the heart of the framework. Any PHP class declared as a service is automatically instantiated, configured and injected where it is required. This injection mechanism is at the core of Symfony's decoupling philosophy, a principle pushed to the extreme in [hexagonal architecture where the domain does not know the framework](/en/article/domain-layer-symfony-independence). The mechanism relies on autowiring: Symfony analyzes constructor type hints to resolve dependencies without explicit configuration.
 
 ### Compiler Passes
 
@@ -47,7 +47,7 @@ This event-driven architecture decouples cross-cutting concerns (logging, securi
 
 ## Symfony Runtime: Execution Abstraction
 
-The Runtime component, introduced in Symfony 5.3, is a fundamental architectural evolution that is often underestimated. It decouples the application from its execution environment. The same code can run behind Apache/mod_php, PHP-FPM, a Swoole server, [FrankenPHP](/article/concretement-cest-quoi-frankenphp) (in French) or even in CLI mode with [invokable commands](/article/commandes-invocables-symfony-attributs-console) (in French), without modification.
+The Runtime component, introduced in Symfony 5.3, is a fundamental architectural evolution that is often underestimated. It decouples the application from its execution environment. The same code can run behind Apache/mod_php, PHP-FPM, a Swoole server, [FrankenPHP](/en/article/frankenphp-explained) or even in CLI mode with [invokable commands](/en/article/symfony-invokable-commands-attributes), without modification.
 
 Runtime abstracts the application entry point: resolving the Request object, producing the Response and sending it to the client are delegated to a configurable resolver. For teams exploring non-blocking runtimes or serverless architectures, it is a strategic lever.
 
@@ -61,7 +61,7 @@ The Security component itself was completely redesigned in Symfony 5.3 with the 
 
 This is where the architectural perspective changes. Symfony is not simply a framework for building web applications. It is a software platform on which entire ecosystems are built.
 
-**API Platform**, built on Symfony, lets you create REST and GraphQL APIs that follow standards (JSON-LD, Hydra, OpenAPI) in minutes. **[Sylius](/article/sylius-la-solution-e-commerce-du-framework-symfony)** (in French) is a complete e-commerce platform built on Symfony. **EasyAdmin** and **Sonata** provide administration interfaces generated from Doctrine entities. Each of these projects relies on Symfony's abstractions and benefits from its stability.
+**API Platform**, built on Symfony, lets you create REST and GraphQL APIs that follow standards (JSON-LD, Hydra, OpenAPI) in minutes. **[Sylius](/en/article/sylius-php-ecommerce-platform)** is a complete e-commerce platform built on Symfony. **EasyAdmin** and **Sonata** provide administration interfaces generated from Doctrine entities. Each of these projects relies on Symfony's abstractions and benefits from its stability.
 
 ### Ecosystem Governance
 
@@ -71,7 +71,7 @@ Behind this model is SensioLabs, the founding company based in Lille, which ensu
 
 ### Why Symfony Wins in the Enterprise
 
-For an architect evaluating solutions, the criteria that tip the balance toward Symfony are structural. Testability is built in: the injection container and interface-based decoupling make unit and functional testing easier, as detailed in the [official Symfony documentation](https://symfony.com/doc/current/index.html). The documentation is among the most complete in the PHP ecosystem, complemented by SymfonyCasts (official video tutorials) and a very active French-speaking community. The [official Symfony, Twig and Sylius certifications](/article/les-certifications-symfony-twig-symfony-sylius) (in French) let you validate team skills objectively.
+For an architect evaluating solutions, the criteria that tip the balance toward Symfony are structural. Testability is built in: the injection container and interface-based decoupling make unit and functional testing easier, as detailed in the [official Symfony documentation](https://symfony.com/doc/current/index.html). The documentation is among the most complete in the PHP ecosystem, complemented by SymfonyCasts (official video tutorials) and a very active French-speaking community. The [official Symfony, Twig and Sylius certifications](/en/article/symfony-twig-sylius-certifications) let you validate team skills objectively.
 
 But the deepest argument is long-term maintainability. A Symfony project that follows the framework's conventions stays readable and modifiable years after launch, including by developers who did not take part in the initial development. The patterns enforced by the framework (controller/service/repository separation, explicit configuration, strict typing) act as a safety net against technical debt.
 
@@ -79,13 +79,13 @@ SymfonyCon, the annual international conference, gathers hundreds of developers 
 
 ## When to Choose Symfony
 
-For a simple showcase site, Symfony is not necessarily the right choice. It makes the most sense when the project involves complex business logic, multiple integrations, high security requirements or a long lifespan. Line-of-business applications (ERP, CRM), e-commerce platforms, APIs feeding mobile applications, secure intranets: these are the areas where Symfony excels, as detailed in the article [why choose Symfony for your projects](/article/pourquoi-choisir-symfony-pour-vos-projets) (in French).
+For a simple showcase site, Symfony is not necessarily the right choice. It makes the most sense when the project involves complex business logic, multiple integrations, high security requirements or a long lifespan. Line-of-business applications (ERP, CRM), e-commerce platforms, APIs feeding mobile applications, secure intranets: these are the areas where Symfony excels, as detailed in the article [why choose Symfony for your projects](/en/article/why-choose-symfony).
 
 A framework like Symfony remains a demanding tool that requires skilled developers to unlock its potential. For teams that are just starting out or want to build skills, our [in-house Symfony training](/formation-symfony-entreprise) (in French) offers a path suited to real projects. More broadly, our [strategic expertise](/accompagnement-et-conseil) (in French) service structures the upskilling of your technical teams. Working with an experienced team, like Efficience IT, makes all the difference between a project that delivers on its promises and one that bogs down.
 
 ## Going Further
 
-- [The 6 steps to build Symfony skills](/article/les-6-etapes-pour-monter-en-competences-sur-symfony) (in French), a progressive path to become autonomous
+- [The 6 steps to build Symfony skills](/en/article/symfony-skills-roadmap), a progressive path to become autonomous
 - [Official Symfony documentation](https://symfony.com/doc/current/index.html), the starting point for learning Symfony
 - [SymfonyCasts](https://symfonycasts.com/), official video tutorials to progress on Symfony
 - [Symfony GitHub repository](https://github.com/symfony/symfony), the framework's source code

@@ -6,6 +6,7 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, blogItemListJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import CallToAction from "@/components/sections/CallToAction";
 import LastUpdated from "@/components/ui/LastUpdated";
+import { ENGLISH_INDEXABLE } from "@/lib/i18n/config";
 
 export const metadata = pageMetadata({
   title: "Blog Efficience IT | Symfony, PHP et développement web",
@@ -13,6 +14,7 @@ export const metadata = pageMetadata({
     "Articles techniques, retours d'expérience et veille autour de Symfony, PHP et du développement d'applications web professionnelles.",
   path: "/blog",
   absoluteTitle: true,
+  ...(ENGLISH_INDEXABLE && { translationPaths: { fr: "/blog", en: "/en/blog" } }),
 });
 
 export default function BlogPage() {

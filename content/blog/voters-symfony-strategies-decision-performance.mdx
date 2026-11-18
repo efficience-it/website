@@ -184,7 +184,7 @@ Cette mémoïsation a un piège : un voter est un service partagé. Dans un proc
 
 ### Le coût d'une décision
 
-Nous avons mesuré 100 000 décisions avec un `AccessDecisionManager` et la stratégie affirmative, médiane de 9 passes. Nous avons lancé l'ensemble trois fois, sur une machine sans autre charge, et le tableau donne la moyenne des trois passes. Elles s'écartent de quelques pourcents pour les voters, et jusqu'à 25 % pour les stratégies. Une première série, prise pendant que d'autres tâches chargeaient la machine, donnait des valeurs presque deux fois plus hautes : ne comparez que des mesures prises dans les mêmes conditions. Chaque voter qui s'abstient avant le nôtre coûte environ 0,3 µs :
+Nous avons mesuré 100 000 décisions avec un `AccessDecisionManager` et la stratégie affirmative, médiane de 9 passes. Nous avons lancé l'ensemble trois fois, sur une machine sans autre charge, et le tableau donne la moyenne des trois passes. Elles s'écartent de quelques pour cent pour les voters, et jusqu'à 25 % pour les stratégies. Une première série, prise pendant que d'autres tâches chargeaient la machine, donnait des valeurs presque deux fois plus hautes : ne comparez que des mesures prises dans les mêmes conditions. Chaque voter qui s'abstient avant le nôtre coûte environ 0,3 µs :
 
 | Voters supplémentaires | Voters classiques | Voters qui déclarent leur périmètre |
 |---|---|---|
