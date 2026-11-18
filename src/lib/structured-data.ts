@@ -38,7 +38,6 @@ const organizationEntity = {
     "@type": "QuantitativeValue",
     value: 15,
   },
-  priceRange: "$$",
   contactPoint: {
     "@type": "ContactPoint",
     email: "contact@itefficience.com",

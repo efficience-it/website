@@ -38,11 +38,11 @@ Beyond the core, some third-party bundles have become de facto standards in the 
 
 ### EasyAdmin
 
-EasyAdmin generates complete administration interfaces with minimal configuration. Entity CRUD, filters, custom dashboards: it covers most back-office needs. For an experienced developer, the challenge is to identify the tipping point where customizing EasyAdmin takes more effort than building a custom interface. A [comparison between EasyAdmin and Forest Admin](/article/easy-admin-vs-forest-admin-differences-et-avantages) (in French) can help you decide based on the project context.
+EasyAdmin generates complete administration interfaces with minimal configuration. Entity CRUD, filters, custom dashboards: it covers most back-office needs. For an experienced developer, the challenge is to identify the tipping point where customizing EasyAdmin takes more effort than building a custom interface. A [comparison between EasyAdmin and Forest Admin](/en/article/easyadmin-vs-forest-admin) can help you decide based on the project context.
 
 ### NelmioApiDocBundle
 
-NelmioApiDocBundle automatically generates Swagger/OpenAPI documentation from PHP annotations and attributes. In an API Platform context, it integrates natively. For manually built REST APIs, it remains the reference for keeping documentation in sync with the code. Our dedicated article on [Swagger and NelmioApiDocBundle](/article/swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on) (in French) details its features in depth.
+NelmioApiDocBundle automatically generates Swagger/OpenAPI documentation from PHP annotations and attributes. In an API Platform context, it integrates natively. For manually built REST APIs, it remains the reference for keeping documentation in sync with the code. Our dedicated article on [Swagger and NelmioApiDocBundle](/en/article/nelmio-api-doc-swagger-symfony) details its features in depth.
 
 ### LexikJWTAuthenticationBundle
 
@@ -58,7 +58,7 @@ KnpPaginatorBundle simplifies pagination of Doctrine results and other data sour
 
 ### FakerPHP and Fixtures
 
-FakerPHP generates realistic fake data for tests and database seeding. Multilingual and extensible, it is usually paired with DoctrineFixturesBundle. For a complete setup, see our guide on [Alice and Faker in your Symfony projects](/article/comprendre-et-utiliser-le-bundle-alice-faker-dans-vos-projets-symfony) (in French). For a lead, the challenge is to maintain test datasets that are representative and reproducible, not merely random.
+FakerPHP generates realistic fake data for tests and database seeding. Multilingual and extensible, it is usually paired with DoctrineFixturesBundle. For a complete setup, see our guide on [Alice and Faker in your Symfony projects](/en/article/alice-faker-symfony-fixtures). For a lead, the challenge is to maintain test datasets that are representative and reproducible, not merely random.
 
 ## Criteria for Choosing a Bundle
 
@@ -74,7 +74,7 @@ A bundle that imposes its own entities, controllers, and templates creates stron
 
 ### Bundle vs. Symfony Component
 
-Symfony has gradually extracted many features from bundles into standalone components. HttpClient, Mailer, Notifier, and [Messenger](/article/quelles-sont-les-differences-entre-symfony-messenger-php-enqueue-quoi-utiliser) (in French) are components, not bundles. Before installing a third-party bundle, check whether a Symfony component already covers the need. A first-party component offers maintenance and compatibility guarantees that no third-party bundle can match.
+Symfony has gradually extracted many features from bundles into standalone components. HttpClient, Mailer, Notifier, and [Messenger](/en/article/symfony-messenger-vs-enqueue) are components, not bundles. Before installing a third-party bundle, check whether a Symfony component already covers the need. A first-party component offers maintenance and compatibility guarantees that no third-party bundle can match.
 
 ## Dependency Management Strategy
 
@@ -82,7 +82,7 @@ At the scale of a project or an organization, bundle management is a matter of s
 
 ### Assess the Technical Debt It Introduces
 
-Every bundle you add is a potential transitive dependency. A bundle that pulls in 15 extra packages widens the attack surface and complicates version upgrades. Regularly mapping the dependency tree with `composer depends` and `composer why` helps you anticipate conflicts during major Symfony updates. To get the most out of these commands, a good grasp of [using Composer in a Symfony project](/article/utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques) (in French) is essential.
+Every bundle you add is a potential transitive dependency. A bundle that pulls in 15 extra packages widens the attack surface and complicates version upgrades. Regularly mapping the dependency tree with `composer depends` and `composer why` helps you anticipate conflicts during major Symfony updates. To get the most out of these commands, a good grasp of [using Composer in a Symfony project](/en/article/composer-symfony-best-practices) is essential.
 
 ### When to Build Rather Than Reuse
 
@@ -90,7 +90,7 @@ A third-party bundle suits generic, well-established problems: pagination, uploa
 
 ### Governance in Large Projects
 
-In an organization with several Symfony teams, the question is no longer which bundle to use, but how to standardize the choices. The [Symfony certifications](/article/les-certifications-symfony-twig-symfony-sylius) (in French) can also serve as a common foundation to align the teams' level of mastery of the ecosystem. Define a catalog of approved bundles, document the reasons for inclusion or exclusion, and review this catalog at every major Symfony version upgrade. This discipline prevents redundant solutions from proliferating and ensures that security updates are applied uniformly.
+In an organization with several Symfony teams, the question is no longer which bundle to use, but how to standardize the choices. The [Symfony certifications](/en/article/symfony-twig-sylius-certifications) can also serve as a common foundation to align the teams' level of mastery of the ecosystem. Define a catalog of approved bundles, document the reasons for inclusion or exclusion, and review this catalog at every major Symfony version upgrade. This discipline prevents redundant solutions from proliferating and ensures that security updates are applied uniformly.
 
 ### Update and Monitoring Strategy
 
