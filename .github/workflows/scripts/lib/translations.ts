@@ -58,6 +58,12 @@ export function checkTranslations(root: string): Finding[] {
   const french = new Map(readArticles(path.join(root, "content/blog")).map((a) => [a.slug, a]));
   const english = readArticles(path.join(root, "content/blog/en"));
   const englishSlugs = new Set(english.map((a) => a.slug));
+  const englishBySource = new Map(
+    english.flatMap((a) => {
+      const source = asString(a.data.translationOf);
+      return source ? [[source, a.slug] as const] : [];
+    }),
+  );
   const translated = new Set<string>();
   const findings: Finding[] = [];
 
@@ -105,6 +111,13 @@ export function checkTranslations(root: string): Finding[] {
     for (const match of article.content.matchAll(/\]\(\/en\/article\/([^)#\s]+)/g)) {
       if (!englishSlugs.has(match[1])) {
         report("error", `lien interne vers /en/article/${match[1]}, qui n'existe pas.`);
+      }
+    }
+
+    for (const match of article.content.matchAll(/\]\(\/article\/([^)#\s]+)/g)) {
+      const target = englishBySource.get(match[1]);
+      if (target) {
+        report("error", `lien vers /article/${match[1]} alors que sa traduction /en/article/${target} existe.`);
       }
     }
   }

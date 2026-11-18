@@ -20,7 +20,7 @@ updatedAt: "2026-10-12"
 translatedFromUpdatedAt: "2026-10-12"
 ---
 
-**Digital accessibility has a new scope.** With the European Accessibility Act (EAA), applicable since June 28, 2025, the obligation no longer covers only public services: e-commerce, online banking, ticketing and training platforms are now in scope. Many missed the deadline and are now looking to become compliant. On a Symfony application, that means methodical technical remediation. This article describes our approach. It complements our in-depth article on [RGAA standards and accessibility](/article/normes-rgaa-les-cles-dune-experience-utilisateur-reussie-pour-tous) (in French) and focuses here on the fixing work.
+**Digital accessibility has a new scope.** With the European Accessibility Act (EAA), applicable since June 28, 2025, the obligation no longer covers only public services: e-commerce, online banking, ticketing and training platforms are now in scope. Many missed the deadline and are now looking to become compliant. On a Symfony application, that means methodical technical remediation. This article describes our approach. It complements our in-depth article on [RGAA standards and accessibility](/en/article/rgaa-web-accessibility-standards) and focuses here on the fixing work.
 
 ## Official audit or remediation: two different jobs
 
@@ -36,7 +36,7 @@ RGAA 4.1 has 106 criteria. In practice, on a Symfony application, remediation fo
 
 ### Twig semantics
 
-The foundation of accessibility is correct HTML structure. We check the heading hierarchy (`h1` to `h3`), the use of semantic tags (`header`, `nav`, `main`, `section`, `article`, `footer`), the presence of landmarks, the page language (`lang="fr"`) and the consistency of the `title`. A Twig template that looks right but is semantically flat is inaccessible to a screen reader. These rules match the [coding conventions](/article/coding-conventions) (in French) we apply to keep templates readable and consistent.
+The foundation of accessibility is correct HTML structure. We check the heading hierarchy (`h1` to `h3`), the use of semantic tags (`header`, `nav`, `main`, `section`, `article`, `footer`), the presence of landmarks, the page language (`lang="fr"`) and the consistency of the `title`. A Twig template that looks right but is semantically flat is inaccessible to a screen reader. These rules match the [coding conventions](/en/article/php-coding-standards-best-practices) we apply to keep templates readable and consistent.
 
 ### ARIA, focus and contrast
 
@@ -72,7 +72,7 @@ Technically, this page is a deliverable like any other: a dedicated Symfony rout
 
 ## Penalties and stakes
 
-Failing to meet accessibility obligations exposes you to administrative penalties imposed by the DGCCRF, with fines per non-compliant service and public disclosure of the failures. But the penalty is only part of the story. An inaccessible application concretely excludes a significant share of users, hurts SEO (accessibility criteria largely overlap with SEO signals and Core Web Vitals) and lowers the conversion rate. Well-run accessibility improves the experience for everyone, as we explain in our piece on the [web app manifest](/article/ameliorer-lexperience-utilisateur-grace-au-manifeste-des-applications-web) (in French).
+Failing to meet accessibility obligations exposes you to administrative penalties imposed by the DGCCRF, with fines per non-compliant service and public disclosure of the failures. But the penalty is only part of the story. An inaccessible application concretely excludes a significant share of users, hurts SEO (accessibility criteria largely overlap with SEO signals and Core Web Vitals) and lowers the conversion rate. Well-run accessibility improves the experience for everyone, as we explain in our piece on the [web app manifest](/en/article/web-app-manifest-pwa).
 
 ## Conclusion
 

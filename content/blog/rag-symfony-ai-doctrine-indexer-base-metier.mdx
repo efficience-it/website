@@ -112,7 +112,7 @@ class SupportTicket
 }
 ```
 
-Cette méthode est le contrat entre votre modèle Doctrine et le pipeline d'indexation. Elle détermine ce que le LLM « verra » de ton entité.
+Cette méthode est le contrat entre votre modèle Doctrine et le pipeline d'indexation. Elle détermine ce que le LLM « verra » de votre entité.
 
 ## La commande d'indexation
 
@@ -406,7 +406,7 @@ foreach ($batches as $batch) {
 }
 ```
 
-Le `$this->em->clear()` est essentiel pour libérer la mémoire entre chaque batch. Sans ça, Doctrine garde toutes les entités en mémoire et ton process explose sur un gros dataset. Les améliorations de Doctrine ORM 3.0 sur la gestion des entités rendent d'ailleurs ce type de traitement batch plus robuste.
+Le `$this->em->clear()` est essentiel pour libérer la mémoire entre chaque batch. Sans ça, Doctrine garde toutes les entités en mémoire et votre process explose sur un gros dataset. Les améliorations de Doctrine ORM 3.0 sur la gestion des entités rendent d'ailleurs ce type de traitement batch plus robuste.
 
 Pour l'indexation asynchrone, le handler Messenger :
 

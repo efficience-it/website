@@ -19,11 +19,11 @@ faq:
 
 For more than fifteen years, Symfony has held a unique place in the PHP ecosystem. Born at SensioLabs in Lille, it became the reference framework for enterprise projects in Europe, and its reputation reaches well beyond French-speaking countries. As a [Symfony agency in Lille](/agence-symfony-lille) (in French), we support teams that have made this choice every day. But beyond the name, what justifies choosing it in 2026 over a competitor, and above all, in which contexts should you steer away from it?
 
-If you are new to Symfony, we invite you to read our article [Symfony for Muggles](/article/symfony-pour-les-moldus) (in French) before going further.
+If you are new to Symfony, we invite you to read our article [Symfony for Muggles](/en/article/symfony-explained-php-framework) before going further.
 
 ## A Framework That Gives Structure by Design
 
-Symfony enforces strong conventions: a standardized directory tree, compliance with the [PSR (PHP Standards Recommendations)](/article/qu-est-ce-que-les-psrs-et-a-quoi-servent-ils) (in French), and strict separation of responsibilities. For an experienced developer, this means a new team member immediately finds their bearings in any Symfony project. Onboarding time drops, and the technical debt tied to "homemade" choices disappears.
+Symfony enforces strong conventions: a standardized directory tree, compliance with the [PSR (PHP Standards Recommendations)](/en/article/php-psr-standards-explained), and strict separation of responsibilities. For an experienced developer, this means a new team member immediately finds their bearings in any Symfony project. Onboarding time drops, and the technical debt tied to "homemade" choices disappears.
 
 ### MVC Architecture and Beyond
 
@@ -61,11 +61,11 @@ For architects, the built-in reverse proxy (HttpCache) or native compatibility w
 
 ### FrankenPHP and Worker Mode
 
-The worker mode of [FrankenPHP](/article/concretement-cest-quoi-frankenphp) (in French) pushes performance even further. By keeping the service container in memory between requests, it eliminates the bootstrap cost, which accounted for 30 to 60% of processing time. Benchmarks show response times cut by a factor of three to five compared to PHP-FPM. Symfony's stateless architecture also makes horizontal scaling easier: each instance is self-contained, so you just add more behind a load balancer to absorb the load.
+The worker mode of [FrankenPHP](/en/article/frankenphp-explained) pushes performance even further. By keeping the service container in memory between requests, it eliminates the bootstrap cost, which accounted for 30 to 60% of processing time. Benchmarks show response times cut by a factor of three to five compared to PHP-FPM. Symfony's stateless architecture also makes horizontal scaling easier: each instance is self-contained, so you just add more behind a load balancer to absorb the load.
 
 ### Messenger and Asynchronous Processing
 
-The [Messenger](https://symfony.com/doc/current/messenger.html) component lets you run heavy processing asynchronously through message queues. Sending emails, generating reports, synchronizing with third-party services: these operations no longer block the HTTP response. Messenger supports several transports (RabbitMQ, Redis, Amazon SQS, Doctrine) and integrates natively with the service container. It has become the standard for [asynchronous messaging in the Symfony ecosystem](/article/quelles-sont-les-differences-entre-symfony-messenger-php-enqueue-quoi-utiliser) (in French).
+The [Messenger](https://symfony.com/doc/current/messenger.html) component lets you run heavy processing asynchronously through message queues. Sending emails, generating reports, synchronizing with third-party services: these operations no longer block the HTTP response. Messenger supports several transports (RabbitMQ, Redis, Amazon SQS, Doctrine) and integrates natively with the service container. It has become the standard for [asynchronous messaging in the Symfony ecosystem](/en/article/symfony-messenger-vs-enqueue).
 
 ## The Backward Compatibility Promise
 
@@ -85,7 +85,7 @@ Thousands of open source bundles are available, maintained, and compatible. The 
 
 For a company, this community also means a hiring pool. The number of Symfony developer job offers on the French market shows how widely the framework is adopted. Training an in-house team, bringing a project in-house, or recruiting reinforcements: Symfony makes all of this possible without depending on a single vendor. And when you need an external partner, a [Symfony service provider in France](/agence-symfony-france) (in French) brings the expertise without the dependency.
 
-SensioLabs offers Symfony certifications recognized across the ecosystem. They validate skills on the framework, on Twig, and on Sylius. For a CTO, requiring certification at hiring or funding the [certification of existing teams](/article/les-certifications-symfony-twig-symfony-sylius) (in French) guarantees a consistent skill baseline. To build up a team gradually, the [6 steps to upskill on Symfony](/article/les-6-etapes-pour-monter-en-competences-sur-symfony) (in French) offer a structured path.
+SensioLabs offers Symfony certifications recognized across the ecosystem. They validate skills on the framework, on Twig, and on Sylius. For a CTO, requiring certification at hiring or funding the [certification of existing teams](/en/article/symfony-twig-sylius-certifications) guarantees a consistent skill baseline. To build up a team gradually, the [6 steps to upskill on Symfony](/en/article/symfony-skills-roadmap) offer a structured path.
 
 ## Symfony vs. Laravel: The Architect's Choice
 
@@ -115,5 +115,5 @@ The most common trap is not choosing the wrong framework, but choosing a framewo
 
 ## Going Further
 
-- [The 6 steps to upskill on Symfony](/article/les-6-etapes-pour-monter-en-competences-sur-symfony) (in French), a progressive path to master the framework
+- [The 6 steps to upskill on Symfony](/en/article/symfony-skills-roadmap), a progressive path to master the framework
 - [Official Symfony documentation](https://symfony.com/doc/current/index.html), the framework's reference guide
