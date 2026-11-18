@@ -47,7 +47,7 @@ Pour un architecte, le conteneur compilé représente un avantage décisif en pr
 
 Symfony embarque nativement des protections contre les failles XSS, CSRF et les injections SQL. Contrairement à un [développement PHP](/developpement-php) sans framework où chaque formulaire, chaque requête, chaque donnée utilisateur doit être protégée manuellement, Symfony applique ces mécanismes par défaut. L'échappement Twig est automatique, les tokens CSRF sont générés pour chaque formulaire, Doctrine paramètre les requêtes.
 
-Le composant Security va plus loin avec un système d'authentification et d'autorisation complet : firewalls, authenticators, Voters pour le contrôle d'accès granulaire. Les Voters permettent de définir des règles d'accès par entité et par contexte, un outil puissant pour les applications métier avec des droits complexes.
+Le composant Security va plus loin avec un système d'authentification et d'autorisation complet : firewalls, authenticators, Voters pour le contrôle d'accès granulaire. Les Voters permettent de définir des règles d'accès par entité et par contexte, un outil puissant pour les applications métier avec des droits complexes. Les [stratégies de décision des voters](/article/voters-symfony-strategies-decision-performance) permettent ensuite d'affiner ces règles sans dégrader les performances.
 
 Autre avantage face aux CMS comme WordPress ou Drupal : un projet Symfony n'expose pas d'URLs prédictibles ni de surface d'attaque connue des scripts automatisés. Les hackers concentrent leurs efforts sur les CMS répandus dont les failles sont publiquement documentées.
 

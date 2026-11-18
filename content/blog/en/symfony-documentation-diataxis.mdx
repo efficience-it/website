@@ -31,11 +31,11 @@ Each quadrant has its own writing rules, its own tone, and its own structure. A 
 
 ### Tutorials: the onboarding path
 
-On a Symfony project, the tutorial is the onboarding path of a new developer. To understand why Symfony is a defining choice that deserves good documentation, our article on [the reasons to choose Symfony for your projects](/article/pourquoi-choisir-symfony-pour-vos-projets) (in French) sets the context. The goal is not to document every bundle: it is to guide someone from `git clone` to their first working contribution.
+On a Symfony project, the tutorial is the onboarding path of a new developer. To understand why Symfony is a defining choice that deserves good documentation, our article on [the reasons to choose Symfony for your projects](/en/article/why-choose-symfony) sets the context. The goal is not to document every bundle: it is to guide someone from `git clone` to their first working contribution.
 
 An effective Symfony tutorial follows a concrete progression: install the project, start the Docker containers, create an entity, write a functional test, observe the result. Each step produces a visible result. The developer who completes the tutorial understands the project structure, the team's conventions, and the development workflow.
 
-The classic trap: turning the tutorial into an encyclopedia. If your onboarding tutorial takes more than thirty minutes, it probably contains explanations or reference material that belong in other quadrants. The [6-step path to upskill on Symfony](/article/les-6-etapes-pour-monter-en-competences-sur-symfony) (in French) illustrates this progressive approach.
+The classic trap: turning the tutorial into an encyclopedia. If your onboarding tutorial takes more than thirty minutes, it probably contains explanations or reference material that belong in other quadrants. The [6-step path to upskill on Symfony](/en/article/symfony-skills-roadmap) illustrates this progressive approach.
 
 ### How-to guides: answering recurring problems
 
@@ -57,17 +57,17 @@ The cardinal rule of reference: it must be accurate. An inaccurate reference is 
 
 Explanation is the most neglected quadrant and yet the most valuable for senior developers. It answers the "why" question: why the project uses Messenger rather than a homegrown queue system, why authentication goes through a custom authenticator rather than the built-in form_login, why the split into bounded contexts follows a given scope.
 
-This quadrant hosts ADRs (Architecture Decision Records), trade-off analyses, and post-incident lessons learned. It documents the reasoning behind the code, information that disappears as soon as the original developers leave the project. The choice between [a modular monolith and microservices](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) (in French) is a typical example of an architecture decision that deserves a dedicated explanation.
+This quadrant hosts ADRs (Architecture Decision Records), trade-off analyses, and post-incident lessons learned. It documents the reasoning behind the code, information that disappears as soon as the original developers leave the project. The choice between [a modular monolith and microservices](/en/article/microservices-vs-modular-monolith) is a typical example of an architecture decision that deserves a dedicated explanation.
 
 ## Tooling and workflow integration
 
 Diataxis does not mandate any tool. However, some integration practices strengthen its effectiveness on a Symfony project.
 
-Storing the documentation in the same repository as the code (docs-as-code approach), drawing on the [Symfony documentation contribution guide](https://symfony.com/doc/current/contributing/documentation/index.html), lets you link documentation changes to the pull requests that change behavior. This principle echoes that of [coding conventions](/article/coding-conventions) (in French): a versioned technical contract, shared and maintained by the whole team. A PR template that includes a "documentation impacted" section makes the habit systematic.
+Storing the documentation in the same repository as the code (docs-as-code approach), drawing on the [Symfony documentation contribution guide](https://symfony.com/doc/current/contributing/documentation/index.html), lets you link documentation changes to the pull requests that change behavior. This principle echoes that of [coding conventions](/en/article/php-coding-standards-best-practices): a versioned technical contract, shared and maintained by the whole team. A PR template that includes a "documentation impacted" section makes the habit systematic.
 
 Static site generators like Docusaurus or MkDocs naturally structure navigation into sections that match the Diataxis quadrants. A `docs/tutorials/`, `docs/how-to/`, `docs/reference/`, `docs/explanation/` directory layout makes the taxonomy explicit for contributors.
 
-CI integration, just like [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French) for code, goes beyond spell checking. Verifying that code examples compile, that internal links are not broken, and that the generated reference is up to date: these automated checks reduce documentation debt before it piles up.
+CI integration, just like [PHPStan](/en/article/phpstan-improve-php-code-quality) for code, goes beyond spell checking. Verifying that code examples compile, that internal links are not broken, and that the generated reference is up to date: these automated checks reduce documentation debt before it piles up.
 
 ## Documentation as an architecture artifact
 
@@ -91,7 +91,7 @@ Diataxis's incremental approach makes this measurement easier: every documentati
 
 ## Going further
 
-- [Which tool should you choose for your technical documentation?](/article/quel-outil-choisir-pour-votre-documentation-technique) (in French), comparing Docusaurus, MkDocs, GitBook, and other documentation tools
+- [Which tool should you choose for your technical documentation?](/en/article/technical-documentation-tools), comparing Docusaurus, MkDocs, GitBook, and other documentation tools
 - [Diataxis](https://diataxis.fr/), the official site of the Diataxis framework for technical documentation
 - [Symfony Documentation](https://symfony.com/doc/current/index.html), the official Symfony documentation, a concrete example of Diataxis in practice
 - [Docusaurus](https://docusaurus.io/), open source documentation site generator by Meta

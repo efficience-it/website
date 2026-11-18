@@ -28,13 +28,13 @@ The choice of a software architecture determines development velocity, scalabili
 
 A modular monolith is an application deployed as a single unit, but whose internal code is split into modules with explicit boundaries. Each module encapsulates a business domain, catalog, orders, billing, and exposes a public interface. Implementation details stay private. The difference from a classic monolith is fundamental: in a classic monolith, dependencies flow in every direction and the code gradually becomes entangled. In a modular monolith, architectural discipline enforces loose coupling between modules.
 
-In a Symfony project, this approach takes the form of one directory per module in `src/`, each containing its `Domain/`, `Application/`, and `Infrastructure/` layers. The [Symfony Messenger](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) (in French) component enables communication between modules through messages and handlers, naturally decoupling responsibilities. Autowiring and per-directory service configuration make some services private to their module. Symfony events offer an additional communication channel without direct coupling.
+In a Symfony project, this approach takes the form of one directory per module in `src/`, each containing its `Domain/`, `Application/`, and `Infrastructure/` layers. The [Symfony Messenger](/en/article/symfony-messenger-hexagonal-core) component enables communication between modules through messages and handlers, naturally decoupling responsibilities. Autowiring and per-directory service configuration make some services private to their module. Symfony events offer an additional communication channel without direct coupling.
 
 ### Microservices
 
 Microservices architecture distributes the application into autonomous services, each responsible for a specific business domain and independently deployable. Each service owns its own database and communicates with the others over the network. This autonomy lets separate teams develop, test, and deploy their services without tight coordination.
 
-Communication between services takes two paths, and [REST API best practices](/article/api-rest-les-bonnes-pratiques) (in French) apply fully to synchronous exchanges between services, whether they are built with Symfony or with a [Node.js API structured with NestJS](/api-nodejs-nestjs) (in French). Synchronous communication, HTTP REST or gRPC, suits requests that need an immediate response: the orders service queries the catalog service to check availability. Asynchronous communication, through a broker like RabbitMQ or Kafka, decouples services in time: a validated order publishes an event, and the notifications service sends an email without blocking the main process.
+Communication between services takes two paths, and [REST API best practices](/en/article/php-rest-api-best-practices) apply fully to synchronous exchanges between services, whether they are built with Symfony or with a [Node.js API structured with NestJS](/api-nodejs-nestjs) (in French). Synchronous communication, HTTP REST or gRPC, suits requests that need an immediate response: the orders service queries the catalog service to check availability. Asynchronous communication, through a broker like RabbitMQ or Kafka, decouples services in time: a validated order publishes an event, and the notifications service sends an email without blocking the main process.
 
 ## Module Boundaries and Communication Patterns
 
@@ -42,7 +42,7 @@ Communication between services takes two paths, and [REST API best practices](/a
 
 The quality of any architecture rests on the rigor of the boundaries between domains. A poorly delimited module or service generates temporal coupling, circular dependencies, and growing cognitive load. Domain-Driven Design provides the conceptual tools to draw these boundaries: Bounded Contexts define the perimeters of consistency, and Context Maps chart the relationships between domains.
 
-In a modular monolith, the temptation to bypass an interface and access another module's entities directly is constant. Every violation erodes modularity. Static analysis tools, Deptrac for PHP and ArchUnit for Java, automate the checking of these rules and turn a team convention into a technical constraint. Along the same lines, [isolating the domain from Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony) (in French) ensures that the business logic stays independent of the framework.
+In a modular monolith, the temptation to bypass an interface and access another module's entities directly is constant. Every violation erodes modularity. Static analysis tools, Deptrac for PHP and ArchUnit for Java, automate the checking of these rules and turn a team convention into a technical constraint. Along the same lines, [isolating the domain from Symfony](/en/article/domain-layer-symfony-independence) ensures that the business logic stays independent of the framework.
 
 In a microservices architecture, the boundaries are physical: each service is a separate process. But this separation does not remove the need for careful thought about how to split things up. A service that is too granular multiplies network calls and latency. A service that is too broad becomes a monolith in disguise.
 
@@ -54,7 +54,7 @@ Microservices require the Database per Service pattern. Each service owns its ow
 
 ### Observability and Resilience in a Distributed Environment
 
-A call that used to cross three classes in a monolith now crosses three network services, with the latencies and failure risks that implies. Distributed observability becomes essential: distributed tracing with OpenTelemetry, centralized logs, per-service metrics. [Caching](/article/tout-savoir-sur-la-mise-en-cache-tips) (in French) in a distributed system adds another layer of complexity that you must anticipate. The infrastructure gets heavier: container orchestration with Kubernetes, service mesh, circuit breakers. These tools are powerful but represent a significant investment in skills and maintenance.
+A call that used to cross three classes in a monolith now crosses three network services, with the latencies and failure risks that implies. Distributed observability becomes essential: distributed tracing with OpenTelemetry, centralized logs, per-service metrics. [Caching](/en/article/caching-guide-web-applications) in a distributed system adds another layer of complexity that you must anticipate. The infrastructure gets heavier: container orchestration with Kubernetes, service mesh, circuit breakers. These tools are powerful but represent a significant investment in skills and maintenance.
 
 ## When to Choose One Architecture or the Other
 
@@ -62,7 +62,7 @@ A call that used to cross three classes in a monolith now crosses three network 
 
 The modular monolith fits when the team has fewer than twenty developers, the business scope is not yet stable, or the infrastructure resources are limited. Its decisive advantage at the start: it tolerates splitting mistakes. Merging two modules in a monolith is a refactoring operation. Merging two microservices means migrating databases, removing APIs, and reconfiguring infrastructure.
 
-Debugging stays direct, as a breakpoint in the IDE is enough to follow the complete execution flow. Integration tests run in a single process. Deployment happens in one operation, even more simply if you rely on [Docker in production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) (in French) to guarantee reproducible environments.
+Debugging stays direct, as a breakpoint in the IDE is enough to follow the complete execution flow. Integration tests run in a single process. Deployment happens in one operation, even more simply if you rely on [Docker in production](/en/article/docker-production-reliability) to guarantee reproducible environments.
 
 ### Microservices at Maturity
 
@@ -101,7 +101,7 @@ A modular monolith, by contrast, tolerates a more fluid organization where devel
 
 The burden of a microservices architecture significantly exceeds that of a modular monolith. Infrastructure, Kubernetes clusters, message brokers, observability tools, is a direct extra load. The human burden is often underestimated: every developer must master distributed patterns, and onboarding takes longer. Cross-team coordination, even reduced, does not disappear. You have to formalize it through API contracts, schema versioning, and technical governance.
 
-This extra burden is only justified if the scale of the organization and the traffic require it. For a team of ten developers on a growing SaaS product, or on a [SaaS application](/secteur/saas) (in French) in its scale-up phase, a well-structured modular monolith will deliver higher velocity with less overhead. For an organization of a hundred developers running a high-traffic platform, microservices become a lever for autonomy and scaling. This architectural choice is also inseparable from [technical debt management](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French): a bad split generates structural debt that is hard to pay off.
+This extra burden is only justified if the scale of the organization and the traffic require it. For a team of ten developers on a growing SaaS product, or on a [SaaS application](/secteur/saas) (in French) in its scale-up phase, a well-structured modular monolith will deliver higher velocity with less overhead. For an organization of a hundred developers running a high-traffic platform, microservices become a lever for autonomy and scaling. This architectural choice is also inseparable from [technical debt management](/en/article/technical-debt-explained): a bad split generates structural debt that is hard to pay off.
 
 ## Conclusion
 
@@ -110,8 +110,8 @@ The best architectural choice is the one that matches the current reality of you
 ## Going Further
 
 - The domain should never know Symfony, isolating the domain regardless of the architecture
-- [Symfony migration to hexagonal architecture](/article/migration-symfony-architecture-hexagonale-retour-mission) (in French), a concrete restructuring case
-- [The differences between Symfony Messenger and PHP Enqueue](/article/quelles-sont-les-differences-entre-symfony-messenger-php-enqueue-quoi-utiliser) (in French), choosing the right messaging tool for your distributed architecture
+- [Symfony migration to hexagonal architecture](/en/article/symfony-hexagonal-migration), a concrete restructuring case
+- [The differences between Symfony Messenger and PHP Enqueue](/en/article/symfony-messenger-vs-enqueue), choosing the right messaging tool for your distributed architecture
 - [Martin Fowler: Microservices](https://martinfowler.com/articles/microservices.html), the reference article on microservices
 - [Symfony documentation: Architecture](https://symfony.com/doc/current/controller.html), structuring a Symfony project
 - [Sam Newman: Building Microservices (O'Reilly)](https://www.oreilly.com/library/view/building-microservices-2nd/9781492034018/), the reference book

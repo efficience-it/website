@@ -38,7 +38,7 @@ Comparing these tools as if they were competitors is therefore misleading. Most 
 
 ## PHPStan: the bug detector
 
-[PHPStan](https://phpstan.org/) is the reference tool for detecting typing and logic errors. It offers eleven strictness levels, from 0 to 10, which lets you adopt the tool gradually on an existing codebase. We detailed the setup in [our PHPStan guide](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French) and what is new in version 2 in [the article on PHPStan 2.0](/article/phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable) (in French).
+[PHPStan](https://phpstan.org/) is the reference tool for detecting typing and logic errors. It offers eleven strictness levels, from 0 to 10, which lets you adopt the tool gradually on an existing codebase. We detailed the setup in [our PHPStan guide](/en/article/phpstan-improve-php-code-quality) and what is new in version 2 in [the article on PHPStan 2.0](/en/article/phpstan-2-level-10-features).
 
 Its strengths:
 
@@ -77,7 +77,7 @@ return (new PhpCsFixer\Config())
     ->setFinder($finder);
 ```
 
-It runs in `--dry-run` mode in CI to fail on a deviation, and in fix mode locally or in a pre-commit hook. It complements a team's [coding conventions](/article/coding-conventions) (in French) by making them executable rather than documentary.
+It runs in `--dry-run` mode in CI to fail on a deviation, and in fix mode locally or in a pre-commit hook. It complements a team's [coding conventions](/en/article/php-coding-standards-best-practices) by making them executable rather than documentary.
 
 ## Deptrac: the architecture guardrail
 
@@ -102,13 +102,13 @@ deptrac:
       - Domain
 ```
 
-Here, the Domain depends on nothing, and the Infrastructure may depend on the Domain. A `use Doctrine\ORM\...` slipped into the Domain breaks the build. This is exactly the principle defended in [why your Domain should never know about Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony) (in French), and a natural complement to a [hexagonal architecture](/article/migration-symfony-architecture-hexagonale-retour-mission) (in French): without automatic checks, boundaries erode within a few months.
+Here, the Domain depends on nothing, and the Infrastructure may depend on the Domain. A `use Doctrine\ORM\...` slipped into the Domain breaks the build. This is exactly the principle defended in [why your Domain should never know about Symfony](/en/article/domain-layer-symfony-independence), and a natural complement to a [hexagonal architecture](/en/article/symfony-hexagonal-migration): without automatic checks, boundaries erode within a few months.
 
 ## Rector: refactoring in place of developers
 
-[Rector](https://getrector.com/) does not report problems, it fixes them. It applies code transformation rules: PHP version upgrades, attribute migrations, replacing deprecated APIs. We cover it in detail in [the article dedicated to Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) (in French).
+[Rector](https://getrector.com/) does not report problems, it fixes them. It applies code transformation rules: PHP version upgrades, attribute migrations, replacing deprecated APIs. We cover it in detail in [the article dedicated to Rector](/en/article/rector-php-code-refactoring).
 
-It is the most worthwhile tool during a version upgrade, because it turns hundreds of mechanical changes into a single diff review. It is also useful for tackling [technical debt](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French) at an industrial scale rather than by hand. A word of caution: always run it on a clean branch, with the tests green before and after.
+It is the most worthwhile tool during a version upgrade, because it turns hundreds of mechanical changes into a single diff review. It is also useful for tackling [technical debt](/en/article/technical-debt-explained) at an industrial scale rather than by hand. A word of caution: always run it on a clean branch, with the tests green before and after.
 
 ## Mago: a single binary for several of these roles
 
@@ -167,7 +167,7 @@ A few tools complete the picture:
 - **PHPMetrics** produces a visual maintainability report. It is used to make a diagnosis during an audit, less to block a CI.
 - **Infection** measures the quality of your tests through mutation testing, which is a different topic from static analysis but is installed the same way.
 
-To track down what is no longer called, dead code analyzers are part of the approach described in [our project retrospective on dead code elimination](/article/code-mort-mission-elimination) (in French).
+To track down what is no longer called, dead code analyzers are part of the approach described in [our project retrospective on dead code elimination](/en/article/php-dead-code-detection-phpstan).
 
 ## Comparison table
 

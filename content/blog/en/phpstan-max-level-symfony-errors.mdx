@@ -13,7 +13,7 @@ translatedFromUpdatedAt: "2026-03-26"
 
 You just raised PHPStan to level 10 on your Symfony project. The terminal shows 847 errors. You close your laptop lid and wonder if it was a good idea.
 
-Good news: it was. These errors are not noise. They point to real problems you have been dragging along for months, sometimes years. If you are new to PHPStan, start by reading [how PHPStan can improve the quality of your PHP code](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French) before going further. After helping about ten teams through this level increase, the same patterns come back every time.
+Good news: it was. These errors are not noise. They point to real problems you have been dragging along for months, sometimes years. If you are new to PHPStan, start by reading [how PHPStan can improve the quality of your PHP code](/en/article/phpstan-improve-php-code-quality) before going further. After helping about ten teams through this level increase, the same patterns come back every time.
 
 Here are the 10 errors you will find, and above all how to fix them without spending three sprints on it.
 
@@ -42,7 +42,7 @@ Add the generic PHPDoc on every property of type `Collection`. If you use PHP 8 
 private Collection $tags;
 ```
 
-On a medium-sized project, expect between 50 and 200 occurrences. A good regex in your IDE settles it in an hour. The improvements in [Doctrine ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) (in French) also improve native collection typing.
+On a medium-sized project, expect between 50 and 200 occurrences. A good regex in your IDE settles it in an hour. The improvements in [Doctrine ORM 3.0](/en/article/doctrine-orm-3-changes) also improve native collection typing.
 
 ## 2. Unchecked return value of `find()`
 
@@ -64,7 +64,7 @@ $user = $this->userRepository->find($id)
 
 In a business service, throw a domain exception or return a nullable type that the caller handles.
 
-Never use `assert($user !== null)` except in tests. It is a band-aid that hides a real error handling problem. Following [REST API best practices](/article/api-rest-les-bonnes-pratiques) (in French) requires handling these `null` return cases properly.
+Never use `assert($user !== null)` except in tests. It is a band-aid that hides a real error handling problem. Following [REST API best practices](/en/article/php-rest-api-best-practices) requires handling these `null` return cases properly.
 
 ## 3. `mixed` container parameters
 
@@ -276,7 +276,7 @@ $names = array_map(fn (User $user): string => $user->getName(), $users);
 
 ## The strategy for climbing gradually
 
-Do not go from level 0 to level 10 in a single commit. If you use [PHPStan 2.0](/article/phpstan-2-0-niveau-10-et-nouvelles-fonctionnalites-pour-un-code-impeccable) (in French), the new level 10 checks are even more numerous. Pairing PHPStan with [coding conventions](/article/coding-conventions) (in French) shared by the team speeds up the level increase. Here is an approach that works:
+Do not go from level 0 to level 10 in a single commit. If you use [PHPStan 2.0](/en/article/phpstan-2-level-10-features), the new level 10 checks are even more numerous. Pairing PHPStan with [coding conventions](/en/article/php-coding-standards-best-practices) shared by the team speeds up the level increase. Here is an approach that works:
 
 ### Use the baseline
 
@@ -310,7 +310,7 @@ PHPStan at max level is not a perfectionist's whim. It is a safety net that catc
 
 ## Going further
 
-- [Eliminating dead code in your PHP projects](/article/code-mort-mission-elimination) (in French), detect and remove unused code with PHPStan
-- [Rector: master the evolution of your Symfony code](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) (in French), automate code migrations alongside PHPStan
-- [Symfony migration to hexagonal architecture](/article/migration-symfony-architecture-hexagonale-retour-mission) (in French), apply PHPStan to validate architecture constraints during a migration
+- [Eliminating dead code in your PHP projects](/en/article/php-dead-code-detection-phpstan), detect and remove unused code with PHPStan
+- [Rector: master the evolution of your Symfony code](/en/article/rector-php-code-refactoring), automate code migrations alongside PHPStan
+- [Symfony migration to hexagonal architecture](/en/article/symfony-hexagonal-migration), apply PHPStan to validate architecture constraints during a migration
 - [Official PHPStan documentation](https://phpstan.org/user-guide/getting-started), getting started guide and analysis levels

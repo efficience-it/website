@@ -56,7 +56,7 @@ Solomon Hykes, creator of Docker, summed it up in 2019: if WASM and WASI had exi
 
 ### The Container: A Portable Embedded OS
 
-A [Docker container in production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) (in French) packages a minimal operating system, a complete application stack and everything it depends on. Isolation relies on the Linux kernel's namespaces and cgroups. Compatibility is almost total: anything that runs on Linux can run in a container. This is the model that allowed frameworks like Symfony, Rails or Django to move from dedicated servers to the orchestrator without a rewrite.
+A [Docker container in production](/en/article/docker-production-reliability) packages a minimal operating system, a complete application stack and everything it depends on. Isolation relies on the Linux kernel's namespaces and cgroups. Compatibility is almost total: anything that runs on Linux can run in a container. This is the model that allowed frameworks like Symfony, Rails or Django to move from dedicated servers to the orchestrator without a rewrite.
 
 The downside is weight. A Docker image typically weighs between 50 and 500 MB, starts in 200 ms to 2 seconds depending on the stack, and consumes memory from boot. On short-lived workloads, this startup time dominates.
 
@@ -87,7 +87,7 @@ This table is not a ranking. Each row points to a use case where one of the two 
 
 The container wins as soon as the workload carries a heavy stack. A full Symfony application with its Doctrine ORM, PHP extensions, image tools and database client works natively in a container and only marginally in WASM. [Docker integration on the Symfony side](/integration-docker-symfony) (in French) remains the standard for packaging this kind of workload.
 
-The container also wins on long-running processes. A Symfony Messenger worker processing messages for hours, a batch computing job, a [Node.js server](/developpement-nodejs) (in French) built on [Express, Fastify or Hono](/article/express-fastify-hono-quel-framework-nodejs-choisir) (in French) with persistent connections: all benefit from an environment loaded once and for all. The cold start is amortized, the underlying OS helps, and WASI portability brings nothing visible.
+The container also wins on long-running processes. A Symfony Messenger worker processing messages for hours, a batch computing job, a [Node.js server](/developpement-nodejs) (in French) built on [Express, Fastify or Hono](/en/article/nodejs-framework-comparison) with persistent connections: all benefit from an environment loaded once and for all. The cold start is amortized, the underlying OS helps, and WASI portability brings nothing visible.
 
 Finally, the container remains unbeatable on native binary dependencies. ImageMagick, FFmpeg, GPU drivers, compiled scientific libraries: all building blocks that cannot be ported to WASM without disproportionate effort. For these workloads, the question does not arise.
 
@@ -111,7 +111,7 @@ The third is the edge function in front of a container core. A realistic pattern
 
 ## The Symfony and PHP Case in 2026
 
-Symfony and PHP remain a special case. PHP is designed to live in a persistent process or a classic request-response cycle in the sense of the [Symfony HttpKernel](https://symfony.com/doc/current/components/http_kernel.html), and its ecosystem of native extensions does not compile trivially to WASM. The php-wasm and wasm-php projects exist and are progressing, but they remain experimental for production Symfony use. Our look at [FrankenPHP](/article/concretement-cest-quoi-frankenphp) (in French) shows that the realistic optimization path goes through a high-performance PHP runtime in a container before considering WASM.
+Symfony and PHP remain a special case. PHP is designed to live in a persistent process or a classic request-response cycle in the sense of the [Symfony HttpKernel](https://symfony.com/doc/current/components/http_kernel.html), and its ecosystem of native extensions does not compile trivially to WASM. The php-wasm and wasm-php projects exist and are progressing, but they remain experimental for production Symfony use. Our look at [FrankenPHP](/en/article/frankenphp-explained) shows that the realistic optimization path goes through a high-performance PHP runtime in a container before considering WASM.
 
 However, placing a layer of WASM edge functions in front of a Symfony application is a credible strategy today. WASM functions normalize URLs, handle SEO redirects, sign short-lived tokens, run A/B testing or reject malicious bots. Symfony only processes useful requests, which frees capacity on the core and improves perceived response times.
 
@@ -140,7 +140,7 @@ The first myth is that WASM will replace Docker. False. Container volumes are no
 
 The second myth is that WASM is necessarily faster. False on long CPU-intensive workloads, where the container runtime has plenty of time to amortize its startup and use native OS optimizations. True on short workloads where cold start dominates, which covers precisely the cases where WASM is used.
 
-The third myth is that WASM is less secure. False. WASM bytecode is sandboxed by default, with no system access without an explicit capability, which makes it structurally a better starting point than the container for multi-tenant workloads. The security debate now shifts to the maturity of the WASI ecosystem, the audit quality of the runtimes and tracking [CVEs in embedded dependencies](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) (in French), not to the isolation model itself.
+The third myth is that WASM is less secure. False. WASM bytecode is sandboxed by default, with no system access without an explicit capability, which makes it structurally a better starting point than the container for multi-tenant workloads. The security debate now shifts to the maturity of the WASI ecosystem, the audit quality of the runtimes and tracking [CVEs in embedded dependencies](/en/article/cve-vulnerability-management), not to the isolation model itself.
 
 ## Gradual Adoption Roadmap
 

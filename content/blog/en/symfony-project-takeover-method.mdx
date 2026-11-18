@@ -42,7 +42,7 @@ Before talking method, you need to be able to name the problem. A poorly deliver
 
 The first signal is knowledge concentrated in a single person, the famous bus factor of 1. If only one individual knows how the application works, you do not have an asset, you have a dependency. The second signal is the absence of automated tests on the core business logic: without a safety net, every change becomes Russian roulette, which explains the fear of touching the code. The third is manual deployment, long and stressful, with no repeatable procedure.
 
-Then come the signs of neglected maintenance: a [Symfony version past end of support](/article/symfony-php-fin-de-support-eol-plan-action) (in French), exposed to unpatched vulnerabilities and blocking any version upgrade of the ecosystem, abandoned Composer dependencies, and an accumulation of [technical debt](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French) that slows down every new feature. Taken individually, none of these signals is dramatic. Together, they describe an application you endure instead of steer.
+Then come the signs of neglected maintenance: a [Symfony version past end of support](/en/article/symfony-php-end-of-life-plan), exposed to unpatched vulnerabilities and blocking any version upgrade of the ecosystem, abandoned Composer dependencies, and an accumulation of [technical debt](/en/article/technical-debt-explained) that slows down every new feature. Taken individually, none of these signals is dramatic. Together, they describe an application you endure instead of steer.
 
 ## Why a Complete Rewrite Is Almost Always a Mistake
 
@@ -50,7 +50,7 @@ Faced with this finding, the temptation is strong to erase everything and start 
 
 An application running in production, even a poorly coded one, contains years of implicit business rules. Special cases, fixes accumulated in response to real problems, behaviors your users expect: all of it is encoded in the existing code, often without documentation. A full rewrite starts from zero on that knowledge and reproduces the same bugs the first version had eventually fixed, for long months during which you pay a new team without delivering any new value to your clients.
 
-In nearly all cases, [modernizing a legacy PHP application without rewriting everything](/article/moderniser-application-php-legacy-sans-tout-reecrire) (in French) is less risky and faster to pay off. A rewrite is only justified when the effort of remediation truly exceeds the residual value of the application, which remains exceptional. Our approach always starts from what exists rather than from a blank page.
+In nearly all cases, [modernizing a legacy PHP application without rewriting everything](/en/article/modernize-legacy-php-app) is less risky and faster to pay off. A rewrite is only justified when the effort of remediation truly exceeds the residual value of the application, which remains exceptional. Our approach always starts from what exists rather than from a blank page.
 
 ## Phase 1: Regain Control Before Writing a Single Line
 
@@ -68,9 +68,9 @@ Once you have access, you secure things immediately. The first action is to chec
 
 ## Phase 2: The Technical Assessment
 
-With control regained, you draw up an objective diagnosis. This phase looks like an audit, but with an operational goal: deciding what to do and in what order. It is lighter than a [technical due diligence](/article/due-diligence-technique-application-symfony-checklist-repreneur) (in French) carried out in an acquisition context, where the aim is to value an asset, but it shares the same tools.
+With control regained, you draw up an objective diagnosis. This phase looks like an audit, but with an operational goal: deciding what to do and in what order. It is lighter than a [technical due diligence](/en/article/symfony-technical-due-diligence) carried out in an acquisition context, where the aim is to value an asset, but it shares the same tools.
 
-You start with static analysis. [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French) configured at the highest level the codebase supports reveals the scale of typing and consistency problems in minutes. You then measure real [automated test](/tests-automatises-php) (in French) coverage, distinguishing tests that truly protect the business logic from decoration that tests nothing. You scan dependencies with the official [`composer audit`](https://getcomposer.org/doc/03-cli.md#audit) command, identify the [dead code](/article/code-mort-mission-elimination) (in French) that pollutes readability, and spot structural anti-patterns.
+You start with static analysis. [PHPStan](/en/article/phpstan-improve-php-code-quality) configured at the highest level the codebase supports reveals the scale of typing and consistency problems in minutes. You then measure real [automated test](/tests-automatises-php) (in French) coverage, distinguishing tests that truly protect the business logic from decoration that tests nothing. You scan dependencies with the official [`composer audit`](https://getcomposer.org/doc/03-cli.md#audit) command, identify the [dead code](/en/article/php-dead-code-detection-phpstan) that pollutes readability, and spot structural anti-patterns.
 
 The decisive step is to cross-reference these findings with the Git history. A complex but stable module that nobody ever modifies is not an emergency. A complex module that is constantly reworked is a hot spot that concentrates risk. This prioritization by change frequency is what distinguishes a useful [PHP code audit](/audit-code-php) (in French) from a simple list of defects with no hierarchy.
 
@@ -80,19 +80,19 @@ With a clear map, you stabilize before adding anything new. The goal of this pha
 
 You start by putting regression tests on the critical business flows, those where an outage directly hurts clients. These tests do not aim for perfect coverage, but for a safety net on what really matters. You then set up a minimal integration and deployment pipeline that runs static analysis and tests on every change and automates going to production, turning anxious deployment into a non-event.
 
-In parallel, you tackle the bus factor by documenting the essentials. [Technical documentation structured with the Diátaxis approach](/article/comment-produire-la-documentation-sur-votre-projet-symfony-avec-lapproche-diataxis) (in French) is enough to make the project transferable: general architecture, key decisions, operating procedures. The goal is not to write a novel, but to make sure a senior Symfony developer can deliver a nontrivial change in a few days, not after weeks of reverse engineering.
+In parallel, you tackle the bus factor by documenting the essentials. [Technical documentation structured with the Diátaxis approach](/en/article/symfony-documentation-diataxis) is enough to make the project transferable: general architecture, key decisions, operating procedures. The goal is not to write a novel, but to make sure a senior Symfony developer can deliver a nontrivial change in a few days, not after weeks of reverse engineering.
 
 ## Phase 4: Evolve with Confidence
 
 Once the codebase is under control, evolution becomes possible again without anxiety. The golden rule of this phase is to prioritize remediation by business value, not by technical perfection.
 
-Not all imperfections in an inherited codebase are equal. Some truly slow down the roadmap or expose you to risk, others are merely inelegant and can wait. A good remediation plan sequences the work according to its impact on your business, and folds any version upgrades into a gradual [migration guide](/article/guide-de-migration-dans-un-projet-symfony) (in French), relying on the [official major version upgrade guide](https://symfony.com/doc/current/setup/upgrade_major.html) rather than a risky big leap. The reference [Symfony release calendar](https://symfony.com/releases) serves as a compass to plan these upgrades without being caught out by end of support.
+Not all imperfections in an inherited codebase are equal. Some truly slow down the roadmap or expose you to risk, others are merely inelegant and can wait. A good remediation plan sequences the work according to its impact on your business, and folds any version upgrades into a gradual [migration guide](/en/article/symfony-upgrade-guide), relying on the [official major version upgrade guide](https://symfony.com/doc/current/setup/upgrade_major.html) rather than a risky big leap. The reference [Symfony release calendar](https://symfony.com/releases) serves as a compass to plan these upgrades without being caught out by end of support.
 
 Evolution then happens incrementally, each delivery relying on the test safety net and the pipeline set up in the previous phase. You move from a defensive mode, where you avoid touching the code, to an offensive mode, where you create value again.
 
 ## Choosing the Right Provider for the Takeover
 
-Taking over an existing project is a different exercise from building a new application, and not every provider is comfortable with it. [Choosing the right Symfony provider](/article/comment-choisir-son-prestataire-symfony) (in French) for this mission means watching for a few signals.
+Taking over an existing project is a different exercise from building a new application, and not every provider is comfortable with it. [Choosing the right Symfony provider](/en/article/choosing-symfony-service-provider) for this mission means watching for a few signals.
 
 The first positive signal is a diagnostic stance. A serious partner wants to understand what exists before committing and offers a pre-audit. The opposite warning sign is the one who, before even reading a line of your code, recommends rewriting everything: that is often more comfortable for them than for you. The second criterion is the ability to place the takeover in the long term, through [third-party application maintenance](/maintenance-applicative-symfony) (in French) that secures your application beyond the initial diagnosis. A [Symfony project takeover](/reprise-projet-symfony) (in French) is not a one-off act, it is the start of a restored relationship of trust.
 

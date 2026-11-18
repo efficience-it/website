@@ -40,7 +40,7 @@ Its limits show up quickly when you use it as a command launcher rather than a b
 
 ## Castor: tasks written in PHP
 
-Castor presents itself as a task runner focused on developer experience. A task is a PHP function marked with the `#[AsTask]` attribute, in a `castor.php` file at the project root. It is built on the [Symfony Console](https://symfony.com/doc/current/components/console.html), which gives it help (`--help`), argument validation and autocompletion for free. We covered this foundation in our article on [invokable commands and Console attributes](/article/commandes-invocables-symfony-attributs-console) (in French).
+Castor presents itself as a task runner focused on developer experience. A task is a PHP function marked with the `#[AsTask]` attribute, in a `castor.php` file at the project root. It is built on the [Symfony Console](https://symfony.com/doc/current/components/console.html), which gives it help (`--help`), argument validation and autocompletion for free. We covered this foundation in our article on [invokable commands and Console attributes](/en/article/symfony-invokable-commands-attributes).
 
 Installation takes one line (`curl "https://castor.jolicode.com/install" | bash`), and it is also available as a phar, a static binary and through Composer. The [GitHub repository](https://github.com/jolicode/castor) is under the MIT license. The static binary embeds PHP, so a machine without PHP installed can use it.
 
@@ -167,7 +167,7 @@ With Castor, the first point is the prerequisite: you have to install it, locall
 - **Switch to Castor** as soon as your tasks have arguments, conditions, loops or HTTP calls, or when the Makefile becomes unreadable.
 - **Let both coexist** during the transition: the Makefile keeps `make test` and delegates to `castor test`.
 
-Whatever the tool, what matters is that the same commands run locally and in CI. That is what avoids the classic "it works on my machine". On this topic, our look at [why Docker has become essential](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) (in French) lays the groundwork for the environment. For the quality side, [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French) and [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) (in French) plug naturally into a `qa` task.
+Whatever the tool, what matters is that the same commands run locally and in CI. That is what avoids the classic "it works on my machine". On this topic, our look at [why Docker has become essential](/en/article/docker-production-reliability) lays the groundwork for the environment. For the quality side, [PHPStan](/en/article/phpstan-improve-php-code-quality) and [Rector](/en/article/rector-php-code-refactoring) plug naturally into a `qa` task.
 
 ## Key takeaways
 
@@ -180,5 +180,5 @@ If you want to make your tooling chain more reliable, our team works on [cloud a
 - [Castor documentation](https://castor.jolicode.com/), installation, function reference and FAQ
 - [Castor on GitHub](https://github.com/jolicode/castor), source code and releases
 - [GNU Make manual](https://www.gnu.org/software/make/manual/make.html), the tool's reference
-- [Traefik or Nginx in production](/article/traefik-ou-nginx-en-production) (in French), another tooling choice to settle
-- [Running Postman tests with Newman in GitLab CI](/article/comment-executer-des-tests-postman-avec-newman-dans-gitlab-ci) (in French), to plug your tasks into CI
+- [Traefik or Nginx in production](/en/article/traefik-vs-nginx-production), another tooling choice to settle
+- [Running Postman tests with Newman in GitLab CI](/en/article/postman-newman-gitlab-ci-api-tests), to plug your tasks into CI

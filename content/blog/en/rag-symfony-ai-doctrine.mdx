@@ -11,7 +11,7 @@ translationOf: "rag-symfony-ai-doctrine-indexer-base-metier"
 translatedFromUpdatedAt: "2026-10-12"
 ---
 
-You have a Symfony application in production, a well-filled [Doctrine](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) (in French) database, and you are wondering how to make all of it queryable by an LLM. Not through a classic REST API. Through natural language: "which similar tickets have already been resolved?", "which client had this problem in January?"
+You have a Symfony application in production, a well-filled [Doctrine](/en/article/doctrine-orm-3-changes) database, and you are wondering how to make all of it queryable by an LLM. Not through a classic REST API. Through natural language: "which similar tickets have already been resolved?", "which client had this problem in January?"
 
 The answer fits in three letters: **RAG** (Retrieval-Augmented Generation). And since the arrival of [Symfony AI](https://symfony.com/doc/current/ai.html), we finally have the building blocks to do it cleanly in the Symfony ecosystem.
 
@@ -165,7 +165,7 @@ The **metadata** matters: it lets you filter results by entity type, status, or 
 
 ### PostgreSQL with pgvector
 
-If your application already runs on PostgreSQL, containerized with [Docker](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) (in French), this is the most pragmatic choice. [pgvector](https://github.com/pgvector/pgvector) adds a `vector` type and similarity operators directly in your existing database.
+If your application already runs on PostgreSQL, containerized with [Docker](/en/article/docker-production-reliability), this is the most pragmatic choice. [pgvector](https://github.com/pgvector/pgvector) adds a `vector` type and similarity operators directly in your existing database.
 
 ```sql
 CREATE EXTENSION IF NOT EXISTS vector;
@@ -184,7 +184,7 @@ Advantages: no extra infrastructure, unified backups, ACID transactions. For mos
 
 ### Qdrant
 
-If you need top performance on large volumes or advanced features (payload filtering, sharding), Qdrant is an excellent choice. It is a dedicated vector store designed specifically for similarity search. For the classic full-text search that often accompanies semantic search, our [comparison of Elasticsearch and Algolia](/article/elasticsearch-ou-algolia-moteur-de-recherche-symfony) (in French) details the tradeoffs between a self-hosted engine and a SaaS solution.
+If you need top performance on large volumes or advanced features (payload filtering, sharding), Qdrant is an excellent choice. It is a dedicated vector store designed specifically for similarity search. For the classic full-text search that often accompanies semantic search, our [comparison of Elasticsearch and Algolia](/en/article/elasticsearch-vs-algolia-symfony) details the tradeoffs between a self-hosted engine and a SaaS solution.
 
 ```yaml
 symfony_ai:
@@ -253,7 +253,7 @@ The key point: the prompt explicitly tells the LLM to rely **only** on the conte
 
 ## Structuring Search in a Hexagonal Architecture
 
-In a serious Symfony application, you do not want to couple your domain to a specific vector store. This is the core principle of [hexagonal architecture applied to Symfony](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) (in French): isolating the domain from the infrastructure. We define a port:
+In a serious Symfony application, you do not want to couple your domain to a specific vector store. This is the core principle of [hexagonal architecture applied to Symfony](/en/article/symfony-messenger-hexagonal-core): isolating the domain from the infrastructure. We define a port:
 
 ```php
 interface SemanticSearchPort
@@ -379,7 +379,7 @@ class EmbeddingIndexerListener
 }
 ```
 
-We go through Symfony Messenger so the HTTP request is not blocked. The embedding is computed asynchronously. Our [case study on integrating Symfony AI into a legacy project](/article/symfony-ai-projet-legacy-retour-experience) (in French) shows how this type of architecture fits into an existing codebase.
+We go through Symfony Messenger so the HTTP request is not blocked. The embedding is computed asynchronously. Our [case study on integrating Symfony AI into a legacy project](/en/article/symfony-ai-legacy-lessons) shows how this type of architecture fits into an existing codebase.
 
 The `EmbeddableInterface` interface serves as a marker:
 
@@ -530,11 +530,11 @@ RAG with Symfony AI and Doctrine is exactly the kind of topic we love digging in
 
 ## Going Further
 
-- [Claude as a Symfony architecture assistant](/article/claude-assistant-architecture-symfony-legacy) (in French), AI and day-to-day development
-- [Strengths and weaknesses of the most used generative AIs](/article/forces-et-faiblesses-des-ia-generatives-les-plus-utilisees) (in French), model comparison
+- [Claude as a Symfony architecture assistant](/en/article/claude-code-symfony-legacy-architecture), AI and day-to-day development
+- [Strengths and weaknesses of the most used generative AIs](/en/article/generative-ai-tools-strengths-weaknesses), model comparison
 - Symfony Messenger: the backbone of hexagonal architecture, handling asynchronous indexing with Messenger
-- [The domain should never know about Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony) (in French), structuring ports and adapters around RAG
-- [Which AI assistant to choose for coding in 2026?](/article/quel-assistant-ia-choisir-pour-coder) (in French), choosing the LLMs to connect to the RAG pipeline
-- [MCP servers for Symfony developers](/article/serveurs-mcp-claude-code-developpeurs-symfony) (in French), connecting Claude Code to your Doctrine database through MCP
+- [The domain should never know about Symfony](/en/article/domain-layer-symfony-independence), structuring ports and adapters around RAG
+- [Which AI assistant to choose for coding in 2026?](/en/article/best-ai-coding-assistant-2026), choosing the LLMs to connect to the RAG pipeline
+- [MCP servers for Symfony developers](/en/article/mcp-servers-claude-code-symfony), connecting Claude Code to your Doctrine database through MCP
 - [Symfony AI documentation](https://symfony.com/doc/current/ai.html), official guide to the component
 - [pgvector: PostgreSQL extension](https://github.com/pgvector/pgvector), vector storage for semantic search
