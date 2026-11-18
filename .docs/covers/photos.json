@@ -1238,5 +1238,12 @@
     "license": "CC0",
     "author": "Samuel Zeller samuelzeller",
     "url": "https://commons.wikimedia.org/wiki/File:Archive_storage_(Unsplash).jpg"
+  },
+  "lazy-objects-natifs-php-84-doctrine-symfony": {
+    "name": "lazy-objects-php-84",
+    "file": "File:Sloth in a tree (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Kleber Varejão Filho klebervarejaofilho",
+    "url": "https://commons.wikimedia.org/wiki/File:Sloth_in_a_tree_(Unsplash).jpg"
   }
 }
