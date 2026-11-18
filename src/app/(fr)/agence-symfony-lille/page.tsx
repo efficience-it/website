@@ -570,7 +570,7 @@ export default function AgenceSymfonyLille() {
         <section className="bg-primary py-16 text-center text-white">
           <div className="mx-auto max-w-3xl px-4">
             <h2 className="font-display text-3xl font-bold">
-              Un projet Symfony à Lille ou en Hauts-de-France ?
+              Un projet Symfony à Lille ou dans les Hauts-de-France ?
             </h2>
             <p className="mt-4 text-lg text-white/90">
               Parlez-nous de votre projet. Un premier échange gratuit de 30

@@ -86,7 +86,7 @@ Google indique qu'optimiser pour ses fonctions d'IA reste du SEO : mêmes systè
 - Introduction qui répond à la question du titre dans les premières phrases.
 - Tableaux et listes pour les comparaisons, chiffres sourcés, date visible.
 - Entités claires : nom de l'entreprise, auteurs, technologies, cohérents entre pages et schema.
-- `public/llms.txt` et `llms-full.txt` : à jour avec les pages clés. Le signaler sans lui attribuer d'effet sur Google, qui ne l'utilise pas.
+- `llms.txt` et `llms-full.txt` : générés par `src/lib/llms.ts` à partir des articles, de `src/lib/routes.ts` et de `content/llms/presentation.md`. Le signaler sans lui attribuer d'effet sur Google, qui ne l'utilise pas.
 - Page `/geo-optimisation-ia` : le site applique-t-il ce qu'il vend ?
 
 ### E. Maillage et architecture sémantique

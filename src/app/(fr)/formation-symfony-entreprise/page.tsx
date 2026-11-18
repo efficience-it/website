@@ -186,7 +186,7 @@ const webPage = webPageJsonLd({
 });
 
 const formationRelatedLinks: RelatedLink[] = [
-  { title: "Accompagnement et Conseil", description: "Nos autres prestations d'accompagnement technique", href: "/accompagnement-et-conseil" },
+  { title: "Accompagnement et conseil", description: "Nos autres prestations d'accompagnement technique", href: "/accompagnement-et-conseil" },
   { title: "Pourquoi choisir Symfony pour vos projets", description: "Les atouts du framework en entreprise", href: "/article/pourquoi-choisir-symfony-pour-vos-projets" },
   { title: "Documentation officielle Symfony", description: "Référence technique du framework", href: "https://symfony.com/doc/current/index.html", external: true },
   { title: "Agence Symfony à Lille", description: "Nos formations en présentiel depuis notre siège lillois", href: "/agence-symfony-lille" },
