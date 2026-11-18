@@ -16,11 +16,11 @@ Symfony Insight is a PHP code analysis platform maintained by SensioLabs, the co
 
 The tool natively supports Symfony projects, but also analyzes Laravel and Drupal applications, REST or SOAP APIs, and any generic PHP project. It inspects PHP, XML and YAML files, HTML risks and the dependencies declared in composer.lock, with more than 100 quality checks split into severity categories.
 
-Each violation detected comes with contextual documentation that explains the problem, its impact and how to fix it. This educational dimension speeds up the upskilling of junior profiles, while serving as a safety net for experienced developers against unintentional regressions. To go further on this topic, our article on [coding conventions](/article/coding-conventions) (in French) details the rules to follow to keep code clean and consistent.
+Each violation detected comes with contextual documentation that explains the problem, its impact and how to fix it. This educational dimension speeds up the upskilling of junior profiles, while serving as a safety net for experienced developers against unintentional regressions. To go further on this topic, our article on [coding conventions](/en/article/php-coding-standards-best-practices) details the rules to follow to keep code clean and consistent.
 
 ### Static analysis versus dynamic analysis
 
-Most code quality tools limit themselves to reading the source code without running it. Symfony Insight goes a step further by deploying the application in an isolated environment to observe its real behavior at runtime. This dynamic analysis reveals defects that static analysis cannot see: misconfigured services, unreachable routes, incorrect dependency injection, serialization errors or container configuration problems. This is a strong differentiator compared with [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French) or Psalm, which can only reason about the type graph without running the code.
+Most code quality tools limit themselves to reading the source code without running it. Symfony Insight goes a step further by deploying the application in an isolated environment to observe its real behavior at runtime. This dynamic analysis reveals defects that static analysis cannot see: misconfigured services, unreachable routes, incorrect dependency injection, serialization errors or container configuration problems. This is a strong differentiator compared with [PHPStan](/en/article/phpstan-improve-php-code-quality) or Psalm, which can only reason about the type graph without running the code.
 
 ## Setup and configuration
 
@@ -42,7 +42,7 @@ Violations fall into broad families that every lead or staff engineer should kno
 
 ### Security
 
-Detection of SQL injections, XSS flaws, secrets exposed in code, dependencies with [known CVEs](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) (in French), and permissive Symfony configurations (debug enabled in production, firewalls that are too open). These are the violations to fix as an absolute priority, because they expose the project to legal risks under the GDPR and to reputational damage.
+Detection of SQL injections, XSS flaws, secrets exposed in code, dependencies with [known CVEs](/en/article/cve-vulnerability-management), and permissive Symfony configurations (debug enabled in production, firewalls that are too open). These are the violations to fix as an absolute priority, because they expose the project to legal risks under the GDPR and to reputational damage.
 
 ### Performance
 
@@ -50,7 +50,7 @@ N+1 queries, unoptimized Doctrine calls, missing HTTP cache, inappropriate use o
 
 ### Maintainability and architecture
 
-Duplicated code, excessive coupling between bundles, abandoned TODO comments, outdated dependencies. These signals reveal the buildup of [technical debt](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French) which, left unchecked, ends up drastically slowing the team's velocity.
+Duplicated code, excessive coupling between bundles, abandoned TODO comments, outdated dependencies. These signals reveal the buildup of [technical debt](/en/article/technical-debt-explained) which, left unchecked, ends up drastically slowing the team's velocity.
 
 ## How it compares with PHPStan and SonarQube
 
@@ -97,7 +97,7 @@ Symfony Insight has constraints you should evaluate before adopting it:
 
 ## Going further
 
-- [Symfony certifications](/article/les-certifications-symfony-twig-symfony-sylius) (in French), validate your Symfony skills with the official certifications
+- [Symfony certifications](/en/article/symfony-twig-sylius-certifications), validate your Symfony skills with the official certifications
 - [Symfony Insight](https://insight.symfony.com/), the official code quality analysis platform
 - [SonarQube](https://www.sonarsource.com/products/sonarqube/), an open source code quality analysis alternative
 - [PHPStan](https://phpstan.org/), a complementary static analyzer for PHP code
