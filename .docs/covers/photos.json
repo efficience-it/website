@@ -1245,5 +1245,19 @@
     "license": "CC0",
     "author": "Thaddaeus Lim _th4d_",
     "url": "https://commons.wikimedia.org/wiki/File:Cityscape_and_traffic_light_trails_(Unsplash).jpg"
+  },
+  "lazy-objects-natifs-php-84-doctrine-symfony": {
+    "name": "lazy-objects-php-84",
+    "file": "File:Sloth in a tree (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Kleber Varejão Filho klebervarejaofilho",
+    "url": "https://commons.wikimedia.org/wiki/File:Sloth_in_a_tree_(Unsplash).jpg"
+  },
+  "automapper-serialisation-api-symfony-performances": {
+    "name": "automapper-serialisation-api",
+    "file": "File:Highway Horizons (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Cameron Kirby ckirby",
+    "url": "https://commons.wikimedia.org/wiki/File:Highway_Horizons_(Unsplash).jpg"
   }
 }
