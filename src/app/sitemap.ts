@@ -21,15 +21,19 @@ function toEntry(route: SiteRoute) {
   };
 }
 
-function pairAlternates(frenchSlug: string, englishSlug: string) {
-  const french = `${BASE_URL}/article/${frenchSlug}`;
+function alternates(frenchPath: string, englishPath: string) {
+  const french = `${BASE_URL}${frenchPath}`;
   return {
     languages: {
       fr: french,
-      en: `${BASE_URL}/en/article/${englishSlug}`,
+      en: `${BASE_URL}${englishPath}`,
       "x-default": french,
     },
   };
+}
+
+function pairAlternates(frenchSlug: string, englishSlug: string) {
+  return alternates(`/article/${frenchSlug}`, `/en/article/${englishSlug}`);
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -37,7 +41,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const englishPosts = ENGLISH_INDEXABLE ? getAllPosts("en") : [];
   const englishBySource = new Map(englishPosts.map((post) => [post.translationOf as string, post]));
 
-  const staticPages: MetadataRoute.Sitemap = getStaticRoutes().map(toEntry);
+  const hasEnglishBlog = englishPosts.length > 0;
+  const blogAlternates = alternates("/blog", "/en/blog");
+  const staticPages: MetadataRoute.Sitemap = getStaticRoutes().map((route) => ({
+    ...toEntry(route),
+    ...(hasEnglishBlog && route.path === "/blog" ? { alternates: blogAlternates } : {}),
+  }));
   const categoryPages: MetadataRoute.Sitemap = getCategoryRoutes(posts).map(toEntry);
   const blogPages: MetadataRoute.Sitemap = getBlogRoutes(posts).map((route: BlogSiteRoute) => {
     const slug = route.path.replace("/article/", "");
@@ -58,5 +67,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     alternates: pairAlternates(post.translationOf as string, post.slug),
   }));
 
-  return [...staticPages, ...categoryPages, ...blogPages, ...englishPages];
+  const englishBlog: MetadataRoute.Sitemap = hasEnglishBlog
+    ? [
+        {
+          url: `${BASE_URL}/en/blog`,
+          lastModified: englishPosts.map((post) => post.updatedAt ?? post.date).sort().pop(),
+          changeFrequency: "weekly",
+          priority: 0.6,
+          alternates: blogAlternates,
+        },
+      ]
+    : [];
+
+  return [...staticPages, ...categoryPages, ...blogPages, ...englishBlog, ...englishPages];
 }

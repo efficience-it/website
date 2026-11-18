@@ -90,9 +90,9 @@ const faqItems = [
       "Absolument. Grâce à API Platform intégré dans Sylius et l'écosystème Symfony, les intégrations avec des ERP, CRM ou outils tiers se font via des API REST ou des connecteurs dédiés.",
   },
   {
-    title: "Combien coûte un projet e-commerce Sylius ?",
+    title: "Comment cadrer un projet e-commerce Sylius ?",
     content:
-      "Le coût dépend de la complexité du projet : catalogue, intégrations, design sur mesure. Nous proposons un audit gratuit de 30 minutes pour évaluer vos besoins et vous fournir une estimation réaliste.",
+      "Le périmètre dépend de la complexité du projet : catalogue, intégrations, design sur mesure. Nous proposons un échange de 30 minutes pour évaluer vos besoins et définir une démarche adaptée.",
   },
   {
     title: "Sylius supporte-t-il le multi-langue et le multi-devise ?",

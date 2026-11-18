@@ -62,7 +62,7 @@ Phil Karlton a formulé ce qui reste l'un des aphorismes les plus justes de l'in
 
 ### Cache-busting par versioning
 
-L'approche la plus fiable consiste à inclure un hash du contenu dans le nom du fichier. Webpack, Vite et la plupart des outils de build modernes génèrent automatiquement des noms de fichiers versionnés. Quand le contenu change, le nom change, et le navigateur traite la ressource comme entièrement nouvelle. Cette technique permet d'appliquer des durées de cache très longues sans risque d'incohérence.
+L'approche la plus fiable consiste à inclure un hash du contenu dans le nom du fichier. Webpack, Vite et la plupart des outils de build modernes génèrent automatiquement des noms de fichiers versionnés. Quand le contenu change, le nom change, et le navigateur traite la ressource comme entièrement nouvelle. Cette technique permet d'appliquer des durées de cache très longues sans risque d'incohérence. Dans Symfony, [AssetMapper comme Webpack Encore](/article/assetmapper-ou-webpack-encore-symfony) savent produire ces noms versionnés.
 
 ### Purge et ban via API
 

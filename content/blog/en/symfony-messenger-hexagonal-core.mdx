@@ -17,7 +17,7 @@ You have used Symfony Messenger for months, maybe years. You dispatch messages, 
 
 When people talk about Messenger, they immediately think of RabbitMQ, workers and queues. That makes sense: it is the most visible use case. But Messenger implements the **Message Bus** pattern, and that changes everything.
 
-A message bus is a mediator between whoever sends an intention and whoever handles it. The sender does not know the handler. The handler does not know where the message comes from. This decoupling is exactly the foundation of a hexagonal architecture: [the domain should never know Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony) (in French), and the infrastructure adapts.
+A message bus is a mediator between whoever sends an intention and whoever handles it. The sender does not know the handler. The handler does not know where the message comes from. This decoupling is exactly the foundation of a hexagonal architecture: [the domain should never know Symfony](/en/article/domain-layer-symfony-independence), and the infrastructure adapts.
 
 Messenger gives you three essential things:
 
@@ -106,7 +106,7 @@ final readonly class CreateOrderHandler
 }
 ```
 
-The handler depends on domain **ports** (interfaces), not concrete implementations. `OrderRepositoryInterface` is defined in the domain. The [Doctrine](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) (in French) implementation lives in the infrastructure. The handler does not know, and does not need to know, how persistence works.
+The handler depends on domain **ports** (interfaces), not concrete implementations. `OrderRepositoryInterface` is defined in the domain. The [Doctrine](/en/article/doctrine-orm-3-changes) implementation lives in the infrastructure. The handler does not know, and does not need to know, how persistence works.
 
 In your controller, the dispatch is trivial:
 
@@ -349,7 +349,7 @@ And use them in a middleware for multi-tenancy, tracing, or any other cross-cutt
 
 ## No More 30-Method Services
 
-You know that `OrderService` with `createOrder()`, `validateOrder()`, `cancelOrder()`, `getOrderById()`, `getOrdersByCustomer()`, `calculateTotal()`, and 25 other methods? That god-class service that violates the Single Responsibility Principle, piles up [technical debt](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French) and is impossible to test cleanly?
+You know that `OrderService` with `createOrder()`, `validateOrder()`, `cancelOrder()`, `getOrderById()`, `getOrdersByCustomer()`, `calculateTotal()`, and 25 other methods? That god-class service that violates the Single Responsibility Principle, piles up [technical debt](/en/article/technical-debt-explained) and is impossible to test cleanly?
 
 With the Command/Query/Event pattern, each use case is isolated in its own handler. A handler does **one thing**. It has its own dependencies, clearly declared in the constructor. It can be unit tested in a few lines.
 
@@ -424,7 +424,7 @@ public function __invoke(CreateOrder $command): Order
 }
 ```
 
-A command returns nothing. If you need the ID of the created entity, generate it **before** the dispatch (with a [UUID or ULID](/article/prendre-int-uuid-ou-ulid-pour-un-index-de-base-de-donnees) (in French), for example) and pass it in the command.
+A command returns nothing. If you need the ID of the created entity, generate it **before** the dispatch (with a [UUID or ULID](/en/article/int-uuid-ulid-database-ids), for example) and pass it in the command.
 
 ```php
 $orderId = Uuid::v7()->toString();
@@ -443,12 +443,12 @@ If your handler runs longer than 20 lines, something is wrong. Either it contain
 
 The CQRS/event-driven pattern with Messenger is an excellent starting point for structuring maintainable Symfony applications. If you want to dig deeper, the [official Symfony Messenger documentation](https://symfony.com/doc/current/messenger.html) is complete and well structured, and the [component's GitHub repository](https://github.com/symfony/messenger) lets you read the source code to understand the internals.
 
-Hexagonal architecture with Messenger is not a fad. It is a proven approach that makes your code testable, maintainable and scalable. Our support in [Symfony hexagonal architecture](/architecture-hexagonale-symfony) (in French) helps teams put these patterns in place on existing projects. The framework becomes an implementation detail. The domain stays pure. And your colleagues will thank you when they open the project in six months. If you are starting from an existing project and want to adopt this architecture gradually, the [project retrospective on migrating to hexagonal architecture](/article/migration-symfony-architecture-hexagonale-retour-mission) (in French) offers a pragmatic, field-tested approach. On the API side, our [event-driven Symfony APIs](/api-sur-mesure-symfony) (in French) take over to expose commands and events to external consumers, and [building Symfony line-of-business applications](/developpement-web-sur-mesure) (in French) describes how to fit these building blocks together in a delivered product.
+Hexagonal architecture with Messenger is not a fad. It is a proven approach that makes your code testable, maintainable and scalable. Our support in [Symfony hexagonal architecture](/architecture-hexagonale-symfony) (in French) helps teams put these patterns in place on existing projects. The framework becomes an implementation detail. The domain stays pure. And your colleagues will thank you when they open the project in six months. If you are starting from an existing project and want to adopt this architecture gradually, the [project retrospective on migrating to hexagonal architecture](/en/article/symfony-hexagonal-migration) offers a pragmatic, field-tested approach. On the API side, our [event-driven Symfony APIs](/api-sur-mesure-symfony) (in French) take over to expose commands and events to external consumers, and [building Symfony line-of-business applications](/developpement-web-sur-mesure) (in French) describes how to fit these building blocks together in a delivered product.
 
 ## Going Further
 
-- [Symfony Messenger vs PHP-Enqueue](/article/quelles-sont-les-differences-entre-symfony-messenger-php-enqueue-quoi-utiliser) (in French), a comparison of message buses
-- [Which architecture to choose: microservices or modular monolith?](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) (in French), choosing the architecture that will host your buses
-- [Everything about caching](/article/tout-savoir-sur-la-mise-en-cache-tips) (in French), combining cache and Messenger for asynchronous invalidation
-- [RAG with Symfony AI and Doctrine](/article/rag-symfony-ai-doctrine-indexer-base-metier) (in French), using Messenger for asynchronous embedding indexing
+- [Symfony Messenger vs PHP-Enqueue](/en/article/symfony-messenger-vs-enqueue), a comparison of message buses
+- [Which architecture to choose: microservices or modular monolith?](/en/article/microservices-vs-modular-monolith), choosing the architecture that will host your buses
+- [Everything about caching](/en/article/caching-guide-web-applications), combining cache and Messenger for asynchronous invalidation
+- [RAG with Symfony AI and Doctrine](/en/article/rag-symfony-ai-doctrine), using Messenger for asynchronous embedding indexing
 - Using int, UUID or ULID for a database index, choosing the identifiers of your commands and events
