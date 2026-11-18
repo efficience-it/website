@@ -33,11 +33,11 @@ Analyse le diff git staged. Identifie :
 Classe les remarques par sévérité : bloquant, important, suggestion.
 ```
 
-On a project that follows a [hexagonal architecture](/article/migration-symfony-architecture-hexagonale-retour-mission) (in French), this skill automatically detects forbidden imports between layers. It complements static analysis tools by adding a layer of semantic checking that linters do not cover. The result: cleaner pull requests from the first push, and human reviews that focus on business logic rather than style details.
+On a project that follows a [hexagonal architecture](/en/article/symfony-hexagonal-migration), this skill automatically detects forbidden imports between layers. It complements static analysis tools by adding a layer of semantic checking that linters do not cover. The result: cleaner pull requests from the first push, and human reviews that focus on business logic rather than style details.
 
 ## /test: generate targeted PHPUnit tests
 
-Writing tests takes time, especially when you must follow project-specific conventions. This skill speeds up the process by generating a complete skeleton that fits how your tests are organized. The same logic applies to [end-to-end tests with Playwright driven by Claude Code](/article/playwright-tests-end-to-end-claude-code) (in French), where the agent generates navigation scenarios and maintains selectors.
+Writing tests takes time, especially when you must follow project-specific conventions. This skill speeds up the process by generating a complete skeleton that fits how your tests are organized. The same logic applies to [end-to-end tests with Playwright driven by Claude Code](/en/article/playwright-e2e-claude-code), where the agent generates navigation scenarios and maintains selectors.
 
 ```markdown
 Génère un test PHPUnit pour le fichier courant.
@@ -94,7 +94,7 @@ Refactore le fichier ou la classe indiquée en respectant :
 Explique chaque déplacement de code.
 ```
 
-When [the domain should never know about Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony) (in French), this skill makes sure the refactoring goes in the right direction. It is especially useful for developers who are discovering hexagonal architecture principles and need concrete guidance during their first changes.
+When [the domain should never know about Symfony](/en/article/domain-layer-symfony-independence), this skill makes sure the refactoring goes in the right direction. It is especially useful for developers who are discovering hexagonal architecture principles and need concrete guidance during their first changes.
 
 ## /messenger: check the asynchronous configuration
 
@@ -141,7 +141,7 @@ Génère les attributs OpenAPI (OA\) pour chaque endpoint :
 Respecte les conventions REST décrites dans le projet.
 ```
 
-Combined with [REST best practices](/article/api-rest-les-bonnes-pratiques) (in French), this skill produces standards-compliant documentation with no manual effort. The documentation stays in sync with the code because it is generated directly from the controllers.
+Combined with [REST best practices](/en/article/php-rest-api-best-practices), this skill produces standards-compliant documentation with no manual effort. The documentation stays in sync with the code because it is generated directly from the controllers.
 
 ## /phpstan: fix static analysis errors
 
@@ -156,7 +156,7 @@ Ne jamais réduire le niveau de PHPStan.
 Explique chaque correction.
 ```
 
-This skill is the ideal companion for teams aiming for the [maximum PHPStan level](/article/phpstan-niveau-max-symfony-10-erreurs) (in French). It turns an intimidating list of errors into fixes applied methodically, without cheating with exclusion annotations.
+This skill is the ideal companion for teams aiming for the [maximum PHPStan level](/en/article/phpstan-max-level-symfony-errors). It turns an intimidating list of errors into fixes applied methodically, without cheating with exclusion annotations.
 
 ## /onboard: speed up onboarding for newcomers
 
@@ -184,6 +184,6 @@ In short: skills equip your development team, Symfony AI equips your application
 
 ## Setting up skills in your team
 
-Setup is simple: clone the skills from the [claude-skills-php repository](https://github.com/efficience-it/claude-skills-php) into your project's `.claude/skills/` folder, adapt them to your conventions, and commit. Each developer gets the skills in their next Claude Code session. Start with two or three skills that address your daily pain points. Iterate on the prompts based on the results: a mediocre skill becomes excellent after a few adjustments. To go further with configuration, the [Claude Code upskilling guide](/article/monter-en-competence-claude-code) (in French) also covers the hooks and MCP servers that complement skills.
+Setup is simple: clone the skills from the [claude-skills-php repository](https://github.com/efficience-it/claude-skills-php) into your project's `.claude/skills/` folder, adapt them to your conventions, and commit. Each developer gets the skills in their next Claude Code session. Start with two or three skills that address your daily pain points. Iterate on the prompts based on the results: a mediocre skill becomes excellent after a few adjustments. To go further with configuration, the [Claude Code upskilling guide](/en/article/claude-code-upskilling) also covers the hooks and MCP servers that complement skills.
 
 The goal is not to automate everything at once, but to gradually build a library of commands that encodes your team's standards. Skills replace neither CI nor human reviews. They step in earlier in the cycle, when the developer writes the code, and reduce the noise in the later stages.

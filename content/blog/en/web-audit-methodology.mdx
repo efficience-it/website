@@ -26,13 +26,13 @@ Code quality determines a team's ability to evolve a product without introducing
 
 [PHPStan](https://phpstan.org/) is our first investigation lever. Configured at the highest level, it reveals typing inconsistencies, method calls on incompatible types, and unchecked potentially null variables. The number of errors detected and the highest level reachable without modifying the code give an objective measure of the project's technical rigor.
 
-PHP_CodeSniffer checks compliance with the PSRs (PSR-1, PSR-4, PSR-12) and with the conventions of the framework in use. On a Symfony project, we add the framework-specific rulesets. The gap between the number of violations and the number of affected files shows whether the problems are systemic or localized. Teams that want to set up these rules upfront can rely on our guide to [coding conventions for maintainable code](/article/coding-conventions) (in French).
+PHP_CodeSniffer checks compliance with the PSRs (PSR-1, PSR-4, PSR-12) and with the conventions of the framework in use. On a Symfony project, we add the framework-specific rulesets. The gap between the number of violations and the number of affected files shows whether the problems are systemic or localized. Teams that want to set up these rules upfront can rely on our guide to [coding conventions for maintainable code](/en/article/php-coding-standards-best-practices).
 
 We also assess the presence and relevance of tests. A project with no unit or functional tests is a project where every change is a risk. We measure code coverage, but above all the quality of the assertions: tests that assert nothing protect against nothing.
 
 ### Targeted manual review
 
-Beyond tooling, a manual review identifies what no tool detects: classes with excessive responsibilities, circular dependencies between modules, [dead code that weighs down the project](/article/code-mort-mission-elimination) (in French), or misplaced abstractions that complicate maintenance without adding value.
+Beyond tooling, a manual review identifies what no tool detects: classes with excessive responsibilities, circular dependencies between modules, [dead code that weighs down the project](/en/article/php-dead-code-detection-phpstan), or misplaced abstractions that complicate maintenance without adding value.
 
 ## Security: from the OWASP Top 10 to dependency analysis
 
@@ -46,7 +46,7 @@ Security HTTP headers are also verified: Content-Security-Policy, Strict-Transpo
 
 ### Auditing third-party dependencies
 
-A point often underestimated: dependencies. We use `composer audit` and the Symfony Security Checker to identify libraries with [known CVEs](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) (in French). Beyond published vulnerabilities, we assess the health of dependencies: date of last update, maintenance frequency, number of transitive dependencies. A library abandoned by its maintainer is a latent risk even without a declared CVE.
+A point often underestimated: dependencies. We use `composer audit` and the Symfony Security Checker to identify libraries with [known CVEs](/en/article/cve-vulnerability-management). Beyond published vulnerabilities, we assess the health of dependencies: date of last update, maintenance frequency, number of transitive dependencies. A library abandoned by its maintainer is a latent risk even without a declared CVE.
 
 ## Performance: browser metrics and server profiling
 
@@ -96,7 +96,7 @@ But the essential part lies in turning the diagnosis into an action plan. Depend
 
 If the problems are targeted, a short-term fix plan is enough: updating vulnerable dependencies, fixing critical flaws, optimizing the slowest queries. These interventions bring immediate, measurable benefits.
 
-If the audit reveals [structural technical debt](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French), we offer medium-term support through **Third-Party Application Maintenance** (TMA). This approach lets you address problems gradually in prioritized batches, without interrupting the operation of the site.
+If the audit reveals [structural technical debt](/en/article/technical-debt-explained), we offer medium-term support through **Third-Party Application Maintenance** (TMA). This approach lets you address problems gradually in prioritized batches, without interrupting the operation of the site.
 
 In the most advanced cases, the audit may recommend a partial redesign of certain components. We then advocate a progressive, module-by-module approach, with measurable success criteria at each step. The resulting roadmap combines immediate fixes, medium-term projects, and the target architectural vision, giving every stakeholder, developers and decision-makers alike, what they need to make trade-offs.
 
@@ -104,8 +104,8 @@ A regular technical audit, like a vehicle inspection, detects problems before th
 
 ## Going further
 
-- [Why entrust us with the maintenance of your web applications](/article/decouvrez-les-raisons-de-nous-confier-la-maintenance-de-vos-applications-web) (in French), why application maintenance is essential after an audit
+- [Why entrust us with the maintenance of your web applications](/en/article/web-application-maintenance-why-us), why application maintenance is essential after an audit
 - Technical debt: should you really be afraid of it? Understanding and managing the technical debt identified during an audit
-- [PHPStan at max level on a Symfony project](/article/phpstan-niveau-max-symfony-10-erreurs) (in French), the most common errors revealed by static analysis
-- [Migration guide for a Symfony project](/article/guide-de-migration-dans-un-projet-symfony) (in French), turning audit recommendations into a concrete migration plan
-- [Symfony Insight: what is it for and how do you set it up?](/article/symfony-insight-a-quoi-ca-sert-et-comment-le-met-on-en-place) (in French), an automated analysis tool that complements the manual audit
+- [PHPStan at max level on a Symfony project](/en/article/phpstan-max-level-symfony-errors), the most common errors revealed by static analysis
+- [Migration guide for a Symfony project](/en/article/symfony-upgrade-guide), turning audit recommendations into a concrete migration plan
+- [Symfony Insight: what is it for and how do you set it up?](/en/article/symfony-insight-code-analysis), an automated analysis tool that complements the manual audit

@@ -1,14 +1,8 @@
-import { readFileSync } from "fs";
-import { join } from "path";
+import { buildLlmsFullTxt } from "@/lib/llms";
+import { textResponse } from "@/lib/text-response";
 
 export const dynamic = "force-static";
 
 export function GET() {
-  const content = readFileSync(
-    join(process.cwd(), "public/llms-full.txt"),
-    "utf-8",
-  );
-  return new Response(content, {
-    headers: { "Content-Type": "text/plain; charset=utf-8" },
-  });
+  return textResponse(buildLlmsFullTxt());
 }

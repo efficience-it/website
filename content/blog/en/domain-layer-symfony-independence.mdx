@@ -219,7 +219,7 @@ class OrderValidated
 }
 ```
 
-The domain event is a simple immutable object holding data. [Symfony Messenger](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) (in French) excels in this role of dispatching domain events, routing them to the right handlers through the message bus. An adapter in the infrastructure translates it into a Symfony event for dispatching:
+The domain event is a simple immutable object holding data. [Symfony Messenger](/en/article/symfony-messenger-hexagonal-core) excels in this role of dispatching domain events, routing them to the right handlers through the message bus. An adapter in the infrastructure translates it into a Symfony event for dispatching:
 
 ```php
 class SymfonyDomainEventDispatcher implements DomainEventDispatcherInterface
@@ -367,7 +367,7 @@ deptrac:
       - Application
 ```
 
-The `Domain: []` rule is the most important one: the domain depends on nothing. No other layer is allowed. If a developer adds a Doctrine import in the domain, Deptrac breaks the build. Combined with [PHPStan as an architecture guardian](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) (in French), you check both the dependencies between layers and the consistency of types.
+The `Domain: []` rule is the most important one: the domain depends on nothing. No other layer is allowed. If a developer adds a Doctrine import in the domain, Deptrac breaks the build. Combined with [PHPStan as an architecture guardian](/en/article/phpstan-improve-php-code-quality), you check both the dependencies between layers and the consistency of types.
 
 Add it to your CI:
 
@@ -375,11 +375,11 @@ Add it to your CI:
 vendor/bin/deptrac --no-interaction
 ```
 
-It is a permanent safety net. Architecture is no longer an oral convention, it is a rule verified on every commit. Pairing Deptrac with [formalized coding conventions](/article/coding-conventions) (in French) within the team further strengthens domain isolation over the long term.
+It is a permanent safety net. Architecture is no longer an oral convention, it is a rule verified on every commit. Pairing Deptrac with [formalized coding conventions](/en/article/php-coding-standards-best-practices) within the team further strengthens domain isolation over the long term.
 
 ## When Not to Do It
 
-This approach has a trade-off. For an admin CRUD with five entities and no business logic, separating domain and infrastructure is over-engineering. Doctrine coupling is only a problem when there is business logic to protect. The question of [choosing between microservices and a modular monolith](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) (in French) arises in the same spirit: the architecture must serve the project, not the other way around.
+This approach has a trade-off. For an admin CRUD with five entities and no business logic, separating domain and infrastructure is over-engineering. Doctrine coupling is only a problem when there is business logic to protect. The question of [choosing between microservices and a modular monolith](/en/article/microservices-vs-modular-monolith) arises in the same spirit: the architecture must serve the project, not the other way around.
 
 The pragmatic rule: if your class only stores and reads back data, a Doctrine entity is enough. If it contains calculations, business validations, state transitions or conditional rules, then it deserves a proper domain.
 
@@ -397,8 +397,8 @@ That is why your domain should never know Symfony. Not out of architectural puri
 
 ## Going Further
 
-- [Migrating Symfony to hexagonal architecture](/article/migration-symfony-architecture-hexagonale-retour-mission) (in French), a concrete project retrospective
+- [Migrating Symfony to hexagonal architecture](/en/article/symfony-hexagonal-migration), a concrete project retrospective
 - Symfony Messenger: the backbone of hexagonal architecture, the command bus in practice
-- [Choosing int, UUID or ULID for a database index](/article/prendre-int-uuid-ou-ulid-pour-un-index-de-base-de-donnees) (in French), picking the right identifier for your domain value objects
+- [Choosing int, UUID or ULID for a database index](/en/article/int-uuid-ulid-database-ids), picking the right identifier for your domain value objects
 - [Alistair Cockburn: Hexagonal Architecture](https://web.archive.org/web/2025/https://alistair.cockburn.us/hexagonal-architecture/), the founding article
 - [Symfony Best Practices](https://symfony.com/doc/current/best_practices.html), the official Symfony conventions

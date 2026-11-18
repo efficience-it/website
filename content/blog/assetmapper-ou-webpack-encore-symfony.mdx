@@ -34,7 +34,7 @@ manifest.json
 runtime.3a27b1ba.js
 ```
 
-Et voici l'équivalent côté AssetMapper après `php bin/console asset-map:compile` : quinze fichiers dans `public/assets` (476 Ko) : les assets à empreinte (`app-TNXHCQF.js`, `styles/app-o-APx4z.css`) et trois fichiers JSON, `manifest.json`, `importmap.json` et `entrypoint.app.json`. La commande a pris 73 millisecondes. La page d'accueil déclare une table d'import et des balises `modulepreload` pour que le navigateur charge les modules en parallèle.
+Et voici l'équivalent côté AssetMapper après `php bin/console asset-map:compile` : quinze fichiers dans `public/assets` (476 Ko), soit les assets à empreinte (`app-TNXHCQF.js`, `styles/app-o-APx4z.css`) et trois fichiers JSON, `manifest.json`, `importmap.json` et `entrypoint.app.json`. La commande a pris 73 millisecondes. La page d'accueil déclare une table d'import et des balises `modulepreload` pour que le navigateur charge les modules en parallèle.
 
 ## Tableau de décision
 

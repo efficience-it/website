@@ -16,7 +16,7 @@ Every business application eventually needs an admin panel. The question is neve
 
 ## EasyAdmin: Admin as a Natural Extension of Symfony
 
-EasyAdmin generates a complete back office from Doctrine ORM entities, as detailed in the [bundle's official documentation](https://symfony.com/bundles/EasyAdminBundle/current/index.html). Installation boils down to a `composer require` and the creation of a Dashboard Controller. It is one of the [most widely used bundles in Symfony projects](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony) (in French), alongside other essential building blocks of the ecosystem. From there, each entity can have its own CRUD Controller that automatically exposes the paginated list, the create and edit forms, and deletion with confirmation.
+EasyAdmin generates a complete back office from Doctrine ORM entities, as detailed in the [bundle's official documentation](https://symfony.com/bundles/EasyAdminBundle/current/index.html). Installation boils down to a `composer require` and the creation of a Dashboard Controller. It is one of the [most widely used bundles in Symfony projects](/en/article/top-symfony-bundles), alongside other essential building blocks of the ecosystem. From there, each entity can have its own CRUD Controller that automatically exposes the paginated list, the create and edit forms, and deletion with confirmation.
 
 Field configuration is done in plain PHP, in the `configureFields` method. You declare the types (`TextField`, `MoneyField`, `BooleanField`, `AssociationField`...), hide certain fields depending on the page (`hideOnForm`, `hideOnIndex`), and apply formatting rules. This declarative approach in code offers a decisive advantage: everything goes through the same workflow as the rest of the application (versioning, code review, tests, CI).
 
@@ -24,7 +24,7 @@ Field configuration is done in plain PHP, in the `configureFields` method. You d
 
 The customization layer is where EasyAdmin shows its strength. The available mechanisms cover several levels of complexity.
 
-The **CRUD actions** (index, detail, new, edit, delete) can be overridden individually. Behind the scenes, each action can expose or consume data through a [well-structured REST API](/article/api-rest-les-bonnes-pratiques) (in French), which makes integrations with third-party tools easier. You can add custom actions at the level of each row or in batch on a selection. Each action is a simple Symfony controller: you get dependency injection, the event system and the whole framework ecosystem.
+The **CRUD actions** (index, detail, new, edit, delete) can be overridden individually. Behind the scenes, each action can expose or consume data through a [well-structured REST API](/en/article/php-rest-api-best-practices), which makes integrations with third-party tools easier. You can add custom actions at the level of each row or in batch on a selection. Each action is a simple Symfony controller: you get dependency injection, the event system and the whole framework ecosystem.
 
 The bundle's **Twig templates** are fully overridable. You can redefine the global layout, the rendering of a specific field, or the page of a particular CRUD. This granularity lets you adapt the interface without ever forking the bundle.
 
@@ -32,7 +32,7 @@ The bundle's **Twig templates** are fully overridable. You can redefine the glob
 
 ### Performance Considerations
 
-On large volumes (hundreds of thousands of records), EasyAdmin's paginated lists can suffer if the underlying Doctrine queries are not optimized. The changes introduced by [Doctrine ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) (in French) improve performance but require vigilance about the compatibility of existing queries. The `createIndexQueryBuilder` method lets you take back control of the listing query: adding joins, conditions and Doctrine hints. You stay within standard DQL, which means the usual optimization strategies (indexes, partial selects, result cache) apply directly.
+On large volumes (hundreds of thousands of records), EasyAdmin's paginated lists can suffer if the underlying Doctrine queries are not optimized. The changes introduced by [Doctrine ORM 3.0](/en/article/doctrine-orm-3-changes) improve performance but require vigilance about the compatibility of existing queries. The `createIndexQueryBuilder` method lets you take back control of the listing query: adding joins, conditions and Doctrine hints. You stay within standard DQL, which means the usual optimization strategies (indexes, partial selects, result cache) apply directly.
 
 ## Forest Admin: The Back Office as a Service
 
@@ -58,7 +58,7 @@ EasyAdmin has no limit on features or users. The effort boils down to the initia
 
 ### Learning Curve
 
-For an experienced Symfony developer, EasyAdmin has almost no learning curve: these are the same concepts (entities, controllers, services, events, Twig). Forest Admin requires learning its data model (collections, fields, segments, Smart Actions) and the conventions of its agent, which is an upfront investment even for a senior developer. The choice of tool is part of a broader reflection on [which framework to adopt for your projects](/article/pourquoi-choisir-symfony-pour-vos-projets) (in French) and the long-term implications.
+For an experienced Symfony developer, EasyAdmin has almost no learning curve: these are the same concepts (entities, controllers, services, events, Twig). Forest Admin requires learning its data model (collections, fields, segments, Smart Actions) and the conventions of its agent, which is an upfront investment even for a senior developer. The choice of tool is part of a broader reflection on [which framework to adopt for your projects](/en/article/why-choose-symfony) and the long-term implications.
 
 ## The Architect's Perspective: Build vs Buy
 
@@ -74,7 +74,7 @@ For SaaS applications that must provide a back office per tenant, EasyAdmin lets
 
 ### Admin as an Internal Product
 
-Mature organizations treat their back office as a full internal product, with its own iterations, backlog and usage metrics. From this angle, EasyAdmin offers total control: you can instrument the interface, add telemetry, build complex workflows and evolve the back office at the same pace as the main application. For an even more integrated approach, [Monofony](/article/monofony-le-guide-ultime-pour-les-debutants) (in French) offers another way to structure robust Symfony back offices. Forest Admin is better suited to phases where the back office must exist quickly without tying up the development team, even if that means accepting the platform's limits.
+Mature organizations treat their back office as a full internal product, with its own iterations, backlog and usage metrics. From this angle, EasyAdmin offers total control: you can instrument the interface, add telemetry, build complex workflows and evolve the back office at the same pace as the main application. For an even more integrated approach, [Monofony](/en/article/monofony-beginners-guide) offers another way to structure robust Symfony back offices. Forest Admin is better suited to phases where the back office must exist quickly without tying up the development team, even if that means accepting the platform's limits.
 
 ## Decision Criteria
 
