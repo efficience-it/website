@@ -138,7 +138,7 @@ const auditRelatedLinks: RelatedLink[] = [
     href: "/article/pourquoi-choisir-symfony-pour-vos-projets",
   },
   {
-    title: "Accompagnement et Conseil",
+    title: "Accompagnement et conseil",
     description: "Nos prestations de conseil et formation",
     href: "/accompagnement-et-conseil",
   },
@@ -256,7 +256,7 @@ export default function AuditSymfonyGratuit() {
                   -40%
                 </p>
                 <p className="mt-2 text-gray">
-                  Réduction de 40% du temps de chargement après optimisation des
+                  Réduction de 40 % du temps de chargement après optimisation des
                   requêtes Doctrine
                 </p>
               </Card>

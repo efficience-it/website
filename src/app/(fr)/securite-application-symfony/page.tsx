@@ -36,6 +36,21 @@ const securiteRelatedLinks: RelatedLink[] = [
     href: "/article/dbtoolsbundle-anonymiser-vos-bases-de-donnees",
   },
   {
+    title: "Voters Symfony : stratégies de décision et performance",
+    description: "Règles d'accès fines, permissions dynamiques et coût des voters",
+    href: "/article/voters-symfony-strategies-decision-performance",
+  },
+  {
+    title: "SSO avec Keycloak et OpenID Connect",
+    description: "Authentification centralisée et API protégée par jeton",
+    href: "/article/sso-keycloak-openid-connect-symfony",
+  },
+  {
+    title: "Chiffrement des données avec Doctrine et PostgreSQL",
+    description: "Protéger les données sensibles au repos avec des index aveugles",
+    href: "/article/chiffrement-donnees-doctrine-postgresql",
+  },
+  {
     title: "Conformité NIS2 : préparer votre application Symfony",
     description: "Hardening, MFA, journalisation et gestion des dépendances",
     href: "/article/conformite-nis2-application-symfony",
