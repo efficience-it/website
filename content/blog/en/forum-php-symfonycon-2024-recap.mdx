@@ -36,7 +36,7 @@ The AFUP makes a point of keeping the event inclusive and accessible. The progra
 
 ### PHP 8.4 and lazy objects
 
-Lazy objects are one of the most anticipated features of PHP 8.4. This language change follows the trajectory described in our article on the [PHP Foundation's contributions](/article/la-fondation-php-souffle-ses-trois-bougies) (in French). They let you defer the initialization of an object until it is actually used, which optimizes memory management and performance. In practice, a lazy object behaves like a transparent proxy: it runs its constructor and allocates its resources only when one of its properties or methods is first accessed.
+Lazy objects are one of the most anticipated features of PHP 8.4. This language change follows the trajectory described in our article on the [PHP Foundation's contributions](/en/article/php-foundation-three-years). They let you defer the initialization of an object until it is actually used, which optimizes memory management and performance. In practice, a lazy object behaves like a transparent proxy: it runs its constructor and allocates its resources only when one of its properties or methods is first accessed.
 
 Nicolas Grekas, an influential developer on the Symfony project and a major contributor to the PHP core, gave a detailed talk on this feature. He showed how lazy objects could transform the way Symfony's dependency injection container works. In applications with hundreds of services, only a fraction is actually used during a given request. With lazy objects, unused services would never be instantiated, which significantly reduces the memory footprint and startup time. Nicolas also presented benchmarks showing concrete performance gains under heavy load.
 
@@ -48,13 +48,13 @@ In modern architectures based on microservices or deployed in the cloud, underst
 
 ### Derick Rethans: what's new in PHP 8.4
 
-Derick Rethans, an iconic figure of the PHP community and the maintainer of Xdebug, explored the technical aspects of PHP 8.4 in depth. To look ahead, our article on [PHP 9.0 and what to know before the release](/article/php-9-0-devoile-ce-que-vous-devez-savoir-avant-la-sortie) (in French) extends this thinking. Beyond lazy objects, he presented the language's new features: property hooks, which let you define getters and setters directly in a property declaration, asymmetric visibility, which allows different access levels for reading and writing, and improvements to the DOM API for better HTML5 support.
+Derick Rethans, an iconic figure of the PHP community and the maintainer of Xdebug, explored the technical aspects of PHP 8.4 in depth. To look ahead, our article on [PHP 9.0 and what to know before the release](/en/article/php-9-upcoming-changes) extends this thinking. Beyond lazy objects, he presented the language's new features: property hooks, which let you define getters and setters directly in a property declaration, asymmetric visibility, which allows different access levels for reading and writing, and improvements to the DOM API for better HTML5 support.
 
 Derick also shared his vision of the language's future, discussing the ongoing conversations among PHP contributors about upcoming RFCs and medium-term directions. His expertise and teaching skills helped the audience understand not only the "what" but also the "why" of these changes.
 
 ### Monofony
 
-Loïc Frémont presented [Monofony](/article/monofony-le-guide-ultime-pour-les-debutants) (in French), an open source micro-framework that favors simplicity and efficiency. Built on the foundations of Sylius and Symfony, Monofony offers a minimalist approach to starting an e-commerce project or an API. Unlike heavier frameworks that ship with a large number of features out of the box, Monofony focuses on the essentials and leaves it to the developer to add only what they need.
+Loïc Frémont presented [Monofony](/en/article/monofony-beginners-guide), an open source micro-framework that favors simplicity and efficiency. Built on the foundations of Sylius and Symfony, Monofony offers a minimalist approach to starting an e-commerce project or an API. Unlike heavier frameworks that ship with a large number of features out of the box, Monofony focuses on the essentials and leaves it to the developer to add only what they need.
 
 Loïc illustrated his talk with a live demo, showing how to initialize a Monofony project and grow it gradually. The approach particularly appeals to teams that want to keep control of their technical stack while benefiting from a solid, proven foundation.
 
@@ -84,7 +84,7 @@ The hands-on workshops, very popular with attendees, took people from theory to 
 
 ### Symfony and digital sustainability
 
-Michelle Sanver presented concrete practices to make Symfony applications more environmentally friendly, a topic we explore in our article on [web eco-design](/article/eco-conception-un-ideal-en-marche-ou-une-illusion-durable) (in French). Her talk covered reducing unnecessary server resources, optimizing database queries to limit energy consumption and adopting smart caching strategies. She reminded us that digital technology accounts for about 4% of global greenhouse gas emissions and that every optimization, however modest, counts at the scale of millions of users.
+Michelle Sanver presented concrete practices to make Symfony applications more environmentally friendly, a topic we explore in our article on [web eco-design](/en/article/eco-design-web-sustainable). Her talk covered reducing unnecessary server resources, optimizing database queries to limit energy consumption and adopting smart caching strategies. She reminded us that digital technology accounts for about 4% of global greenhouse gas emissions and that every optimization, however modest, counts at the scale of millions of users.
 
 ### Extensibility: lessons from Shopware
 
@@ -92,13 +92,13 @@ A rich case study on Shopware showed how Symfony's modular architecture makes it
 
 ## Outlook
 
-These two events confirm the vitality of the PHP and Symfony ecosystem in 2024. For a complete overview of the gatherings you should not miss, see our guide to the [events to follow in the Symfony and PHP world](/article/quels-evenements-suivre-dans-le-monde-de-symfony-php-quelles-differences-entre-eux) (in French). The topics covered reflect developers' current concerns: performance, observability, developer experience and environmental responsibility. The French-speaking PHP community, led by the AFUP, remains one of the most dynamic in the world. A few months before this Forum PHP, we had already covered the talks of [AFUP Day 2024](/article/retour-sur-lafup-day-2024) (in French) in Lille, which dealt with complementary topics.
+These two events confirm the vitality of the PHP and Symfony ecosystem in 2024. For a complete overview of the gatherings you should not miss, see our guide to the [events to follow in the Symfony and PHP world](/en/article/symfony-php-events-to-follow). The topics covered reflect developers' current concerns: performance, observability, developer experience and environmental responsibility. The French-speaking PHP community, led by the AFUP, remains one of the most dynamic in the world. A few months before this Forum PHP, we had already covered the talks of [AFUP Day 2024](/en/article/afup-day-2024-lille-recap) in Lille, which dealt with complementary topics.
 
 The next SymfonyCon will take place in Amsterdam on November 27 and 28, 2025, marking the framework's 20th anniversary. It is an event not to miss for everyone in the ecosystem.
 
 ## Going further
 
-- [Recap of AFUP Day 2025 Lille](/article/retour-sur-lafup-day-2025-lille-php-a-lhonneur-communaute-au-coeur) (in French), PHP in the spotlight
+- [Recap of AFUP Day 2025 Lille](/en/article/afup-day-2025-lille-recap), PHP in the spotlight
 - Which events to follow in the Symfony and PHP world?, the complete calendar
 - PHP 9.0: what to know before the release, language changes that continue the themes of the talks
 - [AFUP: Association Française des Utilisateurs de PHP](https://afup.org/), the organizer of Forum PHP

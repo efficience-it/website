@@ -67,9 +67,9 @@ const faqItems = [
       "Nous démarrons par des ateliers de cadrage avec vos équipes métier. L'objectif est de cartographier les processus actuels, identifier les irritants et prioriser les fonctionnalités. Nous produisons un cahier des charges fonctionnel qui sert de base au développement, mais qui reste adaptable au fil des itérations.",
   },
   {
-    title: "Quel budget prévoir pour une application métier ?",
+    title: "Par où commencer pour une application métier ?",
     content:
-      "Un MVP fonctionnel démarre généralement autour de 30 à 50 jours de développement. L'avantage de l'approche itérative, c'est que vous pouvez commencer avec un périmètre restreint et enrichir l'application au fil du temps, en fonction de vos retours et de votre budget.",
+      "Nous recommandons de démarrer par un MVP au périmètre restreint, centré sur les processus les plus critiques. L'approche itérative permet ensuite d'enrichir l'application au fil du temps, en fonction de vos retours et de vos priorités.",
   },
   {
     title: "Qui maintient l'application après la livraison ?",

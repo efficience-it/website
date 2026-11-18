@@ -19,7 +19,7 @@ translatedFromUpdatedAt: "2026-10-12"
 
 Putting an application into production has always been a high-risk exercise. But today's requirements, performance, security, scalability, time-to-market, have made handcrafted approaches simply untenable. Docker has become the industry standard for web production, on par with Git or CI/CD pipelines. It is no longer a technology choice: it is a prerequisite.
 
-This article explores Docker in production from three progressive angles: the fundamentals that eliminate classic deployment problems, advanced optimization and security techniques, and finally the architectural decisions that determine the success or failure of a containerization strategy at scale. On the choice of the execution model itself, our comparison [WASM or container in 2026](/article/wasm-ou-container-que-choisir-en-2026) (in French) places the two approaches side by side.
+This article explores Docker in production from three progressive angles: the fundamentals that eliminate classic deployment problems, advanced optimization and security techniques, and finally the architectural decisions that determine the success or failure of a containerization strategy at scale. On the choice of the execution model itself, our comparison [WASM or container in 2026](/en/article/wasm-vs-containers-2026) places the two approaches side by side.
 
 ## Why Docker Changed Web Production
 
@@ -75,7 +75,7 @@ opcache.preload=/app/config/preload.php
 opcache.preload_user=www-data
 ```
 
-The `validate_timestamps=0` setting is the main lever: it removes the stat() calls on every request. Combined with the Symfony preload and an [application caching](/article/tout-savoir-sur-la-mise-en-cache-tips) (in French) strategy, the gain is measurable: a 10 to 30% reduction in response time on a typical API. These settings would be dangerous on a traditional server where files can change; on an immutable container, they are perfectly safe.
+The `validate_timestamps=0` setting is the main lever: it removes the stat() calls on every request. Combined with the Symfony preload and an [application caching](/en/article/caching-guide-web-applications) strategy, the gain is measurable: a 10 to 30% reduction in response time on a typical API. These settings would be dangerous on a traditional server where files can change; on an immutable container, they are perfectly safe.
 
 ## Security and Image Hardening
 
@@ -87,13 +87,13 @@ Every system dependency added to the image must be justified. Packages needed on
 
 ### Vulnerability Scanning and Chain of Trust
 
-Docker integrates natively into an automated security chain. CVE scanners such as Trivy, Snyk, and Docker Scout analyze every image in the CI/CD pipeline. Understanding [CVE vulnerabilities and their impact](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) (in French) is essential to set these thresholds correctly. A threshold on critical vulnerabilities can automatically block a deployment. Image signatures (Docker Content Trust, cosign) guarantee the integrity of the distribution chain. If a container is compromised in production, the response is immediate: destroy the container and start a new one from the healthy image. No complex forensics on a server that has mutated over time.
+Docker integrates natively into an automated security chain. CVE scanners such as Trivy, Snyk, and Docker Scout analyze every image in the CI/CD pipeline. Understanding [CVE vulnerabilities and their impact](/en/article/cve-vulnerability-management) is essential to set these thresholds correctly. A threshold on critical vulnerabilities can automatically block a deployment. Image signatures (Docker Content Trust, cosign) guarantee the integrity of the distribution chain. If a container is compromised in production, the response is immediate: destroy the container and start a new one from the healthy image. No complex forensics on a server that has mutated over time.
 
 ## CI/CD Pipelines and Continuous Deployment
 
 ### One Image, One SHA, Zero Divergence
 
-The canonical Docker pipeline is remarkably simple. Our article on [deploying Nuxt.js with GitLab CI, S3, and CloudFront](/article/deployer-nuxtjs-avec-gitlab-ci-s3-et-cloudfront) (in French) shows how this type of pipeline is automated in practice:
+The canonical Docker pipeline is remarkably simple. Our article on [deploying Nuxt.js with GitLab CI, S3, and CloudFront](/en/article/nuxtjs-gitlab-ci-s3-cloudfront) shows how this type of pipeline is automated in practice:
 
 ```yaml
 stages:
@@ -162,13 +162,13 @@ volumes:
   db-data:
 ```
 
-This file replaces pages of installation documentation. For stacks that use [FrankenPHP](/article/concretement-cest-quoi-frankenphp) (in French) instead of classic PHP-FPM, the Docker configuration is even simpler since the web server and the PHP runtime are bundled in a single container. In staging, a `compose.staging.yml` file overrides the environment variables and network configuration without touching the base file.
+This file replaces pages of installation documentation. For stacks that use [FrankenPHP](/en/article/frankenphp-explained) instead of classic PHP-FPM, the Docker configuration is even simpler since the web server and the PHP runtime are bundled in a single container. In staging, a `compose.staging.yml` file overrides the environment variables and network configuration without touching the base file.
 
 ## Orchestration Strategy and Zero-Downtime Deployments
 
 ### Choosing Your Orchestrator
 
-Docker Swarm and Kubernetes address different needs. Swarm suits teams looking for simplicity: native rolling updates, built-in service discovery, and a reasonable learning curve. Kubernetes becomes necessary when needs go beyond a single application: multi-tenancy, auto-scaling based on custom metrics, and fine-grained resource management on heterogeneous clusters. The [choice between microservices and a modular monolith](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) (in French) also directly determines the complexity of your containerization strategy.
+Docker Swarm and Kubernetes address different needs. Swarm suits teams looking for simplicity: native rolling updates, built-in service discovery, and a reasonable learning curve. Kubernetes becomes necessary when needs go beyond a single application: multi-tenancy, auto-scaling based on custom metrics, and fine-grained resource management on heterogeneous clusters. The [choice between microservices and a modular monolith](/en/article/microservices-vs-modular-monolith) also directly determines the complexity of your containerization strategy.
 
 The classic trap is adopting Kubernetes too early. A Symfony application with three services (PHP-FPM, PostgreSQL, Redis) deployed on two servers does not justify the operational complexity of a Kubernetes cluster. Docker Swarm or a classic Docker deployment with a reverse proxy covers this case with a fraction of the cognitive load.
 
@@ -193,8 +193,8 @@ At Efficience IT, our [Cloud and DevOps](/cloud-et-devops) (in French) offering 
 ## Going Further
 
 - What is FrankenPHP, exactly?, a modern PHP server based on Go and Caddy
-- [Why choose Symfony for your projects](/article/pourquoi-choisir-symfony-pour-vos-projets) (in French), the ideal PHP framework to containerize
-- [Symfony, Twig, and Sylius certifications](/article/les-certifications-symfony-twig-symfony-sylius) (in French), the Docker Certified Associate certification to validate your containerization skills
+- [Why choose Symfony for your projects](/en/article/why-choose-symfony), the ideal PHP framework to containerize
+- [Symfony, Twig, and Sylius certifications](/en/article/symfony-twig-sylius-certifications), the Docker Certified Associate certification to validate your containerization skills
 - [Docker documentation](https://docs.docker.com/), the official Docker guide
 - [Docker Hub](https://hub.docker.com/), the Docker image registry
 - [Dockerfile reference](https://docs.docker.com/reference/dockerfile/), the complete reference for writing Dockerfiles

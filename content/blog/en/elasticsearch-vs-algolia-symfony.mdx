@@ -68,19 +68,19 @@ For Elasticsearch, the [FOSElasticaBundle](https://github.com/FriendsOfSymfony/F
 
 For Algolia, the `algolia/search-bundle` package provides a similar integration. Entities are annotated to define which fields to index, and synchronization happens through listeners or commands. The search API is exposed through a PHP client that returns the results directly.
 
-In both cases, synchronization must be thought through from the start. An article modified in Doctrine must show up in the search index within a few seconds. For large volumes of data, an asynchronous reindexing strategy via [Symfony Messenger](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) (in French) is often necessary. It is a classic pattern of [decoupled architecture](/architecture-hexagonale-symfony) (in French): the domain publishes an event, and an asynchronous handler updates the index.
+In both cases, synchronization must be thought through from the start. An article modified in Doctrine must show up in the search index within a few seconds. For large volumes of data, an asynchronous reindexing strategy via [Symfony Messenger](/en/article/symfony-messenger-hexagonal-core) is often necessary. It is a classic pattern of [decoupled architecture](/architecture-hexagonale-symfony) (in French): the domain publishes an event, and an asynchronous handler updates the index.
 
 ### Search Performance
 
 Algolia is optimized for latency. Response times are generally under 20 ms, thanks to an infrastructure distributed across several data centers. Real-time autocomplete (search-as-you-type) is the main use case, and the user experience is flawless.
 
-Elasticsearch can reach similar performance, but it takes work: well-sized indexes, optimized queries, result caching, nodes close to users. On a properly configured cluster, response times drop below 50 ms for most queries. But this is not the default configuration. To go further on optimization strategies, our article on [caching](/article/tout-savoir-sur-la-mise-en-cache-tips) (in French) covers the complementary mechanisms to put in place.
+Elasticsearch can reach similar performance, but it takes work: well-sized indexes, optimized queries, result caching, nodes close to users. On a properly configured cluster, response times drop below 50 ms for most queries. But this is not the default configuration. To go further on optimization strategies, our article on [caching](/en/article/caching-guide-web-applications) covers the complementary mechanisms to put in place.
 
 ### API and Front-End Search
 
 Algolia shines on the front end. The InstantSearch libraries provide [React](/developpement-react) (in French), [Vue.js](/developpement-vuejs) (in French) and vanilla JS components to build a complete search interface in a few hours. Requests are sent directly from the browser to the Algolia API, which removes the trip through your Symfony server and reduces latency.
 
-With Elasticsearch, search goes through your backend. You expose a Symfony endpoint that queries Elasticsearch and returns the results. This approach gives total control over filtering and security logic, but adds a network hop. For [well-structured REST APIs](/article/api-rest-les-bonnes-pratiques) (in French), this pattern fits naturally into the existing architecture.
+With Elasticsearch, search goes through your backend. You expose a Symfony endpoint that queries Elasticsearch and returns the results. This approach gives total control over filtering and security logic, but adds a network hop. For [well-structured REST APIs](/en/article/php-rest-api-best-practices), this pattern fits naturally into the existing architecture.
 
 ## Which Choice for Your Context
 
@@ -108,7 +108,7 @@ With Algolia, your indexes are stored on their servers (hosted in data centers i
 
 If search is a core component of your application (marketplace, content platform, recommendation engine), Elasticsearch offers a solid base to grow on. You can add data analysis, monitoring and machine learning (Elastic ML) without changing stacks.
 
-If search is a peripheral component (search in a back office, search on a showcase site), Algolia does the job without overloading the architecture. When [you choose Symfony for your project](/article/pourquoi-choisir-symfony-pour-vos-projets) (in French), the Algolia integration stays light and does not complicate the application.
+If search is a peripheral component (search in a back office, search on a showcase site), Algolia does the job without overloading the architecture. When [you choose Symfony for your project](/en/article/why-choose-symfony), the Algolia integration stays light and does not complicate the application.
 
 ## Summary of Decision Criteria
 
