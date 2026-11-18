@@ -67,9 +67,9 @@ const faqItems = [
       "Oui, c'est même courant. Nous commençons par un audit technique pour évaluer l'état du code, la couverture de tests et l'architecture. Ensuite, nous proposons un plan de reprise avec les actions prioritaires pour stabiliser l'application avant d'engager des évolutions.",
   },
   {
-    title: "Quel est le coût d'un contrat de maintenance ?",
+    title: "Comment est défini le périmètre d'un contrat de maintenance ?",
     content:
-      "Le coût dépend de la taille de l'application, du volume d'évolutions prévu et du niveau de SLA souhaité. Nous proposons des forfaits mensuels à partir de quelques jours par mois, ajustables en fonction de vos besoins réels.",
+      "Il dépend de la taille de l'application, du volume d'évolutions prévu et du niveau de SLA souhaité. Nous définissons ensemble un périmètre ajustable en fonction de vos besoins réels.",
   },
   {
     title: "Comment sont gérées les urgences ?",

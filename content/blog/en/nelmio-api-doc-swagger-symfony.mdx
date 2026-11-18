@@ -16,11 +16,11 @@ Documenting an API is a founding act. It is not an end-of-sprint chore, it is th
 
 OpenAPI (formerly the Swagger Specification) is an industry standard that describes a REST API in a JSON or YAML file. This file contains the list of endpoints, the supported HTTP methods, the request and response schemas, the error codes and the authentication mechanisms. Dozens of tools revolve around this format: Swagger UI for interactive documentation, Redoc for a more editorial presentation, and above all client SDK generators in about thirty languages.
 
-NelmioApiDocBundle, referenced in the [Symfony documentation on building APIs](https://symfony.com/doc/current/the-fast-track/en/26-api.html), is the bridge between the Symfony ecosystem and this specification. It introspects routes, controllers, Form Types and Doctrine entities to produce an OpenAPI file without writing a line of YAML by hand. This bundle is a must-have for custom [Symfony API development](/api-sur-mesure-symfony) (in French), just as the Node.js ecosystem bets on structured frameworks such as [NestJS to document its APIs](/api-nodejs-nestjs) (in French). To get the most out of this bundle, it helps to master [REST API best practices](/article/api-rest-les-bonnes-pratiques) (in French): endpoint structure, HTTP status code handling and response consistency.
+NelmioApiDocBundle, referenced in the [Symfony documentation on building APIs](https://symfony.com/doc/current/the-fast-track/en/26-api.html), is the bridge between the Symfony ecosystem and this specification. It introspects routes, controllers, Form Types and Doctrine entities to produce an OpenAPI file without writing a line of YAML by hand. This bundle is a must-have for custom [Symfony API development](/api-sur-mesure-symfony) (in French), just as the Node.js ecosystem bets on structured frameworks such as [NestJS to document its APIs](/api-nodejs-nestjs) (in French). To get the most out of this bundle, it helps to master [REST API best practices](/en/article/php-rest-api-best-practices): endpoint structure, HTTP status code handling and response consistency.
 
 ## Installation and initial configuration
 
-NelmioApiDocBundle is also one of the [most widely used bundles in Symfony projects](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony) (in French), and for good reason. Installation goes through Composer:
+NelmioApiDocBundle is also one of the [most widely used bundles in Symfony projects](/en/article/top-symfony-bundles), and for good reason. Installation goes through Composer:
 
 ```bash
 composer require nelmio/api-doc-bundle
@@ -80,7 +80,7 @@ class User
 }
 ```
 
-The bundle also uses Symfony validation constraints (`Assert\NotBlank`, `Assert\Length`, `Assert\Email`) to enrich the schema with `required`, `minLength`, `maxLength` and `format` rules. Following [coding conventions](/article/coding-conventions) (in French) also keeps these annotations readable and consistent across the whole codebase. The result: the documentation faithfully reflects the business rules without duplication.
+The bundle also uses Symfony validation constraints (`Assert\NotBlank`, `Assert\Length`, `Assert\Email`) to enrich the schema with `required`, `minLength`, `maxLength` and `format` rules. Following [coding conventions](/en/article/php-coding-standards-best-practices) also keeps these annotations readable and consistent across the whole codebase. The result: the documentation faithfully reflects the business rules without duplication.
 
 For complex structures involving inheritance or polymorphism, the `OA\Discriminator` and `OA\OneOf` attributes let you represent type unions. An endpoint that returns either an `InternalUser` or an `ExternalPartner` can document that cleanly, avoiding the catch-all schema trap.
 
@@ -124,7 +124,7 @@ Each area produces a separate OpenAPI spec, available at its own endpoint (`/api
 
 ## Contract-first vs code-first: an architecture choice
 
-NelmioApiDocBundle embodies the **code-first** approach: you write the PHP code and the bundle infers the OpenAPI specification. This approach suits most Symfony projects, especially internal APIs or projects where the backend team sets the pace. Before choosing this architecture, it is worth asking whether REST is the right choice, or whether [GraphQL](/article/que-vaut-rest-face-a-son-nouveau-challenger-graphql) (in French) would better fit your project's needs.
+NelmioApiDocBundle embodies the **code-first** approach: you write the PHP code and the bundle infers the OpenAPI specification. This approach suits most Symfony projects, especially internal APIs or projects where the backend team sets the pace. Before choosing this architecture, it is worth asking whether REST is the right choice, or whether [GraphQL](/en/article/rest-vs-graphql) would better fit your project's needs.
 
 The opposite approach, **contract-first**, means writing the OpenAPI specification before writing a single line of code. The YAML file becomes the deliverable of the design review, validated by the front-end, mobile and partner teams before development starts. Tools such as `jane-php/open-api` then generate the PHP skeleton from the spec.
 
@@ -164,8 +164,8 @@ NelmioApiDocBundle is the first building block of this chain in the Symfony ecos
 ## Going further
 
 - The most widely used bundles in Symfony projects, the essential bundles of the ecosystem
-- [Why choose Symfony for your projects](/article/pourquoi-choisir-symfony-pour-vos-projets) (in French), the framework's strengths for building robust and scalable APIs
-- [The Alice and Faker bundle in your Symfony projects](/article/comprendre-et-utiliser-le-bundle-alice-faker-dans-vos-projets-symfony) (in French), generating consistent fixtures to test your documented endpoints
+- [Why choose Symfony for your projects](/en/article/why-choose-symfony), the framework's strengths for building robust and scalable APIs
+- [The Alice and Faker bundle in your Symfony projects](/en/article/alice-faker-symfony-fixtures), generating consistent fixtures to test your documented endpoints
 - [NelmioApiDocBundle GitHub repository](https://github.com/nelmio/NelmioApiDocBundle), source code and documentation of the bundle
 - [OpenAPI (Swagger) specification](https://swagger.io/specification/), the API description standard the bundle relies on
 - [Symfony documentation on controllers](https://symfony.com/doc/current/controller.html), understanding the foundations of routes and annotations

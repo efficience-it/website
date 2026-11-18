@@ -14,7 +14,7 @@ translatedFromUpdatedAt: "2026-10-12"
 
 In a Symfony project, the [Cache component](https://symfony.com/doc/current/cache.html) provides a PSR-6 and PSR-16 abstraction for all application cache layers. Every uncached HTTP request requires a full round trip between the client and the server: DNS resolution, TLS negotiation, application processing, database reads, response serialization. On an application that handles several thousand requests per second, each of these steps adds up to a considerable cost in latency, CPU consumption and bandwidth.
 
-Caching means temporarily storing the result of an expensive operation so you can return it directly on subsequent requests, without recomputing or retransmitting it. Whether it is the browser cache, an intermediate proxy or a CDN, the fundamental principle stays the same: serve a local copy rather than hit the origin. A properly configured site can cut its response times in half, or more, while significantly reducing the load on its infrastructure. Using the HTTP cache is also part of the [best practices for REST APIs](/article/api-rest-les-bonnes-pratiques) (in French) that any project exposing public endpoints should apply.
+Caching means temporarily storing the result of an expensive operation so you can return it directly on subsequent requests, without recomputing or retransmitting it. Whether it is the browser cache, an intermediate proxy or a CDN, the fundamental principle stays the same: serve a local copy rather than hit the origin. A properly configured site can cut its response times in half, or more, while significantly reducing the load on its infrastructure. Using the HTTP cache is also part of the [best practices for REST APIs](/en/article/php-rest-api-best-practices) that any project exposing public endpoints should apply.
 
 ## Cache Layers in a Web Architecture
 
@@ -26,11 +26,11 @@ The browser is the first caching layer. It stores static resources (images, styl
 
 Proxy caches, deployed inside corporate networks or at internet service providers, are shared caches that benefit all users of the same network. A well-sized proxy reduces bandwidth consumption by 30 to 50%.
 
-The reverse proxy sits on the server side, in front of the application. For the application cache, [Redis integration with Symfony](/integration-redis-symfony) (in French) offers unbeatable in-memory performance. Varnish is the open source reference in this area. Placed at the front, it intercepts incoming requests and serves responses from its memory without hitting the application server. Varnish uses the VCL (Varnish Configuration Language) to define granular cache rules: different lifetimes per content type, cookie handling, Vary header processing. On a Symfony application, it is common to combine the HttpCache component built into the framework with Varnish in production to get sub-millisecond response times on public pages. [FrankenPHP](/article/concretement-cest-quoi-frankenphp) (in French) also brings additional optimizations to the HTTP pipeline that combine well with these cache strategies.
+The reverse proxy sits on the server side, in front of the application. For the application cache, [Redis integration with Symfony](/integration-redis-symfony) (in French) offers unbeatable in-memory performance. Varnish is the open source reference in this area. Placed at the front, it intercepts incoming requests and serves responses from its memory without hitting the application server. Varnish uses the VCL (Varnish Configuration Language) to define granular cache rules: different lifetimes per content type, cookie handling, Vary header processing. On a Symfony application, it is common to combine the HttpCache component built into the framework with Varnish in production to get sub-millisecond response times on public pages. [FrankenPHP](/en/article/frankenphp-explained) also brings additional optimizations to the HTTP pipeline that combine well with these cache strategies.
 
 ### CDNs and Gateway Caches
 
-Content delivery networks (CDNs) distribute gateway caches across the world. The [deployment of Nuxt.js with CloudFront](/article/deployer-nuxtjs-avec-gitlab-ci-s3-et-cloudfront) (in French) is a concrete illustration of setting up a CDN for front-end assets. Cloudflare, Fastly, Akamai or CloudFront place copies of the content on servers geographically close to end users. A visitor in Paris reaches the European point of presence rather than the origin server hosted across the Atlantic, saving several tens of milliseconds per request. Modern CDNs go beyond simple static caching: they offer edge computing features, on-the-fly image transformation and instant purge via API.
+Content delivery networks (CDNs) distribute gateway caches across the world. The [deployment of Nuxt.js with CloudFront](/en/article/nuxtjs-gitlab-ci-s3-cloudfront) is a concrete illustration of setting up a CDN for front-end assets. Cloudflare, Fastly, Akamai or CloudFront place copies of the content on servers geographically close to end users. A visitor in Paris reaches the European point of presence rather than the origin server hosted across the Atlantic, saving several tens of milliseconds per request. Modern CDNs go beyond simple static caching: they offer edge computing features, on-the-fly image transformation and instant purge via API.
 
 ## The HTTP Protocol at the Service of Caching
 
@@ -72,11 +72,11 @@ CDNs and reverse proxies expose purge APIs that let you invalidate one or more c
 
 ### Edge Side Includes (ESI)
 
-ESI lets you compose a page from independent fragments, each with its own cache policy. The navigation banner, updated once a day, can be cached for 24 hours, while the main content is revalidated on every request. Symfony natively supports ESI through its HttpCache component, and Varnish implements it transparently. This granularity is essential for applications where some parts of the page are personalized and others are common to all users. Result pages from a [search engine such as Elasticsearch or Algolia](/article/elasticsearch-ou-algolia-moteur-de-recherche-symfony) (in French) also benefit from fine-grained caching, which avoids hitting the index on every identical request.
+ESI lets you compose a page from independent fragments, each with its own cache policy. The navigation banner, updated once a day, can be cached for 24 hours, while the main content is revalidated on every request. Symfony natively supports ESI through its HttpCache component, and Varnish implements it transparently. This granularity is essential for applications where some parts of the page are personalized and others are common to all users. Result pages from a [search engine such as Elasticsearch or Algolia](/en/article/elasticsearch-vs-algolia-symfony) also benefit from fine-grained caching, which avoids hitting the index on every identical request.
 
 ## Cache Consistency in a Distributed Architecture
 
-In an architecture made of several application servers, a reverse proxy, a CDN and possibly application caches (Redis, Memcached), cache consistency becomes a major architectural challenge. [Docker](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) (in French) makes it easier to deploy and configure these different cache layers in isolated containers.
+In an architecture made of several application servers, a reverse proxy, a CDN and possibly application caches (Redis, Memcached), cache consistency becomes a major architectural challenge. [Docker](/en/article/docker-production-reliability) makes it easier to deploy and configure these different cache layers in isolated containers.
 
 ### The Cache Stampede Problem
 
@@ -88,7 +88,7 @@ Several strategies protect against it. Probabilistic early expiration means refr
 
 In a distributed system, invalidating a cache entry is not an atomic operation. A database change must propagate to the application cache, then to the reverse proxy, then to the CDN. Each step introduces a delay during which different layers serve potentially inconsistent versions.
 
-To control this propagation, it is recommended to adopt an event-driven model: each mutation publishes an event that triggers invalidation at each layer, allowing an ordered and traceable propagation. [Symfony Messenger](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) (in French), combined with an asynchronous message bus, is an excellent foundation for implementing this pattern.
+To control this propagation, it is recommended to adopt an event-driven model: each mutation publishes an event that triggers invalidation at each layer, allowing an ordered and traceable propagation. [Symfony Messenger](/en/article/symfony-messenger-hexagonal-core), combined with an asynchronous message bus, is an excellent foundation for implementing this pattern.
 
 ### Stale-While-Revalidate and Stale-If-Error
 
@@ -103,7 +103,7 @@ Varnish exposes its statistics via `varnishstat`, and CDNs provide detailed dash
 ## Going Further
 
 - Why Docker is indispensable in production, deploying caches and CDNs with Docker
-- [The most used bundles in Symfony](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony) (in French), discovering cache and performance bundles
+- [The most used bundles in Symfony](/en/article/top-symfony-bundles), discovering cache and performance bundles
 - Deploying NuxtJS with GitLab CI, S3 and CloudFront, setting up a CDN for your front-end assets
 - [Symfony HTTP Cache](https://symfony.com/doc/current/http_cache.html), official documentation of the HTTP cache in Symfony
 - [MDN Web Docs: HTTP Caching](https://developer.mozilla.org/fr/docs/Web/HTTP/Caching), a complete reference on HTTP caching

@@ -447,7 +447,7 @@ export default function MigrationSymfony() {
                 </h2>
                 <p className="mt-4 text-lg text-gray">
                   Rector applique des règles de transformation qui réécrivent
-                  automatiquement le code obsolète : déprécations remplacées,
+                  automatiquement le code obsolète : dépréciations remplacées,
                   annotations converties en attributs PHP 8, signatures de
                   méthodes mises à jour. Sur une montée de version, il absorbe la
                   part répétitive du travail et laisse l&apos;équipe se concentrer
@@ -522,12 +522,12 @@ export default function MigrationSymfony() {
                 <p className="mt-4 text-lg text-gray">
                   Passer de Symfony 4 à 7 ne se fait pas d&apos;un bloc. Le chemin
                   recommandé suit les paliers LTS : 4.4, puis 5.4, puis 6.4, avant
-                  d&apos;atteindre la 7.4 LTS, la version à support long actuelle. Chaque palier neutralise les déprécations
+                  d&apos;atteindre la 7.4 LTS, la version à support long actuelle. Chaque palier neutralise les dépréciations
                   avant qu&apos;elles ne deviennent des erreurs fatales à la
                   version suivante. Les chantiers structurants concernent la
                   configuration (passage au format attributs et au répertoire
                   config/), le composant Security entièrement refondu en 5.x, et
-                  la montée de Doctrine. Nous traitons les déprécations version par
+                  la montée de Doctrine. Nous traitons les dépréciations version par
                   version, en gardant une application livrable à chaque étape.
                   Notre{" "}
                   <Link
@@ -549,7 +549,7 @@ export default function MigrationSymfony() {
                   minimum, généralisation des attributs, et refonte de plusieurs
                   signatures dans les composants HttpFoundation et Security. La 6.4
                   puis la 7 demandent surtout de nettoyer les dernières
-                  déprécations et d&apos;aligner les dépendances tierces
+                  dépréciations et d&apos;aligner les dépendances tierces
                   compatibles. Le composant Doctrine mérite une attention
                   particulière : la mise à jour de l&apos;ORM s&apos;accompagne
                   souvent de changements de comportement sur les types et les
@@ -570,7 +570,7 @@ export default function MigrationSymfony() {
                 <p className="mt-4 text-lg text-gray">
                   La migration de Symfony 6.4 vers 7.4 LTS est la plus douce des trois.
                   Comme 6.4 et 7.0 partagent la même base, l&apos;essentiel du
-                  travail consiste à supprimer tout usage de code déprécé signalé
+                  travail consiste à supprimer tout usage de code déprécié signalé
                   en 6.4 : le pont de dépréciations permet justement de tout
                   corriger avant le saut. Une fois l&apos;application sans
                   avertissement sous 6.4, le passage à la 7.0 puis à la 7.4 LTS se résume à mettre à jour

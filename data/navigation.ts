@@ -194,7 +194,7 @@ export const footerNav = {
       { label: "Modernisation applicative", href: "/modernisation-applicative" },
       { label: "Développement web sur mesure", href: "/developpement-web-sur-mesure" },
       { label: "Cloud & DevOps", href: "/cloud-et-devops" },
-      { label: "Accompagnement et Conseil", href: "/accompagnement-et-conseil" },
+      { label: "Accompagnement et conseil", href: "/accompagnement-et-conseil" },
       { label: "Expertise IA", href: "/expertise-ia" },
       { label: "Audit de code PHP", href: "/audit-code-php" },
       { label: "Audit IA en entreprise", href: "/audit-ia-entreprise" },

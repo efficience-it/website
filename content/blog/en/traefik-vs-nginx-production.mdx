@@ -53,7 +53,7 @@ The container starts, Traefik sees it, gets a Let's Encrypt certificate and rout
 
 ### Services That Come and Go
 
-This is the whole point of the tool. One staging environment per merge request, for example: the CI launches a container with the right labels, and `mr-123.recette.example.com` answers thirty seconds later. With Nginx, you have to generate a configuration file, push it to the server, reload, and remember to clean up afterward. It can be scripted, but it is extra infrastructure code to maintain. If you are already putting [Docker in production](/article/pourquoi-docker-est-indispensable-en-production-aujourdhui) (in French), Traefik fits in without friction.
+This is the whole point of the tool. One staging environment per merge request, for example: the CI launches a container with the right labels, and `mr-123.recette.example.com` answers thirty seconds later. With Nginx, you have to generate a configuration file, push it to the server, reload, and remember to clean up afterward. It can be scripted, but it is extra infrastructure code to maintain. If you are already putting [Docker in production](/en/article/docker-production-reliability), Traefik fits in without friction.
 
 ### Certificates
 
@@ -63,7 +63,7 @@ One point though: persist `acme.json` on a volume, with `chmod 600`. Without tha
 
 ### Middlewares, Metrics, Dashboard
 
-HTTPS redirection, security headers, basic auth, rate limiting, retries: everything is declared in labels and can be composed. Prometheus metrics and OpenTelemetry traces are native, and the dashboard shows the routes that are actually active, which genuinely helps when a domain returns a 404 for no apparent reason. For [rate limiting on a REST API](/article/api-rest-les-bonnes-pratiques) (in French), it gives you a first barrier without touching the code.
+HTTPS redirection, security headers, basic auth, rate limiting, retries: everything is declared in labels and can be composed. Prometheus metrics and OpenTelemetry traces are native, and the dashboard shows the routes that are actually active, which genuinely helps when a domain returns a 404 for no apparent reason. For [rate limiting on a REST API](/en/article/php-rest-api-best-practices), it gives you a first barrier without touching the code.
 
 ### Kubernetes
 
@@ -105,17 +105,17 @@ That is why "Traefik or Nginx" is often a false question: in most of our stacks,
 
 ### Caching and Fine Tuning
 
-Nginx does `proxy_cache` and `fastcgi_cache`, including one or two seconds of microcaching that absorbs a traffic spike on public pages very well. Traefik has no HTTP cache in the open source edition. If your strategy relies on that, reread our [caching tips](/article/tout-savoir-sur-la-mise-en-cache-tips) (in French): Nginx, Varnish or a CDN.
+Nginx does `proxy_cache` and `fastcgi_cache`, including one or two seconds of microcaching that absorbs a traffic spike on public pages very well. Traefik has no HTTP cache in the open source edition. If your strategy relies on that, reread our [caching tips](/en/article/caching-guide-web-applications): Nginx, Varnish or a CDN.
 
-On fine tuning, Nginx does not forgive either. The `proxy_buffering` enabled by default breaks streaming: we lost a day on that during a [Symfony AI integration on a legacy project](/article/symfony-ai-projet-legacy-retour-experience) (in French). The fix comes down to an `X-Accel-Buffering: no` header on the response, but you have to know it.
+On fine tuning, Nginx does not forgive either. The `proxy_buffering` enabled by default breaks streaming: we lost a day on that during a [Symfony AI integration on a legacy project](/en/article/symfony-ai-legacy-lessons). The fix comes down to an `X-Accel-Buffering: no` header on the response, but you have to know it.
 
 ### Lightness and Privileges
 
-Nginx fits in a few MB of RAM and needs no access to the host. Traefik, with the Docker provider, must read `/var/run/docker.sock`. And access to the Docker socket means root on the machine. In production, you go through a read-only socket proxy (like `tecnativa/docker-socket-proxy`) and set `exposedByDefault=false` so that only explicitly labeled containers are exposed. In an [NIS2 compliance](/article/conformite-nis2-application-symfony) (in French) effort, this kind of privilege must be justified in black and white.
+Nginx fits in a few MB of RAM and needs no access to the host. Traefik, with the Docker provider, must read `/var/run/docker.sock`. And access to the Docker socket means root on the machine. In production, you go through a read-only socket proxy (like `tecnativa/docker-socket-proxy`) and set `exposedByDefault=false` so that only explicitly labeled containers are exposed. In an [NIS2 compliance](/en/article/nis2-symfony-compliance) effort, this kind of privilege must be justified in black and white.
 
 ## And What About Performance?
 
-On a pure proxy benchmark, Nginx wins on throughput and memory. On a real Symfony application, we are talking about a fraction of a millisecond in the proxy versus 30 to 200 ms in PHP, Doctrine and the database. Changing proxies to gain performance means optimizing the wrong line of the profile. The real levers are OPcache and preloading, N+1 queries, the application cache or [FrankenPHP in worker mode](/article/concretement-cest-quoi-frankenphp) (in French).
+On a pure proxy benchmark, Nginx wins on throughput and memory. On a real Symfony application, we are talking about a fraction of a millisecond in the proxy versus 30 to 200 ms in PHP, Doctrine and the database. Changing proxies to gain performance means optimizing the wrong line of the profile. The real levers are OPcache and preloading, N+1 queries, the application cache or [FrankenPHP in worker mode](/en/article/frankenphp-explained).
 
 ## FrankenPHP, Caddy and HAProxy
 
@@ -148,11 +148,11 @@ We add Traefik when:
 - domains number in the dozens;
 - we run on Kubernetes or Swarm.
 
-Our empirical threshold: beyond three or four apps behind the same entry point, hand-maintained `server` blocks become a source of bugs. And that threshold arrives fast when you split an application, which is why it pays to think carefully about the choice between [microservices and a modular monolith](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) (in French) before designing the infrastructure.
+Our empirical threshold: beyond three or four apps behind the same entry point, hand-maintained `server` blocks become a source of bugs. And that threshold arrives fast when you split an application, which is why it pays to think carefully about the choice between [microservices and a modular monolith](/en/article/microservices-vs-modular-monolith) before designing the infrastructure.
 
 ## Lessons Learned: Migrating a Shared Server to Traefik
 
-During a [Symfony application takeover](/article/reprise-application-symfony-prestataire) (in French), we inherited a server running about ten projects: Symfony apps, APIs, back offices and staging environments. In front, an Nginx installed on the host, one file per project in `sites-enabled` and certbot in cron. Every new staging environment required manual intervention, configurations had drifted over the years, and an expired certificate had already cut off a client staging environment for an entire morning.
+During a [Symfony application takeover](/en/article/symfony-project-takeover-method), we inherited a server running about ten projects: Symfony apps, APIs, back offices and staging environments. In front, an Nginx installed on the host, one file per project in `sites-enabled` and certbot in cron. Every new staging environment required manual intervention, configurations had drifted over the years, and an expired certificate had already cut off a client staging environment for an entire morning.
 
 We migrated without downtime, in four steps:
 

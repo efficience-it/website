@@ -83,7 +83,7 @@ export default function GreenIt() {
               <p className="mt-6 text-lg text-gray">
                 Efficience IT est engagée dans une démarche RSE, en particulier
                 sur l&apos;écologie, afin de minimiser l&apos;impact
-                environnemental de nos activités et celles de nos clients.
+                environnemental de nos activités et de celles de nos clients.
               </p>
               <p className="mt-4 text-lg text-gray">
                 Nous croyons que la technologie peut être au service de la

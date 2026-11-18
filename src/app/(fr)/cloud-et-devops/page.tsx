@@ -186,7 +186,7 @@ export default function CloudEtDevops() {
             Hébergement Cloud : une infrastructure à la hauteur de vos ambitions
           </SectionTitle>
           <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
-            Adoptez une solution d&apos;hébergement Cloud et évolutive,
+            Adoptez une solution d&apos;hébergement Cloud sûre et évolutive,
             parfaitement adaptée à vos besoins.
           </p>
           <div className="mt-10 grid gap-6 md:grid-cols-2">
@@ -241,7 +241,7 @@ export default function CloudEtDevops() {
       <section className="bg-light-gray py-16 md:py-24">
         <Container>
           <SectionTitle>
-            Automatisation DevOps : boostez votre agilité et productivité
+            Automatisation DevOps : boostez votre agilité et votre productivité
           </SectionTitle>
           <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray">
             Optimisez vos processus de développement et réduisez vos délais de
@@ -477,7 +477,7 @@ export default function CloudEtDevops() {
             <Link href="/accompagnement-et-conseil" className="group">
               <Card>
                 <h3 className="font-display text-lg font-bold text-dark group-hover:text-primary">
-                  Accompagnement et Conseil
+                  Accompagnement et conseil
                 </h3>
                 <p className="mt-2 text-gray">
                   Audit technique, formation Symfony et coaching agile pour
