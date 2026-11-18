@@ -51,7 +51,7 @@ La **complexité cyclomatique** mesure le nombre de chemins d'exécution dans un
 
 SonarQube reste la référence pour estimer la dette en jours de travail. [PHPStan](/article/comment-phpstan-peut-vous-aider-a-ameliorer-la-qualite-de-votre-code-php) et Psalm offrent une analyse statique progressive : on commence au niveau 0 et on monte graduellement. [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) détecte les patterns obsolètes et propose des corrections automatisées. Ces outils identifient les hotspots, ces fichiers à la fois très modifiés et très complexes qui concentrent généralement la majorité des problèmes. Une autre approche efficace est d'[éliminer le code mort dans vos projets PHP](/article/code-mort-mission-elimination) : supprimer ce qui n'est plus utilisé réduit mécaniquement la surface de maintenance et clarifie le périmètre réel de l'application.
 
-L'approche la plus efficace combine l'analyse statique avec l'historique Git. Un fichier de 2 000 lignes avec une complexité cyclomatique de 45 et 300 commits sur les six derniers mois est un candidat prioritaire au refactoring, bien plus qu'un fichier tout aussi complexe mais jamais touché.
+L'approche la plus efficace combine l'analyse statique avec l'historique Git. Un fichier de 2 000 lignes avec une complexité cyclomatique de 45 et 300 commits sur les six derniers mois est un candidat prioritaire au refactoring, bien plus qu'un fichier tout aussi complexe mais jamais touché. Et quand une régression passe malgré tout, [git bisect retrouve le commit fautif](/article/git-bisect-retrouver-le-commit-qui-a-introduit-une-regression) en quelques étapes, sans relire l'historique à la main.
 
 ## Prioriser le remboursement
 

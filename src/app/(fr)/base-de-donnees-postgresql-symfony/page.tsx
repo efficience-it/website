@@ -26,6 +26,11 @@ const postgresqlRelatedLinks: RelatedLink[] = [
     href: "/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees",
   },
   {
+    title: "Chiffrement des données avec Doctrine et PostgreSQL",
+    description: "Chiffrer les colonnes sensibles sans perdre la recherche",
+    href: "/article/chiffrement-donnees-doctrine-postgresql",
+  },
+  {
     title: "Développement PHP",
     description: "Applications sur mesure avec PHP 8 et Symfony",
     href: "/developpement-php",
@@ -99,7 +104,7 @@ const useCases = [
   {
     title: "Optimisation Doctrine sur application existante",
     description:
-      "Audit de performance d'une application Symfony qui ralentit en production : identification des requêtes N+1, ajout d'index ciblés guidés par EXPLAIN ANALYZE et refactoring des hydrations Doctrine pour faire baisser la latence p95.",
+      "Audit de performance d'une application Symfony qui ralentit en production : identification des requêtes N+1, ajout d'index ciblés guidés par EXPLAIN ANALYZE et refactoring des hydratations Doctrine pour faire baisser la latence p95.",
   },
   {
     title: "Modélisation jsonb et types avancés",

@@ -247,7 +247,7 @@ class CreateUserCommand
 
 DTOs can even be **nested**: a `#[MapInput]` property in a DTO can point to another DTO. Your command inputs follow the same logic as your business value objects.
 
-This is a particularly interesting approach if you practice [hexagonal architecture](/article/domain-ne-devrait-jamais-connaitre-symfony) (in French): the input DTO becomes a domain object, reusable and testable independently of the Console.
+This is a particularly interesting approach if you practice [hexagonal architecture](/en/article/domain-layer-symfony-independence): the input DTO becomes a domain object, reusable and testable independently of the Console.
 
 ## BackedEnum: natively typed choices
 
@@ -321,7 +321,7 @@ $this->assertStringContainsString('john', $tester->getDisplay());
 
 No need for `Application`, no need for `find()`. The command is instantiated directly. And the `assertCommandIsSuccessful()`, `assertCommandFailed()` and `assertCommandIsInvalid()` helpers are available for readable assertions.
 
-If your command has injected dependencies, the service container of your [automated tests](/article/les-6-etapes-pour-monter-en-competences-sur-symfony) (in French) resolves them normally.
+If your command has injected dependencies, the service container of your [automated tests](/en/article/symfony-skills-roadmap) resolves them normally.
 
 ## When should you migrate your existing commands?
 
@@ -333,19 +333,19 @@ Three criteria to decide:
 2. **Complex commands with many inputs** → migrate with `#[MapInput]` to clean up the signature
 3. **Commands with a sophisticated `interact()`** (multi-step wizards) → keep the old style or use `#[Interact]` if the logic stays simple
 
-If you are [migrating your project to Symfony 7.4](/article/guide-de-migration-dans-un-projet-symfony) (in French), it is the ideal opportunity to convert your commands one by one. Our support for [technical migration to Symfony](/migration-symfony) (in French) covers this kind of gradual modernization. [PHPStan](/article/phpstan-niveau-max-symfony-10-erreurs) (in French) will help you check that you broke nothing.
+If you are [migrating your project to Symfony 7.4](/en/article/symfony-upgrade-guide), it is the ideal opportunity to convert your commands one by one. Our support for [technical migration to Symfony](/migration-symfony) (in French) covers this kind of gradual modernization. [PHPStan](/en/article/phpstan-max-level-symfony-errors) will help you check that you broke nothing.
 
 ## A sign of the direction Symfony is taking
 
 Invokable commands are not an isolated case. They are part of a broader movement: Symfony is gradually moving toward **native PHP attributes** as its main configuration interface. You see it with `#[MapRequestPayload]` and `#[MapQueryString]` in controllers, with `#[AsMessage]` in Messenger, with `#[IsGranted]` in Security. The Console was the last bastion of "configure everything in a dedicated method". That is no longer the case.
 
-If you have a Symfony project in production, this trend is a clear signal. Future Symfony features will be designed "attributes first". Adopting this syntax now ensures your codebase stays idiomatic and ready for what comes next. And if your current commands still look like Symfony 3, it may be time to take stock. Other components follow the same trajectory: the [Serializer gives way to JsonStreamer](/article/migrer-du-serializer-vers-json-streamer-le-guide-honnete) (in French), and [Messenger](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) (in French) relies more and more on attributes. Modernization happens component by component.
+If you have a Symfony project in production, this trend is a clear signal. Future Symfony features will be designed "attributes first". Adopting this syntax now ensures your codebase stays idiomatic and ready for what comes next. And if your current commands still look like Symfony 3, it may be time to take stock. Other components follow the same trajectory: the [Serializer gives way to JsonStreamer](/en/article/serializer-to-jsonstreamer-migration), and [Messenger](/en/article/symfony-messenger-hexagonal-core) relies more and more on attributes. Modernization happens component by component.
 
 ## Going further
 
 - Migrating from the Serializer to JsonStreamer: the honest guide: another major Symfony 7.3+ overhaul
 - Symfony Messenger as the backbone of a hexagonal architecture: combine invokable commands and Messenger for your workers
 - Why your Domain should never know Symfony: `#[MapInput]` DTOs fit this philosophy
-- [Symfony, Twig and Sylius certifications](/article/les-certifications-symfony-twig-symfony-sylius) (in French): the Console is part of the exam
+- [Symfony, Twig and Sylius certifications](/en/article/symfony-twig-sylius-certifications): the Console is part of the exam
 - [Official documentation: Console Commands](https://symfony.com/doc/current/console.html): the Symfony reference
 - [Original PR: Invokable commands](https://github.com/symfony/symfony/pull/61748): the PR by Kevin Bond that started the movement

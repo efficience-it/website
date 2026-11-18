@@ -126,6 +126,22 @@ describe("translations check", () => {
     expect(found.filter((m) => m.includes("/en/article/"))).toHaveLength(1);
   });
 
+  it("reports a link to a French article whose translation exists", () => {
+    writeFrench(root);
+    writeFrench(root, "other-source");
+    writeFrench(root, "untranslated");
+    writeEnglish(root);
+    writeEnglish(
+      root,
+      "other",
+      { translationOf: '"other-source"' },
+      `${ENGLISH_BODY} See [the guide](/article/source) and [the audit](/article/untranslated).`,
+    );
+    expect(messages(root)).toEqual([
+      "error: lien vers /article/source alors que sa traduction /en/article/translated existe.",
+    ]);
+  });
+
   it("warns when the source was updated after the translation", () => {
     writeFrench(root, "source", { updatedAt: '"2026-09-01"' });
     writeEnglish(root);

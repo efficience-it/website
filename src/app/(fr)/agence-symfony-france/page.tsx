@@ -434,7 +434,7 @@ export default function AgenceSymfonyFrance() {
                   <p className="mt-2 text-gray">
                     Pôle tech attractif en pleine croissance, Nantes partage
                     avec Lille un écosystème de PME innovantes. Collaboration
-                    100% remote avec un accompagnement structuré.
+                    100 % remote avec un accompagnement structuré.
                   </p>
                 </Card>
               </div>
