@@ -20,7 +20,7 @@ faq:
     answer: "Data retrieved by an MCP server is injected into the Claude conversation context. It therefore goes through the Anthropic API just like your source code. For sensitive data, check that your security policy allows this processing."
 ---
 
-You use Claude Code every day on your Symfony projects. You have set up your [CLAUDE.md, skills and hooks](/article/monter-en-competence-claude-code) (in French). But every time you need information that is not in the code, you have to look for it yourself: a table schema, a Sentry error, the contents of a PR. The MCP server removes that friction. It connects Claude Code directly to your tools, and the agent accesses the data without you leaving the terminal.
+You use Claude Code every day on your Symfony projects. You have set up your [CLAUDE.md, skills and hooks](/en/article/claude-code-upskilling). But every time you need information that is not in the code, you have to look for it yourself: a table schema, a Sentry error, the contents of a PR. The MCP server removes that friction. It connects Claude Code directly to your tools, and the agent accesses the data without you leaving the terminal.
 
 ## The Model Context Protocol in brief
 
@@ -34,7 +34,7 @@ Three transport modes exist: **stdio** for local servers (a process on your mach
 
 ## Connecting your Doctrine database
 
-This is the most immediate use case for a Symfony developer. Your application runs on MySQL or PostgreSQL through [Doctrine](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) (in French). With an MCP server, Claude Code can query that database directly.
+This is the most immediate use case for a Symfony developer. Your application runs on MySQL or PostgreSQL through [Doctrine](/en/article/doctrine-orm-3-changes). With an MCP server, Claude Code can query that database directly.
 
 The configuration fits on one line:
 
@@ -50,7 +50,7 @@ Once connected, you can ask:
 - "Find users with a duplicate email"
 - "Generate a Doctrine migration to add a deleted_at column"
 
-Claude Code writes the SQL query, runs it through the MCP server, analyzes the result and suggests an action. On a project in the middle of a [MySQL to PostgreSQL migration](/article/migration-mysql-postgresql-doctrine-guide) (in French), you can even connect both databases at once and ask Claude to compare the schemas.
+Claude Code writes the SQL query, runs it through the MCP server, analyzes the result and suggests an action. On a project in the middle of a [MySQL to PostgreSQL migration](/en/article/mysql-to-postgresql-doctrine), you can even connect both databases at once and ask Claude to compare the schemas.
 
 Security is central. In production, configure read-only access. A MySQL or PostgreSQL user without INSERT/UPDATE/DELETE permissions guarantees that Claude Code cannot modify data by accident. In development or staging, full access lets Claude Code test its migrations by applying them directly. Combine this with a hook that runs `php bin/console doctrine:schema:validate` after every change and you get a workflow where every schema change is verified automatically.
 
@@ -64,7 +64,7 @@ The GitHub MCP server connects Claude Code to your repository. You can ask it to
 claude mcp add --transport http github https://api.githubcopilot.com/mcp/
 ```
 
-In practice, you open Claude Code on your branch and tell it: "Review PR #42 and identify architecture problems." It reads the full diff, compares it with the conventions in your CLAUDE.md and produces a structured review. If you are building a [REST API](/article/api-rest-les-bonnes-pratiques) (in French), it can check that endpoints follow naming conventions and HTTP status codes.
+In practice, you open Claude Code on your branch and tell it: "Review PR #42 and identify architecture problems." It reads the full diff, compares it with the conventions in your CLAUDE.md and produces a structured review. If you are building a [REST API](/en/article/php-rest-api-best-practices), it can check that endpoints follow naming conventions and HTTP status codes.
 
 The GitHub integration gets even more interesting when you combine it with other MCP servers. Claude Code can read an issue, look at the database schema to understand the context, propose an implementation, then create the PR. All without you typing a single git command.
 
@@ -79,7 +79,7 @@ claude mcp add --transport http sentry https://mcp.sentry.dev/mcp \
 
 You can ask: "What are the 5 most frequent errors since the last deployment?" or "Show me the stack trace of this EntityNotFoundException." Claude Code retrieves the data, cross-references it with your source code and proposes a fix.
 
-On a Symfony project with [AI integrated into legacy code](/article/symfony-ai-projet-legacy-retour-experience) (in French), the ability to cross-reference Sentry errors with the code and the database speeds up diagnosis considerably. You describe the symptom, Claude Code fetches the stack trace through Sentry, inspects the relevant code in your repository and queries the database if needed to reproduce the context. A diagnosis that used to take 30 minutes now takes 2.
+On a Symfony project with [AI integrated into legacy code](/en/article/symfony-ai-legacy-lessons), the ability to cross-reference Sentry errors with the code and the database speeds up diagnosis considerably. You describe the symptom, Claude Code fetches the stack trace through Sentry, inspects the relevant code in your repository and queries the database if needed to reproduce the context. A diagnosis that used to take 30 minutes now takes 2.
 
 ## Building a custom MCP server
 
@@ -124,7 +124,7 @@ await server.connect(transport);
 
 This server exposes a `list_routes` command that calls `debug:router` on your Symfony project. Claude Code can use it to explore routes before changing a controller. You can add other tools: `cache:clear`, `messenger:stats`, `doctrine:schema:validate`, or any Symfony console command.
 
-The pattern of [RAG with Symfony AI and Doctrine](/article/rag-symfony-ai-doctrine-indexer-base-metier) (in French) goes even further: an MCP server that indexes your business data and exposes it through vector search. Claude Code can then answer questions like "which client ran into a similar problem?" based on your own data.
+The pattern of [RAG with Symfony AI and Doctrine](/en/article/rag-symfony-ai-doctrine) goes even further: an MCP server that indexes your business data and exposes it through vector search. Claude Code can then answer questions like "which client ran into a similar problem?" based on your own data.
 
 ## Project configuration vs personal configuration
 
@@ -152,4 +152,4 @@ The **`~/.claude.json`** file is personal. This is the place for your private to
 
 Environment variables (`${DATABASE_URL}`) keep you from committing credentials. Each developer sets their own values in their `.env.local`, exactly as for Symfony configuration.
 
-The official registry on [GitHub](https://github.com/modelcontextprotocol/servers) lists hundreds of community servers. For a Symfony project, start with the database and GitHub. Add Sentry when you manage production. When you spot a repetitive pattern in your exchanges with Claude Code, a [well-configured AI assistant](/article/quel-assistant-ia-choisir-pour-coder) (in French) connected to your tools through MCP becomes a real productivity multiplier. The combination of a solid CLAUDE.md, suitable skills and targeted MCP servers turns a coding aid into an integrated development platform.
+The official registry on [GitHub](https://github.com/modelcontextprotocol/servers) lists hundreds of community servers. For a Symfony project, start with the database and GitHub. Add Sentry when you manage production. When you spot a repetitive pattern in your exchanges with Claude Code, a [well-configured AI assistant](/en/article/best-ai-coding-assistant-2026) connected to your tools through MCP becomes a real productivity multiplier. The combination of a solid CLAUDE.md, suitable skills and targeted MCP servers turns a coding aid into an integrated development platform.

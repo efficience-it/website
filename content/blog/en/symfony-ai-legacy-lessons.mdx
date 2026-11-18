@@ -21,7 +21,7 @@ The application manages thousands of documents for law firms. Upload, filing, se
 
 The idea: use an LLM to analyze the document content, suggest a classification and prefill the metadata. The operator validates or corrects. We replace no one, we speed up the process.
 
-We chose Symfony AI over a direct call to the OpenAI or Anthropic API for a simple reason: abstraction. We did not want to couple the business code to a vendor. Today it is Claude, tomorrow it may be Mistral or an on-premise model. Symfony AI provides that abstraction layer natively. To set up an AI assistant on an existing Symfony project, our guide on [Claude as an architecture assistant](/article/claude-assistant-architecture-symfony-legacy) (in French) details the concrete setup.
+We chose Symfony AI over a direct call to the OpenAI or Anthropic API for a simple reason: abstraction. We did not want to couple the business code to a vendor. Today it is Claude, tomorrow it may be Mistral or an on-premise model. Symfony AI provides that abstraction layer natively. To set up an AI assistant on an existing Symfony project, our guide on [Claude as an architecture assistant](/en/article/claude-code-symfony-legacy-architecture) details the concrete setup.
 
 ## Installation: the first wall
 
@@ -36,7 +36,7 @@ composer require symfony/ai
 # Your requirements could not be resolved to an installable set of packages.
 ```
 
-We had to update five Symfony components before we could install the package. Fine-grained dependency management with [Composer](/article/utilisation-de-composer-dans-le-developpement-symfony-conseils-pratiques) (in French) is crucial in this kind of situation. On a legacy project in production, every dependency update is a risk. We did it in a separate PR, tested in staging for a week, before even touching AI.
+We had to update five Symfony components before we could install the package. Fine-grained dependency management with [Composer](/en/article/composer-symfony-best-practices) is crucial in this kind of situation. On a legacy project in production, every dependency update is a risk. We did it in a separate PR, tested in staging for a week, before even touching AI.
 
 ### HTTP transport configuration
 
@@ -67,7 +67,7 @@ The team's reflex: add the AI call to the existing classification controller. It
 
 ### The solution: a port in the domain
 
-We treated AI like any other infrastructure dependency, applying the principle that [the domain should never know about Symfony](/article/domain-ne-devrait-jamais-connaitre-symfony) (in French). An interface in the domain, an implementation in the infrastructure:
+We treated AI like any other infrastructure dependency, applying the principle that [the domain should never know about Symfony](/en/article/domain-layer-symfony-independence). An interface in the domain, an implementation in the infrastructure:
 
 ```php
 namespace App\Classification\Domain\Port;
@@ -146,7 +146,7 @@ The key differences: constraining the possible categories, asking for a confiden
 
 ### Versioning prompts
 
-We built a prompt registry on top of the Twig template engine, whose [expected changes in Twig 4](/article/twig-4-ce-que-lon-pourrait-attendre) (in French) could simplify this kind of usage even further. Each prompt is a Twig file in `templates/prompts/`, versioned with the code:
+We built a prompt registry on top of the Twig template engine, whose [expected changes in Twig 4](/en/article/twig-4-expectations) could simplify this kind of usage even further. Each prompt is a Twig file in `templates/prompts/`, versioned with the code:
 
 ```
 templates/
@@ -207,7 +207,7 @@ We added three safeguards:
 - **Result cache**: an identical document (same hash) returns the cached result through Symfony Cache.
 - **Daily cap**: a counter cuts AI calls above a threshold. Documents then go to manual classification.
 
-This project also opened up ways to go further: indexing our document base in a vector store so we can query business data by semantic similarity, following the [RAG with Symfony AI and Doctrine](/article/rag-symfony-ai-doctrine-indexer-base-metier) (in French) pattern.
+This project also opened up ways to go further: indexing our document base in a vector store so we can query business data by semantic similarity, following the [RAG with Symfony AI and Doctrine](/en/article/rag-symfony-ai-doctrine) pattern.
 
 ## Streaming: more complicated than it looks
 
@@ -262,7 +262,7 @@ This is not deterministic testing. It is quality monitoring. But it is the only 
 
 ## What I wish I had known before
 
-Integrating AI into a legacy project is not an AI problem. It is an architecture problem. If your code is cleanly decoupled, adding an LLM call is like adding any external dependency. If your code is a coupled monolith, AI will amplify the chaos. That is what our article on [technical debt and how to tame it](/article/la-dette-technique-faut-il-vraiment-en-avoir-peur) (in French) describes: the more indebted the code, the more each addition is harder. Support with [PHP application modernization](/modernisation-application-php) (in French) lets you deal with that debt before grafting AI onto it.
+Integrating AI into a legacy project is not an AI problem. It is an architecture problem. If your code is cleanly decoupled, adding an LLM call is like adding any external dependency. If your code is a coupled monolith, AI will amplify the chaos. That is what our article on [technical debt and how to tame it](/en/article/technical-debt-explained) describes: the more indebted the code, the more each addition is harder. Support with [PHP application modernization](/modernisation-application-php) (in French) lets you deal with that debt before grafting AI onto it.
 
 Symfony AI is a good tool. The vendor abstraction works. The streaming support is solid. But the component does not solve the real problems: error handling, token consumption, prompt quality, and coexistence with code that was not designed for it.
 
@@ -271,6 +271,6 @@ The most useful advice I can give: treat AI as a fallible and resource-hungry de
 ## Going further
 
 - Claude as a Symfony architecture assistant, setting up CLAUDE.md on a legacy project
-- [Migrating Symfony to hexagonal architecture](/article/migration-symfony-architecture-hexagonale-retour-mission) (in French), structuring a legacy project before grafting AI onto it
-- [Symfony Messenger: the backbone of hexagonal architecture](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) (in French), dispatching AI tasks asynchronously
+- [Migrating Symfony to hexagonal architecture](/en/article/symfony-hexagonal-migration), structuring a legacy project before grafting AI onto it
+- [Symfony Messenger: the backbone of hexagonal architecture](/en/article/symfony-messenger-hexagonal-core), dispatching AI tasks asynchronously
 - [Symfony AI documentation](https://symfony.com/doc/current/ai.html), the official guide to the component

@@ -112,7 +112,7 @@ const faqItems = [
   {
     title: "Pourquoi utiliser Redis avec Symfony ?",
     content:
-      "Redis stocke les données en mémoire, ce qui le rend des centaines de fois plus rapide qu'une base de données relationnelle pour les lectures. Intégré à Symfony via le composant Cache et Messenger, Redis accélère les temps de réponse, permet de distribuer les sessions entre les serveurs et offre un transport performant pour les files d'attente asynchrones.",
+      "Redis stocke les données en mémoire, ce qui le rend des centaines de fois plus rapide qu'une base de données relationnelle pour les lectures. Intégré à Symfony via les composants Cache et Messenger, Redis accélère les temps de réponse, permet de distribuer les sessions entre les serveurs et offre un transport performant pour les files d'attente asynchrones.",
   },
   {
     title: "Redis remplace-t-il PostgreSQL ou MySQL ?",

@@ -12,7 +12,7 @@ translatedFromUpdatedAt: "2026-01-13"
 
 ## Composer Fundamentals in a Symfony Project
 
-Composer is the dependency manager of the PHP ecosystem. Its role is to resolve a dependency tree: from a `composer.json` file declaring the packages the project needs, it computes mutually compatible versions, downloads them and generates a PSR-4 autoloader. [Symfony](/article/pourquoi-choisir-symfony-pour-vos-projets) (in French) relies entirely on Composer, whether to install the framework itself, add bundles or configure Flex recipes.
+Composer is the dependency manager of the PHP ecosystem. Its role is to resolve a dependency tree: from a `composer.json` file declaring the packages the project needs, it computes mutually compatible versions, downloads them and generates a PSR-4 autoloader. [Symfony](/en/article/why-choose-symfony) relies entirely on Composer, whether to install the framework itself, add bundles or configure Flex recipes.
 
 As described in the [official Symfony installation documentation](https://symfony.com/doc/current/setup.html), a Symfony project usually starts with a single command:
 
@@ -78,7 +78,7 @@ A `ci` script that chains linting, static analysis and unit tests provides a sin
 
 ## Security Audit and platform-check
 
-The `composer audit` command checks installed dependencies against the database of [known vulnerabilities (CVEs)](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) (in French). Integrated in the CI pipeline, it automatically blocks a deployment if a CVE affects one of the project's libraries.
+The `composer audit` command checks installed dependencies against the database of [known vulnerabilities (CVEs)](/en/article/cve-vulnerability-management). Integrated in the CI pipeline, it automatically blocks a deployment if a CVE affects one of the project's libraries.
 
 The `config.platform` section of `composer.json` lets you simulate a target PHP environment:
 
@@ -101,13 +101,13 @@ On a mature project, the number of dependencies naturally grows. Without governa
 
 The first step is to regularly map the dependency tree with `composer depends` and `composer why-not`. These commands answer the essential questions: why is a given package installed, and what prevents updating to a given version. Pairing this analysis with `composer outdated` gives you a dashboard of the technical debt tied to dependencies.
 
-A structured update policy relies on regular cycles: continuous patch updates, monthly minor updates, and major updates planned with an impact analysis. Automating the detection of available updates with tools like Dependabot or Renovate reduces mental load and keeps the project up to date without conscious effort. For major updates of Symfony itself, the [migration guide for a Symfony project](/article/guide-de-migration-dans-un-projet-symfony) (in French) details a complete methodology to handle these transitions safely.
+A structured update policy relies on regular cycles: continuous patch updates, monthly minor updates, and major updates planned with an impact analysis. Automating the detection of available updates with tools like Dependabot or Renovate reduces mental load and keeps the project up to date without conscious effort. For major updates of Symfony itself, the [migration guide for a Symfony project](/en/article/symfony-upgrade-guide) details a complete methodology to handle these transitions safely.
 
 ### Monorepo Strategies and Composer Plugins
 
 In organizations that maintain several Symfony applications sharing common code, the monorepo strategy deserves consideration. Tools like Symplify Monorepo Builder or the `wikimedia/composer-merge-plugin` plugin let you manage several `composer.json` files within a single repository, with an automatic split mechanism to publish each package independently.
 
-Composer plugins extend the behavior of the dependency manager. Symfony Flex is the best-known example, but others deserve attention: `composer-unused` detects dependencies that are declared but never imported in the code, and `composer-require-checker` identifies dependencies that are used but not declared. These tools, integrated in the CI pipeline, turn dependency management from an occasional chore into a continuous and reliable process. For an overview of the packages commonly installed in Symfony projects, browsing the list of [most used bundles in Symfony](/article/les-bundles-les-plus-utilises-dans-les-projets-symfony) (in French) helps you better evaluate candidate dependencies.
+Composer plugins extend the behavior of the dependency manager. Symfony Flex is the best-known example, but others deserve attention: `composer-unused` detects dependencies that are declared but never imported in the code, and `composer-require-checker` identifies dependencies that are used but not declared. These tools, integrated in the CI pipeline, turn dependency management from an occasional chore into a continuous and reliable process. For an overview of the packages commonly installed in Symfony projects, browsing the list of [most used bundles in Symfony](/en/article/top-symfony-bundles) helps you better evaluate candidate dependencies.
 
 ### Supply Chain Security
 
@@ -123,7 +123,7 @@ Composer goes far beyond the role of a simple package installer. Used rigorously
 
 ## Going Further
 
-- [PSRs and what they are for](/article/qu-est-ce-que-les-psrs-et-a-quoi-servent-ils) (in French), understanding the PHP standards that Composer helps you follow
+- [PSRs and what they are for](/en/article/php-psr-standards-explained), understanding the PHP standards that Composer helps you follow
 - [Composer Documentation](https://getcomposer.org/doc/), the official Composer documentation
 - [Packagist](https://packagist.org/), the main PHP package repository
 - [Symfony: Using Composer](https://symfony.com/doc/current/setup.html#creating-symfony-applications), the official guide to creating a Symfony project with Composer

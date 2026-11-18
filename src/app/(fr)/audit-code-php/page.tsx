@@ -118,7 +118,7 @@ const faqItems = [
   {
     title: "L'audit inclut-il la correction des problèmes identifiés ?",
     content:
-      "L'audit est une phase de diagnostic indépendante. Si vous souhaitez que nous intervenions sur les corrections, nous établissons un plan d'action à partir du rapport. Cette séparation garantit un diagnostic objectif et sans conflit d'intérêt.",
+      "L'audit est une phase de diagnostic indépendante. Si vous souhaitez que nous intervenions sur les corrections, nous établissons un plan d'action à partir du rapport. Cette séparation garantit un diagnostic objectif et sans conflit d'intérêts.",
   },
   {
     title: "PHPStan niveau max, est-ce vraiment utile ?",

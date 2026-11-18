@@ -12,7 +12,7 @@ translatedFromUpdatedAt: "2026-10-12"
 
 ## Laying the Foundations: Architecture and Essential Resources
 
-Before aiming for expertise, you need to anchor your understanding of Symfony's architecture. If you are just starting out, begin by understanding [why Symfony is the right choice for your projects](/article/pourquoi-choisir-symfony-pour-vos-projets) (in French) before tackling its internal mechanics. The framework relies on the Request-Response pattern implemented through the HttpKernel component, far more than the simple MVC often mentioned. Every HTTP request goes through a chain of events orchestrated by the EventDispatcher, from controller resolution to rendering the response. Understanding this lifecycle is the foundation everything else rests on.
+Before aiming for expertise, you need to anchor your understanding of Symfony's architecture. If you are just starting out, begin by understanding [why Symfony is the right choice for your projects](/en/article/why-choose-symfony) before tackling its internal mechanics. The framework relies on the Request-Response pattern implemented through the HttpKernel component, far more than the simple MVC often mentioned. Every HTTP request goes through a chain of events orchestrated by the EventDispatcher, from controller resolution to rendering the response. Understanding this lifecycle is the foundation everything else rests on.
 
 To structure your learning, a few resources stand out for their quality and complementarity:
 
@@ -20,7 +20,7 @@ To structure your learning, a few resources stand out for their quality and comp
 - [SymfonyCasts](https://symfonycasts.com/), whose progressive video courses help you understand the "why" behind each mechanism
 - The official Symfony blog, essential for following the framework's changes with each release
 
-Reading alone is not enough. From the first few weeks, create a personal project that goes beyond simple CRUD: an application with authentication, role management, and at least one [console command](/article/commandes-invocables-symfony-attributs-console) (in French). For developers approaching the framework from scratch, [Understanding Symfony easily](/article/symfony-pour-les-moldus) (in French) offers an accessible introduction before diving into these resources. Reflexes are formed in the friction of the real world.
+Reading alone is not enough. From the first few weeks, create a personal project that goes beyond simple CRUD: an application with authentication, role management, and at least one [console command](/en/article/symfony-invokable-commands-attributes). For developers approaching the framework from scratch, [Understanding Symfony easily](/en/article/symfony-explained-php-framework) offers an accessible introduction before diving into these resources. Reflexes are formed in the friction of the real world.
 
 ## Mastering the Service Container and Dependency Injection
 
@@ -40,7 +40,7 @@ The EventDispatcher is Symfony's second architectural pillar. It lets you decoup
 
 An intermediate developer listens to kernel events. A senior defines their own business events. Creating an `OrderValidatedEvent` or a `UserOnboardingCompletedEvent` transforms an application's architecture. Each module can react independently, without the calling code knowing its listeners.
 
-This pattern opens the door to [Messenger](/article/symfony-messenger-colonne-vertebrale-archi-hexagonale) (in French), Symfony's asynchronous messaging component. Moving from a synchronous EventDispatcher to an asynchronous message bus through RabbitMQ or the Doctrine transport is an architectural step up. It is also an opportunity to think in terms of contracts (the event as a public interface) rather than implementation.
+This pattern opens the door to [Messenger](/en/article/symfony-messenger-hexagonal-core), Symfony's asynchronous messaging component. Moving from a synchronous EventDispatcher to an asynchronous message bus through RabbitMQ or the Doctrine transport is an architectural step up. It is also an opportunity to think in terms of contracts (the event as a public interface) rather than implementation.
 
 ## Optimizing Performance Methodically
 
@@ -66,7 +66,7 @@ Contributing to Symfony, even modestly, speeds up skill growth like nothing else
 
 ### Certification as a Milestone
 
-The [Symfony certification](/article/les-certifications-symfony-twig-symfony-sylius) (in French) validates a level of mastery recognized by the industry. Beyond the badge, preparing for the certification forces you to explore corners of the framework you do not encounter day to day: the Form component's advanced options, the subtleties of the Serializer, HttpKernel's caching strategies. It is an excellent tool for mapping your blind spots.
+The [Symfony certification](/en/article/symfony-twig-sylius-certifications) validates a level of mastery recognized by the industry. Beyond the badge, preparing for the certification forces you to explore corners of the framework you do not encounter day to day: the Form component's advanced options, the subtleties of the Serializer, HttpKernel's caching strategies. It is an excellent tool for mapping your blind spots.
 
 ## Thinking Like an Architect: Building on Symfony
 
@@ -76,11 +76,11 @@ The last step is that of the architect who thinks beyond the framework. Symfony 
 
 A Symfony architect designs decoupled bounded contexts, chooses between a modular monolith and microservices with full knowledge of the trade-offs, and defines internal API contracts through interfaces and events. They know when Symfony is the right answer and when one of its components is enough, used on its own outside the full-stack framework.
 
-This vision requires mastery of advanced patterns: CQRS with Messenger, event sourcing, and [hexagonal architecture](/article/migration-symfony-architecture-hexagonale-retour-mission) (in French) where Symfony lives only in the infrastructure layer. Symfony components are designed for this modularity. Using them fully means freeing yourself from the framework while still relying on it.
+This vision requires mastery of advanced patterns: CQRS with Messenger, event sourcing, and [hexagonal architecture](/en/article/symfony-hexagonal-migration) where Symfony lives only in the infrastructure layer. Symfony components are designed for this modularity. Using them fully means freeing yourself from the framework while still relying on it.
 
 ### Pass On Knowledge and Structure Upskilling
 
-An architect or a lead is also responsible for helping the team grow. That means demanding but supportive code reviews, pair programming sessions on complex topics, and documented code and architecture standards. Building a Symfony upskilling program for a team means choosing the right milestones, defining progressive exercises, and knowing when to loosen the reins. For organizations that want structured support, [Symfony training for companies](/formation-symfony-entreprise) (in French) tailors the path to real projects and the team's mixed levels. This culture of mentoring and continuous progress is among the [good reasons to join Efficience IT](/article/7-bonnes-raisons-de-rejoindre-efficience-it) (in French).
+An architect or a lead is also responsible for helping the team grow. That means demanding but supportive code reviews, pair programming sessions on complex topics, and documented code and architecture standards. Building a Symfony upskilling program for a team means choosing the right milestones, defining progressive exercises, and knowing when to loosen the reins. For organizations that want structured support, [Symfony training for companies](/formation-symfony-entreprise) (in French) tailors the path to real projects and the team's mixed levels. This culture of mentoring and continuous progress is among the [good reasons to join Efficience IT](/en/article/why-join-efficience-it).
 
 ## Going Further
 
@@ -105,4 +105,4 @@ To speed up your progress or your team's, Efficience IT offers several options t
 ## Going Further
 
 - Symfony certifications: Twig and Sylius, showcase your skills
-- [Upskilling on Claude Code](/article/monter-en-competence-claude-code) (in French), use AI as a learning accelerator
+- [Upskilling on Claude Code](/en/article/claude-code-upskilling), use AI as a learning accelerator

@@ -371,7 +371,7 @@ C'est pour cela que l'authenticator conserve l'`id_token` en session. Le paramè
 ## Les pièges à connaître
 
 - **Validation du jeton** : vérifiez toujours la signature, l'émetteur (`iss`), l'audience (`aud`) et l'expiration (`exp`). Un jeton valide émis pour une autre application ne doit pas être accepté chez vous. Imposez aussi l'algorithme attendu : un jeton ne choisit pas le sien.
-- **Expiration** : un jeton d'accès est court. L'exemple navigateur n'en garde que le temps de la connexion ; si votre application appelle ensuite des API avec lui, stockez le `refresh_token` et gérez le refus de rafraîchissement.
+- **Expiration** : un jeton d'accès est court. L'exemple navigateur le conserve le temps de la connexion ; si votre application appelle ensuite des API avec lui, stockez le `refresh_token` et gérez le refus de rafraîchissement.
 - **Redirections** : déclarez des URI de redirection exactes dans le client, jamais un joker trop large. La [RFC 9700](https://datatracker.ietf.org/doc/html/rfc9700) recense les bonnes pratiques de sécurité OAuth 2.0 à jour.
 - **PKCE** : indispensable sur les clients publics (SPA, mobile), où aucun secret ne peut être gardé, et recommandé aussi sur les clients confidentiels. Le flux navigateur présenté n'utilise pas PKCE : imposez la méthode S256 sur vos clients publics, et seulement là où l'application l'envoie.
 - **Secrets** : le `client_secret` ne se commite pas. Passez par les variables d'environnement ou un coffre de secrets, et surveillez les [alertes de sécurité sur vos dépendances](/article/cve-comprendre-les-failles-pour-mieux-se-proteger) : Keycloak et ses bibliothèques client reçoivent des correctifs réguliers.

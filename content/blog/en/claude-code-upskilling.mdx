@@ -24,9 +24,9 @@ Claude Code is not a chatbot in a terminal. It is an autonomous development agen
 
 ## What sets Claude Code apart from other AI assistants
 
-Most [AI coding assistants](/article/quel-assistant-ia-choisir-pour-coder) (in French) work in question-and-answer mode: you ask a question, you get a snippet to copy and paste. Claude Code works differently. It navigates your directory tree, reads the files it needs, proposes changes, and applies them directly. It runs the tests, checks that they pass, and fixes things if necessary, from unit tests to [end-to-end tests with Playwright](/article/playwright-tests-end-to-end-claude-code) (in French) that validate complete user journeys. It can chain dozens of steps without intervention, analyze a bug by tracing back the stack trace, or refactor an entire module while respecting your conventions.
+Most [AI coding assistants](/en/article/best-ai-coding-assistant-2026) work in question-and-answer mode: you ask a question, you get a snippet to copy and paste. Claude Code works differently. It navigates your directory tree, reads the files it needs, proposes changes, and applies them directly. It runs the tests, checks that they pass, and fixes things if necessary, from unit tests to [end-to-end tests with Playwright](/en/article/playwright-e2e-claude-code) that validate complete user journeys. It can chain dozens of steps without intervention, analyze a bug by tracing back the stack trace, or refactor an entire module while respecting your conventions.
 
-This autonomy changes the dynamic. You no longer copy code from a chat window. You describe what you want, and the agent takes care of it. Among the [strengths of today's generative AI](/article/forces-et-faiblesses-des-ia-generatives-les-plus-utilisees) (in French), the ability to handle large context windows is decisive. Claude Code exploits this strength by automatically loading your project's instructions in every conversation. But to work properly, it needs context. Without explicit instructions, it generates "generic" code that respects neither your architecture nor your conventions. That is where the CLAUDE.md file comes in.
+This autonomy changes the dynamic. You no longer copy code from a chat window. You describe what you want, and the agent takes care of it. Among the [strengths of today's generative AI](/en/article/generative-ai-tools-strengths-weaknesses), the ability to handle large context windows is decisive. Claude Code exploits this strength by automatically loading your project's instructions in every conversation. But to work properly, it needs context. Without explicit instructions, it generates "generic" code that respects neither your architecture nor your conventions. That is where the CLAUDE.md file comes in.
 
 ## The CLAUDE.md file: your project's memory
 
@@ -37,7 +37,7 @@ CLAUDE.md is a Markdown file placed at the root of your project. Claude Code rea
 An effective CLAUDE.md covers four areas:
 
 - **Project context**: tech stack, build/test/lint commands, general architecture
-- **[Coding conventions](/article/coding-conventions)** (in French): naming rules, patterns to follow, file structure
+- **[Coding conventions](/en/article/php-coding-standards-best-practices)**: naming rules, patterns to follow, file structure
 - **Prohibitions**: what the agent must never do (modify certain files, run destructive commands)
 - **Preferences**: commit style, language, level of verbosity
 
@@ -63,7 +63,7 @@ Here is a minimal example for a Symfony project:
 
 You can also create CLAUDE.md files in subfolders for module-specific instructions. Claude Code loads them based on where it is navigating. For example, a `src/Domain/CLAUDE.md` that forbids dependencies on infrastructure, and a `src/Infrastructure/CLAUDE.md` that specifies Doctrine conventions. The agent applies the right rules depending on where it is working.
 
-The other advantage of CLAUDE.md is that it is committed to the repository. The whole team shares the same instructions. A new developer who opens Claude Code on the project immediately inherits the conventions, without reading 50 pages of documentation. On a legacy Symfony project, [a well-structured CLAUDE.md transforms the quality of suggestions](/article/claude-assistant-architecture-symfony-legacy) (in French) by encoding the hexagonal architecture conventions and DDD rules that the AI does not know by default.
+The other advantage of CLAUDE.md is that it is committed to the repository. The whole team shares the same instructions. A new developer who opens Claude Code on the project immediately inherits the conventions, without reading 50 pages of documentation. On a legacy Symfony project, [a well-structured CLAUDE.md transforms the quality of suggestions](/en/article/claude-code-symfony-legacy-architecture) by encoding the hexagonal architecture conventions and DDD rules that the AI does not know by default.
 
 ## Skills: create your own commands
 
@@ -95,7 +95,7 @@ et les cas limites.
 
 The value of skills goes beyond saving time. They encode the team's best practices in versioned prompts. A junior who types `/review` applies the same review criteria as a senior. A `/migration` skill ensures that every Doctrine migration follows the same verification protocol.
 
-Upskilling comes from progressively building a library of skills adapted to your workflow. It is the same principle as [upskilling on a framework](/article/les-6-etapes-pour-monter-en-competences-sur-symfony) (in French): you start with the basics, then automate what you repeat.
+Upskilling comes from progressively building a library of skills adapted to your workflow. It is the same principle as [upskilling on a framework](/en/article/symfony-skills-roadmap): you start with the basics, then automate what you repeat.
 
 ## Hooks: trigger actions automatically
 
@@ -122,7 +122,7 @@ A few concrete use cases:
 
 A `PreCommit` hook can also check that the tests pass before every commit, or that no `var_dump` is lying around in the code. The idea is to create a safety net around the agent: it can code fast, but the hooks guarantee that the result meets your standards.
 
-Hooks turn Claude Code into a development pipeline. Combined with skills, they let you [build robust AI workflows on existing projects](/article/symfony-ai-projet-legacy-retour-experience) (in French) without modifying production code.
+Hooks turn Claude Code into a development pipeline. Combined with skills, they let you [build robust AI workflows on existing projects](/en/article/symfony-ai-legacy-lessons) without modifying production code.
 
 ## MCP servers: connect Claude Code to the outside world
 
@@ -135,9 +135,9 @@ The most common use cases:
 - **Documentation**: index your technical docs so Claude Code can consult them on demand
 - **Project tools**: create Jira tickets, read GitHub pull requests, check Sentry
 
-If you work on projects involving [indexing business data for AI agents](/article/rag-symfony-ai-doctrine-indexer-base-metier) (in French), MCP servers are the missing piece between your code and your data sources. The agent can then query your database, check a state in production, or consult internal documentation without you having to copy and paste information into the chat.
+If you work on projects involving [indexing business data for AI agents](/en/article/rag-symfony-ai-doctrine), MCP servers are the missing piece between your code and your data sources. The agent can then query your database, check a state in production, or consult internal documentation without you having to copy and paste information into the chat.
 
-Our dedicated article on [MCP servers for Symfony developers](/article/serveurs-mcp-claude-code-developpeurs-symfony) (in French) details the configuration, concrete use cases, and how to create custom servers.
+Our dedicated article on [MCP servers for Symfony developers](/en/article/mcp-servers-claude-code-symfony) details the configuration, concrete use cases, and how to create custom servers.
 
 The configuration goes in `.claude/settings.json`:
 
@@ -154,7 +154,7 @@ The configuration goes in `.claude/settings.json`:
 
 ## IDE integrations: choose your environment
 
-You can use Claude Code in three ways: as a CLI in the terminal, as a VS Code extension, or as a JetBrains extension (PhpStorm, IntelliJ). The choice depends on your habits. If you are hesitating between [the available code editors](/article/phpstorm-vscode-sublimetext-netbeans-quel-editeur-de-code-choisir) (in French), know that Claude Code works everywhere. The CLI experience remains the most complete, but the IDE extensions offer the comfort of visual integration.
+You can use Claude Code in three ways: as a CLI in the terminal, as a VS Code extension, or as a JetBrains extension (PhpStorm, IntelliJ). The choice depends on your habits. If you are hesitating between [the available code editors](/en/article/best-code-editor-2026), know that Claude Code works everywhere. The CLI experience remains the most complete, but the IDE extensions offer the comfort of visual integration.
 
 A few shortcuts to know in the CLI:
 
@@ -173,6 +173,6 @@ A few shortcuts to know in the CLI:
 
 **Share CLAUDE.md with your team.** It is a file you commit. The whole team benefits from the same instructions. Conventions no longer live in the head of a single developer.
 
-**Explore community MCP servers.** The ecosystem is growing fast. Servers exist for GitHub, Slack, PostgreSQL, Notion, Linear, and dozens of other tools. If you already expose [llms.txt files for AI search engines](/article/llms-txt-le-nouveau-levier-seo-a-lere-de-lintelligence-artificielle) (in French), you will understand the logic behind the MCP protocol.
+**Explore community MCP servers.** The ecosystem is growing fast. Servers exist for GitHub, Slack, PostgreSQL, Notion, Linear, and dozens of other tools. If you already expose [llms.txt files for AI search engines](/en/article/llms-txt-seo-ai), you will understand the logic behind the MCP protocol.
 
 The [official Claude Code documentation](https://docs.anthropic.com/en/docs/claude-code/overview) remains the reference for following new features. The tool evolves quickly, and every update brings new productivity levers. What matters most is practice: the more you use Claude Code on real projects, the better you get at writing precise instructions and building an environment that multiplies your velocity.

@@ -124,7 +124,7 @@ Sur des bases dépassant la dizaine de millions de lignes, quelques leviers comp
 
 La distinction entre anonymisation et pseudonymisation n'est pas académique : elle détermine si vos données restent soumises au RGPD après traitement.
 
-L'anonymisation au sens strict produit des données irréversiblement dissociées de la personne concernée. Les données anonymisées sortent du périmètre du RGPD. La pseudonymisation, en revanche, maintient un lien réversible (via une table de correspondance, une clé de déchiffrement) : les données restent des données personnelles au sens du règlement.
+L'anonymisation au sens strict produit des données irréversiblement dissociées de la personne concernée. Les données anonymisées sortent du périmètre du RGPD. La pseudonymisation, en revanche, maintient un lien réversible (via une table de correspondance, une clé de déchiffrement) : les données restent des données personnelles au sens du règlement. Pour les données qui doivent rester exploitables par l'application mais protégées au repos, le [chiffrement des données avec Doctrine et PostgreSQL](/article/chiffrement-donnees-doctrine-postgresql) prend le relais.
 
 DbToolsBundle produit par défaut une anonymisation destructive : la valeur originale est écrasée en base, sans table de correspondance. C'est le comportement souhaité pour les environnements de développement. Pour les cas où la ré-identification contrôlée est nécessaire (support client, audit), la pseudonymisation relève d'une architecture différente, généralement un vault de tokenisation séparé.
 
