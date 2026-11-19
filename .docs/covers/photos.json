@@ -1169,6 +1169,13 @@
     "author": "",
     "url": "https://commons.wikimedia.org/wiki/File:Fish_hook_MET_22.1.954.jpg"
   },
+  "cyber-resilience-act-php-symfony": {
+    "name": "cyber-resilience-act",
+    "file": "File:Scandinavian - Padlock with Key - Walters 52176.jpg",
+    "license": "Public domain",
+    "author": "Walters Art Museum",
+    "url": "https://commons.wikimedia.org/wiki/File:Scandinavian_-_Padlock_with_Key_-_Walters_52176.jpg"
+  },
   "git-bisect-retrouver-le-commit-qui-a-introduit-une-regression": {
     "name": "git-bisect",
     "file": "File:Railway track to nowhere (Unsplash).jpg",
@@ -1211,6 +1218,13 @@
     "author": "Katy Belcher katybelcher",
     "url": "https://commons.wikimedia.org/wiki/File:Engraved_key_on_a_branch_(Unsplash).jpg"
   },
+  "jwt-biscuit-paseto-jetons-autorisation-api-symfony": {
+    "name": "jwt-biscuit-paseto",
+    "file": "File:Assortment of Crackers (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Grégoire Jeanneau gregouill",
+    "url": "https://commons.wikimedia.org/wiki/File:Assortment_of_Crackers_(Unsplash).jpg"
+  },
   "voters-symfony-strategies-decision-performance": {
     "name": "voters-symfony-strategies",
     "file": "File:Locked door of old temple. (Unsplash).jpg",
@@ -1225,26 +1239,12 @@
     "author": "Samuel Zeller samuelzeller",
     "url": "https://commons.wikimedia.org/wiki/File:Archive_storage_(Unsplash).jpg"
   },
-  "burn-out-developpeurs-charge-ia-rythme-equipe": {
-    "name": "burn-out-developpeurs",
-    "file": "File:Richly colored sky over calm sea water (Unsplash).jpg",
+  "webhooks-fiables-symfony-reprises-idempotence": {
+    "name": "webhooks-fiables-symfony",
+    "file": "File:Envelopes (Unsplash).jpg",
     "license": "CC0",
-    "author": "paul morris oldskool2016",
-    "url": "https://commons.wikimedia.org/wiki/File:Richly_colored_sky_over_calm_sea_water_(Unsplash).jpg"
-  },
-  "cyber-resilience-act-php-symfony": {
-    "name": "cyber-resilience-act",
-    "file": "File:Scandinavian - Padlock with Key - Walters 52176.jpg",
-    "license": "Public domain",
-    "author": "Walters Art Museum",
-    "url": "https://commons.wikimedia.org/wiki/File:Scandinavian_-_Padlock_with_Key_-_Walters_52176.jpg"
-  },
-  "jwt-biscuit-paseto-jetons-autorisation-api-symfony": {
-    "name": "jwt-biscuit-paseto",
-    "file": "File:Assortment of Crackers (Unsplash).jpg",
-    "license": "CC0",
-    "author": "Grégoire Jeanneau gregouill",
-    "url": "https://commons.wikimedia.org/wiki/File:Assortment_of_Crackers_(Unsplash).jpg"
+    "author": "Joanna Kosinska joannakosinska",
+    "url": "https://commons.wikimedia.org/wiki/File:Envelopes_(Unsplash).jpg"
   },
   "lazy-objects-natifs-php-84-doctrine-symfony": {
     "name": "lazy-objects-php-84",
@@ -1259,5 +1259,19 @@
     "license": "CC0",
     "author": "Cameron Kirby ckirby",
     "url": "https://commons.wikimedia.org/wiki/File:Highway_Horizons_(Unsplash).jpg"
+  },
+  "php-8-6-nouveautes-deprecations-migration": {
+    "name": "php-86",
+    "file": "File:Addo Elephant National Park, South Africa (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Tobin Rogers tobinrogers",
+    "url": "https://commons.wikimedia.org/wiki/File:Addo_Elephant_National_Park,_South_Africa_(Unsplash).jpg"
+  },
+  "burn-out-developpeurs-charge-ia-rythme-equipe": {
+    "name": "burn-out-developpeurs",
+    "file": "File:Richly colored sky over calm sea water (Unsplash).jpg",
+    "license": "CC0",
+    "author": "paul morris oldskool2016",
+    "url": "https://commons.wikimedia.org/wiki/File:Richly_colored_sky_over_calm_sea_water_(Unsplash).jpg"
   }
 }
