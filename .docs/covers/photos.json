@@ -1239,12 +1239,12 @@
     "author": "Samuel Zeller samuelzeller",
     "url": "https://commons.wikimedia.org/wiki/File:Archive_storage_(Unsplash).jpg"
   },
-  "php-asynchrone-fibers-revolt-amp-reactphp": {
-    "name": "php-asynchrone-fibers",
-    "file": "File:Cityscape and traffic light trails (Unsplash).jpg",
+  "webhooks-fiables-symfony-reprises-idempotence": {
+    "name": "webhooks-fiables-symfony",
+    "file": "File:Envelopes (Unsplash).jpg",
     "license": "CC0",
-    "author": "Thaddaeus Lim _th4d_",
-    "url": "https://commons.wikimedia.org/wiki/File:Cityscape_and_traffic_light_trails_(Unsplash).jpg"
+    "author": "Joanna Kosinska joannakosinska",
+    "url": "https://commons.wikimedia.org/wiki/File:Envelopes_(Unsplash).jpg"
   },
   "lazy-objects-natifs-php-84-doctrine-symfony": {
     "name": "lazy-objects-php-84",
@@ -1259,5 +1259,19 @@
     "license": "CC0",
     "author": "Cameron Kirby ckirby",
     "url": "https://commons.wikimedia.org/wiki/File:Highway_Horizons_(Unsplash).jpg"
+  },
+  "php-8-6-nouveautes-deprecations-migration": {
+    "name": "php-86",
+    "file": "File:Addo Elephant National Park, South Africa (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Tobin Rogers tobinrogers",
+    "url": "https://commons.wikimedia.org/wiki/File:Addo_Elephant_National_Park,_South_Africa_(Unsplash).jpg"
+  },
+  "php-asynchrone-fibers-revolt-amp-reactphp": {
+    "name": "php-asynchrone-fibers",
+    "file": "File:Cityscape and traffic light trails (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Thaddaeus Lim _th4d_",
+    "url": "https://commons.wikimedia.org/wiki/File:Cityscape_and_traffic_light_trails_(Unsplash).jpg"
   }
 }
