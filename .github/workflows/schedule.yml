@@ -38,6 +38,6 @@ jobs:
               echo "#$n bloquée ($mergeable, $failing check(s) non verts)" >> "$GITHUB_STEP_SUMMARY"
               continue
             fi
-            gh pr merge "$n" --repo "$REPO" --squash --delete-branch
+            gh pr merge "$n" --repo "$REPO" --squash --delete-branch --admin
             echo "#$n mergée" >> "$GITHUB_STEP_SUMMARY"
           done
