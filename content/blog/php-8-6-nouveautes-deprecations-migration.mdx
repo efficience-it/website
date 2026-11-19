@@ -1,0 +1,167 @@
+---
+title: "PHP 8.6 : nouveautés, dépréciations et changements à anticiper"
+date: "2026-11-19"
+updatedAt: "2026-11-19"
+author: "Louis-Arnaud Catoire"
+category: "PHP"
+excerpt: "PHP 8.6 est sorti : application partielle de fonctions, classe Duration, clamp(), erreurs de flux structurées. Nouveautés, dépréciations et ruptures de compatibilité."
+image: "/images/blog/cover-php-86.webp"
+proficiencyLevel: "Expert"
+faq:
+  - question: "Quelles sont les principales nouveautés de PHP 8.6 ?"
+    answer: "L'application partielle de fonctions avec le placeholder ?, la classe \\Time\\Duration, la fonction clamp(), l'enum SortDirection, une API de polling (Io\\Poll) et des erreurs de flux structurées avec StreamException. Les valeurs par défaut sont aussi autorisées sur les propriétés readonly."
+  - question: "PHP 8.6 contient-il des ruptures de compatibilité ?"
+    answer: "Oui, quelques-unes : les sessions activent par défaut session.use_strict_mode et session.cookie_httponly, avec SameSite à Lax. trim() retire désormais aussi le saut de page, certaines fonctions de flux renvoient false en cas d'échec de fermeture, et plusieurs fonctions lèvent une ValueError sur des valeurs invalides."
+  - question: "Faut-il attendre PHP 9 pour migrer ?"
+    answer: "Non. Chaque version 8.x accumule des dépréciations qui deviendront des erreurs en PHP 9. Monter de version par étapes, en traitant les avertissements à chaque palier, rend le passage à PHP 9 bien moins coûteux."
+---
+
+PHP 8.6 est publié aujourd'hui, le 19 novembre 2026. Cette version n'est pas une révolution, mais elle ajoute plusieurs briques attendues depuis longtemps : l'application partielle de fonctions, une vraie classe de durée, une API de polling pour les boucles d'événements et des erreurs de flux enfin exploitables. Elle prépare aussi PHP 9, comme nous l'expliquions dans notre article sur [PHP 9.0 et ses changements à venir](/article/php-9-0-devoile-ce-que-vous-devez-savoir-avant-la-sortie).
+
+Cet article s'appuie sur la [page de présentation officielle de PHP 8.6](https://www.php.net/releases/8.6/en.php). Les exemples de code en sont tirés ou adaptés, et nous n'avons pas encore pu les exécuter nous-mêmes sur une version finale : vérifiez-les avant de les copier dans un projet. Le [guide de migration officiel](https://www.php.net/manual/en/migration86.php) reste la référence pour la liste exhaustive.
+
+## Application partielle de fonctions
+
+C'est la nouveauté la plus visible. Vous fournissez une partie des arguments et laissez des placeholders (`?` ou `...`) pour le reste. Le résultat est une `Closure` qui s'exécute quand les arguments manquants sont fournis.
+
+```php
+$versions = ['8.4', '8.5', '8.6', '8.7', '9.0'];
+
+$supportsPfa = array_filter(
+    $versions,
+    version_compare(?, '8.6', '>='),
+);
+```
+
+Plus besoin d'écrire `fn($v) => version_compare($v, '8.6', '>=')`. Associée au pipe operator arrivé en PHP 8.5, cette syntaxe rend le code fonctionnel nettement plus lisible. Côté performances, la version finale indique que `array_map()` appelé avec un callable de première classe ou une application partielle est compilé en boucle.
+
+## La classe `\Time\Duration`
+
+PHP disposait de `DateInterval`, pensé pour le calendrier, mais pas d'un type pour le temps écoulé mesuré au chronomètre. `\Time\Duration` comble ce manque : indépendante des fuseaux horaires, elle couvre plus de 250 ans avec une précision à la nanoseconde, et elle est comparable, donc `min()` fonctionne directement dessus.
+
+```php
+use Time\Duration;
+
+function backoff(Duration $baseDelay, Duration $step, int $attempt): void {
+    $delay = $baseDelay->add($step->multiplyBy(2 ** $attempt));
+    $delay = min($delay, Duration::fromSeconds(30));
+    time_nanosleep($delay->seconds, $delay->nanoseconds);
+}
+```
+
+Le cas d'usage typique est le délai d'attente entre deux tentatives d'appel à une API, comme ci-dessus. Fini les entiers de millisecondes dont personne ne se rappelle l'unité.
+
+## `clamp()` et l'enum `SortDirection`
+
+Deux petites additions qui évitent de réécrire le même code partout.
+
+`clamp()` borne une valeur dans un intervalle et fonctionne avec les nombres comme avec tout type comparable, `Duration` compris :
+
+```php
+var_dump(clamp(-10, 0, 100)); // int(0)
+var_dump(clamp(50, 0, 100));  // int(50)
+var_dump(clamp(110, 0, 100)); // int(100)
+```
+
+`SortDirection` est un enum partagé avec les cas `Ascending` et `Descending`. Les bibliothèques peuvent l'exposer dans leurs API publiques sans adaptateur, et le typage refuse un entier comme `SORT_STRING` :
+
+```php
+public function orderBy(
+    string $column,
+    SortDirection $direction = SortDirection::Ascending,
+): static { /* ... */ }
+```
+
+Pour un projet Symfony, ce type commun devrait à terme simplifier les signatures de vos dépôts Doctrine et de vos filtres d'API.
+
+## Des erreurs de flux structurées
+
+Les opérations sur les flux émettaient jusqu'ici des warnings difficiles à attraper proprement. PHP 8.6 permet de lever une `StreamException`, ou d'échouer silencieusement. Chaque erreur devient un objet `StreamError` avec un code issu de l'enum `StreamErrorCode`, le nom du wrapper et le chemin ou l'URL concernés.
+
+```php
+$context = stream_context_create([
+    'stream' => ['error_mode' => StreamErrorMode::Exception],
+]);
+
+try {
+    $config = file_get_contents('/etc/app/config.json', context: $context);
+} catch (StreamException $e) {
+    foreach ($e->getErrors() as $error) {
+        log_error($error->code->name, $error->message, $error->wrapperName);
+    }
+}
+```
+
+On peut aussi récupérer les erreurs avec `stream_last_errors()` ou les passer à un gestionnaire personnalisé. Pour les applications qui lisent des fichiers de configuration ou appellent des ressources distantes, c'est un gain net de lisibilité.
+
+## Une API de polling pour les boucles d'événements
+
+`Io\Poll` surveille de nombreux flux efficacement, en s'appuyant sur epoll, kqueue, les event ports ou WSAPoll selon la plateforme. Elle lève la limite des 1024 connexions de `stream_select()`. Elle est conçue comme fondation pour des bibliothèques de boucle d'événements comme ReactPHP et AMPHP, plus que pour un usage direct dans une application web classique.
+
+## Objets, réflexion et propriétés
+
+Plusieurs évolutions touchent le modèle objet :
+
+- **Valeurs par défaut sur les propriétés `readonly`** : une propriété d'instance `readonly`, y compris dans une classe `readonly`, peut déclarer une valeur par défaut. Cette valeur compte comme l'initialisation, donc le constructeur ne peut pas l'écraser.
+- **DocComments sur les paramètres** : chaque paramètre peut porter son propre commentaire, lu avec `ReflectionParameter::getDocComment()`.
+- **`ReflectionProperty::isReadable()` et `isWritable()`** : ils tiennent compte de la visibilité, de l'initialisation, des hooks de propriété et des méthodes magiques.
+- **`#[\Override]`** peut désormais s'appliquer aux constantes de classe et aux cas d'enum.
+- Les enums peuvent implémenter `__debugInfo()`.
+- Les propriétés d'un objet stocké dans une constante sont modifiables directement, par exemple `Config::DEFAULTS->timeout = 30`.
+
+Ces ajouts intéressent surtout les auteurs de frameworks, de sérialiseurs et d'outils d'analyse. Si vous utilisez les [objets paresseux natifs](/article/lazy-objects-natifs-php-84-doctrine-symfony), `isReadable()` et `isWritable()` complètent bien la boîte à outils de réflexion.
+
+## Autres ajouts notables
+
+- **URI** : de nouveaux constructeurs, `Uri\Rfc3986\UriBuilder` et `Uri\WhatWg\UrlBuilder`, assemblent des URI à partir de leurs composants.
+- **Sodium** : encapsulation de clés post-quantique (X-Wing et ML-KEM-768), chiffrement d'adresses IP, fonctions SHAKE et TurboSHAKE.
+- **TLS** : reprise de session, clés pré-partagées externes et données précoces TLS 1.3 (0-RTT).
+- **mysqli** : `mysqli::quote_string()` échappe et entoure une chaîne de guillemets, comme `PDO::quote()`.
+- **Divers** : modificateurs `<` et `>` d'endianness pour `pack()` et `unpack()`, localisation de l'erreur dans les messages JSON, `grapheme_strrev()`, `IntlNumberRangeFormatter`, `ZipArchive::openString()` et `closeString()`.
+- **Réglage** : le paramètre INI `error_include_args` inclut systématiquement les arguments dans les messages d'erreur.
+
+## Performances
+
+Les gains annoncés restent modestes mais gratuits : `printf()` plus rapide, encodage JSON plus rapide, mise en cache des closures sans état et compilation en boucle de `array_map()` dans les cas vus plus haut. Aucun chiffre n'est donné sur la page officielle, donc mesurez sur votre charge réelle avant d'en tirer une conclusion.
+
+## Dépréciations à traiter dès maintenant
+
+Chaque dépréciation de 8.6 est une erreur en puissance pour PHP 9. Les principales :
+
+- `return` dans un bloc `finally`.
+- Retourner une valeur depuis `__construct()` ou `__destruct()`, ou en faire un générateur.
+- Les noms `let` et `is` pour une classe, une fonction ou une constante.
+- Les fonctions regex de mbstring, comme `mb_ereg()` et `mb_split()` : utilisez PCRE avec le modificateur `u`.
+- Les alias `is_double()`, `is_long()`, `is_integer()` et `doubleval()`.
+- `spl_object_hash()` au profit de `spl_object_id()`, et `spl_classes()`.
+- Passer un objet à la place d'un tableau à `array_walk()`, `http_build_query()` et d'autres : appelez d'abord `get_object_vars()`.
+- `strcoll()` et `SORT_LOCALE_STRING` : utilisez la classe `Collator` de l'extension intl.
+- Un troisième argument à `define()`.
+- Plus de 16 filtres dans une URL `php://filter` sans régler `filter.max_filter_count`.
+- Les gestionnaires de session personnalisés qui n'implémentent pas à la fois `create_sid()` et `validateId()`.
+- `metaphone()`, `mysqli_get_charset()`, `mysqli_stmt_init()`, les méthodes CSV de `SplFileObject` et plusieurs méthodes d'`ArrayIterator`.
+
+Pour les repérer, lancez votre suite de tests avec `error_reporting = E_ALL` et inspectez les `E_DEPRECATED`. [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) automatise une bonne partie des remplacements d'alias, et un [PHPStan au niveau maximal](/article/phpstan-niveau-max-symfony-10-erreurs) détecte les usages d'API dépréciées avant l'exécution.
+
+## Ruptures de compatibilité
+
+Ce sont les changements qui peuvent casser un projet sans avertissement préalable. Ils sont peu nombreux, mais mieux vaut les vérifier :
+
+- **Sessions** : `session.use_strict_mode` et `session.cookie_httponly` sont activés par défaut, et `session.cookie_samesite` vaut `Lax`. Si votre application dépend d'un cookie de session lu depuis JavaScript ou envoyé dans un contexte inter-sites, définissez explicitement ces valeurs.
+- **`trim()`, `ltrim()`, `rtrim()`** retirent maintenant aussi le saut de page (`\f`) par défaut.
+- **Échecs de flux** : `fclose()`, `file_put_contents()` et `copy()` renvoient `false` quand l'écriture ou la fermeture échoue, au lieu d'ignorer l'erreur. Du code qui ne testait pas le retour va désormais se comporter différemment.
+- **Validation plus stricte** : de nombreuses fonctions lèvent une `ValueError` pour une valeur hors plage, un drapeau invalide ou une chaîne contenant un octet NUL, au lieu de tronquer ou d'ignorer.
+
+## Comment migrer
+
+1. **Vérifier la compatibilité de vos dépendances** : framework, ORM, extensions. Notre [guide de migration dans un projet Symfony](/article/guide-de-migration-dans-un-projet-symfony) détaille la méthode pour monter de version sans bloquer l'équipe.
+2. **Passer la CI sur PHP 8.6** en plus de votre version actuelle, avec les dépréciations affichées.
+3. **Traiter les ruptures** listées ci-dessus, en priorité les sessions et les retours de fonctions de fichiers.
+4. **Corriger les dépréciations** avec Rector et l'analyse statique. Le [comparatif des analyseurs statiques PHP](/article/comparateur-analyseurs-statiques-php) aide à choisir l'outil.
+5. **Adopter les nouveautés progressivement** : `Duration` et `clamp()` sont sans risque, l'application partielle demande un peu d'habitude dans l'équipe.
+
+Si votre projet tourne encore sur une version qui ne reçoit plus de correctifs, la priorité n'est pas 8.6 mais de sortir de cette situation. Notre [plan d'action sur la fin de support de Symfony et PHP](/article/symfony-php-fin-de-support-eol-plan-action) donne les échéances et l'ordre des opérations.
+
+## Ce qu'il faut retenir
+
+PHP 8.6 apporte l'application partielle de fonctions, `\Time\Duration`, `clamp()`, `SortDirection`, des erreurs de flux structurées et une API de polling. Il durcit aussi quelques comportements par défaut, en particulier les sessions et plusieurs fonctions de fichiers, et déprécie un lot de fonctions anciennes qui disparaîtront en PHP 9. Une migration préparée par une CI double version et un passage de Rector ou de PHPStan reste la meilleure façon d'éviter une migration brutale vers PHP 9.
