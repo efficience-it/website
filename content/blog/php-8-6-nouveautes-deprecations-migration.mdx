@@ -4,7 +4,7 @@ date: "2026-11-19"
 updatedAt: "2026-11-19"
 author: "Louis-Arnaud Catoire"
 category: "PHP"
-excerpt: "PHP 8.6 est sorti : application partielle de fonctions, classe Duration, clamp(), erreurs de flux structurées. Nouveautés, dépréciations et ruptures de compatibilité."
+excerpt: "PHP 8.6 sort le 19 novembre 2026 : application partielle de fonctions, classe Duration, clamp(), erreurs de flux structurées. Nouveautés, dépréciations et ruptures de compatibilité."
 image: "/images/blog/cover-php-86.webp"
 proficiencyLevel: "Expert"
 faq:
@@ -13,10 +13,10 @@ faq:
   - question: "PHP 8.6 contient-il des ruptures de compatibilité ?"
     answer: "Oui, quelques-unes : les sessions activent par défaut session.use_strict_mode et session.cookie_httponly, avec SameSite à Lax. trim() retire désormais aussi le saut de page, certaines fonctions de flux renvoient false en cas d'échec de fermeture, et plusieurs fonctions lèvent une ValueError sur des valeurs invalides."
   - question: "Faut-il attendre PHP 9 pour migrer ?"
-    answer: "Non. Chaque version 8.x accumule des dépréciations qui deviendront des erreurs en PHP 9. Monter de version par étapes, en traitant les avertissements à chaque palier, rend le passage à PHP 9 bien moins coûteux."
+    answer: "Non. Chaque version 8.x accumule des dépréciations qui peuvent devenir des erreurs ou des suppressions dans une version majeure. Monter de version par étapes, en traitant les avertissements à chaque palier, rend le passage à PHP 9 bien moins coûteux."
 ---
 
-PHP 8.6 est publié aujourd'hui, le 19 novembre 2026. Cette version n'est pas une révolution, mais elle ajoute plusieurs briques attendues depuis longtemps : l'application partielle de fonctions, une vraie classe de durée, une API de polling pour les boucles d'événements et des erreurs de flux enfin exploitables. Elle prépare aussi PHP 9, comme nous l'expliquions dans notre article sur [PHP 9.0 et ses changements à venir](/article/php-9-0-devoile-ce-que-vous-devez-savoir-avant-la-sortie).
+PHP 8.6 sort aujourd'hui, le 19 novembre 2026. Cette version n'est pas une révolution, mais elle ajoute plusieurs briques attendues depuis longtemps : l'application partielle de fonctions, une vraie classe de durée, une API de polling pour les boucles d'événements et des erreurs de flux enfin exploitables. Elle s'inscrit dans la continuité des changements que nous décrivions dans notre article sur [PHP 9.0 et ses changements à venir](/article/php-9-0-devoile-ce-que-vous-devez-savoir-avant-la-sortie).
 
 Cet article s'appuie sur la [page de présentation officielle de PHP 8.6](https://www.php.net/releases/8.6/en.php). Les exemples de code en sont tirés ou adaptés, et nous n'avons pas encore pu les exécuter nous-mêmes sur une version finale : vérifiez-les avant de les copier dans un projet. Le [guide de migration officiel](https://www.php.net/manual/en/migration86.php) reste la référence pour la liste exhaustive.
 
@@ -33,7 +33,7 @@ $supportsPfa = array_filter(
 );
 ```
 
-Plus besoin d'écrire `fn($v) => version_compare($v, '8.6', '>=')`. Associée au pipe operator arrivé en PHP 8.5, cette syntaxe rend le code fonctionnel nettement plus lisible. Côté performances, la version finale indique que `array_map()` appelé avec un callable de première classe ou une application partielle est compilé en boucle.
+Plus besoin d'écrire `fn($v) => version_compare($v, '8.6', '>=')`. Combinée à l'opérateur pipe (`|>`, arrivé en PHP 8.5), cette syntaxe rend le code fonctionnel nettement plus lisible. Côté performances, la page de présentation indique que `array_map()` appelé avec un callable de première classe ou une application partielle est compilé en boucle.
 
 ## La classe `\Time\Duration`
 
@@ -72,11 +72,11 @@ public function orderBy(
 ): static { /* ... */ }
 ```
 
-Pour un projet Symfony, ce type commun devrait à terme simplifier les signatures de vos dépôts Doctrine et de vos filtres d'API.
+Les bibliothèques peuvent ainsi s'accorder sur un type commun pour leurs API.
 
 ## Des erreurs de flux structurées
 
-Les opérations sur les flux émettaient jusqu'ici des warnings difficiles à attraper proprement. PHP 8.6 permet de lever une `StreamException`, ou d'échouer silencieusement. Chaque erreur devient un objet `StreamError` avec un code issu de l'enum `StreamErrorCode`, le nom du wrapper et le chemin ou l'URL concernés.
+Les opérations sur les flux émettaient jusqu'ici des avertissements peu structurés, que l'on convertissait à la main en exceptions. PHP 8.6 permet de lever une `StreamException`, ou d'échouer silencieusement. Chaque erreur devient un objet `StreamError` avec un code issu de l'enum `StreamErrorCode`, le nom du wrapper et le chemin ou l'URL concernés.
 
 ```php
 $context = stream_context_create([
@@ -96,7 +96,7 @@ On peut aussi récupérer les erreurs avec `stream_last_errors()` ou les passer 
 
 ## Une API de polling pour les boucles d'événements
 
-`Io\Poll` surveille de nombreux flux efficacement, en s'appuyant sur epoll, kqueue, les event ports ou WSAPoll selon la plateforme. Elle lève la limite des 1024 connexions de `stream_select()`. Elle est conçue comme fondation pour des bibliothèques de boucle d'événements comme ReactPHP et AMPHP, plus que pour un usage direct dans une application web classique.
+`Io\Poll` surveille de nombreux flux efficacement, en s'appuyant sur epoll, kqueue, les event ports ou WSAPoll selon la plateforme. Elle n'a pas les limites de `stream_select()`, notamment le plafond de descripteurs de fichiers. Elle est conçue comme fondation pour des bibliothèques de boucle d'événements comme ReactPHP et AMPHP.
 
 ## Objets, réflexion et propriétés
 
@@ -122,11 +122,11 @@ Ces ajouts intéressent surtout les auteurs de frameworks, de sérialiseurs et d
 
 ## Performances
 
-Les gains annoncés restent modestes mais gratuits : `printf()` plus rapide, encodage JSON plus rapide, mise en cache des closures sans état et compilation en boucle de `array_map()` dans les cas vus plus haut. Aucun chiffre n'est donné sur la page officielle, donc mesurez sur votre charge réelle avant d'en tirer une conclusion.
+Les optimisations annoncées ne demandent aucun changement de code : `printf()` plus rapide, encodage JSON plus rapide, mise en cache des closures sans état et compilation en boucle de `array_map()` avec un callable de première classe ou une application partielle. Aucun chiffre n'est donné sur la page officielle, donc mesurez sur votre charge réelle avant d'en tirer une conclusion.
 
 ## Dépréciations à traiter dès maintenant
 
-Chaque dépréciation de 8.6 est une erreur en puissance pour PHP 9. Les principales :
+Une dépréciation annonce une suppression ou une erreur possible dans une prochaine version majeure. Les principales de 8.6 :
 
 - `return` dans un bloc `finally`.
 - Retourner une valeur depuis `__construct()` ou `__destruct()`, ou en faire un générateur.
@@ -141,15 +141,15 @@ Chaque dépréciation de 8.6 est une erreur en puissance pour PHP 9. Les princip
 - Les gestionnaires de session personnalisés qui n'implémentent pas à la fois `create_sid()` et `validateId()`.
 - `metaphone()`, `mysqli_get_charset()`, `mysqli_stmt_init()`, les méthodes CSV de `SplFileObject` et plusieurs méthodes d'`ArrayIterator`.
 
-Pour les repérer, lancez votre suite de tests avec `error_reporting = E_ALL` et inspectez les `E_DEPRECATED`. [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) automatise une bonne partie des remplacements d'alias, et un [PHPStan au niveau maximal](/article/phpstan-niveau-max-symfony-10-erreurs) détecte les usages d'API dépréciées avant l'exécution.
+Pour les repérer, lancez votre suite de tests sous PHP 8.6 avec `error_reporting = E_ALL` et relevez les `E_DEPRECATED` dans l'affichage ou les journaux. Les tests ne couvrent que le code chargé : complétez par un `php -l` sur tous les fichiers, car certaines dépréciations (`return` dans `finally`, noms `let` et `is`) sont émises à la compilation. [Rector](/article/rector-et-ses-pouvoirs-maitrisez-levolution-de-votre-code-symfony) peut automatiser les remplacements d'alias une fois son jeu de règles 8.6 disponible, et [PHPStan](/article/phpstan-niveau-max-symfony-10-erreurs) avec l'extension `phpstan-deprecation-rules`, exécuté sous PHP 8.6, détecte les usages d'API dépréciées avant l'exécution.
 
 ## Ruptures de compatibilité
 
-Ce sont les changements qui peuvent casser un projet sans avertissement préalable. Ils sont peu nombreux, mais mieux vaut les vérifier :
+Ce sont les changements qui peuvent casser un projet sans avertissement préalable. Ils sont peu nombreux, mais le durcissement des `ValueError` touche de nombreuses fonctions :
 
-- **Sessions** : `session.use_strict_mode` et `session.cookie_httponly` sont activés par défaut, et `session.cookie_samesite` vaut `Lax`. Si votre application dépend d'un cookie de session lu depuis JavaScript ou envoyé dans un contexte inter-sites, définissez explicitement ces valeurs.
+- **Sessions** : `session.use_strict_mode` et `session.cookie_httponly` sont activés par défaut, et `session.cookie_samesite` vaut `Lax`. Si votre application dépend d'un cookie de session lu depuis JavaScript ou envoyé dans un contexte inter-sites, définissez explicitement ces valeurs. Le mode strict peut aussi perturber un gestionnaire personnalisé qui n'implémente pas `validateId()`.
 - **`trim()`, `ltrim()`, `rtrim()`** retirent maintenant aussi le saut de page (`\f`) par défaut.
-- **Échecs de flux** : `fclose()`, `file_put_contents()` et `copy()` renvoient `false` quand l'écriture ou la fermeture échoue, au lieu d'ignorer l'erreur. Du code qui ne testait pas le retour va désormais se comporter différemment.
+- **Échecs de flux** : `fclose()`, `file_put_contents()` et `copy()` renvoient `false` quand le vidage du tampon ou la fermeture du flux échoue, au lieu d'ignorer l'échec. Du code qui ne testait pas le retour va désormais se comporter différemment.
 - **Validation plus stricte** : de nombreuses fonctions lèvent une `ValueError` pour une valeur hors plage, un drapeau invalide ou une chaîne contenant un octet NUL, au lieu de tronquer ou d'ignorer.
 
 ## Comment migrer
@@ -164,4 +164,4 @@ Si votre projet tourne encore sur une version qui ne reçoit plus de correctifs,
 
 ## Ce qu'il faut retenir
 
-PHP 8.6 apporte l'application partielle de fonctions, `\Time\Duration`, `clamp()`, `SortDirection`, des erreurs de flux structurées et une API de polling. Il durcit aussi quelques comportements par défaut, en particulier les sessions et plusieurs fonctions de fichiers, et déprécie un lot de fonctions anciennes qui disparaîtront en PHP 9. Une migration préparée par une CI double version et un passage de Rector ou de PHPStan reste la meilleure façon d'éviter une migration brutale vers PHP 9.
+PHP 8.6 apporte l'application partielle de fonctions, `\Time\Duration`, `clamp()`, `SortDirection`, des erreurs de flux structurées et une API de polling. Il durcit aussi quelques comportements par défaut, en particulier les sessions et plusieurs fonctions de fichiers, et déprécie un lot de fonctions anciennes qui pourraient disparaître en PHP 9. Une migration préparée par une CI double version et un passage de Rector ou de PHPStan reste la meilleure façon d'éviter un passage brutal à PHP 9.
