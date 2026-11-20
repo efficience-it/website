@@ -26,7 +26,7 @@ const stats = [
 
 export default function Hero() {
   return (
-    <section className="hud-hero py-20 md:py-32">
+    <section className="hud-hero py-12 md:py-16">
       <Container>
         <div className="relative z-10 grid items-center gap-12 md:grid-cols-2">
           <div>
