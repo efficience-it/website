@@ -246,29 +246,3 @@ body {
     animation: none;
   }
 }
-
-.hud-screen {
-  position: relative;
-  width: 100%;
-  padding: 1.5rem;
-  border: 1px solid rgba(34, 211, 238, 0.45);
-  background:
-    radial-gradient(circle at 50% 50%, #0b2a40 0%, #050d18 72%);
-  clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));
-}
-
-.hud-screen::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(34, 211, 238, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(34, 211, 238, 0.08) 1px, transparent 1px);
-  background-size: 32px 32px;
-  pointer-events: none;
-}
-
-.hud-screen .hud-svg {
-  color: #22d3ee;
-  filter: drop-shadow(0 0 6px rgba(34, 211, 238, 0.7));
-}
