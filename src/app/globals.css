@@ -123,3 +123,157 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+.hud-hero {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 75% 40%, rgba(34, 211, 238, 0.14), transparent 55%),
+    linear-gradient(180deg, #040a14 0%, #071426 100%);
+  color: #e6f7fb;
+}
+
+.hud-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(34, 211, 238, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.07) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at center, #000 30%, transparent 80%);
+  animation: hud-grid 12s linear infinite;
+  pointer-events: none;
+}
+
+.hud-hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(180deg, transparent, rgba(34, 211, 238, 0.08), transparent);
+  animation: hud-scan 7s linear infinite;
+  pointer-events: none;
+}
+
+.hud-glow {
+  filter: drop-shadow(0 0 6px rgba(34, 211, 238, 0.7));
+}
+
+.hud-text-glow {
+  text-shadow: 0 0 18px rgba(34, 211, 238, 0.45);
+}
+
+.hud-panel {
+  border: 1px solid rgba(34, 211, 238, 0.35);
+  background: rgba(34, 211, 238, 0.05);
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+  backdrop-filter: blur(4px);
+}
+
+.hud-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #e6f7fb;
+  border: 1px solid #22d3ee;
+  background: rgba(34, 211, 238, 0.1);
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  transition: background 0.2s, box-shadow 0.2s, color 0.2s;
+}
+
+.hud-btn:hover {
+  background: #22d3ee;
+  color: #041018;
+  box-shadow: 0 0 24px rgba(34, 211, 238, 0.6);
+}
+
+.hud-btn:focus-visible {
+  outline: 2px solid #7df3ff;
+  outline-offset: 3px;
+}
+
+.hud-btn-ghost {
+  background: transparent;
+  border-color: rgba(34, 211, 238, 0.45);
+}
+
+.hud-spin-slow,
+.hud-spin-reverse,
+.hud-spin-mid {
+  transform-origin: 200px 200px;
+}
+
+.hud-spin-slow {
+  animation: hud-spin 60s linear infinite;
+}
+
+.hud-spin-reverse {
+  animation: hud-spin 28s linear infinite reverse;
+}
+
+.hud-spin-mid {
+  animation: hud-spin 40s linear infinite;
+}
+
+.hud-pulse {
+  animation: hud-pulse 3s ease-in-out infinite;
+}
+
+.hud-blink {
+  animation: hud-blink 1.1s steps(2, start) infinite;
+}
+
+@keyframes hud-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes hud-pulse {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes hud-blink {
+  to {
+    visibility: hidden;
+  }
+}
+
+@keyframes hud-grid {
+  to {
+    background-position: 0 48px;
+  }
+}
+
+@keyframes hud-scan {
+  from {
+    top: -120px;
+  }
+  to {
+    top: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hud-hero::before,
+  .hud-hero::after,
+  .hud-spin-slow,
+  .hud-spin-reverse,
+  .hud-spin-mid,
+  .hud-pulse,
+  .hud-blink {
+    animation: none;
+  }
+}
