@@ -1,6 +1,6 @@
 const TICKS = Array.from({ length: 72 }, (_, i) => i);
 const NODES = [
-  { angle: 20, label: "PHP 8.5" },
+  { angle: 20, label: "PHP 8.6" },
   { angle: 140, label: "SYMFONY" },
   { angle: 250, label: "API" },
 ];
