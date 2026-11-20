@@ -65,11 +65,16 @@ export default function Hero() {
               ))}
             </dl>
           </div>
-          <div className="hidden justify-center md:flex">
-            <HudIllustration
-              className="hud-svg h-[28rem] w-full"
-              aria-label="Interface futuriste animée représentant le développement web sur mesure"
-            />
+          <div className="hidden md:block">
+            <div className="hud-screen">
+              <p className="relative font-mono text-[10px] uppercase tracking-[0.3em] text-cyan-300">
+                Efficience IT // En ligne
+              </p>
+              <HudIllustration
+                className="hud-svg relative h-[26rem] w-full"
+                aria-label="Interface futuriste animée représentant le développement web sur mesure"
+              />
+            </div>
           </div>
         </div>
       </Container>

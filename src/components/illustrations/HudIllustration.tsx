@@ -77,7 +77,7 @@ export default function HudIllustration({
         <path d={arc(118, 100, 170)} stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
       </g>
 
-      <g className="hud-spin-slow">
+      <g>
         {NODES.map((n) => {
           const p = polar(160, n.angle);
           const t = polar(138, n.angle);
@@ -90,7 +90,6 @@ export default function HudIllustration({
                 fill="currentColor"
                 fontSize="8"
                 letterSpacing="1"
-                className="hud-upright"
                 textAnchor="middle"
                 dominantBaseline="middle"
                 fontFamily="monospace"
