@@ -1,8 +1,13 @@
 const TICKS = Array.from({ length: 72 }, (_, i) => i);
 const NODES = [
   { angle: 20, label: "PHP 8.6" },
-  { angle: 140, label: "SYMFONY" },
-  { angle: 250, label: "API" },
+  { angle: 65, label: "SYMFONY" },
+  { angle: 110, label: "NODE" },
+  { angle: 155, label: "REACT" },
+  { angle: 200, label: "VUE" },
+  { angle: 245, label: "DOCKER" },
+  { angle: 290, label: "KUBERNETES" },
+  { angle: 335, label: "API" },
 ];
 
 function polar(radius: number, angle: number) {
@@ -83,8 +88,9 @@ export default function HudIllustration({
                 x={t.x}
                 y={t.y}
                 fill="currentColor"
-                fontSize="9"
-                letterSpacing="2"
+                fontSize="8"
+                letterSpacing="1"
+                className="hud-upright"
                 textAnchor="middle"
                 dominantBaseline="middle"
                 fontFamily="monospace"

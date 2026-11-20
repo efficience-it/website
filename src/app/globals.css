@@ -190,6 +190,12 @@ body {
   animation: hud-spin 40s linear infinite;
 }
 
+.hud-upright {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: hud-spin 60s linear infinite reverse;
+}
+
 .hud-pulse {
   animation: hud-pulse 3s ease-in-out infinite;
 }
@@ -241,6 +247,7 @@ body {
   .hud-spin-slow,
   .hud-spin-reverse,
   .hud-spin-mid,
+  .hud-upright,
   .hud-pulse,
   .hud-blink {
     animation: none;
