@@ -1,10 +1,10 @@
-import Link from "next/link";
 import {
   CLIENTS_SUPPORTED,
   FOUNDING_YEAR,
   PROJECTS_DELIVERED,
   TEAM_EXPERIENCE_YEARS,
 } from "@/lib/company";
+import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import RotatingKeywords from "@/components/ui/RotatingKeywords";
 import HudIllustration from "@/components/illustrations/HudIllustration";
@@ -49,12 +49,12 @@ export default function Hero() {
               </span>
             </div>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-              <Link href="/audit-symfony-gratuit" className="hud-btn">
+              <Button href="/audit-symfony-gratuit" size="lg">
                 Demander mon audit gratuit
-              </Link>
-              <Link href="/notre-expertise" className="hud-btn hud-btn-ghost">
+              </Button>
+              <Button href="/notre-expertise" variant="outline" size="lg">
                 Nos services
-              </Link>
+              </Button>
             </div>
             <dl className="mt-10 grid max-w-md grid-cols-3 gap-3">
               {stats.map((s) => (
