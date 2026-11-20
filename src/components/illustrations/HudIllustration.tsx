@@ -21,16 +21,12 @@ function arc(radius: number, start: number, end: number) {
   return `M ${a.x.toFixed(2)} ${a.y.toFixed(2)} A ${radius} ${radius} 0 0 1 ${b.x.toFixed(2)} ${b.y.toFixed(2)}`;
 }
 
-export default function HudIllustration({
-  className = "",
-  ...props
-}: Readonly<React.SVGProps<SVGSVGElement>>) {
+export default function HudIllustration(props: Readonly<React.SVGProps<SVGSVGElement>>) {
   return (
     <svg
       viewBox="0 0 400 400"
       fill="none"
       role="img"
-      className={className}
       {...props}
     >
       <defs>
