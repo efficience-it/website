@@ -128,9 +128,8 @@ body {
   position: relative;
   overflow: hidden;
   background:
-    radial-gradient(ellipse at 75% 40%, rgba(34, 211, 238, 0.14), transparent 55%),
-    linear-gradient(180deg, #040a14 0%, #071426 100%);
-  color: #e6f7fb;
+    radial-gradient(ellipse at 75% 40%, color-mix(in srgb, var(--color-primary) 12%, transparent), transparent 55%),
+    linear-gradient(135deg, var(--color-light-gray), var(--color-white));
 }
 
 .hud-hero::before {
@@ -138,8 +137,8 @@ body {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(34, 211, 238, 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(34, 211, 238, 0.07) 1px, transparent 1px);
+    linear-gradient(color-mix(in srgb, var(--color-primary) 9%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--color-primary) 9%, transparent) 1px, transparent 1px);
   background-size: 48px 48px;
   mask-image: radial-gradient(ellipse at center, #000 30%, transparent 80%);
   animation: hud-grid 12s linear infinite;
@@ -152,22 +151,19 @@ body {
   left: 0;
   right: 0;
   height: 120px;
-  background: linear-gradient(180deg, transparent, rgba(34, 211, 238, 0.08), transparent);
+  background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--color-primary) 7%, transparent), transparent);
   animation: hud-scan 7s linear infinite;
   pointer-events: none;
 }
 
-.hud-glow {
-  filter: drop-shadow(0 0 6px rgba(34, 211, 238, 0.7));
-}
-
-.hud-text-glow {
-  text-shadow: 0 0 18px rgba(34, 211, 238, 0.45);
+.hud-svg {
+  color: var(--color-primary);
+  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--color-primary) 45%, transparent));
 }
 
 .hud-panel {
-  border: 1px solid rgba(34, 211, 238, 0.35);
-  background: rgba(34, 211, 238, 0.05);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 35%, transparent);
+  background: color-mix(in srgb, var(--color-white) 70%, transparent);
   clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
   backdrop-filter: blur(4px);
 }
@@ -179,28 +175,32 @@ body {
   padding: 1rem 2rem;
   font-size: 1.125rem;
   font-weight: 600;
-  letter-spacing: 0.04em;
-  color: #e6f7fb;
-  border: 1px solid #22d3ee;
-  background: rgba(34, 211, 238, 0.1);
+  letter-spacing: 0.02em;
+  color: var(--color-white);
+  background: var(--color-primary);
+  border: 1px solid var(--color-primary);
   clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
   transition: background 0.2s, box-shadow 0.2s, color 0.2s;
 }
 
 .hud-btn:hover {
-  background: #22d3ee;
-  color: #041018;
-  box-shadow: 0 0 24px rgba(34, 211, 238, 0.6);
+  background: var(--color-primary-dark);
+  box-shadow: 0 0 22px color-mix(in srgb, var(--color-primary) 55%, transparent);
 }
 
 .hud-btn:focus-visible {
-  outline: 2px solid #7df3ff;
+  outline: 2px solid var(--color-primary);
   outline-offset: 3px;
 }
 
 .hud-btn-ghost {
+  color: var(--color-primary);
   background: transparent;
-  border-color: rgba(34, 211, 238, 0.45);
+}
+
+.hud-btn-ghost:hover {
+  color: var(--color-white);
+  background: var(--color-primary);
 }
 
 .hud-spin-slow,

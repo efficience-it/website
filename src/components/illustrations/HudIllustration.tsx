@@ -31,14 +31,14 @@ export default function HudIllustration({
     >
       <defs>
         <radialGradient id="hud-core" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#7df3ff" stopOpacity="0.9" />
-          <stop offset="60%" stopColor="#22d3ee" stopOpacity="0.25" />
-          <stop offset="100%" stopColor="#22d3ee" stopOpacity="0" />
+          <stop offset="0%" stopColor="currentColor" stopOpacity="0.9" />
+          <stop offset="60%" stopColor="currentColor" stopOpacity="0.25" />
+          <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
         </radialGradient>
       </defs>
 
-      <circle cx="200" cy="200" r="190" stroke="#22d3ee" strokeOpacity="0.15" />
-      <circle cx="200" cy="200" r="150" stroke="#22d3ee" strokeOpacity="0.1" />
+      <circle cx="200" cy="200" r="190" stroke="currentColor" strokeOpacity="0.15" />
+      <circle cx="200" cy="200" r="150" stroke="currentColor" strokeOpacity="0.1" />
 
       <g className="hud-spin-slow">
         {TICKS.map((i) => {
@@ -52,7 +52,7 @@ export default function HudIllustration({
               y1={a.y}
               x2={b.x}
               y2={b.y}
-              stroke="#22d3ee"
+              stroke="currentColor"
               strokeOpacity={long ? 0.9 : 0.4}
               strokeWidth={long ? 1.5 : 1}
             />
@@ -61,15 +61,15 @@ export default function HudIllustration({
       </g>
 
       <g className="hud-spin-reverse">
-        <path d={arc(160, 10, 110)} stroke="#22d3ee" strokeWidth="3" strokeLinecap="round" />
-        <path d={arc(160, 150, 190)} stroke="#22d3ee" strokeOpacity="0.6" strokeWidth="3" strokeLinecap="round" />
-        <path d={arc(160, 215, 335)} stroke="#22d3ee" strokeWidth="3" strokeLinecap="round" />
+        <path d={arc(160, 10, 110)} stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+        <path d={arc(160, 150, 190)} stroke="currentColor" strokeOpacity="0.6" strokeWidth="3" strokeLinecap="round" />
+        <path d={arc(160, 215, 335)} stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
       </g>
 
       <g className="hud-spin-mid">
-        <circle cx="200" cy="200" r="128" stroke="#22d3ee" strokeOpacity="0.5" strokeDasharray="2 8" strokeWidth="2" />
-        <path d={arc(118, 300, 360)} stroke="#7df3ff" strokeWidth="2" strokeLinecap="round" />
-        <path d={arc(118, 100, 170)} stroke="#7df3ff" strokeWidth="2" strokeLinecap="round" />
+        <circle cx="200" cy="200" r="128" stroke="currentColor" strokeOpacity="0.5" strokeDasharray="2 8" strokeWidth="2" />
+        <path d={arc(118, 300, 360)} stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+        <path d={arc(118, 100, 170)} stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
       </g>
 
       <g className="hud-spin-slow">
@@ -78,11 +78,11 @@ export default function HudIllustration({
           const t = polar(138, n.angle);
           return (
             <g key={n.label}>
-              <circle cx={p.x} cy={p.y} r="5" fill="#7df3ff" className="hud-pulse" />
+              <circle cx={p.x} cy={p.y} r="5" fill="currentColor" className="hud-pulse" />
               <text
                 x={t.x}
                 y={t.y}
-                fill="#7df3ff"
+                fill="currentColor"
                 fontSize="9"
                 letterSpacing="2"
                 textAnchor="middle"
@@ -96,15 +96,15 @@ export default function HudIllustration({
         })}
       </g>
 
-      <circle cx="200" cy="200" r="86" stroke="#22d3ee" strokeOpacity="0.7" strokeWidth="1.5" />
+      <circle cx="200" cy="200" r="86" stroke="currentColor" strokeOpacity="0.7" strokeWidth="1.5" />
       <circle cx="200" cy="200" r="70" fill="url(#hud-core)" className="hud-pulse" />
-      <circle cx="200" cy="200" r="34" stroke="#7df3ff" strokeWidth="2" />
-      <circle cx="200" cy="200" r="10" fill="#7df3ff" />
+      <circle cx="200" cy="200" r="34" stroke="currentColor" strokeWidth="2" />
+      <circle cx="200" cy="200" r="10" fill="currentColor" />
 
-      <line x1="200" y1="0" x2="200" y2="30" stroke="#22d3ee" strokeOpacity="0.6" />
-      <line x1="200" y1="370" x2="200" y2="400" stroke="#22d3ee" strokeOpacity="0.6" />
-      <line x1="0" y1="200" x2="30" y2="200" stroke="#22d3ee" strokeOpacity="0.6" />
-      <line x1="370" y1="200" x2="400" y2="200" stroke="#22d3ee" strokeOpacity="0.6" />
+      <line x1="200" y1="0" x2="200" y2="30" stroke="currentColor" strokeOpacity="0.6" />
+      <line x1="200" y1="370" x2="200" y2="400" stroke="currentColor" strokeOpacity="0.6" />
+      <line x1="0" y1="200" x2="30" y2="200" stroke="currentColor" strokeOpacity="0.6" />
+      <line x1="370" y1="200" x2="400" y2="200" stroke="currentColor" strokeOpacity="0.6" />
     </svg>
   );
 }
