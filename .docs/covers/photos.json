@@ -1266,5 +1266,12 @@
     "license": "CC0",
     "author": "Tobin Rogers tobinrogers",
     "url": "https://commons.wikimedia.org/wiki/File:Addo_Elephant_National_Park,_South_Africa_(Unsplash).jpg"
+  },
+  "binaire-php-autonome-static-php-cli-frankenphp-box": {
+    "name": "binaire-php-autonome",
+    "file": "File:Unsplash Backpack (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Scott Webb scottwebb",
+    "url": "https://commons.wikimedia.org/wiki/File:Unsplash_Backpack_(Unsplash).jpg"
   }
 }
