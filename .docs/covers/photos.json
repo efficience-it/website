@@ -1266,5 +1266,12 @@
     "license": "CC0",
     "author": "Tobin Rogers tobinrogers",
     "url": "https://commons.wikimedia.org/wiki/File:Addo_Elephant_National_Park,_South_Africa_(Unsplash).jpg"
+  },
+  "tests-de-charge-api-symfony-k6-gatling-jmeter": {
+    "name": "tests-charge-api-symfony",
+    "file": "File:Busy daytime traffic at Leaside Bridge (Unsplash).jpg",
+    "license": "CC0",
+    "author": "Matthew Henry matthewhenry",
+    "url": "https://commons.wikimedia.org/wiki/File:Busy_daytime_traffic_at_Leaside_Bridge_(Unsplash).jpg"
   }
 }
