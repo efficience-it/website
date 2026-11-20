@@ -18,8 +18,7 @@ function polar(radius: number, angle: number) {
 function arc(radius: number, start: number, end: number) {
   const a = polar(radius, start);
   const b = polar(radius, end);
-  const large = end - start > 180 ? 1 : 0;
-  return `M ${a.x.toFixed(2)} ${a.y.toFixed(2)} A ${radius} ${radius} 0 ${large} 1 ${b.x.toFixed(2)} ${b.y.toFixed(2)}`;
+  return `M ${a.x.toFixed(2)} ${a.y.toFixed(2)} A ${radius} ${radius} 0 0 1 ${b.x.toFixed(2)} ${b.y.toFixed(2)}`;
 }
 
 export default function HudIllustration({
