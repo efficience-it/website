@@ -19,4 +19,11 @@ describe("Not found page", () => {
     expect(metadata.title).toBeTruthy();
     expect(metadata.robots).toEqual({ index: false });
   });
+
+  it("renders suggestion links to useful pages", () => {
+    render(<NotFound />);
+    expect(screen.getByRole("heading", { name: "Quelques pistes pour reprendre votre route" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Développement web sur mesure" })).toHaveAttribute("href", "/developpement-web-sur-mesure");
+    expect(screen.getByRole("link", { name: "Modernisation de vos applications" })).toHaveAttribute("href", "/modernisation-applicative");
+  });
 });
