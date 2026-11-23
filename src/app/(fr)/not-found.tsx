@@ -3,6 +3,15 @@ import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import Image from "next/image";
 
+const suggestions = [
+  { label: "Développement web sur mesure", href: "/developpement-web-sur-mesure" },
+  { label: "Modernisation de vos applications", href: "/modernisation-applicative" },
+  { label: "Migration Symfony", href: "/migration-symfony" },
+  { label: "Pourquoi choisir Efficience IT", href: "/pourquoi-efficience-it" },
+  { label: "Lire nos articles techniques", href: "/blog" },
+  { label: "Nous contacter", href: "/contact" },
+];
+
 export const metadata: Metadata = {
   title: "Page introuvable | Efficience IT",
   robots: { index: false },
@@ -33,6 +42,20 @@ export default function NotFound() {
           </Button>
           <Button href="/">Accueil</Button>
         </div>
+        
+      <div className="mt-12 w-full max-w-md text-left">
+        <h2 className="text-lg font-semibold">Quelques pistes pour reprendre votre route</h2>
+        <ul className="mt-4 space-y-2">
+          {suggestions.map((suggestion) => (
+            <li key={suggestion.href}>
+              <Button href={suggestion.href} variant="ghost" size="sm" className="-ml-4">
+                {suggestion.label}
+              </Button>
+            </li>
+          ))}
+        </ul>
+      </div>
+
       </Container>
     </main>
   );
