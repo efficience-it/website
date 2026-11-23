@@ -27,10 +27,10 @@ export const STATIC_SILOS: RouteSilo[] = [
     title: "Agence et entreprise",
     routes: [
       { path: "/", label: "Accueil", lastModified: "2026-10-09", changeFrequency: "weekly", priority: 1.0 },
-      { path: "/l-entreprise", label: "Notre histoire", lastModified: "2026-11-09", changeFrequency: "monthly", priority: 0.7 },
-      { path: "/la-team", label: "La team", lastModified: "2026-06-18", changeFrequency: "monthly", priority: 0.6 },
-      { path: "/ta-carriere", label: "Recrutement", lastModified: "2026-11-09", changeFrequency: "monthly", priority: 0.6 },
-      { path: "/nos-references", label: "Nos références", lastModified: "2026-10-09", changeFrequency: "monthly", priority: 0.7 },
+      { path: "/l-entreprise", label: "Notre histoire", lastModified: "2026-11-23", changeFrequency: "monthly", priority: 0.7 },
+      { path: "/la-team", label: "La team", lastModified: "2026-11-23", changeFrequency: "monthly", priority: 0.6 },
+      { path: "/ta-carriere", label: "Recrutement", lastModified: "2026-11-23", changeFrequency: "monthly", priority: 0.6 },
+      { path: "/nos-references", label: "Nos références", lastModified: "2026-11-23", changeFrequency: "monthly", priority: 0.7 },
       { path: "/green-it", label: "Green IT", lastModified: "2026-11-09", changeFrequency: "monthly", priority: 0.7 },
       { path: "/processus-collaboration", label: "Processus de collaboration", lastModified: "2026-11-09", changeFrequency: "monthly", priority: 0.8 },
       { path: "/pourquoi-efficience-it", label: "Pourquoi Efficience IT", lastModified: "2026-10-09", changeFrequency: "monthly", priority: 0.8 },
@@ -91,7 +91,7 @@ export const STATIC_SILOS: RouteSilo[] = [
     id: "secteurs",
     title: "Secteurs d'activité",
     routes: [
-      { path: "/secteur", label: "Tous les secteurs", lastModified: "2026-06-18", changeFrequency: "monthly", priority: 0.7 },
+      { path: "/secteur", label: "Tous les secteurs", lastModified: "2026-11-23", changeFrequency: "monthly", priority: 0.7 },
       { path: "/secteur/e-commerce", label: "E-commerce", lastModified: "2026-06-18", changeFrequency: "monthly", priority: 0.7 },
       { path: "/secteur/finance", label: "Finance", lastModified: "2026-06-18", changeFrequency: "monthly", priority: 0.7 },
       { path: "/secteur/industrie", label: "Industrie", lastModified: "2026-11-09", changeFrequency: "monthly", priority: 0.7 },
@@ -108,15 +108,15 @@ export const STATIC_SILOS: RouteSilo[] = [
     id: "blog",
     title: "Blog",
     routes: [
-      { path: "/blog", label: "Tous les articles", lastModified: "2026-11-09", changeFrequency: "weekly", priority: 0.9 },
+      { path: "/blog", label: "Tous les articles", lastModified: "2026-11-23", changeFrequency: "weekly", priority: 0.9 },
     ],
   },
   {
     id: "ressources",
     title: "Ressources et pages légales",
     routes: [
-      { path: "/contact", label: "Contact", lastModified: "2025-09-01", changeFrequency: "yearly", priority: 0.7 },
-      { path: "/plan-du-site", label: "Plan du site", lastModified: "2026-04-29", changeFrequency: "monthly", priority: 0.3 },
+      { path: "/contact", label: "Contact", lastModified: "2026-11-23", changeFrequency: "yearly", priority: 0.7 },
+      { path: "/plan-du-site", label: "Plan du site", lastModified: "2026-11-23", changeFrequency: "monthly", priority: 0.3 },
       { path: "/mentions-legales", label: "Mentions légales", lastModified: "2026-11-09", changeFrequency: "yearly", priority: 0.3 },
       { path: "/politique-de-confidentialite", label: "Politique de confidentialité", lastModified: "2026-11-09", changeFrequency: "yearly", priority: 0.3 },
     ],
