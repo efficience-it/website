@@ -1,68 +1,5 @@
 {
-  "afup-day-2023": [
-    400
-  ],
-  "afup-day-2024": [
-    400,
-    800
-  ],
-  "afup-day-2025": [
-    400,
-    800,
-    1200
-  ],
-  "alice-faker": [
-    400
-  ],
-  "api-rest": [
-    400
-  ],
-  "archi-hexagonale": [
-    400,
-    800
-  ],
-  "audit-efficience-it": [
-    400
-  ],
-  "bruno": [
-    400,
-    800
-  ],
-  "cahier-des-charges-application-web": [
-    400,
-    800
-  ],
-  "cahier-des-charges": [
-    400,
-    800
-  ],
-  "canard-plastique": [
-    400
-  ],
-  "certifications-symfony": [
-    400,
-    800
-  ],
-  "chocoblast": [
-    400
-  ],
-  "choisir-prestataire-symfony": [
-    400,
-    800
-  ],
-  "code-mort": [
-    400,
-    800
-  ],
-  "composer-symfony": [
-    400
-  ],
-  "conventions-codage": [
-    400,
-    800,
-    1200
-  ],
-  "core-team": [
+  "cover-afup-day-2023": [
     400,
     800
   ],
@@ -70,7 +7,15 @@
     400,
     800
   ],
+  "cover-afup-day-2024": [
+    400,
+    800
+  ],
   "cover-afup-day-2025-en": [
+    400,
+    800
+  ],
+  "cover-afup-day-2025": [
     400,
     800
   ],
@@ -90,7 +35,15 @@
     400,
     800
   ],
+  "cover-alice-faker": [
+    400,
+    800
+  ],
   "cover-analyseurs-statiques-php": [
+    400,
+    800
+  ],
+  "cover-api-rest": [
     400,
     800
   ],
@@ -98,95 +51,31 @@
     400,
     800
   ],
+  "cover-archi-hexagonale": [
+    400,
+    800
+  ],
+  "cover-assetmapper-encore-symfony": [
+    400,
+    800
+  ],
+  "cover-audit-efficience-it": [
+    400,
+    800
+  ],
+  "cover-audit-trail-doctrine-symfony": [
+    400,
+    800
+  ],
+  "cover-automapper-serialisation-api": [
+    400,
+    800
+  ],
   "cover-bruno-en": [
     400,
     800
   ],
-  "cover-copilot-vs-chatgpt": [
-    400,
-    800
-  ],
-  "cover-evenements-symfony-php": [
-    400,
-    800
-  ],
-  "cover-messenger-vs-enqueue": [
-    400,
-    800
-  ],
-  "cover-evenements-2025": [
-    400,
-    800
-  ],
-  "cover-phpstan-2": [
-    400,
-    800
-  ],
-  "cover-seo-ai": [
-    400,
-    800
-  ],
-  "cover-claude-symfony": [
-    400,
-    800
-  ],
-  "cover-commandes-invocables-symfony": [
-    400,
-    800
-  ],
-  "cover-skills-claude-code": [
-    400,
-    800
-  ],
-  "cover-conformite-dora": [
-    400,
-    800
-  ],
-  "cover-conformite-nis2": [
-    400,
-    800
-  ],
-  "cover-dora-fintech-symfony": [
-    400,
-    800
-  ],
-  "cover-doctavis": [
-    400,
-    800
-  ],
-  "cover-doctrine-orm-3": [
-    400,
-    800
-  ],
-  "cover-easyadmin-vs-forestadmin": [
-    400,
-    800
-  ],
-  "cover-int-uuid-ulid": [
-    400,
-    800
-  ],
-  "cover-psr-php": [
-    400,
-    800
-  ],
-  "cover-rest-vs-graphql": [
-    400,
-    800
-  ],
-  "cover-docker-production": [
-    400,
-    800
-  ],
-  "cover-mcp-symfony-php": [
-    400,
-    800
-  ],
-  "cover-monofony": [
-    400,
-    800
-  ],
-  "cover-normes-rgaa": [
+  "cover-bruno": [
     400,
     800
   ],
@@ -194,7 +83,27 @@
     400,
     800
   ],
+  "cover-burn-out-developpeurs": [
+    400,
+    800
+  ],
   "cover-caching-guide": [
+    400,
+    800
+  ],
+  "cover-cahier-des-charges-web": [
+    400,
+    800
+  ],
+  "cover-cahier-des-charges": [
+    400,
+    800
+  ],
+  "cover-canard-plastique": [
+    400,
+    800
+  ],
+  "cover-castor-ou-make": [
     400,
     800
   ],
@@ -202,7 +111,23 @@
     400,
     800
   ],
+  "cover-certifications-symfony": [
+    400,
+    800
+  ],
+  "cover-chiffrement-donnees-doctrine": [
+    400,
+    800
+  ],
   "cover-chocoblast-en": [
+    400,
+    800
+  ],
+  "cover-chocoblast": [
+    400,
+    800
+  ],
+  "cover-choisir-prestataire-symfony": [
     400,
     800
   ],
@@ -214,6 +139,10 @@
     400,
     800
   ],
+  "cover-claude-code-competences": [
+    400,
+    800
+  ],
   "cover-claude-code-skills": [
     400,
     800
@@ -222,7 +151,15 @@
     400,
     800
   ],
+  "cover-claude-symfony": [
+    400,
+    800
+  ],
   "cover-code-editor": [
+    400,
+    800
+  ],
+  "cover-code-mort": [
     400,
     800
   ],
@@ -230,7 +167,23 @@
     400,
     800
   ],
+  "cover-commandes-invocables-symfony": [
+    400,
+    800
+  ],
+  "cover-composer-symfony": [
+    400,
+    800
+  ],
   "cover-composer-tips": [
+    400,
+    800
+  ],
+  "cover-conformite-dora": [
+    400,
+    800
+  ],
+  "cover-conformite-nis2": [
     400,
     800
   ],
@@ -238,11 +191,31 @@
     400,
     800
   ],
+  "cover-conventions-codage": [
+    400,
+    800
+  ],
+  "cover-copilot-vs-chatgpt": [
+    400,
+    800
+  ],
   "cover-core-team-model": [
     400,
     800
   ],
+  "cover-core-team": [
+    400,
+    800
+  ],
   "cover-cve-guide": [
+    400,
+    800
+  ],
+  "cover-cve": [
+    400,
+    800
+  ],
+  "cover-cyber-resilience-act": [
     400,
     800
   ],
@@ -254,7 +227,11 @@
     400,
     800
   ],
-  "cover-vocabulaire-dev-web": [
+  "cover-dbtoolsbundle": [
+    400,
+    800
+  ],
+  "cover-deployer-nuxtjs": [
     400,
     800
   ],
@@ -266,7 +243,15 @@
     400,
     800
   ],
+  "cover-diataxis-symfony": [
+    400,
+    800
+  ],
   "cover-docker-prod": [
+    400,
+    800
+  ],
+  "cover-docker-production": [
     400,
     800
   ],
@@ -274,11 +259,31 @@
     400,
     800
   ],
+  "cover-doctavis": [
+    400,
+    800
+  ],
   "cover-doctrine-orm-3-en": [
     400,
     800
   ],
+  "cover-doctrine-orm-3": [
+    400,
+    800
+  ],
+  "cover-documentation-technique": [
+    400,
+    800
+  ],
   "cover-domain-symfony-en": [
+    400,
+    800
+  ],
+  "cover-domain-symfony": [
+    400,
+    800
+  ],
+  "cover-dora-fintech-symfony": [
     400,
     800
   ],
@@ -290,7 +295,19 @@
     400,
     800
   ],
+  "cover-due-diligence-symfony": [
+    400,
+    800
+  ],
   "cover-easyadmin-forestadmin": [
+    400,
+    800
+  ],
+  "cover-easyadmin-vs-forestadmin": [
+    400,
+    800
+  ],
+  "cover-eco-conception": [
     400,
     800
   ],
@@ -302,7 +319,35 @@
     400,
     800
   ],
+  "cover-ecosia": [
+    400,
+    800
+  ],
+  "cover-editeur-code": [
+    400,
+    800
+  ],
   "cover-elasticsearch-algolia-en": [
+    400,
+    800
+  ],
+  "cover-elasticsearch-algolia": [
+    400,
+    800
+  ],
+  "cover-environnement-dev-php": [
+    400,
+    800
+  ],
+  "cover-evenements-2025": [
+    400,
+    800
+  ],
+  "cover-evenements-symfony-php": [
+    400,
+    800
+  ],
+  "cover-fin-de-support-symfony-php": [
     400,
     800
   ],
@@ -314,7 +359,19 @@
     400,
     800
   ],
+  "cover-forum-php-2024": [
+    400,
+    800
+  ],
+  "cover-framework-javascript": [
+    400,
+    800
+  ],
   "cover-frankenphp-explained": [
+    400,
+    800
+  ],
+  "cover-frankenphp": [
     400,
     800
   ],
@@ -326,7 +383,27 @@
     400,
     800
   ],
+  "cover-geo-moteurs-ia": [
+    400,
+    800
+  ],
+  "cover-git-bisect": [
+    400,
+    800
+  ],
+  "cover-git-hooks-php": [
+    400,
+    800
+  ],
+  "cover-ia-generatives": [
+    400,
+    800
+  ],
   "cover-int-uuid-ulid-en": [
+    400,
+    800
+  ],
+  "cover-int-uuid-ulid": [
     400,
     800
   ],
@@ -346,11 +423,31 @@
     400,
     800
   ],
+  "cover-json-streamer": [
+    400,
+    800
+  ],
+  "cover-jwt-biscuit-paseto": [
+    400,
+    800
+  ],
+  "cover-lazy-objects-php-84": [
+    400,
+    800
+  ],
   "cover-legacy-php": [
     400,
     800
   ],
   "cover-llms-txt-seo": [
+    400,
+    800
+  ],
+  "cover-maintenance-applicative": [
+    400,
+    800
+  ],
+  "cover-manifeste-applications-web": [
     400,
     800
   ],
@@ -362,6 +459,10 @@
     400,
     800
   ],
+  "cover-mcp-symfony-php": [
+    400,
+    800
+  ],
   "cover-messenger-hexagonal": [
     400,
     800
@@ -370,7 +471,19 @@
     400,
     800
   ],
+  "cover-messenger-vs-enqueue": [
+    400,
+    800
+  ],
   "cover-microservices-monolith": [
+    400,
+    800
+  ],
+  "cover-microservices-monolithe": [
+    400,
+    800
+  ],
+  "cover-migration-mysql-postgresql": [
     400,
     800
   ],
@@ -378,11 +491,27 @@
     400,
     800
   ],
+  "cover-mise-en-cache": [
+    400,
+    800
+  ],
   "cover-monofony-guide": [
     400,
     800
   ],
+  "cover-monofony": [
+    400,
+    800
+  ],
+  "cover-monter-competences-symfony": [
+    400,
+    800
+  ],
   "cover-mysql-bigint": [
+    400,
+    800
+  ],
+  "cover-mysql-max-id": [
     400,
     800
   ],
@@ -402,6 +531,14 @@
     400,
     800
   ],
+  "cover-nodejs-frameworks": [
+    400,
+    800
+  ],
+  "cover-normes-rgaa": [
+    400,
+    800
+  ],
   "cover-nuxt-deploy": [
     400,
     800
@@ -414,11 +551,23 @@
     400,
     800
   ],
+  "cover-php-86": [
+    400,
+    800
+  ],
   "cover-php-9-changes": [
     400,
     800
   ],
+  "cover-php-9": [
+    400,
+    800
+  ],
   "cover-php-analyzers": [
+    400,
+    800
+  ],
+  "cover-php-asynchrone-fibers": [
     400,
     800
   ],
@@ -427,6 +576,10 @@
     800
   ],
   "cover-php-foundation": [
+    400,
+    800
+  ],
+  "cover-php-legacy": [
     400,
     800
   ],
@@ -442,6 +595,14 @@
     400,
     800
   ],
+  "cover-php-vs-nodejs": [
+    400,
+    800
+  ],
+  "cover-phpstan-2": [
+    400,
+    800
+  ],
   "cover-phpstan-errors": [
     400,
     800
@@ -450,7 +611,19 @@
     400,
     800
   ],
+  "cover-phpstan-qualite": [
+    400,
+    800
+  ],
   "cover-phpstan-quality": [
+    400,
+    800
+  ],
+  "cover-phpstan-symfony": [
+    400,
+    800
+  ],
+  "cover-pie-extensions-php": [
     400,
     800
   ],
@@ -458,7 +631,27 @@
     400,
     800
   ],
+  "cover-playwright": [
+    400,
+    800
+  ],
   "cover-postman-gitlab": [
+    400,
+    800
+  ],
+  "cover-postman-newman": [
+    400,
+    800
+  ],
+  "cover-pourquoi-symfony": [
+    400,
+    800
+  ],
+  "cover-progiciel": [
+    400,
+    800
+  ],
+  "cover-psr-php": [
     400,
     800
   ],
@@ -466,7 +659,15 @@
     400,
     800
   ],
+  "cover-rag-symfony": [
+    400,
+    800
+  ],
   "cover-rector-en": [
+    400,
+    800
+  ],
+  "cover-rector": [
     400,
     800
   ],
@@ -474,7 +675,23 @@
     400,
     800
   ],
+  "cover-reducteurs-tokens-ia": [
+    400,
+    800
+  ],
+  "cover-rejoindre-efficience-it": [
+    400,
+    800
+  ],
+  "cover-reprise-symfony": [
+    400,
+    800
+  ],
   "cover-rest-graphql-en": [
+    400,
+    800
+  ],
+  "cover-rest-vs-graphql": [
     400,
     800
   ],
@@ -486,11 +703,47 @@
     400,
     800
   ],
+  "cover-rgaa-symfony": [
+    400,
+    800
+  ],
   "cover-rubber-duck": [
     400,
     800
   ],
+  "cover-sbx-sandbox": [
+    400,
+    800
+  ],
+  "cover-securite-informatique": [
+    400,
+    800
+  ],
   "cover-security-training": [
+    400,
+    800
+  ],
+  "cover-seo-ai": [
+    400,
+    800
+  ],
+  "cover-serveurs-mcp-symfony": [
+    400,
+    800
+  ],
+  "cover-skills-claude-code": [
+    400,
+    800
+  ],
+  "cover-sso-keycloak-symfony": [
+    400,
+    800
+  ],
+  "cover-swagger-nelmio": [
+    400,
+    800
+  ],
+  "cover-sylius-ecommerce": [
     400,
     800
   ],
@@ -502,7 +755,15 @@
     400,
     800
   ],
+  "cover-sylius-vs-prestashop": [
+    400,
+    800
+  ],
   "cover-symfony-ai-legacy": [
+    400,
+    800
+  ],
+  "cover-symfony-ai": [
     400,
     800
   ],
@@ -530,7 +791,19 @@
     400,
     800
   ],
+  "cover-symfony-insight": [
+    400,
+    800
+  ],
   "cover-symfony-laravel": [
+    400,
+    800
+  ],
+  "cover-symfony-messenger": [
+    400,
+    800
+  ],
+  "cover-symfony-moldus": [
     400,
     800
   ],
@@ -554,6 +827,10 @@
     400,
     800
   ],
+  "cover-symfony-vs-laravel": [
+    400,
+    800
+  ],
   "cover-tech-docs": [
     400,
     800
@@ -570,7 +847,15 @@
     400,
     800
   ],
+  "cover-traefik-ou-nginx": [
+    400,
+    800
+  ],
   "cover-twig-4-en": [
+    400,
+    800
+  ],
+  "cover-twig-4": [
     400,
     800
   ],
@@ -578,7 +863,23 @@
     400,
     800
   ],
+  "cover-vivatech-2025": [
+    400,
+    800
+  ],
+  "cover-vocabulaire-dev-web": [
+    400,
+    800
+  ],
+  "cover-voters-symfony-strategies": [
+    400,
+    800
+  ],
   "cover-wasm-containers": [
+    400,
+    800
+  ],
+  "cover-wasm-vs-container": [
     400,
     800
   ],
@@ -598,207 +899,11 @@
     400,
     800
   ],
+  "cover-webhooks-fiables-symfony": [
+    400,
+    800
+  ],
   "cover-why-symfony": [
-    400,
-    800
-  ],
-  "cve": [
-    400,
-    800
-  ],
-  "dbtoolsbundle": [
-    400
-  ],
-  "deployer-nuxtjs": [
-    400,
-    800,
-    1200
-  ],
-  "diataxis-symfony": [
-    400
-  ],
-  "documentation-technique": [
-    400
-  ],
-  "domain-symfony": [
-    400,
-    800
-  ],
-  "due-diligence-symfony": [
-    400,
-    800
-  ],
-  "eco-conception": [
-    400,
-    800
-  ],
-  "ecosia": [
-    400,
-    800,
-    1200
-  ],
-  "editeur-code": [
-    400,
-    800
-  ],
-  "elasticsearch-algolia": [
-    400
-  ],
-  "fin-de-support-symfony-php": [
-    400,
-    800
-  ],
-  "forum-php-2024": [
-    400,
-    800
-  ],
-  "framework-javascript": [
-    400
-  ],
-  "frankenphp": [
-    400
-  ],
-  "ia-generatives": [
-    400,
-    800
-  ],
-  "json-streamer": [
-    400,
-    800
-  ],
-  "maintenance-applicative": [
-    400
-  ],
-  "manifeste-applications-web": [
-    400
-  ],
-  "microservices-monolithe": [
-    400
-  ],
-  "migration-mysql-postgresql": [
-    400,
-    800,
-    1200
-  ],
-  "mise-en-cache": [
-    400
-  ],
-  "moderniser-application-php-legacy": [
-    400,
-    800
-  ],
-  "monter-competences-symfony": [
-    400,
-    800
-  ],
-  "monter-en-competence-claude-code": [
-    400,
-    800
-  ],
-  "mysql-max-id": [
-    400,
-    800,
-    1200
-  ],
-  "nodejs-frameworks": [
-    400,
-    800
-  ],
-  "php-9": [
-    400
-  ],
-  "php-vs-nodejs": [
-    400,
-    800
-  ],
-  "phpstan-symfony": [
-    400,
-    800
-  ],
-  "playwright": [
-    400,
-    800
-  ],
-  "postman-newman": [
-    400,
-    800
-  ],
-  "pourquoi-symfony": [
-    400,
-    800,
-    1200
-  ],
-  "progiciel": [
-    400
-  ],
-  "rag-symfony": [
-    400,
-    800
-  ],
-  "rector": [
-    400
-  ],
-  "reducteurs-tokens-ia": [
-    400,
-    800
-  ],
-  "rejoindre-efficience-it": [
-    400
-  ],
-  "securite-informatique": [
-    400
-  ],
-  "serveurs-mcp-symfony": [
-    400,
-    800
-  ],
-  "sylius-ecommerce": [
-    400,
-    800
-  ],
-  "sbx-sandbox": [
-    400,
-    800
-  ],
-  "sylius-vs-prestashop": [
-    400,
-    800
-  ],
-  "symfony-ai": [
-    400,
-    800
-  ],
-  "symfony-insight": [
-    400
-  ],
-  "symfony-messenger": [
-    400,
-    800
-  ],
-  "symfony-moldus": [
-    400
-  ],
-  "symfony-vs-laravel": [
-    400,
-    800
-  ],
-  "traefik-ou-nginx": [
-    400,
-    800
-  ],
-  "twig-4": [
-    400
-  ],
-  "unsplash-tech": [
-    400,
-    800,
-    1200
-  ],
-  "vivatech-2025": [
-    400,
-    800
-  ],
-  "wasm-vs-container": [
     400,
     800
   ]

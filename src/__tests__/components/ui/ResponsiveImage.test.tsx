@@ -1,6 +1,11 @@
 import { render } from "@testing-library/react";
 import ResponsiveImage from "@/components/ui/ResponsiveImage";
 
+jest.mock("@/data/blog-image-variants.json", () => ({
+  "afup-day-2025": [400, 800, 1200],
+  "afup-day-2023": [400],
+}));
+
 describe("ResponsiveImage", () => {
   it("emits a <picture> with avif + webp sources only for widths in the manifest", () => {
     const { container } = render(
