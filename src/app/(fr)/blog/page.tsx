@@ -5,7 +5,6 @@ import { getBlogPageCount, getPostsForPage } from "@/lib/blog";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, blogItemListJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import CallToAction from "@/components/sections/CallToAction";
-import LastUpdated from "@/components/ui/LastUpdated";
 import { ENGLISH_INDEXABLE } from "@/lib/i18n/config";
 
 export const metadata = pageMetadata({
@@ -39,7 +38,6 @@ export default function BlogPage() {
       <section className="bg-light-gray py-16 md:py-24">
         <Container className="text-center">
           <Breadcrumb items={[{ label: "Blog" }]} />
-          <LastUpdated path="/blog" />
           <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
             Blog Efficience IT
           </h1>

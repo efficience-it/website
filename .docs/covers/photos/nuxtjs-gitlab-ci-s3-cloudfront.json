@@ -1,0 +1,4 @@
+{
+  "name": "nuxt-deploy",
+  "sameAs": "deployer-nuxtjs-avec-gitlab-ci-s3-et-cloudfront"
+}
