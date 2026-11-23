@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "npx -y tsx@4 scripts/generate-image-variants.ts",
     "dev": "next dev --webpack",
     "build": "next build",
     "prebuild": "npx -y tsx@4 scripts/generate-image-variants.ts",

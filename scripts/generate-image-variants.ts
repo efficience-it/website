@@ -14,7 +14,8 @@ async function main(): Promise<void> {
 
   const files = fs
     .readdirSync(SRC_DIR)
-    .filter((f) => f.endsWith(".webp") && !fs.statSync(path.join(SRC_DIR, f)).isDirectory());
+    .filter((f) => f.endsWith(".webp") && !fs.statSync(path.join(SRC_DIR, f)).isDirectory())
+    .sort();
 
   const manifest: Record<string, number[]> = {};
   let generated = 0;
