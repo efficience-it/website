@@ -73,14 +73,19 @@ export default function LaTeam() {
                 l&apos;agilité. Et avec le meilleur framework PHP, nous offrons
                 une expertise pointue pour répondre à vos besoins. Notre
                 fondateur est membre de l&apos;équipe de documentation de PHP,
-                pour la version française comme pour la version anglaise de
-                référence, ainsi que de l&apos;équipe de documentation de
-                Symfony. Il compte{" "}
-                <a href="https://github.com/php/doc-fr/pulls?q=is%3Apr+author%3Alacatoire+is%3Amerged" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                  plus de 400 contributions intégrées à la documentation
-                  officielle de PHP en français
+                pour la{" "}
+                <a href="https://github.com/php/doc-fr" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                  version française
+                </a>{" "}
+                comme pour la{" "}
+                <a href="https://github.com/php/doc-en" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                  version anglaise de référence
                 </a>
-                .
+                , ainsi que de l&apos;équipe de{" "}
+                <a href="https://github.com/symfony/symfony-docs" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                  documentation de Symfony
+                </a>
+                , avec des centaines de contributions intégrées.
               </p>
               <Button href="/contact" className="mt-8">
                 Prenons contact !
