@@ -262,7 +262,7 @@ Pour PASETO, le handler remplace la validation par `$parser->parse()` et capture
 - **Partage de ressources entre utilisateurs** : Biscuit. L'atténuation permet de déléguer un accès en lecture seule sans appeler l'émetteur, ce que JWT et PASETO ne savent pas faire.
 - **Appels d'agents ou d'outils** : si des clients automatisés consomment votre API, comparez aussi les [protocoles d'accès](/article/mcp-cli-api-quel-choix-serveur-symfony-php) avant de fixer le format du jeton.
 
-Documentez le contrat d'authentification de votre API dans [Swagger avec NelmioApiDocBundle](/article/swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on) : le schéma de sécurité `bearerAuth` apparaît dans la spécification quel que soit le format choisi. Et si vous hésitez sur le style d'API lui-même, [REST face à GraphQL](/article/que-vaut-rest-face-a-son-nouveau-challenger-graphql) détaille ce que chacun change pour l'authentification.
+Documentez le contrat d'authentification de votre API dans [Swagger avec NelmioApiDocBundle](/article/swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on) : le schéma de sécurité `bearerAuth` apparaît dans la spécification quel que soit le format choisi. Et si vous hésitez sur le style d'API lui-même, [REST face à GraphQL](/article/que-vaut-rest-face-a-son-nouveau-challenger-graphql) détaille ce que chacun change pour l'authentification. Le choix du jeton s'inscrit dans la conception globale de l'API, que nous menons dans nos projets d'[API sur mesure avec Symfony et API Platform](/api-sur-mesure-symfony).
 
 ## Ce qu'il faut retenir
 

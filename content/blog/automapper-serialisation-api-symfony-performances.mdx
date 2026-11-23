@@ -138,7 +138,7 @@ automapper:
         target: App\Api\DTO\User
 ```
 
-La documentation prévient que certains changements, comme celui d'une dépendance d'une classe source ou cible, peuvent ne pas être détectés par le cache. Videz-le au déploiement, comme pour les autres caches de votre application, comme le détaille notre [guide de la mise en cache](/article/tout-savoir-sur-la-mise-en-cache-tips). Pour comprendre un mapping, la commande `debug:mapper` affiche pour chaque propriété la source, la cible, leurs types et le transformateur retenu, et le panneau du profileur montre le code généré.
+La documentation prévient que certains changements, comme celui d'une dépendance d'une classe source ou cible, peuvent ne pas être détectés par le cache. Videz-le au déploiement, comme pour les autres caches de votre application, comme le détaille notre [guide de la mise en cache](/article/tout-savoir-sur-la-mise-en-cache-tips). Pour comprendre un mapping, la commande `debug:mapper` affiche pour chaque propriété la source, la cible, leurs types et le transformateur retenu, et le panneau du profileur montre le code généré. Le réchauffage des caches au déploiement fait partie des réglages que nous appliquons sur un [hébergement Symfony orienté performance](/hebergement-symfony).
 
 ## Limites et maturité
 
@@ -150,7 +150,7 @@ La documentation prévient que certains changements, comme celui d'une dépendan
 
 ## Intégrer AutoMapper dans un projet
 
-Une approche prudente : repérer par un profilage le point d'accès le plus coûteux, remplacer sa transformation par AutoMapper, comparer la sortie avec l'ancienne, mesurer, puis étendre. Gardez aussi en tête qu'un gain de vitesse ne justifie pas de changer le contrat d'une API publique, et la documentation générée avec [NelmioApiDocBundle](/article/swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on) doit continuer à refléter ce que vos DTO exposent. Côté qualité, [PHPStan au niveau maximal](/article/phpstan-niveau-max-symfony-10-erreurs) vérifie les types de vos entités et de vos DTO, ce qui limite les mauvaises surprises à la génération des mappers.
+Une approche prudente : repérer par un profilage le point d'accès le plus coûteux, remplacer sa transformation par AutoMapper, comparer la sortie avec l'ancienne, mesurer, puis étendre. Gardez aussi en tête qu'un gain de vitesse ne justifie pas de changer le contrat d'une API publique, et la documentation générée avec [NelmioApiDocBundle](/article/swagger-nelmio-bundle-et-ses-fonctionnalites-pourquoi-lutilise-t-on) doit continuer à refléter ce que vos DTO exposent. Côté qualité, [PHPStan au niveau maximal](/article/phpstan-niveau-max-symfony-10-erreurs) vérifie les types de vos entités et de vos DTO, ce qui limite les mauvaises surprises à la génération des mappers. C'est cette démarche, mesurer avant d'optimiser, que nous suivons dans le [développement d'API sur mesure avec Symfony](/api-sur-mesure-symfony).
 
 ## Ce qu'il faut retenir
 

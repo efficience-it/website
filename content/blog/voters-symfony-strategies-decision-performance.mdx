@@ -180,7 +180,7 @@ private function isMember(int $userId, int $teamId): bool
 }
 ```
 
-Cette mémoïsation a un piège : un voter est un service partagé. Dans un processus long, comme un worker, l'état d'une requête survivrait à la suivante. Implémentez `ResetInterface` pour que Symfony vide le cache entre deux requêtes. Nous l'avons vérifié avec le service `services_resetter` : après son passage, le tableau est bien vide. Pour le cache HTTP, notre [guide de la mise en cache](/article/tout-savoir-sur-la-mise-en-cache-tips) détaille les options.
+Cette mémoïsation a un piège : un voter est un service partagé. Dans un processus long, comme un worker, l'état d'une requête survivrait à la suivante. Implémentez `ResetInterface` pour que Symfony vide le cache entre deux requêtes. Nous l'avons vérifié avec le service `services_resetter` : après son passage, le tableau est bien vide. Pour le cache HTTP, notre [guide de la mise en cache](/article/tout-savoir-sur-la-mise-en-cache-tips) détaille les options. Ces processus longs sont ceux d'un [hébergement Symfony performant](/hebergement-symfony) en mode worker, où la remise à zéro des services entre deux requêtes devient indispensable.
 
 ### Le coût d'une décision
 

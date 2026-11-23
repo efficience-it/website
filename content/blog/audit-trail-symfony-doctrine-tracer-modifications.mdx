@@ -190,7 +190,7 @@ Le trigger ajoute environ 15 % à la durée d'un `flush`, le listener la multipl
 | Trigger PostgreSQL | 1,57 s |
 | Listener `onFlush` | 3,60 s |
 
-Le listener ajoute, pour chaque entité modifiée, un calcul de changeset et une insertion gérée par Doctrine ; le trigger écrit directement dans la base, sans aller-retour avec PHP. Pour un import massif, il devient significatif, et c'est justement là que le trigger est le plus utile. Pensez aussi au volume : la table d'historique grossit sans cesse. Indexez-la sur le couple entité et identifiant, comme le fait notre classe `AuditEntry`, et partitionnez-la par date quand elle devient volumineuse.
+Le listener ajoute, pour chaque entité modifiée, un calcul de changeset et une insertion gérée par Doctrine ; le trigger écrit directement dans la base, sans aller-retour avec PHP. Pour un import massif, il devient significatif, et c'est justement là que le trigger est le plus utile. Pensez aussi au volume : la table d'historique grossit sans cesse. Indexez-la sur le couple entité et identifiant, comme le fait notre classe `AuditEntry`, et partitionnez-la par date quand elle devient volumineuse. Indexation, partitionnement et réglage des requêtes Doctrine font partie de notre [accompagnement sur les bases PostgreSQL avec Symfony](/base-de-donnees-postgresql-symfony).
 
 ## Données personnelles et durée de conservation
 

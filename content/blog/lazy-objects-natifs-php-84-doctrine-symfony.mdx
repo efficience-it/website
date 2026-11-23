@@ -137,7 +137,7 @@ name: Ada
 initialise: true
 ```
 
-Si vous utilisez Symfony, DoctrineBundle gère cela pour vous : d'après son code actuel, l'option `enable_native_lazy_objects` est activée par défaut, ne peut plus être désactivée et est dépréciée depuis la version 3.1 du bundle. Le guide de mise à niveau de l'ORM recommande par ailleurs DoctrineBundle 2.15 au minimum pour l'ORM 3. Pour le contexte de cette montée de version, notre article sur les [proxies fantômes introduits avec l'ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) détaille les ruptures de la branche 3.
+Si vous utilisez Symfony, DoctrineBundle gère cela pour vous : d'après son code actuel, l'option `enable_native_lazy_objects` est activée par défaut, ne peut plus être désactivée et est dépréciée depuis la version 3.1 du bundle. Le guide de mise à niveau de l'ORM recommande par ailleurs DoctrineBundle 2.15 au minimum pour l'ORM 3. Pour le contexte de cette montée de version, notre article sur les [proxies fantômes introduits avec l'ORM 3.0](/article/doctrine-orm-3-0-une-nouvelle-version-majeure-pour-les-bases-de-donnees) détaille les ruptures de la branche 3. Repérer les chargements qui déclenchent des requêtes inattendues fait partie de l'[optimisation des accès Doctrine et PostgreSQL](/base-de-donnees-postgresql-symfony) que nous menons sur les applications existantes.
 
 Autre constat de l'essai : avec `symfony/var-exporter` 8.1, désactiver les objets natifs échoue avec une exception qui demande d'installer `var-exporter` en version 6.4 ou 7, ou d'activer les objets natifs de PHP 8.4. Sous Symfony 8, il n'y a donc plus de retour en arrière possible.
 
