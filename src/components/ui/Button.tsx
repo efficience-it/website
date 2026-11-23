@@ -14,11 +14,11 @@ interface ButtonProps {
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
-  primary: "bg-primary text-white hover:bg-primary-dark",
+  primary: "border-2 border-primary bg-primary text-white hover:border-primary-dark hover:bg-primary-dark",
   outline: "border-2 border-primary text-primary hover:bg-primary hover:text-white dark:hover:text-dark",
   "outline-white": "border-2 border-white text-white hover:bg-white hover:text-primary dark:hover:bg-light-gray dark:hover:text-dark",
-  white: "bg-white text-primary hover:bg-light-gray dark:bg-light-gray dark:text-dark dark:hover:bg-white",
-  ghost: "text-primary hover:bg-primary/10",
+  white: "border-2 border-transparent bg-white text-primary hover:bg-light-gray dark:bg-light-gray dark:text-dark dark:hover:bg-white",
+  ghost: "border-2 border-transparent text-primary hover:bg-primary/10",
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
@@ -37,7 +37,7 @@ export default function Button({
   onClick,
 }: Readonly<ButtonProps>) {
   const baseStyles =
-    "inline-flex items-center justify-center rounded-md font-semibold transition-all duration-200 hover:scale-105 active:scale-95 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-dark";
+    "btn-glow inline-flex items-center justify-center rounded-sm font-semibold tracking-wide transition-all duration-200 hover:scale-105 active:scale-95 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-dark";
   const styles = `${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`;
 
   if (href) {
