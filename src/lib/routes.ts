@@ -28,7 +28,7 @@ export const STATIC_SILOS: RouteSilo[] = [
     routes: [
       { path: "/", label: "Accueil", lastModified: "2026-10-09", changeFrequency: "weekly", priority: 1.0 },
       { path: "/l-entreprise", label: "Notre histoire", lastModified: "2026-11-09", changeFrequency: "monthly", priority: 0.7 },
-      { path: "/la-team", label: "La team", lastModified: "2026-06-18", changeFrequency: "monthly", priority: 0.6 },
+      { path: "/la-team", label: "La team", lastModified: "2026-11-23", changeFrequency: "monthly", priority: 0.6 },
       { path: "/ta-carriere", label: "Recrutement", lastModified: "2026-11-09", changeFrequency: "monthly", priority: 0.6 },
       { path: "/nos-references", label: "Nos références", lastModified: "2026-10-09", changeFrequency: "monthly", priority: 0.7 },
       { path: "/green-it", label: "Green IT", lastModified: "2026-11-09", changeFrequency: "monthly", priority: 0.7 },

@@ -72,7 +72,10 @@ export default function LaTeam() {
                 À taille humaine, notre équipe est à fond dans le digital et
                 l&apos;agilité. Et avec le meilleur framework PHP, nous offrons
                 une expertise pointue pour répondre à vos besoins. Notre
-                fondateur compte{" "}
+                fondateur est membre de l&apos;équipe de documentation de PHP,
+                pour la version française comme pour la version anglaise de
+                référence, ainsi que de l&apos;équipe de documentation de
+                Symfony. Il compte{" "}
                 <a href="https://github.com/php/doc-fr/pulls?q=is%3Apr+author%3Alacatoire+is%3Amerged" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
                   plus de 400 contributions intégrées à la documentation
                   officielle de PHP en français
