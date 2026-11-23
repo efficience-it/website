@@ -15,7 +15,6 @@ import FadeIn from "@/components/ui/FadeIn";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
 import CallToAction from "@/components/sections/CallToAction";
-import LastUpdated from "@/components/ui/LastUpdated";
 
 export const metadata = pageMetadata({
   title: "Nos réalisations et contributions open source",
@@ -127,7 +126,6 @@ export default function NosReferences() {
       <section className="bg-light-gray py-8 md:py-12">
         <Container className="text-center">
           <Breadcrumb items={[{ label: "Références" }]} />
-          <LastUpdated path="/nos-references" />
           <h1 className="font-display text-4xl font-bold text-dark md:text-5xl">
             Nos réalisations et contributions open source
           </h1>
