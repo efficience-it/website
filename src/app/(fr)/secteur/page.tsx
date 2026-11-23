@@ -12,7 +12,6 @@ import RelatedLinks from "@/components/sections/RelatedLinks";
 import type { RelatedLink } from "@/components/sections/RelatedLinks";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { breadcrumbJsonLd, webPageJsonLd, pageGraphJsonLd } from "@/lib/structured-data";
-import LastUpdated from "@/components/ui/LastUpdated";
 
 export const metadata = pageMetadata({
   title: "Nos secteurs d'intervention Symfony",
@@ -177,7 +176,6 @@ export default function SecteursIndex() {
             <Breadcrumb
               items={[{ label: "Nos secteurs" }]}
             />
-            <LastUpdated path="/secteur" />
             <h1 className="mt-4 font-display text-4xl font-bold text-dark md:text-5xl">
               Nos secteurs d&apos;intervention et nos domaines d&apos;expertise Symfony
             </h1>
