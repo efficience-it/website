@@ -53,7 +53,7 @@ describe("root layouts", () => {
     expect(html).not.toContain("Aller au contenu");
     expect(html).not.toContain('data-testid="header"');
     expect(html).not.toContain('data-testid="footer"');
-    expect(html).not.toContain('data-testid="cookies"');
+    expect(html).toContain('data-testid="cookies"');
     expect(html).toContain("<p>content</p>");
     expect(html).toContain("Legal notice (in French)");
   });
