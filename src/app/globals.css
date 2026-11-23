@@ -123,3 +123,126 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+.hud-hero {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 75% 40%, color-mix(in srgb, var(--color-primary) 12%, transparent), transparent 55%),
+    linear-gradient(135deg, var(--color-light-gray), var(--color-white));
+}
+
+.hud-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--color-primary) 9%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--color-primary) 9%, transparent) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at center, #000 30%, transparent 80%);
+  animation: hud-grid 12s linear infinite;
+  pointer-events: none;
+}
+
+.hud-hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--color-primary) 7%, transparent), transparent);
+  animation: hud-scan 7s linear infinite;
+  pointer-events: none;
+}
+
+.hud-svg {
+  color: var(--color-primary);
+  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--color-primary) 45%, transparent));
+}
+
+.hud-panel {
+  border: 1px solid color-mix(in srgb, var(--color-primary) 35%, transparent);
+  background: color-mix(in srgb, var(--color-white) 70%, transparent);
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+  backdrop-filter: blur(4px);
+}
+
+.btn-glow:hover {
+  box-shadow: 0 0 20px color-mix(in srgb, var(--color-primary) 45%, transparent);
+}
+
+.hud-spin-slow,
+.hud-spin-reverse,
+.hud-spin-mid {
+  transform-origin: 200px 200px;
+}
+
+.hud-spin-slow {
+  animation: hud-spin 60s linear infinite;
+}
+
+.hud-spin-reverse {
+  animation: hud-spin 28s linear infinite reverse;
+}
+
+.hud-spin-mid {
+  animation: hud-spin 40s linear infinite;
+}
+
+.hud-pulse {
+  animation: hud-pulse 3s ease-in-out infinite;
+}
+
+.hud-blink {
+  animation: hud-blink 1.1s steps(2, start) infinite;
+}
+
+@keyframes hud-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes hud-pulse {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes hud-blink {
+  to {
+    visibility: hidden;
+  }
+}
+
+@keyframes hud-grid {
+  to {
+    background-position: 0 48px;
+  }
+}
+
+@keyframes hud-scan {
+  from {
+    top: -120px;
+  }
+  to {
+    top: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hud-hero::before,
+  .hud-hero::after,
+  .hud-spin-slow,
+  .hud-spin-reverse,
+  .hud-spin-mid,
+  .hud-pulse,
+  .hud-blink {
+    animation: none;
+  }
+}
