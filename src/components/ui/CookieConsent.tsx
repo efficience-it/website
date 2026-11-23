@@ -2,6 +2,8 @@
 
 import { useSyncExternalStore, useCallback } from "react";
 import Link from "next/link";
+import { getMessages } from "@/lib/i18n/messages";
+import type { BlogLanguage } from "@/types/blog";
 
 function subscribe(callback: () => void) {
   window.addEventListener("cookie-consent-change", callback);
@@ -20,8 +22,9 @@ function getServerSnapshot(): string | null {
   return "server";
 }
 
-export default function CookieConsent() {
+export default function CookieConsent({ language }: { readonly language?: BlogLanguage }) {
   const consent = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const messages = getMessages(language);
 
   const accept = useCallback(() => {
     localStorage.setItem("cookie-consent", "accepted");
@@ -38,31 +41,31 @@ export default function CookieConsent() {
   return (
     <div
       role="dialog"
-      aria-label="Gestion des cookies"
+      aria-label={messages.cookieConsentLabel}
       className="fixed inset-x-0 bottom-0 z-[60] border-t border-border bg-white p-4 shadow-lg sm:flex sm:items-center sm:justify-between sm:gap-4 sm:px-8 dark:bg-light-gray dark:shadow-black/40"
     >
       <p className="text-sm text-gray">
-        Nous utilisons des cookies pour mesurer l&apos;audience de notre site
-        via Google Analytics.{" "}
+        {messages.cookieConsentText}{" "}
         <Link
           href="/politique-de-confidentialite"
+          hrefLang="fr"
           className="text-primary underline"
         >
-          En savoir plus
+          {messages.cookieLearnMore}
         </Link>
       </p>
       <div className="mt-3 flex gap-3 sm:mt-0 sm:shrink-0">
         <button
           onClick={refuse}
-          className="min-h-[44px] rounded-lg border border-border px-4 py-2 text-sm font-medium text-gray transition-colors hover:bg-light-gray"
+          className="min-h-[44px] rounded-sm border-2 border-border px-4 py-2 text-sm font-semibold tracking-wide text-gray transition-colors hover:bg-light-gray"
         >
-          Refuser
+          {messages.cookieDecline}
         </button>
         <button
           onClick={accept}
-          className="min-h-[44px] rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-dark"
+          className="min-h-[44px] btn-glow rounded-sm border-2 border-primary bg-primary px-4 py-2 text-sm font-semibold tracking-wide text-white transition-all hover:border-primary-dark hover:bg-primary-dark"
         >
-          Accepter
+          {messages.cookieAccept}
         </button>
       </div>
     </div>
