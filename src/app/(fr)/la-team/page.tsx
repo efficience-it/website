@@ -27,7 +27,7 @@ const webPage = webPageJsonLd({
     "Découvrez l'équipe d'Efficience IT : développeurs, profils techniques et métiers engagés dans la réalisation de projets web et applicatifs.",
   path: "/la-team",
   datePublished: "2025-09-01",
-  dateModified: "2025-09-01",
+  dateModified: "2026-11-23",
 });
 
 const teamRelatedLinks: RelatedLink[] = [
@@ -70,12 +70,20 @@ export default function LaTeam() {
                 À taille humaine, notre équipe est à fond dans le digital et
                 l&apos;agilité. Et avec le meilleur framework PHP, nous offrons
                 une expertise pointue pour répondre à vos besoins. Notre
-                fondateur compte{" "}
-                <a href="https://github.com/php/doc-fr/pulls?q=is%3Apr+author%3Alacatoire+is%3Amerged" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                  plus de 400 contributions intégrées à la documentation
-                  officielle de PHP en français
+                fondateur est membre de l&apos;équipe de documentation de PHP,
+                pour la{" "}
+                <a href="https://github.com/php/doc-fr" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                  version française
+                </a>{" "}
+                comme pour la{" "}
+                <a href="https://github.com/php/doc-en" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                  version anglaise de référence
                 </a>
-                .
+                , ainsi que de l&apos;équipe de{" "}
+                <a href="https://github.com/symfony/symfony-docs" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                  documentation de Symfony
+                </a>
+                , avec des centaines de contributions intégrées.
               </p>
               <Button href="/contact" className="mt-8">
                 Prenons contact !
