@@ -35,6 +35,11 @@ interface Messages {
   readonly copyLink: string;
   readonly copyArticleLink: string;
   readonly linkCopied: string;
+  readonly cookieConsentLabel: string;
+  readonly cookieConsentText: string;
+  readonly cookieLearnMore: string;
+  readonly cookieDecline: string;
+  readonly cookieAccept: string;
 }
 
 const fr: Messages = {
@@ -72,6 +77,11 @@ const fr: Messages = {
   copyLink: "Copier le lien",
   copyArticleLink: "Copier le lien de l'article",
   linkCopied: "Lien copié",
+  cookieConsentLabel: "Gestion des cookies",
+  cookieConsentText: "Nous utilisons des cookies pour mesurer l'audience de notre site via Google Analytics.",
+  cookieLearnMore: "En savoir plus",
+  cookieDecline: "Refuser",
+  cookieAccept: "Accepter",
 };
 
 const en: Messages = {
@@ -109,6 +119,11 @@ const en: Messages = {
   copyLink: "Copy link",
   copyArticleLink: "Copy the article link",
   linkCopied: "Link copied",
+  cookieConsentLabel: "Cookie settings",
+  cookieConsentText: "We use cookies to measure our website's audience with Google Analytics.",
+  cookieLearnMore: "Learn more (in French)",
+    cookieDecline: "Decline",
+  cookieAccept: "Accept",
 };
 
 const catalog: Record<BlogLanguage, Messages> = { fr, en };
