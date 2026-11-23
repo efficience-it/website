@@ -3,6 +3,7 @@ import RootDocument from "@/components/layout/RootDocument";
 import EnglishHeader from "@/components/layout/EnglishHeader";
 import EnglishFooter from "@/components/layout/EnglishFooter";
 import BackToTop from "@/components/ui/BackToTop";
+import CookieConsent from "@/components/ui/CookieConsent";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.itefficience.com"),
@@ -30,6 +31,7 @@ export default function EnglishRootLayout({
         <>
           <EnglishFooter />
           <BackToTop label="Back to top" />
+          <CookieConsent language="en" />
         </>
       }
     >
