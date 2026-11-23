@@ -27,7 +27,7 @@ const webPage = webPageJsonLd({
     "Découvrez l'équipe d'Efficience IT : développeurs, profils techniques et métiers engagés dans la réalisation de projets web et applicatifs.",
   path: "/la-team",
   datePublished: "2025-09-01",
-  dateModified: "2025-09-01",
+  dateModified: "2026-11-23",
 });
 
 const teamRelatedLinks: RelatedLink[] = [
