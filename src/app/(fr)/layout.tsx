@@ -3,6 +3,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import RootDocument from "@/components/layout/RootDocument";
 import CookieConsent from "@/components/ui/CookieConsent";
+import BackToTop from "@/components/ui/BackToTop";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.itefficience.com"),
@@ -33,6 +34,7 @@ export default function RootLayout({
         <>
           <Footer />
           <CookieConsent />
+          <BackToTop label="Retour en haut de la page" />
         </>
       }
     >
