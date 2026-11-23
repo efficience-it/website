@@ -26,7 +26,7 @@ const PANEL = 680;
 const ROOT = process.cwd();
 const CONTENT_DIR = path.join(ROOT, "content/blog");
 const OUTPUT_DIR = path.join(ROOT, "public/images/blog");
-const PHOTOS_PATH = path.join(ROOT, ".docs/covers/photos.json");
+const PHOTOS_DIR = path.join(ROOT, ".docs/covers/photos");
 const CACHE_DIR = path.join(ROOT, "node_modules/.cache/blog-covers");
 const USER_AGENT = "efficience-it-covers/1.0 (https://www.itefficience.com)";
 const FONT = "Montserrat, 'DejaVu Sans', sans-serif";
@@ -165,9 +165,19 @@ function resolvePhotos(entries: Record<string, PhotoEntry>): Record<string, Phot
   );
 }
 
+function readEntries(dir: string): Record<string, PhotoEntry> {
+  return Object.fromEntries(
+    fs
+      .readdirSync(dir)
+      .filter((file) => file.endsWith(".json"))
+      .sort()
+      .map((file) => [file.slice(0, -5), JSON.parse(fs.readFileSync(path.join(dir, file), "utf-8")) as PhotoEntry]),
+  );
+}
+
 async function main(): Promise<void> {
-  const [flag, slug, out, photosPath] = process.argv.slice(2);
-  const entries: Record<string, PhotoEntry> = JSON.parse(fs.readFileSync(photosPath ?? PHOTOS_PATH, "utf-8"));
+  const [flag, slug, out, photosDir] = process.argv.slice(2);
+  const entries = readEntries(photosDir ?? PHOTOS_DIR);
   const photos = resolvePhotos(entries);
 
   if (flag === "--preview") {
