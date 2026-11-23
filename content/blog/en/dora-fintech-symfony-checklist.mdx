@@ -1,14 +1,14 @@
 ---
 title: "DORA Compliance for Fintech: A Symfony Checklist"
 date: "2026-06-02"
-updatedAt: "2026-10-12"
+updatedAt: "2026-11-23"
 author: "Louis-Arnaud Catoire"
 category: "Security"
 excerpt: "DORA has applied since January 2025. A technical checklist and contract clauses: what fintechs should require from a Symfony application and its provider."
 image: "/images/blog/cover-dora-fintech.webp"
 proficiencyLevel: "Expert"
 translationOf: "dora-fintech-resilience-technique-symfony"
-translatedFromUpdatedAt: "2026-10-12"
+translatedFromUpdatedAt: "2026-11-09"
 faq:
   - question: "Is my fintech covered by DORA?"
     answer: "DORA applies to a wide range of financial entities: credit institutions, payment service providers, electronic money institutions, asset management companies, insurers and crypto-asset platforms. Fintechs that operate under one of these statuses, or that provide a critical IT service to one of these entities, fall within the scope, either directly or as a third-party service provider."
@@ -68,7 +68,7 @@ You cannot prove a resilience you do not measure. SLAs must be instrumented and 
 
 ### Usable Incident Logs
 
-DORA incident reporting is unmanageable without structured logging. Security events (authentications, privilege escalations, access to sensitive data) must be separated from application noise, timestamped and centralized, while complying with the GDPR. The ability to reconstruct the timeline of an incident in minutes, not days, makes the difference between a controlled report and a crisis.
+DORA incident reporting is unmanageable without structured logging. Security events (authentications, privilege escalations, access to sensitive data) must be separated from application noise, timestamped and centralized, while complying with the GDPR. The ability to reconstruct the timeline of an incident in minutes, not days, makes the difference between a controlled report and a crisis. This reconstruction also relies on the [history of data changes](/article/audit-trail-symfony-doctrine-tracer-modifications) (in French): it shows which records were changed, by whom and when.
 
 The regulation also requires you to classify incidents by severity and to meet harmonized notification deadlines: a quick initial notification, then an intermediate report and a final report as the analysis progresses. Meeting these deadlines means classification cannot be improvised manual work on the day. We equip this step with dashboards that surface weak signals and alert thresholds defined in advance, so the team can assess the impact of an incident (number of clients affected, duration, data involved) using reliable data rather than estimates made under pressure.
 

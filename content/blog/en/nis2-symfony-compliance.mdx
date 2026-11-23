@@ -5,9 +5,9 @@ author: "Louis-Arnaud Catoire"
 category: "Security"
 excerpt: "The NIS2 directive widens cybersecurity obligations. Learn how to prepare a Symfony application technically: hardening, MFA, logging and incident reporting."
 image: "/images/blog/cover-nis2-symfony.webp"
-updatedAt: "2026-10-12"
+updatedAt: "2026-11-23"
 translationOf: "conformite-nis2-application-symfony"
-translatedFromUpdatedAt: "2026-06-16"
+translatedFromUpdatedAt: "2026-11-09"
 faq:
   - question: "Does NIS2 require specific technologies?"
     answer: "No. NIS2 sets an obligation of means proportionate to risk, not a list of tools. It requires risk management, minimum technical measures (access control, encryption, logging) and reporting of significant incidents. How these requirements translate in practice depends on your application architecture."
@@ -81,7 +81,7 @@ NIS2 insists on access control. Multi-factor authentication (MFA) is no longer o
 
 ### Logging and Detection
 
-Without usable logs, the incident reporting obligation is untenable: you cannot report what you cannot see. We structure application logging with Monolog, separating security events (logins, authentication failures, privilege escalations) from application noise. These logs must remain usable while respecting GDPR, which means filtering personal data at the source and limiting retention. Centralizing them in an observability stack then enables correlation and near real-time alerting.
+Without usable logs, the incident reporting obligation is untenable: you cannot report what you cannot see. We structure application logging with Monolog, separating security events (logins, authentication failures, privilege escalations) from application noise. These logs must remain usable while respecting GDPR, which means filtering personal data at the source and limiting retention. Centralizing them in an observability stack then enables correlation and near real-time alerting. For business data, an [audit trail with Doctrine](/article/audit-trail-symfony-doctrine-tracer-modifications) (in French) complements these logs by keeping track of who changed which record, when and with which values.
 
 ### Dependency and Vulnerability Management
 
