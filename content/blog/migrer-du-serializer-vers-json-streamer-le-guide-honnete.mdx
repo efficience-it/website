@@ -19,7 +19,7 @@ Cet article répond à trois questions : est-ce que mon projet est éligible ? Q
 
 ## Ce que JsonStreamer change vraiment
 
-Le [Serializer Symfony](https://symfony.com/doc/current/serializer.html) fonctionne par réflexion. À chaque appel, il inspecte l'objet, résout les métadonnées, applique les normalizers dans l'ordre, construit un tableau PHP intermédiaire, puis l'encode en JSON. Tout est en mémoire, tout est dynamique, tout est flexible.
+Le [Serializer Symfony](https://symfony.com/doc/current/serializer.html) fonctionne par réflexion. À chaque appel, il inspecte l'objet, résout les métadonnées, applique les normalizers dans l'ordre, construit un tableau PHP intermédiaire, puis l'encode en JSON. Tout est en mémoire, tout est dynamique, tout est flexible. Ce coût de la réflexion est aussi ce que cherche à éviter [AutoMapper pour accélérer la sérialisation de vos API](/article/automapper-serialisation-api-symfony-performances).
 
 JsonStreamer prend l'approche inverse. Au moment du build (ou au premier appel), il génère du code PHP natif spécialisé pour chaque classe. Ce code produit du JSON directement, sans tableau intermédiaire, via un générateur PHP. C'est la différence entre imprimer un livre entier avant de l'envoyer, et l'envoyer page par page au fur et à mesure de l'impression. Le destinataire commence à recevoir alors que l'impression n'est pas terminée.
 

@@ -97,7 +97,7 @@ En intégrant cette validation dans la CI, chaque pull request qui modifie le co
 
 ## API gateway et patterns d'architecture
 
-À l'échelle d'un système distribué, l'API gateway devient le point d'entrée unique des consommateurs. Elle centralise l'authentification (validation JWT, OAuth2 introspection), le rate limiting, la transformation de requêtes et le routage vers les services backend.
+À l'échelle d'un système distribué, l'API gateway devient le point d'entrée unique des consommateurs. Elle centralise l'authentification ([validation des jetons JWT](/article/jwt-biscuit-paseto-jetons-autorisation-api-symfony), OAuth2 introspection), le rate limiting, la transformation de requêtes et le routage vers les services backend.
 
 Le pattern Backend for Frontend (BFF) consiste à déployer une gateway spécialisée par type de client, souvent développée en [Node.js](/developpement-nodejs). Le choix entre [micro-service et monolithe modulaire](/article/quelle-architecture-de-projet-choisir-entre-micro-service-ou-monolithe-modulaire) influence directement la manière dont cette gateway est implémentée. L'application mobile reçoit des payloads optimisés et agrégés, tandis que le backoffice web accède à des endpoints plus granulaires. Chaque BFF adapte les réponses sans polluer l'API interne avec des préoccupations de présentation.
 
