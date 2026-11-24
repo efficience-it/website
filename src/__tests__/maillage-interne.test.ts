@@ -53,3 +53,43 @@ describe("Maillage interne", () => {
     }
   );
 });
+
+function getArticleBody(content: string): string {
+  const withoutFrontmatter = content.replace(/^---\r?\n[\s\S]*?\r?\n---/, "");
+  return withoutFrontmatter.split(/^## Pour aller plus loin/m)[0];
+}
+
+function getBodyLinkedSlugs(content: string): Set<string> {
+  const slugs = new Set<string>();
+  const regex = /\]\(\/article\/([^)#?\s]+)/g;
+  const body = getArticleBody(content);
+  let match;
+  while ((match = regex.exec(body)) !== null) {
+    slugs.add(match[1]);
+  }
+  return slugs;
+}
+
+describe("Liens de corps entre articles", () => {
+  const mdxFiles = getMdxFiles();
+  const incoming = new Map<string, number>(
+    mdxFiles.map((f) => [f.replace(/\.mdx$/, ""), 0])
+  );
+
+  for (const file of mdxFiles) {
+    const source = file.replace(/\.mdx$/, "");
+    const content = fs.readFileSync(path.join(CONTENT_DIR, file), "utf-8");
+    for (const target of getBodyLinkedSlugs(content)) {
+      if (target !== source && incoming.has(target)) {
+        incoming.set(target, (incoming.get(target) ?? 0) + 1);
+      }
+    }
+  }
+
+  it("every article receives at least one body link from another article", () => {
+    const orphans = [...incoming]
+      .filter(([, count]) => count === 0)
+      .map(([slug]) => slug);
+    expect(orphans).toEqual([]);
+  });
+});
