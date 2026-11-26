@@ -221,7 +221,7 @@ Côté exploitation, trois conséquences. Les sauvegardes se font normalement, m
 
 ## Gestion des clés de chiffrement
 
-La sécurité repose entièrement sur la clé. Elle ne va jamais dans le dépôt : utilisez les [secrets de Symfony](https://symfony.com/doc/current/configuration/secrets.html) ou un coffre dédié, avec une clé distincte par environnement. La clé de test de notre projet d'exemple est une valeur factice, inscrite dans sa configuration PHPUnit, et ne protège aucune donnée réelle. La perte de la clé entraîne la perte définitive des données chiffrées. Prévoyez une rotation : notre test la réalise en déchiffrant avec l'ancienne clé et en chiffrant avec la nouvelle, mais nous n'avons pas testé une migration sur un gros volume.
+La sécurité repose entièrement sur la clé. Elle ne va jamais dans le dépôt : utilisez les [secrets de Symfony](https://symfony.com/doc/current/configuration/secrets.html) ou [un coffre de secrets dédié](/article/gestion-secrets-symfony-sops-vault), avec une clé distincte par environnement. La clé de test de notre projet d'exemple est une valeur factice, inscrite dans sa configuration PHPUnit, et ne protège aucune donnée réelle. La perte de la clé entraîne la perte définitive des données chiffrées. Prévoyez une rotation : notre test la réalise en déchiffrant avec l'ancienne clé et en chiffrant avec la nouvelle, mais nous n'avons pas testé une migration sur un gros volume.
 
 ## Protection des données et conformité
 

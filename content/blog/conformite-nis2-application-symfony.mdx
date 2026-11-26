@@ -71,7 +71,7 @@ Notre intervention porte sur la couche applicative et son environnement immédia
 
 ### Durcissement de l'application
 
-Le durcissement commence par la configuration : désactivation du mode debug en production, headers de sécurité (CSP, HSTS, X-Content-Type-Options), gestion stricte des sessions et des cookies, et séparation nette des secrets via Symfony Secrets ou un coffre dédié. Nous appliquons le principe de moindre privilège à chaque couche, du conteneur jusqu'aux droits de la base de données. Beaucoup de ces points recoupent les bonnes pratiques de protection contre l'OWASP Top 10, que nous traitons lors de la [sécurisation d'une application Symfony](/securite-application-symfony).
+Le durcissement commence par la configuration : désactivation du mode debug en production, headers de sécurité (CSP, HSTS, X-Content-Type-Options), gestion stricte des sessions et des cookies, et [séparation nette des secrets via Symfony Secrets ou un coffre dédié](/article/gestion-secrets-symfony-sops-vault). Nous appliquons le principe de moindre privilège à chaque couche, du conteneur jusqu'aux droits de la base de données. Beaucoup de ces points recoupent les bonnes pratiques de protection contre l'OWASP Top 10, que nous traitons lors de la [sécurisation d'une application Symfony](/securite-application-symfony).
 
 ### Authentification multifacteur
 
