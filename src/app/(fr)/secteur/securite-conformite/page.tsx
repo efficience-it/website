@@ -327,7 +327,7 @@ export default function SecteurSecuriteConformite() {
                   href="/secteur/maintenance-applicative"
                   className="text-primary hover:underline"
                 >
-                  maintenance applicative
+                  accompagnement après la mise en conformité
                 </Link>{" "}
                 assure ensuite le suivi dans la durée.
               </p>
