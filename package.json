@@ -40,7 +40,7 @@
     "@lhci/cli": "^0.16.1",
     "@tailwindcss/postcss": "^4",
     "@testing-library/dom": "^10.4.2",
-    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/jest-dom": "^8.0.0",
     "@testing-library/react": "^16.3.3",
     "@types/jest": "^30.0.0",
     "@types/node": "^26",
@@ -51,7 +51,7 @@
     "glob": "^14.0.6",
     "jest": "^30.5.2",
     "jest-environment-jsdom": "^30.5.2",
-    "knip": "^6.45.1",
+    "knip": "^6.48.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
