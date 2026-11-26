@@ -325,7 +325,7 @@ export default function SecteurMigrationLegacy() {
                   href="/secteur/maintenance-applicative"
                   className="text-primary hover:underline"
                 >
-                  maintenance applicative
+                  maintenance applicative Symfony
                 </Link>{" "}
                 prend le relais pour garantir la pérennité de l&apos;investissement.
               </p>
