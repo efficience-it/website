@@ -26,7 +26,7 @@ You use Claude Code every day on your Symfony projects. You have set up your [CL
 
 MCP is an open protocol created by Anthropic and published at [modelcontextprotocol.io](https://modelcontextprotocol.io). It standardizes communication between an AI agent and external services. Without MCP, Claude Code is limited to what it sees in your file tree. With MCP, it can query a database, read your Sentry errors, look at a GitHub PR or call an internal API.
 
-An MCP server exposes two types of capabilities: **tools** (functions that Claude Code can call, such as "run this SQL query") and **resources** (data it can read, such as a table schema). The protocol handles discovery automatically: when Claude Code connects to a server, it learns which tools are available and knows when to use them.
+An MCP server exposes two types of capabilities: **tools** (functions that Claude Code can call, such as "run this SQL query") and **resources** (data it can read, such as a table schema). The protocol handles discovery automatically: when Claude Code connects to a server, it learns which tools are available and knows when to use them. To expose your own application, [an MCP server can be built in Symfony or PHP](/en/article/mcp-vs-cli-vs-api-php), even though a CLI or an API is sometimes enough.
 
 The principle is simple. You declare a server in your project configuration. Claude Code starts it automatically when a session begins. You ask it "show me the schema of the orders table," it queries the MCP server, retrieves the result and reasons about it. No copy-paste, no window switching, no back and forth between the terminal and a dashboard.
 
