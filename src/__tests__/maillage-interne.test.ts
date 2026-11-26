@@ -25,6 +25,21 @@ const SERVICE_PAGES = [
   "/tests-automatises-php",
 ];
 
+const LANGUAGES = [
+  {
+    name: "fr",
+    dir: CONTENT_DIR,
+    linkPrefix: "/article/",
+    furtherReading: "Pour aller plus loin",
+  },
+  {
+    name: "en",
+    dir: path.join(CONTENT_DIR, "en"),
+    linkPrefix: "/en/article/",
+    furtherReading: "Going Further",
+  },
+];
+
 function getMdxFiles(): string[] {
   return fs
     .readdirSync(CONTENT_DIR)
@@ -54,15 +69,19 @@ describe("Maillage interne", () => {
   );
 });
 
-function getArticleBody(content: string): string {
+function getArticleBody(content: string, furtherReading: string): string {
   const withoutFrontmatter = content.replace(/^---\r?\n[\s\S]*?\r?\n---/, "");
-  return withoutFrontmatter.split(/^## Pour aller plus loin/m)[0];
+  return withoutFrontmatter.split(new RegExp(`^## ${furtherReading}`, "m"))[0];
 }
 
-function getBodyLinkedSlugs(content: string): Set<string> {
+function getBodyLinkedSlugs(
+  content: string,
+  linkPrefix: string,
+  furtherReading: string
+): Set<string> {
   const slugs = new Set<string>();
-  const regex = /\]\(\/article\/([^)#?\s]+)/g;
-  const body = getArticleBody(content);
+  const regex = new RegExp(`\\]\\(${linkPrefix}([^)#?\\s]+)`, "g");
+  const body = getArticleBody(content, furtherReading);
   let match;
   while ((match = regex.exec(body)) !== null) {
     slugs.add(match[1]);
@@ -71,25 +90,30 @@ function getBodyLinkedSlugs(content: string): Set<string> {
 }
 
 describe("Liens de corps entre articles", () => {
-  const mdxFiles = getMdxFiles();
-  const incoming = new Map<string, number>(
-    mdxFiles.map((f) => [f.replace(/\.mdx$/, ""), 0])
-  );
+  it.each(LANGUAGES)(
+    "every $name article receives at least one body link from another article",
+    ({ dir, linkPrefix, furtherReading }) => {
+      const files = fs
+        .readdirSync(dir)
+        .filter((f) => f.endsWith(".mdx") && !f.startsWith("__test"));
+      const incoming = new Map<string, number>(
+        files.map((f) => [f.replace(/\.mdx$/, ""), 0])
+      );
 
-  for (const file of mdxFiles) {
-    const source = file.replace(/\.mdx$/, "");
-    const content = fs.readFileSync(path.join(CONTENT_DIR, file), "utf-8");
-    for (const target of getBodyLinkedSlugs(content)) {
-      if (target !== source && incoming.has(target)) {
-        incoming.set(target, (incoming.get(target) ?? 0) + 1);
+      for (const file of files) {
+        const source = file.replace(/\.mdx$/, "");
+        const content = fs.readFileSync(path.join(dir, file), "utf-8");
+        for (const target of getBodyLinkedSlugs(content, linkPrefix, furtherReading)) {
+          if (target !== source && incoming.has(target)) {
+            incoming.set(target, (incoming.get(target) ?? 0) + 1);
+          }
+        }
       }
-    }
-  }
 
-  it("every article receives at least one body link from another article", () => {
-    const orphans = [...incoming]
-      .filter(([, count]) => count === 0)
-      .map(([slug]) => slug);
-    expect(orphans).toEqual([]);
-  });
+      const orphans = [...incoming]
+        .filter(([, count]) => count === 0)
+        .map(([slug]) => slug);
+      expect(orphans).toEqual([]);
+    }
+  );
 });
