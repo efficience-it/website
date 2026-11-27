@@ -387,6 +387,10 @@
     400,
     800
   ],
+  "cover-gestion-secrets-symfony": [
+    400,
+    800
+  ],
   "cover-git-bisect": [
     400,
     800
@@ -460,6 +464,10 @@
     800
   ],
   "cover-mcp-symfony-php": [
+    400,
+    800
+  ],
+  "cover-memoire-persistante-claude-code": [
     400,
     800
   ],
@@ -732,6 +740,10 @@
     800
   ],
   "cover-skills-claude-code": [
+    400,
+    800
+  ],
+  "cover-souverainete-numerique-hebergement": [
     400,
     800
   ],
