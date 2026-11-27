@@ -1,0 +1,144 @@
+---
+title: "Mémoire persistante de Claude Code : du CLAUDE.md au LLM Wiki"
+date: "2026-11-27"
+updatedAt: "2026-11-27"
+author: "Efficience IT"
+category: "IA"
+excerpt: "CLAUDE.md, rules, auto memory et LLM Wiki de Karpathy : comment donner une mémoire durable à Claude Code sur un projet Symfony, et ce qu'il ne faut jamais y mettre."
+image: "/images/blog/cover-memoire-persistante-claude-code.webp"
+faq:
+  - question: "Claude Code se souvient-il des conversations précédentes ?"
+    answer: "Non. Chaque session démarre avec un contexte vide. Ce qui persiste, ce sont des fichiers : les CLAUDE.md écrits par l'équipe et les notes de l'auto memory écrites par Claude. Ils sont relus au début de chaque session."
+  - question: "Quelle différence entre CLAUDE.md et l'auto memory ?"
+    answer: "CLAUDE.md contient des consignes que vous écrivez et que vous partagez avec l'équipe via le dépôt. L'auto memory contient des notes que Claude écrit lui-même à partir de vos corrections et préférences. Elle reste sur votre machine et n'est pas versionnée."
+  - question: "Le LLM Wiki remplace-t-il un RAG ?"
+    answer: "Pour une base de connaissances personnelle ou d'équipe de taille raisonnable, il peut suffire : le modèle consolide les connaissances une fois au lieu de les rechercher à chaque question. Pour des volumes importants ou des données qui changent en continu, un RAG reste plus adapté."
+  - question: "Peut-on stocker des secrets dans la mémoire de Claude Code ?"
+    answer: "Non. Ces fichiers sont lus à chaque session et finissent dans le contexte envoyé au modèle. Un mot de passe, une clé d'API ou une donnée personnelle n'ont rien à y faire."
+---
+
+Chaque session de Claude Code démarre avec un contexte vide. Les conventions expliquées la veille, le piège découvert sur une migration Doctrine, la commande de test qui ne marche qu'avec une option précise : tout est oublié. Pour que l'assistant reste utile sur un projet qui dure des mois, il faut lui donner une mémoire. Et sur Claude Code, cette mémoire est faite de simples fichiers markdown.
+
+Cet article présente les mécanismes intégrés à Claude Code, puis le pattern « LLM Wiki » proposé par Andrej Karpathy, qui pousse la même idée beaucoup plus loin. Si vous découvrez l'outil, commencez par notre guide pour [monter en compétence sur Claude Code](/article/monter-en-competence-claude-code), qui pose les bases du fichier CLAUDE.md.
+
+## La mémoire native de Claude Code
+
+D'après la [documentation officielle](https://code.claude.com/docs/en/memory), Claude Code repose sur deux systèmes complémentaires, tous deux chargés au début de chaque session : les fichiers CLAUDE.md, écrits par l'équipe, et l'auto memory, écrite par Claude. Dans les deux cas, il s'agit de contexte que le modèle suit, pas d'une configuration imposée : pour bloquer une action quoi qu'il arrive, il faut passer par un hook.
+
+### CLAUDE.md à plusieurs niveaux
+
+Un projet n'a pas un seul CLAUDE.md, mais une pile de fichiers lus du plus général au plus précis :
+
+| Niveau | Emplacement | Usage |
+|---|---|---|
+| Organisation | `/etc/claude-code/CLAUDE.md` (Linux) | Règles imposées à toute l'entreprise |
+| Utilisateur | `~/.claude/CLAUDE.md` | Préférences personnelles, tous projets |
+| Projet | `./CLAUDE.md` ou `./.claude/CLAUDE.md` | Conventions partagées via Git |
+| Local | `./CLAUDE.local.md` | Notes personnelles, hors dépôt |
+
+Claude lit aussi les CLAUDE.md des répertoires parents, et charge ceux des sous-dossiers seulement quand il travaille sur un fichier qui s'y trouve. Sur un monorepo Symfony avec un front séparé, chaque partie peut donc avoir ses propres consignes.
+
+La documentation recommande de rester sous les 200 lignes par fichier. Les imports permettent de découper un gros CLAUDE.md : une ligne `@docs/architecture.md` insère le contenu d'un autre fichier, jusqu'à quatre niveaux d'imbrication. Attention, un import ne fait pas économiser de contexte : le fichier importé est chargé en même temps que celui qui l'importe. Pour vraiment alléger le démarrage, il faut passer par des règles ciblées.
+
+### Des règles ciblées avec .claude/rules
+
+Le dossier `.claude/rules/` accepte un fichier markdown par sujet : `tests.md`, `doctrine.md`, `api.md`. Sans frontmatter, une règle est chargée au démarrage comme le CLAUDE.md du projet. Avec un champ `paths`, elle n'est chargée que lorsque Claude touche aux fichiers concernés :
+
+```markdown
+---
+paths:
+  - "src/Domain/**/*.php"
+---
+
+Le domaine ne dépend d'aucune classe Symfony ni Doctrine.
+Les entités du domaine n'ont ni attributs ORM ni annotations.
+```
+
+C'est la bonne place pour les règles qui ne concernent qu'une couche, comme l'isolation du domaine dans une architecture hexagonale. Le contexte reste léger tant que Claude travaille ailleurs.
+
+### L'auto memory : les notes de Claude
+
+Le second système fonctionne dans l'autre sens. Quand vous corrigez Claude (« non, on lance les tests avec `make test`, pas `phpunit` »), il peut l'enregistrer lui-même. Ces notes sont classées en quatre types (`user`, `feedback`, `project`, `reference`) et rangées sur votre machine :
+
+```text
+~/.claude/projects/<projet>/memory/
+├── MEMORY.md            index chargé au démarrage
+├── feedback_tests.md    fiche lue à la demande
+└── project_migration.md
+```
+
+Le fichier `MEMORY.md` sert d'index. Seules ses 200 premières lignes ou ses 25 Ko, selon la limite atteinte en premier, sont chargés au début de la session. Les fiches détaillées ne sont lues que lorsque Claude en a besoin. Cette organisation en index et en fiches est exactement celle du LLM Wiki, comme on va le voir.
+
+Quelques limites à connaître : l'auto memory est propre à une machine et n'est pas partagée avec l'équipe, elle n'est pas transmise aux sous-agents, et la commande `/memory` permet de la consulter, de la modifier ou de la désactiver. Pour une règle qui doit s'appliquer à toute l'équipe, il faut donc la recopier dans le CLAUDE.md du projet.
+
+## Le LLM Wiki d'Andrej Karpathy
+
+En avril 2026, Andrej Karpathy a publié un court document, le [LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f), qui décrit une façon de construire une base de connaissances avec un LLM. Il part d'un constat sur le RAG classique : à chaque question, le modèle recherche des morceaux dans les documents bruts et reconstruit sa réponse. Rien ne s'accumule d'une question à l'autre.
+
+Sa proposition : demander au LLM de construire et d'entretenir progressivement un wiki, c'est-à-dire un ensemble de fichiers markdown liés entre eux, placé entre vous et vos sources. Les connaissances sont consolidées une fois, puis mises à jour, au lieu d'être redécouvertes à chaque fois.
+
+### Trois couches
+
+- **Les sources brutes** : articles, documentations, comptes rendus, fichiers de données. Le LLM les lit mais ne les modifie jamais.
+- **Le wiki** : des pages écrites et entretenues par le LLM, avec des résumés, des pages par concept ou par entité, des comparaisons, un index et un journal.
+- **Le schéma** : un fichier de consignes, typiquement un CLAUDE.md, qui explique au LLM comment le wiki est organisé et quelles étapes suivre.
+
+### Trois opérations
+
+- **Ingérer** : quand une nouvelle source arrive, le LLM la lit, en discute avec vous, rédige une page de synthèse, puis met à jour l'index et les pages concernées.
+- **Interroger** : vous posez une question, le LLM cherche dans le wiki et répond en citant les pages utilisées. Une bonne réponse peut elle-même devenir une nouvelle page.
+- **Vérifier** : périodiquement, le LLM relit le wiki pour repérer les contradictions, les informations périmées et les pages orphelines.
+
+Un fichier `log.md`, auquel on ne fait qu'ajouter des lignes, garde la trace chronologique de ces opérations. Karpathy résume le rôle de chacun par une image : Obsidian est l'éditeur, le LLM est le programmeur, et le wiki est la base de code.
+
+## Appliquer le pattern à un projet Symfony
+
+Le LLM Wiki a été pensé pour des notes personnelles, mais il s'adapte très bien à la connaissance d'un projet : ce qui n'est ni dans le code, ni dans l'historique Git, et qui se perd quand un développeur quitte l'équipe. Les décisions d'architecture, les incidents de production, les particularités d'un client, les pièges d'une montée de version.
+
+Une organisation possible dans le dépôt :
+
+```text
+docs/wiki/
+├── index.md           une ligne par page, chargé en premier
+├── log.md             journal des ajouts et des vérifications
+├── decisions/         une page par décision d'architecture
+├── incidents/         une page par incident et sa cause
+└── domaine/           le vocabulaire métier et les règles du client
+```
+
+Le CLAUDE.md du projet décrit ensuite le fonctionnement du wiki :
+
+```markdown
+## Wiki du projet
+
+- Avant une tâche, lis docs/wiki/index.md et les pages liées au sujet.
+- Après une décision d'architecture ou un incident, propose une page
+  dans docs/wiki/ et ajoute-la à l'index.
+- Ne copie jamais de secret, de mot de passe ni de donnée personnelle.
+- Ajoute une ligne datée dans docs/wiki/log.md à chaque modification.
+```
+
+Contrairement à l'auto memory, ce wiki est versionné : il passe en revue de code comme le reste, et toute l'équipe en profite, humains compris. Il complète bien les [skills Claude Code](/article/skills-claude-code-equipe-symfony), qui décrivent des procédures, alors que le wiki décrit des connaissances. Quand le volume devient trop important pour être relu fichier par fichier, un [serveur MCP](/article/serveurs-mcp-claude-code-developpeurs-symfony) ou un [RAG avec Symfony AI et Doctrine](/article/rag-symfony-ai-doctrine-indexer-base-metier) prend le relais.
+
+## Limites et précautions
+
+### Le contexte n'est pas gratuit
+
+Tout ce qui est chargé au démarrage occupe le contexte du modèle, à chaque session. Un CLAUDE.md de 600 lignes ou un index qui liste chaque fichier du projet coûte cher et dilue les consignes importantes. Gardez les fichiers chargés au démarrage courts, et renvoyez vers des pages lues à la demande. Les [réducteurs de tokens pour assistants IA](/article/reducteurs-tokens-assistants-ia-code) aident aussi à garder de la marge.
+
+### Une mémoire peut se tromper
+
+Une note écrite il y a trois mois peut décrire une classe renommée depuis ou une décision abandonnée. Le modèle risque alors de suivre une information fausse avec assurance. La passe de vérification du LLM Wiki sert précisément à ça : planifiez-la, par exemple avant chaque mise en production, et supprimez sans regret ce qui n'est plus vrai.
+
+### Rien de sensible dans la mémoire
+
+Ces fichiers sont relus à chaque session et envoyés au modèle avec le reste du contexte. Un mot de passe, une clé d'API ou une donnée personnelle de client n'ont rien à y faire, que ce soit dans CLAUDE.md, dans l'auto memory ou dans le wiki. Les secrets ont leurs propres outils, présentés dans notre article sur la [gestion des secrets avec Symfony Secrets, SOPS ou Vault](/article/gestion-secrets-symfony-sops-vault).
+
+## Conclusion
+
+La mémoire de Claude Code n'a rien de magique : ce sont des fichiers markdown relus à chaque session. CLAUDE.md et les rules portent les consignes de l'équipe, l'auto memory retient vos corrections, et le pattern LLM Wiki de Karpathy montre comment transformer ces fichiers en véritable base de connaissances du projet. Le plus important n'est pas l'outil, mais la discipline : des fichiers courts au démarrage, des pages détaillées à la demande, une vérification régulière et aucune donnée sensible.
+
+## Pour aller plus loin
+
+- [Quel assistant IA choisir pour coder ?](/article/quel-assistant-ia-choisir-pour-coder), comparer Claude Code aux autres assistants
+- [Isoler Claude Code dans une sandbox avec sbx](/article/sbx-run-claude-symfony-node-sandbox), limiter ce que l'agent peut lire et exécuter
